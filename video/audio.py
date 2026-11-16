@@ -2,9 +2,10 @@
 Everything is generated here, so there are no licensing questions.
 Run: python3 audio.py  ->  out/audio.wav
 """
-import numpy as np, wave, os
+import numpy as np, wave, os, json
+TL = json.load(open('out/timeline.json'))
 
-SR, DUR = 48000, 27.0
+SR, DUR = 48000, TL['DUR']
 N = int(SR * DUR)
 rng = np.random.default_rng(7)
 L = np.zeros(N); R = np.zeros(N)
@@ -87,29 +88,48 @@ def sting():
         s += g * (np.sin(2 * np.pi * f * d) + 0.25 * np.sin(2 * np.pi * f * 2.76 * d) * np.exp(-d * 6)) * np.exp(-d * (1.6 + m / 120))
     return s * np.minimum(1, d * 300) / 2.5
 
-boundaries = [1.5, 3.0, 4.5, 6.0, 7.0, 11.0, 13.0, 14.0, 21.0, 24.5]
+S = TL['scenes']; C = TL['cue']
+MUSIC = np.stack([L.copy(), R.copy()], 1); L[:] = 0; R[:] = 0   # split music bus from here on
+boundaries = [b for _, b in S[:-1]]
 for b in boundaries:                       # whoosh peaks right on the cut
     add(whoosh(), b - 0.42 * 0.62 + 2 * FR, 0.30)
 add(whoosh(0.30, 0.5, 7000), 0.0, 0.40)   # hook slam
 add(boom(), 0.07, 0.38)
-add(boom(), 21.0 + 1.45 + 4 * FR, 0.22)   # punchline lands
-for i in range(3): add(pop(900 - i * 40), 4.5 + 0.30 + i * 0.22, 0.30)            # UI cards
-for a in (7.15, 8.35, 9.55): add(pop(700, 300), a, 0.40)                          # hexagons
-for i, a in enumerate((11.0, 11.62, 12.24)): add(pop(560 + i * 60, 260), a, 0.30)  # word beats
-for i, a in enumerate((14.3, 15.1, 15.9, 16.8, 18.0, 19.3)): add(pop(820 + 30 * (i % 3), 420), a, 0.30, pan=(-.3 if i % 2 == 0 else .3))  # pills
+for i in range(3): add(pop(900 - i * 40), S[3][0] + 0.30 + i * 0.22, 0.28)        # review cards
+for a_ in C['s6_hex']: add(pop(700, 300), S[5][0] + a_, 0.38)                     # hexagons
+for i, a_ in enumerate(C['s7_words']): add(pop(560 + i * 60, 260), S[6][0] + a_, 0.28)  # word beats
+for i, a_ in enumerate(C['s9_pills']): add(pop(820 + 30 * (i % 3), 420), a_, 0.28, pan=(-.3 if i % 2 == 0 else .3))  # pills
 prev = 5
-for f in range(int(6.1 * 30), int(6.7 * 30) + 2):                                # counter ticks
-    tl = f / 30 - 6.0
-    p = min(1, max(0, (tl - .1) / .6)); eo = 1 - (1 - p) ** 3
+s5 = S[4][0]
+for f in range(int((s5 + .1) * 30), int((s5 + .7) * 30) + 2):                   # counter ticks
+    p = min(1, max(0, (f / 30 - s5 - .1) / .6)); eo = 1 - (1 - p) ** 3
     n = round(5 + 11 * eo)
-    if n != prev: add(tick(), f / 30, 0.22); prev = n
-add(pop(1100, 600), 23.0 + 0.0, 0.0)
-add(sting(), 24.5 + 0.08, 0.55)
-add(whoosh(0.3, 0.5, 6000), 21.0 + 1.3, 0.22)  # setup slides away                                                   # logo
-add(boom(), 24.5 + 0.08, 0.25)
+    if n != prev: add(tick(), f / 30, 0.2); prev = n
+p0 = S[9][0] + C['s10_punch']
+add(whoosh(0.3, 0.5, 6000), p0 - .2, 0.22)                                       # setup slides away
+add(boom(), p0 + 4 * FR, 0.22)                                                    # punchline lands
+add(sting(), S[10][0] + 0.08, 0.5)                                                # logo
+add(boom(), S[10][0] + 0.08, 0.22)
+SFX = np.stack([L.copy(), R.copy()], 1); L[:] = 0; R[:] = 0
+
+# ---------------- voiceover ----------------
+import soundfile as sf
+vo = np.zeros(N)
+for key, at in TL['vo']:
+    x, sr = sf.read(f'out/vo/{key}.wav', dtype='float32')
+    if x.ndim > 1: x = x.mean(1)
+    xi = np.interp(np.arange(int(len(x) * SR / sr)) * sr / SR, np.arange(len(x)), x)   # resample to 48 kHz
+    i = int(at * SR); n = min(len(xi), N - i)
+    vo[i:i + n] += xi[:n]
+vo /= np.abs(vo).max() + 1e-9
+# gentle presence: tiny high-shelf by adding a bit of the high-passed signal
+vo = vo + 0.25 * (vo - lp(vo, 3000.0))
+# duck music under the voice (smoothed envelope, -7 dB)
+env = lp(lp(np.abs(vo), 6.0), 6.0); env /= env.max() + 1e-9
+duck = 1 - 0.55 * np.clip(env * 4, 0, 1)
+mixd = MUSIC * duck[:, None] * 0.9 + SFX * 0.8 + np.stack([vo, vo], 1) * 0.62
 
 # ---------------- master ----------------
-mixd = np.stack([L, R], 1)
 fade = np.clip((DUR - tt) / 0.6, 0, 1)[:, None]
 fin = np.clip(tt / 0.02, 0, 1)[:, None]
 mixd *= fade * fin

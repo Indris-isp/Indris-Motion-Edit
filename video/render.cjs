@@ -5,7 +5,8 @@ const path = require('path');
 const fs = require('fs');
 const { execFileSync } = require('child_process');
 
-const FPS = 30, TOTAL = 810, WORKERS = 4;
+const FPS = 30, WORKERS = 4;
+const TOTAL = require('./out/timeline.json').frames;
 const args = process.argv.slice(2);
 const get = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const outDir = path.resolve(__dirname, 'out');

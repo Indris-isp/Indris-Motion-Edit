@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const FPS = 30, DUR = 27, FR = 1 / FPS, W = 1080, H = 1920;
+const FPS = 30, DUR = TL.DUR, FR = 1 / FPS, W = 1080, H = 1920;
 const NS = 'http://www.w3.org/2000/svg';
 const RGB = { accent: [255, 130, 28], text: [10, 10, 10], muted: [160, 160, 160], bg: [255, 255, 255] };
 const ACC = '#FF821C', TXT = '#0A0A0A', MUT = '#A0A0A0', BG = '#FFFFFF';
@@ -145,7 +145,7 @@ const HEAD = { fontSize: '66px', fontWeight: 500, letterSpacing: '-0.035em' };
    SCENE 1 — HOOK  0.0–1.5  "Your brand is always talking."
    ===================================================================== */
 addScene({
-  start: 0, end: 1.5, exit: 'whipLeft',
+  start: TL.scenes[0][0], end: TL.scenes[0][1], exit: 'whipLeft',
   build(c, S) {
     S.g = glow(c, 0, 0, 900, 900); S.g.style.opacity = 0;
     S.rings = [[40, 150, 330, -1, -1], [1010, 1690, 250, 1, 1], [-30, 1720, 170, -1, 1], [1060, 300, 120, 1, -1]].map(([x, y, r, dx, dy]) => {
@@ -184,7 +184,7 @@ addScene({
    SCENE 2 — WHY pt.1  1.5–3.0  macro watch  "Every second / confused"
    ===================================================================== */
 addScene({
-  start: 1.5, end: 3.0, enter: 'fromRight', exit: 'spinOut',
+  start: TL.scenes[1][0], end: TL.scenes[1][1], enter: 'fromRight', exit: 'spinOut',
   build(c, S) {
     const cx = 70, cy = 1500, R = 1060;
     S.cx = cx; S.cy = cy;
@@ -214,14 +214,15 @@ addScene({
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, 1.5)) });
-    S.dialW.style.transform = `rotate(${-4 + 6 * eio(P(lt, 0, 1.5))}deg)`;
+    const D2 = S.end - S.start;
+    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, D2)) });
+    S.dialW.style.transform = `rotate(${-4 + 6 * eio(P(lt, 0, D2))}deg)`;
     S.arc.setAttribute('stroke-dasharray', `${eo(P(lt, .05, .9))} 1`);
     S.dots.forEach((d, i) => d.setAttribute('opacity', P(lt, .2 + i * .2, .3 + i * .2)));
-    S.hand.setAttribute('transform', `rotate(${-6 + 40 * eio(P(lt, 0, 1.5))} ${S.cx} ${S.cy})`);
+    S.hand.setAttribute('transform', `rotate(${-6 + 40 * eio(P(lt, 0, D2))} ${S.cx} ${S.cy})`);
     typeG(S.l1, lt, .15, .03);
-    typeG(S.l2, lt, .5, .04);
-    typeG(S.cap, lt, .75, .008);
+    typeG(S.l2, lt, TL.cue.s2_conf, .04);
+    typeG(S.cap, lt, TL.cue.s2_conf + .3, .008);
   },
 });
 
@@ -237,7 +238,7 @@ function corners(g, x0, y0, x1, y1, L, attrs) {
   return sv('path', g, Object.assign({ d, fill: 'none', 'stroke-linecap': 'square' }, attrs));
 }
 addScene({
-  start: 3.0, end: 4.5, enter: 'drop', exit: 'zoomThrough',
+  start: TL.scenes[2][0], end: TL.scenes[2][1], enter: 'drop', exit: 'zoomThrough',
   build(c, S) {
     S.vf = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 960px' });
     corners(layer(S.vf), 110, 330, 970, 1400, 170, { stroke: ACC, 'stroke-width': 6 });
@@ -276,7 +277,7 @@ const CARDS = [
   review('PS', 'Head of Growth', 'Interested, but confused about how it works and what the next step is.', 3),
 ];
 addScene({
-  start: 4.5, end: 6.0, enter: 'zoomIn', exit: 'whipUp',
+  start: TL.scenes[3][0], end: TL.scenes[3][1], enter: 'zoomIn', exit: 'whipUp',
   build(c, S) {
     const s = layer(c);
     S.q = [400, 540, 680].map((x, i) => {
@@ -309,7 +310,7 @@ addScene({
    SCENE 5 — COUNTER  6.0–7.0
    ===================================================================== */
 addScene({
-  start: 6.0, end: 7.0, enter: 'fromBottom', exit: 'zoomThrough',
+  start: TL.scenes[4][0], end: TL.scenes[4][1], enter: 'fromBottom', exit: 'zoomThrough',
   build(c, S) {
     S.ringW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 920px' });
     S.g = glow(S.ringW, 640, 920, 760, 760); S.g.style.opacity = .9;
@@ -323,7 +324,7 @@ addScene({
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .04 * eio(P(lt, 0, 1)) });
+    TT(S.cam, { s: 1 + .04 * eio(P(lt, 0, S.end - S.start)) });
     const m = eo(P(lt, 0, .6));
     TT(S.ringW, { x: -280 * (1 - m), y: 560 * (1 - m), s: .5 + .5 * m });
     mb(S.ringW, 12 * (1 - m) ** 2, 12 * (1 - m) ** 2);
@@ -351,7 +352,7 @@ function hexSVG(icon) {
     `<g transform="translate(-60 -60)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">${icon}</g></svg>`;
 }
 addScene({
-  start: 7.0, end: 11.0, enter: 'zoomIn', exit: 'spinOut',
+  start: TL.scenes[5][0], end: TL.scenes[5][1], enter: 'zoomIn', exit: 'spinOut',
   build(c, S) {
     const hx = [[418, 880, 'trust'], [662, 880, 'leads'], [540, 1091, 'deals']];
     S.hex = hx.map(([x, y, k]) => at(el('div', c, 'ctr', {}, hexSVG(ICONS[k])), x, y));
@@ -364,7 +365,7 @@ addScene({
   update(lt) {
     const S = this;
     TT(S.cam, { s: 1.22 - .22 * eio(P(lt, 0, 4)), y: 20 * (1 - eio(P(lt, 0, 4))) });
-    [.15, 1.35, 2.55].forEach((a, i) => {
+    TL.cue.s6_hex.forEach((a, i) => {
       const p = P(lt, a, a + 9 * FR);
       T(S.hex[i], { s: pop(p), o: p > 0 ? 1 : 0 });
       mb(S.hex[i], 14 * (1 - p) ** 2 * (p > 0), 14 * (1 - p) ** 2 * (p > 0));
@@ -378,7 +379,7 @@ addScene({
    SCENE 7 — ONE-WORD BEATS  11.0–13.0  "The · best · brands"
    ===================================================================== */
 addScene({
-  start: 11.0, end: 13.0, enter: 'spinIn', exit: 'zoomOut',
+  start: TL.scenes[6][0], end: TL.scenes[6][1], enter: 'spinIn', exit: 'zoomOut',
   build(c, S) {
     S.words = ['The', 'best', 'brands'].map(w => {
       const g = glow(c, 540, 960, 520, 520);
@@ -387,7 +388,7 @@ addScene({
     });
   },
   update(lt) {
-    const S = this, A = [0, .62, 1.24, 9];
+    const S = this, A = [...TL.cue.s7_words, 99];
     TT(S.cam, { s: 1 + .04 * lt });
     S.words.forEach(({ e, g }, i) => {
       const a = A[i], q = P(lt, a, a + 6 * FR), x = P(lt, A[i + 1] - 4 * FR, A[i + 1]);
@@ -403,7 +404,7 @@ addScene({
    SCENE 8 — CONTRAST  13.0–14.0  "don't say more."
    ===================================================================== */
 addScene({
-  start: 13.0, end: 14.0, enter: 'bigIn', exit: 'zoomAway',
+  start: TL.scenes[7][0], end: TL.scenes[7][1], enter: 'bigIn', exit: 'zoomAway',
   build(c, S) {
     const l = textLine(c, 905, [{ t: 'don’t say more.', cls: 'serif' }], { fontSize: '128px' });
     S.chars = l.chars; S.chars.forEach(ch => ch.style.display = 'inline-block');
@@ -425,16 +426,16 @@ addScene({
    SCENE 9 — BENEFITS  14.0–21.0  pill word-cloud
    ===================================================================== */
 addScene({
-  start: 14.0, end: 21.0, enter: 'fadeScale', exit: 'whipLeft',
+  start: TL.scenes[8][0], end: TL.scenes[8][1], enter: 'fadeScale', exit: 'whipLeft',
   build(c, S) {
     S.rings = [[540, 80], [560, 1880], [80, 1250]].map(([x, y], i) => at(el('div', c, 'ctr', {
       width: px(i === 2 ? 560 : 820), height: px(i === 2 ? 560 : 820), borderRadius: '50%',
       background: 'radial-gradient(circle, rgba(255,130,28,0) 47%, rgba(255,130,28,.16) 59%, rgba(255,130,28,0) 71%)' }), x, y));
     const rows = [
-      [['They’re focused.', 'f', 14.3], ['Sharper', 'o', 15.1]],
-      [['Strategic', 'o', 15.9], ['They simplify the message', 'f', 16.8]],
-      [['They build trust instantly', 'f', 18.0]],
-      [['They make choosing easy', 'o', 19.3]],
+      [['They’re focused.', 'f', 0], ['Sharper', 'o', 1]],
+      [['Strategic', 'o', 2], ['They simplify the message', 'f', 3]],
+      [['They build trust instantly', 'f', 4]],
+      [['They make choosing easy', 'o', 5]],
     ];
     S.pills = [];
     rows.forEach((r, ri) => {
@@ -443,13 +444,13 @@ addScene({
       r.forEach(([t, k, a], j) => {
         const e = el('div', row, 'pill ' + k, { position: 'relative', transform: 'none', fontSize: '38px', fontWeight: 500, padding: '18px 38px', letterSpacing: '-0.02em' });
         e.textContent = t;
-        S.pills.push({ e, a: a - 14, side: (ri + j) % 2 ? -1 : 1 });
+        S.pills.push({ e, a: TL.cue.s9_pills[a] - S.start, side: (ri + j) % 2 ? -1 : 1 });
       });
     });
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, 7)) });
+    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, S.end - S.start)) });
     S.rings.forEach((e, i) => {
       const q = eo(P(lt, -.05, .8));
       T(e, { s: (2 - 1 * q) * (1 + .05 * Math.sin(lt * .5 + i)), x: 40 * Math.sin(lt * .35 + i * 2), y: 30 * Math.cos(lt * .3 + i), o: q });
@@ -477,7 +478,7 @@ function ovalPath(cx, cy, rx, ry, tilt) {
   return 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
 }
 addScene({
-  start: 21.0, end: 24.5, enter: 'fromRight', exit: 'zoomThrough',
+  start: TL.scenes[9][0], end: TL.scenes[9][1], enter: 'fromRight', exit: 'zoomThrough',
   build(c, S) {
     S.setW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px' });
     const sl = tagColor(textLine(S.setW, 925, [{ t: 'Design isn’t decoration —' }], { fontSize: '54px', fontWeight: 500, letterSpacing: '-0.03em' }), []);
@@ -495,17 +496,18 @@ addScene({
   },
   update(lt) {
     const S = this;
-    const pan = eo(P(lt, 1.4, 1.9));
-    TT(S.cam, { x: 0, s: 1 + .03 * eio(P(lt, 0, 1.4)) + .07 * eio(P(lt, 1.6, 3.5)) });
-    typeG(S.set, lt, .1, .042);
+    const p0 = TL.cue.s10_punch, [s0, per] = TL.cue.s10_set;
+    const pan = eo(P(lt, p0 - .12, p0 + .38));
+    TT(S.cam, { x: 0, s: 1 + .03 * eio(P(lt, 0, p0)) + .07 * eio(P(lt, p0, S.end - S.start)) });
+    typeG(S.set, lt, s0, per);
     TT(S.setW, { x: (S.shift - 1080 * 0) * pan });
     mb(S.setW, 36 * Math.sin(Math.PI * pan) * (pan < 1), 0);
     if (pan > 0) S.set.forEach(ch => ch.style.color = mix(RGB.text, [175, 175, 175], pan));
-    const q = P(lt, 1.45, 1.45 + 9 * FR);
+    const q = P(lt, p0 - .06, p0 - .06 + 9 * FR);
     TT(S.punW, { x: 900 * (1 - eo(q)), o: q > 0 ? 1 : 0 });
     mb(S.punW, 80 * (1 - q) ** 2 * (q > 0), 0);
-    S.g.style.opacity = eo(P(lt, 1.8, 2.3));
-    S.oval.setAttribute('stroke-dasharray', `${eo(P(lt, 1.95, 2.45))} 1`);
+    S.g.style.opacity = eo(P(lt, p0 + .3, p0 + .8));
+    S.oval.setAttribute('stroke-dasharray', `${eo(P(lt, p0 + .45, p0 + .95))} 1`);
   },
 });
 
@@ -528,7 +530,7 @@ const LOGO = `<svg width="900" height="560" viewBox="0 0 900 560" style="overflo
  fill="${TXT}" stroke="${BG}" stroke-width="26" paint-order="stroke" stroke-linejoin="round">ISP</text>
 </svg>`;
 addScene({
-  start: 24.5, end: 27.0, enter: 'fadeScale',
+  start: TL.scenes[10][0], end: TL.scenes[10][1], enter: 'fadeScale',
   build(c, S) {
     S.cta = tagColor(textLine(c, 700, [{ t: 'Let’s build ' }, { t: 'yours.', cls: 'serif', style: { fontSize: '76px' } }], { fontSize: '50px', fontWeight: 500, letterSpacing: '-0.03em' }), [RGB.text, RGB.accent]).chars;
     S.logo = at(el('div', c, 'ctr', {}, LOGO), 540, 945);
@@ -542,7 +544,7 @@ addScene({
     mb(S.logo, 16 * (1 - p) ** 2 * (p > 0), 16 * (1 - p) ** 2 * (p > 0));
     if (!S.rp) S.rp = document.getElementById('revealPath');
     S.rp.setAttribute('stroke-dasharray', `${eo(P(lt, .18, .8))} 1`);
-    typeG(S.cta, lt, .9, .035);
+    typeG(S.cta, lt, TL.cue.s11_cta, .035);
     const target = '@isp_agency_', pool = 'abcdefghijklmnopqrstuvwxyz0123456789#$%&?_';
     const sp = P(lt, .3, 1.0), f = Math.floor(lt * FPS);
     let out = '';
@@ -568,7 +570,7 @@ function renderAt(t) {
     mb(s.wrap, o.bx + o.b, o.by + o.b);
     s.update(t - s.start, t);
   }
-  $('#fade').style.opacity = eio(P(t, 26.55, 26.97));
+  $('#fade').style.opacity = eio(P(t, DUR - .45, DUR - .03));
 }
 window.renderAt = renderAt;
 window.SFX_BOUNDARIES = scenes.filter(s => s.exit).map(s => s.end);
@@ -587,6 +589,7 @@ window.SFX_BOUNDARIES = scenes.filter(s => s.exit).map(s => s.end);
   }
   // ---- interactive preview ----
   const vp = $('#viewport'), aud = $('#aud'), scrub = $('#scrub'), tc = $('#tc'), btn = $('#play');
+  scrub.max = TL.frames - 1;
   const fit = () => { const k = Math.min((innerHeight - 44) / H, innerWidth / W); vp.style.transform = `translateX(${-W * k / 2}px) scale(${k})`; };
   fit(); addEventListener('resize', fit);
   let playing = true, t0 = performance.now(), cur = 0;
