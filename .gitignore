@@ -1,0 +1,6 @@
+video/out/frames/
+video/out/still_*.png
+video/out/sheet*.png
+video/out/render.log
+video/out/video_silent.mp4
+node_modules/

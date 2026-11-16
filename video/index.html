@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ISP Agency Promo</title>
+<style>
+@font-face{font-family:Inter;src:url(fonts/Inter-400.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(fonts/Inter-800.ttf);font-weight:800}
+@font-face{font-family:'Instrument Serif';src:url(fonts/InstrumentSerif-Italic.ttf);font-style:italic}
+@font-face{font-family:'Instrument Serif';src:url(fonts/InstrumentSerif-Regular.ttf);font-style:normal}
+
+/* ---- BRAND TOKENS (edit here) ---- */
+:root{
+  --bg:#F8F8F8;
+  --accent:#FF821C;
+  --text:#0A0A0A;
+  --muted:#A0A0A0;
+}
+html,body{margin:0;padding:0;background:#161616;overflow:hidden}
+body.render{background:var(--bg)}
+#viewport{position:absolute;left:50%;top:0;transform-origin:0 0}
+body.render #viewport{left:0}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);
+  font-family:Inter,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+#ambient,#scenes{position:absolute;inset:0}
+#fade{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none}
+.scene{position:absolute;inset:0;transform-origin:540px 960px;visibility:hidden}
+.cam{position:absolute;inset:0;transform-origin:540px 960px}
+.abs{position:absolute}
+.ctr{position:absolute;transform:translate(-50%,-50%)}
+.line{position:absolute;left:0;width:1080px;text-align:center;white-space:pre;line-height:1.1}
+.sans{font-family:Inter,sans-serif}
+.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.ib{display:inline-block}
+.glow{position:absolute;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,130,28,.34),rgba(255,130,28,.14) 50%,rgba(255,130,28,0))}
+.card{position:absolute;width:440px;background:#fff;border-radius:30px;padding:28px 30px;box-sizing:border-box;
+  box-shadow:0 24px 60px rgba(10,10,10,.08),0 2px 6px rgba(10,10,10,.04);font-size:28px;line-height:1.3}
+.card .lbl{font-size:22px;color:var(--muted);font-weight:500;letter-spacing:.02em;text-transform:uppercase}
+.card .big{font-size:34px;font-weight:700}
+.pill{position:absolute;white-space:nowrap;font-size:54px;font-weight:600;padding:26px 56px;border-radius:999px;
+  transform:translate(-50%,-50%);box-sizing:border-box}
+.pill.f{background:var(--accent);color:#fff;box-shadow:0 18px 50px rgba(255,130,28,.35)}
+.pill.o{background:#fff;color:var(--text);border:4px solid var(--text)}
+#ui{position:fixed;left:0;right:0;bottom:0;padding:10px 16px;background:rgba(0,0,0,.6);color:#eee;
+  font:13px Inter,sans-serif;display:flex;gap:12px;align-items:center}
+#ui input{flex:1}
+body.render #ui{display:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs id="defs"></defs></svg>
+<div id="viewport">
+  <div id="stage">
+    <div id="ambient"></div>
+    <div id="scenes"></div>
+    <div id="fade"></div>
+  </div>
+</div>
+<div id="ui">
+  <button id="play">Pause</button>
+  <input id="scrub" type="range" min="0" max="809" value="0">
+  <span id="tc">0.00s</span>
+</div>
+<audio id="aud" src="out/audio.wav" preload="auto"></audio>
+<script src="motion.js"></script>
+</body>
+</html>
