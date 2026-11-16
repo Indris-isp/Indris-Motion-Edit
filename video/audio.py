@@ -92,11 +92,11 @@ for b in boundaries:                       # whoosh peaks right on the cut
     add(whoosh(), b - 0.42 * 0.62 + 2 * FR, 0.30)
 add(whoosh(0.30, 0.5, 7000), 0.0, 0.40)   # hook slam
 add(boom(), 0.07, 0.38)
-add(boom(), 21.0 + 1.52 + 4 * FR, 0.22)   # punchline lands
-for i in range(4): add(pop(900 - i * 40), 4.5 + 0.15 + i * 0.2, 0.30)            # UI cards
+add(boom(), 21.0 + 1.45 + 4 * FR, 0.22)   # punchline lands
+for i in range(3): add(pop(900 - i * 40), 4.5 + 0.30 + i * 0.22, 0.30)            # UI cards
 for a in (7.15, 8.35, 9.55): add(pop(700, 300), a, 0.40)                          # hexagons
-for i, a in enumerate((11.0, 11.65, 12.3)): add(pop(560 + i * 60, 260), a, 0.30)  # word beats
-for i, a in enumerate((14.3, 15.2, 16.1, 17.1, 18.3, 19.5)): add(pop(820 + 30 * (i % 3), 420), a, 0.30, pan=(-.3 if i % 2 == 0 else .3))  # pills
+for i, a in enumerate((11.0, 11.62, 12.24)): add(pop(560 + i * 60, 260), a, 0.30)  # word beats
+for i, a in enumerate((14.3, 15.1, 15.9, 16.8, 18.0, 19.3)): add(pop(820 + 30 * (i % 3), 420), a, 0.30, pan=(-.3 if i % 2 == 0 else .3))  # pills
 prev = 5
 for f in range(int(6.1 * 30), int(6.7 * 30) + 2):                                # counter ticks
     tl = f / 30 - 6.0
@@ -104,7 +104,8 @@ for f in range(int(6.1 * 30), int(6.7 * 30) + 2):                               
     n = round(5 + 11 * eo)
     if n != prev: add(tick(), f / 30, 0.22); prev = n
 add(pop(1100, 600), 23.0 + 0.0, 0.0)
-add(sting(), 24.5 + 0.08, 0.55)                                                   # logo
+add(sting(), 24.5 + 0.08, 0.55)
+add(whoosh(0.3, 0.5, 6000), 21.0 + 1.3, 0.22)  # setup slides away                                                   # logo
 add(boom(), 24.5 + 0.08, 0.25)
 
 # ---------------- master ----------------

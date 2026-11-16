@@ -6,8 +6,8 @@
 
 const FPS = 30, DUR = 27, FR = 1 / FPS, W = 1080, H = 1920;
 const NS = 'http://www.w3.org/2000/svg';
-const RGB = { accent: [255, 130, 28], text: [10, 10, 10], muted: [160, 160, 160], bg: [248, 248, 248] };
-const ACC = '#FF821C', TXT = '#0A0A0A', MUT = '#A0A0A0', BG = '#F8F8F8';
+const RGB = { accent: [255, 130, 28], text: [10, 10, 10], muted: [160, 160, 160], bg: [255, 255, 255] };
+const ACC = '#FF821C', TXT = '#0A0A0A', MUT = '#A0A0A0', BG = '#FFFFFF';
 
 /* ---------- math ---------- */
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -124,31 +124,22 @@ function addScene(def) {
   scenes.push(def);
 }
 
-/* =====================================================================
-   AMBIENT DECOR — thin accent circles + huge soft rings at the edges
-   ===================================================================== */
-const amb = { circles: [], rings: [] };
-function buildAmbient() {
-  const A = $('#ambient');
-  [[150, 250, 105, -1, -1], [955, 395, 58, 1, -1], [965, 1690, 150, 1, 1], [120, 1570, 46, -1, 1], [1010, 1080, 30, 1, 0]]
-    .forEach(([x, y, r, dx, dy], i) => {
-      const e = at(el('div', A, 'ctr', { width: px(r * 2), height: px(r * 2), borderRadius: '50%', border: `3px solid ${ACC}`, opacity: .55, boxSizing: 'border-box' }), x, y);
-      amb.circles.push({ e, dx, dy, i });
-    });
-  [[-40, 980, 860], [1130, 470, 760], [700, 2010, 900]].forEach(([x, y, d], i) => {
-    const e = at(el('div', A, 'ctr', { width: px(d), height: px(d), borderRadius: '50%',
-      background: 'radial-gradient(circle, rgba(255,130,28,0) 46%, rgba(255,130,28,.075) 60%, rgba(255,130,28,0) 74%)' }), x, y);
-    amb.rings.push({ e, i });
+/* reference-matched helpers ------------------------------------------------ */
+const LIGHT = [205, 205, 205];
+/* typewriter where each letter fades in from light grey to its own colour */
+function typeG(chars, lt, t0, per, fade = 3 * FR) {
+  chars.forEach((c, i) => {
+    const a = t0 + i * per, p = P(lt, a, a + fade);
+    c.style.opacity = Math.min(1, p * 2);
+    c.style.color = mix(LIGHT, c._to || RGB.text, P(lt, a, a + 7 * FR));
   });
 }
-function ambient(t) {
-  const inP = eo(P(t, 0, .9));
-  amb.circles.forEach(({ e, dx, dy, i }) => {
-    T(e, { x: 18 * Math.sin(t * .6 + i * 1.7) + dx * 520 * (1 - inP), y: 24 * Math.cos(t * .5 + i * 2.1) + dy * 520 * (1 - inP),
-      s: 1 + .06 * Math.sin(t * .8 + i), o: .55 * inP });
-  });
-  amb.rings.forEach(({ e, i }) => T(e, { x: 40 * Math.sin(t * .25 + i * 2), y: 50 * Math.cos(t * .21 + i), s: 1 + .05 * Math.sin(t * .3 + i) }));
-}
+/* tag every char of a textLine with its target colour */
+function tagColor(l, colorBySeg) { let k = 0; l.groups.forEach((g, gi) => g.querySelectorAll('span').forEach(c => { c._to = colorBySeg[gi] || RGB.text; k++; })); return l; }
+function T0(e, o) { e.style.transform = `translate(${o.x || 0}px,${o.y || 0}px) scale(${o.s == null ? 1 : o.s})`; }
+function buildAmbient() {}
+function ambient() {}
+const HEAD = { fontSize: '66px', fontWeight: 500, letterSpacing: '-0.035em' };
 
 /* =====================================================================
    SCENE 1 — HOOK  0.0–1.5  "Your brand is always talking."
@@ -156,348 +147,331 @@ function ambient(t) {
 addScene({
   start: 0, end: 1.5, exit: 'whipLeft',
   build(c, S) {
-    S.g = glow(c, 0, 0, 620, 360); S.g.style.opacity = 0;
-    const l1 = textLine(c, 850, [{ t: 'Your', block: true, whole: true, style: { fontWeight: 700 } }, { t: ' brand is' }], { fontSize: '72px', fontWeight: 500 });
-    const l2 = textLine(c, 935, [{ t: 'always ' }, { t: 'talking.', cls: 'serif', block: true, style: { fontSize: '138px' } }], { fontSize: '72px', fontWeight: 500 });
-    S.your = l1.groups[0]; S.talk = l2.groups[1];
-    S.chars = l1.chars.concat(l2.chars);
-    S.talkChars = l2.chars.slice(7);
-    S.parts = [];
-    const glyphs = ['“', '✦', '→', '”', '✦', '“', '→', '✦', '”', '✦'];
-    glyphs.forEach((g, i) => {
-      const e = el('div', c, 'ctr ' + (g === '“' || g === '”' ? 'serif' : 'sans'), { color: ACC, fontSize: px(40 + hash(i) * 46), fontWeight: 600 });
-      e.textContent = g; S.parts.push(e);
+    S.g = glow(c, 0, 0, 900, 900); S.g.style.opacity = 0;
+    S.rings = [[40, 150, 330, -1, -1], [1010, 1690, 250, 1, 1], [-30, 1720, 170, -1, 1], [1060, 300, 120, 1, -1]].map(([x, y, r, dx, dy]) => {
+      const e = at(el('div', c, 'ctr', { width: px(2 * r), height: px(2 * r), borderRadius: '50%', border: `3px solid ${ACC}`, boxSizing: 'border-box' }), x, y);
+      e._d = [dx, dy]; return e;
+    });
+    const l = tagColor(textLine(c, 922, [{ t: 'Your', block: true, whole: true }, { t: ' brand is always ' }, { t: 'talking.', block: true, style: { color: ACC } }], HEAD), [0, RGB.text, RGB.accent]);
+    S.your = l.groups[0]; S.talk = l.groups[2]; S.chars = l.chars;
+    S.parts = ['✦', '“', '✦', '”', '✦'].map((g, i) => {
+      const e = el('div', c, 'ctr ' + (g === '✦' ? 'sans' : 'serif'), { color: ACC, fontSize: px(34 + hash(i) * 22) }); e.textContent = g; return e;
     });
   },
   measure(S) {
     const y = rel(S.your); S.yd = { x: 540 - y.cx, y: 960 - y.cy };
-    S.tk = rel(S.talk);
-    at(S.g, S.tk.cx, S.tk.cy);
-    S.parts.forEach((e, i) => at(e, S.tk.cx + (hash(i + 3) - .5) * 560, S.tk.cy - 10 + (hash(i + 9) - .5) * 80));
+    const tk = rel(S.talk); at(S.g, tk.cx, tk.cy);
+    S.parts.forEach((e, i) => at(e, tk.cx + (hash(i + 3) - .5) * 260, tk.cy + 40 + hash(i + 9) * 60));
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .035 * eo(P(lt, 0, 1.5)) });
-    // slam: big word whips in from the right, then shrinks into the line
-    const a = P(lt, 0, 4 * FR), b = P(lt, 5 * FR, 11 * FR), sc = lerp(5.2, 1, eo(b));
+    TT(S.cam, { s: 1 + .04 * eo(P(lt, 0, 1.5)) });
+    const a = P(lt, 0, 4 * FR), b = P(lt, 5 * FR, 11 * FR), sc = lerp(6.4, 1, eo(b));
     T0(S.your, { x: S.yd.x * (1 - eo(b)) + 1500 * (1 - eo(a)), y: S.yd.y * (1 - eo(b)), s: sc });
-    mb(S.your, (110 * (1 - a) ** 2 + 10 * (1 - b) * (b > 0 ? 1 : 0)) / sc, 0);
-    typeIn(S.chars, lt, .36, .028);
-    const k = eo(P(lt, 1.02, 1.2));
-    S.talkChars.forEach(ch => ch.style.color = mix(RGB.text, RGB.accent, k));
-    S.g.style.opacity = eo(P(lt, 1.02, 1.32));
+    mb(S.your, (120 * (1 - a) ** 2 + 14 * (1 - b) * (b > 0)) / sc, 0);
+    typeG(S.chars, lt, .36, .026);
+    S.g.style.opacity = eo(P(lt, .8, 1.2));
+    const r = eo(P(lt, .05, .9));
+    S.rings.forEach((e, i) => T(e, { x: e._d[0] * 420 * (1 - r) + 14 * Math.sin(lt * 1.3 + i), y: e._d[1] * 420 * (1 - r) + 14 * Math.cos(lt * 1.1 + i), o: .5 * r }));
     S.parts.forEach((e, i) => {
-      const s0 = 1.0 + i * .045, p = P(lt, s0, s0 + .62);
-      T(e, { y: -150 * eo(p) - 20, r: (hash(i) - .5) * 40, s: .6 + .4 * eo(P(lt, s0, s0 + .15)), o: p <= 0 ? 0 : Math.sin(Math.PI * p) });
+      const s0 = .95 + i * .07, p = P(lt, s0, s0 + .55);
+      T(e, { y: -120 * eo(p), o: p <= 0 ? 0 : Math.sin(Math.PI * p), s: .7 + .3 * eo(p) });
     });
   },
 });
-/* plain transform for inline-block (no centring offset) */
-function T0(e, o) { e.style.transform = `translate(${o.x || 0}px,${o.y || 0}px) scale(${o.s == null ? 1 : o.s})`; }
 
 /* =====================================================================
-   SCENE 2 — WHY pt.1  1.5–3.0  "But every second a client spends confused…"
+   SCENE 2 — WHY pt.1  1.5–3.0  macro watch  "Every second / confused"
    ===================================================================== */
 addScene({
   start: 1.5, end: 3.0, enter: 'fromRight', exit: 'spinOut',
   build(c, S) {
-    const cx = 760, cy = 1260, R = 640;
+    const cx = 70, cy = 1500, R = 1060;
     S.cx = cx; S.cy = cy;
-    S.dialWrap = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: `${cx}px ${cy}px` });
-    const s = layer(S.dialWrap);
-    sv('circle', s, { cx, cy, r: R, fill: '#fff', stroke: '#ECECEC', 'stroke-width': 4 });
-    sv('circle', s, { cx, cy, r: R - 34, fill: 'none', stroke: '#F0F0F0', 'stroke-width': 2 });
-    S.ticks = sv('g', s, {});
-    for (let i = 0; i < 60; i++) {
-      const a = i / 60 * Math.PI * 2, maj = i % 5 === 0, r1 = R - 50, r2 = r1 - (maj ? 70 : 32);
-      sv('line', S.ticks, { x1: cx + Math.cos(a) * r1, y1: cy + Math.sin(a) * r1, x2: cx + Math.cos(a) * r2, y2: cy + Math.sin(a) * r2,
-        stroke: maj ? TXT : '#C9C9C9', 'stroke-width': maj ? 9 : 4, 'stroke-linecap': 'round' });
+    S.dialW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: `${cx}px ${cy}px` });
+    const s = layer(S.dialW);
+    const pt = (deg, r) => { const a = deg * Math.PI / 180; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; };
+    for (let d = -100; d <= -22; d += 1.5) {
+      const maj = Math.abs((d + 100) % 7.5) < .01, [x1, y1] = pt(d, R - 40), [x2, y2] = pt(d, R - (maj ? 120 : 75));
+      sv('line', s, { x1, y1, x2, y2, stroke: maj ? TXT : '#CFCFCF', 'stroke-width': maj ? 5 : 3, 'stroke-linecap': 'round' });
     }
-    const ra = R - 165;
-    S.arcG = sv('circle', s, { cx, cy, r: ra, fill: 'none', stroke: ACC, 'stroke-width': 46, opacity: .45, pathLength: 1,
-      'stroke-linecap': 'round', transform: `rotate(-90 ${cx} ${cy})`, style: 'filter:blur(18px)' });
-    S.arc = sv('circle', s, { cx, cy, r: ra, fill: 'none', stroke: ACC, 'stroke-width': 24, pathLength: 1,
-      'stroke-linecap': 'round', transform: `rotate(-90 ${cx} ${cy})` });
-    S.hand = sv('g', s, {});
-    sv('line', S.hand, { x1: cx, y1: cy + 90, x2: cx, y2: cy - (R - 70), stroke: TXT, 'stroke-width': 14, 'stroke-linecap': 'round' });
-    sv('circle', s, { cx, cy, r: 30, fill: TXT });
-    sv('circle', s, { cx, cy, r: 11, fill: ACC });
-    const l1 = textLine(c, 300, [{ t: 'Every second a client spends' }], { fontSize: '56px', fontWeight: 500, textAlign: 'left', left: '90px' });
-    S.g = glow(c, 300, 470, 620, 300); S.g.style.opacity = 0;
-    const l2 = textLine(c, 360, [{ t: 'confused…', cls: 'serif', style: { color: ACC } }], { fontSize: '180px', textAlign: 'left', left: '84px' });
-    S.c1 = l1.chars; S.c2 = l2.chars;
+    [[-82, 'ISP · 01'], [-56, 'VISUALS'], [-34, 'STORY']].forEach(([d, t]) => {
+      const [x, y] = pt(d, R - 190);
+      const tx = sv('text', s, { x, y, fill: '#BDBDBD', 'font-size': 26, 'font-family': 'Inter', 'font-weight': 500, 'letter-spacing': 3, 'text-anchor': 'middle', transform: `rotate(${d + 90} ${x} ${y})` }); tx.textContent = t;
+    });
+    const arcD = (() => { const [x0, y0] = pt(-100, R), [x1, y1] = pt(-12, R); return `M${x0} ${y0} A${R} ${R} 0 0 1 ${x1} ${y1}`; })();
+    S.arc = sv('path', s, { d: arcD, fill: 'none', stroke: ACC, 'stroke-width': 10, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '0 1' });
+    S.dots = [-84, -60, -36].map(d => { const [x, y] = pt(d, R); return sv('circle', s, { cx: x, cy: y, r: 11, fill: '#fff', stroke: ACC, 'stroke-width': 5 }); });
+    S.hand = sv('g', s, { style: 'filter:drop-shadow(6px 10px 10px rgba(0,0,0,.18))' });
+    sv('path', S.hand, { d: `M${cx - 16} ${cy + 140} L${cx - 22} ${cy} L${cx - 9} ${cy - 600} L${cx} ${cy - 1010} L${cx + 9} ${cy - 600} L${cx + 22} ${cy} L${cx + 16} ${cy + 140} Z`, fill: TXT });
+    sv('path', S.hand, { d: `M${cx} ${cy - 820} L${cx + 34} ${cy - 700} L${cx} ${cy - 600} L${cx - 34} ${cy - 700} Z`, fill: '#fff', stroke: TXT, 'stroke-width': 9, 'stroke-linejoin': 'round' });
+    sv('circle', S.hand, { cx, cy, r: 46, fill: TXT });
+    sv('circle', S.hand, { cx, cy, r: 24, fill: ACC });
+    const tx = 740;
+    S.l1 = tagColor(textLine(c, 1350, [{ t: 'Every second' }], Object.assign({}, HEAD, { left: px(tx - 540) })), []).chars;
+    S.l2 = tagColor(textLine(c, 1410, [{ t: 'confused', cls: 'serif' }], { fontSize: '128px', left: px(tx - 540) }), [RGB.accent]).chars;
+    S.cap = tagColor(textLine(c, 1570, [{ t: 'a client spends confused about\nwhat you actually do' }], { fontSize: '27px', fontWeight: 500, left: px(tx - 540), lineHeight: 1.3, color: '#3A3A3A' }), [[58, 58, 58]]).chars;
   },
   update(lt) {
     const S = this;
     TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, 1.5)) });
-    S.dialWrap.style.transform = `rotate(${8 * eio(P(lt, 0, 1.5))}deg)`;
-    const ap = .42 * eo(P(lt, .12, 1.15));
-    [S.arc, S.arcG].forEach(a => a.setAttribute('stroke-dasharray', `${ap} 1`));
-    S.hand.setAttribute('transform', `rotate(${-130 + 220 * eio(P(lt, 0, 1.5))} ${S.cx} ${S.cy})`);
-    typeIn(S.c1, lt, .12, .02);
-    typeIn(S.c2, lt, .7, .04, { fade: 3 * FR });
-    S.g.style.opacity = eo(P(lt, .75, 1.1));
+    S.dialW.style.transform = `rotate(${-4 + 6 * eio(P(lt, 0, 1.5))}deg)`;
+    S.arc.setAttribute('stroke-dasharray', `${eo(P(lt, .05, .9))} 1`);
+    S.dots.forEach((d, i) => d.setAttribute('opacity', P(lt, .2 + i * .2, .3 + i * .2)));
+    S.hand.setAttribute('transform', `rotate(${-6 + 40 * eio(P(lt, 0, 1.5))} ${S.cx} ${S.cy})`);
+    typeG(S.l1, lt, .15, .03);
+    typeG(S.l2, lt, .5, .04);
+    typeG(S.cap, lt, .75, .008);
   },
 });
 
 /* =====================================================================
-   SCENE 3 — WHY pt.2  3.0–4.5  "…about what you do…"
+   SCENE 3 — WHY pt.2  3.0–4.5  "They can't see / what you do."
    ===================================================================== */
-function personSVG(fill) {
-  return `<svg width="120" height="150" viewBox="0 0 100 125"><circle cx="50" cy="30" r="24" fill="${fill}"/>` +
-    `<path d="M8 125 C8 84 28 66 50 66 C72 66 92 84 92 125 Z" fill="${fill}"/></svg>`;
+function personSVG(fill, w) {
+  return `<svg width="${w}" height="${w * 1.2}" viewBox="0 0 100 120"><circle cx="50" cy="28" r="23" fill="${fill}"/>` +
+    `<path d="M6 120 C6 80 26 60 50 60 C74 60 94 80 94 120 Z" fill="${fill}"/></svg>`;
 }
 function corners(g, x0, y0, x1, y1, L, attrs) {
   const d = `M${x0} ${y0 + L}V${y0}H${x0 + L} M${x1 - L} ${y0}H${x1}V${y0 + L} M${x1} ${y1 - L}V${y1}H${x1 - L} M${x0 + L} ${y1}H${x0}V${y1 - L}`;
-  return sv('path', g, Object.assign({ d, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, attrs));
+  return sv('path', g, Object.assign({ d, fill: 'none', 'stroke-linecap': 'square' }, attrs));
 }
 addScene({
   start: 3.0, end: 4.5, enter: 'drop', exit: 'zoomThrough',
   build(c, S) {
-    const l1 = textLine(c, 530, [{ t: 'They can’t see' }], { fontSize: '66px', fontWeight: 500 });
-    S.g = glow(c, 760, 700, 380, 260); S.g.style.opacity = 0;
-    const l2 = textLine(c, 600, [{ t: 'what you ' }, { t: 'do.', cls: 'serif', style: { color: ACC, fontSize: '128px' } }], { fontSize: '66px', fontWeight: 500 });
-    S.chars = l1.chars.concat(l2.chars);
-    S.vfW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 1050px' });
-    corners(layer(S.vfW), 140, 890, 940, 1215, 80, { stroke: ACC, 'stroke-width': 9 });
-    S.ppl = [220, 380, 540, 700, 860].map((x, i) => at(el('div', c, 'ctr', {}, personSVG(i === 2 ? TXT : ACC)), x, 1050));
-    S.focW = at(el('div', c, 'ctr', { width: '170px', height: '210px' }), 540, 1050);
-    const fs = sv('svg', S.focW, { width: 170, height: 210, viewBox: '0 0 170 210', style: 'overflow:visible' });
-    corners(fs, 4, 4, 166, 206, 30, { stroke: TXT, 'stroke-width': 5 });
-    S.cap = textLine(c, 1265, [{ t: 'Your ideal client, lost in the crowd' }], { fontSize: '40px', color: MUT, fontWeight: 500 }).chars;
+    S.vf = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 960px' });
+    corners(layer(S.vf), 110, 330, 970, 1400, 170, { stroke: ACC, 'stroke-width': 6 });
+    S.h1 = tagColor(textLine(c, 560, [{ t: 'They can’t see' }], Object.assign({}, HEAD, { fontSize: '76px' })), []).chars;
+    S.h2 = tagColor(textLine(c, 630, [{ t: 'what you do.', cls: 'serif' }], { fontSize: '96px', left: '60px' }), [RGB.accent]).chars;
+    const P5 = [[250, .62], [385, .86], [540, 1.12], [695, .86], [830, .62]];
+    S.ppl = P5.map(([x, k], i) => at(el('div', c, 'ctr', {}, personSVG(i === 2 ? TXT : ACC, 120 * k)), x, 960 + (1 - k) * 40));
+    S.foc = at(el('div', c, 'ctr', { width: '190px', height: '200px' }), 540, 958);
+    corners(sv('svg', S.foc, { width: 190, height: 200, viewBox: '0 0 190 200', style: 'overflow:visible' }), 3, 3, 187, 197, 30, { stroke: TXT, 'stroke-width': 5 });
+    S.cap = tagColor(textLine(c, 1160, [{ t: 'Your ideal client spends seconds\ndeciding if you’re worth their attention.' }], { fontSize: '30px', fontWeight: 500, lineHeight: 1.3, letterSpacing: '-0.02em' }), [[40, 40, 40]]).chars;
   },
   update(lt) {
     const S = this;
     TT(S.cam, { s: 1 + .08 * eio(P(lt, 0, 1.5)) });
-    typeIn(S.chars, lt, .16, .026);
-    S.g.style.opacity = eo(P(lt, .62, .9));
-    const v = P(lt, .1, .45); TT(S.vfW, { s: 1.15 - .15 * eo(v), o: eo(v) });
-    S.ppl.forEach((e, i) => { const p = P(lt, .14 + i * .07, .14 + i * .07 + 9 * FR); T(e, { s: pop(p), o: p > 0 ? 1 : 0 }); mb(e, 0, 10 * (1 - p) ** 2 * (p > 0)); });
-    const f = P(lt, .62, .62 + 9 * FR);
-    T(S.focW, { s: 1.35 - .35 * eo(f), o: f > 0 ? (lt > 1.0 && lt < 1.1 ? .3 : 1) : 0 });
-    typeIn(S.cap, lt, .72, .016);
+    const v = P(lt, .05, .45); TT(S.vf, { s: 1.12 - .12 * eo(v), o: eo(v) });
+    typeG(S.h1, lt, .1, .028);
+    typeG(S.h2, lt, .45, .03);
+    S.ppl.forEach((e, i) => { const p = P(lt, .12 + Math.abs(i - 2) * .08, .12 + Math.abs(i - 2) * .08 + 9 * FR); T(e, { s: pop(p), o: p > 0 ? 1 : 0 }); mb(e, 0, 10 * (1 - p) ** 2 * (p > 0)); });
+    const f = P(lt, .55, .55 + 9 * FR);
+    T(S.foc, { s: 1.4 - .4 * eo(f), o: f > 0 ? 1 : 0 });
+    typeG(S.cap, lt, .75, .009);
   },
 });
 
 /* =====================================================================
-   SCENE 4 — PROBLEM  4.5–6.0  "…is a second you're losing them."
+   SCENE 4 — PROBLEM  4.5–6.0  "Is a second you're losing them."
    ===================================================================== */
+const STARS = n => `<div style="color:${ACC};font-size:20px;letter-spacing:3px;margin-top:10px">${'★'.repeat(n)}<span style="color:#DDD">${'★'.repeat(5 - n)}</span><span style="color:#999;font-size:15px;letter-spacing:0;margin-left:8px">${n}.0</span></div>`;
+const review = (ini, role, q, n) => `<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+  <div style="width:46px;height:46px;border-radius:50%;background:#F1F1F1;color:#777;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center">${ini}</div>
+  <div><div style="font-size:18px;font-weight:600">${role}</div><div style="font-size:14px;color:#9A9A9A">Verified client</div></div></div>
+  <div style="font-size:17px;line-height:1.35;color:#333">“${q}”</div>${STARS(n)}`;
 const CARDS = [
-  `<div style="display:flex;gap:16px;align-items:center;margin-bottom:14px"><div style="width:56px;height:56px;border-radius:50%;background:#EDEDED"></div>
-   <div><div class="lbl">Client review</div><div style="font-size:30px;letter-spacing:2px"><span style="color:${ACC}">★★</span><span style="color:#DADADA">★★★</span></div></div></div>
-   <div style="color:#555">“Still not sure what they actually do.”</div>`,
-  `<div class="lbl" style="margin-bottom:12px">New message · now</div>
-   <div style="background:#F1F1F1;border-radius:22px 22px 22px 6px;padding:16px 20px;color:#222">Hey… so what exactly do you offer?</div>
-   <div style="text-align:right;font-size:22px;color:${MUT};margin-top:10px">Seen</div>`,
-  `<div style="display:flex;gap:16px;align-items:center"><svg width="56" height="56" viewBox="0 0 56 56"><rect x="6" y="12" width="44" height="32" rx="6" fill="none" stroke="${TXT}" stroke-width="3.5"/><path d="M8 15 L28 31 L48 15" fill="none" stroke="${TXT}" stroke-width="3.5" stroke-linejoin="round"/></svg>
-   <div><div class="lbl">Inbox</div><div class="big">Unsubscribed</div></div></div>
-   <div style="color:#555;margin-top:10px">A lead just left your list.</div>`,
-  `<div class="lbl">Bounce rate</div>
-   <div style="display:flex;align-items:flex-end;justify-content:space-between"><div style="font-size:64px;font-weight:700;line-height:1.1">78%<span style="color:${ACC};font-size:40px"> ↑</span></div>
-   <svg width="150" height="70" viewBox="0 0 150 70"><polyline points="4,60 30,52 56,56 82,36 108,30 146,8" fill="none" stroke="${ACC}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`,
+  review('SK', 'Founder', 'Loved the visuals, but I’m still not completely sure what they actually do.', 3),
+  review('JT', 'SaaS CEO', 'Had to read the whole page twice to understand the offer.', 2),
+  review('PS', 'Head of Growth', 'Interested, but confused about how it works and what the next step is.', 3),
 ];
 addScene({
   start: 4.5, end: 6.0, enter: 'zoomIn', exit: 'whipUp',
   build(c, S) {
-    S.q = [[190, 930, -12, 560], [540, 1010, 0, 760], [890, 930, 11, 560]].map(([x, y, r, fs]) => {
-      const e = at(el('div', c, 'ctr serif', { color: ACC, fontSize: px(fs), opacity: .1, lineHeight: 1 }), x, y); e.textContent = '?'; e._r = r; return e;
+    const s = layer(c);
+    S.q = [400, 540, 680].map((x, i) => {
+      const t = sv('text', s, { x, y: 1060, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-weight': 600, 'font-size': 300, fill: 'none', stroke: ACC, 'stroke-width': 3.5 });
+      t.textContent = '?'; return t;
     });
-    const l1 = textLine(c, 870, [{ t: 'Is a second you’re' }], { fontSize: '64px', fontWeight: 500 });
-    S.g = glow(c, 430, 1020, 520, 260); S.g.style.opacity = 0;
-    const l2 = textLine(c, 930, [{ t: 'losing', cls: 'serif', style: { color: ACC, fontSize: '136px' } }, { t: ' them.' }], { fontSize: '64px', fontWeight: 500 });
-    S.chars = l1.chars.concat(l2.chars);
-    S.cards = [[300, 470, -6], [790, 650, 5], [300, 1360, 4], [780, 1540, -5]].map(([x, y, r], i) => {
-      const e = at(el('div', c, 'card', {}, CARDS[i]), x, y); e._r = r; return e;
+    S.h = tagColor(textLine(c, 922, [{ t: 'Is a second you’re ' }, { t: 'losing', style: { color: ACC } }, { t: ' them.' }], HEAD), [RGB.text, RGB.accent, RGB.text]).chars;
+    S.cards = [[290, 560, -3], [810, 690, 3], [380, 1340, 2]].map(([x, y, r], i) => {
+      const e = at(el('div', c, 'card', { width: '320px', padding: '22px 24px', borderRadius: '22px', boxShadow: '0 16px 44px rgba(10,10,10,.08), 0 1px 4px rgba(10,10,10,.05)' }, CARDS[i]), x, y); e._r = r; return e;
     });
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, 1.5)), y: -10 * eio(P(lt, 0, 1.5)) });
-    S.q.forEach((e, i) => T(e, { r: e._r + 4 * Math.sin(lt * 2 + i), s: .9 + .1 * eo(P(lt, 0, .5)) + .03 * lt, o: .1 * eo(P(lt, .05 + i * .06, .4 + i * .06)) }));
-    typeIn(S.chars, lt, .08, .018);
-    S.g.style.opacity = eo(P(lt, .4, .7));
+    TT(S.cam, { s: 1 + .06 * eio(P(lt, 0, 1.5)) });
+    S.q.forEach((t, i) => {
+      const p = eo(P(lt, .05 + i * .07, .45 + i * .07));
+      t.setAttribute('opacity', .32 * p);
+      t.setAttribute('transform', `translate(0 ${30 * (1 - p) + 6 * Math.sin(lt * 3 + i)})`);
+    });
+    typeG(S.h, lt, .08, .02);
     S.cards.forEach((e, i) => {
-      const a = .15 + i * .2, p = P(lt, a, a + 9 * FR);
-      T(e, { r: e._r * (p < 1 ? 1.6 - .6 * eo(p) : 1), s: pop(p), o: p > 0 ? 1 : 0, y: -6 * Math.sin(lt * 2 + i) });
+      const a = .3 + i * .22, p = P(lt, a, a + 9 * FR);
+      T(e, { r: e._r, s: pop(p), o: p > 0 ? 1 : 0, y: -5 * Math.sin(lt * 2 + i) });
       mb(e, 12 * (1 - p) ** 2 * (p > 0), 12 * (1 - p) ** 2 * (p > 0));
     });
   },
 });
 
 /* =====================================================================
-   SCENE 5 — COUNTER  6.0–7.0  "Sixteen other options…"
+   SCENE 5 — COUNTER  6.0–7.0
    ===================================================================== */
 addScene({
   start: 6.0, end: 7.0, enter: 'fromBottom', exit: 'zoomThrough',
   build(c, S) {
-    S.ringW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 900px' });
-    S.g = glow(S.ringW, 540, 900, 760, 760); S.g.style.opacity = .7;
+    S.ringW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 920px' });
+    S.g = glow(S.ringW, 640, 920, 760, 760); S.g.style.opacity = .9;
     const s = layer(S.ringW);
-    sv('circle', s, { cx: 540, cy: 900, r: 240, fill: 'none', stroke: '#E6E6E6', 'stroke-width': 28 });
-    const mk = (extra) => sv('circle', s, Object.assign({ cx: 540, cy: 900, r: 240, fill: 'none', stroke: ACC, pathLength: 1, 'stroke-linecap': 'round', transform: 'rotate(-90 540 900)' }, extra));
-    S.arcG = mk({ 'stroke-width': 50, opacity: .4, style: 'filter:blur(16px)' });
-    S.arc = mk({ 'stroke-width': 28 });
-    S.num = at(el('div', S.ringW, 'ctr', { fontSize: '190px', fontWeight: 700, letterSpacing: '-6px', fontVariantNumeric: 'tabular-nums' }), 540, 905);
-    S.lab = textLine(c, 1220, [{ t: 'competitors, one ' }, { t: 'scroll', cls: 'serif', style: { color: ACC, fontSize: '76px' } }, { t: ' away' }], { fontSize: '48px', fontWeight: 500 }).chars;
+    sv('circle', s, { cx: 540, cy: 920, r: 190, fill: 'none', stroke: '#D4D4D4', 'stroke-width': 30 });
+    const mk = (extra) => sv('circle', s, Object.assign({ cx: 540, cy: 920, r: 190, fill: 'none', stroke: ACC, pathLength: 1, 'stroke-linecap': 'butt', transform: 'rotate(-90 540 920)' }, extra));
+    S.arcG = mk({ 'stroke-width': 54, opacity: .35, style: 'filter:blur(16px)' });
+    S.arc = mk({ 'stroke-width': 30 });
+    S.num = at(el('div', S.ringW, 'ctr', { fontSize: '150px', fontWeight: 600, letterSpacing: '-4px', fontVariantNumeric: 'tabular-nums' }), 540, 925);
+    S.lab = tagColor(textLine(c, 1150, [{ t: 'competitors, one ' }, { t: 'scroll', style: { color: ACC } }, { t: ' away' }], HEAD), [RGB.text, RGB.accent, RGB.text]).chars;
   },
   update(lt) {
     const S = this;
     TT(S.cam, { s: 1 + .04 * eio(P(lt, 0, 1)) });
-    const m = eo(P(lt, 0, .62));
-    TT(S.ringW, { x: -300 * (1 - m), y: 470 * (1 - m), s: .55 + .45 * m });
-    mb(S.ringW, 14 * (1 - m) ** 2, 14 * (1 - m) ** 2);
-    const c = P(lt, .1, .7), n = Math.round(5 + 11 * eo(c));
-    S.num.textContent = n;
-    const ap = .2 + .6 * eo(c);
+    const m = eo(P(lt, 0, .6));
+    TT(S.ringW, { x: -280 * (1 - m), y: 560 * (1 - m), s: .5 + .5 * m });
+    mb(S.ringW, 12 * (1 - m) ** 2, 12 * (1 - m) ** 2);
+    const c = P(lt, .1, .7);
+    S.num.textContent = Math.round(5 + 11 * eo(c));
+    const ap = .15 + .55 * eo(c);
     [S.arc, S.arcG].forEach(a => a.setAttribute('stroke-dasharray', `${ap} 1`));
-    typeIn(S.lab, lt, .34, .016);
+    typeG(S.lab, lt, .3, .018);
   },
 });
 
 /* =====================================================================
-   SCENE 6 — PAIN ×3  7.0–11.0  "Losing trust. Losing leads. Losing deals."
+   SCENE 6 — PAIN ×3  7.0–11.0  extruded hexagon honeycomb
    ===================================================================== */
 const ICONS = {
-  trust: `<path d="M60 12 L100 28 V60 C100 86 82 102 60 110 C38 102 20 86 20 60 V28 Z"/><path d="M62 30 L52 56 L68 66 L56 92"/>`,
-  leads: `<path d="M32 18 V62 A28 28 0 0 0 88 62 V18"/><path d="M22 36 H42 M78 36 H98"/><path d="M16 100 l10 -8 M104 100 l-10 -8 M60 112 v-10"/>`,
-  deals: `<path d="M30 12 H74 L92 30 V108 H30 Z"/><path d="M74 12 V30 H92"/><path d="M47 54 L77 86 M77 54 L47 86"/>`,
+  trust: `<path d="M60 10 L98 25 V58 C98 84 80 100 60 108 C40 100 22 84 22 58 V25 Z"/><path d="M60 26 V92" stroke-width="5" opacity=".9"/><path d="M62 30 L52 56 L68 66 L56 92"/>`,
+  leads: `<circle cx="60" cy="58" r="44"/><circle cx="60" cy="58" r="28"/><circle cx="60" cy="58" r="10"/><path d="M60 4 V24 M60 92 V112 M6 58 H26 M94 58 H114"/>`,
+  deals: `<path d="M30 12 H74 L92 30 V108 H30 Z"/><path d="M74 12 V30 H92"/><path d="M44 56 H78 M44 72 H78 M44 88 H62"/><circle cx="84" cy="94" r="16" fill="${ACC}"/><path d="M78 88 L90 100 M90 88 L78 100"/>`,
 };
 function hexSVG(icon) {
-  const pts = []; for (let i = 0; i < 6; i++) { const a = (-90 + i * 60) * Math.PI / 180; pts.push((Math.cos(a) * 150).toFixed(1) + ',' + (Math.sin(a) * 150).toFixed(1)); }
-  return `<svg width="340" height="340" viewBox="-170 -170 340 340" style="overflow:visible">` +
-    `<polygon points="${pts.join(' ')}" fill="${ACC}" stroke="${ACC}" stroke-width="22" stroke-linejoin="round"/>` +
-    `<g transform="translate(-66 -66) scale(1.1)" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">${icon}</g></svg>`;
+  const poly = r => { const p = []; for (let i = 0; i < 6; i++) { const a = (-90 + i * 60) * Math.PI / 180; p.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1)); } return p.join(' '); };
+  return `<svg width="320" height="320" viewBox="-160 -160 320 320" style="overflow:visible">` +
+    `<polygon points="${poly(128)}" transform="translate(0 12)" fill="${TXT}" stroke="${TXT}" stroke-width="16" stroke-linejoin="round"/>` +
+    `<polygon points="${poly(128)}" fill="${ACC}" stroke="${ACC}" stroke-width="16" stroke-linejoin="round"/>` +
+    `<g transform="translate(-60 -60)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">${icon}</g></svg>`;
 }
 addScene({
   start: 7.0, end: 11.0, enter: 'zoomIn', exit: 'spinOut',
   build(c, S) {
-    S.gl = glow(c, 540, 980, 900, 800); S.gl.style.opacity = 0;
-    const hx = [[396, 860, 'trust'], [684, 860, 'leads'], [540, 1109, 'deals']];
+    const hx = [[418, 880, 'trust'], [662, 880, 'leads'], [540, 1091, 'deals']];
     S.hex = hx.map(([x, y, k]) => at(el('div', c, 'ctr', {}, hexSVG(ICONS[k])), x, y));
     const s = layer(c);
-    S.lines = [
-      'M274 790 L190 640 L70 640', 'M806 790 L890 640 L1010 640', 'M540 1282 L540 1420',
-    ].map(d => sv('path', s, { d, fill: 'none', stroke: TXT, 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': '0 1' }));
-    const mkLabel = (word, style) => {
-      const l = textLine(c, 0, [{ t: 'Losing ' }, { t: word, cls: 'serif', style: { color: ACC, fontSize: '84px' } }], Object.assign({ fontSize: '54px', fontWeight: 500, width: 'auto' }, style));
-      return l.chars;
-    };
-    S.labels = [
-      mkLabel('trust', { left: '70px', top: '540px' }),
-      mkLabel('leads', { left: 'auto', right: '70px', top: '540px' }),
-      mkLabel('deals', { left: '0', width: '1080px', top: '1430px' }),
-    ];
+    S.lines = ['M418 738 L418 690 L345 622', 'M662 738 L662 690 L735 622', 'M540 1240 L540 1288 L613 1356']
+      .map(d => sv('path', s, { d, fill: 'none', stroke: TXT, 'stroke-width': 3.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': '0 1' }));
+    const lab = (t, st) => tagColor(textLine(c, 0, [{ t }], Object.assign({ fontSize: '40px', fontWeight: 500, letterSpacing: '-0.02em', width: 'auto' }, st)), []).chars;
+    S.labels = [lab('Losing trust', { left: 'auto', right: px(1080 - 360), top: '560px' }), lab('Losing leads', { left: '720px', top: '560px' }), lab('Losing deals', { left: '598px', top: '1366px' })];
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1.2 - .2 * eio(P(lt, 0, 4)), y: 30 * (1 - eio(P(lt, 0, 4))) });
-    S.gl.style.opacity = .55 * eo(P(lt, .2, 2.8));
+    TT(S.cam, { s: 1.22 - .22 * eio(P(lt, 0, 4)), y: 20 * (1 - eio(P(lt, 0, 4))) });
     [.15, 1.35, 2.55].forEach((a, i) => {
       const p = P(lt, a, a + 9 * FR);
-      T(S.hex[i], { s: pop(p), o: p > 0 ? 1 : 0, r: 0 });
+      T(S.hex[i], { s: pop(p), o: p > 0 ? 1 : 0 });
       mb(S.hex[i], 14 * (1 - p) ** 2 * (p > 0), 14 * (1 - p) ** 2 * (p > 0));
-      S.lines[i].setAttribute('stroke-dasharray', `${eo(P(lt, a + .2, a + .55))} 1`);
-      typeIn(S.labels[i], lt, a + .45, .03);
+      S.lines[i].setAttribute('stroke-dasharray', `${eo(P(lt, a + .2, a + .5))} 1`);
+      typeG(S.labels[i], lt, a + .42, .028);
     });
   },
 });
 
 /* =====================================================================
-   SCENE 7 — ONE-WORD BEATS  11.0–13.0  "Louder. Busier. Forgotten."
+   SCENE 7 — ONE-WORD BEATS  11.0–13.0  "The · best · brands"
    ===================================================================== */
 addScene({
   start: 11.0, end: 13.0, enter: 'spinIn', exit: 'zoomOut',
   build(c, S) {
-    S.words = ['Louder.', 'Busier.', 'Forgotten.'].map(w => {
-      const g = glow(c, 540, 960, 900, 420);
-      const e = at(el('div', c, 'ctr', { color: ACC, fontSize: '170px', fontWeight: 800, letterSpacing: '-5px', whiteSpace: 'nowrap' }), 540, 960);
+    S.words = ['The', 'best', 'brands'].map(w => {
+      const g = glow(c, 540, 960, 520, 520);
+      const e = at(el('div', c, 'ctr', { color: ACC, fontSize: '92px', fontWeight: 500, letterSpacing: '-0.035em', whiteSpace: 'nowrap' }), 540, 960);
       e.textContent = w; return { e, g };
     });
   },
   update(lt) {
-    const S = this, A = [0, .65, 1.3, 9];
+    const S = this, A = [0, .62, 1.24, 9];
     TT(S.cam, { s: 1 + .04 * lt });
     S.words.forEach(({ e, g }, i) => {
       const a = A[i], q = P(lt, a, a + 6 * FR), x = P(lt, A[i + 1] - 4 * FR, A[i + 1]);
       const vis = q > 0 && x < 1;
-      const s = (1.4 - .4 * eo(q)) * (1 - .35 * eo(x)) * (1 + .05 * P(lt, a, a + .7));
-      T(e, { s, o: vis ? Math.min(1, q * 2) * (1 - x) : 0 });
-      mb(e, 16 * (1 - q) ** 2 + 8 * x * x, 16 * (1 - q) ** 2 + 8 * x * x);
-      g.style.opacity = vis ? .9 * eo(P(lt, a + 2 * FR, a + 10 * FR)) * (1 - x) : 0;
+      T(e, { s: (1.3 - .3 * eo(q)) * (1 - .4 * eo(x)) * (1 + .06 * P(lt, a, a + .7)), o: vis ? Math.min(1, q * 2) * (1 - x) : 0 });
+      mb(e, 12 * (1 - q) ** 2 + 8 * x * x, 12 * (1 - q) ** 2 + 8 * x * x);
+      g.style.opacity = vis ? eo(P(lt, a, a + 10 * FR)) * (1 - x) : 0;
     });
   },
 });
 
 /* =====================================================================
-   SCENE 8 — CONTRAST  13.0–14.0  "The best brands don't say more."
+   SCENE 8 — CONTRAST  13.0–14.0  "don't say more."
    ===================================================================== */
 addScene({
   start: 13.0, end: 14.0, enter: 'bigIn', exit: 'zoomAway',
   build(c, S) {
-    const l1 = textLine(c, 810, [{ t: 'The best brands' }], { fontSize: '150px' });
-    const l2 = textLine(c, 965, [{ t: 'don’t say more.' }], { fontSize: '150px' });
-    l1.line.classList.add('serif'); l2.line.classList.add('serif');
-    [l1, l2].forEach(l => l.groups.forEach(g => g.className = 'serif'));
-    S.chars = l1.chars.concat(l2.chars);
-    S.chars.forEach(ch => ch.style.display = 'inline-block');
+    const l = textLine(c, 905, [{ t: 'don’t say more.', cls: 'serif' }], { fontSize: '128px' });
+    S.chars = l.chars; S.chars.forEach(ch => ch.style.display = 'inline-block');
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .04 * lt });
+    TT(S.cam, { s: 1 + .05 * lt });
     S.chars.forEach((ch, i) => {
-      const a = .03 + i * .018, p = P(lt, a, a + 5 * FR);
+      const a = .03 + i * .03, p = P(lt, a, a + 6 * FR);
       ch.style.opacity = eo(p);
-      const b = 14 * (1 - eo(p));
+      ch.style.color = mix(LIGHT, RGB.text, eo(p));
+      const b = 12 * (1 - eo(p));
       ch.style.filter = b > .3 ? `blur(${b.toFixed(1)}px)` : '';
     });
   },
 });
 
 /* =====================================================================
-   SCENE 9 — BENEFITS  14.0–21.0  pills
+   SCENE 9 — BENEFITS  14.0–21.0  pill word-cloud
    ===================================================================== */
 addScene({
   start: 14.0, end: 21.0, enter: 'fadeScale', exit: 'whipLeft',
   build(c, S) {
-    S.rings = [[150, 330, 980], [960, 1640, 1100], [1000, 520, 520]].map(([x, y, d], i) => at(el('div', c, 'ctr', {
-      width: px(d), height: px(d), borderRadius: '50%',
-      background: 'radial-gradient(circle, rgba(255,130,28,0) 44%, rgba(255,130,28,.12) 58%, rgba(255,130,28,0) 72%)' }), x, y));
-    S.head = textLine(c, 470, [{ t: 'The best brands are' }], { fontSize: '44px', color: MUT, fontWeight: 500 }).chars;
-    const P_ = [
-      ['Focused', 'f', 365, 660, -3, 14.3], ['Sharper', 'o', 735, 672, 3, 15.2], ['Strategic', 'f', 560, 822, -2, 16.1],
-      ['Simple message', 'o', 520, 984, 2, 17.1], ['Instant trust', 'f', 590, 1146, -3, 18.3], ['Easy to choose', 'o', 500, 1308, 2, 19.5],
+    S.rings = [[540, 80], [560, 1880], [80, 1250]].map(([x, y], i) => at(el('div', c, 'ctr', {
+      width: px(i === 2 ? 560 : 820), height: px(i === 2 ? 560 : 820), borderRadius: '50%',
+      background: 'radial-gradient(circle, rgba(255,130,28,0) 47%, rgba(255,130,28,.16) 59%, rgba(255,130,28,0) 71%)' }), x, y));
+    const rows = [
+      [['They’re focused.', 'f', 14.3], ['Sharper', 'o', 15.1]],
+      [['Strategic', 'o', 15.9], ['They simplify the message', 'f', 16.8]],
+      [['They build trust instantly', 'f', 18.0]],
+      [['They make choosing easy', 'o', 19.3]],
     ];
-    S.pills = P_.map(([t, k, x, y, r, at_], i) => {
-      const e = at(el('div', c, 'pill ' + k), x, y); e.textContent = t;
-      return { e, r, a: at_ - 14, side: i % 2 ? 1 : -1 };
+    S.pills = [];
+    rows.forEach((r, ri) => {
+      const row = el('div', c, 'abs', { left: '0', width: '1080px', top: px(790 + ri * 116), display: 'flex', justifyContent: 'center', gap: '16px',
+        paddingLeft: ri === 3 ? '170px' : ri === 2 ? '0' : '0', boxSizing: 'border-box' });
+      r.forEach(([t, k, a], j) => {
+        const e = el('div', row, 'pill ' + k, { position: 'relative', transform: 'none', fontSize: '38px', fontWeight: 500, padding: '18px 38px', letterSpacing: '-0.02em' });
+        e.textContent = t;
+        S.pills.push({ e, a: a - 14, side: (ri + j) % 2 ? -1 : 1 });
+      });
     });
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .06 * eio(P(lt, 0, 7)) });
+    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, 7)) });
     S.rings.forEach((e, i) => {
-      const q = eo(P(lt, -.05, .7));
-      T(e, { s: (2.3 - 1.3 * q) * (1 + .04 * Math.sin(lt * .6 + i)), r: 40 * (1 - q), x: 30 * Math.sin(lt * .4 + i * 2), y: 30 * Math.cos(lt * .35 + i), o: .45 + .55 * q });
-      mb(e, 30 * (1 - q), 30 * (1 - q));
+      const q = eo(P(lt, -.05, .8));
+      T(e, { s: (2 - 1 * q) * (1 + .05 * Math.sin(lt * .5 + i)), x: 40 * Math.sin(lt * .35 + i * 2), y: 30 * Math.cos(lt * .3 + i), o: q });
+      mb(e, 26 * (1 - q), 26 * (1 - q));
     });
-    typeIn(S.head, lt, .1, .02);
-    S.pills.forEach(({ e, r, a, side }) => {
+    S.pills.forEach(({ e, a, side }) => {
       const q = P(lt, a, a + 8 * FR);
-      T(e, { x: side * 1000 * (1 - eo(q)), r: r * eo(q), o: q > 0 ? 1 : 0, y: -4 * Math.sin(lt * 1.3 + a) });
-      mb(e, 70 * (1 - q) ** 2 * (q > 0), 0);
+      e.style.transform = `translateX(${side * 900 * (1 - eo(q))}px)`;
+      e.style.opacity = q > 0 ? 1 : 0;
+      mb(e, 60 * (1 - q) ** 2 * (q > 0), 0);
     });
   },
 });
 
 /* =====================================================================
-   SCENE 10 — PUNCHLINE  21.0–24.5  "Design isn't decoration — it's strategy."
+   SCENE 10 — PUNCHLINE  21.0–24.5  "Design isn't decoration —  It's strategy."
    ===================================================================== */
 function ovalPath(cx, cy, rx, ry, tilt) {
-  const pts = [], N = 90, a0 = -200, a1 = 192;
+  const pts = [], N = 90, a0 = -195, a1 = 185;
   for (let i = 0; i <= N; i++) {
-    const p = i / N, a = (a0 + (a1 - a0) * p) * Math.PI / 180, k = 1.05 - .1 * p + .015 * Math.sin(p * 9);
-    let x = Math.cos(a) * rx * k, y = Math.sin(a) * ry * k;
-    const t = tilt * Math.PI / 180;
+    const p = i / N, a = (a0 + (a1 - a0) * p) * Math.PI / 180, k = 1.03 - .06 * p + .01 * Math.sin(p * 9);
+    const x = Math.cos(a) * rx * k, y = Math.sin(a) * ry * k, t = tilt * Math.PI / 180;
     pts.push([cx + x * Math.cos(t) - y * Math.sin(t), cy + x * Math.sin(t) + y * Math.cos(t)]);
   }
   return 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
@@ -506,32 +480,37 @@ addScene({
   start: 21.0, end: 24.5, enter: 'fromRight', exit: 'zoomThrough',
   build(c, S) {
     S.setW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px' });
-    S.set = textLine(S.setW, 925, [{ t: 'Design isn’t decoration —' }], { fontSize: '62px', fontWeight: 500 }).chars;
-    S.punW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 1000px' });
-    S.g = glow(S.punW, 540, 1010, 1000, 520); S.g.style.opacity = 0;
-    textLine(S.punW, 830, [{ t: 'it’s', whole: true }], { fontSize: '64px', fontWeight: 500 });
-    textLine(S.punW, 905, [{ t: 'strategy.', whole: true }], { fontSize: '156px', fontWeight: 800, letterSpacing: '-5px' });
+    const sl = tagColor(textLine(S.setW, 925, [{ t: 'Design isn’t decoration —' }], { fontSize: '54px', fontWeight: 500, letterSpacing: '-0.03em' }), []);
+    S.set = sl.chars; S.setG = sl.groups[0];
+    S.punW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 960px' });
+    S.g = glow(S.punW, 540, 960, 1000, 640); S.g.style.opacity = 0;
+    const pl = textLine(S.punW, 898, [{ t: 'It’s strategy.', whole: true, block: true }], { fontSize: '108px', fontWeight: 600, letterSpacing: '-0.045em' });
+    S.punG = pl.groups[0];
     const s = layer(S.punW);
-    S.oval = sv('path', s, { d: ovalPath(540, 1000, 490, 175, -4), fill: 'none', stroke: ACC, 'stroke-width': 9, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '0 1' });
+    S.oval = sv('path', s, { d: ovalPath(540, 962, 400, 108, -2), fill: 'none', stroke: ACC, 'stroke-width': 5.5, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '0 1' });
+  },
+  measure(S) {
+    const a = rel(S.setG), b = rel(S.punG);
+    S.shift = (540 - b.w / 2 - 34 - a.w / 2) - 540;  // setup ends just left of the punchline
   },
   update(lt) {
     const S = this;
-    const pan = eo(P(lt, 1.45, 1.95));
-    TT(S.cam, { s: 1 + .03 * eio(P(lt, 0, 1.4)) + .06 * eio(P(lt, 1.6, 3.5)) });
-    typeIn(S.set, lt, .1, .045, { gray: true, fade: 3 * FR });
-    TT(S.setW, { x: -620 * pan, o: 1 - .7 * pan });
-    mb(S.setW, 40 * Math.sin(Math.PI * pan) * (pan < 1), 0);
-    if (pan > .01) S.set.forEach(ch => ch.style.color = mix(RGB.text, RGB.muted, pan));
-    const q = P(lt, 1.52, 1.52 + 9 * FR);
-    TT(S.punW, { x: 760 * (1 - eo(q)), o: q > 0 ? 1 : 0, s: 1 + .25 * (1 - eo(q)) });
+    const pan = eo(P(lt, 1.4, 1.9));
+    TT(S.cam, { x: 0, s: 1 + .03 * eio(P(lt, 0, 1.4)) + .07 * eio(P(lt, 1.6, 3.5)) });
+    typeG(S.set, lt, .1, .042);
+    TT(S.setW, { x: (S.shift - 1080 * 0) * pan });
+    mb(S.setW, 36 * Math.sin(Math.PI * pan) * (pan < 1), 0);
+    if (pan > 0) S.set.forEach(ch => ch.style.color = mix(RGB.text, [175, 175, 175], pan));
+    const q = P(lt, 1.45, 1.45 + 9 * FR);
+    TT(S.punW, { x: 900 * (1 - eo(q)), o: q > 0 ? 1 : 0 });
     mb(S.punW, 80 * (1 - q) ** 2 * (q > 0), 0);
-    S.g.style.opacity = eo(P(lt, 1.85, 2.4));
-    S.oval.setAttribute('stroke-dasharray', `${eo(P(lt, 2.0, 2.55))} 1`);
+    S.g.style.opacity = eo(P(lt, 1.8, 2.3));
+    S.oval.setAttribute('stroke-dasharray', `${eo(P(lt, 1.95, 2.45))} 1`);
   },
 });
 
 /* =====================================================================
-   SCENE 11 — OUTRO  24.5–27.0  logo · CTA · handle scramble
+   SCENE 11 — OUTRO  24.5–27.0  logo · handle scramble
    ===================================================================== */
 const LOGO = `<svg width="900" height="560" viewBox="0 0 900 560" style="overflow:visible">
 <defs>
@@ -551,34 +530,25 @@ const LOGO = `<svg width="900" height="560" viewBox="0 0 900 560" style="overflo
 addScene({
   start: 24.5, end: 27.0, enter: 'fadeScale',
   build(c, S) {
-    S.cta = textLine(c, 520, [{ t: 'Let’s build ' }, { t: 'yours.', cls: 'serif', style: { color: ACC, fontSize: '104px' } }], { fontSize: '64px', fontWeight: 500 }).chars;
-    S.g = glow(c, 540, 1000, 1000, 640); S.g.style.opacity = 0;
-    S.logo = at(el('div', c, 'ctr', {}, LOGO), 540, 990);
-    S.handle = at(el('div', c, 'ctr', { fontSize: '50px', fontWeight: 600, letterSpacing: '1px', whiteSpace: 'pre', fontVariantNumeric: 'tabular-nums' }), 540, 1335);
-    S.bio = at(el('div', c, 'ctr', { fontSize: '36px', fontWeight: 500, color: MUT }), 540, 1415); S.bio.textContent = 'Link in bio';
+    S.cta = tagColor(textLine(c, 700, [{ t: 'Let’s build ' }, { t: 'yours.', cls: 'serif', style: { fontSize: '76px' } }], { fontSize: '50px', fontWeight: 500, letterSpacing: '-0.03em' }), [RGB.text, RGB.accent]).chars;
+    S.logo = at(el('div', c, 'ctr', {}, LOGO), 540, 945);
+    S.handle = at(el('div', c, 'ctr', { fontSize: '34px', fontWeight: 500, letterSpacing: '0px', whiteSpace: 'pre' }), 540, 1100);
   },
   update(lt) {
     const S = this;
     TT(S.cam, { s: 1 + .04 * eio(P(lt, 0, 2.5)) });
     const p = P(lt, .08, .08 + 10 * FR);
-    T(S.logo, { s: pop(p) * .9, o: p > 0 ? 1 : 0 });
+    T(S.logo, { s: pop(p) * .4, o: p > 0 ? 1 : 0 });
     mb(S.logo, 16 * (1 - p) ** 2 * (p > 0), 16 * (1 - p) ** 2 * (p > 0));
     if (!S.rp) S.rp = document.getElementById('revealPath');
     S.rp.setAttribute('stroke-dasharray', `${eo(P(lt, .18, .8))} 1`);
-    S.g.style.opacity = .8 * eo(P(lt, .3, .9));
-    typeIn(S.cta, lt, .45, .035);
-    // scramble @handle into place
-    const target = '@isp_agency_', pool = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#$%&@_';
-    const sp = P(lt, .7, 1.35), f = Math.floor(lt * FPS);
+    typeG(S.cta, lt, .9, .035);
+    const target = '@isp_agency_', pool = 'abcdefghijklmnopqrstuvwxyz0123456789#$%&?_';
+    const sp = P(lt, .3, 1.0), f = Math.floor(lt * FPS);
     let out = '';
-    for (let i = 0; i < target.length; i++) {
-      const lock = (i + 1) / target.length <= sp;
-      out += lock ? target[i] : pool[Math.floor(hash(f * 31 + i * 7) * pool.length)];
-    }
+    for (let i = 0; i < target.length; i++) out += (i + 1) / target.length <= sp ? target[i] : pool[Math.floor(hash(f * 31 + i * 7) * pool.length)];
     S.handle.textContent = out;
-    S.handle.style.opacity = eo(P(lt, .66, .8));
-    S.handle.style.color = sp >= 1 ? TXT : mix(RGB.muted, RGB.text, sp);
-    S.bio.style.opacity = eo(P(lt, 1.3, 1.6));
+    S.handle.style.opacity = eo(P(lt, .25, .4));
   },
 });
 
