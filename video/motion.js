@@ -1,15 +1,15 @@
-/* ISP Agency — kinetic typography promo
- * 1080x1920 · 30 fps · 27 s (810 frames)
+/* ISP Agency — premium kinetic-typography promo
+ * 1080x1920 · 30 fps · length from the voiceover timeline (timeline.js)
+ * One continuous 3D world: every scene is a panel on a white-gradient stage,
+ * a 3D camera flies between them along a glowing orange thread.
  * Every frame is a pure function of time: window.renderAt(seconds).
  */
 'use strict';
 
 const FPS = 30, DUR = TL.DUR, FR = 1 / FPS, W = 1080, H = 1920;
 const NS = 'http://www.w3.org/2000/svg';
-const RGB = { accent: [255, 130, 28], text: [10, 10, 10], muted: [160, 160, 160], bg: [255, 255, 255] };
-const ACC = '#FF821C', TXT = '#0A0A0A', MUT = '#A0A0A0', BG = '#FFFFFF';
 
-/* ---------- math ---------- */
+/* ---------- math & easing (all "easy ease") ---------- */
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, p) => a + (b - a) * p;
 const P = (t, a, b) => clamp((t - a) / (b - a));
@@ -18,16 +18,18 @@ function cubicBezier(x1, y1, x2, y2) {
   return p => {
     if (p <= 0) return 0; if (p >= 1) return 1;
     let lo = 0, hi = 1, u = p;
-    for (let i = 0; i < 28; i++) { u = (lo + hi) / 2; if (B(u, x1, x2) < p) lo = u; else hi = u; }
+    for (let i = 0; i < 26; i++) { u = (lo + hi) / 2; if (B(u, x1, x2) < p) lo = u; else hi = u; }
     return B(u, y1, y2);
   };
 }
-const eo = cubicBezier(0.16, 1, 0.3, 1);          // the house ease-out
-const ei = p => p * p * p;                          // accelerate (exits)
-const eio = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-const pop = p => p <= 0 ? 0 : p < .6 ? 1.1 * eo(p / .6) : 1.1 - .1 * eio((p - .6) / .4); // 0 → 110% → 100%
-const mix = (a, b, p) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * p)).join(',')})`;
-const hash = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const EE = cubicBezier(0.45, 0, 0.2, 1);    // element easy-ease: soft start, long buttery settle
+const CE = cubicBezier(0.65, 0, 0.35, 1);   // camera easy-ease in/out
+const E = (t, a, b) => EE(P(t, a, b));
+const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const GLOW = {
+  dark: 'drop-shadow(0 0 16px rgba(255,140,40,.22)) drop-shadow(0 8px 14px rgba(0,0,0,.16))',
+  acc: 'drop-shadow(0 0 10px rgba(255,130,28,.55)) drop-shadow(0 0 30px rgba(255,130,28,.35))',
+};
 
 /* ---------- DOM helpers ---------- */
 const $ = s => document.querySelector(s);
@@ -45,428 +47,454 @@ function sv(tag, parent, attrs = {}) {
   if (parent) parent.appendChild(e);
   return e;
 }
-const layer = (parent, z) => sv('svg', parent, { width: W, height: H, viewBox: `0 0 ${W} ${H}`,
-  style: `position:absolute;left:0;top:0;overflow:visible${z != null ? ';z-index:' + z : ''}` });
 const px = v => v + 'px';
-function at(e, x, y) { e.style.left = px(x); e.style.top = px(y); return e; }
-/* transform for centred elements */
+const at = (e, x, y) => { e.style.left = px(x); e.style.top = px(y); return e; };
+/* centred element transform (3D aware) */
 function T(e, o) {
-  e.style.transform = `translate(-50%,-50%) translate(${o.x || 0}px,${o.y || 0}px) rotate(${o.r || 0}deg) scale(${o.s == null ? 1 : o.s})`;
+  e.style.transform = `translate(-50%,-50%) translate3d(${o.x || 0}px,${o.y || 0}px,${o.z || 0}px) rotateX(${o.rx || 0}deg) rotateY(${o.ry || 0}deg) rotate(${o.r || 0}deg) scale(${o.s == null ? 1 : o.s})`;
   if (o.o != null) e.style.opacity = o.o;
 }
-/* transform for full-width / non-centred elements */
+/* full-panel layer transform */
 function TT(e, o) {
-  e.style.transform = `translate(${o.x || 0}px,${o.y || 0}px) rotate(${o.r || 0}deg) scale(${o.s == null ? 1 : o.s})`;
+  e.style.transform = `translate3d(${o.x || 0}px,${o.y || 0}px,${o.z || 0}px) rotateX(${o.rx || 0}deg) rotateY(${o.ry || 0}deg) rotate(${o.r || 0}deg) scale(${o.s == null ? 1 : o.s})`;
   if (o.o != null) e.style.opacity = o.o;
 }
+const fullLayer = (parent, z = 0, cls = 'abs') => { const d = el('div', parent, cls, { left: 0, top: 0, width: '1080px', height: '1920px' }); d.style.transform = `translateZ(${z}px)`; return d; };
+const svgFull = parent => sv('svg', parent, { width: W, height: H, viewBox: `0 0 ${W} ${H}`, style: 'position:absolute;left:0;top:0;overflow:visible' });
+function glow(parent, x, y, w, h, z = 0) { const g = at(el('div', parent, 'glow', { width: px(w), height: px(h) }), x, y); g.style.transform = `translate(-50%,-50%) translateZ(${z}px)`; g.style.opacity = 0; return g; }
+/* element centre in its panel's coordinates (measured while the world is flat) */
+function rel(e, base) { const r = e.getBoundingClientRect(), s = base.getBoundingClientRect(); return { cx: r.left - s.left + r.width / 2, cy: r.top - s.top + r.height / 2, w: r.width, h: r.height }; }
+const dash = (e, p) => { e.setAttribute('stroke-dasharray', `${Math.max(0, p).toFixed(4)} 1.001`); e.style.visibility = p > .002 ? 'visible' : 'hidden'; };
 
-/* directional motion blur via per-element SVG gaussian (stdDeviation X Y) */
-let fid = 0;
-function mb(e, bx, by = 0) {
-  bx = Math.max(0, bx); by = Math.max(0, by);
-  if (bx < .3 && by < .3) { if (e._f) e.style.filter = ''; return; }
-  if (!e._f) {
-    const id = 'mb' + (fid++);
-    const f = sv('filter', $('#defs'), { id, x: '-60%', y: '-60%', width: '220%', height: '220%', 'color-interpolation-filters': 'sRGB' });
-    e._f = { id, g: sv('feGaussianBlur', f, { stdDeviation: '0 0' }) };
-  }
-  e._f.g.setAttribute('stdDeviation', bx.toFixed(2) + ' ' + by.toFixed(2));
-  e.style.filter = `url(#${e._f.id})`;
-}
-
-/* text: build a line from segments, every character its own span */
+/* gradient text: each character is its own span (for the type-on), tone = dark | acc | gray | white */
 function textLine(parent, top, segs, extra = {}) {
   const line = el('div', parent, 'line', Object.assign({ top: px(top) }, extra));
   const chars = [], groups = [];
   for (const s of segs) {
-    const g = el('span', line, (s.cls || 'sans') + (s.block ? ' ib' : ''), s.style || {});
+    const tone = s.tone || 'dark';
+    const g = el('span', line, (s.cls || 'sans') + ' grp gl-' + tone, s.style || {});
     groups.push(g);
-    if (s.whole) { g.textContent = s.t; continue; }
-    for (const ch of s.t) { const c = el('span', g, null, null); c.textContent = ch; chars.push(c); }
+    if (s.whole) { g.classList.add('tg-' + tone); g.textContent = s.t; continue; }
+    for (const ch of s.t) { if (ch === '\n') { el('br', g); continue; } const c = el('span', g, 'ch tg-' + tone); c.textContent = ch; chars.push(c); }
   }
   return { line, chars, groups };
 }
-function typeIn(chars, lt, t0, per, opt = {}) {
-  const fade = opt.fade || 2 * FR;
+/* buttery type-on: each letter rises, sharpens from blur and fades in */
+function typeIn(chars, lt, t0, per, dur = .38) {
   chars.forEach((c, i) => {
-    const a = t0 + i * per, p = P(lt, a, a + fade);
+    const a = t0 + i * per, p = E(lt, a, a + dur);
     c.style.opacity = p;
-    if (opt.gray) c.style.color = mix(RGB.muted, opt.to || RGB.text, P(lt, a, a + (opt.grayDur || 6 * FR)));
+    c.style.transform = p < 1 ? `translateY(${((1 - p) * 18).toFixed(2)}px)` : '';
+    const b = (1 - p) * 8;
+    c.style.filter = b > .15 ? `blur(${b.toFixed(2)}px)` : '';
   });
 }
-function glow(parent, x, y, w, h) { return at(el('div', parent, 'glow', { width: px(w), height: px(h) }), x, y); }
-function rel(e) { const r = e.getBoundingClientRect(), s = $('#stage').getBoundingClientRect(); return { cx: r.left - s.left + r.width / 2, cy: r.top - s.top + r.height / 2, w: r.width, h: r.height }; }
-
-/* ---------- transitions (whip / spin / zoom-through, all motion-blurred) ---------- */
-const ENTER = {
-  fromRight: q => ({ x: 1300 * (1 - eo(q)), bx: 90 * (1 - q) ** 2 }),
-  drop: q => ({ y: -1900 * (1 - eo(q)), by: 90 * (1 - q) ** 2 }),
-  fromBottom: q => ({ y: 1900 * (1 - eo(q)), by: 90 * (1 - q) ** 2 }),
-  zoomIn: q => ({ s: .55 + .45 * eo(q), o: Math.min(1, q * 2.5), b: 18 * (1 - q) ** 2 }),
-  spinIn: q => ({ r: -55 * (1 - eo(q)), s: .85 + .15 * eo(q), o: Math.min(1, q * 2.5), b: 22 * (1 - q) ** 2 }),
-  bigIn: q => ({ s: 1.9 - .9 * eo(q), o: Math.min(1, q * 2.5), b: 20 * (1 - q) ** 2 }),
-  fadeScale: q => ({ s: 1.08 - .08 * eo(q), o: eo(q), b: 10 * (1 - q) ** 2 }),
-};
-const EXIT = {
-  whipLeft: p => ({ x: -1300 * ei(p), bx: 90 * p * p }),
-  whipUp: p => ({ y: -1900 * ei(p), by: 90 * p * p }),
-  spinOut: p => ({ r: 70 * ei(p), s: 1 + .5 * ei(p), o: 1 - p * p, b: 25 * p * p }),
-  zoomThrough: p => ({ s: 1 + 3 * ei(p), o: 1 - Math.pow(p, 1.5), b: 18 * p * p }),
-  zoomOut: p => ({ s: 1 - .75 * ei(p), o: 1 - p * p, b: 14 * p * p }),
-  zoomAway: p => ({ s: 1 - .88 * ei(p), o: 1 - p * p, b: 10 * p * p }),
-};
-
-const scenes = [];
-function addScene(def) {
-  def.wrap = el('div', $('#scenes'), 'scene');
-  def.cam = el('div', def.wrap, 'cam');
-  def.build(def.cam, def);
-  scenes.push(def);
-}
-
-/* reference-matched helpers ------------------------------------------------ */
-const LIGHT = [205, 205, 205];
-/* typewriter where each letter fades in from light grey to its own colour */
-function typeG(chars, lt, t0, per, fade = 3 * FR) {
-  chars.forEach((c, i) => {
-    const a = t0 + i * per, p = P(lt, a, a + fade);
-    c.style.opacity = Math.min(1, p * 2);
-    c.style.color = mix(LIGHT, c._to || RGB.text, P(lt, a, a + 7 * FR));
-  });
-}
-/* tag every char of a textLine with its target colour */
-function tagColor(l, colorBySeg) { let k = 0; l.groups.forEach((g, gi) => g.querySelectorAll('span').forEach(c => { c._to = colorBySeg[gi] || RGB.text; k++; })); return l; }
-function T0(e, o) { e.style.transform = `translate(${o.x || 0}px,${o.y || 0}px) scale(${o.s == null ? 1 : o.s})`; }
-function buildAmbient() {}
-function ambient() {}
 const HEAD = { fontSize: '66px', fontWeight: 500, letterSpacing: '-0.035em' };
 
 /* =====================================================================
-   SCENE 1 — HOOK  0.0–1.5  "Your brand is always talking."
+   WORLD: panels laid out as a snake; camera + connecting thread
+   ===================================================================== */
+const POS = [[0, 0], [1500, 250], [3000, 0], [3000, 2350], [1500, 2600], [0, 2350], [0, 4700], [1500, 4950], [3000, 4700], [3000, 7050], [1500, 7300]];
+const CEN = POS.map(([x, y]) => [x + 540, y + 960]);
+const TA = .55, TB = .42, PUSH = 70;   // camera leaves TA before a boundary, lands TB after it
+const scenes = [];
+function addScene(def) {
+  const i = scenes.length;
+  def.idx = i; def.start = TL.scenes[i][0]; def.end = TL.scenes[i][1];
+  def.panel = el('div', $('#world'), 'panel');
+  at(def.panel, POS[i][0], POS[i][1]);
+  def.build(def.panel, def);
+  scenes.push(def);
+}
+
+function camPose(t) {
+  const S = TL.scenes, n = S.length;
+  let k = S.findIndex(s => t < s[1]); if (k < 0) k = n - 1;
+  const hold = j => E(t, S[j][0] + (j ? TB : 0), S[j][1] - (j < n - 1 ? TA : 0));
+  let f, z, rx = 0, ry = 0, rz = 0, tr = -1;
+  for (let j = 0; j < n - 1; j++) { const b = S[j][1]; if (t >= b - TA && t < b + TB) { tr = j; break; } }
+  if (tr >= 0) {
+    const p = CE(P(t, S[tr][1] - TA, S[tr][1] + TB)), A = CEN[tr], B = CEN[tr + 1], s = Math.sin(Math.PI * p);
+    const dx = Math.sign(B[0] - A[0]), dy = Math.sign(B[1] - A[1]);
+    f = [lerp(A[0], B[0], p), lerp(A[1], B[1], p)];
+    z = lerp(PUSH, 0, p) - 1150 * s;
+    ry = -dx * 16 * s; rx = dy * 12 * s; rz = dx * 2.5 * s;
+  } else { f = CEN[k]; z = PUSH * hold(k); }
+  ry += 2.2 * Math.sin(t * .42); rx += 1.5 * Math.sin(t * .33 + 1.2);   // living, never-static camera
+  z -= 420 * (1 - E(t, 0, 1.1));                                         // opening dolly-in
+  return { f, z, rx, ry, rz };
+}
+
+/* thread: glowing orange line connecting each frame to the next */
+const threads = [];
+function buildThreads() {
+  for (let k = 0; k < POS.length - 1; k++) {
+    const A = POS[k], B = POS[k + 1], dx = Math.sign(B[0] - A[0]);
+    let a, b, ca, cb;
+    if (dx) { a = [A[0] + (dx > 0 ? 1080 : 0), A[1] + 1780]; b = [B[0] + (dx > 0 ? 0 : 1080), B[1] + 1780]; const g = Math.abs(b[0] - a[0]) * .55; ca = [a[0] + dx * g, a[1]]; cb = [b[0] - dx * g, b[1]]; }
+    else { a = [A[0] + 900, A[1] + 1920]; b = [B[0] + 900, B[1]]; const g = Math.abs(b[1] - a[1]) * .55; ca = [a[0], a[1] + g]; cb = [b[0], b[1] - g]; }
+    const inA = dx ? [a[0] - dx * 120, a[1]] : [a[0], a[1] - 120], inB = dx ? [b[0] + dx * 120, b[1]] : [b[0], b[1] + 120];
+    const xs = [inA[0], ca[0], cb[0], inB[0]], ys = [inA[1], ca[1], cb[1], inB[1]];
+    const x0 = Math.min(...xs) - 60, y0 = Math.min(...ys) - 60, w = Math.max(...xs) - x0 + 60, h = Math.max(...ys) - y0 + 60;
+    const holder = at(el('div', $('#world'), 'abs', { width: px(w), height: px(h) }), x0, y0);
+    const s = sv('svg', holder, { width: w, height: h, viewBox: `${x0} ${y0} ${w} ${h}`, style: 'overflow:visible' });
+    const d = `M${inA[0]} ${inA[1]} L${a[0]} ${a[1]} C${ca[0]} ${ca[1]} ${cb[0]} ${cb[1]} ${b[0]} ${b[1]} L${inB[0]} ${inB[1]}`;
+    const halo = sv('path', s, { d, fill: 'none', stroke: '#FF821C', 'stroke-width': 18, 'stroke-linecap': 'round', opacity: .22, pathLength: 1, style: 'filter:blur(8px)' });
+    const line = sv('path', s, { d, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 5, 'stroke-linecap': 'round', pathLength: 1 });
+    const node = (x, y) => { const g = sv('g', s, {}); sv('circle', g, { cx: x, cy: y, r: 26, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 3, opacity: .6 }); sv('circle', g, { cx: x, cy: y, r: 11, fill: 'url(#gCap)' }); return g; };
+    const n0 = node(inA[0], inA[1]), n1 = node(inB[0], inB[1]);
+    const head = sv('circle', s, { r: 13, fill: '#FFD2A0', style: 'filter:drop-shadow(0 0 10px #FF821C) drop-shadow(0 0 22px #FF821C)' });
+    threads.push({ k, line, halo, n0, n1, head });
+  }
+}
+function updateThreads(t) {
+  threads.forEach(({ k, line, halo, n0, n1, head }) => {
+    const b = TL.scenes[k][1], p = CE(P(t, b - TA - .1, b + TB - .05));
+    dash(line, p); dash(halo, p);
+    n0.setAttribute('opacity', E(t, b - TA - .3, b - TA));
+    n1.setAttribute('opacity', p >= .98 ? 1 : 0);
+    if (p > 0 && p < 1) { const L = line.getTotalLength(), pt = line.getPointAtLength(L * p); head.setAttribute('cx', pt.x); head.setAttribute('cy', pt.y); head.setAttribute('opacity', 1); }
+    else head.setAttribute('opacity', 0);
+  });
+}
+
+/* =====================================================================
+   SCENE 1 — HOOK  "Your brand is always talking."
    ===================================================================== */
 addScene({
-  start: TL.scenes[0][0], end: TL.scenes[0][1], exit: 'whipLeft',
   build(c, S) {
-    S.g = glow(c, 0, 0, 900, 900); S.g.style.opacity = 0;
-    S.rings = [[40, 150, 330, -1, -1], [1010, 1690, 250, 1, 1], [-30, 1720, 170, -1, 1], [1060, 300, 120, 1, -1]].map(([x, y, r, dx, dy]) => {
-      const e = at(el('div', c, 'ctr', { width: px(2 * r), height: px(2 * r), borderRadius: '50%', border: `3px solid ${ACC}`, boxSizing: 'border-box' }), x, y);
-      e._d = [dx, dy]; return e;
+    S.g = glow(c, 0, 0, 900, 900, -20);
+    S.rings = [[60, 170, 300, -1, -1], [1000, 1660, 240, 1, 1], [-20, 1700, 160, -1, 1], [1050, 330, 120, 1, -1]].map(([x, y, r, dx, dy]) => {
+      const d = at(el('div', c, 'ctr'), x, y);
+      const s = sv('svg', d, { width: 2 * r + 10, height: 2 * r + 10, viewBox: `${-r - 5} ${-r - 5} ${2 * r + 10} ${2 * r + 10}` });
+      d._c = sv('circle', s, { r, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 3, pathLength: 1 });
+      d._d = [dx, dy]; return d;
     });
-    const l = tagColor(textLine(c, 922, [{ t: 'Your', block: true, whole: true }, { t: ' brand is always ' }, { t: 'talking.', block: true, style: { color: ACC } }], HEAD), [0, RGB.text, RGB.accent]);
+    const l = textLine(c, 905, [{ t: 'Your', whole: true }, { t: ' brand is always ' }, { t: 'talking.', tone: 'acc' }], HEAD);
     S.your = l.groups[0]; S.talk = l.groups[2]; S.chars = l.chars;
-    S.parts = ['✦', '“', '✦', '”', '✦'].map((g, i) => {
-      const e = el('div', c, 'ctr ' + (g === '✦' ? 'sans' : 'serif'), { color: ACC, fontSize: px(34 + hash(i) * 22) }); e.textContent = g; return e;
-    });
+    S.parts = [0, 1, 2, 3, 4].map(i => { const e = el('div', c, 'ctr tg-acc', { fontSize: px(30 + hash(i) * 24) }); e.textContent = '✦'; e.style.filter = GLOW.acc; return e; });
   },
   measure(S) {
-    const y = rel(S.your); S.yd = { x: 540 - y.cx, y: 960 - y.cy };
-    const tk = rel(S.talk); at(S.g, tk.cx, tk.cy);
-    S.parts.forEach((e, i) => at(e, tk.cx + (hash(i + 3) - .5) * 260, tk.cy + 40 + hash(i + 9) * 60));
+    const y = rel(S.your, S.panel); S.yd = { x: 540 - y.cx, y: 960 - y.cy };
+    const tk = rel(S.talk, S.panel); at(S.g, tk.cx, tk.cy);
+    S.parts.forEach((e, i) => at(e, tk.cx + (hash(i + 3) - .5) * 300, tk.cy + 30 + hash(i + 9) * 60));
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .04 * eo(P(lt, 0, 1.5)) });
-    const a = P(lt, 0, 4 * FR), b = P(lt, 5 * FR, 11 * FR), sc = lerp(6.4, 1, eo(b));
-    T0(S.your, { x: S.yd.x * (1 - eo(b)) + 1500 * (1 - eo(a)), y: S.yd.y * (1 - eo(b)), s: sc });
-    mb(S.your, (120 * (1 - a) ** 2 + 14 * (1 - b) * (b > 0)) / sc, 0);
-    typeG(S.chars, lt, .36, .026);
-    S.g.style.opacity = eo(P(lt, .8, 1.2));
-    const r = eo(P(lt, .05, .9));
-    S.rings.forEach((e, i) => T(e, { x: e._d[0] * 420 * (1 - r) + 14 * Math.sin(lt * 1.3 + i), y: e._d[1] * 420 * (1 - r) + 14 * Math.cos(lt * 1.1 + i), o: .5 * r }));
+    const b = E(lt, 0, .7), sc = lerp(6.2, 1, b);
+    S.your.style.transform = `translate(${S.yd.x * (1 - b)}px,${S.yd.y * (1 - b)}px) scale(${sc})`;
+    S.your.style.opacity = E(lt, 0, .18);
+    const bl = (1 - b) * 3;
+    S.your.style.filter = (bl > .15 ? `blur(${bl.toFixed(2)}px) ` : '') + GLOW.dark;
+    typeIn(S.chars, lt, .55, .028);
+    S.g.style.opacity = E(lt, 1.05, 1.6);
+    S.rings.forEach((d, i) => {
+      const r = E(lt, .1 + i * .08, 1.3 + i * .08);
+      T(d, { x: d._d[0] * 380 * (1 - r) + 14 * Math.sin(lt * 1.1 + i), y: d._d[1] * 380 * (1 - r) + 14 * Math.cos(lt * .9 + i), z: -160, o: .75 });
+      dash(d._c, r);
+    });
     S.parts.forEach((e, i) => {
-      const s0 = .95 + i * .07, p = P(lt, s0, s0 + .55);
-      T(e, { y: -120 * eo(p), o: p <= 0 ? 0 : Math.sin(Math.PI * p), s: .7 + .3 * eo(p) });
+      const s0 = 1.1 + i * .09, p = P(lt, s0, s0 + .8);
+      T(e, { y: -130 * EE(p), o: p <= 0 ? 0 : Math.sin(Math.PI * p), s: .6 + .4 * EE(p), z: 40 });
     });
   },
 });
 
 /* =====================================================================
-   SCENE 2 — WHY pt.1  1.5–3.0  macro watch  "Every second / confused"
+   SCENE 2 — 3D WATCH  "But every second a client spends confused"
    ===================================================================== */
+function handSVG(fill, stroke, diamond = '#fff') {
+  return `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0;overflow:visible"><g class="rot">
+   <path d="M488 590 L484 500 L493 190 L500 92 L507 190 L516 500 L512 590 Z" fill="${fill}"/>
+   <path d="M500 150 L528 238 L500 300 L472 238 Z" fill="${diamond}" stroke="${stroke}" stroke-width="7" stroke-linejoin="round"/></g></svg>`;
+}
 addScene({
-  start: TL.scenes[1][0], end: TL.scenes[1][1], enter: 'fromRight', exit: 'spinOut',
   build(c, S) {
-    const cx = 70, cy = 1500, R = 1060;
-    S.cx = cx; S.cy = cy;
-    S.dialW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: `${cx}px ${cy}px` });
-    const s = layer(S.dialW);
-    const pt = (deg, r) => { const a = deg * Math.PI / 180; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; };
-    for (let d = -100; d <= -22; d += 1.5) {
-      const maj = Math.abs((d + 100) % 7.5) < .01, [x1, y1] = pt(d, R - 40), [x2, y2] = pt(d, R - (maj ? 120 : 75));
-      sv('line', s, { x1, y1, x2, y2, stroke: maj ? TXT : '#CFCFCF', 'stroke-width': maj ? 5 : 3, 'stroke-linecap': 'round' });
+    const cx = 560, cy = 860, R = 440;
+    const hold = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', perspective: '1700px', perspectiveOrigin: `${cx}px ${cy}px` });  // own 3D stage: watch can't slice the copy
+    S.dw = at(el('div', hold, 'abs p3', { width: '1000px', height: '1000px', transformOrigin: '500px 500px' }), cx - 500, cy - 500);
+    const layer = (z, style, html, cls = 'abs') => { const d = el('div', S.dw, cls, Object.assign({ left: 0, top: 0, width: '1000px', height: '1000px' }, style), html); d.style.transform = `translateZ(${z}px)`; return d; };
+    const disc = (d, extra) => Object.assign({ left: px(500 - d / 2), top: px(500 - d / 2), width: px(d), height: px(d), borderRadius: '50%' }, extra);
+    S.layers = [];
+    S.layers.push(layer(-80, disc(860, { background: 'radial-gradient(closest-side, rgba(40,20,0,.32), rgba(40,20,0,0))', filter: 'blur(28px)' })));
+    for (let k = 0; k < 12; k++) S.layers.push(layer(k * 3, disc(2 * R, { background: `linear-gradient(135deg, #${k % 2 ? '3a3a3a' : '2a2a2a'}, #050505)` })));
+    S.layers.push(layer(36, disc(2 * R, { background: 'conic-gradient(from 210deg, #0c0c0c, #5d5d5d 12%, #121212 30%, #2d2d2d 52%, #090909 74%, #4c4c4c 90%, #0c0c0c)', boxShadow: 'inset 0 0 0 2px rgba(255,255,255,.08)' })));
+    S.layers.push(layer(39, disc(2 * R - 64, { background: 'radial-gradient(circle at 40% 32%, #FFFFFF 0%, #F9F8F7 50%, #E2E0DE 100%)', boxShadow: 'inset 0 10px 26px rgba(0,0,0,.22)' })));
+    const tk = layer(43, {}, '');
+    const s = sv('svg', tk, { width: 1000, height: 1000, viewBox: '0 0 1000 1000', style: 'position:absolute;left:0;top:0;overflow:visible' });
+    for (let i = 0; i < 60; i++) {
+      const a = i / 60 * Math.PI * 2, maj = i % 5 === 0, r1 = R - 52, r2 = r1 - (maj ? 46 : 20);
+      sv('line', s, { x1: 500 + Math.cos(a) * r1, y1: 500 + Math.sin(a) * r1, x2: 500 + Math.cos(a) * r2, y2: 500 + Math.sin(a) * r2, stroke: maj ? '#1a1a1a' : '#C4C4C4', 'stroke-width': maj ? 7 : 3, 'stroke-linecap': 'round' });
     }
-    [[-82, 'ISP · 01'], [-56, 'VISUALS'], [-34, 'STORY']].forEach(([d, t]) => {
-      const [x, y] = pt(d, R - 190);
-      const tx = sv('text', s, { x, y, fill: '#BDBDBD', 'font-size': 26, 'font-family': 'Inter', 'font-weight': 500, 'letter-spacing': 3, 'text-anchor': 'middle', transform: `rotate(${d + 90} ${x} ${y})` }); tx.textContent = t;
+    [['12', 0], ['3', 90], ['6', 180], ['9', 270]].forEach(([n, d]) => {
+      const a = (d - 90) * Math.PI / 180, r = R - 140;
+      const tx = sv('text', s, { x: 500 + Math.cos(a) * r, y: 500 + Math.sin(a) * r + 18, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-weight': 600, 'font-size': 52, fill: 'url(#gDarkV)' }); tx.textContent = n;
     });
-    const arcD = (() => { const [x0, y0] = pt(-100, R), [x1, y1] = pt(-12, R); return `M${x0} ${y0} A${R} ${R} 0 0 1 ${x1} ${y1}`; })();
-    S.arc = sv('path', s, { d: arcD, fill: 'none', stroke: ACC, 'stroke-width': 10, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '0 1' });
-    S.dots = [-84, -60, -36].map(d => { const [x, y] = pt(d, R); return sv('circle', s, { cx: x, cy: y, r: 11, fill: '#fff', stroke: ACC, 'stroke-width': 5 }); });
-    S.hand = sv('g', s, { style: 'filter:drop-shadow(6px 10px 10px rgba(0,0,0,.18))' });
-    sv('path', S.hand, { d: `M${cx - 16} ${cy + 140} L${cx - 22} ${cy} L${cx - 9} ${cy - 600} L${cx} ${cy - 1010} L${cx + 9} ${cy - 600} L${cx + 22} ${cy} L${cx + 16} ${cy + 140} Z`, fill: TXT });
-    sv('path', S.hand, { d: `M${cx} ${cy - 820} L${cx + 34} ${cy - 700} L${cx} ${cy - 600} L${cx - 34} ${cy - 700} Z`, fill: '#fff', stroke: TXT, 'stroke-width': 9, 'stroke-linejoin': 'round' });
-    sv('circle', S.hand, { cx, cy, r: 46, fill: TXT });
-    sv('circle', S.hand, { cx, cy, r: 24, fill: ACC });
-    const tx = 740;
-    S.l1 = tagColor(textLine(c, 1350, [{ t: 'Every second' }], Object.assign({}, HEAD, { left: px(tx - 540) })), []).chars;
-    S.l2 = tagColor(textLine(c, 1410, [{ t: 'confused', cls: 'serif' }], { fontSize: '128px', left: px(tx - 540) }), [RGB.accent]).chars;
-    S.cap = tagColor(textLine(c, 1570, [{ t: 'a client spends confused about\nwhat you actually do' }], { fontSize: '27px', fontWeight: 500, left: px(tx - 540), lineHeight: 1.3, color: '#3A3A3A' }), [[58, 58, 58]]).chars;
+    const brand = sv('text', s, { x: 500, y: 650, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-weight': 600, 'font-size': 20, 'letter-spacing': 6, fill: '#A0A0A0' }); brand.textContent = 'ISP · EVERY SECOND';
+    const ar = layer(47, {}, '');
+    const s2 = sv('svg', ar, { width: 1000, height: 1000, viewBox: '0 0 1000 1000', style: 'position:absolute;left:0;top:0;overflow:visible' });
+    S.arcG = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: '#FF821C', 'stroke-width': 30, opacity: .45, pathLength: 1, transform: 'rotate(-90 500 500)', style: 'filter:blur(12px)' });
+    S.arc = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 12, 'stroke-linecap': 'round', pathLength: 1, transform: 'rotate(-90 500 500)' });
+    S.layers.push(tk, ar);
+    S.hShadow = layer(46, { filter: 'blur(7px)' }, handSVG('#000', '#000', '#000'));
+    S.hShadow.style.transform = 'translate3d(16px,22px,46px)';
+    S.hand = layer(92, { filter: 'drop-shadow(0 4px 6px rgba(0,0,0,.25))' }, handSVG('url(#gDarkV)', '#111'));
+    S.sec = layer(104, {}, `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0;overflow:visible"><g class="rot"><path d="M497 640 L498 500 L500 120 L502 500 L503 640 Z" fill="url(#gAccV)"/><circle cx="500" cy="610" r="14" fill="url(#gAccV)"/></g></svg>`);
+    S.cap = layer(112, {}, `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0"><circle cx="500" cy="500" r="30" fill="url(#gCap)"/><circle cx="500" cy="500" r="9" fill="#2a1200"/></svg>`);
+    S.glass = layer(124, disc(2 * R - 64, { background: 'linear-gradient(150deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.12) 34%, rgba(255,255,255,0) 52%)' }));
+    S.layers.push(S.hand, S.sec, S.cap, S.glass);
+    S.rotH = [S.hShadow, S.hand].map(l => l.querySelector('.rot')); S.rotS = S.sec.querySelector('.rot');
+    S.l1 = textLine(c, 1430, [{ t: 'Every second' }], HEAD).chars;
+    S.g = glow(c, 540, 1560, 640, 300, -10);
+    S.l2 = textLine(c, 1490, [{ t: 'confused', cls: 'serif', tone: 'acc' }], { fontSize: '136px' }).chars;
+    S.cap2 = textLine(c, 1670, [{ t: 'every second a client spends confused about\nwhat you do is a second you’re losing them.', tone: 'gray' }], { fontSize: '27px', fontWeight: 500, lineHeight: 1.35, letterSpacing: '-0.01em' }).chars;
   },
   update(lt) {
-    const S = this;
-    const D2 = S.end - S.start;
-    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, D2)) });
-    S.dialW.style.transform = `rotate(${-4 + 6 * eio(P(lt, 0, D2))}deg)`;
-    S.arc.setAttribute('stroke-dasharray', `${eo(P(lt, .05, .9))} 1`);
-    S.dots.forEach((d, i) => d.setAttribute('opacity', P(lt, .2 + i * .2, .3 + i * .2)));
-    S.hand.setAttribute('transform', `rotate(${-6 + 40 * eio(P(lt, 0, D2))} ${S.cx} ${S.cy})`);
-    typeG(S.l1, lt, .15, .03);
-    typeG(S.l2, lt, TL.cue.s2_conf, .04);
-    typeG(S.cap, lt, TL.cue.s2_conf + .3, .008);
+    const S = this, D2 = S.end - S.start;
+    const p = E(lt, -.35, 1.0), q = E(lt, 1.0, D2 + .4);
+    TT(S.dw, { rx: lerp(60, 26, p) - 6 * q, ry: lerp(-75, -34, p) + 12 * q, r: lerp(-25, -4, p), s: lerp(.5, .96, p), z: lerp(-500, 0, p) });
+    const o = E(lt, -.35, .2);
+    S.layers.forEach(l => l.style.opacity = o);
+    S.hShadow.style.opacity = .3 * o;
+    dash(S.arc, .42 * E(lt, .25, 1.5)); dash(S.arcG, .42 * E(lt, .25, 1.5));
+    const ah = -70 + 52 * E(lt, -.2, D2), as = -150 + 360 * P(lt, -.2, D2 + .4);
+    S.rotH.forEach(g => g.setAttribute('transform', `rotate(${ah} 500 500)`));
+    S.rotS.setAttribute('transform', `rotate(${as} 500 500)`);
+    typeIn(S.l1, lt, .15, .03);
+    typeIn(S.l2, lt, TL.cue.s2_conf - .2, .045);
+    S.g.style.opacity = E(lt, TL.cue.s2_conf, TL.cue.s2_conf + .6);
+    typeIn(S.cap2, lt, TL.cue.s2_conf - .1, .004, .3);
   },
 });
 
 /* =====================================================================
-   SCENE 3 — WHY pt.2  3.0–4.5  "They can't see / what you do."
+   SCENE 3 — CROWD  "about what you do,"
    ===================================================================== */
-function personSVG(fill, w) {
-  return `<svg width="${w}" height="${w * 1.2}" viewBox="0 0 100 120"><circle cx="50" cy="28" r="23" fill="${fill}"/>` +
-    `<path d="M6 120 C6 80 26 60 50 60 C74 60 94 80 94 120 Z" fill="${fill}"/></svg>`;
+function personSVG(grad, w) {
+  return `<svg width="${w}" height="${w * 1.2}" viewBox="0 0 100 120" style="overflow:visible"><circle cx="50" cy="28" r="23" fill="url(#${grad})"/>` +
+    `<path d="M6 120 C6 80 26 60 50 60 C74 60 94 80 94 120 Z" fill="url(#${grad})"/></svg>`;
 }
-function corners(g, x0, y0, x1, y1, L, attrs) {
-  const d = `M${x0} ${y0 + L}V${y0}H${x0 + L} M${x1 - L} ${y0}H${x1}V${y0 + L} M${x1} ${y1 - L}V${y1}H${x1 - L} M${x0 + L} ${y1}H${x0}V${y1 - L}`;
-  return sv('path', g, Object.assign({ d, fill: 'none', 'stroke-linecap': 'square' }, attrs));
-}
+const cornerPaths = (x0, y0, x1, y1, L) => [`M${x0} ${y0 + L}V${y0}H${x0 + L}`, `M${x1 - L} ${y0}H${x1}V${y0 + L}`, `M${x1} ${y1 - L}V${y1}H${x1 - L}`, `M${x0 + L} ${y1}H${x0}V${y1 - L}`];
 addScene({
-  start: TL.scenes[2][0], end: TL.scenes[2][1], enter: 'drop', exit: 'zoomThrough',
   build(c, S) {
-    S.vf = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 960px' });
-    corners(layer(S.vf), 110, 330, 970, 1400, 170, { stroke: ACC, 'stroke-width': 6 });
-    S.h1 = tagColor(textLine(c, 560, [{ t: 'They can’t see' }], Object.assign({}, HEAD, { fontSize: '76px' })), []).chars;
-    S.h2 = tagColor(textLine(c, 630, [{ t: 'what you do.', cls: 'serif' }], { fontSize: '96px', left: '60px' }), [RGB.accent]).chars;
-    const P5 = [[250, .62], [385, .86], [540, 1.12], [695, .86], [830, .62]];
-    S.ppl = P5.map(([x, k], i) => at(el('div', c, 'ctr', {}, personSVG(i === 2 ? TXT : ACC, 120 * k)), x, 960 + (1 - k) * 40));
-    S.foc = at(el('div', c, 'ctr', { width: '190px', height: '200px' }), 540, 958);
-    corners(sv('svg', S.foc, { width: 190, height: 200, viewBox: '0 0 190 200', style: 'overflow:visible' }), 3, 3, 187, 197, 30, { stroke: TXT, 'stroke-width': 5 });
-    S.cap = tagColor(textLine(c, 1160, [{ t: 'Your ideal client spends seconds\ndeciding if you’re worth their attention.' }], { fontSize: '30px', fontWeight: 500, lineHeight: 1.3, letterSpacing: '-0.02em' }), [[40, 40, 40]]).chars;
+    const s = svgFull(fullLayer(c, -40));
+    S.vf = cornerPaths(110, 330, 970, 1400, 170).map(d => sv('path', s, { d, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1 }));
+    S.h1 = textLine(c, 545, [{ t: 'They can’t see' }], Object.assign({}, HEAD, { fontSize: '78px' })).chars;
+    S.g = glow(c, 600, 700, 520, 260, -10);
+    S.h2 = textLine(c, 630, [{ t: 'what you do.', cls: 'serif', tone: 'acc' }], { fontSize: '104px', left: '60px' }).chars;
+    const P5 = [[245, .62, 0], [385, .86, 45], [540, 1.12, 95], [695, .86, 45], [835, .62, 0]];
+    S.ppl = P5.map(([x, k, z], i) => {
+      const d = at(el('div', c, 'ctr', { filter: 'drop-shadow(0 18px 18px rgba(80,30,0,.18))' }, personSVG(i === 2 ? 'gDarkV' : 'gAccV', 120 * k)), x, 965 + (1 - k) * 40);
+      d._z = z; return d;
+    });
+    S.focW = at(el('div', c, 'ctr'), 540, 958);
+    const fs = sv('svg', S.focW, { width: 200, height: 210, viewBox: '0 0 200 210', style: 'overflow:visible' });
+    S.foc = cornerPaths(3, 3, 197, 207, 30).map(d => sv('path', fs, { d, fill: 'none', stroke: 'url(#gDark)', 'stroke-width': 5, 'stroke-linecap': 'round', pathLength: 1 }));
+    S.cap = textLine(c, 1170, [{ t: 'Your ideal client spends seconds\ndeciding if you’re worth their attention.', tone: 'gray' }], { fontSize: '30px', fontWeight: 500, lineHeight: 1.32, letterSpacing: '-0.015em' }).chars;
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .08 * eio(P(lt, 0, 1.5)) });
-    const v = P(lt, .05, .45); TT(S.vf, { s: 1.12 - .12 * eo(v), o: eo(v) });
-    typeG(S.h1, lt, .1, .028);
-    typeG(S.h2, lt, .45, .03);
-    S.ppl.forEach((e, i) => { const p = P(lt, .12 + Math.abs(i - 2) * .08, .12 + Math.abs(i - 2) * .08 + 9 * FR); T(e, { s: pop(p), o: p > 0 ? 1 : 0 }); mb(e, 0, 10 * (1 - p) ** 2 * (p > 0)); });
-    const f = P(lt, .55, .55 + 9 * FR);
-    T(S.foc, { s: 1.4 - .4 * eo(f), o: f > 0 ? 1 : 0 });
-    typeG(S.cap, lt, .75, .009);
+    S.vf.forEach((v, i) => dash(v, E(lt, -.2 + i * .06, .5 + i * .06)));
+    typeIn(S.h1, lt, .0, .026);
+    typeIn(S.h2, lt, .3, .03);
+    S.g.style.opacity = E(lt, .4, .9);
+    S.ppl.forEach((e, i) => {
+      const a = -.25 + Math.abs(i - 2) * .12, p = E(lt, a, a + .6);
+      T(e, { y: 70 * (1 - p), z: e._z * p - 120 * (1 - p), s: .85 + .15 * p, o: p });
+    });
+    const f = E(lt, .35, .85);
+    T(S.focW, { s: 1.3 - .3 * f, o: f, z: 110 });
+    S.foc.forEach(p => dash(p, f));
+    typeIn(S.cap, lt, .55, .008, .3);
   },
 });
 
 /* =====================================================================
-   SCENE 4 — PROBLEM  4.5–6.0  "Is a second you're losing them."
+   SCENE 4 — PROBLEM  "is a second you're losing them."
    ===================================================================== */
-const STARS = n => `<div style="color:${ACC};font-size:20px;letter-spacing:3px;margin-top:10px">${'★'.repeat(n)}<span style="color:#DDD">${'★'.repeat(5 - n)}</span><span style="color:#999;font-size:15px;letter-spacing:0;margin-left:8px">${n}.0</span></div>`;
-const review = (ini, role, q, n) => `<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
-  <div style="width:46px;height:46px;border-radius:50%;background:#F1F1F1;color:#777;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center">${ini}</div>
-  <div><div style="font-size:18px;font-weight:600">${role}</div><div style="font-size:14px;color:#9A9A9A">Verified client</div></div></div>
-  <div style="font-size:17px;line-height:1.35;color:#333">“${q}”</div>${STARS(n)}`;
+const STARS = n => `<div style="margin-top:10px;font-size:20px;letter-spacing:3px"><span class="tg-acc" style="filter:drop-shadow(0 0 6px rgba(255,130,28,.5))">${'★'.repeat(n)}</span><span style="color:#E2E2E2">${'★'.repeat(5 - n)}</span><span style="color:#9a9a9a;font-size:15px;letter-spacing:0;margin-left:8px">${n}.0</span></div>`;
+const AVATAR = g => `<div style="width:48px;height:48px;flex:none;border-radius:50%;background:${g};display:flex;align-items:flex-end;justify-content:center;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)">
+  <svg width="40" height="40" viewBox="0 0 100 100"><circle cx="50" cy="38" r="20" fill="rgba(255,255,255,.92)"/><path d="M14 104 C14 72 32 62 50 62 C68 62 86 72 86 104 Z" fill="rgba(255,255,255,.92)"/></svg></div>`;
+const review = (g, role, q, n) => `<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">${AVATAR(g)}
+  <div><div class="tg-dark" style="font-size:18px;font-weight:600">${role}</div><div style="font-size:14px;color:#9A9A9A">Verified client</div></div></div>
+  <div style="color:#3a3a3a">“${q}”</div>${STARS(n)}`;
 const CARDS = [
-  review('SK', 'Founder', 'Loved the visuals, but I’m still not completely sure what they actually do.', 3),
-  review('JT', 'SaaS CEO', 'Had to read the whole page twice to understand the offer.', 2),
-  review('PS', 'Head of Growth', 'Interested, but confused about how it works and what the next step is.', 3),
+  review('linear-gradient(135deg,#FFB862,#E65000)', 'Founder', 'Loved the visuals, but I’m still not completely sure what they actually do.', 3),
+  review('linear-gradient(135deg,#5a5a5a,#000)', 'SaaS CEO', 'Had to read the whole page twice to understand the offer.', 2),
+  review('linear-gradient(135deg,#FFC98F,#FF821C)', 'Head of Growth', 'Interested, but confused about how it works and what the next step is.', 3),
 ];
 addScene({
-  start: TL.scenes[3][0], end: TL.scenes[3][1], enter: 'zoomIn', exit: 'whipUp',
   build(c, S) {
-    const s = layer(c);
-    S.q = [400, 540, 680].map((x, i) => {
-      const t = sv('text', s, { x, y: 1060, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-weight': 600, 'font-size': 300, fill: 'none', stroke: ACC, 'stroke-width': 3.5 });
-      t.textContent = '?'; return t;
-    });
-    S.h = tagColor(textLine(c, 922, [{ t: 'Is a second you’re ' }, { t: 'losing', style: { color: ACC } }, { t: ' them.' }], HEAD), [RGB.text, RGB.accent, RGB.text]).chars;
-    S.cards = [[290, 560, -3], [810, 690, 3], [380, 1340, 2]].map(([x, y, r], i) => {
-      const e = at(el('div', c, 'card', { width: '320px', padding: '22px 24px', borderRadius: '22px', boxShadow: '0 16px 44px rgba(10,10,10,.08), 0 1px 4px rgba(10,10,10,.05)' }, CARDS[i]), x, y); e._r = r; return e;
+    const s = svgFull(fullLayer(c, -90));
+    S.q = [400, 540, 680].map(x => { const t = sv('text', s, { x, y: 1070, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-weight': 600, 'font-size': 310, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 4 }); t.textContent = '?'; return t; });
+    S.g = glow(c, 640, 960, 420, 240, -10);
+    S.h = textLine(c, 922, [{ t: 'Is a second you’re ' }, { t: 'losing', tone: 'acc' }, { t: ' them.' }], HEAD).chars;
+    S.cards = [[290, 560, -4, 14, 130], [810, 690, 3, -16, 170], [380, 1350, 2, 12, 110]].map(([x, y, r, ry, z], i) => {
+      const e = at(el('div', c, 'card', {}, CARDS[i]), x, y); Object.assign(e, { _r: r, _ry: ry, _z: z }); return e;
     });
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .06 * eio(P(lt, 0, 1.5)) });
-    S.q.forEach((t, i) => {
-      const p = eo(P(lt, .05 + i * .07, .45 + i * .07));
-      t.setAttribute('opacity', .32 * p);
-      t.setAttribute('transform', `translate(0 ${30 * (1 - p) + 6 * Math.sin(lt * 3 + i)})`);
-    });
-    typeG(S.h, lt, .08, .02);
+    S.q.forEach((t, i) => { const p = E(lt, -.2 + i * .1, .5 + i * .1); t.setAttribute('opacity', .4 * p); t.setAttribute('transform', `translate(0 ${40 * (1 - p) + 6 * Math.sin(lt * 2.4 + i)})`); });
+    typeIn(S.h, lt, .0, .02);
+    S.g.style.opacity = E(lt, .5, 1.0);
     S.cards.forEach((e, i) => {
-      const a = .3 + i * .22, p = P(lt, a, a + 9 * FR);
-      T(e, { r: e._r, s: pop(p), o: p > 0 ? 1 : 0, y: -5 * Math.sin(lt * 2 + i) });
-      mb(e, 12 * (1 - p) ** 2 * (p > 0), 12 * (1 - p) ** 2 * (p > 0));
+      const a = .05 + i * .22, p = E(lt, a, a + .75);
+      T(e, { r: e._r, ry: e._ry + 50 * (1 - p), rx: 20 * (1 - p), z: e._z * p - 420 * (1 - p), y: 60 * (1 - p) - 8 * Math.sin(lt * 1.8 + i), o: p });
     });
   },
 });
 
 /* =====================================================================
-   SCENE 5 — COUNTER  6.0–7.0
+   SCENE 5 — COUNTER  "Sixteen competitors. One scroll away."
    ===================================================================== */
 addScene({
-  start: TL.scenes[4][0], end: TL.scenes[4][1], enter: 'fromBottom', exit: 'zoomThrough',
   build(c, S) {
-    S.ringW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 920px' });
-    S.g = glow(S.ringW, 640, 920, 760, 760); S.g.style.opacity = .9;
-    const s = layer(S.ringW);
-    sv('circle', s, { cx: 540, cy: 920, r: 190, fill: 'none', stroke: '#D4D4D4', 'stroke-width': 30 });
-    const mk = (extra) => sv('circle', s, Object.assign({ cx: 540, cy: 920, r: 190, fill: 'none', stroke: ACC, pathLength: 1, 'stroke-linecap': 'butt', transform: 'rotate(-90 540 920)' }, extra));
-    S.arcG = mk({ 'stroke-width': 54, opacity: .35, style: 'filter:blur(16px)' });
-    S.arc = mk({ 'stroke-width': 30 });
-    S.num = at(el('div', S.ringW, 'ctr', { fontSize: '150px', fontWeight: 600, letterSpacing: '-4px', fontVariantNumeric: 'tabular-nums' }), 540, 925);
-    S.lab = tagColor(textLine(c, 1150, [{ t: 'competitors, one ' }, { t: 'scroll', style: { color: ACC } }, { t: ' away' }], HEAD), [RGB.text, RGB.accent, RGB.text]).chars;
+    const hold = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', perspective: '1700px', perspectiveOrigin: '540px 900px' });
+    S.rw = at(el('div', hold, 'abs p3', { width: '600px', height: '600px', transformOrigin: '300px 300px' }), 240, 600);
+    const lay = (z, html, style = {}) => { const d = el('div', S.rw, 'abs', Object.assign({ left: 0, top: 0, width: '600px', height: '600px' }, style), html); d.style.transform = `translateZ(${z}px)`; return d; };
+    S.sh = lay(-60, '', { borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,110,0,.30), rgba(255,110,0,0))', filter: 'blur(20px)' });
+    const ring = (stroke, w, extra = '') => `<svg width="600" height="600" viewBox="0 0 600 600" style="position:absolute;left:0;top:0;overflow:visible"><circle cx="300" cy="300" r="200" fill="none" stroke="${stroke}" stroke-width="${w}" ${extra}/></svg>`;
+    S.track = lay(0, ring('url(#gTrack)', 34));
+    S.trackIn = lay(2, ring('rgba(255,255,255,.7)', 2, 'transform="translate(0 -1)"'));
+    S.arcGl = lay(14, ring('#FF821C', 54, 'pathLength="1" transform="rotate(-90 300 300)" style="filter:blur(14px)" opacity=".45"'));
+    S.arcL = lay(20, ring('url(#gAcc)', 34, 'pathLength="1" stroke-linecap="round" transform="rotate(-90 300 300)"'));
+    S.num = at(el('div', S.rw, 'ctr tg-dark', { fontSize: '156px', fontWeight: 600, letterSpacing: '-5px', fontVariantNumeric: 'tabular-nums', filter: GLOW.dark }), 300, 305);
+    S.num.style.transform = 'translate(-50%,-50%) translateZ(50px)';
+    S.arcs = [S.arcGl, S.arcL].map(l => l.querySelector('circle'));
+    S.lab = textLine(c, 1250, [{ t: 'competitors, one ' }, { t: 'scroll', tone: 'acc' }, { t: ' away' }], HEAD).chars;
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .04 * eio(P(lt, 0, S.end - S.start)) });
-    const m = eo(P(lt, 0, .6));
-    TT(S.ringW, { x: -280 * (1 - m), y: 560 * (1 - m), s: .5 + .5 * m });
-    mb(S.ringW, 12 * (1 - m) ** 2, 12 * (1 - m) ** 2);
-    const c = P(lt, .1, .7);
-    S.num.textContent = Math.round(5 + 11 * eo(c));
-    const ap = .15 + .55 * eo(c);
-    [S.arc, S.arcG].forEach(a => a.setAttribute('stroke-dasharray', `${ap} 1`));
-    typeG(S.lab, lt, .3, .018);
+    const m = E(lt, -.3, .9);
+    TT(S.rw, { x: -300 * (1 - m), y: 560 * (1 - m), s: .45 + .55 * m, rx: 62 * (1 - m) + 8 * Math.sin(lt * .8), ry: -30 * (1 - m) + 10 * Math.sin(lt * .6 + 1), z: -200 * (1 - m) });
+    [S.sh, S.track, S.trackIn, S.arcGl, S.arcL, S.num].forEach(l => l.style.opacity = E(lt, -.3, .2));
+    const cnt = E(lt, .05, 1.0);
+    S.num.textContent = Math.round(5 + 11 * cnt);
+    S.arcs.forEach(a => dash(a, .12 + .6 * cnt));
+    typeIn(S.lab, lt, .55, .02);
   },
 });
 
 /* =====================================================================
-   SCENE 6 — PAIN ×3  7.0–11.0  extruded hexagon honeycomb
+   SCENE 6 — PAIN ×3  hexagons: outline draws → gradient fill → icon draws → callout → label
    ===================================================================== */
 const ICONS = {
-  trust: `<path d="M60 10 L98 25 V58 C98 84 80 100 60 108 C40 100 22 84 22 58 V25 Z"/><path d="M60 26 V92" stroke-width="5" opacity=".9"/><path d="M62 30 L52 56 L68 66 L56 92"/>`,
-  leads: `<circle cx="60" cy="58" r="44"/><circle cx="60" cy="58" r="28"/><circle cx="60" cy="58" r="10"/><path d="M60 4 V24 M60 92 V112 M6 58 H26 M94 58 H114"/>`,
-  deals: `<path d="M30 12 H74 L92 30 V108 H30 Z"/><path d="M74 12 V30 H92"/><path d="M44 56 H78 M44 72 H78 M44 88 H62"/><circle cx="84" cy="94" r="16" fill="${ACC}"/><path d="M78 88 L90 100 M90 88 L78 100"/>`,
+  trust: ['M60 6 L102 23 V58 C102 87 83 104 60 114 C37 104 18 87 18 58 V23 Z', 'M60 20 L90 32 V58 C90 79 77 92 60 100 C43 92 30 79 30 58 V32 Z', 'M65 30 L54 53 L69 63 L56 90', 'M100 94 l9 7 M93 107 l5 10'],
+  leads: ['M60 14 A46 46 0 1 1 59.9 14', 'M60 27 A33 33 0 1 1 59.9 27', 'M60 2 V16 M60 104 V118 M2 60 H16 M104 60 H118', 'M52 50 a8 8 0 1 1 16 0 a8 8 0 1 1 -16 0 M42 80 a18 14 0 0 1 36 0', 'M98 98 a13 13 0 1 1 0.1 0 M92 98 H104'],
+  deals: ['M42 46 C24 60 24 94 46 100 H72 C94 94 94 60 76 46 Z', 'M44 46 H74 M48 46 L42 30 H76 L70 46', 'M60 58 V92 M68 65 C66 60 52 60 52 67 C52 75 68 72 68 80 C68 87 54 87 52 82', 'M92 120 V102 M104 120 V108 M116 120 V114', 'M88 82 L112 100 M112 100 H102 M112 100 V90'],
 };
-function hexSVG(icon) {
-  const poly = r => { const p = []; for (let i = 0; i < 6; i++) { const a = (-90 + i * 60) * Math.PI / 180; p.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1)); } return p.join(' '); };
-  return `<svg width="320" height="320" viewBox="-160 -160 320 320" style="overflow:visible">` +
-    `<polygon points="${poly(128)}" transform="translate(0 12)" fill="${TXT}" stroke="${TXT}" stroke-width="16" stroke-linejoin="round"/>` +
-    `<polygon points="${poly(128)}" fill="${ACC}" stroke="${ACC}" stroke-width="16" stroke-linejoin="round"/>` +
-    `<g transform="translate(-60 -60)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">${icon}</g></svg>`;
+function hexSVG(i, icon) {
+  const poly = r => { const p = []; for (let k = 0; k < 6; k++) { const a = (-90 + k * 60) * Math.PI / 180; p.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1)); } return p.join(' '); };
+  return `<svg width="320" height="330" viewBox="-160 -160 320 330" style="overflow:visible">
+   <defs><clipPath id="hc${i}"><circle class="clip" cx="0" cy="0" r="0"/></clipPath></defs>
+   <polygon class="ext" points="${poly(130)}" transform="translate(0 16)" fill="url(#gDark)" stroke="url(#gDark)" stroke-width="14" stroke-linejoin="round" opacity="0"/>
+   <g clip-path="url(#hc${i})"><polygon points="${poly(130)}" fill="url(#gAcc)" stroke="url(#gAcc)" stroke-width="14" stroke-linejoin="round"/>
+     <polygon points="${poly(112)}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"/></g>
+   <polygon class="out" points="${poly(130)}" fill="none" stroke="url(#gAcc)" stroke-width="7" stroke-linejoin="round" pathLength="1" stroke-dasharray="0 1"/>
+   <g transform="translate(-60 -60)" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px rgba(255,255,255,.6))">
+     ${icon.map(d => `<path class="ic" d="${d}" pathLength="1" stroke-dasharray="0 1"/>`).join('')}</g></svg>`;
 }
 addScene({
-  start: TL.scenes[5][0], end: TL.scenes[5][1], enter: 'zoomIn', exit: 'spinOut',
   build(c, S) {
-    const hx = [[418, 880, 'trust'], [662, 880, 'leads'], [540, 1091, 'deals']];
-    S.hex = hx.map(([x, y, k]) => at(el('div', c, 'ctr', {}, hexSVG(ICONS[k])), x, y));
-    const s = layer(c);
-    S.lines = ['M418 738 L418 690 L345 622', 'M662 738 L662 690 L735 622', 'M540 1240 L540 1288 L613 1356']
-      .map(d => sv('path', s, { d, fill: 'none', stroke: TXT, 'stroke-width': 3.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': '0 1' }));
-    const lab = (t, st) => tagColor(textLine(c, 0, [{ t }], Object.assign({ fontSize: '40px', fontWeight: 500, letterSpacing: '-0.02em', width: 'auto' }, st)), []).chars;
-    S.labels = [lab('Losing trust', { left: 'auto', right: px(1080 - 360), top: '560px' }), lab('Losing leads', { left: '720px', top: '560px' }), lab('Losing deals', { left: '598px', top: '1366px' })];
+    const hx = [[418, 880, 'trust', 40], [662, 880, 'leads', 40], [540, 1091, 'deals', 80]];
+    S.hex = hx.map(([x, y, k, z], i) => {
+      const g = glow(c, x, y + 10, 460, 460, z - 30);
+      const d = at(el('div', c, 'ctr', { filter: 'drop-shadow(0 24px 22px rgba(120,40,0,.22))' }, hexSVG(i, ICONS[k])), x, y);
+      return { d, g, z, clip: d.querySelector('.clip'), ext: d.querySelector('.ext'), out: d.querySelector('.out'), ic: [...d.querySelectorAll('.ic')] };
+    });
+    const s = svgFull(fullLayer(c, 10));
+    S.lines = ['M418 732 L418 690 L345 622', 'M662 732 L662 690 L735 622', 'M540 1245 L540 1288 L613 1356']
+      .map(d => sv('path', s, { d, fill: 'none', stroke: 'url(#gDark)', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': '0 1' }));
+    S.dots = [[345, 622], [735, 622], [613, 1356]].map(([x, y]) => sv('circle', s, { cx: x, cy: y, r: 7, fill: 'url(#gAcc)', opacity: 0 }));
+    const lab = (w, st) => textLine(c, 0, [{ t: 'Losing ' }, { t: w, cls: 'serif', tone: 'acc', style: { fontSize: '62px' } }], Object.assign({ fontSize: '42px', fontWeight: 500, letterSpacing: '-0.02em', width: 'auto' }, st)).chars;
+    S.labels = [lab('trust', { left: 'auto', right: px(1080 - 330), top: '545px' }), lab('leads', { left: '750px', top: '545px' }), lab('deals', { left: '628px', top: '1330px' })];
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1.22 - .22 * eio(P(lt, 0, 4)), y: 20 * (1 - eio(P(lt, 0, 4))) });
     TL.cue.s6_hex.forEach((a, i) => {
-      const p = P(lt, a, a + 9 * FR);
-      T(S.hex[i], { s: pop(p), o: p > 0 ? 1 : 0 });
-      mb(S.hex[i], 14 * (1 - p) ** 2 * (p > 0), 14 * (1 - p) ** 2 * (p > 0));
-      S.lines[i].setAttribute('stroke-dasharray', `${eo(P(lt, a + .2, a + .5))} 1`);
-      typeG(S.labels[i], lt, a + .42, .028);
+      const H = S.hex[i];
+      const o = E(lt, a, a + .45), f = E(lt, a + .3, a + .75);
+      dash(H.out, o);
+      H.clip.setAttribute('r', (175 * f).toFixed(1));
+      H.ext.setAttribute('opacity', E(lt, a + .45, a + .8));
+      H.ic.forEach((p, j) => dash(p, E(lt, a + .55 + j * .06, a + .95 + j * .06)));
+      T(H.d, { z: H.z, s: .9 + .1 * o, o: o > 0 ? 1 : 0, ry: 18 * (1 - f), rx: -10 * (1 - f) });
+      H.g.style.opacity = .9 * f;
+      dash(S.lines[i], E(lt, a + .8, a + 1.1));
+      S.dots[i].setAttribute('opacity', E(lt, a + 1.0, a + 1.15));
+      typeIn(S.labels[i], lt, a + .95, .03);
     });
   },
 });
 
 /* =====================================================================
-   SCENE 7 — ONE-WORD BEATS  11.0–13.0  "The · best · brands"
+   SCENE 7 — WORD BEATS  "The · best · brands"
    ===================================================================== */
 addScene({
-  start: TL.scenes[6][0], end: TL.scenes[6][1], enter: 'spinIn', exit: 'zoomOut',
   build(c, S) {
     S.words = ['The', 'best', 'brands'].map(w => {
-      const g = glow(c, 540, 960, 520, 520);
-      const e = at(el('div', c, 'ctr', { color: ACC, fontSize: '92px', fontWeight: 500, letterSpacing: '-0.035em', whiteSpace: 'nowrap' }), 540, 960);
+      const g = glow(c, 540, 960, 560, 560, -20);
+      const e = at(el('div', c, 'ctr sans tg-acc', { fontSize: '98px', fontWeight: 500, letterSpacing: '-0.035em', whiteSpace: 'nowrap' }), 540, 960);
       e.textContent = w; return { e, g };
     });
   },
   update(lt) {
     const S = this, A = [...TL.cue.s7_words, 99];
-    TT(S.cam, { s: 1 + .04 * lt });
     S.words.forEach(({ e, g }, i) => {
-      const a = A[i], q = P(lt, a, a + 6 * FR), x = P(lt, A[i + 1] - 4 * FR, A[i + 1]);
-      const vis = q > 0 && x < 1;
-      T(e, { s: (1.3 - .3 * eo(q)) * (1 - .4 * eo(x)) * (1 + .06 * P(lt, a, a + .7)), o: vis ? Math.min(1, q * 2) * (1 - x) : 0 });
-      mb(e, 12 * (1 - q) ** 2 + 8 * x * x, 12 * (1 - q) ** 2 + 8 * x * x);
-      g.style.opacity = vis ? eo(P(lt, a, a + 10 * FR)) * (1 - x) : 0;
+      const a = A[i] - .12, q = E(lt, a, a + .4), x = E(lt, A[i + 1] - .3, A[i + 1] + .02);
+      const vis = q > 0 && x < 1, b = 9 * (1 - q) + 6 * x;
+      T(e, { s: (1.14 - .14 * q) * (1 - .12 * x) * (1 + .04 * P(lt, a, a + 1.2)), z: 60 * x, o: vis ? q * (1 - x) : 0 });
+      e.style.filter = (b > .15 ? `blur(${b.toFixed(2)}px) ` : '') + GLOW.acc;
+      g.style.opacity = vis ? q * (1 - x) : 0;
     });
   },
 });
 
 /* =====================================================================
-   SCENE 8 — CONTRAST  13.0–14.0  "don't say more."
+   SCENE 8 — CONTRAST  "don't say more."
    ===================================================================== */
 addScene({
-  start: TL.scenes[7][0], end: TL.scenes[7][1], enter: 'bigIn', exit: 'zoomAway',
-  build(c, S) {
-    const l = textLine(c, 905, [{ t: 'don’t say more.', cls: 'serif' }], { fontSize: '128px' });
-    S.chars = l.chars; S.chars.forEach(ch => ch.style.display = 'inline-block');
-  },
-  update(lt) {
-    const S = this;
-    TT(S.cam, { s: 1 + .05 * lt });
-    S.chars.forEach((ch, i) => {
-      const a = .03 + i * .03, p = P(lt, a, a + 6 * FR);
-      ch.style.opacity = eo(p);
-      ch.style.color = mix(LIGHT, RGB.text, eo(p));
-      const b = 12 * (1 - eo(p));
-      ch.style.filter = b > .3 ? `blur(${b.toFixed(1)}px)` : '';
-    });
-  },
+  build(c, S) { S.chars = textLine(c, 900, [{ t: 'don’t say more.', cls: 'serif' }], { fontSize: '134px' }).chars; },
+  update(lt) { typeIn(this.chars, lt, -.05, .035, .5); },
 });
 
 /* =====================================================================
-   SCENE 9 — BENEFITS  14.0–21.0  pill word-cloud
+   SCENE 9 — BENEFITS  gradient pill cloud
    ===================================================================== */
 addScene({
-  start: TL.scenes[8][0], end: TL.scenes[8][1], enter: 'fadeScale', exit: 'whipLeft',
   build(c, S) {
-    S.rings = [[540, 80], [560, 1880], [80, 1250]].map(([x, y], i) => at(el('div', c, 'ctr', {
-      width: px(i === 2 ? 560 : 820), height: px(i === 2 ? 560 : 820), borderRadius: '50%',
-      background: 'radial-gradient(circle, rgba(255,130,28,0) 47%, rgba(255,130,28,.16) 59%, rgba(255,130,28,0) 71%)' }), x, y));
-    const rows = [
-      [['They’re focused.', 'f', 0], ['Sharper', 'o', 1]],
-      [['Strategic', 'o', 2], ['They simplify the message', 'f', 3]],
-      [['They build trust instantly', 'f', 4]],
-      [['They make choosing easy', 'o', 5]],
-    ];
+    S.rings = [[540, 90, 840, -260], [570, 1860, 860, -260], [70, 1240, 560, -180]].map(([x, y, d, z]) => {
+      const e = at(el('div', c, 'ctr', { width: px(d), height: px(d), borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255,130,28,0) 46%, rgba(255,150,60,.18) 57%, rgba(255,110,10,.10) 62%, rgba(255,130,28,0) 72%)' }), x, y);
+      e._z = z; return e;
+    });
+    const rows = [[['They’re focused.', 'f', 0], ['Sharper', 'o', 1]], [['Strategic', 'o', 2], ['They simplify the message', 'f', 3]], [['They build trust instantly', 'f', 4]], [['They make choosing easy', 'o', 5]]];
     S.pills = [];
     rows.forEach((r, ri) => {
-      const row = el('div', c, 'abs', { left: '0', width: '1080px', top: px(790 + ri * 116), display: 'flex', justifyContent: 'center', gap: '16px',
-        paddingLeft: ri === 3 ? '170px' : ri === 2 ? '0' : '0', boxSizing: 'border-box' });
-      r.forEach(([t, k, a], j) => {
-        const e = el('div', row, 'pill ' + k, { position: 'relative', transform: 'none', fontSize: '38px', fontWeight: 500, padding: '18px 38px', letterSpacing: '-0.02em' });
-        e.textContent = t;
-        S.pills.push({ e, a: TL.cue.s9_pills[a] - S.start, side: (ri + j) % 2 ? -1 : 1 });
+      const row = el('div', c, 'abs p3', { left: '0', width: '1080px', top: px(780 + ri * 120), display: 'flex', justifyContent: 'center', gap: '18px', paddingLeft: ri === 3 ? '170px' : '0', boxSizing: 'border-box' });
+      r.forEach(([t, k, idx], j) => {
+        const e = el('div', row, 'pill ' + k);
+        el('span', e, k === 'f' ? 'tg-white gl-white grp' : 'tg-dark grp', {}, t);
+        S.pills.push({ e, a: TL.cue.s9_pills[idx] - S.start, side: (ri + j) % 2 ? -1 : 1 });
       });
     });
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .05 * eio(P(lt, 0, S.end - S.start)) });
-    S.rings.forEach((e, i) => {
-      const q = eo(P(lt, -.05, .8));
-      T(e, { s: (2 - 1 * q) * (1 + .05 * Math.sin(lt * .5 + i)), x: 40 * Math.sin(lt * .35 + i * 2), y: 30 * Math.cos(lt * .3 + i), o: q });
-      mb(e, 26 * (1 - q), 26 * (1 - q));
-    });
+    S.rings.forEach((e, i) => { const q = E(lt, -.5, .9); T(e, { s: (1.6 - .6 * q) * (1 + .05 * Math.sin(lt * .5 + i)), x: 40 * Math.sin(lt * .35 + i * 2), y: 30 * Math.cos(lt * .3 + i), z: e._z, o: q }); });
     S.pills.forEach(({ e, a, side }) => {
-      const q = P(lt, a, a + 8 * FR);
-      e.style.transform = `translateX(${side * 900 * (1 - eo(q))}px)`;
-      e.style.opacity = q > 0 ? 1 : 0;
-      mb(e, 60 * (1 - q) ** 2 * (q > 0), 0);
+      const q = E(lt, a - .12, a + .45);
+      e.style.transform = `translate3d(${side * 700 * (1 - q)}px,0,${-200 * (1 - q)}px) rotateY(${side * -35 * (1 - q)}deg)`;
+      e.style.opacity = q;
+      const b = 10 * (1 - q);
+      e.style.filter = b > .15 ? `blur(${b.toFixed(2)}px)` : '';
     });
   },
 });
 
 /* =====================================================================
-   SCENE 10 — PUNCHLINE  21.0–24.5  "Design isn't decoration —  It's strategy."
+   SCENE 10 — PUNCHLINE  "Design isn't decoration. — It's strategy."
    ===================================================================== */
 function ovalPath(cx, cy, rx, ry, tilt) {
   const pts = [], N = 90, a0 = -195, a1 = 185;
@@ -478,41 +506,34 @@ function ovalPath(cx, cy, rx, ry, tilt) {
   return 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
 }
 addScene({
-  start: TL.scenes[9][0], end: TL.scenes[9][1], enter: 'fromRight', exit: 'zoomThrough',
   build(c, S) {
-    S.setW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px' });
-    const sl = tagColor(textLine(S.setW, 925, [{ t: 'Design isn’t decoration —' }], { fontSize: '54px', fontWeight: 500, letterSpacing: '-0.03em' }), []);
+    S.setW = fullLayer(c, 0);
+    const sl = textLine(S.setW, 925, [{ t: 'Design isn’t decoration —' }], { fontSize: '54px', fontWeight: 500, letterSpacing: '-0.03em' });
     S.set = sl.chars; S.setG = sl.groups[0];
-    S.punW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 960px' });
-    S.g = glow(S.punW, 540, 960, 1000, 640); S.g.style.opacity = 0;
-    const pl = textLine(S.punW, 898, [{ t: 'It’s strategy.', whole: true, block: true }], { fontSize: '108px', fontWeight: 600, letterSpacing: '-0.045em' });
+    S.punW = fullLayer(c, 40, 'abs p3');
+    S.g = glow(S.punW, 540, 962, 1000, 600, -20);
+    const pl = textLine(S.punW, 896, [{ t: 'It’s strategy.', whole: true }], { fontSize: '110px', fontWeight: 600, letterSpacing: '-0.045em' });
     S.punG = pl.groups[0];
-    const s = layer(S.punW);
-    S.oval = sv('path', s, { d: ovalPath(540, 962, 400, 108, -2), fill: 'none', stroke: ACC, 'stroke-width': 5.5, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '0 1' });
+    const s = svgFull(el('div', S.punW, 'abs', { left: 0, top: 0 }));
+    S.ovalG = sv('path', s, { d: ovalPath(540, 962, 400, 112, -2), fill: 'none', stroke: '#FF821C', 'stroke-width': 18, opacity: .35, pathLength: 1, style: 'filter:blur(8px)' });
+    S.oval = sv('path', s, { d: ovalPath(540, 962, 400, 112, -2), fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1 });
   },
-  measure(S) {
-    const a = rel(S.setG), b = rel(S.punG);
-    S.shift = (540 - b.w / 2 - 34 - a.w / 2) - 540;  // setup ends just left of the punchline
-  },
+  measure(S) { const a = rel(S.setG, S.panel), b = rel(S.punG, S.panel); S.shift = (540 - b.w / 2 - 34 - a.w / 2) - 540; },
   update(lt) {
-    const S = this;
-    const p0 = TL.cue.s10_punch, [s0, per] = TL.cue.s10_set;
-    const pan = eo(P(lt, p0 - .12, p0 + .38));
-    TT(S.cam, { x: 0, s: 1 + .03 * eio(P(lt, 0, p0)) + .07 * eio(P(lt, p0, S.end - S.start)) });
-    typeG(S.set, lt, s0, per);
-    TT(S.setW, { x: (S.shift - 1080 * 0) * pan });
-    mb(S.setW, 36 * Math.sin(Math.PI * pan) * (pan < 1), 0);
-    if (pan > 0) S.set.forEach(ch => ch.style.color = mix(RGB.text, [175, 175, 175], pan));
-    const q = P(lt, p0 - .06, p0 - .06 + 9 * FR);
-    TT(S.punW, { x: 900 * (1 - eo(q)), o: q > 0 ? 1 : 0 });
-    mb(S.punW, 80 * (1 - q) ** 2 * (q > 0), 0);
-    S.g.style.opacity = eo(P(lt, p0 + .3, p0 + .8));
-    S.oval.setAttribute('stroke-dasharray', `${eo(P(lt, p0 + .45, p0 + .95))} 1`);
+    const S = this, p0 = TL.cue.s10_punch, [s0, per] = TL.cue.s10_set;
+    typeIn(S.set, lt, s0, per);
+    const pan = CE(P(lt, p0 - .25, p0 + .45));
+    TT(S.setW, { x: S.shift * pan, o: 1 - .62 * pan });
+    const q = E(lt, p0 - .15, p0 + .45);
+    TT(S.punW, { x: 760 * (1 - q), z: 40 - 200 * (1 - q), ry: -25 * (1 - q), o: q });
+    const b = 10 * (1 - q); S.punG.style.filter = (b > .15 ? `blur(${b.toFixed(2)}px) ` : '') + GLOW.dark;
+    S.g.style.opacity = E(lt, p0 + .2, p0 + .8);
+    dash(S.oval, E(lt, p0 + .4, p0 + 1.05)); dash(S.ovalG, E(lt, p0 + .4, p0 + 1.05));
   },
 });
 
 /* =====================================================================
-   SCENE 11 — OUTRO  24.5–27.0  logo · handle scramble
+   SCENE 11 — OUTRO  logo · CTA · handle scramble
    ===================================================================== */
 const LOGO = `<svg width="900" height="560" viewBox="0 0 900 560" style="overflow:visible">
 <defs>
@@ -525,69 +546,58 @@ const LOGO = `<svg width="900" height="560" viewBox="0 0 900 560" style="overflo
   <path id="revealPath" d="M760.2 157.9 A405 190 0 1 1 755.7 155.3" fill="none" stroke="#fff" stroke-width="150" pathLength="1" stroke-dasharray="0 1" transform="rotate(-14 450 280)"/>
  </mask>
 </defs>
-<g mask="url(#reveal)"><rect x="-100" y="-100" width="1100" height="760" fill="${ACC}" mask="url(#cres)"/></g>
+<g mask="url(#reveal)"><rect x="-100" y="-100" width="1100" height="760" fill="url(#gAcc)" mask="url(#cres)"/></g>
 <text x="450" y="378" text-anchor="middle" font-family="Inter" font-weight="800" font-size="290" letter-spacing="-10"
- fill="${TXT}" stroke="${BG}" stroke-width="26" paint-order="stroke" stroke-linejoin="round">ISP</text>
+ fill="url(#gDarkV)" stroke="#FFFFFF" stroke-width="26" paint-order="stroke" stroke-linejoin="round">ISP</text>
 </svg>`;
 addScene({
-  start: TL.scenes[10][0], end: TL.scenes[10][1], enter: 'fadeScale',
   build(c, S) {
-    S.cta = tagColor(textLine(c, 700, [{ t: 'Let’s build ' }, { t: 'yours.', cls: 'serif', style: { fontSize: '76px' } }], { fontSize: '50px', fontWeight: 500, letterSpacing: '-0.03em' }), [RGB.text, RGB.accent]).chars;
-    S.logo = at(el('div', c, 'ctr', {}, LOGO), 540, 945);
-    S.handle = at(el('div', c, 'ctr', { fontSize: '34px', fontWeight: 500, letterSpacing: '0px', whiteSpace: 'pre' }), 540, 1100);
+    S.g = glow(c, 540, 960, 900, 700, -40);
+    S.cta = textLine(c, 700, [{ t: 'Let’s build ' }, { t: 'yours.', cls: 'serif', tone: 'acc', style: { fontSize: '78px' } }], { fontSize: '50px', fontWeight: 500, letterSpacing: '-0.03em' }).chars;
+    S.logo = at(el('div', c, 'ctr', { filter: 'drop-shadow(0 18px 24px rgba(120,40,0,.18)) drop-shadow(0 0 30px rgba(255,130,28,.25))' }, LOGO), 540, 945);
+    S.handle = at(el('div', c, 'ctr tg-dark', { fontSize: '34px', fontWeight: 500, whiteSpace: 'pre', filter: GLOW.dark }), 540, 1100);
   },
   update(lt) {
     const S = this;
-    TT(S.cam, { s: 1 + .04 * eio(P(lt, 0, 2.5)) });
-    const p = P(lt, .08, .08 + 10 * FR);
-    T(S.logo, { s: pop(p) * .4, o: p > 0 ? 1 : 0 });
-    mb(S.logo, 16 * (1 - p) ** 2 * (p > 0), 16 * (1 - p) ** 2 * (p > 0));
+    const p = E(lt, -.2, .55);
+    T(S.logo, { s: .4 * (.75 + .25 * p), o: p, z: -150 * (1 - p), ry: -30 * (1 - p) });
+    S.g.style.opacity = .8 * E(lt, 0, .8);
     if (!S.rp) S.rp = document.getElementById('revealPath');
-    S.rp.setAttribute('stroke-dasharray', `${eo(P(lt, .18, .8))} 1`);
-    typeG(S.cta, lt, TL.cue.s11_cta, .035);
+    dash(S.rp, E(lt, .05, .85));
+    typeIn(S.cta, lt, TL.cue.s11_cta, .035);
     const target = '@isp_agency_', pool = 'abcdefghijklmnopqrstuvwxyz0123456789#$%&?_';
-    const sp = P(lt, .3, 1.0), f = Math.floor(lt * FPS);
+    const sp = P(lt, .35, 1.1), f = Math.floor(lt * FPS);
     let out = '';
     for (let i = 0; i < target.length; i++) out += (i + 1) / target.length <= sp ? target[i] : pool[Math.floor(hash(f * 31 + i * 7) * pool.length)];
     S.handle.textContent = out;
-    S.handle.style.opacity = eo(P(lt, .25, .4));
+    S.handle.style.opacity = E(lt, .3, .55);
   },
 });
 
 /* =====================================================================
-   RENDER LOOP
+   RENDER
    ===================================================================== */
 function renderAt(t) {
-  ambient(t);
+  const c = camPose(t);
+  $('#world').style.transform = `translateZ(${c.z.toFixed(2)}px) rotateX(${c.rx.toFixed(3)}deg) rotateY(${c.ry.toFixed(3)}deg) rotateZ(${c.rz.toFixed(3)}deg) translate3d(${(-c.f[0]).toFixed(2)}px,${(-c.f[1]).toFixed(2)}px,0)`;
   for (const s of scenes) {
-    const vis = t >= s.start - FR - 1e-6 && t < s.end + FR;
-    s.wrap.style.visibility = vis ? 'visible' : 'hidden';
-    if (!vis) continue;
-    let o = { x: 0, y: 0, s: 1, r: 0, o: 1, bx: 0, by: 0, b: 0 };
-    if (s.enter) { const q = P(t, s.start - FR, s.start + 6 * FR); if (q < 1) Object.assign(o, ENTER[s.enter](q)); }
-    if (s.exit) { const p = P(t, s.end - 5 * FR, s.end + FR); if (p > 0) Object.assign(o, EXIT[s.exit](p)); }
-    TT(s.wrap, o);
-    mb(s.wrap, o.bx + o.b, o.by + o.b);
-    s.update(t - s.start, t);
+    const vis = t >= s.start - 1.3 && t < s.end + 1.3;
+    s.panel.style.visibility = vis ? 'visible' : 'hidden';
+    if (vis) s.update(t - s.start, t);
   }
-  $('#fade').style.opacity = eio(P(t, DUR - .45, DUR - .03));
+  updateThreads(t);
+  $('#fade').style.opacity = E(t, DUR - .5, DUR - .03);
 }
 window.renderAt = renderAt;
-window.SFX_BOUNDARIES = scenes.filter(s => s.exit).map(s => s.end);
 
 (async function init() {
-  buildAmbient();
+  buildThreads();
   await document.fonts.ready;
   await Promise.all([...document.fonts].map(f => f.load().catch(() => {})));
+  $('#world').style.transform = 'none';          // measure while the world is flat
   scenes.forEach(s => s.measure && s.measure(s));
   const render = /render/.test(location.search);
-  if (render) {
-    document.body.classList.add('render');
-    renderAt(0);
-    window.READY = true;
-    return;
-  }
-  // ---- interactive preview ----
+  if (render) { document.body.classList.add('render'); renderAt(0); window.READY = true; return; }
   const vp = $('#viewport'), aud = $('#aud'), scrub = $('#scrub'), tc = $('#tc'), btn = $('#play');
   scrub.max = TL.frames - 1;
   const fit = () => { const k = Math.min((innerHeight - 44) / H, innerWidth / W); vp.style.transform = `translateX(${-W * k / 2}px) scale(${k})`; };
@@ -596,9 +606,9 @@ window.SFX_BOUNDARIES = scenes.filter(s => s.exit).map(s => s.end);
   const startAudio = () => { try { aud.currentTime = cur; aud.play().catch(() => {}); } catch (e) {} };
   btn.onclick = () => { playing = !playing; btn.textContent = playing ? 'Pause' : 'Play'; if (playing) { t0 = performance.now() - cur * 1000; startAudio(); } else aud.pause(); };
   scrub.oninput = () => { cur = scrub.value / FPS; t0 = performance.now() - cur * 1000; if (playing) startAudio(); };
-  document.addEventListener('click', e => { if (e.target === document.body || e.target.closest('#viewport')) startAudio(); }, { once: true });
+  document.addEventListener('click', e => { if (e.target.closest('#viewport')) startAudio(); }, { once: true });
   (function loop() {
-    if (playing) { cur = ((performance.now() - t0) / 1000); if (cur >= DUR) { cur = 0; t0 = performance.now(); startAudio(); } }
+    if (playing) { cur = (performance.now() - t0) / 1000; if (cur >= DUR) { cur = 0; t0 = performance.now(); startAudio(); } }
     renderAt(cur); scrub.value = Math.floor(cur * FPS); tc.textContent = cur.toFixed(2) + 's';
     requestAnimationFrame(loop);
   })();

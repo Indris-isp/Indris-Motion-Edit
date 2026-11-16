@@ -12,39 +12,55 @@
 @font-face{font-family:'Instrument Serif';src:url(fonts/InstrumentSerif-Italic.ttf);font-style:italic}
 @font-face{font-family:'Instrument Serif';src:url(fonts/InstrumentSerif-Regular.ttf);font-style:normal}
 
-/* ---- BRAND TOKENS (edit here) ---- */
-:root{
-  --bg:#FFFFFF;
-  --accent:#FF821C;
-  --text:#0A0A0A;
-  --muted:#A0A0A0;
-}
+/* ---- BRAND TOKENS ---- */
+:root{ --accent:#FF821C; --text:#0A0A0A; }
+
 html,body{margin:0;padding:0;background:#161616;overflow:hidden}
-body.render{background:var(--bg)}
+body.render{background:#fff}
 #viewport{position:absolute;left:50%;top:0;transform-origin:0 0}
 body.render #viewport{left:0}
-#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);
-  font-family:Inter,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
-#ambient,#scenes{position:absolute;inset:0}
-#fade{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none}
-.scene{position:absolute;inset:0;transform-origin:540px 960px;visibility:hidden}
-.cam{position:absolute;inset:0;transform-origin:540px 960px}
+/* one continuous white-gradient world; the 3D camera flies across it */
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 42%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%),
+    radial-gradient(ellipse 90% 60% at 50% 110%, rgba(255,130,28,.06) 0%, rgba(255,130,28,0) 70%),
+    linear-gradient(180deg,#FFFFFF 0%,#F7F6F4 60%,#EEECE9 100%);
+  font-family:Inter,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;
+  perspective:2200px;perspective-origin:540px 960px}
+#world{position:absolute;left:540px;top:960px;width:0;height:0;transform-style:preserve-3d;transform-origin:0 0}
+.panel{position:absolute;width:1080px;height:1920px;transform-style:preserve-3d;visibility:hidden}
+.p3{transform-style:preserve-3d}
+#fade{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+
 .abs{position:absolute}
 .ctr{position:absolute;transform:translate(-50%,-50%)}
-.line{position:absolute;left:0;width:1080px;text-align:center;white-space:pre;line-height:1.1}
+.line{position:absolute;left:0;width:1080px;text-align:center;white-space:pre;line-height:1.12}
 .sans{font-family:Inter,sans-serif}
 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
-.ib{display:inline-block}
+.ib,.grp,.ch{display:inline-block}
+
+/* gradient type */
+.tg-dark{background:linear-gradient(180deg,#5C5C5C 0%,#1E1E1E 50%,#000 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tg-acc{background:linear-gradient(180deg,#FFC685 0%,#FF8C26 45%,#E44E00 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tg-gray{background:linear-gradient(180deg,#8C8C8C 0%,#4E4E4E 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tg-white{background:linear-gradient(180deg,#FFFFFF 0%,#FFF1E4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* type glow */
+.gl-dark{filter:drop-shadow(0 0 16px rgba(255,140,40,.22)) drop-shadow(0 8px 14px rgba(0,0,0,.16))}
+.gl-acc{filter:drop-shadow(0 0 10px rgba(255,130,28,.55)) drop-shadow(0 0 30px rgba(255,130,28,.35))}
+.gl-gray{filter:drop-shadow(0 4px 10px rgba(0,0,0,.10))}
+.gl-white{filter:drop-shadow(0 0 8px rgba(255,255,255,.7))}
+
 .glow{position:absolute;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;
-  background:radial-gradient(closest-side,rgba(255,130,28,.22),rgba(255,130,28,.08) 55%,rgba(255,130,28,0))}
-.card{position:absolute;width:440px;background:#fff;border-radius:30px;padding:28px 30px;box-sizing:border-box;
-  box-shadow:0 24px 60px rgba(10,10,10,.08),0 2px 6px rgba(10,10,10,.04);font-size:28px;line-height:1.3}
-.card .lbl{font-size:22px;color:var(--muted);font-weight:500;letter-spacing:.02em;text-transform:uppercase}
-.card .big{font-size:34px;font-weight:700}
-.pill{position:absolute;white-space:nowrap;font-size:54px;font-weight:600;padding:26px 56px;border-radius:999px;
-  transform:translate(-50%,-50%);box-sizing:border-box}
-.pill.f{background:var(--accent);color:#fff;box-shadow:0 18px 50px rgba(255,130,28,.35)}
-.pill.o{background:#fff;color:var(--text);border:4px solid var(--text)}
+  background:radial-gradient(closest-side,rgba(255,130,28,.26),rgba(255,130,28,.09) 55%,rgba(255,130,28,0))}
+.card{position:absolute;width:330px;border-radius:24px;padding:22px 24px;box-sizing:border-box;font-size:17px;line-height:1.35;
+  background:linear-gradient(160deg,#FFFFFF 0%,#FAFAFA 60%,#F1F1F1 100%);
+  box-shadow:0 30px 60px rgba(20,10,0,.12),0 6px 14px rgba(20,10,0,.06),inset 0 1px 0 #fff;border:1px solid rgba(0,0,0,.05)}
+.pill{position:relative;white-space:nowrap;font-size:38px;font-weight:500;padding:18px 40px;border-radius:999px;box-sizing:border-box;letter-spacing:-.02em}
+.pill.f{background:linear-gradient(135deg,#FFB862 0%,#FF821C 48%,#E65000 100%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -4px 10px rgba(150,45,0,.25),0 16px 34px rgba(255,115,20,.38)}
+.pill.o{border:3px solid transparent;
+  background:linear-gradient(180deg,#FFFFFF,#F1F1F1) padding-box,linear-gradient(135deg,#5A5A5A,#000) border-box;
+  box-shadow:0 12px 28px rgba(0,0,0,.09)}
 #ui{position:fixed;left:0;right:0;bottom:0;padding:10px 16px;background:rgba(0,0,0,.6);color:#eee;
   font:13px Inter,sans-serif;display:flex;gap:12px;align-items:center}
 #ui input{flex:1}
@@ -52,17 +68,24 @@ body.render #ui{display:none}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute"><defs id="defs"></defs></svg>
+<!-- shared gradients (referenced by every inline SVG) -->
+<svg width="0" height="0" style="position:absolute"><defs id="defs">
+  <linearGradient id="gAcc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFBA66"/><stop offset=".5" stop-color="#FF821C"/><stop offset="1" stop-color="#DD4A00"/></linearGradient>
+  <linearGradient id="gAccV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFBC6B"/><stop offset=".5" stop-color="#FF851F"/><stop offset="1" stop-color="#E04C00"/></linearGradient>
+  <linearGradient id="gDark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#555"/><stop offset=".55" stop-color="#161616"/><stop offset="1" stop-color="#000"/></linearGradient>
+  <linearGradient id="gDarkV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A5A5A"/><stop offset=".5" stop-color="#1A1A1A"/><stop offset="1" stop-color="#000"/></linearGradient>
+  <linearGradient id="gTrack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2F2F2"/><stop offset="1" stop-color="#CFCFCF"/></linearGradient>
+  <radialGradient id="gCap" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFD3A0"/><stop offset=".45" stop-color="#FF821C"/><stop offset="1" stop-color="#B83C00"/></radialGradient>
+</defs></svg>
 <div id="viewport">
   <div id="stage">
-    <div id="ambient"></div>
-    <div id="scenes"></div>
+    <div id="world"></div>
     <div id="fade"></div>
   </div>
 </div>
 <div id="ui">
   <button id="play">Pause</button>
-  <input id="scrub" type="range" min="0" max="809" value="0">
+  <input id="scrub" type="range" min="0" max="1000" value="0">
   <span id="tc">0.00s</span>
 </div>
 <audio id="aud" src="out/audio.wav" preload="auto"></audio>
