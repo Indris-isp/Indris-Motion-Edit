@@ -1,5 +1,5 @@
 // Renders index.html frame-by-frame with headless Chromium, then encodes with ffmpeg.
-// Usage: node render.cjs [framesDir] [--from N --to M] [--still t1,t2,...]
+// Usage: node render.cjs [--page v2/index.html --out out/v2] [--from N --to M] [--still t1,t2,...]
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -8,9 +8,9 @@ const { execFileSync } = require('child_process');
 const FPS = 30, TOTAL = 810, WORKERS = 4;
 const args = process.argv.slice(2);
 const get = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
-const outDir = path.resolve(__dirname, 'out');
+const outDir = path.resolve(__dirname, get('--out', 'out'));
 const framesDir = path.resolve(get('--frames', path.join(outDir, 'frames')));
-const url = 'file://' + path.join(__dirname, 'index.html') + '?render=1';
+const url = 'file://' + path.join(__dirname, get('--page', 'index.html')) + '?render=1';
 
 async function openPage(browser) {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
@@ -47,6 +47,6 @@ async function openPage(browser) {
   if (from === 0 && to === TOTAL) {
     execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(framesDir, 'f%04d.png'),
       '-c:v', 'libx264', '-preset', 'slow', '-crf', '15', '-pix_fmt', 'yuv420p', '-tune', 'animation', path.join(outDir, 'video_silent.mp4')], { stdio: 'inherit' });
-    console.log('wrote out/video_silent.mp4');
+    console.log('wrote ' + path.join(outDir, 'video_silent.mp4'));
   }
 })();

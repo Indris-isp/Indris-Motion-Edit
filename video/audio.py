@@ -95,7 +95,7 @@ add(boom(), 0.07, 0.38)
 add(boom(), 21.0 + 1.52 + 4 * FR, 0.22)   # punchline lands
 for i in range(4): add(pop(900 - i * 40), 4.5 + 0.15 + i * 0.2, 0.30)            # UI cards
 for a in (7.15, 8.35, 9.55): add(pop(700, 300), a, 0.40)                          # hexagons
-for i, a in enumerate((11.0, 11.65, 12.3)): add(pop(560 + i * 60, 260), a, 0.30)  # word beats
+for i, a in enumerate((11.0, 11.5, 11.85, 12.25)): add(pop(560 + i * 60, 260), a, 0.30)  # word beats
 for i, a in enumerate((14.3, 15.2, 16.1, 17.1, 18.3, 19.5)): add(pop(820 + 30 * (i % 3), 420), a, 0.30, pan=(-.3 if i % 2 == 0 else .3))  # pills
 prev = 5
 for f in range(int(6.1 * 30), int(6.7 * 30) + 2):                                # counter ticks

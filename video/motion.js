@@ -222,7 +222,7 @@ addScene({
     sv('line', S.hand, { x1: cx, y1: cy + 90, x2: cx, y2: cy - (R - 70), stroke: TXT, 'stroke-width': 14, 'stroke-linecap': 'round' });
     sv('circle', s, { cx, cy, r: 30, fill: TXT });
     sv('circle', s, { cx, cy, r: 11, fill: ACC });
-    const l1 = textLine(c, 300, [{ t: 'Every second a client spends' }], { fontSize: '56px', fontWeight: 500, textAlign: 'left', left: '90px' });
+    const l1 = textLine(c, 300, [{ t: 'Every second your audience spends' }], { fontSize: '52px', fontWeight: 500, textAlign: 'left', left: '90px' });
     S.g = glow(c, 300, 470, 620, 300); S.g.style.opacity = 0;
     const l2 = textLine(c, 360, [{ t: 'confused…', cls: 'serif', style: { color: ACC } }], { fontSize: '180px', textAlign: 'left', left: '84px' });
     S.c1 = l1.chars; S.c2 = l2.chars;
@@ -255,8 +255,8 @@ addScene({
   start: 3.0, end: 4.5, enter: 'drop', exit: 'zoomThrough',
   build(c, S) {
     const l1 = textLine(c, 530, [{ t: 'They can’t see' }], { fontSize: '66px', fontWeight: 500 });
-    S.g = glow(c, 760, 700, 380, 260); S.g.style.opacity = 0;
-    const l2 = textLine(c, 600, [{ t: 'what you ' }, { t: 'do.', cls: 'serif', style: { color: ACC, fontSize: '128px' } }], { fontSize: '66px', fontWeight: 500 });
+    S.g = glow(c, 650, 700, 460, 260); S.g.style.opacity = 0;
+    const l2 = textLine(c, 600, [{ t: 'your ' }, { t: 'story.', cls: 'serif', style: { color: ACC, fontSize: '128px' } }], { fontSize: '66px', fontWeight: 500 });
     S.chars = l1.chars.concat(l2.chars);
     S.vfW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 1050px' });
     corners(layer(S.vfW), 140, 890, 940, 1215, 80, { stroke: ACC, 'stroke-width': 9 });
@@ -403,19 +403,19 @@ addScene({
 });
 
 /* =====================================================================
-   SCENE 7 — ONE-WORD BEATS  11.0–13.0  "Louder. Busier. Forgotten."
+   SCENE 7 — ONE-WORD BEATS  11.0–13.0  "Attention is the new currency."
    ===================================================================== */
 addScene({
   start: 11.0, end: 13.0, enter: 'spinIn', exit: 'zoomOut',
   build(c, S) {
-    S.words = ['Louder.', 'Busier.', 'Forgotten.'].map(w => {
+    S.words = ['Attention', 'is', 'the new', 'currency.'].map(w => {
       const g = glow(c, 540, 960, 900, 420);
       const e = at(el('div', c, 'ctr', { color: ACC, fontSize: '170px', fontWeight: 800, letterSpacing: '-5px', whiteSpace: 'nowrap' }), 540, 960);
       e.textContent = w; return { e, g };
     });
   },
   update(lt) {
-    const S = this, A = [0, .65, 1.3, 9];
+    const S = this, A = [0, .5, .85, 1.25, 9];
     TT(S.cam, { s: 1 + .04 * lt });
     S.words.forEach(({ e, g }, i) => {
       const a = A[i], q = P(lt, a, a + 6 * FR), x = P(lt, A[i + 1] - 4 * FR, A[i + 1]);
@@ -462,10 +462,10 @@ addScene({
     S.rings = [[150, 330, 980], [960, 1640, 1100], [1000, 520, 520]].map(([x, y, d], i) => at(el('div', c, 'ctr', {
       width: px(d), height: px(d), borderRadius: '50%',
       background: 'radial-gradient(circle, rgba(255,130,28,0) 44%, rgba(255,130,28,.12) 58%, rgba(255,130,28,0) 72%)' }), x, y));
-    S.head = textLine(c, 470, [{ t: 'The best brands are' }], { fontSize: '44px', color: MUT, fontWeight: 500 }).chars;
+    S.head = textLine(c, 470, [{ t: 'The best brands…' }], { fontSize: '44px', color: MUT, fontWeight: 500 }).chars;
     const P_ = [
-      ['Focused', 'f', 365, 660, -3, 14.3], ['Sharper', 'o', 735, 672, 3, 15.2], ['Strategic', 'f', 560, 822, -2, 16.1],
-      ['Simple message', 'o', 520, 984, 2, 17.1], ['Instant trust', 'f', 590, 1146, -3, 18.3], ['Easy to choose', 'o', 500, 1308, 2, 19.5],
+      ['They show it', 'f', 330, 660, -3, 14.3], ['Clearer', 'o', 790, 672, 3, 15.2], ['Sharper', 'f', 400, 822, -2, 16.1],
+      ['One clear story', 'o', 640, 984, 2, 17.1], ['They build trust instantly', 'f', 540, 1146, -2, 18.3], ['They make choosing easy', 'o', 540, 1308, 2, 19.5],
     ];
     S.pills = P_.map(([t, k, x, y, r, at_], i) => {
       const e = at(el('div', c, 'pill ' + k), x, y); e.textContent = t;
@@ -490,7 +490,7 @@ addScene({
 });
 
 /* =====================================================================
-   SCENE 10 — PUNCHLINE  21.0–24.5  "Design isn't decoration — it's strategy."
+   SCENE 10 — PUNCHLINE  21.0–24.5  "Visuals aren't decoration — they're strategy."
    ===================================================================== */
 function ovalPath(cx, cy, rx, ry, tilt) {
   const pts = [], N = 90, a0 = -200, a1 = 192;
@@ -506,10 +506,10 @@ addScene({
   start: 21.0, end: 24.5, enter: 'fromRight', exit: 'zoomThrough',
   build(c, S) {
     S.setW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px' });
-    S.set = textLine(S.setW, 925, [{ t: 'Design isn’t decoration —' }], { fontSize: '62px', fontWeight: 500 }).chars;
+    S.set = textLine(S.setW, 925, [{ t: 'Visuals aren’t decoration —' }], { fontSize: '62px', fontWeight: 500 }).chars;
     S.punW = el('div', c, 'abs', { left: 0, top: 0, width: '1080px', height: '1920px', transformOrigin: '540px 1000px' });
     S.g = glow(S.punW, 540, 1010, 1000, 520); S.g.style.opacity = 0;
-    textLine(S.punW, 830, [{ t: 'it’s', whole: true }], { fontSize: '64px', fontWeight: 500 });
+    textLine(S.punW, 830, [{ t: 'they’re', whole: true }], { fontSize: '64px', fontWeight: 500 });
     textLine(S.punW, 905, [{ t: 'strategy.', whole: true }], { fontSize: '156px', fontWeight: 800, letterSpacing: '-5px' });
     const s = layer(S.punW);
     S.oval = sv('path', s, { d: ovalPath(540, 1000, 490, 175, -4), fill: 'none', stroke: ACC, 'stroke-width': 9, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '0 1' });
@@ -551,7 +551,7 @@ const LOGO = `<svg width="900" height="560" viewBox="0 0 900 560" style="overflo
 addScene({
   start: 24.5, end: 27.0, enter: 'fadeScale',
   build(c, S) {
-    S.cta = textLine(c, 520, [{ t: 'Let’s build ' }, { t: 'yours.', cls: 'serif', style: { color: ACC, fontSize: '104px' } }], { fontSize: '64px', fontWeight: 500 }).chars;
+    S.cta = textLine(c, 520, [{ t: 'Let’s tell ' }, { t: 'yours.', cls: 'serif', style: { color: ACC, fontSize: '104px' } }], { fontSize: '64px', fontWeight: 500 }).chars;
     S.g = glow(c, 540, 1000, 1000, 640); S.g.style.opacity = 0;
     S.logo = at(el('div', c, 'ctr', {}, LOGO), 540, 990);
     S.handle = at(el('div', c, 'ctr', { fontSize: '50px', fontWeight: 600, letterSpacing: '1px', whiteSpace: 'pre', fontVariantNumeric: 'tabular-nums' }), 540, 1335);

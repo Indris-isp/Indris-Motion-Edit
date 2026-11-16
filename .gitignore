@@ -4,3 +4,7 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+video/out/v2/frames/
+video/out/v2/still_*.png
+video/out/v2/render.log
+video/out/v2/video_silent.mp4
