@@ -1,5 +1,5 @@
 """Generates the voiceover with Kokoro (open-source TTS, Apache-2.0), one clip per line.
-Usage: python3 vo.py <model_dir> [voice] [speed]
+Usage: python3 vo.py <model_dir> [voice | blend:a*0.5+b*0.5] [speed]
 Writes out/vo/<key>.wav (24 kHz mono) and out/vo/durations.json
 """
 import sys, os, json
@@ -36,10 +36,17 @@ LINES = [
 ]
 
 k = Kokoro(os.path.join(MODEL_DIR, 'kokoro.onnx'), os.path.join(MODEL_DIR, 'voices-v1.0.bin'))
+# blends: "blend:af_heart*0.5+af_bella*0.5" mixes voice styles by weight
+if VOICE.startswith('blend:'):
+    parts = [p.split('*') for p in VOICE[6:].split('+')]
+    STYLE = sum(k.get_voice_style(v) * float(w) for v, w in parts)
+    LANG = 'en-gb' if all(v.startswith('b') for v, _ in parts) else 'en-us'
+else:
+    STYLE, LANG = VOICE, ('en-gb' if VOICE.startswith('b') else 'en-us')
 os.makedirs('out/vo', exist_ok=True)
 dur = {}
 for key, text in LINES:
-    audio, sr = k.create(text, voice=VOICE, speed=SPEED, lang='en-us')
+    audio, sr = k.create(text, voice=STYLE, speed=SPEED, lang=LANG)
     a = np.asarray(audio, dtype=np.float32)
     # trim leading/trailing silence
     thr = 0.01 * np.abs(a).max()
