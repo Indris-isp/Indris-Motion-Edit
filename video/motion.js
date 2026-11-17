@@ -216,15 +216,22 @@ addScene({
     const layer = (z, style, html, cls = 'abs') => { const d = el('div', S.dw, cls, Object.assign({ left: 0, top: 0, width: '1000px', height: '1000px' }, style), html); d.style.transform = `translateZ(${z}px)`; return d; };
     const disc = (d, extra) => Object.assign({ left: px(500 - d / 2), top: px(500 - d / 2), width: px(d), height: px(d), borderRadius: '50%' }, extra);
     S.layers = [];
+    S.layers.push(layer(-90, disc(1060, { background: 'radial-gradient(closest-side, rgba(255,120,20,.38), rgba(255,140,40,.14) 55%, rgba(255,130,28,0))', filter: 'blur(18px)' })));   // orange bloom
     S.layers.push(layer(-80, disc(860, { background: 'radial-gradient(closest-side, rgba(40,20,0,.32), rgba(40,20,0,0))', filter: 'blur(28px)' })));
-    for (let k = 0; k < 12; k++) S.layers.push(layer(k * 3, disc(2 * R, { background: `linear-gradient(135deg, #${k % 2 ? '3a3a3a' : '2a2a2a'}, #050505)` })));
-    S.layers.push(layer(36, disc(2 * R, { background: 'conic-gradient(from 210deg, #0c0c0c, #5d5d5d 12%, #121212 30%, #2d2d2d 52%, #090909 74%, #4c4c4c 90%, #0c0c0c)', boxShadow: 'inset 0 0 0 2px rgba(255,255,255,.08)' })));
-    S.layers.push(layer(39, disc(2 * R - 64, { background: 'radial-gradient(circle at 40% 32%, #FFFFFF 0%, #F9F8F7 50%, #E2E0DE 100%)', boxShadow: 'inset 0 10px 26px rgba(0,0,0,.22)' })));
+    // brushed-metal case side: stacked rings with shifting highlights
+    for (let k = 0; k < 12; k++) S.layers.push(layer(k * 3, disc(2 * R, { background: `conic-gradient(from ${200 + k * 4}deg, #0a0a0a, #7a7a7a 10%, #151515 22%, #3a3a3a 40%, #b8b8b8 47%, #1a1a1a 55%, #050505 72%, #5c5c5c 86%, #0a0a0a)` })));
+    // black-chrome bezel with sharp reflections
+    S.layers.push(layer(36, disc(2 * R, { background: 'conic-gradient(from 205deg, #0b0b0b, #9a9a9a 7%, #1c1c1c 14%, #3c3c3c 28%, #e2e2e2 35%, #262626 42%, #070707 58%, #6a6a6a 70%, #121212 80%, #c4c4c4 88%, #0b0b0b)', boxShadow: 'inset 0 2px 0 rgba(255,255,255,.35), inset 0 -3px 6px rgba(0,0,0,.6)' })));
+    // polished chrome inner ring
+    S.layers.push(layer(38, disc(2 * R - 52, { background: 'conic-gradient(from 30deg, #f4f4f4, #7c7c7c 12%, #ffffff 24%, #5a5a5a 40%, #e6e6e6 55%, #6c6c6c 70%, #ffffff 84%, #8a8a8a 94%, #f4f4f4)',
+      WebkitMask: 'radial-gradient(circle, transparent 0 calc(50% - 9px), #000 calc(50% - 8px))', mask: 'radial-gradient(circle, transparent 0 calc(50% - 9px), #000 calc(50% - 8px))' })));
+    // satin sunray dial
+    S.layers.push(layer(39, disc(2 * R - 70, { background: 'repeating-conic-gradient(from 0deg, rgba(0,0,0,.028) 0deg 1.2deg, rgba(255,255,255,.05) 1.2deg 2.4deg), radial-gradient(circle at 40% 30%, #FFFFFF 0%, #F6F5F3 48%, #DCDAD7 100%)', boxShadow: 'inset 0 12px 28px rgba(0,0,0,.25), inset 0 -2px 4px rgba(255,255,255,.8)' })));
     const tk = layer(43, {}, '');
     const s = sv('svg', tk, { width: 1000, height: 1000, viewBox: '0 0 1000 1000', style: 'position:absolute;left:0;top:0;overflow:visible' });
     for (let i = 0; i < 60; i++) {
       const a = i / 60 * Math.PI * 2, maj = i % 5 === 0, r1 = R - 52, r2 = r1 - (maj ? 46 : 20);
-      sv('line', s, { x1: 500 + Math.cos(a) * r1, y1: 500 + Math.sin(a) * r1, x2: 500 + Math.cos(a) * r2, y2: 500 + Math.sin(a) * r2, stroke: maj ? '#1a1a1a' : '#C4C4C4', 'stroke-width': maj ? 7 : 3, 'stroke-linecap': 'round' });
+      sv('line', s, { x1: 500 + Math.cos(a) * r1, y1: 500 + Math.sin(a) * r1, x2: 500 + Math.cos(a) * r2, y2: 500 + Math.sin(a) * r2, stroke: maj ? 'url(#gChrome)' : '#BDBDBD', 'stroke-width': maj ? 8 : 3, 'stroke-linecap': maj ? 'butt' : 'round' });
     }
     [['12', 0], ['3', 90], ['6', 180], ['9', 270]].forEach(([n, d]) => {
       const a = (d - 90) * Math.PI / 180, r = R - 140;
@@ -233,15 +240,16 @@ addScene({
     const brand = sv('text', s, { x: 500, y: 650, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-weight': 600, 'font-size': 20, 'letter-spacing': 6, fill: '#A0A0A0' }); brand.textContent = 'ISP · EVERY SECOND';
     const ar = layer(47, {}, '');
     const s2 = sv('svg', ar, { width: 1000, height: 1000, viewBox: '0 0 1000 1000', style: 'position:absolute;left:0;top:0;overflow:visible' });
-    S.arcG = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: '#FF821C', 'stroke-width': 30, opacity: .45, pathLength: 1, transform: 'rotate(-90 500 500)', style: 'filter:blur(12px)' });
-    S.arc = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: 'url(#gAcc)', 'stroke-width': 12, 'stroke-linecap': 'round', pathLength: 1, transform: 'rotate(-90 500 500)' });
+    S.arcG = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: '#FF7A10', 'stroke-width': 44, opacity: .55, pathLength: 1, transform: 'rotate(-90 500 500)', style: 'filter:blur(16px)' });
+    S.arcG2 = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: '#FFB060', 'stroke-width': 20, opacity: .7, pathLength: 1, transform: 'rotate(-90 500 500)', style: 'filter:blur(5px)' });
+    S.arc = sv('circle', s2, { cx: 500, cy: 500, r: R - 78, fill: 'none', stroke: 'url(#gArcMetal)', 'stroke-width': 14, 'stroke-linecap': 'round', pathLength: 1, transform: 'rotate(-90 500 500)' });
     S.layers.push(tk, ar);
     S.hShadow = layer(46, { filter: 'blur(7px)' }, handSVG('#000', '#000', '#000'));
     S.hShadow.style.transform = 'translate3d(16px,22px,46px)';
-    S.hand = layer(92, { filter: 'drop-shadow(0 4px 6px rgba(0,0,0,.25))' }, handSVG('url(#gDarkV)', '#111'));
-    S.sec = layer(104, {}, `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0;overflow:visible"><g class="rot"><path d="M497 640 L498 500 L500 120 L502 500 L503 640 Z" fill="url(#gAccV)"/><circle cx="500" cy="610" r="14" fill="url(#gAccV)"/></g></svg>`);
-    S.cap = layer(112, {}, `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0"><circle cx="500" cy="500" r="30" fill="url(#gCap)"/><circle cx="500" cy="500" r="9" fill="#2a1200"/></svg>`);
-    S.glass = layer(124, disc(2 * R - 64, { background: 'linear-gradient(150deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.12) 34%, rgba(255,255,255,0) 52%)' }));
+    S.hand = layer(92, { filter: 'drop-shadow(0 4px 6px rgba(0,0,0,.3))' }, handSVG('url(#gHandMetal)', 'url(#gChrome)', 'url(#gTrack)'));
+    S.sec = layer(104, {}, `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0;overflow:visible"><g class="rot" style="filter:drop-shadow(0 0 5px rgba(255,130,28,.8))"><path d="M496 640 L497.5 500 L500 120 L502.5 500 L504 640 Z" fill="url(#gMetalAcc)"/><circle cx="500" cy="610" r="15" fill="url(#gCap)"/></g></svg>`);
+    S.cap = layer(112, {}, `<svg width="1000" height="1000" viewBox="0 0 1000 1000" style="position:absolute;left:0;top:0"><circle cx="500" cy="500" r="36" fill="url(#gChrome)"/><circle cx="500" cy="500" r="30" fill="url(#gCap)" style="filter:drop-shadow(0 0 8px rgba(255,130,28,.9))"/><ellipse cx="491" cy="490" rx="11" ry="7" fill="rgba(255,255,255,.75)"/><circle cx="500" cy="500" r="7" fill="url(#gChrome)"/></svg>`);
+    S.glass = layer(124, disc(2 * R - 64, { background: 'linear-gradient(150deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.14) 30%, rgba(255,255,255,0) 46%), linear-gradient(330deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 16%)' }));
     S.layers.push(S.hand, S.sec, S.cap, S.glass);
     S.rotH = [S.hShadow, S.hand].map(l => l.querySelector('.rot')); S.rotS = S.sec.querySelector('.rot');
     S.l1 = textLine(c, 1430, [{ t: 'Every second' }], HEAD).chars;
@@ -256,7 +264,7 @@ addScene({
     const o = E(lt, -.35, .2);
     S.layers.forEach(l => l.style.opacity = o);
     S.hShadow.style.opacity = .3 * o;
-    dash(S.arc, .42 * E(lt, .25, 1.5)); dash(S.arcG, .42 * E(lt, .25, 1.5));
+    [S.arc, S.arcG, S.arcG2].forEach(a => dash(a, .42 * E(lt, .25, 1.5)));
     const ah = -70 + 52 * E(lt, -.2, D2), as = -150 + 360 * P(lt, -.2, D2 + .4);
     S.rotH.forEach(g => g.setAttribute('transform', `rotate(${ah} 500 500)`));
     S.rotS.setAttribute('transform', `rotate(${as} 500 500)`);
@@ -387,21 +395,27 @@ const ICONS = {
 function hexSVG(i, icon) {
   const poly = r => { const p = []; for (let k = 0; k < 6; k++) { const a = (-90 + k * 60) * Math.PI / 180; p.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1)); } return p.join(' '); };
   return `<svg width="320" height="330" viewBox="-160 -160 320 330" style="overflow:visible">
-   <defs><clipPath id="hc${i}"><circle class="clip" cx="0" cy="0" r="0"/></clipPath></defs>
-   <polygon class="ext" points="${poly(130)}" transform="translate(0 16)" fill="url(#gDark)" stroke="url(#gDark)" stroke-width="14" stroke-linejoin="round" opacity="0"/>
-   <g clip-path="url(#hc${i})"><polygon points="${poly(130)}" fill="url(#gAcc)" stroke="url(#gAcc)" stroke-width="14" stroke-linejoin="round"/>
-     <polygon points="${poly(112)}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"/></g>
-   <polygon class="out" points="${poly(130)}" fill="none" stroke="url(#gAcc)" stroke-width="7" stroke-linejoin="round" pathLength="1" stroke-dasharray="0 1"/>
-   <g transform="translate(-60 -60)" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px rgba(255,255,255,.6))">
+   <defs><clipPath id="hc${i}"><circle class="clip" cx="0" cy="0" r="0"/></clipPath>
+     <clipPath id="hs${i}"><polygon points="${poly(137)}"/></clipPath></defs>
+   <polygon class="ext" points="${poly(130)}" transform="translate(0 18)" fill="url(#gGun)" stroke="url(#gGun)" stroke-width="14" stroke-linejoin="round" opacity="0"/>
+   <g clip-path="url(#hc${i})">
+     <polygon points="${poly(130)}" fill="url(#gMetalAcc)" stroke="url(#gMetalAcc)" stroke-width="14" stroke-linejoin="round"/>
+     <polygon points="${poly(131)}" fill="none" stroke="url(#gBevel)" stroke-width="12" stroke-linejoin="round"/>
+     <polygon points="${poly(114)}" fill="none" stroke="rgba(255,240,225,.55)" stroke-width="2"/>
+     <polygon points="${poly(108)}" fill="none" stroke="rgba(120,35,0,.35)" stroke-width="2"/>
+     <g clip-path="url(#hs${i})"><rect class="sheen" x="-60" y="-220" width="120" height="440" fill="url(#gSheen)" transform="rotate(25) translate(-400 0)"/></g></g>
+   <polygon class="out" points="${poly(130)}" fill="none" stroke="url(#gMetalStroke)" stroke-width="8" stroke-linejoin="round" pathLength="1" stroke-dasharray="0 1" style="filter:drop-shadow(0 0 6px rgba(255,130,28,.9))"/>
+   <g transform="translate(-60 -60)" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 1px 1px rgba(90,25,0,.55)) drop-shadow(0 0 6px rgba(255,255,255,.9)) drop-shadow(0 0 14px rgba(255,220,180,.7))">
      ${icon.map(d => `<path class="ic" d="${d}" pathLength="1" stroke-dasharray="0 1"/>`).join('')}</g></svg>`;
 }
 addScene({
   build(c, S) {
     const hx = [[418, 880, 'trust', 40], [662, 880, 'leads', 40], [540, 1091, 'deals', 80]];
     S.hex = hx.map(([x, y, k, z], i) => {
-      const g = glow(c, x, y + 10, 460, 460, z - 30);
-      const d = at(el('div', c, 'ctr', { filter: 'drop-shadow(0 24px 22px rgba(120,40,0,.22))' }, hexSVG(i, ICONS[k])), x, y);
-      return { d, g, z, clip: d.querySelector('.clip'), ext: d.querySelector('.ext'), out: d.querySelector('.out'), ic: [...d.querySelectorAll('.ic')] };
+      const g = glow(c, x, y + 10, 620, 620, z - 30);
+      g.style.background = 'radial-gradient(closest-side, rgba(255,120,20,.42), rgba(255,140,40,.16) 50%, rgba(255,130,28,0))';
+      const d = at(el('div', c, 'ctr', { padding: '110px', filter: 'drop-shadow(0 0 16px rgba(255,125,25,.55)) drop-shadow(0 0 46px rgba(255,125,25,.32)) drop-shadow(0 26px 24px rgba(110,35,0,.25))' }, hexSVG(i, ICONS[k])), x, y);
+      return { d, g, z, clip: d.querySelector('.clip'), ext: d.querySelector('.ext'), out: d.querySelector('.out'), sheen: d.querySelector('.sheen'), ic: [...d.querySelectorAll('.ic')] };
     });
     const s = svgFull(fullLayer(c, 10));
     S.lines = ['M418 732 L418 690 L345 622', 'M662 732 L662 690 L735 622', 'M540 1245 L540 1288 L613 1356']
@@ -420,7 +434,8 @@ addScene({
       H.ext.setAttribute('opacity', E(lt, a + .45, a + .8));
       H.ic.forEach((p, j) => dash(p, E(lt, a + .55 + j * .06, a + .95 + j * .06)));
       T(H.d, { z: H.z, s: .9 + .1 * o, o: o > 0 ? 1 : 0, ry: 18 * (1 - f), rx: -10 * (1 - f) });
-      H.g.style.opacity = .9 * f;
+      H.g.style.opacity = f;
+      H.sheen.setAttribute('transform', `rotate(25) translate(${(-400 + 800 * E(lt, a + .7, a + 1.35)).toFixed(1)} 0)`);
       dash(S.lines[i], E(lt, a + .8, a + 1.1));
       S.dots[i].setAttribute('opacity', E(lt, a + 1.0, a + 1.15));
       typeIn(S.labels[i], lt, a + .95, .03);
