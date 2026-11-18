@@ -8,7 +8,8 @@
 const W = 1080, H = 1920, FPS = 30, DUR = 12;
 
 /* ---------- brand ---------- */
-const WHITE = '#FFFFFF';
+const WHITE = '#FFFFFF', BLACK = '#111111';   // brackets, "Agency" and labels white; core, "ISP" and subline black
+const mixHex = p => { const v = Math.round(lerp(255, 17, p)); return `rgb(${v},${v},${v})`; };
 const R = 52, BL = 98, BT = 34, DG = 69;   // core radius, bracket arm, bracket thickness, bracket offset (mark units)
 const SQ = 100;                            // the dropping square (px)
 const KR = 1.0, KC = 1.25, KL = 0.82;      // shape scale in the row / logo centre-stage / final lockup
@@ -147,7 +148,7 @@ function draw(c, t) {
     const selfSpin = (orient + 2 * TAU) * fastOut(fp);              // two fast turns, easing down
     const pop = 1 + 0.10 * bump(P(t, f0, f0 + Q.formDur));
     c.save(); c.translate(gx + ox * cs - oy * sn, gy + ox * sn + oy * cs); c.rotate(selfSpin + spin); c.scale(k * pop, k * pop);
-    if (i === 1) disc(c, lerp(BL / 2, R, ease(fp)));
+    if (i === 1) { c.fillStyle = mixHex(ease(fp)); disc(c, lerp(BL / 2, R, ease(fp))); c.fillStyle = WHITE; }  // white circle turns black as it forms
     else circleToBracket(c, P(t, f0, f0 + 0.6));
     c.restore();
   });
@@ -168,18 +169,19 @@ function draw(c, t) {
   /* --- brand name: letter by letter, easy ease + blur --- */
   if (t >= Q.word) {
     c.save(); c.translate(LK.tx, LK.base); c.scale(KL, KL);
-    const letter = (ch, font, x, y, p, blurMax, rise) => {
+    const letter = (ch, font, x, y, p, blurMax, rise, col) => {
+      c.fillStyle = col;
       if (p <= 0) return;
       c.font = font; c.globalAlpha = p; c.filter = p < 1 ? `blur(${(blurMax * (1 - p)).toFixed(2)}px)` : 'none';
       c.fillText(ch, x, y + rise * (1 - p));
     };
     LK.chars.forEach((ch, i) => {
       const a0 = Q.word + Q.wordStep * i;
-      letter(ch.ch, ch.font, ch.x, 0, ease(P(t, a0, a0 + Q.wordDur)), 18, 36);
+      letter(ch.ch, ch.font, ch.x, 0, ease(P(t, a0, a0 + Q.wordDur)), 18, 36, i < 3 ? BLACK : WHITE);   // "ISP" black, "Agency" white
     });
     LK.sub.forEach((ch, i) => {
       const a0 = Q.sub + Q.subStep * i;
-      letter(ch.ch, '500 24px Inter', ch.x, 62, ease(P(t, a0, a0 + Q.subDur)), 8, 12);
+      letter(ch.ch, '500 24px Inter', ch.x, 62, ease(P(t, a0, a0 + Q.subDur)), 8, 12, BLACK);
     });
     c.restore();
   }
