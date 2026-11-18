@@ -155,7 +155,7 @@ function draw(c, t) {
 
   /* --- one-word labels --- */
   if (t < Q.labOut + 0.5) {
-    c.save(); c.textAlign = 'center'; c.font = '500 34px Inter'; c.fillStyle = BLACK;   // labels black
+    c.save(); c.textAlign = 'center'; c.font = '500 36px Satoshi'; c.letterSpacing = '-1.4px'; c.fillStyle = BLACK;   // labels: Satoshi Medium, tight tracking, black
     LABELS.forEach((word, i) => {
       const a0 = Q.form[i] + 0.45, p = ease(P(t, a0, a0 + 0.55));
       const o = p * (1 - ease(P(t, Q.labOut, Q.labOut + 0.4)));
@@ -210,7 +210,7 @@ function renderAt(t) {
 }
 window.renderAt = renderAt; window.CUES = CUES; window.DUR = DUR; window.FPS = FPS;
 
-Promise.all(['500 24px Inter', '800 96px Inter', '400 96px Inter', '500 34px Inter'].map(f => document.fonts.load(f))).then(() => {
+Promise.all(['500 24px Inter', '800 96px Inter', '400 96px Inter', '500 36px Satoshi'].map(f => document.fonts.load(f))).then(() => {
   layout(ctx); renderAt(0); window.READY = true;
   if (RENDER) { document.body.classList.add('render'); return; }
   const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
