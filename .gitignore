@@ -4,3 +4,7 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+logo-reveal/out/frames/
+logo-reveal/out/still_*.png
+logo-reveal/out/video_silent.mp4
+logo-reveal/out/audio.wav
