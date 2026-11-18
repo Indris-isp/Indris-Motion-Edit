@@ -9,7 +9,7 @@ This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. It 
 | 2.7–6.4 s | One at a time, each circle spins fast (two turns, easing down) and forms its logo part (the middle circle turns from white to black), with a one-word label: **Structure** (top-left bracket), **Focus** (core), **Clarity** (bottom-right bracket) |
 | 6.9–8.4 s | The labels fade out, and the parts spin fast into the logo with an easy ease out |
 | 8.55–9.35 s | The mark slides left |
-| 8.8–10.9 s | "**ISP** Agency" appears letter by letter, each letter easing in from a blur, followed by "CREATIVE EDITING STUDIO" the same way |
+| 9.3–11.3 s | "**ISP** Agency" appears letter by letter with a counter effect (each letter flickers through random characters, then locks in), followed by "CREATIVE EDITING STUDIO" the same way |
 | 9.3–12 s | Hold with a slow push-in |
 
 `square.js` holds the whole animation. `CUES` at the top holds the timing, and `LABELS` holds the words.

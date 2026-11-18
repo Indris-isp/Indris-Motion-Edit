@@ -3,7 +3,7 @@
    2. It bounces to the right; at each landing it drops a circle (the last landing turns the square itself into one).
    3. Each circle spins fast (motion blur) and forms its logo part, with a one-word label.
    4. The parts spin fast into the logo with an easy ease out, the mark slides left, and the brand name
-      appears letter by letter with an easy-ease blur-in.
+      appears letter by letter with a counter effect: each letter flickers through random characters, then locks in.
    Every frame is a pure function of time: window.renderAt(seconds). */
 const W = 1080, H = 1920, FPS = 30, DUR = 12;
 
@@ -22,7 +22,7 @@ const CUES = {
   drop: 0.30, land1: 1.00, land2: 1.55, land3: 2.05, sqMorph: 0.35,
   form: [2.70, 4.10, 5.50], formDur: 0.90, labOut: 6.90,
   asm0: 7.10, asm1: 8.40, slide0: 8.55, slide1: 9.35,
-  word: 8.80, wordStep: 0.07, wordDur: 0.65, sub: 9.85, subStep: 0.028, subDur: 0.55,
+  word: 9.28, wordStep: 0.08, wordDur: 0.42, sub: 10.25, subStep: 0.03, subDur: 0.30,   // dur = how long each letter 'counts'
 };
 
 /* ---------- easing ---------- */
@@ -166,23 +166,24 @@ function draw(c, t) {
     c.restore();
   }
 
-  /* --- brand name: letter by letter, easy ease + blur --- */
+  /* --- brand name: letter by letter, counter / scramble effect --- */
   if (t >= Q.word) {
-    c.save(); c.translate(LK.tx, LK.base); c.scale(KL, KL);
-    const letter = (ch, font, x, y, p, blurMax, rise, col) => {
-      c.fillStyle = col;
-      if (p <= 0) return;
-      c.font = font; c.globalAlpha = p; c.filter = p < 1 ? `blur(${(blurMax * (1 - p)).toFixed(2)}px)` : 'none';
-      c.fillText(ch, x, y + rise * (1 - p));
+    c.save(); c.translate(LK.tx, LK.base); c.scale(KL, KL); c.filter = 'none';
+    const frame = Math.round(t * FPS);                      // all motion-blur sub-samples of a frame show the same glyph
+    const UP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', LO = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+    const letter = (ch, font, x, w, y, a0, dur, col, idx) => {
+      if (t < a0) return;
+      c.font = font; c.fillStyle = col; c.globalAlpha = ease(P(t, a0, a0 + 0.12));
+      if (t < a0 + dur && ch !== ' ') {                     // counting: a new random glyph every 2 frames
+        const pool = ch === ch.toUpperCase() ? UP : LO;
+        let g = pool[Math.floor(hash(Math.floor(frame / 2) * 13 + idx * 7) * pool.length)];
+        if (g === ch) g = pool[(pool.indexOf(g) + 5) % pool.length];
+        c.textAlign = 'center'; c.fillText(g, x + w / 2, y); c.textAlign = 'left';
+      } else c.fillText(ch, x, y);
     };
-    LK.chars.forEach((ch, i) => {
-      const a0 = Q.word + Q.wordStep * i;
-      letter(ch.ch, ch.font, ch.x, 0, ease(P(t, a0, a0 + Q.wordDur)), 18, 36, i < 3 ? BLACK : WHITE);   // "ISP" black, "Agency" white
-    });
-    LK.sub.forEach((ch, i) => {
-      const a0 = Q.sub + Q.subStep * i;
-      letter(ch.ch, '500 24px Inter', ch.x, 62, ease(P(t, a0, a0 + Q.subDur)), 8, 12, BLACK);
-    });
+    LK.chars.forEach((ch, i) => letter(ch.ch, ch.font, ch.x, ch.w, 0, Q.word + Q.wordStep * i, Q.wordDur, i < 3 ? BLACK : WHITE, i));   // "ISP" black, "Agency" white
+    LK.sub.forEach((ch, i) => letter(ch.ch, '500 24px Inter', ch.x, ch.w, 62, Q.sub + Q.subStep * i, Q.subDur, BLACK, 100 + i));
     c.restore();
   }
 }
