@@ -12,7 +12,7 @@ This is a 12-second vertical logo reveal (1080×1920, 30 fps) with sound effects
 | 9.3–11.3 s | "**ISP** Agency" appears letter by letter with a counter effect (each letter flickers through random characters, then locks in), followed by "CREATIVE EDITING STUDIO" the same way |
 | 9.3–12 s | Hold with a slow push-in |
 
-`square.js` holds the whole animation. `audio.py` synthesizes the sound effects at the same cue times: landing thuds, circle pops, spin whooshes, lock-in clicks, the bass hit, and counter ticks for the brand name. `CUES` at the top holds the timing, and `LABELS` holds the words.
+`square.js` holds the whole animation. `audio.py` synthesizes the sound design, modelled on the reference edit's audio: no music, lots of silence, deep 808-style sub hits for the landings and for each shape, a D-major chime as the circles drop, a sub build under the fast spin, and one big impact on the brand name with a long 43 Hz tail and soft plucks as the letters lock in. `CUES` at the top holds the timing, and `LABELS` holds the words.
 
 ## Rebuild
 
