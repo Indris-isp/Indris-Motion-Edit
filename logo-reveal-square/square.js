@@ -1,23 +1,30 @@
-/* ISP Agency logo reveal, square version: 1080x1920, 30 fps, 9 s, bright orange radial background.
-   A square drops and bounces, rolls to the right, splits into three squares while spinning, and those
-   "mark" into the logo: the outer two cut into brackets, the middle one rounds into the white core.
-   The mark spins fast with an easy-ease-out, then slides left to reveal the wordmark.
+/* ISP Agency logo reveal, square version: 1080x1920, 30 fps, 12 s, bright orange radial background.
+   1. A square drops and bounces.
+   2. It spins fast to the right and eases down smoothly, leaving three squares in a row.
+   3. One by one the squares "mark" into the logo parts, each with a title and a one-line explanation.
+   4. The parts spin fast into the logo with an easy ease out, then the mark slides left to reveal the wordmark.
    Every frame is a pure function of time: window.renderAt(seconds). */
-const W = 1080, H = 1920, FPS = 30, DUR = 9;
+const W = 1080, H = 1920, FPS = 30, DUR = 12;
 
 /* ---------- brand ---------- */
 const INK = [17, 17, 17], CORE = [255, 255, 255];
 const R = 52, BL = 98, BT = 34, DG = 69;   // core radius, bracket arm, bracket thickness, bracket offset (mark units)
-const SQ = 150;                            // the dropping square, mark units
-const KC = 1.2, KL = 0.82;                 // mark scale centre-stage / in the final lockup
+const KR = 1.0, KC = 1.25, KL = 0.82;      // shape scale in the row / logo centre-stage / final lockup
+const ROW_Y = 900, ROW_X = [230, 540, 850];
 const SUB = 'CREATIVE EDITING STUDIO';
+const EXPLAIN = [
+  { title: 'Structure', lines: ['Structure that leaves', 'room for creativity.'] },
+  { title: 'Focus', lines: ['One clear idea at the', 'center of every edit.'] },
+  { title: 'Clarity', lines: ['Room to breathe,', 'confident at any size.'] },
+];
 
 /* ---------- timing (seconds) ---------- */
 const CUES = {
-  drop: 0.30, land: 1.00, land2: 1.40, land3: 1.58,
-  roll0: 1.75, roll1: 2.40, spin1: 3.35, split0: 2.55, split1: 3.20,
-  mark0: 3.30, mark1: 3.95, fast0: 3.95, fast1: 5.25,
-  slide0: 5.45, slide1: 6.35, word: 5.70, sub: 6.40,
+  drop: 0.30, land: 1.00, land2: 1.40,
+  roll0: 1.60, roll1: 2.90,
+  mark: [3.10, 4.60, 6.10], markDur: 0.60, label: [3.45, 4.95, 6.45], labOut: 7.55,
+  asm0: 7.85, asm1: 9.25,
+  slide0: 9.45, slide1: 10.35, word: 9.70, sub: 10.40,
 };
 
 /* ---------- easing ---------- */
@@ -31,10 +38,10 @@ function bezier(x1, y1, x2, y2) {
     return f(t, y1, y2); };
 }
 const ease = bezier(0.33, 0, 0.67, 1);      // After Effects "Easy Ease"
-const easeOut = bezier(0.40, 0, 0.08, 1);   // quick start, long easy-ease-out (the fast spin)
-const imp = (x, a, f = 40, d = 13) => x < 0 ? 0 : a * Math.exp(-x * d) * Math.cos(x * f);
+const fastOut = bezier(0.16, 0.72, 0.24, 1); // starts fast, long smooth ease down
+const bump = p => Math.sin(Math.PI * ease(p)); // 0 -> 1 -> 0, smooth
 const mix = (a, b, p) => `rgb(${a.map((v, i) => Math.round(lerp(v, b[i], p))).join(',')})`;
-const D2R = Math.PI / 180;
+const TAU = 2 * Math.PI;
 
 /* ---------- lockup layout ---------- */
 let LK = null;
@@ -65,8 +72,7 @@ function lshape(c, cut) {          // a square with its bottom-right corner cut 
 }
 function roundSq(c, s, r) { c.beginPath(); c.roundRect(-s / 2, -s / 2, s, s, Math.min(r, s / 2)); c.fill(); }
 
-/* ---------- one frame ---------- */
-// Background "Option A - orange radial": same formula as bg.png, built once with a light dither against banding.
+// Background "Option A - orange radial", built once with a light dither against banding.
 const bg = new OffscreenCanvas(W, H);
 (() => {
   const g = bg.getContext('2d'), im = g.createImageData(W, H), d = im.data;
@@ -79,64 +85,85 @@ const bg = new OffscreenCanvas(W, H);
   }
   g.putImageData(im, 0, 0);
 })();
+
+/* Rolling: each square travels from slot 0 to its own slot, all on the same fast-out curve. Its spin is
+   proportional to the distance (like rolling) and lands on its final orientation:
+   0 for the top-left bracket, 180° for the bottom-right one. */
+const ORIENT = [0, 0, Math.PI];
+const SPIN = ROW_X.map((x, i) => {
+  const roll = (x - ROW_X[0]) / (BL * KR * 0.36) + (i === 0 ? TAU : 0);   // square 0 spins once in place
+  return ORIENT[i] + TAU * Math.max(1, Math.round((roll - ORIENT[i]) / TAU));
+});
+
+/* ---------- one frame ---------- */
 function draw(c, t) {
   if (!LK) layout(c);
   c.setTransform(1, 0, 0, 1, 0, 0);
   c.drawImage(bg, 0, 0, W, H);
-  const z = 1 + 0.03 * ease(P(t, 6.3, DUR));                       // slow push-in on the hold
+  const z = 1 + 0.03 * ease(P(t, 10.3, DUR));                      // slow push-in on the hold
   c.setTransform(z, 0, 0, z, 540 * (1 - z), 960 * (1 - z));
-  c.fillStyle = mix(INK, INK, 0);
-
-  const h = SQ * KC / 2, Y = 960, x0 = 540 - h;
   if (t < CUES.drop) return;
 
-  /* --- act 1: drop, bounce, roll right (single square) --- */
-  if (t < CUES.roll1) {
-    let cx = x0, cy, ang = 0, sx = 1, sy = 1;
-    if (t < CUES.land) {
-      const p = P(t, CUES.drop, CUES.land);
-      cy = lerp(-260, Y, p * p); sy = 1 + 0.12 * p; sx = 1 - 0.06 * p;
-    } else {
-      const u1 = P(t, CUES.land, CUES.land2), u2 = P(t, CUES.land2, CUES.land3);
-      cy = Y - 150 * 4 * u1 * (1 - u1) - 34 * 4 * u2 * (1 - u2);
-      const q = imp(t - CUES.land, 0.17) + imp(t - CUES.land2, 0.08) + imp(t - CUES.land3, 0.04);
-      sx = 1 + q; sy = 1 - q;
-    }
-    if (t >= CUES.roll0) {                                  // roll over the bottom-right corner
-      const a = 90 * ease(P(t, CUES.roll0, CUES.roll1)) * D2R;
-      const px = x0 + h, py = Y + h, ox = -h, oy = -h;
-      cx = px + ox * Math.cos(a) - oy * Math.sin(a); cy = py + ox * Math.sin(a) + oy * Math.cos(a);
-      ang = a; sx = sy = 1;
-    }
-    c.save(); c.translate(cx, cy + h * (1 - sy)); c.rotate(ang); c.scale(sx * KC, sy * KC);
-    c.fillStyle = mix(INK, INK, 0); c.fillRect(-SQ / 2, -SQ / 2, SQ, SQ); c.restore();
-    return;
+  const h = BL * KR / 2;
+  /* --- act 1: drop + bounce (one square at slot 0) --- */
+  let dropY = ROW_Y, sx = 1, sy = 1;
+  if (t < CUES.land) {
+    const p = P(t, CUES.drop, CUES.land);
+    dropY = lerp(-200, ROW_Y, p * p); sy = 1 + 0.10 * p; sx = 1 - 0.05 * p;
+  } else if (t < CUES.roll0) {
+    const u1 = P(t, CUES.land, CUES.land2), u2 = P(t, CUES.land2, CUES.land2 + 0.16);
+    dropY = ROW_Y - 120 * 4 * u1 * (1 - u1) - 16 * 4 * u2 * (1 - u2);
+    const q = 0.14 * bump(P(t, CUES.land, CUES.land + 0.16)) + 0.05 * bump(P(t, CUES.land2, CUES.land2 + 0.12));
+    sx = 1 + q; sy = 1 - q;
   }
 
-  /* --- act 2-4: spin + split, mark into the logo, fast spin, slide left --- */
-  const sp = ease(P(t, CUES.roll1, CUES.spin1));
-  let gx = lerp(x0 + 2 * h, 540, sp), gy = Y, k = KC;
-  let th = 90 + 180 * sp;                                          // keeps rotating while it splits
-  th += -25 * ease(P(t, CUES.mark0, CUES.mark1));                  // small wind-up
-  th += 835 * easeOut(P(t, CUES.fast0, CUES.fast1));               // fast spin, easy ease out -> 1080 = upright
-  k *= 1 + 0.10 * Math.sin(Math.PI * ease(P(t, CUES.fast0, CUES.fast1)));
+  /* --- poses of the three parts --- */
+  const r = fastOut(P(t, CUES.roll0, CUES.roll1));
+  const a = ease(P(t, CUES.asm0, CUES.asm1));                       // row -> logo
+  const spin = TAU * fastOut(P(t, CUES.asm0, CUES.asm1));           // fast spin, easy ease out (one full turn)
   const sl = ease(P(t, CUES.slide0, CUES.slide1));
-  gx = lerp(gx, LK.cx, sl); gy = lerp(gy, LK.cy, sl); k = lerp(k, KL, sl);
+  let gx = lerp(540, LK.cx, sl), gy = lerp(lerp(ROW_Y, 960, a), LK.cy, sl);
+  let k = lerp(lerp(KR, KC, a), KL, sl);
+  const logoOff = [[-DG, -DG], [0, 0], [DG, DG]];
 
-  const s = ease(P(t, CUES.split0, CUES.split1));                  // split progress
-  const m = ease(P(t, CUES.mark0, CUES.mark1));                    // marking (morph) progress
-  const spread = lerp(0, 1.6, s) * (1 - m) + m * 1;               // fan out, then pull in to logo spacing
-
-  c.save(); c.translate(gx, gy); c.rotate(th * D2R); c.scale(k, k);
-  c.fillStyle = mix(INK, INK, 0);
-  [-1, 1].forEach(sd => {                                          // outer squares -> brackets
-    if (s <= 0) return;
-    c.save(); c.translate(sd * DG * spread, sd * DG * spread); if (sd > 0) c.rotate(Math.PI);
-    lshape(c, m * (BL - BT)); c.restore();
+  const parts = [0, 1, 2].map(i => {
+    const rowX = lerp(ROW_X[0], ROW_X[i], r) - 540, rowY = (t < CUES.roll0 ? dropY : ROW_Y) - ROW_Y;
+    const ox = lerp(rowX, logoOff[i][0] * k, a), oy = lerp(rowY, logoOff[i][1] * k, a);
+    const cs = Math.cos(spin), sn = Math.sin(spin);
+    const m = ease(P(t, CUES.mark[i], CUES.mark[i] + CUES.markDur));
+    return {
+      x: gx + ox * cs - oy * sn, y: gy + ox * sn + oy * cs,
+      rot: SPIN[i] * r + spin, m, pop: 1 + 0.08 * bump(P(t, CUES.mark[i], CUES.mark[i] + CUES.markDur + 0.1)),
+    };
   });
-  const size = lerp(lerp(SQ, BL, s), 2 * R, m);                    // middle square -> white core
-  c.fillStyle = mix(INK, CORE, m); roundSq(c, size, m * size / 2);
-  c.restore();
+
+  // squares 1 and 2 hide behind square 0 until the roll starts
+  [2, 1, 0].forEach(i => {
+    const p = parts[i];
+    if (i > 0 && t < CUES.roll0) return;
+    c.save();
+    c.translate(p.x, p.y + (i === 0 ? h * (1 - sy) : 0));
+    c.rotate(p.rot); c.scale(k * p.pop * (i === 0 ? sx : 1), k * p.pop * (i === 0 ? sy : 1));
+    if (i === 1) { const s = lerp(BL, 2 * R, p.m); c.fillStyle = mix(INK, CORE, p.m); roundSq(c, s, p.m * s / 2); }
+    else { c.fillStyle = mix(INK, INK, 0); lshape(c, p.m * (BL - BT)); }
+    c.restore();
+  });
+
+  /* --- explanations under each part --- */
+  if (t < CUES.asm0 + 0.2) {
+    c.save(); c.textAlign = 'center'; c.fillStyle = mix(INK, INK, 0);
+    EXPLAIN.forEach((e, i) => {
+      const p = ease(P(t, CUES.label[i], CUES.label[i] + 0.55));
+      const o = p * (1 - ease(P(t, CUES.labOut, CUES.labOut + 0.4)));
+      if (o <= 0) return;
+      const dy = 16 * (1 - p), x = ROW_X[i], y = ROW_Y + 112 + dy;
+      c.globalAlpha = o; c.font = '700 36px Inter'; c.fillText(e.title, x, y);
+      const p2 = ease(P(t, CUES.label[i] + 0.15, CUES.label[i] + 0.7));
+      c.globalAlpha = 0.82 * o * p2; c.font = '400 23px Inter';
+      e.lines.forEach((ln, j) => c.fillText(ln, x, y + 40 + 30 * j + 8 * (1 - p2)));
+    });
+    c.restore();
+  }
 
   /* --- wordmark --- */
   if (t >= CUES.word) {
@@ -182,7 +209,7 @@ function renderAt(t) {
 }
 window.renderAt = renderAt; window.CUES = CUES; window.DUR = DUR; window.FPS = FPS;
 
-Promise.all([...['500 24px Inter', '800 96px Inter', '400 96px Inter'].map(f => document.fonts.load(f))]).then(() => {
+Promise.all(['500 24px Inter', '800 96px Inter', '400 96px Inter', '700 36px Inter', '400 23px Inter'].map(f => document.fonts.load(f))).then(() => {
   layout(ctx); renderAt(0); window.READY = true;
   if (RENDER) { document.body.classList.add('render'); return; }
   const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');

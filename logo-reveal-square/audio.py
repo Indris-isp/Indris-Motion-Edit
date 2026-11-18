@@ -54,15 +54,15 @@ L += pad; Rt += pad
 # --- SFX ---
 place(whoosh(0.7, 300, 2000, .9), Q['drop'], .16)
 place(S(tone(120, 45, .5, .001, 10), .6 * pop(260, 40)), Q['land'], .6)
-place(S(tone(110, 50, .3, .001, 16), .4 * pop(300, 50)), Q['land2'], .3)
-place(pop(340, 60), Q['land3'], .12)
-place(whoosh(.65, 400, 1600, .6), Q['roll0'], .12, .3); place(S(tone(140, 60, .3, .001, 18), .5 * click()), Q['roll1'] - .03, .35, .3)
-place(whoosh(.9, 600, 2600, .6), Q['roll1'], .10)
-place(pop(620), Q['split0'] + .12, .30, -.4); place(pop(780), Q['split0'] + .2, .30, .4)
-for i in range(3): place(click(), Q['mark0'] + .12 + .18 * i, .38, [-.5, 0, .5][i])
-place(tone(900, 300, .35, .001, 18, (1, 2, 3)), Q['mark0'] + .35, .3)
-place(whoosh(1.3, 300, 4500, .25), Q['fast0'], .28)
-place(S(tone(110, 42, 1.6, .002, 3.2, (1, 2)), lowpass(rng.standard_normal(int(.08 * SR)), 900) * env(int(.08 * SR), .001, 40) * 2), Q['slide0'] - .05, .7)
+place(S(tone(110, 50, .3, .001, 16), .4 * pop(300, 50)), Q['land2'], .25)
+place(whoosh(1.1, 3500, 500, .12), Q['roll0'], .26, .2)                 # fast roll right, easing down
+for i, d in enumerate([0.0, 0.07]): place(S(tone(150, 70, .25, .001, 20), .5 * click()), Q['roll0'] + .45 + d, .22, .3 + .3 * i)
+for i, at in enumerate(Q['mark']):                                       # each part being marked
+    place(click(), at, .4, [-.5, 0, .5][i]); place(click(), at + .3, .3, [-.5, 0, .5][i])
+    place(tone(900 if i == 1 else 700, 300, .35, .001, 18, (1, 2, 3)), at + .5, .28 if i == 1 else .18, [-.5, 0, .5][i])
+for i, at in enumerate(Q['label']): place(tone(1760, 1760, .6, .002, 8), at, .05, [-.4, 0, .4][i])
+place(whoosh(1.4, 400, 4500, .2), Q['asm0'], .3)                        # fast spin into the logo
+place(S(tone(110, 42, 1.6, .002, 3.2, (1, 2)), lowpass(rng.standard_normal(int(.08 * SR)), 900) * env(int(.08 * SR), .001, 40) * 2), Q['asm1'] - .1, .7)
 place(whoosh(.8, 500, 4000, .5), Q['word'] - .05, .13)
 shim = sum(np.sin(2 * np.pi * f * t[:int(1.8 * SR)]) for f in (880, 1318.5, 1760)) * env(int(1.8 * SR), .02, 2.2)
 place(shim, Q['sub'], .045)
