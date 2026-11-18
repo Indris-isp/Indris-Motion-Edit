@@ -1,23 +1,25 @@
 # ISP Agency logo reveal: square version
 
-This is a 12-second vertical logo reveal (1080×1920, 30 fps) on a bright orange radial gradient (background option A). It is paced like the reference: every move is a single Easy Ease, with no wobble, and the frames have real motion blur.
+This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. The mark and text are all white on a bright orange radial gradient (background option A). Every move uses Easy Ease, and the frames have real motion blur.
 
 | Time | Action |
 |---|---|
-| 0.3–1.6 s | A black square drops in and lands with one soft bounce |
-| 1.6–2.9 s | It spins fast to the right and eases down smoothly, leaving three squares in a row |
-| 3.1–7.0 s | One by one, each square "marks" into a logo part, with a one-word label: **Structure** (top-left bracket), **Focus** (white core), **Clarity** (bottom-right bracket) |
-| 7.55–9.25 s | The labels fade out, and the parts spin fast into the logo with an easy ease out |
-| 9.45–10.35 s | The mark slides left as "**ISP** Agency" slides out from behind it, followed by "CREATIVE EDITING STUDIO" |
-| 10.4–12 s | Hold with a slow push-in |
+| 0.3–1.0 s | A white square drops into the middle |
+| 1.0–2.4 s | It bounces to the right. Each landing drops a circle that arcs back into the row, and on the last landing the square itself rounds into the third circle |
+| 2.7–6.4 s | One at a time, each circle spins fast (two turns, easing down) and forms its logo part, with a one-word label: **Structure** (top-left bracket), **Focus** (core), **Clarity** (bottom-right bracket) |
+| 6.9–8.4 s | The labels fade out, and the parts spin fast into the logo with an easy ease out |
+| 8.55–9.35 s | The mark slides left |
+| 8.8–10.9 s | "**ISP** Agency" appears letter by letter, each letter easing in from a blur, followed by "CREATIVE EDITING STUDIO" the same way |
+| 9.3–12 s | Hold with a slow push-in |
 
-The labels are in `LABELS` at the top of `square.js`.
+`square.js` holds the whole animation. `CUES` at the top holds the timing, and `LABELS` holds the words.
 
-`square.js` holds the whole animation, and `CUES` at the top holds the timing. Rebuild:
+## Rebuild
 
 ```bash
 cd logo-reveal-square
 node render.cjs
-python3 audio.py
-ffmpeg -y -i out/video_silent.mp4 -i out/audio.wav -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart out/ISP_logo_reveal_square_1080x1920.mp4
+ffmpeg -y -i out/video_silent.mp4 -c:v copy -an -movflags +faststart out/ISP_logo_reveal_square_1080x1920.mp4
 ```
+
+Quick stills: `node render.cjs --still 1.3,3.0,9.7` writes them to `out/still_*.png`.

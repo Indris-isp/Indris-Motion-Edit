@@ -1,26 +1,27 @@
-/* ISP Agency logo reveal, square version: 1080x1920, 30 fps, 12 s, bright orange radial background.
-   1. A square drops and bounces.
-   2. It spins fast to the right and eases down smoothly, leaving three squares in a row.
-   3. One by one the squares "mark" into the logo parts, each with a one-word label.
-   4. The parts spin fast into the logo with an easy ease out, then the mark slides left to reveal the wordmark.
+/* ISP Agency logo reveal, square version: 1080x1920, 30 fps, 12 s, bright orange radial background, all-white mark.
+   1. A white square drops in the middle and bounces.
+   2. It bounces to the right; at each landing it drops a circle (the last landing turns the square itself into one).
+   3. Each circle spins fast (motion blur) and forms its logo part, with a one-word label.
+   4. The parts spin fast into the logo with an easy ease out, the mark slides left, and the brand name
+      appears letter by letter with an easy-ease blur-in.
    Every frame is a pure function of time: window.renderAt(seconds). */
 const W = 1080, H = 1920, FPS = 30, DUR = 12;
 
 /* ---------- brand ---------- */
-const INK = [17, 17, 17], CORE = [255, 255, 255];
+const WHITE = '#FFFFFF';
 const R = 52, BL = 98, BT = 34, DG = 69;   // core radius, bracket arm, bracket thickness, bracket offset (mark units)
+const SQ = 100;                            // the dropping square (px)
 const KR = 1.0, KC = 1.25, KL = 0.82;      // shape scale in the row / logo centre-stage / final lockup
 const ROW_Y = 900, ROW_X = [230, 540, 850];
+const LABELS = ['Structure', 'Focus', 'Clarity'];
 const SUB = 'CREATIVE EDITING STUDIO';
-const LABELS = ['Structure', 'Focus', 'Clarity'];   // one word under each part, like the reference
 
 /* ---------- timing (seconds) ---------- */
 const CUES = {
-  drop: 0.30, land: 1.00, land2: 1.40,
-  roll0: 1.60, roll1: 2.90,
-  mark: [3.10, 4.60, 6.10], markDur: 0.60, label: [3.45, 4.95, 6.45], labOut: 7.55,
-  asm0: 7.85, asm1: 9.25,
-  slide0: 9.45, slide1: 10.35, word: 9.70, sub: 10.40,
+  drop: 0.30, land1: 1.00, land2: 1.55, land3: 2.05, sqMorph: 0.35,
+  form: [2.70, 4.10, 5.50], formDur: 0.90, labOut: 6.90,
+  asm0: 7.10, asm1: 8.40, slide0: 8.55, slide1: 9.35,
+  word: 8.80, wordStep: 0.07, wordDur: 0.65, sub: 9.85, subStep: 0.028, subDur: 0.55,
 };
 
 /* ---------- easing ---------- */
@@ -33,11 +34,11 @@ function bezier(x1, y1, x2, y2) {
     let lo = 0, hi = 1, t = p; for (let i = 0; i < 24; i++) { t = (lo + hi) / 2; if (f(t, x1, x2) < p) lo = t; else hi = t; }
     return f(t, y1, y2); };
 }
-const ease = bezier(0.33, 0, 0.67, 1);      // After Effects "Easy Ease"
+const ease = bezier(0.33, 0, 0.67, 1);       // After Effects "Easy Ease"
 const fastOut = bezier(0.16, 0.72, 0.24, 1); // starts fast, long smooth ease down
-const bump = p => Math.sin(Math.PI * ease(p)); // 0 -> 1 -> 0, smooth
-const mix = (a, b, p) => `rgb(${a.map((v, i) => Math.round(lerp(v, b[i], p))).join(',')})`;
+const bump = p => Math.sin(Math.PI * ease(p));
 const TAU = 2 * Math.PI;
+const hop = (u, hgt) => 4 * hgt * u * (1 - u);  // parabola 0 -> hgt -> 0
 
 /* ---------- lockup layout ---------- */
 let LK = null;
@@ -45,7 +46,7 @@ function layout(c) {
   const F = 96, chars = [];
   const word = (s, wt, x0) => {
     c.font = `${wt} ${F}px Inter`;
-    for (let i = 0; i < s.length; i++) chars.push({ ch: s[i], x: x0 + c.measureText(s.slice(0, i)).width, font: c.font });
+    for (let i = 0; i < s.length; i++) chars.push({ ch: s[i], x: x0 + c.measureText(s.slice(0, i)).width, w: c.measureText(s[i]).width, font: c.font });
     return x0 + c.measureText(s).width;
   };
   let x = word('ISP', 800, 0);
@@ -53,7 +54,7 @@ function layout(c) {
   const wt = word('Agency', 400, x);
   c.font = `500 24px Inter`;
   const w0 = c.measureText(SUB).width, sp = (wt - w0) / (SUB.length - 1);
-  const sub = [...SUB].map((ch, i) => ({ ch, x: c.measureText(SUB.slice(0, i)).width + i * sp }));
+  const sub = [...SUB].map((ch, i) => ({ ch, x: c.measureText(SUB.slice(0, i)).width + i * sp, w: c.measureText(ch).width }));
   const total = (2 * (DG + BL / 2) + 46 + wt) * KL;
   LK = { chars, sub, wt, cx: 540 - total / 2 + (DG + BL / 2) * KL, cy: 960 };
   LK.tx = LK.cx + (DG + BL / 2 + 46) * KL;
@@ -61,12 +62,15 @@ function layout(c) {
 }
 
 /* ---------- shapes (mark units, centred on the origin) ---------- */
-function lshape(c, cut) {          // a square with its bottom-right corner cut away -> top-left bracket
+// m: 0 = circle, 0.5 = square, 1 = top-left bracket (square with its bottom-right corner cut away)
+function circleToBracket(c, m) {
   const h = BL / 2;
+  if (m < 0.5) { c.beginPath(); c.roundRect(-h, -h, BL, BL, h * (1 - ease(m / 0.5))); c.fill(); return; }
+  const cut = ease((m - 0.5) / 0.5) * (BL - BT);
   c.beginPath(); c.moveTo(-h, -h); c.lineTo(h, -h); c.lineTo(h, h - cut); c.lineTo(h - cut, h - cut);
   c.lineTo(h - cut, h); c.lineTo(-h, h); c.closePath(); c.fill();
 }
-function roundSq(c, s, r) { c.beginPath(); c.roundRect(-s / 2, -s / 2, s, s, Math.min(r, s / 2)); c.fill(); }
+function disc(c, r) { c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fill(); }
 
 // Background "Option A - orange radial", built once with a light dither against banding.
 const bg = new OffscreenCanvas(W, H);
@@ -82,98 +86,100 @@ const bg = new OffscreenCanvas(W, H);
   g.putImageData(im, 0, 0);
 })();
 
-/* Rolling: each square travels from slot 0 to its own slot, all on the same fast-out curve. Its spin is
-   proportional to the distance (like rolling) and lands on its final orientation:
-   0 for the top-left bracket, 180° for the bottom-right one. */
-const ORIENT = [0, 0, Math.PI];
-const SPIN = ROW_X.map((x, i) => {
-  const roll = (x - ROW_X[0]) / (BL * KR * 0.36) + (i === 0 ? TAU : 0);   // square 0 spins once in place
-  return ORIENT[i] + TAU * Math.max(1, Math.round((roll - ORIENT[i]) / TAU));
-});
+/* ---------- act 1-2: the bouncing square and the circles it drops ---------- */
+function squarePose(t) {          // centre position, rotation, squash
+  const Q = CUES;
+  let x = 540, y = ROW_Y, rot = 0;
+  if (t < Q.land1) { const p = P(t, Q.drop, Q.land1); y = lerp(-220, ROW_Y, p * p); }
+  else if (t < Q.land2) { const u = P(t, Q.land1, Q.land2); x = lerp(540, 695, u); y = ROW_Y - hop(u, 210); rot = 0.5 * Math.PI * ease(u); }
+  else if (t < Q.land3) { const u = P(t, Q.land2, Q.land3); x = lerp(695, 850, u); y = ROW_Y - hop(u, 130); rot = 0.5 * Math.PI * (1 + ease(u)); }
+  else { x = 850; rot = Math.PI; }
+  const q = 0.16 * bump(P(t, Q.land1, Q.land1 + 0.16)) + 0.11 * bump(P(t, Q.land2, Q.land2 + 0.14)) + 0.08 * bump(P(t, Q.land3, Q.land3 + 0.14));
+  return { x, y, rot, sx: 1 + q, sy: 1 - q };
+}
+// circle i: dropped at a landing, then arcs back to its slot. Circle 2 is the square itself.
+function droppedCircle(i, t) {
+  const Q = CUES;
+  const spec = [{ at: Q.land1, from: 540, dur: 0.62, hgt: 240 }, { at: Q.land2, from: 695, dur: 0.50, hgt: 150 }][i];
+  if (t < spec.at) return null;
+  const u = P(t, spec.at, spec.at + spec.dur);
+  const land = spec.at + spec.dur, q = 0.14 * bump(P(t, land, land + 0.15));
+  return { x: lerp(spec.from, ROW_X[i], u), y: ROW_Y - hop(u, spec.hgt), s: lerp(0.35, 1, ease(P(t, spec.at, spec.at + 0.22))), sx: 1 + q, sy: 1 - q };
+}
 
 /* ---------- one frame ---------- */
 function draw(c, t) {
   if (!LK) layout(c);
-  c.setTransform(1, 0, 0, 1, 0, 0);
+  c.setTransform(1, 0, 0, 1, 0, 0); c.filter = 'none'; c.globalAlpha = 1;
   c.drawImage(bg, 0, 0, W, H);
-  const z = 1 + 0.03 * ease(P(t, 10.3, DUR));                      // slow push-in on the hold
+  const z = 1 + 0.03 * ease(P(t, 9.3, DUR));                        // slow push-in on the hold
   c.setTransform(z, 0, 0, z, 540 * (1 - z), 960 * (1 - z));
+  c.fillStyle = WHITE;
   if (t < CUES.drop) return;
+  const Q = CUES, bottomAnchor = (y, r, sy) => y + r * (1 - sy);
 
-  const h = BL * KR / 2;
-  /* --- act 1: drop + bounce (one square at slot 0) --- */
-  let dropY = ROW_Y, sx = 1, sy = 1;
-  if (t < CUES.land) {
-    const p = P(t, CUES.drop, CUES.land);
-    dropY = lerp(-200, ROW_Y, p * p); sy = 1 + 0.10 * p; sx = 1 - 0.05 * p;
-  } else if (t < CUES.roll0) {
-    const u1 = P(t, CUES.land, CUES.land2), u2 = P(t, CUES.land2, CUES.land2 + 0.16);
-    dropY = ROW_Y - 120 * 4 * u1 * (1 - u1) - 16 * 4 * u2 * (1 - u2);
-    const q = 0.14 * bump(P(t, CUES.land, CUES.land + 0.16)) + 0.05 * bump(P(t, CUES.land2, CUES.land2 + 0.12));
-    sx = 1 + q; sy = 1 - q;
+  if (t < Q.form[0]) {
+    /* --- drop, bounce right, drop circles --- */
+    [0, 1].forEach(i => {
+      const d = droppedCircle(i, t); if (!d) return;
+      const r = BL / 2 * d.s;
+      c.save(); c.translate(d.x, bottomAnchor(d.y, r, d.sy)); c.scale(d.sx * d.s, d.sy * d.s); disc(c, BL / 2); c.restore();
+    });
+    const s = squarePose(t), m = ease(P(t, Q.land3, Q.land3 + Q.sqMorph));
+    c.save(); c.translate(s.x, bottomAnchor(s.y, SQ / 2, s.sy)); c.rotate(s.rot); c.scale(s.sx, s.sy);
+    const size = lerp(SQ, BL, m); c.beginPath(); c.roundRect(-size / 2, -size / 2, size, size, m * size / 2); c.fill();
+    c.restore();
+    return;
   }
 
-  /* --- poses of the three parts --- */
-  const r = fastOut(P(t, CUES.roll0, CUES.roll1));
-  const a = ease(P(t, CUES.asm0, CUES.asm1));                       // row -> logo
-  const spin = TAU * fastOut(P(t, CUES.asm0, CUES.asm1));           // fast spin, easy ease out (one full turn)
-  const sl = ease(P(t, CUES.slide0, CUES.slide1));
-  let gx = lerp(540, LK.cx, sl), gy = lerp(lerp(ROW_Y, 960, a), LK.cy, sl);
-  let k = lerp(lerp(KR, KC, a), KL, sl);
+  /* --- forming (fast spin), then assembly into the logo and slide left --- */
+  const a = ease(P(t, Q.asm0, Q.asm1));
+  const spin = TAU * fastOut(P(t, Q.asm0, Q.asm1));
+  const sl = ease(P(t, Q.slide0, Q.slide1));
+  const gx = lerp(540, LK.cx, sl), gy = lerp(lerp(ROW_Y, 960, a), LK.cy, sl);
+  const k = lerp(lerp(KR, KC, a), KL, sl);
   const logoOff = [[-DG, -DG], [0, 0], [DG, DG]];
-
-  const parts = [0, 1, 2].map(i => {
-    const rowX = lerp(ROW_X[0], ROW_X[i], r) - 540, rowY = (t < CUES.roll0 ? dropY : ROW_Y) - ROW_Y;
-    const ox = lerp(rowX, logoOff[i][0] * k, a), oy = lerp(rowY, logoOff[i][1] * k, a);
-    const cs = Math.cos(spin), sn = Math.sin(spin);
-    const m = ease(P(t, CUES.mark[i], CUES.mark[i] + CUES.markDur));
-    return {
-      x: gx + ox * cs - oy * sn, y: gy + ox * sn + oy * cs,
-      rot: SPIN[i] * r + spin, m, pop: 1 + 0.08 * bump(P(t, CUES.mark[i], CUES.mark[i] + CUES.markDur + 0.1)),
-    };
-  });
-
-  // squares 1 and 2 hide behind square 0 until the roll starts
-  [2, 1, 0].forEach(i => {
-    const p = parts[i];
-    if (i > 0 && t < CUES.roll0) return;
-    c.save();
-    c.translate(p.x, p.y + (i === 0 ? h * (1 - sy) : 0));
-    c.rotate(p.rot); c.scale(k * p.pop * (i === 0 ? sx : 1), k * p.pop * (i === 0 ? sy : 1));
-    if (i === 1) { const s = lerp(BL, 2 * R, p.m); c.fillStyle = mix(INK, CORE, p.m); roundSq(c, s, p.m * s / 2); }
-    else { c.fillStyle = mix(INK, INK, 0); lshape(c, p.m * (BL - BT)); }
+  const cs = Math.cos(spin), sn = Math.sin(spin);
+  [0, 1, 2].forEach(i => {
+    const ox = lerp(ROW_X[i] - 540, logoOff[i][0] * k, a), oy = lerp(0, logoOff[i][1] * k, a);
+    const f0 = Q.form[i], fp = P(t, f0, f0 + Q.formDur);
+    const orient = i === 2 ? Math.PI : 0;
+    const selfSpin = (orient + 2 * TAU) * fastOut(fp);              // two fast turns, easing down
+    const pop = 1 + 0.10 * bump(P(t, f0, f0 + Q.formDur));
+    c.save(); c.translate(gx + ox * cs - oy * sn, gy + ox * sn + oy * cs); c.rotate(selfSpin + spin); c.scale(k * pop, k * pop);
+    if (i === 1) disc(c, lerp(BL / 2, R, ease(fp)));
+    else circleToBracket(c, P(t, f0, f0 + 0.6));
     c.restore();
   });
 
-  /* --- one-word label under each part --- */
-  if (t < CUES.asm0 + 0.2) {
-    c.save(); c.textAlign = 'center'; c.fillStyle = mix(INK, INK, 0);
+  /* --- one-word labels --- */
+  if (t < Q.labOut + 0.5) {
+    c.save(); c.textAlign = 'center'; c.font = '500 34px Inter';
     LABELS.forEach((word, i) => {
-      const p = ease(P(t, CUES.label[i], CUES.label[i] + 0.55));
-      const o = p * (1 - ease(P(t, CUES.labOut, CUES.labOut + 0.4)));
+      const a0 = Q.form[i] + 0.45, p = ease(P(t, a0, a0 + 0.55));
+      const o = p * (1 - ease(P(t, Q.labOut, Q.labOut + 0.4)));
       if (o <= 0) return;
-      c.globalAlpha = 0.9 * o; c.font = '500 34px Inter';
+      c.globalAlpha = 0.95 * o; c.filter = `blur(${(6 * (1 - p)).toFixed(2)}px)`;
       c.fillText(word, ROW_X[i], ROW_Y + 108 + 14 * (1 - p));
     });
     c.restore();
   }
 
-  /* --- wordmark --- */
-  if (t >= CUES.word) {
+  /* --- brand name: letter by letter, easy ease + blur --- */
+  if (t >= Q.word) {
     c.save(); c.translate(LK.tx, LK.base); c.scale(KL, KL);
-    c.beginPath(); c.rect(-6, -140, LK.wt + 60, 230); c.clip();
-    c.fillStyle = mix(INK, INK, 0);
+    const letter = (ch, font, x, y, p, blurMax, rise) => {
+      if (p <= 0) return;
+      c.font = font; c.globalAlpha = p; c.filter = p < 1 ? `blur(${(blurMax * (1 - p)).toFixed(2)}px)` : 'none';
+      c.fillText(ch, x, y + rise * (1 - p));
+    };
     LK.chars.forEach((ch, i) => {
-      const a = CUES.word + 0.045 * i, p = ease(P(t, a, a + 0.7));
-      if (p <= 0) return;
-      c.font = ch.font; c.globalAlpha = Math.min(1, p * 1.6);
-      c.fillText(ch.ch, ch.x - 140 * (1 - p), 0);
+      const a0 = Q.word + Q.wordStep * i;
+      letter(ch.ch, ch.font, ch.x, 0, ease(P(t, a0, a0 + Q.wordDur)), 18, 36);
     });
-    c.font = '500 24px Inter';
     LK.sub.forEach((ch, i) => {
-      const a = CUES.sub + 0.022 * i, p = ease(P(t, a, a + 0.45));
-      if (p <= 0) return;
-      c.globalAlpha = 0.9 * p; c.fillText(ch.ch, ch.x, 62 + 10 * (1 - p));
+      const a0 = Q.sub + Q.subStep * i;
+      letter(ch.ch, '500 24px Inter', ch.x, 62, ease(P(t, a0, a0 + Q.subDur)), 8, 12);
     });
     c.restore();
   }

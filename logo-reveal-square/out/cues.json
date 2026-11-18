@@ -3,27 +3,26 @@
  "DUR": 12,
  "CUES": {
   "drop": 0.3,
-  "land": 1,
-  "land2": 1.4,
-  "roll0": 1.6,
-  "roll1": 2.9,
-  "mark": [
-   3.1,
-   4.6,
-   6.1
+  "land1": 1,
+  "land2": 1.55,
+  "land3": 2.05,
+  "sqMorph": 0.35,
+  "form": [
+   2.7,
+   4.1,
+   5.5
   ],
-  "markDur": 0.6,
-  "label": [
-   3.45,
-   4.95,
-   6.45
-  ],
-  "labOut": 7.55,
-  "asm0": 7.85,
-  "asm1": 9.25,
-  "slide0": 9.45,
-  "slide1": 10.35,
-  "word": 9.7,
-  "sub": 10.4
+  "formDur": 0.9,
+  "labOut": 6.9,
+  "asm0": 7.1,
+  "asm1": 8.4,
+  "slide0": 8.55,
+  "slide1": 9.35,
+  "word": 8.8,
+  "wordStep": 0.07,
+  "wordDur": 0.65,
+  "sub": 9.85,
+  "subStep": 0.028,
+  "subDur": 0.55
  }
 }
