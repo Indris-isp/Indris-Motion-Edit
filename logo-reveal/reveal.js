@@ -18,9 +18,9 @@ const LABELS = ['Structure', 'Focus', 'Clarity'];
 const CUES = {
   drop: 0.30, land: 1.00, split: 1.32, merge0: 2.40, merge1: 2.68, fade: 2.80,
   br1: 3.10, lab1: 3.55, core: 4.55, lab2: 5.05, br2: 6.00, lab3: 6.45, labOut: 7.55,
-  asm0: 7.80, asm1: 8.55, vert0: 8.80, vert1: 9.10, dark0: 8.92, dark1: 9.10,
-  snaps: [9.22, 9.44, 9.66, 9.88], snapDur: 0.17,
-  light0: 10.02, light1: 10.26, slide0: 10.05, slide1: 10.65, word: 10.28, sub: 10.78,
+  asm0: 7.75, asm1: 8.65, vert0: 8.80, vert1: 9.25, dark0: 8.80, dark1: 9.30,
+  snaps: [9.30, 9.52, 9.74, 9.96], snapDur: 0.24,
+  light0: 10.10, light1: 10.55, slide0: 10.15, slide1: 10.90, word: 10.40, sub: 10.95,
 };
 const DRAW = 0.60;                    // bracket draw-on duration
 const Y0 = 940;                       // row baseline (shape centres)
@@ -31,6 +31,13 @@ const KL = 0.82;                      // scale of the final lockup
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const P = (t, a, b) => clamp((t - a) / (b - a));
 const lerp = (a, b, p) => a + (b - a) * p;
+function bezier(x1, y1, x2, y2) {
+  const f = (t, a, b) => 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3;
+  return p => { if (p <= 0) return 0; if (p >= 1) return 1;
+    let lo = 0, hi = 1, t = p; for (let i = 0; i < 24; i++) { t = (lo + hi) / 2; if (f(t, x1, x2) < p) lo = t; else hi = t; }
+    return f(t, y1, y2); };
+}
+const ease = bezier(0.33, 0, 0.67, 1);   // After Effects "Easy Ease"
 const io = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 const eo = p => 1 - Math.pow(1 - p, 3);
 const eo5 = p => 1 - Math.pow(1 - p, 5);
@@ -86,18 +93,18 @@ function blob(c, x, y, r, sx = 1, sy = 1) {      // dot anchored at its bottom s
 
 /* ---------- group pose: row -> diagonal -> vertical -> snaps -> lockup ---------- */
 function pose(t) {
-  const a = io(P(t, CUES.asm0, CUES.asm1));
+  const a = ease(P(t, CUES.asm0, CUES.asm1));
   let k = lerp(ROW_K, 1, a);
   let S = lerp(ROW_S, DG * Math.SQRT2 * k, a);
-  let th = 45 * a + 45 * io(P(t, CUES.vert0, CUES.vert1)), phi = 0;
+  let th = 45 * a + 45 * ease(P(t, CUES.vert0, CUES.vert1)), phi = 0;
   let cx = 540, cy = lerp(Y0, 960, a);
   const inc = [90, 90, 90, 45];
   CUES.snaps.forEach((s, i) => {
     const p = P(t, s, s + CUES.snapDur);
-    th += inc[i] * back(p, 2.2); phi += 90 * back(p, 2.2);
-    S *= 1 - 0.32 * Math.sin(Math.PI * p);
+    th += inc[i] * ease(p); phi += 90 * ease(p);
+    S *= 1 - 0.22 * Math.sin(Math.PI * ease(p));
   });
-  const f = io(P(t, CUES.slide0, CUES.slide1));
+  const f = ease(P(t, CUES.slide0, CUES.slide1));
   if (LK) { cx = lerp(cx, LK.cx, f); cy = lerp(cy, LK.cy, f); }
   k = lerp(k, KL, f); S = lerp(S, DG * Math.SQRT2 * k, f);
   const ct = Math.cos(th * D2R), st = Math.sin(th * D2R);
@@ -108,11 +115,11 @@ function pose(t) {
 /* ---------- one frame ---------- */
 function draw(c, t) {
   if (!LK) layout(c);
-  const d = io(P(t, CUES.dark0, CUES.dark1)) * (1 - io(P(t, CUES.light0, CUES.light1)));
+  const d = ease(P(t, CUES.dark0, CUES.dark1)) * (1 - ease(P(t, CUES.light0, CUES.light1)));
   const ink = mix(INK, CREAM, d);
   c.setTransform(1, 0, 0, 1, 0, 0);
   c.fillStyle = mix(CREAM, NIGHT, d); c.fillRect(0, 0, W, H);
-  const z = 1 + 0.025 * eo(P(t, 10.6, 12));                  // slow push-in on the hold
+  const z = 1 + 0.025 * ease(P(t, 10.6, 12));                  // slow push-in on the hold
   c.setTransform(z, 0, 0, z, 540 * (1 - z), 960 * (1 - z));
 
   /* --- act 1: the dot --- */
@@ -140,10 +147,10 @@ function draw(c, t) {
       }
       c.restore();
     }
-    const split = back(P(t, CUES.split, CUES.split + 0.38), 2.0);
-    const mg = io(P(t, CUES.merge0, CUES.merge1));
-    const bump = t > CUES.merge1 ? 0.2 * Math.exp(-(t - CUES.merge1) * 11) : 0;
-    const mv = io(P(t, CUES.fade, CUES.fade + 0.36));
+    const split = ease(P(t, CUES.split, CUES.split + 0.45));
+    const mg = ease(P(t, CUES.merge0, CUES.merge1));
+    const bump = t > CUES.merge1 ? 0.12 * Math.sin(Math.PI * ease(P(t, CUES.merge1, CUES.merge1 + 0.3))) : 0;
+    const mv = ease(P(t, CUES.fade, CUES.fade + 0.36));
     const lr = r * (1 - ei(P(t, CUES.fade + 0.08, CUES.br1 + 0.10)));
     const rr2 = r * (1 - ei(P(t, CUES.fade + 0.02, CUES.fade + 0.30)));
     const lx = lerp(540 - side, 540 - ROW_S, mv);
@@ -156,16 +163,16 @@ function draw(c, t) {
 
   /* --- act 2-4: shapes --- */
   const { pts, k, phi } = pose(t);
-  const pop = (a) => 1 + 0.07 * Math.sin(Math.PI * P(t, a, a + 0.3));
-  bracket(c, pts[0][0], pts[0][1], k * pop(CUES.br1 + DRAW), phi, io(P(t, CUES.br1, CUES.br1 + DRAW)), ink);
-  core(c, pts[1][0], pts[1][1], k * Math.max(0, back(P(t, CUES.core, CUES.core + 0.42), 2.6)), eo(P(t, CUES.core, CUES.core + 0.34)));
-  bracket(c, pts[2][0], pts[2][1], k * pop(CUES.br2 + DRAW), Math.PI + phi, io(P(t, CUES.br2, CUES.br2 + DRAW)), ink);
+  const pop = (a) => 1 + 0.04 * Math.sin(Math.PI * ease(P(t, a, a + 0.4)));
+  bracket(c, pts[0][0], pts[0][1], k * pop(CUES.br1 + DRAW), phi, ease(P(t, CUES.br1, CUES.br1 + DRAW)), ink);
+  core(c, pts[1][0], pts[1][1], k * ease(P(t, CUES.core, CUES.core + 0.5)), ease(P(t, CUES.core, CUES.core + 0.45)));
+  bracket(c, pts[2][0], pts[2][1], k * pop(CUES.br2 + DRAW), Math.PI + phi, ease(P(t, CUES.br2, CUES.br2 + DRAW)), ink);
 
   // labels
   if (t < CUES.asm1) {
     c.save(); c.font = '400 32px Inter'; c.textAlign = 'center'; c.fillStyle = ink;
     [CUES.lab1, CUES.lab2, CUES.lab3].forEach((a, i) => {
-      const p = eo(P(t, a, a + 0.4)), o = p * (1 - P(t, CUES.labOut, CUES.labOut + 0.3));
+      const p = ease(P(t, a, a + 0.5)), o = p * (1 - ease(P(t, CUES.labOut, CUES.labOut + 0.4)));
       if (o <= 0) return;
       c.globalAlpha = 0.82 * o;
       c.fillText(LABELS[i], 540 + (i - 1) * ROW_S, Y0 + 104 + 14 * (1 - p));
@@ -179,14 +186,14 @@ function draw(c, t) {
     c.beginPath(); c.rect(-6, -140, LK.wt + 60, 230); c.clip();
     c.fillStyle = ink;
     LK.chars.forEach((ch, i) => {
-      const a = CUES.word + 0.045 * i, p = eo5(P(t, a, a + 0.55));
+      const a = CUES.word + 0.045 * i, p = ease(P(t, a, a + 0.7));
       if (p <= 0) return;
       c.font = ch.font; c.globalAlpha = Math.min(1, p * 1.6);
       c.fillText(ch.ch, ch.x - 120 * (1 - p), 0);
     });
     c.font = '500 24px Inter';
     LK.sub.forEach((ch, i) => {
-      const a = CUES.sub + 0.022 * i, p = eo(P(t, a, a + 0.32));
+      const a = CUES.sub + 0.022 * i, p = ease(P(t, a, a + 0.45));
       if (p <= 0) return;
       c.globalAlpha = 0.85 * p; c.fillText(ch.ch, ch.x, 62 + 10 * (1 - p));
     });
