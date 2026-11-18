@@ -1,6 +1,6 @@
 # ISP Agency logo reveal: square version
 
-This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. It sits on a bright orange radial gradient (background option A). The brackets, "Agency" and the labels are white. The centre circle, "ISP" and "CREATIVE EDITING STUDIO" are black. Every move uses Easy Ease, and the frames have real motion blur.
+This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. It sits on a bright orange radial gradient (background option A). The brackets and "Agency" are white. The centre circle, "ISP", "CREATIVE EDITING STUDIO" and the labels are black. Every move uses Easy Ease, and the frames have real motion blur.
 
 | Time | Action |
 |---|---|

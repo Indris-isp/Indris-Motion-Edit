@@ -8,7 +8,7 @@
 const W = 1080, H = 1920, FPS = 30, DUR = 12;
 
 /* ---------- brand ---------- */
-const WHITE = '#FFFFFF', BLACK = '#111111';   // brackets, "Agency" and labels white; core, "ISP" and subline black
+const WHITE = '#FFFFFF', BLACK = '#111111';   // brackets and "Agency" white; core, "ISP", subline and labels black
 const mixHex = p => { const v = Math.round(lerp(255, 17, p)); return `rgb(${v},${v},${v})`; };
 const R = 52, BL = 98, BT = 34, DG = 69;   // core radius, bracket arm, bracket thickness, bracket offset (mark units)
 const SQ = 100;                            // the dropping square (px)
@@ -155,12 +155,12 @@ function draw(c, t) {
 
   /* --- one-word labels --- */
   if (t < Q.labOut + 0.5) {
-    c.save(); c.textAlign = 'center'; c.font = '500 34px Inter';
+    c.save(); c.textAlign = 'center'; c.font = '500 34px Inter'; c.fillStyle = BLACK;   // labels black
     LABELS.forEach((word, i) => {
       const a0 = Q.form[i] + 0.45, p = ease(P(t, a0, a0 + 0.55));
       const o = p * (1 - ease(P(t, Q.labOut, Q.labOut + 0.4)));
       if (o <= 0) return;
-      c.globalAlpha = 0.95 * o; c.filter = `blur(${(6 * (1 - p)).toFixed(2)}px)`;
+      c.globalAlpha = o; c.filter = `blur(${(6 * (1 - p)).toFixed(2)}px)`;
       c.fillText(word, ROW_X[i], ROW_Y + 108 + 14 * (1 - p));
     });
     c.restore();
