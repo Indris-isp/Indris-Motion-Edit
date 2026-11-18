@@ -16,10 +16,10 @@ This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. It 
 
 ## Rebuild
 
-The labels use **Satoshi Medium** (free from Fontshare, ITF Free Font License). It isn't committed, so download it first:
+The labels use **Satoshi Bold** (free from Fontshare, ITF Free Font License). It isn't committed, so download it first:
 
 ```bash
-mkdir -p fonts && curl -o fonts/Satoshi-Medium.woff2 "$(curl -s 'https://api.fontshare.com/v2/css?f[]=satoshi@500' | grep -o '//cdn[^)]*woff2' | head -1 | sed 's#^#https:#')"
+mkdir -p fonts && curl -o fonts/Satoshi-Bold.woff2 "$(curl -s 'https://api.fontshare.com/v2/css?f[]=satoshi@700' | grep -o '//cdn[^)]*woff2' | head -1 | sed 's#^#https:#')"
 ```
 
 
