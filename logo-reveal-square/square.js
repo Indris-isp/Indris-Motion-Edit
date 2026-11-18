@@ -1,7 +1,7 @@
 /* ISP Agency logo reveal, square version: 1080x1920, 30 fps, 12 s, bright orange radial background.
    1. A square drops and bounces.
    2. It spins fast to the right and eases down smoothly, leaving three squares in a row.
-   3. One by one the squares "mark" into the logo parts, each with a title and a one-line explanation.
+   3. One by one the squares "mark" into the logo parts, each with a one-word label.
    4. The parts spin fast into the logo with an easy ease out, then the mark slides left to reveal the wordmark.
    Every frame is a pure function of time: window.renderAt(seconds). */
 const W = 1080, H = 1920, FPS = 30, DUR = 12;
@@ -12,11 +12,7 @@ const R = 52, BL = 98, BT = 34, DG = 69;   // core radius, bracket arm, bracket 
 const KR = 1.0, KC = 1.25, KL = 0.82;      // shape scale in the row / logo centre-stage / final lockup
 const ROW_Y = 900, ROW_X = [230, 540, 850];
 const SUB = 'CREATIVE EDITING STUDIO';
-const EXPLAIN = [
-  { title: 'Structure', lines: ['Structure that leaves', 'room for creativity.'] },
-  { title: 'Focus', lines: ['One clear idea at the', 'center of every edit.'] },
-  { title: 'Clarity', lines: ['Room to breathe,', 'confident at any size.'] },
-];
+const LABELS = ['Structure', 'Focus', 'Clarity'];   // one word under each part, like the reference
 
 /* ---------- timing (seconds) ---------- */
 const CUES = {
@@ -149,18 +145,15 @@ function draw(c, t) {
     c.restore();
   });
 
-  /* --- explanations under each part --- */
+  /* --- one-word label under each part --- */
   if (t < CUES.asm0 + 0.2) {
     c.save(); c.textAlign = 'center'; c.fillStyle = mix(INK, INK, 0);
-    EXPLAIN.forEach((e, i) => {
+    LABELS.forEach((word, i) => {
       const p = ease(P(t, CUES.label[i], CUES.label[i] + 0.55));
       const o = p * (1 - ease(P(t, CUES.labOut, CUES.labOut + 0.4)));
       if (o <= 0) return;
-      const dy = 16 * (1 - p), x = ROW_X[i], y = ROW_Y + 112 + dy;
-      c.globalAlpha = o; c.font = '700 36px Inter'; c.fillText(e.title, x, y);
-      const p2 = ease(P(t, CUES.label[i] + 0.15, CUES.label[i] + 0.7));
-      c.globalAlpha = 0.82 * o * p2; c.font = '400 23px Inter';
-      e.lines.forEach((ln, j) => c.fillText(ln, x, y + 40 + 30 * j + 8 * (1 - p2)));
+      c.globalAlpha = 0.9 * o; c.font = '500 34px Inter';
+      c.fillText(word, ROW_X[i], ROW_Y + 108 + 14 * (1 - p));
     });
     c.restore();
   }
@@ -209,7 +202,7 @@ function renderAt(t) {
 }
 window.renderAt = renderAt; window.CUES = CUES; window.DUR = DUR; window.FPS = FPS;
 
-Promise.all(['500 24px Inter', '800 96px Inter', '400 96px Inter', '700 36px Inter', '400 23px Inter'].map(f => document.fonts.load(f))).then(() => {
+Promise.all(['500 24px Inter', '800 96px Inter', '400 96px Inter', '500 34px Inter'].map(f => document.fonts.load(f))).then(() => {
   layout(ctx); renderAt(0); window.READY = true;
   if (RENDER) { document.body.classList.add('render'); return; }
   const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
