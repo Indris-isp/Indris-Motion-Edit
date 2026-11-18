@@ -1,6 +1,6 @@
 # ISP Agency logo reveal: square version
 
-This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. It sits on a bright orange radial gradient (background option A). The brackets and "Agency" are white. The centre circle, "ISP", "CREATIVE EDITING STUDIO" and the labels are black. Every move uses Easy Ease, and the frames have real motion blur.
+This is a 12-second vertical logo reveal (1080×1920, 30 fps) with sound effects (no music). It sits on a bright orange radial gradient (background option A). The brackets and "Agency" are white. The centre circle, "ISP", "CREATIVE EDITING STUDIO" and the labels are black. Every move uses Easy Ease, and the frames have real motion blur.
 
 | Time | Action |
 |---|---|
@@ -12,7 +12,7 @@ This is a 12-second vertical logo reveal (1080×1920, 30 fps) with no audio. It 
 | 9.3–11.3 s | "**ISP** Agency" appears letter by letter with a counter effect (each letter flickers through random characters, then locks in), followed by "CREATIVE EDITING STUDIO" the same way |
 | 9.3–12 s | Hold with a slow push-in |
 
-`square.js` holds the whole animation. `CUES` at the top holds the timing, and `LABELS` holds the words.
+`square.js` holds the whole animation. `audio.py` synthesizes the sound effects at the same cue times: landing thuds, circle pops, spin whooshes, lock-in clicks, the bass hit, and counter ticks for the brand name. `CUES` at the top holds the timing, and `LABELS` holds the words.
 
 ## Rebuild
 
@@ -26,7 +26,8 @@ mkdir -p fonts && curl -o fonts/Satoshi-Bold.woff2 "$(curl -s 'https://api.fonts
 ```bash
 cd logo-reveal-square
 node render.cjs
-ffmpeg -y -i out/video_silent.mp4 -c:v copy -an -movflags +faststart out/ISP_logo_reveal_square_1080x1920.mp4
+python3 audio.py
+ffmpeg -y -i out/video_silent.mp4 -i out/audio.wav -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart out/ISP_logo_reveal_square_1080x1920.mp4
 ```
 
 Quick stills: `node render.cjs --still 1.3,3.0,9.7` writes them to `out/still_*.png`.
