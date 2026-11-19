@@ -1,0 +1,240 @@
+<title>ISP Background Blur</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+  /* Layout: a phone-shaped live preview beside one control panel; stacks on narrow screens. Single dark "edit suite" look, chosen deliberately. */
+  :root {
+    color-scheme: dark;
+    --bg: #120d0a;
+    --panel: #1d1612;
+    --line: #3a2a20;
+    --fg: #f4e9df;
+    --muted: #b49c8a;
+    --accent: #ff8a2e;
+    --accent-ink: #1a0f08;
+    --display: "Space Grotesk", "Inter", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  html, body { background: var(--bg); color: var(--fg); }
+  body { font-family: var(--body); font-size: 15px; line-height: 1.5; }
+  .wrap {
+    max-width: 1040px; margin: 0 auto;
+    padding-block: 28px 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid; gap: 24px;
+  }
+  header h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--muted); max-width: 62ch; }
+  .main { display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .stage { display: grid; justify-items: center; gap: 10px; }
+  canvas#view {
+    height: min(72vh, 760px); width: auto; max-width: 100%; aspect-ratio: 9 / 16;
+    border-radius: 14px; border: 1px solid var(--line); display: block; background: #000;
+  }
+  .stage small { color: var(--muted); font-size: 12px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 22px; min-width: 0; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  .readout { display: flex; align-items: baseline; gap: 8px; }
+  .readout output { font-family: var(--display); font-size: 64px; line-height: 1; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .readout span { color: var(--muted); }
+  input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; }
+  .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .presets, .modes { display: flex; flex-wrap: wrap; gap: 8px; }
+  button {
+    font: 500 14px var(--body); color: var(--fg); background: transparent; border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 14px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .send { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 10px; }
+  .send code { font: 600 16px ui-monospace, "SF Mono", Menlo, monospace; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: block; user-select: all; }
+  .send p { margin: 0; color: var(--muted); font-size: 13px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  #copied { color: var(--accent); font-size: 13px; }
+  @media (max-width: 760px) {
+    .main { grid-template-columns: minmax(0, 1fr); }
+    canvas#view { height: auto; width: min(100%, 360px); }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Background blur</h1>
+    <p>Drag the slider to soften the orange silk background. The preview drifts slowly, like the final video. When it looks right, send me the number.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+      <canvas id="view" width="540" height="960" aria-label="Live preview of the background"></canvas>
+      <small>Preview at half size. Labels show in Inter here; the video uses Satoshi Bold.</small>
+    </div>
+
+    <div class="panel">
+      <div>
+        <p class="eyebrow">Blur level</p>
+        <div class="readout"><output id="val" for="blur">0</output><span>px</span></div>
+        <input id="blur" type="range" min="0" max="60" step="1" value="0" aria-label="Blur level in pixels">
+        <div class="scale"><span>0 · sharp</span><span>30</span><span>60 · very soft</span></div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Quick picks</p>
+        <div class="presets">
+          <button type="button" data-v="0">None</button>
+          <button type="button" data-v="8">Light 8</button>
+          <button type="button" data-v="18">Medium 18</button>
+          <button type="button" data-v="32">Strong 32</button>
+          <button type="button" data-v="50">Dreamy 50</button>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Show on top</p>
+        <div class="modes" role="group" aria-label="What to show on top of the background">
+          <button type="button" id="m-none" data-mode="none" aria-pressed="false">Background only</button>
+          <button type="button" id="m-row" data-mode="row" aria-pressed="false">Labels row</button>
+          <button type="button" id="m-logo" data-mode="logo" aria-pressed="true">Final logo</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <button type="button" id="play" aria-pressed="true">Motion on</button>
+      </div>
+
+      <div class="send">
+        <p class="eyebrow">Send this to Claude</p>
+        <code id="msg">Blur 0 px</code>
+        <div class="row"><button type="button" id="copy">Copy</button><span id="copied" hidden>Copied</span></div>
+        <p>The video's frame is 1080 px wide; the number is in those pixels.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---- the exact background used in the video (silk style), computed at low resolution ---- */
+const fract = x => x - Math.floor(x);
+const h2 = (x, y) => fract(Math.sin(x * 127.1 + y * 311.7) * 43758.5453);
+function vnoise(x, y) {
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const a = h2(xi, yi), b = h2(xi + 1, yi), c = h2(xi, yi + 1), d = h2(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function fbm(x, y) { let s = 0, a = 0.5; for (let o = 0; o < 4; o++) { s += a * vnoise(x, y); x = x * 2.02 + 1.7; y = y * 2.03 + 9.2; a *= 0.5; } return s; }
+const sstep = (e0, e1, x) => { const u = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return u * u * (3 - 2 * u); };
+const STOPS = [[0, [6, 5, 6]], [0.3, [40, 12, 4]], [0.5, [130, 40, 8]], [0.68, [214, 84, 16]], [0.86, [250, 132, 46]], [1.0, [255, 186, 120]], [1.1, [255, 214, 170]]];
+const SILK = p => {
+  for (let k = 1; k < STOPS.length; k++) if (p <= STOPS[k][0]) {
+    const [p0, c0] = STOPS[k - 1], [p1, c1] = STOPS[k], u = (p - p0) / (p1 - p0), e = u * u * (3 - 2 * u);
+    return c0.map((v, i) => v + (c1[i] - v) * e);
+  }
+  return STOPS[STOPS.length - 1][1];
+};
+function silk(X, Y, t) {
+  const tt = t * 0.022, lx = X, ly = Y / 1.778;
+  const dd = Math.hypot(lx * 0.75, ly) / 1.25;
+  let L = 0.98 - 0.62 * Math.pow(dd, 1.15);
+  L += 0.13 * Math.exp(-((lx + 0.10) ** 2) / 0.12 - ((ly - 0.05) ** 2) / 0.30);
+  const qx = fbm(X + tt, Y - tt * 0.6), qy = fbm(X + 4.3 - tt * 0.5, Y + 1.1);
+  const f = fbm(X * 1.15 + 1.7 * qx + tt, Y * 1.15 + 1.7 * qy);
+  L += 0.30 * (sstep(0.3, 0.72, f) - 0.5);
+  const g = fbm(X * 0.6 + 1.3 * qx + 3.0 + tt * 0.8, Y * 0.6 + 1.3 * qy);
+  const s = fract(g * 7.0 + 0.15);
+  L += 0.20 * Math.exp(-((s - 0.5) ** 2) / 0.0012) * Math.exp(-((ly - 0.25) ** 2) / 0.07) * sstep(0.35, 0.6, f);
+  L -= 0.26 * sstep(0.70, 1.05, dd);
+  return SILK(Math.min(1.1, Math.max(0, L)));
+}
+const BW = 180, BH = 320;
+const low = document.createElement('canvas'); low.width = BW; low.height = BH;
+const lctx = low.getContext('2d'), img = lctx.createImageData(BW, BH);
+function field(t) {
+  const d = img.data;
+  for (let y = 0; y < BH; y++) for (let x = 0; x < BW; x++) {
+    const c = silk(x / BW, (y / BH) * 1.778, t), i = (y * BW + x) * 4;
+    d[i] = c[0]; d[i + 1] = c[1]; d[i + 2] = c[2]; d[i + 3] = 255;
+  }
+  lctx.putImageData(img, 0, 0);
+}
+
+/* ---- logo overlay (same geometry as the video, drawn in 1080-wide units) ---- */
+const R = 52, BL = 98, BT = 34, DG = 69, KL = 0.82, SUB = 'CREATIVE EDITING STUDIO';
+function lshape(c) { const h = BL / 2, cut = BL - BT;
+  c.beginPath(); c.moveTo(-h, -h); c.lineTo(h, -h); c.lineTo(h, h - cut); c.lineTo(h - cut, h - cut); c.lineTo(h - cut, h); c.lineTo(-h, h); c.closePath(); c.fill(); }
+function mark(c, x, y, k, spread) {
+  c.save(); c.translate(x, y); c.scale(k, k);
+  c.fillStyle = '#ffffff'; c.save(); c.translate(-spread[0], -spread[1]); lshape(c); c.restore();
+  c.save(); c.translate(spread[0], spread[1]); c.rotate(Math.PI); lshape(c); c.restore();
+  c.fillStyle = '#111111'; c.beginPath(); c.arc(0, 0, R, 0, 2 * Math.PI); c.fill();
+  c.restore();
+}
+function drawRow(c) {
+  [[230, 0], [850, Math.PI]].forEach(([x, r]) => { c.save(); c.translate(x, 900); c.rotate(r); c.fillStyle = '#ffffff'; lshape(c); c.restore(); });
+  c.fillStyle = '#111111'; c.beginPath(); c.arc(540, 900, R, 0, 2 * Math.PI); c.fill();
+  c.font = '700 36px Inter, sans-serif'; c.textAlign = 'center'; if ('letterSpacing' in c) c.letterSpacing = '-1.4px';
+  [['Structure', 230], ['Focus', 540], ['Clarity', 850]].forEach(([w, x]) => c.fillText(w, x, 1008));
+  if ('letterSpacing' in c) c.letterSpacing = '0px'; c.textAlign = 'left';
+}
+function drawLogo(c) {
+  c.font = '800 96px Inter, sans-serif'; const wISP = c.measureText('ISP').width;
+  c.font = '400 96px Inter, sans-serif'; const wSp = c.measureText(' ').width * 0.9, wAg = c.measureText('Agency').width;
+  const wt = wISP + wSp + wAg, total = (2 * (DG + BL / 2) + 46 + wt) * KL;
+  const cx = 540 - total / 2 + (DG + BL / 2) * KL, cy = 960, tx = cx + (DG + BL / 2 + 46) * KL, base = cy + 35 * KL;
+  mark(c, cx, cy, KL, [DG, DG]);
+  c.save(); c.translate(tx, base); c.scale(KL, KL);
+  c.font = '800 96px Inter, sans-serif'; c.fillStyle = '#111111'; c.fillText('ISP', 0, 0);
+  c.font = '400 96px Inter, sans-serif'; c.fillStyle = '#ffffff'; c.fillText('Agency', wISP + wSp, 0);
+  c.font = '500 24px Inter, sans-serif'; c.fillStyle = '#111111';
+  const w0 = c.measureText(SUB).width, sp = (wt - w0) / (SUB.length - 1);
+  [...SUB].forEach((ch, i) => c.fillText(ch, c.measureText(SUB.slice(0, i)).width + i * sp, 62));
+  c.restore();
+}
+
+/* ---- view ---- */
+const view = document.getElementById('view'), vc = view.getContext('2d');
+const slider = document.getElementById('blur'), val = document.getElementById('val'), msg = document.getElementById('msg');
+let blur = 0, mode = 'logo', playing = true, t = 0, last = performance.now(), lastField = -1;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduce) { playing = false; }
+function paint() {
+  const s = view.width / 1080;                                  // preview is half size
+  vc.setTransform(1, 0, 0, 1, 0, 0); vc.imageSmoothingEnabled = true; vc.imageSmoothingQuality = 'high';
+  const b = blur * s;
+  if (b > 0) {
+    const m = b * 3; vc.filter = `blur(${b}px)`;
+    vc.drawImage(low, -m, -m * 16 / 9, view.width + 2 * m, view.height + 2 * m * 16 / 9); vc.filter = 'none';
+  } else vc.drawImage(low, 0, 0, view.width, view.height);
+  vc.setTransform(s, 0, 0, s, 0, 0);
+  if (mode === 'row') drawRow(vc); else if (mode === 'logo') drawLogo(vc);
+}
+function tick(now) {
+  if (playing) t += (now - last) / 1000;
+  last = now;
+  if (playing && now - lastField > 90) { field(t); lastField = now; paint(); }
+  requestAnimationFrame(tick);
+}
+function setBlur(v) {
+  blur = +v; slider.value = blur; val.textContent = blur; msg.textContent = `Blur ${blur} px`;
+  document.querySelectorAll('.presets button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === blur)));
+  paint();
+}
+slider.addEventListener('input', e => setBlur(e.target.value));
+document.querySelectorAll('.presets button').forEach(b => b.addEventListener('click', () => setBlur(b.dataset.v)));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => {
+  mode = b.dataset.mode; document.querySelectorAll('.modes button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); paint();
+}));
+const play = document.getElementById('play');
+const syncPlay = () => { play.textContent = playing ? 'Motion on' : 'Motion paused'; play.setAttribute('aria-pressed', String(playing)); };
+play.addEventListener('click', () => { playing = !playing; syncPlay(); });
+document.getElementById('copy').addEventListener('click', () => {
+  const done = () => { const c = document.getElementById('copied'); c.hidden = false; setTimeout(() => (c.hidden = true), 1500); };
+  try { navigator.clipboard.writeText(msg.textContent).then(done, () => { getSelection().selectAllChildren(msg); }); }
+  catch (e) { getSelection().selectAllChildren(msg); }
+});
+syncPlay(); field(0); setBlur(0);
+document.fonts && document.fonts.ready.then(paint);
+requestAnimationFrame(tick);
+</script>

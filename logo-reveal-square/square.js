@@ -76,6 +76,8 @@ function disc(c, r) { c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fill(); }
 // Background, built once with a light dither against banding. Pick a style with ?bg=<name> (preview) or BG_DEFAULT.
 const BG_DEFAULT = 'orange';
 const BG_STYLE = new URLSearchParams(location.search).get('bg') || BG_DEFAULT;
+const BG_BLUR_DEFAULT = 0;                                          // background blur in px (1080-wide frame); preview with ?blur=<px>
+const BG_BLUR = +(new URLSearchParams(location.search).get('blur') ?? BG_BLUR_DEFAULT);
 const RAMP = [[0, [255, 138, 46]], [0.42, [228, 92, 20]], [0.78, [74, 24, 6]], [1, [7, 6, 6]]];  // orange -> ember -> black
 const ramp = p => {
   p = Math.min(1, Math.max(0, p));
@@ -193,7 +195,10 @@ function animatedBg(t) {
   bgLowCtx.putImageData(bgImg, 0, 0);
   bgFullCtx.imageSmoothingEnabled = true; bgFullCtx.imageSmoothingQuality = 'high';
   bgFullCtx.globalCompositeOperation = 'source-over'; bgFullCtx.globalAlpha = 1;
-  bgFullCtx.drawImage(bgLow, 0, 0, W, H);
+  if (BG_BLUR > 0) {                                                             // overscan so the blur doesn't darken the edges
+    const m = BG_BLUR * 3; bgFullCtx.filter = `blur(${BG_BLUR}px)`;
+    bgFullCtx.drawImage(bgLow, -m, -m * H / W, W + 2 * m, H + 2 * m * H / W); bgFullCtx.filter = 'none';
+  } else bgFullCtx.drawImage(bgLow, 0, 0, W, H);
   bgFullCtx.globalCompositeOperation = 'overlay'; bgFullCtx.globalAlpha = 0.07;   // fine film grain (also hides banding)
   const ox = (f * 137) % 512, oy = (f * 251) % 512;
   for (let y = -oy; y < H; y += 512) for (let x = -ox; x < W; x += 512) bgFullCtx.drawImage(grain, x, y);

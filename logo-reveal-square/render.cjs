@@ -15,7 +15,8 @@ const framesDir = path.join(outDir, 'frames');
 const stills = get('--still', null);
 const bgArg = get('--bg', null);
 const fast = args.includes('--fast');   // full-length preview without motion blur
-const url = 'file://' + path.join(__dirname, 'index.html') + (stills || fast ? '?still' : '?render') + (bgArg ? `&bg=${bgArg}` : '');
+const blurArg = get('--blur', null);
+const url = 'file://' + path.join(__dirname, 'index.html') + (stills || fast ? '?still' : '?render') + (bgArg ? `&bg=${bgArg}` : '') + (blurArg ? `&blur=${blurArg}` : '');
 
 async function openPage(browser) {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
