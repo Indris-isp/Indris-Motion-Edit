@@ -74,9 +74,9 @@ function circleToBracket(c, m) {
 function disc(c, r) { c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fill(); }
 
 // Background, built once with a light dither against banding. Pick a style with ?bg=<name> (preview) or BG_DEFAULT.
-const BG_DEFAULT = 'orange';
+const BG_DEFAULT = 'silkref';
 const BG_STYLE = new URLSearchParams(location.search).get('bg') || BG_DEFAULT;
-const BG_BLUR_DEFAULT = 0;                                          // background blur in px (1080-wide frame); preview with ?blur=<px>
+const BG_BLUR_DEFAULT = 32;                                         // background blur in px (1080-wide frame); preview with ?blur=<px>
 const BG_BLUR = +(new URLSearchParams(location.search).get('blur') ?? BG_BLUR_DEFAULT);
 const RAMP = [[0, [255, 138, 46]], [0.42, [228, 92, 20]], [0.78, [74, 24, 6]], [1, [7, 6, 6]]];  // orange -> ember -> black
 const ramp = p => {
