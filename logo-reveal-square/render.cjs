@@ -1,6 +1,7 @@
 // Renders index.html frame by frame with headless Chromium, then encodes with ffmpeg.
 // Usage: node render.cjs                 -> out/frames/*.png + out/video_silent.mp4 + out/cues.json
 //        node render.cjs --still 1,4.5   -> out/still_1.00.png ... (single-sample previews)
+//        add --bg A to preview another background style (see BG_STYLES in square.js)
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -12,7 +13,8 @@ const get = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] :
 const outDir = path.join(__dirname, 'out');
 const framesDir = path.join(outDir, 'frames');
 const stills = get('--still', null);
-const url = 'file://' + path.join(__dirname, 'index.html') + (stills ? '?still' : '?render');
+const bgArg = get('--bg', null);
+const url = 'file://' + path.join(__dirname, 'index.html') + (stills ? '?still' : '?render') + (bgArg ? `&bg=${bgArg}` : '');
 
 async function openPage(browser) {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
@@ -31,7 +33,7 @@ const shot = (page, file) => page.locator('#c').screenshot({ path: file });
     const page = await openPage(browser);
     for (const t of stills.split(',').map(Number)) {
       await page.evaluate(t => window.renderAt(t), t);
-      await shot(page, path.join(outDir, `still_${t.toFixed(2)}.png`));
+      await shot(page, path.join(outDir, `still_${bgArg ? bgArg + '_' : ''}${t.toFixed(2)}.png`));
     }
     await browser.close(); return;
   }

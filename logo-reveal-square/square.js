@@ -73,15 +73,33 @@ function circleToBracket(c, m) {
 }
 function disc(c, r) { c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fill(); }
 
-// Background "Option A - orange radial", built once with a light dither against banding.
+// Background, built once with a light dither against banding. Pick a style with ?bg=<name> (preview) or BG_DEFAULT.
+const BG_DEFAULT = 'orange';
+const BG_STYLE = new URLSearchParams(location.search).get('bg') || BG_DEFAULT;
+const RAMP = [[0, [255, 138, 46]], [0.42, [228, 92, 20]], [0.78, [74, 24, 6]], [1, [7, 6, 6]]];  // orange -> ember -> black
+const ramp = p => {
+  p = Math.min(1, Math.max(0, p));
+  for (let k = 1; k < RAMP.length; k++) if (p <= RAMP[k][0]) {
+    const [p0, c0] = RAMP[k - 1], [p1, c1] = RAMP[k], u = (p - p0) / (p1 - p0), e = u * u * (3 - 2 * u);
+    return c0.map((v, i) => v + (c1[i] - v) * e);
+  }
+  return RAMP[RAMP.length - 1][1];
+};
+const BG_STYLES = {
+  orange: (x, y) => { const p = Math.pow(Math.min(1, Math.hypot((x - 540) / 780, (y - 940) / 1150)), 1.3);
+    return [255, 158, 64].map((a, i) => a + ([226, 84, 22][i] - a) * p); },
+  A: (x, y) => ramp(Math.hypot((x - 540) / 700, (y - 930) / 1000)),                                   // radial orange glow, black edges
+  B: (x, y) => ramp(Math.abs(y - 930) / 640 + 0.25 * ((x - 540) / 540) ** 2),                          // horizontal orange band, black top and bottom
+  C: (x, y) => { const d = Math.abs((x - 540) * 0.574 - (y - 930) * 0.819) / 470, r = Math.hypot((x - 540) / 900, (y - 930) / 1300);
+    return ramp(0.75 * d + 0.45 * r); },                                                               // diagonal orange sweep through the centre
+};
 const bg = new OffscreenCanvas(W, H);
 (() => {
-  const g = bg.getContext('2d'), im = g.createImageData(W, H), d = im.data;
-  const A = [255, 158, 64], B = [226, 84, 22]; let seed = 7;
-  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647 - 0.5;
+  const g = bg.getContext('2d'), im = g.createImageData(W, H), d = im.data, fn = BG_STYLES[BG_STYLE] || BG_STYLES.orange;
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647 - 0.5;
   for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-    const p = Math.pow(Math.min(1, Math.hypot((x - 540) / 780, (y - 940) / 1150)), 1.3), i = (y * W + x) * 4;
-    for (let c = 0; c < 3; c++) d[i + c] = A[c] + (B[c] - A[c]) * p + rnd() * 1.2;
+    const c = fn(x, y), i = (y * W + x) * 4;
+    for (let k = 0; k < 3; k++) d[i + k] = c[k] + rnd() * 1.2;
     d[i + 3] = 255;
   }
   g.putImageData(im, 0, 0);
