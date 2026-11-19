@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ISP Agency UI Screens</title>
+<title>ISP Agency UI Frames</title>
+<!-- Style follows the user's two references: dark neon-gradient world with glowing UI (ref 2)
+     + tilted 3D UI shots, close-ups and a hand cursor (ref 1). Render with render-ui.cjs -->
 <style>
 @font-face{font-family:Inter;src:url(fonts/Inter-400.ttf);font-weight:400}
 @font-face{font-family:Inter;src:url(fonts/Inter-500.ttf);font-weight:500}
@@ -12,480 +14,351 @@
 @font-face{font-family:'Instrument Serif';src:url(fonts/InstrumentSerif-Italic.ttf);font-style:italic}
 
 :root{
-  --acc:#FF821C; --acc2:#E65000; --accSoft:#FFF1E4; --ink:#0A0A0A; --ink2:#4E4E4E; --ink3:#8C8C8C;
-  --line:rgba(0,0,0,.07); --card:#fff; --bg:#F5F4F2;
-  --gAcc:linear-gradient(135deg,#FFB862 0%,#FF821C 48%,#E65000 100%);
-  --sh:0 30px 60px rgba(20,10,0,.10),0 6px 14px rgba(20,10,0,.05);
+  --ink:#F4F2FF; --mut:#8F8AB8; --mut2:#5E5A86; --line:rgba(255,255,255,.07);
+  --pink:#FF3D9A; --violet:#8B5CFF; --blue:#2F7BFF; --cyan:#22D3FF; --red:#FF4A4A; --green:#3DFF9A;
+  --gBrand:linear-gradient(120deg,#FF3D9A 0%,#8B5CFF 50%,#2F7BFF 100%);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:transparent}
+html,body{margin:0;background:#05040F}
 body{font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
-.scr{display:none;position:relative;overflow:hidden}
+.scr{display:none;position:relative;overflow:hidden;width:1920px;height:1080px}
+.scr.v{width:1080px;height:1920px}
 .scr.on{display:block}
-.stage.on{display:flex}
-.scr:not(.on){display:none!important}
 
-/* ---------- stage backgrounds ---------- */
-.stage{width:1920px;height:1080px;display:flex;align-items:center;justify-content:center;
-  background:
-   radial-gradient(ellipse 60% 55% at 50% 45%,#fff 0%,rgba(255,255,255,0) 100%),
-   radial-gradient(ellipse 80% 60% at 50% 115%,rgba(255,130,28,.12) 0%,rgba(255,130,28,0) 70%),
-   linear-gradient(180deg,#FFFFFF 0%,#F7F6F4 60%,#EEECE9 100%)}
-.stage.v{width:1080px;height:1920px}
-.glow{position:absolute;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;
-  background:radial-gradient(closest-side,rgba(255,130,28,.28),rgba(255,130,28,.08) 55%,rgba(255,130,28,0))}
+/* ---------- neon mesh backgrounds ---------- */
+.bg{background:
+  radial-gradient(55% 65% at 100% 0%,rgba(255,45,135,.85),rgba(255,45,135,0) 65%),
+  radial-gradient(45% 60% at 0% 100%,rgba(40,130,255,.95),rgba(40,130,255,0) 65%),
+  radial-gradient(40% 50% at 100% 100%,rgba(255,70,60,.75),rgba(255,70,60,0) 65%),
+  radial-gradient(40% 45% at 0% 0%,rgba(120,60,255,.55),rgba(120,60,255,0) 65%),
+  radial-gradient(80% 80% at 50% 50%,#1C1552 0%,#0C0A26 55%,#05040F 100%)}
+.bg.b2{background:
+  radial-gradient(50% 60% at 0% 0%,rgba(255,45,135,.8),rgba(255,45,135,0) 65%),
+  radial-gradient(55% 60% at 100% 100%,rgba(40,130,255,.95),rgba(40,130,255,0) 65%),
+  radial-gradient(35% 45% at 100% 0%,rgba(255,80,60,.65),rgba(255,80,60,0) 65%),
+  radial-gradient(30% 35% at 15% 95%,rgba(34,211,255,.6),rgba(34,211,255,0) 65%),
+  radial-gradient(80% 80% at 50% 50%,#1C1552 0%,#0C0A26 55%,#05040F 100%)}
+.bg.b3{background:
+  radial-gradient(60% 45% at 50% 0%,rgba(255,60,90,.85),rgba(255,60,90,0) 70%),
+  radial-gradient(45% 55% at 0% 100%,rgba(34,180,255,.9),rgba(34,180,255,0) 65%),
+  radial-gradient(45% 55% at 100% 100%,rgba(140,70,255,.85),rgba(140,70,255,0) 65%),
+  radial-gradient(80% 80% at 50% 50%,#1A1450 0%,#0B0924 55%,#05040F 100%)}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* ---------- glowing type ---------- */
+.glowtxt{color:#fff;font-weight:600;letter-spacing:-.02em;
+  text-shadow:-2px 0 rgba(255,61,154,.75),2px 0 rgba(47,160,255,.75),0 0 10px rgba(255,255,255,.65),0 0 34px rgba(190,120,255,.75),0 0 80px rgba(255,60,160,.45)}
+.gradtxt{background:linear-gradient(100deg,#FF7AC0 0%,#B18CFF 45%,#6FB6FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 
 /* ---------- app window ---------- */
-.win{width:1600px;height:900px;border-radius:28px;background:var(--bg);box-shadow:0 60px 120px rgba(40,20,0,.18),0 12px 30px rgba(40,20,0,.08),inset 0 0 0 1px rgba(0,0,0,.05);
-  display:flex;overflow:hidden;position:relative}
-.side{width:248px;background:#fff;border-right:1px solid var(--line);padding:28px 20px;display:flex;flex-direction:column;gap:6px}
-.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.03em;margin:0 8px 26px}
-.mark{width:38px;height:38px;border-radius:12px;background:var(--gAcc);display:grid;place-items:center;color:#fff;font-size:15px;font-weight:800;
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 8px 18px rgba(255,115,20,.35)}
-.nav{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;font-size:15px;font-weight:500;color:var(--ink2)}
-.nav i{width:18px;height:18px;border-radius:5px;border:2px solid currentColor;opacity:.7}
-.nav.a{background:var(--accSoft);color:var(--acc2);font-weight:600}
-.nav.a i{background:var(--acc);border-color:var(--acc);opacity:1}
-.nav b{margin-left:auto;font-size:12px;background:var(--acc);color:#fff;border-radius:99px;padding:2px 8px}
-.sidecard{margin-top:auto;border-radius:18px;padding:18px;background:linear-gradient(160deg,#1E1E1E,#000);color:#fff;font-size:13px;line-height:1.45}
-.sidecard h4{margin:0 0 6px;font-size:16px}
-.main{flex:1;padding:30px 36px;display:flex;flex-direction:column;gap:22px;min-width:0}
-.top{display:flex;align-items:center;gap:16px}
-.top h1{margin:0;font-size:30px;letter-spacing:-.03em;font-weight:700}
-.top h1 .serif{font-size:34px;color:var(--acc2)}
-.sub{color:var(--ink3);font-size:14px;margin-top:4px}
-.search{margin-left:auto;width:300px;height:46px;border-radius:14px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 16px;color:var(--ink3);font-size:14px;gap:10px}
-.av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#FFD3A6,#FF8A2A);border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.1);flex:none}
-.btn{height:46px;border-radius:999px;padding:0 22px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#fff;background:var(--gAcc);
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -3px 8px rgba(150,45,0,.25),0 10px 22px rgba(255,115,20,.35);white-space:nowrap}
-.btn.o{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.12)}
-.card{background:var(--card);border-radius:22px;padding:22px;box-shadow:0 1px 0 rgba(0,0,0,.03),0 10px 30px rgba(20,10,0,.05);border:1px solid var(--line);position:relative}
-.card h3{margin:0;font-size:16px;font-weight:600}
-.muted{color:var(--ink3);font-size:13px}
-.row{display:flex;gap:22px}
-.kpi .v{font-size:36px;font-weight:700;letter-spacing:-.04em;margin:10px 0 6px}
-.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;background:#E9F8EE;color:#1C8C4A}
-.chip.o{background:var(--accSoft);color:var(--acc2)}
-.chip.g{background:#F1F1F1;color:var(--ink2)}
-.bar{height:8px;border-radius:9px;background:#F0EEEB;overflow:hidden}
-.bar>span{display:block;height:100%;border-radius:9px;background:var(--gAcc)}
-.dark{background:linear-gradient(160deg,#232323 0%,#0B0B0B 100%);color:#fff;border:none}
-.dark .muted{color:rgba(255,220,195,.7)}
-.thumb{border-radius:14px;overflow:hidden;position:relative}
-table{width:100%;border-collapse:collapse;font-size:14px}
-td,th{text-align:left;padding:12px 6px;border-bottom:1px solid var(--line)}
-th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px}
+.app{position:absolute;border-radius:26px;overflow:hidden;
+  background:linear-gradient(160deg,#1A1734 0%,#100E22 55%,#0A0918 100%);
+  box-shadow:0 0 0 1.5px rgba(200,160,255,.55),0 0 28px rgba(150,90,255,.75),0 0 90px rgba(255,60,170,.45),0 0 200px rgba(60,120,255,.35),inset 0 1px 0 rgba(255,255,255,.10)}
+.tilt{transform:perspective(2600px) rotateX(20deg) rotateY(-20deg) rotateZ(6deg)}
+.tilt2{transform:perspective(2400px) rotateX(14deg) rotateY(22deg) rotateZ(-5deg)}
+body.flat .tilt,body.flat .tilt2{transform:none!important}
+.bar{height:64px;display:flex;align-items:center;gap:16px;padding:0 26px;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:2px}
+.logo i{width:9px;height:9px;border-radius:50%;background:var(--gBrand);box-shadow:0 0 10px #8B5CFF,0 0 18px #2F7BFF;display:inline-block;margin-left:3px;margin-top:8px}
+.search{width:420px;height:38px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--mut2);font-size:14px;margin-left:40px}
+.ico{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 20px;border-radius:999px;font-weight:600;font-size:14px;color:#fff;white-space:nowrap;
+  background:linear-gradient(120deg,#FF3D9A,#8B5CFF 55%,#2F7BFF);box-shadow:0 0 18px rgba(139,92,255,.7),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.side{width:230px;border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:4px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0))}
+.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;font-size:14px;color:var(--mut);font-weight:500}
+.nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.nav.a{color:#fff;background:linear-gradient(90deg,rgba(139,92,255,.35),rgba(47,123,255,.08));box-shadow:inset 0 0 0 1px rgba(170,130,255,.35),0 0 18px rgba(139,92,255,.25)}
+.nav b{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--gBrand);color:#fff}
+.who{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px;border-radius:12px;background:rgba(255,255,255,.04);font-size:13px}
+.av{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 200deg,#FF3D9A,#8B5CFF,#2F7BFF,#22D3FF,#FF3D9A);box-shadow:0 0 10px rgba(139,92,255,.6);flex:none}
+.main{flex:1;padding:26px 30px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.card{border-radius:20px;padding:20px;position:relative;
+  background:linear-gradient(160deg,rgba(255,255,255,.075) 0%,rgba(255,255,255,.025) 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.08)}
+.card h3{margin:0;font-size:15px;font-weight:600}
+.muted{color:var(--mut);font-size:13px}
+.kv{font-size:32px;font-weight:700;letter-spacing:-.03em;margin:8px 0 6px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;color:#fff;background:rgba(255,255,255,.08)}
+.pill.up{background:rgba(61,255,154,.14);color:#6BFFB4;box-shadow:inset 0 0 0 1px rgba(61,255,154,.3)}
+.pill.vi{background:rgba(139,92,255,.2);color:#C9B4FF;box-shadow:inset 0 0 0 1px rgba(139,92,255,.45)}
+.pill.pk{background:rgba(255,61,154,.18);color:#FF9ACB;box-shadow:inset 0 0 0 1px rgba(255,61,154,.45)}
+.pill.am{background:rgba(255,190,60,.16);color:#FFD27A;box-shadow:inset 0 0 0 1px rgba(255,190,60,.4)}
+.track{height:7px;border-radius:9px;background:rgba(255,255,255,.07);overflow:hidden}
+.track>span{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#FF3D9A,#8B5CFF,#2F7BFF);box-shadow:0 0 12px rgba(139,92,255,.9)}
+.glow-v{box-shadow:0 0 0 2px rgba(170,120,255,.9),0 0 22px rgba(139,92,255,.9),0 0 60px rgba(139,92,255,.5)!important}
+.glow-g{box-shadow:0 0 0 2px rgba(61,255,154,.9),0 0 22px rgba(61,255,154,.75),0 0 60px rgba(61,255,154,.4)!important}
+.glow-p{box-shadow:0 0 0 2px rgba(255,90,170,.9),0 0 22px rgba(255,61,154,.8),0 0 60px rgba(255,61,154,.45)!important}
 
-/* floating */
-.float{position:absolute;box-shadow:var(--sh);border-radius:22px;background:#fff;border:1px solid var(--line)}
-.float.dark{background:linear-gradient(160deg,#232323 0%,#0B0B0B 100%);color:#fff;border:none}
+/* project tiles */
+.tile{border-radius:20px;padding:12px;background:linear-gradient(170deg,#24213F,#15132A);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);display:flex;flex-direction:column;gap:10px;position:relative}
+.thumb{border-radius:14px;overflow:hidden;position:relative;display:grid;place-items:center}
+.status{height:34px;border-radius:10px;background:#09081A;display:grid;place-items:center;font-size:13px;font-weight:600;color:#E9E6FF}
+.check{position:absolute;left:18px;top:18px;width:24px;height:24px;border-radius:50%;background:#2BE884;box-shadow:0 0 14px #3DFF9A;display:grid;place-items:center;z-index:2}
+.check svg{width:14px;height:14px;stroke:#04210F;stroke-width:3;fill:none}
+
+/* segmented / form */
+.seg{display:flex;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
+.seg>div{flex:1;padding:18px 10px;text-align:center;font-size:19px;font-weight:600;color:var(--mut);border-right:1px solid rgba(255,255,255,.08)}
+.seg>div:last-child{border-right:none}
+.seg>div small{display:block;font-size:14px;font-weight:500;margin-top:4px;color:var(--mut2)}
+.seg>div.sel{color:#fff;background:linear-gradient(135deg,rgba(255,61,154,.35),rgba(139,92,255,.45) 50%,rgba(47,123,255,.35));box-shadow:inset 0 0 0 2px rgba(190,150,255,.9),0 0 26px rgba(139,92,255,.6)}
+.seg>div.sel small{color:#E3D8FF}
+.field{height:62px;border-radius:14px;display:flex;align-items:center;padding:0 20px;font-size:22px;font-weight:600;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
+.lbl{font-size:16px;font-weight:600;color:#CFCBEA;margin:22px 0 10px;display:flex;align-items:center}
+.lbl .spark{margin-left:auto}
+
+.cursor{position:absolute;width:74px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(255,255,255,.35));z-index:20}
+.ripple{position:absolute;border-radius:50%;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,.7);box-shadow:0 0 20px rgba(190,150,255,.9);z-index:19}
+
+/* chips (ref 2 file pills) */
+.chip{width:560px;height:110px;border-radius:999px;display:flex;align-items:center;padding:0 12px;gap:0;position:relative;
+  background:linear-gradient(90deg,rgba(255,61,154,.25),rgba(139,92,255,.25) 50%,rgba(47,160,255,.25));
+  box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 0 5px rgba(200,140,255,.6),0 0 30px rgba(255,61,154,.7),0 0 60px rgba(47,160,255,.6),inset 0 0 30px rgba(255,255,255,.15)}
+.chip .ic{width:150px;height:86px;border-radius:999px 0 0 999px;display:grid;place-items:center;border-right:2px solid rgba(255,255,255,.6)}
+.chip .ic svg{width:40px;height:40px;fill:#fff;filter:drop-shadow(0 0 8px #fff)}
+.chip .tx{flex:1;text-align:center;font-size:42px;font-weight:600;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.8)}
 
 /* phone */
-.phone{width:430px;height:900px;border-radius:64px;background:#0A0A0A;padding:14px;box-shadow:0 60px 110px rgba(40,20,0,.25),inset 0 0 0 2px #333}
-.pscr{width:100%;height:100%;border-radius:52px;background:var(--bg);overflow:hidden;position:relative;padding:62px 22px 22px}
-.notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000}
-.tab{position:absolute;left:18px;right:18px;bottom:18px;height:72px;border-radius:26px;background:#0A0A0A;display:flex;align-items:center;justify-content:space-around}
-.tab i{width:22px;height:22px;border-radius:7px;border:2px solid #777}
-.tab i.a{background:var(--acc);border-color:var(--acc);box-shadow:0 0 14px rgba(255,130,28,.7)}
-
-/* components sheet */
-.sheet{width:1920px;height:1080px;position:relative}
-
-/* ================= GRADIENT THEME ================= */
-.blob{position:absolute;border-radius:50%;transform:translate(-50%,-50%);opacity:.9;pointer-events:none}
-.stage{background:
-   radial-gradient(ellipse 55% 50% at 50% 45%,rgba(255,196,140,.55),rgba(255,196,140,0) 70%),
-   linear-gradient(135deg,#FFB25E 0%,#FF7A2A 30%,#F24E28 58%,#B3263A 82%,#5E1530 100%)}
-.stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;
-  background:repeating-linear-gradient(115deg,rgba(255,255,255,.0) 0 120px,rgba(255,255,255,.07) 120px 122px)}
-.stage>*{position:relative;z-index:1}
-.stage>.blob{position:absolute;z-index:0}
-.stage>.float,.stage>.phone,.stage>div[style*="position:absolute"]{position:absolute}
-.win{background:linear-gradient(145deg,rgba(255,255,255,.88) 0%,rgba(255,244,234,.80) 50%,rgba(255,226,204,.72) 100%);
-  backdrop-filter:blur(30px);border:1.5px solid rgba(255,255,255,.7);
-  box-shadow:0 70px 140px rgba(90,15,10,.45),0 20px 40px rgba(90,15,10,.25),inset 0 1px 0 rgba(255,255,255,.9)}
-.side{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,240,226,.85) 100%);border-right:1px solid rgba(255,150,80,.18)}
-.nav.a{background:linear-gradient(135deg,#FFB862 0%,#FF821C 50%,#E65000 100%);color:#fff;box-shadow:0 10px 22px rgba(255,115,20,.35),inset 0 1px 0 rgba(255,255,255,.4)}
-.nav.a i{background:#fff;border-color:#fff}
-.nav.a b{background:#fff;color:var(--acc2)}
-.nav b{background:linear-gradient(135deg,#FFB862,#E65000)}
-.top h1{background:linear-gradient(180deg,#5C3A2A 0%,#1E0E08 55%,#000 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.top h1 .serif{background:linear-gradient(180deg,#FFB862,#FF821C 45%,#D9420A);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:6px}
-.tg-white{background:linear-gradient(180deg,#FFFFFF 0%,#FFE2C8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 20px rgba(120,20,0,.35))}
-.search{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,236,220,.8));border:1px solid rgba(255,140,60,.2)}
-.btn.o{background:linear-gradient(180deg,#FFFFFF,#FFE9D6);color:#3A1A0A;box-shadow:inset 0 0 0 1.5px rgba(255,130,28,.35),0 8px 18px rgba(255,115,20,.15)}
-.card,.float{border:1.5px solid transparent;
-  background:linear-gradient(160deg,#FFFFFF 0%,#FFF7F0 55%,#FFEBDC 100%) padding-box,
-             linear-gradient(140deg,rgba(255,255,255,1),rgba(255,180,120,.55) 60%,rgba(255,120,40,.5)) border-box;
-  box-shadow:0 18px 40px rgba(140,40,0,.10),inset 0 1px 0 #fff}
-.float{box-shadow:0 30px 60px rgba(120,30,0,.22),0 8px 18px rgba(120,30,0,.10)}
-.card.dark,.float.dark{color:#fff;border:1.5px solid transparent;
-  background:radial-gradient(ellipse 80% 60% at 85% 0%,rgba(255,130,28,.45),rgba(255,130,28,0) 70%) padding-box,
-             linear-gradient(155deg,#3D1A10 0%,#1C0A06 55%,#0A0403 100%) padding-box,
-             linear-gradient(140deg,rgba(255,170,100,.7),rgba(255,90,30,.15) 50%,rgba(255,130,28,.6)) border-box}
-.card.grad{color:#fff;border:1.5px solid transparent;
-  background:radial-gradient(ellipse 70% 60% at 15% 0%,rgba(255,236,200,.65),rgba(255,236,200,0) 70%) padding-box,
-             linear-gradient(140deg,#FFB25E 0%,#FF7A22 45%,#E2470E 100%) padding-box,
-             linear-gradient(140deg,#FFE3C2,rgba(255,255,255,.2)) border-box;
-  box-shadow:0 20px 40px rgba(230,80,0,.35),inset 0 1px 0 rgba(255,255,255,.5)}
-.card.grad .muted{color:rgba(255,255,255,.85)}
-.card.grad .chip{background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(255,255,255,.2));color:#fff}
-.chip{background:linear-gradient(135deg,#E8FBEF,#C9F1D8);color:#167A3E}
-.chip.o{background:linear-gradient(135deg,#FFF0E2,#FFD3AE);color:#C24300}
-.chip.g{background:linear-gradient(135deg,#FFFFFF,#F3E6DC);color:#6B4A3A}
-.bar{background:linear-gradient(90deg,#FFEBDA,#F7D9C3)}
-.bar>span{box-shadow:0 0 12px rgba(255,120,30,.5)}
-.av{background:radial-gradient(circle at 30% 25%,#FFE2C0,#FF9C48 55%,#D9420A)}
-.mark{background:linear-gradient(140deg,#FFC67A 0%,#FF821C 45%,#D9420A 100%)}
-.sidecard{background:radial-gradient(ellipse 90% 70% at 100% 0%,rgba(255,130,28,.55),rgba(255,130,28,0) 70%),linear-gradient(160deg,#3D1A10,#0A0403)}
-.phone{background:linear-gradient(150deg,#4A2A1E 0%,#120806 40%,#2A140C 100%);box-shadow:inset 0 0 0 2px rgba(255,170,110,.35);filter:drop-shadow(0 50px 60px rgba(90,15,10,.45))}
-.pscr{background:linear-gradient(180deg,#FFFFFF 0%,#FFF2E6 55%,#FFE1C8 100%)}
-.tab{background:linear-gradient(135deg,#3D1A10,#0A0403);box-shadow:0 12px 24px rgba(0,0,0,.25)}
-.kcol{background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,210,170,.35))!important;border:1px solid rgba(255,255,255,.6)}
+.phone{position:absolute;width:470px;height:980px;border-radius:70px;padding:14px;background:linear-gradient(150deg,#3A3460,#0E0C1E 40%,#2A2550);
+  box-shadow:0 0 0 2px rgba(200,160,255,.6),0 0 30px rgba(139,92,255,.8),0 0 100px rgba(255,61,154,.45),0 0 200px rgba(47,123,255,.35)}
+.pscr{width:100%;height:100%;border-radius:57px;overflow:hidden;position:relative;padding:66px 22px 22px;background:linear-gradient(180deg,#191632,#0C0B1C)}
+.notch{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000}
+.spark{display:inline-block;width:18px;height:18px;background:radial-gradient(circle,#fff 0 18%,transparent 20%),conic-gradient(from 0deg,transparent 0 40deg,#B18CFF 45deg,transparent 50deg 130deg,#B18CFF 135deg,transparent 140deg 220deg,#B18CFF 225deg,transparent 230deg 310deg,#B18CFF 315deg,transparent 320deg);
+  -webkit-mask:radial-gradient(circle,#000 60%,transparent 62%)}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="gl" x1="0" x2="1"><stop offset="0" stop-color="#FF3D9A"/><stop offset=".5" stop-color="#8B5CFF"/><stop offset="1" stop-color="#22D3FF"/></linearGradient>
+  <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8B5CFF" stop-opacity=".45"/><stop offset="1" stop-color="#8B5CFF" stop-opacity="0"/></linearGradient>
+  <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF3D9A"/><stop offset=".5" stop-color="#8B5CFF"/><stop offset="1" stop-color="#2F7BFF"/></linearGradient>
+  <filter id="neon" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <symbol id="hand" viewBox="0 0 32 36"><path d="M11 2.5c1.4 0 2.5 1.1 2.5 2.5v9.2l.6-.1V11c0-1.4 1.1-2.4 2.4-2.4s2.4 1.1 2.4 2.4v3.6h.4v-2.3c0-1.3 1.1-2.4 2.4-2.4s2.4 1.1 2.4 2.4v3.3h.3v-1.5c0-1.3 1.1-2.3 2.3-2.3s2.3 1 2.3 2.3v8.6c0 6.2-4.4 11-10.3 11h-2.3c-3.2 0-5.6-1.3-7.6-3.9L3 22.6c-.9-1.2-.7-2.9.5-3.8 1.1-.8 2.7-.7 3.6.4l1.4 1.7V5c0-1.4 1.1-2.5 2.5-2.5z" fill="#fff" stroke="#0A0918" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+</defs></svg>
 
-<!-- ===================== 01 DASHBOARD ===================== -->
-<section class="scr stage" id="dashboard">
-  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
-  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
-  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
-  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
-  <div class="win">
-    <aside class="side">
-      <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
-      <div class="nav a"><i></i>Overview</div>
-      <div class="nav"><i></i>Projects<b>6</b></div>
-      <div class="nav"><i></i>Brand Kit</div>
-      <div class="nav"><i></i>Analytics</div>
-      <div class="nav"><i></i>Approvals<b>3</b></div>
-      <div class="nav"><i></i>Messages</div>
-      <div class="nav"><i></i>Invoices</div>
-      <div class="sidecard"><h4>New: Motion Pack</h4>Turn your brand into scroll‑stopping video in 7 days.<div style="margin-top:12px"><div class="btn" style="height:36px;font-size:13px">Explore</div></div></div>
-    </aside>
-    <main class="main">
-      <div class="top">
-        <div><h1>Good morning, <span class="serif">Alex</span></h1><div class="sub">Here’s how your brand is performing this week.</div></div>
-        <div class="search">⌕ &nbsp;Search projects, assets…</div>
-        <div class="btn">+ New request</div>
-        <div class="av"></div>
-      </div>
-      <div class="row">
-        <div class="card kpi grad" style="flex:1"><div class="muted">Brand reach</div><div class="v">248.6K</div><span class="chip">▲ 32.4%</span> <span class="muted">vs last month</span></div>
-        <div class="card kpi" style="flex:1"><div class="muted">Conversion rate</div><div class="v">7.82%</div><span class="chip">▲ 2.1%</span> <span class="muted">vs last month</span></div>
-        <div class="card kpi" style="flex:1"><div class="muted">Active projects</div><div class="v">6</div><span class="chip o">3 awaiting review</span></div>
-        <div class="card kpi dark" style="flex:1"><div class="muted">Avg. delivery</div><div class="v">4.2 <span style="font-size:20px;color:#bbb">days</span></div><span class="chip o" style="background:rgba(255,130,28,.18);color:#FFB070">⚡ 2× faster</span></div>
-      </div>
-      <div class="row" style="flex:1;min-height:0">
-        <div class="card" style="flex:1.7;display:flex;flex-direction:column">
-          <div style="display:flex;align-items:center"><h3>Engagement growth</h3><div style="margin-left:auto;display:flex;gap:8px"><span class="chip g">7D</span><span class="chip o">30D</span><span class="chip g">90D</span></div></div>
-          <svg viewBox="0 0 800 300" style="flex:1;width:100%;margin-top:10px" preserveAspectRatio="none">
-            <defs><linearGradient id="fa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF821C" stop-opacity=".35"/><stop offset="1" stop-color="#FF821C" stop-opacity="0"/></linearGradient>
-            <linearGradient id="la" x1="0" x2="1"><stop offset="0" stop-color="#FFB862"/><stop offset="1" stop-color="#E65000"/></linearGradient></defs>
-            <g stroke="#EEE" stroke-width="1"><line x1="0" y1="60" x2="800" y2="60"/><line x1="0" y1="130" x2="800" y2="130"/><line x1="0" y1="200" x2="800" y2="200"/><line x1="0" y1="270" x2="800" y2="270"/></g>
-            <path d="M0,240 C60,230 100,200 160,205 S260,170 320,160 S420,175 480,130 S580,90 640,80 S740,40 800,30 L800,300 L0,300Z" fill="url(#fa)"/>
-            <path d="M0,240 C60,230 100,200 160,205 S260,170 320,160 S420,175 480,130 S580,90 640,80 S740,40 800,30" fill="none" stroke="url(#la)" stroke-width="5" stroke-linecap="round"/>
-            <path d="M0,265 C80,260 140,250 200,248 S320,235 400,230 S540,215 600,210 S720,195 800,185" fill="none" stroke="#CFCFCF" stroke-width="3" stroke-dasharray="8 8"/>
-            <circle cx="640" cy="80" r="9" fill="#fff" stroke="#FF821C" stroke-width="5"/>
-          </svg>
-          <div style="display:flex;justify-content:space-between" class="muted"><span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span></div>
-        </div>
-        <div class="card" style="flex:1;display:flex;flex-direction:column;gap:14px">
-          <h3>Projects in motion</h3>
-          <div><div style="display:flex;font-size:14px;font-weight:600;margin-bottom:8px">Brand identity refresh<span style="margin-left:auto" class="muted">86%</span></div><div class="bar"><span style="width:86%"></span></div></div>
-          <div><div style="display:flex;font-size:14px;font-weight:600;margin-bottom:8px">Website redesign<span style="margin-left:auto" class="muted">64%</span></div><div class="bar"><span style="width:64%"></span></div></div>
-          <div><div style="display:flex;font-size:14px;font-weight:600;margin-bottom:8px">Launch promo video<span style="margin-left:auto" class="muted">41%</span></div><div class="bar"><span style="width:41%"></span></div></div>
-          <div><div style="display:flex;font-size:14px;font-weight:600;margin-bottom:8px">Social content kit<span style="margin-left:auto" class="muted">92%</span></div><div class="bar"><span style="width:92%"></span></div></div>
-          <div><div style="display:flex;font-size:14px;font-weight:600;margin-bottom:8px">Pitch deck<span style="margin-left:auto" class="muted">73%</span></div><div class="bar"><span style="width:73%"></span></div></div>
-          <div><div style="display:flex;font-size:14px;font-weight:600;margin-bottom:8px">Packaging system<span style="margin-left:auto" class="muted">100%</span></div><div class="bar"><span style="width:100%"></span></div></div>
-          <div class="card dark" style="margin-top:auto;padding:16px;display:flex;align-items:center;gap:12px">
-            <div class="mark" style="flex:none">✓</div><div><div style="font-weight:600;font-size:14px">Logo v3 is ready for review</div><div class="muted">Uploaded 2 min ago</div></div>
-          </div>
-        </div>
-      </div>
-    </main>
+<!-- 01 TITLE -->
+<section class="scr bg grain" id="title">
+  <div class="center">
+    <div class="glowtxt" style="font-size:150px;line-height:1.05">Your brand<span class="spark" style="width:70px;height:70px;margin:0 18px 0 26px;vertical-align:middle"></span>deserves</div>
+    <div class="glowtxt serif" style="font-size:190px;line-height:1.05;font-weight:400">a glow‑up.</div>
   </div>
 </section>
 
-<!-- ===================== 02 PROJECT BOARD ===================== -->
-<section class="scr stage" id="projects">
-  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
-  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
-  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
-  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
-  <div class="win">
-    <aside class="side">
-      <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
-      <div class="nav"><i></i>Overview</div>
-      <div class="nav a"><i></i>Projects<b>6</b></div>
-      <div class="nav"><i></i>Brand Kit</div>
-      <div class="nav"><i></i>Analytics</div>
-      <div class="nav"><i></i>Approvals<b>3</b></div>
-      <div class="nav"><i></i>Messages</div>
-      <div class="nav"><i></i>Invoices</div>
-    </aside>
-    <main class="main">
-      <div class="top">
-        <div><h1>Project <span class="serif">pipeline</span></h1><div class="sub">From brief to launch — every step, in one place.</div></div>
-        <div class="search">⌕ &nbsp;Filter tasks…</div>
-        <div class="btn o">Board ▾</div><div class="btn">+ Add task</div>
-      </div>
-      <div class="row" style="flex:1;min-height:0" id="kanban"></div>
-    </main>
+<!-- 02 SERVICE CHIPS -->
+<section class="scr bg b2 grain" id="chips">
+  <div class="center" style="gap:52px">
+    <div class="chip"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.9L22 9.3l-5.4 4.7L18.2 21 12 17.3 5.8 21l1.6-7L2 9.3l7.1-.4z"/></svg></div><div class="tx">Branding</div></div>
+    <div class="chip"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h18a1 1 0 011 1v11a1 1 0 01-1 1h-7v2h3v2H7v-2h3v-2H3a1 1 0 01-1-1V5a1 1 0 011-1zm1 2v9h16V6z"/></svg></div><div class="tx">Websites</div></div>
+    <div class="chip"><div class="ic"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg></div><div class="tx">Motion video</div></div>
   </div>
 </section>
 
-<!-- ===================== 03 ANALYTICS ===================== -->
-<section class="scr stage" id="analytics">
-  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
-  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
-  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
-  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
-  <div class="win">
-    <aside class="side">
-      <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
-      <div class="nav"><i></i>Overview</div>
-      <div class="nav"><i></i>Projects<b>6</b></div>
-      <div class="nav"><i></i>Brand Kit</div>
-      <div class="nav a"><i></i>Analytics</div>
-      <div class="nav"><i></i>Approvals<b>3</b></div>
-      <div class="nav"><i></i>Messages</div>
-      <div class="nav"><i></i>Invoices</div>
-    </aside>
-    <main class="main">
-      <div class="top">
-        <div><h1>Brand <span class="serif">performance</span></h1><div class="sub">Before vs after working with ISP.</div></div>
-        <div class="btn o" style="margin-left:auto">Last 90 days ▾</div><div class="btn">Export report</div>
-      </div>
-      <div class="row" style="flex:1;min-height:0">
-        <div class="card dark" style="flex:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
-          <div class="muted" style="align-self:flex-start">Brand clarity score</div>
-          <svg width="300" height="300" viewBox="0 0 300 300">
-            <defs><linearGradient id="ga" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC685"/><stop offset=".5" stop-color="#FF821C"/><stop offset="1" stop-color="#E44E00"/></linearGradient></defs>
-            <circle cx="150" cy="150" r="120" fill="none" stroke="#2E2E2E" stroke-width="22"/>
-            <circle cx="150" cy="150" r="120" fill="none" stroke="url(#ga)" stroke-width="22" stroke-linecap="round" stroke-dasharray="754" stroke-dashoffset="98" transform="rotate(-90 150 150)" style="filter:drop-shadow(0 0 14px rgba(255,130,28,.6))"/>
-            <text x="150" y="160" text-anchor="middle" fill="#fff" font-size="74" font-weight="700" font-family="Inter" letter-spacing="-3">87</text>
-            <text x="150" y="196" text-anchor="middle" fill="#999" font-size="16" font-family="Inter">out of 100</text>
-          </svg>
-          <span class="chip o" style="background:rgba(255,130,28,.18);color:#FFB070">▲ +41 since onboarding</span>
+<!-- 03 DASHBOARD -->
+<section class="scr bg grain" id="dashboard">
+  <div class="app tilt" style="left:170px;top:150px;width:1520px;height:860px;display:flex;flex-direction:column">
+    <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search projects, assets…</div><div style="margin-left:auto;display:flex;gap:10px"><div class="ico"></div><div class="ico"></div></div><div class="btn">+ New request</div></div>
+    <div style="display:flex;flex:1;min-height:0">
+      <aside class="side" id="side-dash"></aside>
+      <main class="main">
+        <div style="display:flex;align-items:flex-end">
+          <div><div style="font-size:34px;font-weight:600;letter-spacing:-.02em">Welcome back, <span class="serif gradtxt" style="font-size:40px;padding-right:6px">Alex</span></div><div class="muted" style="margin-top:4px">Your brand at a glance · updated 2 min ago</div></div>
+          <div style="margin-left:auto;display:flex;gap:10px"><div class="btn ghost">Share report</div></div>
         </div>
-        <div style="flex:2;display:flex;flex-direction:column;gap:22px;min-width:0">
-          <div class="card" style="flex:1;display:flex;flex-direction:column">
-            <div style="display:flex;align-items:center"><h3>Monthly leads</h3><div style="margin-left:auto;display:flex;gap:16px" class="muted"><span><span class="dot" style="background:#FF821C"></span>With ISP</span><span><span class="dot" style="background:#D6D6D6"></span>Before</span></div></div>
-            <div id="bars" style="flex:1;display:flex;align-items:flex-end;gap:18px;padding-top:16px"></div>
+        <div style="display:flex;gap:18px">
+          <div class="card" style="flex:1"><div class="muted">Brand reach</div><div class="kv">248.6K</div><span class="pill up">▲ 32.4%</span></div>
+          <div class="card" style="flex:1"><div class="muted">Leads this month</div><div class="kv">1,284</div><span class="pill up">▲ 3.2×</span></div>
+          <div class="card" style="flex:1"><div class="muted">Conversion</div><div class="kv">7.82%</div><span class="pill up">▲ 2.1%</span></div>
+          <div class="card glow-v" style="flex:1;background:linear-gradient(140deg,rgba(255,61,154,.35),rgba(139,92,255,.35) 55%,rgba(47,123,255,.3))"><div class="muted" style="color:#E3D8FF">Avg. delivery</div><div class="kv">4.2 <span style="font-size:18px;color:#CFC2FF">days</span></div><span class="pill" style="background:rgba(255,255,255,.18)">⚡ 2× faster</span></div>
+        </div>
+        <div style="display:flex;gap:18px;flex:1;min-height:0">
+          <div class="card" style="flex:1.6;display:flex;flex-direction:column">
+            <div style="display:flex;align-items:center"><h3>Engagement</h3><div style="margin-left:auto;display:flex;gap:6px"><span class="pill">7D</span><span class="pill vi">30D</span><span class="pill">90D</span></div></div>
+            <svg viewBox="0 0 700 260" preserveAspectRatio="none" style="flex:1;width:100%;margin-top:8px">
+              <g stroke="rgba(255,255,255,.06)"><line x1="0" y1="60" x2="700" y2="60"/><line x1="0" y1="130" x2="700" y2="130"/><line x1="0" y1="200" x2="700" y2="200"/></g>
+              <path d="M0,215 C60,205 90,180 150,185 S240,150 300,140 S380,155 430,112 S520,70 580,62 S660,30 700,20 L700,260 L0,260Z" fill="url(#gf)"/>
+              <path d="M0,215 C60,205 90,180 150,185 S240,150 300,140 S380,155 430,112 S520,70 580,62 S660,30 700,20" fill="none" stroke="url(#gl)" stroke-width="5" stroke-linecap="round" filter="url(#neon)"/>
+              <path d="M0,240 C80,236 160,228 240,224 S400,212 480,206 S620,196 700,188" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="3" stroke-dasharray="8 8"/>
+              <circle cx="580" cy="62" r="9" fill="#fff" filter="url(#neon)"/>
+            </svg>
           </div>
-          <div class="row">
-            <div class="card kpi" style="flex:1"><div class="muted">Time on site</div><div class="v">3m 48s</div><span class="chip">▲ 64%</span></div>
-            <div class="card kpi" style="flex:1"><div class="muted">Bounce rate</div><div class="v">28.4%</div><span class="chip">▼ 19%</span></div>
-            <div class="card kpi grad" style="flex:1"><div class="muted">Revenue influenced</div><div class="v">$184K</div><span class="chip">▲ 3.2×</span></div>
+          <div class="card" style="flex:1.2;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center"><h3>Latest updates</h3><span class="muted" style="margin-left:auto">View all</span></div>
+            <div id="updates" style="display:flex;flex-direction:column;gap:10px"></div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
+  </div>
+  <svg class="cursor" data-t="#dashboard .btn:not(.ghost)" data-dx="0.35"><use href="#hand"/></svg>
+</section>
+
+<!-- 04 PROJECTS GRID -->
+<section class="scr bg b2 grain" id="projects">
+  <div class="app tilt2" style="left:170px;top:110px;width:1580px;height:880px;display:flex;flex-direction:column">
+    <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search…</div><div style="margin-left:auto;display:flex;gap:10px"><div class="ico"></div><div class="ico"></div></div><div class="btn" style="height:34px;font-size:13px">Share</div></div>
+    <div style="padding:22px 28px 0;display:flex;align-items:center"><div style="font-size:22px;font-weight:600">Nova · Brand launch</div><span class="pill vi" style="margin-left:14px">8 deliverables</span><span class="muted" style="margin-left:auto">Sorted by: Latest</span></div>
+    <div id="grid" style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:22px;padding:20px 28px 28px"></div>
   </div>
 </section>
 
-<!-- ===================== 04 BRAND KIT ===================== -->
-<section class="scr stage" id="brandkit">
-  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
-  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
-  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
-  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
-  <div class="win">
-    <aside class="side">
-      <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
-      <div class="nav"><i></i>Overview</div>
-      <div class="nav"><i></i>Projects<b>6</b></div>
-      <div class="nav a"><i></i>Brand Kit</div>
-      <div class="nav"><i></i>Analytics</div>
-      <div class="nav"><i></i>Approvals<b>3</b></div>
-      <div class="nav"><i></i>Messages</div>
-      <div class="nav"><i></i>Invoices</div>
-    </aside>
-    <main class="main">
-      <div class="top">
-        <div><h1>Your brand, <span class="serif">systemised</span></h1><div class="sub">Logos, colours, type and assets — always on‑brand.</div></div>
-        <div class="btn o" style="margin-left:auto">Share kit</div><div class="btn">Download all</div>
+<!-- 05 REQUEST FORM CLOSE-UP -->
+<section class="scr bg b3 grain" id="request">
+  <div class="app tilt" style="left:150px;top:150px;width:1620px;height:860px;display:flex;transform:perspective(2600px) rotateX(12deg) rotateY(-16deg) rotateZ(4deg) translateX(-120px) scale(1.25)">
+    <div style="flex:1.25;padding:40px 48px">
+      <div style="font-size:40px;font-weight:600;letter-spacing:-.02em">Start a <span class="serif gradtxt" style="font-size:48px;padding-right:8px">project</span></div>
+      <div class="lbl">Service <span class="spark"></span></div>
+      <div class="seg"><div>Branding<small>Identity &amp; logo</small></div><div class="sel">Website<small>Design + build</small></div><div>Motion video<small>Promo &amp; ads</small></div></div>
+      <div class="lbl">Budget <span class="spark"></span></div>
+      <div style="display:flex;gap:14px"><div class="field" style="flex:1">15,500.00</div><div class="field" style="width:150px;justify-content:space-between">USD <span style="color:var(--mut)">⌄</span></div></div>
+      <div class="lbl">Timeline <span class="spark"></span></div>
+      <div class="seg"><div>Standard<small>4 weeks · Included</small></div><div class="sel" id="tl-express">Express<small>2 weeks · +$1,200</small></div></div>
+      <div class="lbl">Add‑ons</div>
+      <div class="seg"><div class="sel">Brand guide<small>Included</small></div><div>Social kit<small>+$800</small></div><div>Copywriting<small>+$600</small></div></div>
+      <div style="display:flex;gap:14px;margin-top:34px"><div class="btn ghost" style="height:62px;font-size:19px;padding:0 34px">Save draft</div><div class="btn" style="height:62px;font-size:19px;padding:0 40px">Send brief →</div></div>
+    </div>
+    <div style="flex:1;padding:34px 40px 34px 0">
+      <div class="card glow-v" style="height:100%;padding:34px;background:linear-gradient(160deg,rgba(139,92,255,.16),rgba(255,255,255,.02))">
+        <div style="display:flex;align-items:center"><div><div class="gradtxt" style="font-size:26px;font-weight:700">Proposal</div><div class="muted">ISP Agency → Nova Inc.</div></div><span class="pill pk" style="margin-left:auto">Draft</span></div>
+        <div style="height:1px;background:var(--line);margin:24px 0"></div>
+        <div id="lines" style="display:flex;flex-direction:column;gap:16px;font-size:17px"></div>
+        <div style="height:1px;background:var(--line);margin:24px 0"></div>
+        <div style="display:flex;align-items:flex-end"><div class="muted" style="font-size:16px">Total</div><div class="gradtxt" style="margin-left:auto;font-size:54px;font-weight:700;letter-spacing:-.03em">$17,300</div></div>
+        <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px">
+   <div style="display:flex;align-items:center;gap:12px;font-size:15px"><span class="pill up">Week 1</span>Strategy + wireframes</div>
+   <div style="display:flex;align-items:center;gap:12px;font-size:15px"><span class="pill vi">Week 2</span>Design, build &amp; launch</div>
+ </div>
       </div>
-      <div class="row" style="flex:1;min-height:0">
-        <div class="card" style="flex:1.2;display:flex;flex-direction:column;gap:16px">
-          <h3>Logo suite</h3>
-          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="thumb" style="background:linear-gradient(150deg,#FFFFFF,#FFF1E4 60%,#FFDCC0);display:grid;place-items:center"><div style="display:flex;align-items:center;gap:14px;font-size:40px;font-weight:800;letter-spacing:-.04em"><div class="mark" style="width:64px;height:64px;font-size:22px;border-radius:18px">N</div>Nova</div></div>
-            <div class="thumb" style="background:linear-gradient(150deg,#4A1E10,#1A0906 55%,#090303);display:grid;place-items:center"><div style="display:flex;align-items:center;gap:14px;font-size:40px;font-weight:800;letter-spacing:-.04em;color:#fff"><div class="mark" style="width:64px;height:64px;font-size:22px;border-radius:18px">N</div>Nova</div></div>
-            <div class="thumb" style="background:var(--gAcc);display:grid;place-items:center"><div style="font-size:46px;font-weight:800;color:#fff;letter-spacing:-.04em">Nova<span class="serif" style="font-weight:400">.</span></div></div>
-            <div class="thumb" style="background:radial-gradient(circle at 30% 20%,#FFF5EC,#FFD2AE 70%,#FFB37A);display:grid;place-items:center"><div class="mark" style="width:110px;height:110px;font-size:44px;border-radius:30px">N</div></div>
+    </div>
+  </div>
+  <div class="ripple" data-t="#tl-express" data-dx="0.8" style="width:80px;height:80px"></div>
+  <svg class="cursor" data-t="#tl-express" data-dx="0.8"><use href="#hand"/></svg>
+</section>
+
+<!-- 06 ANALYTICS -->
+<section class="scr bg b3 grain" id="analytics">
+  <div class="app tilt2" style="left:180px;top:120px;width:1560px;height:850px;display:flex;flex-direction:column">
+    <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search…</div><div class="btn" style="margin-left:auto">Export</div></div>
+    <div style="display:flex;flex:1;min-height:0">
+      <aside class="side" id="side-ana"></aside>
+      <main class="main">
+        <div style="font-size:32px;font-weight:600;letter-spacing:-.02em">Before vs <span class="serif gradtxt" style="font-size:40px;padding-right:6px">after</span> ISP</div>
+        <div style="display:flex;gap:20px;flex:1;min-height:0">
+          <div class="card glow-p" style="flex:.9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+            <div class="muted" style="align-self:flex-start">Brand clarity score</div>
+            <svg width="300" height="300" viewBox="0 0 300 300">
+              <circle cx="150" cy="150" r="118" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="22"/>
+              <circle cx="150" cy="150" r="118" fill="none" stroke="url(#gr)" stroke-width="22" stroke-linecap="round" stroke-dasharray="741" stroke-dashoffset="96" transform="rotate(-90 150 150)" filter="url(#neon)"/>
+              <text x="150" y="165" text-anchor="middle" fill="#fff" font-size="82" font-weight="700" font-family="Inter" letter-spacing="-3">87</text>
+              <text x="150" y="200" text-anchor="middle" fill="#8F8AB8" font-size="16" font-family="Inter">out of 100</text>
+            </svg>
+            <span class="pill up">▲ +41 since onboarding</span>
+          </div>
+          <div class="card" style="flex:2;display:flex;flex-direction:column">
+            <div style="display:flex;align-items:center"><h3>Monthly leads</h3><div style="margin-left:auto;display:flex;gap:16px" class="muted"><span>● <span style="color:#C9B4FF">With ISP</span></span><span>● Before</span></div></div>
+            <div id="bars" style="flex:1;display:flex;align-items:flex-end;gap:16px;padding-top:16px"></div>
           </div>
         </div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:22px">
-          <div class="card">
-            <h3>Colour palette</h3>
-            <div style="display:flex;gap:12px;margin-top:16px">
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#FFC67A,#FF821C 55%,#F2611A)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Ember</div><div class="muted">#FF821C</div></div>
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#FF8A3D,#E65000 55%,#B83200)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Flame</div><div class="muted">#E65000</div></div>
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#4A2418,#1A0C08 55%,#050202)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Ink</div><div class="muted">#0A0A0A</div></div>
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#FFFFFF,#FFEBDA 60%,#FFD9BA)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Paper</div><div class="muted">#F5F4F2</div></div>
-            </div>
-          </div>
-          <div class="card" style="flex:1">
-            <h3>Typography</h3>
-            <div style="display:flex;align-items:flex-end;gap:26px;margin-top:14px">
-              <div style="font-size:110px;font-weight:700;letter-spacing:-.05em;line-height:.9">Aa</div>
-              <div><div style="font-weight:600">Inter</div><div class="muted">Headlines · Body · UI</div></div>
-            </div>
-            <div style="display:flex;align-items:flex-end;gap:26px;margin-top:14px">
-              <div class="serif" style="font-size:110px;line-height:.9;color:var(--acc2)">Aa</div>
-              <div><div style="font-weight:600">Instrument Serif</div><div class="muted">Accents · Emphasis</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </section>
 
-<!-- ===================== 05 MOBILE (vertical 1080x1920) ===================== -->
-<section class="scr stage v" id="mobile">
-  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
-  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
-  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
-  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
-  <div style="position:absolute;top:150px;left:0;right:0;text-align:center">
-    <div style="font-size:30px;color:rgba(255,255,255,.8);font-weight:500">Approve designs</div>
-    <div class="tg-white" style="font-size:96px;font-weight:700;letter-spacing:-.04em;line-height:1.1;padding-bottom:10px">from <span class="serif">anywhere.</span></div>
+<!-- 07 TAGLINE -->
+<section class="scr bg b2 grain" id="tagline">
+  <div class="center"><div class="glowtxt" style="font-size:150px">Brief. Design. Launch.</div></div>
+</section>
+
+<!-- 08 END CARD -->
+<section class="scr bg grain" id="endcard">
+  <div class="center" style="gap:30px">
+    <div class="glowtxt" style="font-size:210px;font-weight:800;letter-spacing:-.04em;display:flex;align-items:center">ISP<span style="display:inline-block;width:46px;height:46px;border-radius:50%;margin:70px 0 0 14px;background:var(--gBrand);box-shadow:0 0 20px #8B5CFF,0 0 50px #2F7BFF"></span></div>
+    <div style="font-size:40px;color:#D9D3FF;letter-spacing:.02em;text-shadow:0 0 20px rgba(139,92,255,.8)">Design that <span class="serif" style="font-size:50px">works.</span></div>
+    <div class="btn" style="height:76px;font-size:26px;padding:0 46px;margin-top:20px">Book a call →</div>
   </div>
-  <div class="phone" style="position:absolute;left:325px;top:560px">
+</section>
+
+<!-- 09 MOBILE (vertical) -->
+<section class="scr v bg b2 grain" id="mobile">
+  <div style="position:absolute;top:160px;left:0;right:0;text-align:center">
+    <div class="glowtxt" style="font-size:96px;line-height:1.1">Approve from</div>
+    <div class="glowtxt serif" style="font-size:130px;line-height:1.05;font-weight:400">anywhere.</div>
+  </div>
+  <div class="phone" style="left:305px;top:610px;transform:perspective(2200px) rotateY(-14deg) rotateX(6deg) rotateZ(3deg)">
     <div class="pscr">
       <div class="notch"></div>
-      <div style="display:flex;align-items:center"><div><div class="muted">Wednesday</div><div style="font-size:26px;font-weight:700;letter-spacing:-.03em">Approvals</div></div><div class="av" style="margin-left:auto;width:42px;height:42px"></div></div>
-      <div class="card" style="margin-top:18px;padding:14px">
-        <div class="thumb" style="height:260px;background:var(--gAcc);display:grid;place-items:center">
-          <div style="font-size:54px;font-weight:800;color:#fff;letter-spacing:-.04em">Nova<span class="serif" style="font-weight:400">.</span></div>
-          <div style="position:absolute;top:12px;left:12px" class="chip g">v3 · Logo</div>
-        </div>
-        <div style="display:flex;align-items:center;margin-top:14px"><div><div style="font-weight:600">Primary logo — final</div><div class="muted">by ISP Design Team</div></div><span class="chip o" style="margin-left:auto">New</span></div>
-        <div style="display:flex;gap:10px;margin-top:14px"><div class="btn o" style="flex:1;justify-content:center;height:50px">Comment</div><div class="btn" style="flex:1;justify-content:center;height:50px">✓ Approve</div></div>
-      </div>
-      <div class="card" style="margin-top:14px;padding:14px;display:flex;gap:12px;align-items:center">
-        <div class="thumb" style="width:64px;height:64px;background:linear-gradient(150deg,#5A2412,#1F0A06 60%,#0A0303);flex:none"></div>
-        <div><div style="font-weight:600;font-size:14px">Homepage hero</div><div class="muted">Waiting on you · 2h</div></div><span class="chip g" style="margin-left:auto">Review</span>
-      </div>
-      <div class="card" style="margin-top:14px;padding:14px;display:flex;gap:12px;align-items:center">
-        <div class="thumb" style="width:64px;height:64px;background:linear-gradient(145deg,#FFE3C8,#FF9F5A);flex:none"></div>
-        <div><div style="font-weight:600;font-size:14px">Instagram set (9)</div><div class="muted">Approved · yesterday</div></div><span class="chip" style="margin-left:auto">Done</span>
-      </div>
-      <div class="tab"><i class="a"></i><i></i><i></i><i></i></div>
+      <div style="display:flex;align-items:center"><div><div class="muted">Wednesday</div><div style="font-size:28px;font-weight:700">Approvals</div></div><div class="av" style="margin-left:auto;width:42px;height:42px"></div></div>
+      <div class="tile glow-v" style="margin-top:20px" id="ptile"></div>
+      <div style="display:flex;gap:10px;margin-top:16px"><div class="btn ghost" style="flex:1;height:54px;font-size:16px">Comment</div><div class="btn" style="flex:1;height:54px;font-size:16px">✓ Approve</div></div>
+      <div class="card" style="margin-top:16px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt2" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:600">Homepage hero</div><div class="muted">Waiting on you · 2h</div></div><span class="pill pk" style="margin-left:auto">Review</span></div>
+      <div class="card" style="margin-top:12px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt3" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:600">Social set (9)</div><div class="muted">Approved · yesterday</div></div><span class="pill up" style="margin-left:auto">Done</span></div>
+      <div class="card glow-g" style="margin-top:14px;padding:16px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(61,255,154,.16),rgba(34,211,255,.08))"><div class="check" style="position:static;flex:none"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div><div style="font-weight:600">Website launched</div><div class="muted">nova.com is live · 3d ago</div></div></div>
     </div>
   </div>
-  <!-- floating notification -->
-  <div class="float" style="left:80px;top:1600px;padding:18px 22px;display:flex;gap:14px;align-items:center;width:360px">
-    <div class="mark" style="flex:none">✓</div><div><div style="font-weight:600;font-size:17px">Logo approved</div><div class="muted" style="font-size:14px">Files sent to your team</div></div>
-  </div>
-  <div class="float" style="right:70px;top:440px;padding:20px 24px;width:300px">
-    <div class="muted" style="font-size:14px">Delivery time</div>
-    <div style="font-size:44px;font-weight:700;letter-spacing:-.04em">4.2 <span style="font-size:20px;color:var(--ink3)">days</span></div>
-    <div class="bar" style="margin-top:8px"><span style="width:78%"></span></div>
-  </div>
-</section>
-
-<!-- ===================== 06 COMPONENTS (transparent, for animating) ===================== -->
-<section class="scr sheet" id="components">
-  <div class="float" style="left:80px;top:80px;width:420px;padding:26px">
-    <div class="muted">Brand reach</div>
-    <div style="font-size:56px;font-weight:700;letter-spacing:-.04em;margin:6px 0">248.6K</div>
-    <span class="chip">▲ 32.4%</span>
-    <svg viewBox="0 0 360 80" style="width:100%;margin-top:14px"><path d="M0,70 C40,65 70,50 110,52 S170,35 210,30 S280,20 360,6" fill="none" stroke="#FF821C" stroke-width="5" stroke-linecap="round"/></svg>
-  </div>
-  <div class="float" style="left:560px;top:80px;padding:20px 24px;display:flex;gap:14px;align-items:center;width:420px">
-    <div class="mark" style="flex:none">✓</div><div><div style="font-weight:600;font-size:17px">Logo v3 approved</div><div class="muted">Nova · just now</div></div>
-  </div>
-  <div class="float" style="left:560px;top:210px;padding:20px 24px;display:flex;gap:14px;align-items:center;width:420px">
-    <div class="av" style="width:46px;height:46px"></div><div><div style="font-weight:600;font-size:17px">“This is exactly our brand.”</div><div class="muted">Alex · Founder, Nova</div></div>
-  </div>
-  <div class="float dark" style="left:1040px;top:80px;width:360px;padding:26px;display:flex;flex-direction:column;align-items:center">
-    <svg width="200" height="200" viewBox="0 0 300 300">
-      <circle cx="150" cy="150" r="120" fill="none" stroke="#2E2E2E" stroke-width="24"/>
-      <circle cx="150" cy="150" r="120" fill="none" stroke="url(#ga)" stroke-width="24" stroke-linecap="round" stroke-dasharray="754" stroke-dashoffset="98" transform="rotate(-90 150 150)"/>
-      <text x="150" y="172" text-anchor="middle" fill="#fff" font-size="80" font-weight="700" font-family="Inter">87</text>
-    </svg>
-    <div style="margin-top:10px;font-weight:600">Brand clarity score</div>
-  </div>
-  <div style="position:absolute;left:1460px;top:90px;display:flex;flex-direction:column;gap:22px">
-    <div class="btn" style="height:72px;font-size:24px;padding:0 40px">Let’s build yours →</div>
-    <div class="btn o" style="height:72px;font-size:24px;padding:0 40px">Book a call</div>
-    <span class="chip o" style="font-size:18px;padding:8px 18px;align-self:flex-start">⚡ 2× faster delivery</span>
-  </div>
-  <div class="float" style="left:80px;top:420px;width:620px;padding:24px">
-    <h3 style="margin:0 0 16px;font-size:18px">Projects in motion</h3>
-    <div style="display:flex;font-size:15px;font-weight:600;margin-bottom:8px">Brand identity refresh<span style="margin-left:auto" class="muted">86%</span></div><div class="bar" style="margin-bottom:16px"><span style="width:86%"></span></div>
-    <div style="display:flex;font-size:15px;font-weight:600;margin-bottom:8px">Website redesign<span style="margin-left:auto" class="muted">64%</span></div><div class="bar" style="margin-bottom:16px"><span style="width:64%"></span></div>
-    <div style="display:flex;font-size:15px;font-weight:600;margin-bottom:8px">Launch promo video<span style="margin-left:auto" class="muted">41%</span></div><div class="bar"><span style="width:41%"></span></div>
-  </div>
-  <div class="float" style="left:760px;top:420px;width:300px;padding:14px">
-    <div class="thumb" style="height:200px;background:var(--gAcc);display:grid;place-items:center"><div style="font-size:48px;font-weight:800;color:#fff;letter-spacing:-.04em">Nova<span class="serif" style="font-weight:400">.</span></div></div>
-    <div style="display:flex;gap:8px;margin-top:12px"><div class="btn o" style="flex:1;justify-content:center;height:42px;font-size:14px">Comment</div><div class="btn" style="flex:1;justify-content:center;height:42px;font-size:14px">✓ Approve</div></div>
-  </div>
-  <div class="float" style="left:1120px;top:470px;width:380px;padding:22px">
-    <div class="muted">Colour palette</div>
-    <div style="display:flex;gap:10px;margin-top:12px">
-      <div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#FFC67A,#FF821C 55%,#F2611A)"></div><div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#FF8A3D,#E65000 55%,#B83200)"></div><div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#4A2418,#1A0C08 55%,#050202)"></div><div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#FFFFFF,#FFEBDA 60%,#FFD9BA)"></div>
-    </div>
-  </div>
-  <div class="float" style="left:1560px;top:470px;width:280px;padding:22px">
-    <div class="muted">Avg. delivery</div>
-    <div style="font-size:52px;font-weight:700;letter-spacing:-.04em">4.2<span style="font-size:22px;color:var(--ink3)"> days</span></div>
-  </div>
-  <!-- cursor -->
-  <svg style="position:absolute;left:1600px;top:700px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.25))" width="70" height="80" viewBox="0 0 24 28"><path d="M2 2 L2 22 L7.5 17 L11 25 L14.5 23.5 L11 16 L18 16 Z" fill="#0A0A0A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
-  <div class="float" style="left:80px;top:790px;width:900px;padding:18px 24px;display:flex;align-items:center;gap:18px">
-    <div class="logo" style="margin:0"><div class="mark">ISP</div>ISP Studio</div>
-    <div class="nav a" style="margin-left:20px"><i></i>Overview</div><div class="nav"><i></i>Projects</div><div class="nav"><i></i>Brand Kit</div><div class="nav"><i></i>Analytics</div>
-  </div>
+  <svg class="cursor" data-t="#mobile .btn:not(.ghost)" style="width:84px"><use href="#hand"/></svg>
 </section>
 
 <script>
-// Kanban columns
-const cols=[
- ['Brief',[['Nova — brand strategy','Strategy','g',['#FFD3A6','#C9C9C9']],['Orbit — naming','Strategy','g',['#C9C9C9']]]],
- ['In design',[['Website redesign','UI/UX','o',['#FFD3A6','#FF8A2A','#555'],true],['Social content kit','Content','o',['#FF8A2A']]]],
- ['Client review',[['Logo v3 — final','Identity','o',['#FFD3A6','#333'],'g'],['Pitch deck','Presentation','g',['#555']]]],
- ['Launched',[['Launch promo video','Motion','',['#FF8A2A','#FFD3A6']],['Packaging system','Print','',['#333']]]]
-];
-const k=document.getElementById('kanban');
-cols.forEach(([t,items],ci)=>{
-  const c=document.createElement('div');c.className='kcol';c.style.cssText='flex:1;display:flex;flex-direction:column;gap:14px;background:rgba(0,0,0,.025);border-radius:22px;padding:14px';
-  c.innerHTML=`<div style="display:flex;align-items:center;font-weight:600;font-size:15px;padding:4px 6px"><span class="dot" style="background:${['#C9C9C9','#FF821C','#FFB862','#1C8C4A'][ci]}"></span>${t}<span class="muted" style="margin-left:auto">${items.length+ (ci==1?2:1)}</span></div>`;
-  items.forEach(([n,tag,cl,avs,img],i)=>{
-    const d=document.createElement('div');d.className='card';d.style.padding='16px';
-    const thumb=img?`<div class="thumb" style="height:120px;margin-bottom:12px;background:${img==='g'?'var(--gAcc)':'linear-gradient(150deg,#5A2412,#1F0A06 60%,#0A0303)'};display:grid;place-items:center;color:#fff;font-weight:800;font-size:28px;letter-spacing:-.03em">${img==='g'?'Nova.':'<span style="opacity:.8">▭ ▭ ▭</span>'}</div>`:'';
-    const prog=ci==1||ci==2?`<div class="bar" style="margin:12px 0 0"><span style="width:${[64,48,86,72][ci*2-2+i]||60}%"></span></div>`:'';
-    d.innerHTML=`${thumb}<span class="chip ${cl}">${tag}</span><div style="font-weight:600;font-size:15px;margin-top:10px">${n}</div>${prog}
-    <div style="display:flex;align-items:center;margin-top:12px"><div style="display:flex">${avs.map((a,j)=>`<div style="width:28px;height:28px;border-radius:50%;background:${a};border:2px solid #fff;margin-left:${j?-8:0}px"></div>`).join('')}</div><span class="muted" style="margin-left:auto">${ci==3?'✓ Delivered':['Nov 22','Nov 24','Nov 21','Nov 27'][ci]}</span></div>`;
-    c.appendChild(d);
-  });
-  k.appendChild(c);
-});
-// Bars
-const b=document.getElementById('bars');
+const ICONS={grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+ folder:'<path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>',
+ brush:'<path d="M14 4l6 6-9 9H5v-6z"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ check:'<path d="M20 6L9 17l-5-5"/>',chat:'<path d="M4 5h16v11H8l-4 4z"/>',file:'<path d="M6 2h9l5 5v15H6z"/>'};
+function side(el,active){
+  el.innerHTML='<div class="who"><div class="av"></div><div><div style="font-weight:600">Nova Inc.</div><div class="muted" style="font-size:11px">Client workspace</div></div></div>'+
+  [['grid','Dashboard'],['folder','Projects',6],['brush','Brand kit'],['chart','Analytics'],['check','Approvals',3],['chat','Messages'],['file','Invoices']]
+   .map(([i,t,b])=>`<div class="nav ${t===active?'a':''}"><svg viewBox="0 0 24 24">${ICONS[i]}</svg>${t}${b?`<b>${b}</b>`:''}</div>`).join('');
+}
+side(document.getElementById('side-dash'),'Dashboard');side(document.getElementById('side-ana'),'Analytics');
+
+// abstract "deliverable" thumbnails (gradient art, no photos)
+const ART=[
+ ['radial-gradient(circle at 30% 30%,#FF7AC0,#8B5CFF 55%,#1B1250)','<div style="font:800 34px Inter;color:#fff;letter-spacing:-.03em;text-shadow:0 0 18px rgba(255,255,255,.6)">Nova<span style=color:#22D3FF>.</span></div>'],
+ ['linear-gradient(135deg,#0F2A6B,#2F7BFF 55%,#22D3FF)','<div style="width:46%;height:56%;border-radius:10px;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)"></div>'],
+ ['conic-gradient(from 120deg at 60% 40%,#FF4A4A,#FF3D9A,#8B5CFF,#FF4A4A)','<div style="width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 0 30px #fff"></div>'],
+ ['linear-gradient(160deg,#1A1440,#3B1B6B 50%,#FF3D9A)','<div style="font:400 40px \'Instrument Serif\';font-style:italic;color:#fff">Launch</div>'],
+ ['radial-gradient(circle at 70% 70%,#22D3FF,#2F7BFF 40%,#120E3A)','<svg width="80" height="80" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="#fff"/></svg>'],
+ ['linear-gradient(120deg,#FFB35C,#FF4A4A 45%,#8B1E5A)','<div style="display:grid;grid-template-columns:repeat(3,22px);gap:6px">'+'<i style="height:22px;border-radius:5px;background:rgba(255,255,255,.8)"></i>'.repeat(9)+'</div>'],
+ ['radial-gradient(circle at 50% 120%,#8B5CFF,#2A1A6B 50%,#0E0B26)','<div style="font:800 30px Inter;color:#fff;letter-spacing:.3em">ORBIT</div>'],
+ ['linear-gradient(200deg,#3DFF9A,#22D3FF 40%,#2F7BFF 75%,#1A1450)','<div style="width:60px;height:60px;border-radius:16px;background:#fff;transform:rotate(45deg)"></div>']];
+function art(el,i,h){el.style.background=ART[i][0];if(h)el.style.height=h;el.innerHTML=ART[i][1];}
+
+const G=[['Logo suite','Approved','g'],['Website — home','Approved','g'],['Launch poster','Review','v'],['Social campaign','Needs review',''],
+         ['Promo video 30s','In progress',''],['Social kit (9)','Approved','g'],['Pitch deck','Loading','v'],['App icon','No status','']];
+document.getElementById('grid').innerHTML=G.map(([t,s,g],i)=>`<div class="tile ${g?'glow-'+g:''}">${g==='g'?'<div class="check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>':''}<div class="thumb" data-a="${i}" style="flex:1"></div>
+  <div style="display:flex;align-items:flex-end"><div><div style="font-weight:600;font-size:15px">${t}</div><div class="muted" style="font-size:11px">Stage · v${(i%3)+1}</div></div><div class="muted" style="margin-left:auto;font-size:11px">${18+i} Nov 2026</div></div>
+  <div class="status">${s}</div></div>`).join('');
+document.querySelectorAll('#grid .thumb').forEach(e=>art(e,+e.dataset.a));
+
+document.getElementById('updates').innerHTML=[['Logo suite v3','Approved','up',0],['Website home','Review','pk',1],['Promo video','Rendering','vi',4],['Social kit','Approved','up',5]]
+ .map(([t,s,c,a])=>`<div style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;background:rgba(255,255,255,.03)"><div class="thumb" data-a="${a}" style="width:44px;height:44px;flex:none;transform:scale(1)"></div><div><div style="font-weight:600;font-size:14px">${t}</div><div class="muted" style="font-size:11px">Nova Inc.</div></div><span class="pill ${c}" style="margin-left:auto">${s}</span></div>`).join('');
+document.querySelectorAll('#updates .thumb').forEach(e=>{art(e,+e.dataset.a);e.firstElementChild&&(e.firstElementChild.style.transform='scale(.35)')});
+
+document.getElementById('lines').innerHTML=[['Website design + build','$12,800'],['Express timeline','$1,200'],['Brand guide','Included'],['CMS + hosting setup','$3,300']]
+ .map(([a,b])=>`<div style="display:flex"><span style="color:#D9D4F5">${a}</span><span style="margin-left:auto;font-weight:600">${b}</span></div>`).join('');
+
 const before=[22,26,24,30,28,31,29,33,30],after=[34,46,52,61,70,78,84,92,100];
-['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'].forEach((m,i)=>{
-  const g=document.createElement('div');g.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%';
-  g.innerHTML=`<div style="flex:1;width:100%;display:flex;align-items:flex-end;gap:6px;justify-content:center">
-   <div style="width:40%;height:${before[i]}%;background:linear-gradient(180deg,#FFE7D2,#F6CBA8);border-radius:8px 8px 4px 4px"></div>
-   <div style="width:40%;height:${after[i]}%;background:linear-gradient(180deg,#FFB862,#FF821C 50%,#E65000);border-radius:8px 8px 4px 4px;box-shadow:0 8px 18px rgba(255,115,20,.25)"></div></div>
-   <div class="muted">${m}</div>`;
-  b.appendChild(g);
-});
-// gradient defs for components sheet ring
-document.body.insertAdjacentHTML('afterbegin','<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="ga" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC685"/><stop offset=".5" stop-color="#FF821C"/><stop offset="1" stop-color="#E44E00"/></linearGradient></defs></svg>');
-// pick screen
-let id=(location.hash||'#dashboard').slice(1);
-if(id==='components-bg'){id='components';const el=document.getElementById(id);el.classList.add('stage');
-  el.insertAdjacentHTML('afterbegin',document.querySelector('#dashboard .blob').outerHTML);}
+document.getElementById('bars').innerHTML=['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'].map((m,i)=>`<div style="flex:1;height:100%;display:flex;flex-direction:column;align-items:center;gap:8px">
+ <div style="flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:6px"><div style="width:38%;height:${before[i]}%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.05))"></div>
+ <div style="width:38%;height:${after[i]}%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#FF3D9A,#8B5CFF 55%,#2F7BFF);box-shadow:0 0 16px rgba(139,92,255,.8)"></div></div><div class="muted" style="font-size:12px">${m}</div></div>`).join('');
+
+const pt=document.getElementById('ptile');pt.innerHTML='<div class="thumb" style="height:300px"></div><div style="display:flex;align-items:center;padding:4px 4px 0"><div><div style="font-weight:600">Logo suite — final</div><div class="muted" style="font-size:12px">by ISP Design Team · v3</div></div><span class="pill vi" style="margin-left:auto">New</span></div>';
+art(pt.firstElementChild,0);art(document.getElementById('pt2'),1);art(document.getElementById('pt3'),5);
+document.querySelectorAll('#pt2>*,#pt3>*').forEach(e=>e.style.transform='scale(.4)');
+
+// pick frame: #name or #name-flat (no 3D tilt)
+let id=(location.hash||'#title').slice(1);
+if(id.endsWith('-flat')){id=id.slice(0,-5);document.body.classList.add('flat');document.querySelectorAll('.cursor,.ripple').forEach(e=>e.remove());}
 document.getElementById(id).classList.add('on');
+// park each cursor on its target element (works through the 3D tilt)
+document.querySelectorAll('#'+id+' [data-t]').forEach(c=>{
+  const t=document.querySelector(c.dataset.t); if(!t) return;
+  const r=t.getBoundingClientRect(), x=r.left+r.width*(+c.dataset.dx||.5), y=r.top+r.height*.55;
+  if(c.classList.contains('ripple')){c.style.left=x+'px';c.style.top=y+'px';}
+  else{c.style.left=(x-c.getBoundingClientRect().width*.28)+'px';c.style.top=(y-6)+'px';}
+});
 </script>
 </body>
 </html>

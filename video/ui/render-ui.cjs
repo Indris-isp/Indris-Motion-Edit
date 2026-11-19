@@ -1,26 +1,39 @@
-// Renders each UI screen in screens.html to out/<name>.png at 2x.
-// Usage: node render-ui.cjs
+// Renders each frame in screens.html to out/<name>.png at 2x.
+// Usage: node render-ui.cjs            (all frames)
+//        node render-ui.cjs dashboard  (one frame)
+// A "-flat" suffix renders the same screen without the 3D tilt or cursor,
+// for compositing and animating your own camera moves.
 const { chromium } = require('playwright');
 const path = require('path');
+const fs = require('fs');
 
-const screens = [
-  ['dashboard', 1920, 1080],
-  ['projects', 1920, 1080],
-  ['analytics', 1920, 1080],
-  ['brandkit', 1920, 1080],
-  ['mobile', 1080, 1920],
-  ['components', 1920, 1080, true], // transparent background, for compositing
-  ['components-bg', 1920, 1080],
+const frames = [
+  ['01_title', 'title', 1920, 1080],
+  ['02_services', 'chips', 1920, 1080],
+  ['03_dashboard', 'dashboard', 1920, 1080],
+  ['04_projects', 'projects', 1920, 1080],
+  ['05_request', 'request', 1920, 1080],
+  ['06_analytics', 'analytics', 1920, 1080],
+  ['07_tagline', 'tagline', 1920, 1080],
+  ['08_endcard', 'endcard', 1920, 1080],
+  ['09_mobile', 'mobile', 1080, 1920],
+  ['flat_dashboard', 'dashboard-flat', 1920, 1080],
+  ['flat_projects', 'projects-flat', 1920, 1080],
+  ['flat_analytics', 'analytics-flat', 1920, 1080],
 ];
 
 (async () => {
+  const only = process.argv[2];
+  const outDir = path.join(__dirname, 'out');
+  fs.mkdirSync(outDir, { recursive: true });
   const browser = await chromium.launch();
   const file = 'file://' + path.join(__dirname, 'screens.html');
-  for (const [name, w, h, transparent] of screens) {
+  for (const [name, hash, w, h] of frames) {
+    if (only && !name.includes(only)) continue;
     const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 2 });
-    await page.goto(`${file}#${name}`);
+    await page.goto(`${file}#${hash}`);
     await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: path.join(__dirname, 'out', `${name}.png`), omitBackground: !!transparent });
+    await page.screenshot({ path: path.join(outDir, `${name}.png`) });
     await page.close();
     console.log('rendered', name);
   }
