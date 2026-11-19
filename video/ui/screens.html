@@ -215,6 +215,11 @@ html,body{background:#fff}
 #logo .streak-glow{background:radial-gradient(50% 50% at 50% 50%,rgba(255,120,30,.38),rgba(255,140,60,.12) 45%,transparent 75%)}
 #logo .streak-hot{mix-blend-mode:normal;background:radial-gradient(50% 50% at 50% 50%,#FFF7EE 0%,#FFB066 30%,rgba(255,106,18,.7) 55%,rgba(255,106,18,0) 100%);box-shadow:0 0 40px 12px rgba(255,120,30,.45),0 0 90px 30px rgba(255,140,60,.25)}
 #logo .bgglow{background:radial-gradient(55% 45% at 50% 52%,rgba(255,138,42,.22),transparent 70%),radial-gradient(70% 50% at 50% 120%,rgba(255,120,30,.45),transparent 70%)!important}
+
+/* ================= MOTION BACKGROUND: drifting blurred light + particles ================= */
+.bgm{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform}
+.pt{position:absolute;border-radius:50%;background:radial-gradient(circle,#FFB066 0%,rgba(255,138,42,.6) 40%,rgba(255,138,42,0) 70%);will-change:transform}
 </style>
 </head>
 <body>
@@ -543,10 +548,43 @@ document.querySelectorAll('.win,.fl,#feat .pn,.eyebrow,.btn.lg,.phone,.opt.sel,.
   el.insertAdjacentHTML('beforeend','<i class="rim bl bl2"></i><i class="rim bl"></i><i class="rim"></i>');
   el.style.setProperty('--o',((i*137)%360)+'deg');
 });
+// ---- motion background: blobs orbit, particles rise, horizon breathes, callouts bob ----
+const BLOBS=[ // color, size(% of frame width), centre x%, centre y%, orbit rx%, ry%, phase, laps per loop
+ ['rgba(255,130,30,.34)',46,92,12,9,8,0,1],['rgba(255,170,90,.36)',48,8,92,11,7,.3,1],['rgba(255,106,18,.26)',36,62,108,14,6,.55,1],
+ ['rgba(255,225,195,.55)',42,30,6,9,9,.8,1],['rgba(255,150,60,.16)',30,50,60,20,12,.15,2]];
+document.querySelectorAll('.scr').forEach((sec,si)=>{
+  const W=sec.classList.contains('v')?1080:1920;
+  let h='<div class="bgm">';
+  BLOBS.forEach(([c,sz],i)=>{h+=`<div class="blob" data-b="${i}" style="width:${sz*W/100}px;height:${sz*W/100}px;background:${c}"></div>`;});
+  for(let k=0;k<16;k++){const d=6+((k*37+si*11)%14);h+=`<div class="pt" data-p="${k}" style="width:${d}px;height:${d}px;filter:blur(${d>14?3:1.5}px)"></div>`;}
+  sec.insertAdjacentHTML('afterbegin',h+'</div>');
+});
+const flBase=new Map();
+document.querySelectorAll('.fl').forEach(f=>flBase.set(f,parseFloat(f.style.top)||0));
+function motion(t){
+  const TAU=Math.PI*2;
+  document.querySelectorAll('.scr.on').forEach(sec=>{
+    const W=sec.offsetWidth,H=sec.offsetHeight;
+    sec.querySelectorAll('.blob').forEach(b=>{
+      const [c,sz,cx,cy,rx,ry,ph,laps]=BLOBS[+b.dataset.b], a=TAU*(t*laps+ph), d=sz*W/100;
+      const x=(cx+rx*Math.cos(a))*W/100-d/2, y=(cy+ry*Math.sin(a))*H/100-d/2, sc=1+.08*Math.sin(a*2);
+      b.style.transform=`translate(${x}px,${y}px) scale(${sc})`;
+    });
+    sec.querySelectorAll('.pt').forEach(p=>{
+      const k=+p.dataset.p, x0=((k*61+17)%100)/100*W, ph=((k*29)%100)/100, sp=k%3?1:2;
+      const y=H*(1.05-((t*sp+ph)%1)*1.15), x=x0+28*Math.sin(TAU*(t*sp+ph)*1);
+      const life=(t*sp+ph)%1, op=Math.sin(Math.PI*life)*.75;
+      p.style.transform=`translate(${x}px,${y}px)`;p.style.opacity=op.toFixed(3);
+    });
+    sec.querySelectorAll('.horizon').forEach(hz=>{hz.style.opacity=(.82+.18*Math.sin(TAU*t)).toFixed(3);});
+  });
+  flBase.forEach((top,f)=>{const ph=(top%97)/97;f.style.top=(top+9*Math.sin(TAU*(t+ph)))+'px';});
+}
 // loop clock: setT(0..1) drives every moving glow (used by render-loops.cjs)
 window.setT=t=>{
   document.documentElement.style.setProperty('--t',t);
   const h=document.getElementById('hot'); if(h){h.style.left=(8+84*t)+'%';h.style.opacity=Math.sin(Math.PI*t).toFixed(3);}
+  motion(t);
 };
 setT(0.5);
 
@@ -554,6 +592,7 @@ setT(0.5);
 let id=(location.hash||'#title').slice(1);
 if(id.endsWith('-flat')){id=id.slice(0,-5);document.body.classList.add('flat');}
 document.getElementById(id).classList.add('on');
+setT(0.5);
 window.placed=document.fonts.ready.then(()=>document.querySelectorAll('#'+id+' [data-t]').forEach(c=>{
   const t=document.querySelector(c.dataset.t); if(!t) return;
   const r=t.getBoundingClientRect(), x=r.left+r.width*(+c.dataset.dx||.5), y=r.top+r.height*(+c.dataset.dy||.55);
