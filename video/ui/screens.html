@@ -179,6 +179,42 @@ body.flat .fl,body.flat .cursor,body.flat .ripple{display:none}
 .streak-hot{position:absolute;top:50%;width:420px;height:8px;border-radius:8px;transform:translate(-50%,-50%);mix-blend-mode:screen;
   background:radial-gradient(50% 50% at 50% 50%,#fff 0%,#FFE6CC 25%,rgba(255,170,90,.8) 50%,rgba(255,138,42,0) 100%);filter:blur(1px);box-shadow:0 0 40px 14px rgba(255,150,60,.55),0 0 90px 30px rgba(255,110,20,.35)}
 .reflect{position:absolute;left:50%;transform:translateX(-50%) scaleY(-1);opacity:.10;filter:blur(3px);-webkit-mask:linear-gradient(0deg,#000,transparent 70%)}
+
+/* ================= LIGHT THEME: white + orange backgrounds =================
+   Backgrounds and on-background type go light; product surfaces (windows, phone, callouts) stay dark. */
+html,body{background:#fff}
+.scr{background:linear-gradient(180deg,#FFFFFF 0%,#FFFBF7 45%,#FFEEDD 100%);
+  --t1:#17110D;--t2:#5B5048;--t3:#8C8077;--t4:#B5AAA0;--line:rgba(60,30,10,.08);--line2:rgba(60,30,10,.12);--s0:#FFFFFF;color:var(--t1)}
+.win,.phone,.fl,.cursor{--t1:#F6F3EF;--t2:#B9B1A9;--t3:#7C746D;--t4:#55504B;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.11);--s0:#0B0B0B;color:var(--t1)}
+.sun{background:radial-gradient(65% 60% at 50% 120%,rgba(255,110,18,.80) 0%,rgba(255,138,42,.45) 30%,rgba(255,180,120,.22) 52%,rgba(255,220,190,0) 75%)}
+.sun.top{background:radial-gradient(65% 60% at 50% -20%,rgba(255,110,18,.70) 0%,rgba(255,138,42,.38) 30%,rgba(255,180,120,.18) 52%,rgba(255,220,190,0) 75%),
+  radial-gradient(50% 50% at 50% 115%,rgba(255,150,70,.35),transparent 70%)}
+.sun.side{background:radial-gradient(45% 70% at 108% 25%,rgba(255,110,18,.70) 0%,rgba(255,150,70,.30) 40%,rgba(255,200,150,0) 72%),
+  radial-gradient(45% 55% at -8% 108%,rgba(255,120,30,.60) 0%,rgba(255,170,100,.22) 45%,rgba(255,200,150,0) 72%)}
+.grid{background-image:radial-gradient(rgba(120,60,20,.10) 1px,transparent 1.4px)}
+.horizon{border-top:2px solid rgba(255,140,50,.95);
+  box-shadow:0 -2px 24px rgba(255,120,30,.55),0 -30px 110px rgba(255,120,30,.30),inset 0 40px 120px rgba(255,120,30,.45);
+  background:linear-gradient(180deg,#FFB878 0%,#FFD9B8 18%,#FFF1E6 40%,#FFFFFF 70%)}
+.wh-t{background:linear-gradient(180deg,#2A1E16 0%,#0E0A07 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.og-t{background:linear-gradient(100deg,#FFAA55 0%,#FF7A1A 40%,#E8520A 75%,#C23A04 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{color:var(--t2);background:linear-gradient(180deg,#FFFFFF,#FFF6EE);box-shadow:inset 0 0 0 1px rgba(255,120,30,.25),0 8px 24px rgba(255,120,30,.12)}
+.eyebrow .tag{color:#fff}
+/* feature cards: white glass */
+#feat .pn{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,249,243,.9));box-shadow:inset 0 0 0 1px rgba(255,140,60,.18),0 24px 60px rgba(160,60,0,.12),0 2px 6px rgba(160,60,0,.06)}
+#feat .pn.hot{background:radial-gradient(120% 120% at 100% 0%,rgba(255,138,42,.22),rgba(255,138,42,.05) 55%,transparent 80%),linear-gradient(180deg,#FFFFFF,#FFF4EA);box-shadow:inset 0 0 0 1px rgba(255,138,42,.35),0 30px 70px rgba(200,80,0,.18)}
+#feat .c-nt{color:var(--t2);background:#fff;box-shadow:inset 0 0 0 1px rgba(60,30,10,.12)}
+#feat .c-ok{color:#B8430A;background:linear-gradient(135deg,#FFF0E2,#FFE0C4);box-shadow:inset 0 0 0 1px rgba(255,138,42,.4)}
+#feat .av{box-shadow:0 0 0 3px #fff}
+/* product surfaces on light bg: warm, softer drop shadow */
+.win{box-shadow:0 0 0 1px rgba(255,150,70,.35),0 60px 120px rgba(150,50,0,.35),0 20px 40px rgba(80,30,0,.25),0 0 120px rgba(255,106,18,.25)}
+.fl{box-shadow:inset 0 0 0 1px rgba(255,170,110,.28),inset 0 1px 0 rgba(255,255,255,.08),0 30px 60px rgba(120,40,0,.35),0 0 50px rgba(255,106,18,.22)}
+.phone{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),0 0 0 1px rgba(255,150,70,.4),0 60px 120px rgba(140,50,0,.4),0 0 120px rgba(255,106,18,.3)}
+#endcard .btn.g{background:#fff;color:var(--t1);box-shadow:inset 0 0 0 1px rgba(60,30,10,.14),0 10px 26px rgba(160,60,0,.12)}
+/* logo reveal on white: orange streak */
+#logo .streak{background:linear-gradient(90deg,transparent 0%,rgba(255,138,42,.35) 15%,#FF8A2A 38%,#E8520A 50%,#FF8A2A 62%,rgba(255,138,42,.35) 85%,transparent 100%);box-shadow:0 0 14px rgba(255,120,30,.8),0 0 40px rgba(255,106,18,.45)}
+#logo .streak-glow{background:radial-gradient(50% 50% at 50% 50%,rgba(255,120,30,.38),rgba(255,140,60,.12) 45%,transparent 75%)}
+#logo .streak-hot{mix-blend-mode:normal;background:radial-gradient(50% 50% at 50% 50%,#FFF7EE 0%,#FFB066 30%,rgba(255,106,18,.7) 55%,rgba(255,106,18,0) 100%);box-shadow:0 0 40px 12px rgba(255,120,30,.45),0 0 90px 30px rgba(255,140,60,.25)}
+#logo .bgglow{background:radial-gradient(55% 45% at 50% 52%,rgba(255,138,42,.22),transparent 70%),radial-gradient(70% 50% at 50% 120%,rgba(255,120,30,.45),transparent 70%)!important}
 </style>
 </head>
 <body>
@@ -324,7 +360,7 @@ body.flat .fl,body.flat .cursor,body.flat .ripple{display:none}
 
 <!-- ============ 08 LOGO REVEAL (light streak) ============ -->
 <section class="scr" id="logo">
-  <div class="fx" style="background:radial-gradient(50% 40% at 50% 52%,rgba(255,106,18,.10),transparent 70%)"></div>
+  <div class="fx bgglow"></div>
   <div style="position:absolute;left:0;right:0;top:330px;display:flex;justify-content:center;align-items:center;gap:30px">
     <div class="mark" style="width:120px;height:120px;border-radius:32px;box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 70px rgba(255,106,18,.55)"><span style="width:44px;height:44px;border-radius:11px"></span></div>
     <div class="wh-t" style="font-size:150px;font-weight:500;letter-spacing:-.05em;line-height:1">ISP Studio</div>
