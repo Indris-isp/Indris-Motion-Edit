@@ -2,360 +2,482 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ISP Agency UI Frames</title>
-<!-- Style follows the user's two references: dark neon-gradient world with glowing UI (ref 2)
-     + tilted 3D UI shots, close-ups and a hand cursor (ref 1). Render with render-ui.cjs -->
+<title>ISP Studio Frames</title>
+<!-- SaaS promo frames for ISP Agency. Black + orange gradients, Satoshi Medium/Light.
+     Shot language follows the user's references: tilted 3D product shots, close-ups, hand cursor.
+     Render with: node render-ui.cjs  (run ./fetch-fonts.sh once first) -->
 <style>
 @font-face{font-family:Satoshi;src:url(fonts/Satoshi-Light.ttf);font-weight:300}
-@font-face{font-family:Satoshi;src:url(fonts/Satoshi-LightItalic.ttf);font-weight:300;font-style:italic}
 @font-face{font-family:Satoshi;src:url(fonts/Satoshi-Medium.ttf);font-weight:500}
 
 :root{
-  --ink:#FFF6EE; --mut:#BCAEA3; --mut2:#6E625A; --line:rgba(255,255,255,.07);
-  --pink:#FFB347; --violet:#FF7A1A; --blue:#D9380A; --cyan:#FFD08A; --red:#FF5A1F; --green:#FFC46B;
-  --gBrand:linear-gradient(120deg,#FFB347 0%,#FF7A1A 50%,#D9380A 100%);
+  --bg:#060606; --s0:#0B0B0B; --s1:#101010; --s2:#151515; --s3:#1B1B1B; --s4:#232323;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.11);
+  --t1:#F6F3EF; --t2:#B9B1A9; --t3:#7C746D; --t4:#55504B;
+  --o1:#FFC27A; --o2:#FF8A2A; --o3:#FF6A12; --o4:#D94408; --o5:#7A2200;
+  --og:linear-gradient(135deg,#FFC27A 0%,#FF8A2A 40%,#FF6A12 70%,#D94408 100%);
 }
-*{box-sizing:border-box}
-html,body{margin:0;background:#050302}
-body{font-family:Satoshi,sans-serif;font-weight:300;color:var(--ink);-webkit-font-smoothing:antialiased}
-.serif{font-family:Satoshi,sans-serif;font-style:normal;font-weight:300;letter-spacing:-.02em}
-.scr{display:none;position:relative;overflow:hidden;width:1920px;height:1080px}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg)}
+body{font-family:Satoshi,sans-serif;font-weight:300;color:var(--t1);-webkit-font-smoothing:antialiased}
+b,strong{font-weight:500}
+.scr{display:none;position:relative;overflow:hidden;width:1920px;height:1080px;background:var(--bg)}
 .scr.v{width:1080px;height:1920px}
 .scr.on{display:block}
+svg.i{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
 
-/* ---------- neon mesh backgrounds ---------- */
-.bg{background:
-  radial-gradient(55% 65% at 100% 0%,rgba(255,130,25,.75),rgba(255,140,30,0) 65%),
-  radial-gradient(45% 60% at 0% 100%,rgba(220,70,10,.8),rgba(230,80,15,0) 65%),
-  radial-gradient(40% 50% at 100% 100%,rgba(255,70,20,.75),rgba(255,70,20,0) 65%),
-  radial-gradient(40% 45% at 0% 0%,rgba(160,50,0,.55),rgba(160,50,0,0) 65%),
-  radial-gradient(80% 80% at 50% 50%,#2A1406 0%,#0E0805 55%,#050302 100%)}
-.bg.b2{background:
-  radial-gradient(50% 60% at 0% 0%,rgba(255,140,30,.8),rgba(255,140,30,0) 65%),
-  radial-gradient(55% 60% at 100% 100%,rgba(220,70,10,.8),rgba(230,80,15,0) 65%),
-  radial-gradient(35% 45% at 100% 0%,rgba(255,70,20,.65),rgba(255,70,20,0) 65%),
-  radial-gradient(30% 35% at 15% 95%,rgba(255,110,20,.55),rgba(255,110,20,0) 65%),
-  radial-gradient(80% 80% at 50% 50%,#2A1406 0%,#0E0805 55%,#050302 100%)}
-.bg.b3{background:
-  radial-gradient(60% 45% at 50% 0%,rgba(255,90,20,.85),rgba(255,90,20,0) 70%),
-  radial-gradient(45% 55% at 0% 100%,rgba(255,120,20,.9),rgba(255,120,20,0) 65%),
-  radial-gradient(45% 55% at 100% 100%,rgba(200,60,0,.85),rgba(200,60,0,0) 65%),
-  radial-gradient(80% 80% at 50% 50%,#24110A 0%,#0B0705 55%,#050302 100%)}
-.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+/* ---------- atmosphere ---------- */
+.fx{position:absolute;inset:0;pointer-events:none}
+.sun{background:radial-gradient(60% 55% at 50% 118%,rgba(255,122,26,.62) 0%,rgba(217,68,8,.28) 38%,rgba(122,34,0,.10) 58%,rgba(0,0,0,0) 75%)}
+.sun.top{background:radial-gradient(60% 55% at 50% -18%,rgba(255,122,26,.55) 0%,rgba(217,68,8,.24) 38%,rgba(122,34,0,.08) 58%,rgba(0,0,0,0) 75%)}
+.sun.side{background:radial-gradient(45% 70% at 108% 30%,rgba(255,122,26,.5) 0%,rgba(217,68,8,.22) 40%,rgba(0,0,0,0) 72%),radial-gradient(40% 50% at -8% 105%,rgba(255,106,18,.35) 0%,rgba(0,0,0,0) 70%)}
+.grid{background-image:radial-gradient(rgba(255,255,255,.075) 1px,transparent 1.4px);background-size:30px 30px;
+  -webkit-mask:radial-gradient(70% 60% at 50% 45%,#000 0%,transparent 100%)}
+.horizon{position:absolute;left:50%;width:3000px;height:1500px;border-radius:50%;transform:translateX(-50%);
+  border-top:2px solid rgba(255,196,140,.85);
+  box-shadow:0 -2px 30px rgba(255,140,40,.55),0 -30px 120px rgba(255,106,18,.35),inset 0 30px 90px rgba(255,106,18,.25);
+  background:linear-gradient(180deg,rgba(20,8,2,.9),#060606 30%)}
 
-/* ---------- glowing type ---------- */
-.glowtxt{color:#fff;font-weight:500;letter-spacing:-.02em;
-  text-shadow:-2px 0 rgba(255,179,71,.75),2px 0 rgba(255,110,30,.75),0 0 10px rgba(255,255,255,.65),0 0 34px rgba(255,150,60,.75),0 0 80px rgba(255,120,30,.45)}
-.gradtxt{background:linear-gradient(100deg,#FFD08A 0%,#FFB066 45%,#FF6A1A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+/* ---------- type ---------- */
+.h-xl{font-size:132px;line-height:1.02;letter-spacing:-.045em;font-weight:500}
+.h-l{font-size:92px;line-height:1.04;letter-spacing:-.04em;font-weight:500}
+.lt{font-weight:300!important}
+.og-t{background:linear-gradient(100deg,#FFD3A0 0%,#FF9A3C 40%,#FF6A12 75%,#E2500C 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wh-t{background:linear-gradient(180deg,#FFFFFF 30%,#CFC6BE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 8px;border-radius:999px;font-size:18px;color:var(--t2);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.eyebrow .tag{height:30px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;font-size:15px;font-weight:500;color:#1A0A00;background:var(--og)}
 
-/* ---------- app window ---------- */
-.app{position:absolute;border-radius:26px;overflow:hidden;
-  background:linear-gradient(160deg,#1C1714 0%,#110D0B 55%,#0A0706 100%);
-  box-shadow:0 0 0 1.5px rgba(255,190,130,.55),0 0 28px rgba(255,120,30,.75),0 0 90px rgba(255,110,20,.45),0 0 200px rgba(220,70,10,.35),inset 0 1px 0 rgba(255,255,255,.10)}
-.tilt{transform:perspective(2600px) rotateX(20deg) rotateY(-20deg) rotateZ(6deg)}
-.tilt2{transform:perspective(2400px) rotateX(14deg) rotateY(22deg) rotateZ(-5deg)}
-body.flat .tilt,body.flat .tilt2{transform:none!important}
-.bar{height:64px;display:flex;align-items:center;gap:16px;padding:0 26px;border-bottom:1px solid var(--line)}
-.logo{font-weight:500;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:2px}
-.logo i{width:9px;height:9px;border-radius:50%;background:var(--gBrand);box-shadow:0 0 10px #FF7A1A,0 0 18px #D9380A;display:inline-block;margin-left:3px;margin-top:8px}
-.search{width:420px;height:38px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--mut2);font-size:14px;margin-left:40px}
-.ico{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 20px;border-radius:999px;font-weight:500;font-size:14px;color:#fff;white-space:nowrap;
-  background:linear-gradient(120deg,#FFB347,#FF7A1A 55%,#D9380A);box-shadow:0 0 18px rgba(255,122,26,.7),inset 0 1px 0 rgba(255,255,255,.35)}
-.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
-.side{width:230px;border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:4px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0))}
-.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;font-size:14px;color:var(--mut);font-weight:500}
-.nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
-.nav.a{color:#fff;background:linear-gradient(90deg,rgba(255,122,26,.35),rgba(217,56,10,.08));box-shadow:inset 0 0 0 1px rgba(255,160,80,.35),0 0 18px rgba(255,122,26,.25)}
-.nav b{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--gBrand);color:#fff}
-.who{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px;border-radius:12px;background:rgba(255,255,255,.04);font-size:13px}
-.av{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 200deg,#FFB347,#FF7A1A,#D9380A,#FFD08A,#FFB347);box-shadow:0 0 10px rgba(255,122,26,.6);flex:none}
-.main{flex:1;padding:26px 30px;display:flex;flex-direction:column;gap:20px;min-width:0}
-.card{border-radius:20px;padding:20px;position:relative;
-  background:linear-gradient(160deg,rgba(255,255,255,.075) 0%,rgba(255,255,255,.025) 100%);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.08)}
-.card h3{margin:0;font-size:15px;font-weight:500}
-.muted{color:var(--mut);font-size:13px}
-.kv{font-size:32px;font-weight:500;letter-spacing:-.03em;margin:8px 0 6px}
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 10px;border-radius:99px;color:#fff;background:rgba(255,255,255,.08)}
-.pill.up{background:rgba(255,196,107,.14);color:#FFD08A;box-shadow:inset 0 0 0 1px rgba(255,196,107,.3)}
-.pill.vi{background:rgba(255,122,26,.2);color:#FFC08A;box-shadow:inset 0 0 0 1px rgba(255,122,26,.45)}
-.pill.pk{background:rgba(255,179,71,.18);color:#FFB070;box-shadow:inset 0 0 0 1px rgba(255,179,71,.45)}
-.pill.am{background:rgba(255,190,60,.16);color:#FFD27A;box-shadow:inset 0 0 0 1px rgba(255,190,60,.4)}
-.track{height:7px;border-radius:9px;background:rgba(255,255,255,.07);overflow:hidden}
-.track>span{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#FFB347,#FF7A1A,#D9380A);box-shadow:0 0 12px rgba(255,122,26,.9)}
-.glow-v{box-shadow:0 0 0 2px rgba(255,160,70,.9),0 0 22px rgba(255,122,26,.9),0 0 60px rgba(255,122,26,.5)!important}
-.glow-g{box-shadow:0 0 0 2px rgba(255,196,107,.9),0 0 22px rgba(255,196,107,.75),0 0 60px rgba(255,196,107,.4)!important}
-.glow-p{box-shadow:0 0 0 2px rgba(255,160,60,.9),0 0 22px rgba(255,179,71,.8),0 0 60px rgba(255,179,71,.45)!important}
+/* ---------- buttons / chips ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:34px;padding:0 14px;border-radius:10px;font-size:13px;font-weight:500;white-space:nowrap;color:#1A0900;
+  background:var(--og);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(120,30,0,.35),0 6px 18px rgba(255,106,18,.35)}
+.btn.g{color:var(--t1);background:linear-gradient(180deg,#1E1E1E,#161616);box-shadow:inset 0 0 0 1px var(--line2),inset 0 1px 0 rgba(255,255,255,.05)}
+.btn.lg{height:64px;padding:0 30px;border-radius:16px;font-size:22px}
+.kbd{font-size:11px;color:var(--t3);padding:2px 6px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--line2)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:7px;font-size:11.5px;font-weight:500;white-space:nowrap}
+.c-up{color:#FFC27A;background:rgba(255,138,42,.12);box-shadow:inset 0 0 0 1px rgba(255,138,42,.25)}
+.c-ok{color:#FFD9A8;background:linear-gradient(135deg,rgba(255,181,71,.22),rgba(255,106,18,.12));box-shadow:inset 0 0 0 1px rgba(255,181,71,.35)}
+.c-rv{color:#FF9A5C;background:rgba(255,106,18,.10);box-shadow:inset 0 0 0 1px rgba(255,106,18,.32)}
+.c-nt{color:var(--t2);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line2)}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 
-/* project tiles */
-.tile{border-radius:20px;padding:12px;background:linear-gradient(170deg,#26201C,#151110);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);display:flex;flex-direction:column;gap:10px;position:relative}
-.thumb{border-radius:14px;overflow:hidden;position:relative;display:grid;place-items:center}
-.status{height:34px;border-radius:10px;background:#090605;display:grid;place-items:center;font-size:13px;font-weight:500;color:#F5E8DD}
-.check{position:absolute;left:18px;top:18px;width:24px;height:24px;border-radius:50%;background:#FFB347;box-shadow:0 0 14px #FFC46B;display:grid;place-items:center;z-index:2}
-.check svg{width:14px;height:14px;stroke:#2A1000;stroke-width:3;fill:none}
+/* ---------- browser window ---------- */
+.win{position:absolute;border-radius:18px;background:var(--s0);overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 0 1px rgba(255,150,70,.18),0 50px 140px rgba(0,0,0,.75),0 0 120px rgba(255,106,18,.16)}
+.win::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;pointer-events:none;z-index:5;
+  background:linear-gradient(160deg,rgba(255,200,150,.65),rgba(255,138,42,.25) 25%,rgba(255,255,255,.04) 50%,rgba(255,106,18,.35) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.chrome{height:42px;display:flex;align-items:center;padding:0 16px;gap:8px;border-bottom:1px solid var(--line);background:#0D0D0D}
+.chrome i{width:11px;height:11px;border-radius:50%;background:#262626}
+.url{margin:0 auto;height:26px;width:380px;border-radius:8px;background:#151515;box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--t3)}
+.app{display:flex;height:calc(100% - 42px)}
 
-/* segmented / form */
-.seg{display:flex;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
-.seg>div{flex:1;padding:18px 10px;text-align:center;font-size:19px;font-weight:500;color:var(--mut);border-right:1px solid rgba(255,255,255,.08)}
-.seg>div:last-child{border-right:none}
-.seg>div small{display:block;font-size:14px;font-weight:500;margin-top:4px;color:var(--mut2)}
-.seg>div.sel{color:#fff;background:linear-gradient(135deg,rgba(255,179,71,.35),rgba(255,122,26,.45) 50%,rgba(217,56,10,.35));box-shadow:inset 0 0 0 2px rgba(255,180,110,.9),0 0 26px rgba(255,122,26,.6)}
-.seg>div.sel small{color:#FFE3C8}
-.field{height:62px;border-radius:14px;display:flex;align-items:center;padding:0 20px;font-size:22px;font-weight:500;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
-.lbl{font-size:16px;font-weight:500;color:#E2D2C6;margin:22px 0 10px;display:flex;align-items:center}
-.lbl .spark{margin-left:auto}
+/* sidebar */
+.sb{width:224px;flex:none;background:#0A0A0A;border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:2px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 16px}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--og);display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 14px rgba(255,106,18,.4);flex:none}
+.mark span{width:10px;height:10px;border-radius:3px;background:#1A0900;transform:rotate(45deg)}
+.brand b{font-size:16px;letter-spacing:-.02em}
+.ws{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:#121212;box-shadow:inset 0 0 0 1px var(--line);margin-bottom:14px;font-size:13px}
+.ws .lg{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#2A2A2A,#151515);display:grid;place-items:center;font-size:12px;font-weight:500;color:var(--o1);box-shadow:inset 0 0 0 1px var(--line2)}
+.grp{font-size:11px;color:var(--t4);padding:12px 10px 6px;letter-spacing:.06em;text-transform:uppercase}
+.nv{display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13.5px;color:var(--t2)}
+.nv.a{color:var(--t1);font-weight:500;background:linear-gradient(90deg,rgba(255,138,42,.16),rgba(255,138,42,.02));box-shadow:inset 0 0 0 1px rgba(255,138,42,.22)}
+.nv.a svg{color:var(--o2)}
+.nv em{margin-left:auto;font-style:normal;font-size:11px;font-weight:500;min-width:20px;height:18px;padding:0 6px;border-radius:6px;display:grid;place-items:center;color:#1A0900;background:var(--og)}
+.sbcard{margin-top:auto;border-radius:12px;padding:14px;font-size:12.5px;color:var(--t2);line-height:1.45;
+  background:radial-gradient(120% 90% at 100% 0%,rgba(255,106,18,.30),rgba(255,106,18,0) 60%),#121212;box-shadow:inset 0 0 0 1px rgba(255,138,42,.22)}
+.sbcard b{display:block;color:var(--t1);font-size:13.5px;margin-bottom:4px}
 
-.cursor{position:absolute;width:74px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(255,255,255,.35));z-index:20}
-.ripple{position:absolute;border-radius:50%;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,.7);box-shadow:0 0 20px rgba(255,180,110,.9);z-index:19}
+/* main */
+.mn{flex:1;min-width:0;display:flex;flex-direction:column;background:radial-gradient(80% 50% at 70% 0%,rgba(255,106,18,.06),transparent 70%),var(--s0)}
+.tb{height:54px;flex:none;display:flex;align-items:center;gap:12px;padding:0 24px;border-bottom:1px solid var(--line)}
+.crumb{font-size:13px;color:var(--t3);display:flex;align-items:center;gap:8px}
+.crumb b{color:var(--t1)}
+.srch{margin-left:auto;width:280px;height:32px;border-radius:9px;background:#111;box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;gap:8px;padding:0 10px;font-size:12.5px;color:var(--t4)}
+.srch .kbd{margin-left:auto}
+.ib{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--t2);box-shadow:inset 0 0 0 1px var(--line);position:relative}
+.ib .pip{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--o2);box-shadow:0 0 8px var(--o2)}
+.avs{display:flex}
+.av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;font-weight:500;color:#2A1200;box-shadow:0 0 0 2px var(--s0);flex:none}
+.avs .av+.av{margin-left:-8px}
+.a1{background:linear-gradient(135deg,#FFD3A0,#FF9A3C)}.a2{background:linear-gradient(135deg,#F2E6DA,#BFAF9F)}.a3{background:linear-gradient(135deg,#FF8A2A,#C23A04);color:#FFF1E4}.a4{background:linear-gradient(135deg,#3A3A3A,#1E1E1E);color:#DDD}
+.body{flex:1;min-height:0;padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.hd{display:flex;align-items:flex-end;gap:12px}
+.hd h1{font-size:26px;font-weight:500;letter-spacing:-.03em}
+.hd p{font-size:13.5px;color:var(--t3);margin-top:4px}
+.pn{border-radius:14px;padding:16px;position:relative;background:linear-gradient(180deg,#141414,#101010);box-shadow:inset 0 0 0 1px var(--line),inset 0 1px 0 rgba(255,255,255,.04)}
+.pn h3{font-size:14px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.lbl{font-size:12.5px;color:var(--t3);display:flex;align-items:center;gap:7px}
+.val{font-size:28px;font-weight:500;letter-spacing:-.035em;margin:8px 0 6px}
+.row{display:flex;gap:16px}
+.hot{background:radial-gradient(120% 120% at 100% 0%,rgba(255,138,42,.32),rgba(255,106,18,.06) 55%,transparent 80%),linear-gradient(180deg,#171310,#100D0B);box-shadow:inset 0 0 0 1px rgba(255,138,42,.32),0 0 40px rgba(255,106,18,.12)}
+.bar{height:6px;border-radius:6px;background:#1E1E1E;overflow:hidden}
+.bar>span{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#D94408,#FF8A2A,#FFC27A)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-weight:300;font-size:11.5px;color:var(--t4);text-align:left;padding:0 8px 10px;letter-spacing:.04em;text-transform:uppercase}
+.tbl td{padding:10px 8px;border-top:1px solid var(--line);color:var(--t2)}
+.tbl td b{color:var(--t1)}
+.th{border-radius:10px;overflow:hidden;position:relative;background:#141414}
+.th i{display:block}
 
-/* chips (ref 2 file pills) */
-.chip{width:560px;height:110px;border-radius:999px;display:flex;align-items:center;padding:0 12px;gap:0;position:relative;
-  background:linear-gradient(90deg,rgba(255,179,71,.25),rgba(255,122,26,.25) 50%,rgba(255,110,30,.25));
-  box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 0 5px rgba(255,190,120,.6),0 0 30px rgba(255,179,71,.7),0 0 60px rgba(255,110,30,.6),inset 0 0 30px rgba(255,255,255,.15)}
-.chip .ic{width:150px;height:86px;border-radius:999px 0 0 999px;display:grid;place-items:center;border-right:2px solid rgba(255,255,255,.6)}
-.chip .ic svg{width:40px;height:40px;fill:#fff;filter:drop-shadow(0 0 8px #fff)}
-.chip .tx{flex:1;text-align:center;font-size:42px;font-weight:500;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.8)}
+/* floating callouts */
+.fl{position:absolute;border-radius:16px;padding:16px 18px;background:linear-gradient(180deg,rgba(28,24,21,.94),rgba(16,14,13,.94));
+  box-shadow:inset 0 0 0 1px rgba(255,170,110,.28),inset 0 1px 0 rgba(255,255,255,.08),0 30px 70px rgba(0,0,0,.6),0 0 50px rgba(255,106,18,.18)}
+
+/* 3D rig */
+.scene{position:absolute;inset:0;perspective:2600px;perspective-origin:50% 40%}
+.rig{position:absolute;inset:0;transform-style:preserve-3d}
+body.flat .rig{transform:none!important}
+body.flat .fl,body.flat .cursor,body.flat .ripple{display:none}
+
+/* cursor */
+.cursor{position:absolute;width:62px;height:70px;z-index:50;filter:drop-shadow(0 10px 16px rgba(0,0,0,.6))}
+.ripple{position:absolute;z-index:49;border-radius:50%;transform:translate(-50%,-50%);border:1.5px solid rgba(255,214,170,.9);box-shadow:0 0 24px rgba(255,138,42,.8),inset 0 0 18px rgba(255,138,42,.5)}
+
+/* form */
+.step{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--t3)}
+.step i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:500;box-shadow:inset 0 0 0 1px var(--line2)}
+.step.a{color:var(--t1)}.step.a i{color:#1A0900;background:var(--og);box-shadow:none}
+.step.d i{color:var(--o1);background:rgba(255,138,42,.14);box-shadow:inset 0 0 0 1px rgba(255,138,42,.35)}
+.fl-l{font-size:14px;font-weight:500;color:var(--t2);margin:22px 0 10px}
+.opt{flex:1;border-radius:14px;padding:16px;display:flex;gap:12px;align-items:flex-start;background:#111;box-shadow:inset 0 0 0 1px var(--line2)}
+.opt .oi{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--t2);background:#1A1A1A;box-shadow:inset 0 0 0 1px var(--line2);flex:none}
+.opt .oi svg{width:18px;height:18px}
+.opt b{font-size:15px;display:block}
+.opt small{font-size:12.5px;color:var(--t3);display:block;margin-top:3px}
+.opt .rd{margin-left:auto;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--t4);flex:none}
+.opt.sel{background:radial-gradient(120% 140% at 0% 0%,rgba(255,138,42,.20),rgba(255,138,42,.03) 60%),#141110;box-shadow:inset 0 0 0 1.5px rgba(255,150,70,.85),0 0 0 4px rgba(255,106,18,.10),0 0 30px rgba(255,106,18,.18)}
+.opt.sel .oi{color:#1A0900;background:var(--og);box-shadow:none}
+.opt.sel .rd{box-shadow:inset 0 0 0 5px var(--o2);background:#fff}
+.slider{height:6px;border-radius:6px;background:#1F1F1F;position:relative;margin:18px 4px 8px}
+.slider span{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,#D94408,#FF8A2A,#FFC27A)}
+.slider i{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 0 4px rgba(255,138,42,.35),0 4px 10px rgba(0,0,0,.5)}
 
 /* phone */
-.phone{position:absolute;width:470px;height:980px;border-radius:70px;padding:14px;background:linear-gradient(150deg,#4A3426,#0F0B09 40%,#2E2118);
-  box-shadow:0 0 0 2px rgba(255,190,130,.6),0 0 30px rgba(255,122,26,.8),0 0 100px rgba(255,179,71,.45),0 0 200px rgba(217,56,10,.35)}
-.pscr{width:100%;height:100%;border-radius:57px;overflow:hidden;position:relative;padding:66px 22px 22px;background:linear-gradient(180deg,#1A1512,#0C0907)}
-.notch{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000}
-.spark{display:inline-block;width:18px;height:18px;background:radial-gradient(circle,#fff 0 18%,transparent 20%),conic-gradient(from 0deg,transparent 0 40deg,#FFB066 45deg,transparent 50deg 130deg,#FFB066 135deg,transparent 140deg 220deg,#FFB066 225deg,transparent 230deg 310deg,#FFB066 315deg,transparent 320deg);
-  -webkit-mask:radial-gradient(circle,#000 60%,transparent 62%)}
+.phone{position:absolute;width:440px;height:920px;border-radius:66px;padding:12px;background:linear-gradient(145deg,#3A3631,#141210 35%,#0B0A09 65%,#2C2925);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),0 0 0 1px rgba(255,150,70,.3),0 60px 140px rgba(0,0,0,.8),0 0 120px rgba(255,106,18,.25)}
+.ps{width:100%;height:100%;border-radius:55px;overflow:hidden;position:relative;background:#0B0B0B;padding:58px 20px 20px}
+.island{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:118px;height:34px;border-radius:20px;background:#000}
+.sbar{position:absolute;top:22px;left:34px;right:34px;display:flex;justify-content:space-between;font-size:14px;font-weight:500}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
-  <linearGradient id="gl" x1="0" x2="1"><stop offset="0" stop-color="#FFB347"/><stop offset=".5" stop-color="#FF7A1A"/><stop offset="1" stop-color="#FFD08A"/></linearGradient>
-  <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7A1A" stop-opacity=".45"/><stop offset="1" stop-color="#FF7A1A" stop-opacity="0"/></linearGradient>
-  <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset=".5" stop-color="#FF7A1A"/><stop offset="1" stop-color="#D9380A"/></linearGradient>
-  <filter id="neon" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <symbol id="hand" viewBox="0 0 32 36"><path d="M11 2.5c1.4 0 2.5 1.1 2.5 2.5v9.2l.6-.1V11c0-1.4 1.1-2.4 2.4-2.4s2.4 1.1 2.4 2.4v3.6h.4v-2.3c0-1.3 1.1-2.4 2.4-2.4s2.4 1.1 2.4 2.4v3.3h.3v-1.5c0-1.3 1.1-2.3 2.3-2.3s2.3 1 2.3 2.3v8.6c0 6.2-4.4 11-10.3 11h-2.3c-3.2 0-5.6-1.3-7.6-3.9L3 22.6c-.9-1.2-.7-2.9.5-3.8 1.1-.8 2.7-.7 3.6.4l1.4 1.7V5c0-1.4 1.1-2.5 2.5-2.5z" fill="#fff" stroke="#0A0706" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <linearGradient id="lg-line" x1="0" x2="1"><stop offset="0" stop-color="#D94408"/><stop offset=".55" stop-color="#FF8A2A"/><stop offset="1" stop-color="#FFC27A"/></linearGradient>
+  <linearGradient id="lg-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8A2A" stop-opacity=".38"/><stop offset=".6" stop-color="#FF6A12" stop-opacity=".08"/><stop offset="1" stop-color="#FF6A12" stop-opacity="0"/></linearGradient>
+  <linearGradient id="lg-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC27A"/><stop offset=".5" stop-color="#FF8A2A"/><stop offset="1" stop-color="#D94408"/></linearGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <symbol id="hand" viewBox="0 0 32 36"><path d="M11 2.5c1.4 0 2.5 1.1 2.5 2.5v9.2l.6-.1V11c0-1.4 1.1-2.4 2.4-2.4s2.4 1.1 2.4 2.4v3.6h.4v-2.3c0-1.3 1.1-2.4 2.4-2.4s2.4 1.1 2.4 2.4v3.3h.3v-1.5c0-1.3 1.1-2.3 2.3-2.3s2.3 1 2.3 2.3v8.6c0 6.2-4.4 11-10.3 11h-2.3c-3.2 0-5.6-1.3-7.6-3.9L3 22.6c-.9-1.2-.7-2.9.5-3.8 1.1-.8 2.7-.7 3.6.4l1.4 1.7V5c0-1.4 1.1-2.5 2.5-2.5z" fill="#fff" stroke="#0A0A0A" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+  <!-- icons (lucide-style) -->
+  <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-checkc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></symbol>
+  <symbol id="i-set" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.59 7.59"/><circle cx="11" cy="11" r="2"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+  <symbol id="i-cmt" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
 </defs></svg>
 
-<!-- 01 TITLE -->
-<section class="scr bg grain" id="title">
-  <div class="center">
-    <div class="glowtxt" style="font-size:150px;line-height:1.05">Your brand<span class="spark" style="width:70px;height:70px;margin:0 18px 0 26px;vertical-align:middle"></span>deserves</div>
-    <div class="glowtxt serif" style="font-size:170px;line-height:1.1;font-weight:300">a glow‑up.</div>
+<!-- ============ 01 HERO TITLE ============ -->
+<section class="scr" id="title">
+  <div class="fx grid"></div>
+  <div class="horizon" style="top:800px"></div>
+  <div class="fx sun"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:170px;text-align:center">
+    <div class="eyebrow"><span class="tag">New</span>ISP Studio — your agency, in one workspace</div>
+    <div class="h-xl wh-t" style="margin-top:40px">Design that moves</div>
+    <div class="h-xl"><span class="og-t">your brand</span> <span class="lt wh-t">forward.</span></div>
+    <div style="font-size:26px;color:var(--t2);margin-top:30px;max-width:900px;line-height:1.45">Branding, websites and motion — briefed, reviewed and launched from one place.</div>
   </div>
 </section>
 
-<!-- 02 SERVICE CHIPS -->
-<section class="scr bg b2 grain" id="chips">
-  <div class="center" style="gap:52px">
-    <div class="chip"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.9L22 9.3l-5.4 4.7L18.2 21 12 17.3 5.8 21l1.6-7L2 9.3l7.1-.4z"/></svg></div><div class="tx">Branding</div></div>
-    <div class="chip"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h18a1 1 0 011 1v11a1 1 0 01-1 1h-7v2h3v2H7v-2h3v-2H3a1 1 0 01-1-1V5a1 1 0 011-1zm1 2v9h16V6z"/></svg></div><div class="tx">Websites</div></div>
-    <div class="chip"><div class="ic"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg></div><div class="tx">Motion video</div></div>
-  </div>
-</section>
-
-<!-- 03 DASHBOARD -->
-<section class="scr bg grain" id="dashboard">
-  <div class="app tilt" style="left:170px;top:150px;width:1520px;height:860px;display:flex;flex-direction:column">
-    <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search projects, assets…</div><div style="margin-left:auto;display:flex;gap:10px"><div class="ico"></div><div class="ico"></div></div><div class="btn">+ New request</div></div>
-    <div style="display:flex;flex:1;min-height:0">
-      <aside class="side" id="side-dash"></aside>
-      <main class="main">
-        <div style="display:flex;align-items:flex-end">
-          <div><div style="font-size:34px;font-weight:500;letter-spacing:-.02em">Welcome back, <span class="serif gradtxt" style="font-size:40px;padding-right:6px">Alex</span></div><div class="muted" style="margin-top:4px">Your brand at a glance · updated 2 min ago</div></div>
-          <div style="margin-left:auto;display:flex;gap:10px"><div class="btn ghost">Share report</div></div>
-        </div>
-        <div style="display:flex;gap:18px">
-          <div class="card" style="flex:1"><div class="muted">Brand reach</div><div class="kv">248.6K</div><span class="pill up">▲ 32.4%</span></div>
-          <div class="card" style="flex:1"><div class="muted">Leads this month</div><div class="kv">1,284</div><span class="pill up">▲ 3.2×</span></div>
-          <div class="card" style="flex:1"><div class="muted">Conversion</div><div class="kv">7.82%</div><span class="pill up">▲ 2.1%</span></div>
-          <div class="card glow-v" style="flex:1;background:linear-gradient(140deg,rgba(255,179,71,.35),rgba(255,122,26,.35) 55%,rgba(217,56,10,.3))"><div class="muted" style="color:#FFE3C8">Avg. delivery</div><div class="kv">4.2 <span style="font-size:18px;color:#FFD2A8">days</span></div><span class="pill" style="background:rgba(255,255,255,.18)">⚡ 2× faster</span></div>
-        </div>
-        <div style="display:flex;gap:18px;flex:1;min-height:0">
-          <div class="card" style="flex:1.6;display:flex;flex-direction:column">
-            <div style="display:flex;align-items:center"><h3>Engagement</h3><div style="margin-left:auto;display:flex;gap:6px"><span class="pill">7D</span><span class="pill vi">30D</span><span class="pill">90D</span></div></div>
-            <svg viewBox="0 0 700 260" preserveAspectRatio="none" style="flex:1;width:100%;margin-top:8px">
-              <g stroke="rgba(255,255,255,.06)"><line x1="0" y1="60" x2="700" y2="60"/><line x1="0" y1="130" x2="700" y2="130"/><line x1="0" y1="200" x2="700" y2="200"/></g>
-              <path d="M0,215 C60,205 90,180 150,185 S240,150 300,140 S380,155 430,112 S520,70 580,62 S660,30 700,20 L700,260 L0,260Z" fill="url(#gf)"/>
-              <path d="M0,215 C60,205 90,180 150,185 S240,150 300,140 S380,155 430,112 S520,70 580,62 S660,30 700,20" fill="none" stroke="url(#gl)" stroke-width="5" stroke-linecap="round" filter="url(#neon)"/>
-              <path d="M0,240 C80,236 160,228 240,224 S400,212 480,206 S620,196 700,188" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="3" stroke-dasharray="8 8"/>
-              <circle cx="580" cy="62" r="9" fill="#fff" filter="url(#neon)"/>
-            </svg>
-          </div>
-          <div class="card" style="flex:1.2;display:flex;flex-direction:column;gap:12px">
-            <div style="display:flex;align-items:center"><h3>Latest updates</h3><span class="muted" style="margin-left:auto">View all</span></div>
-            <div id="updates" style="display:flex;flex-direction:column;gap:10px"></div>
-          </div>
-        </div>
-      </main>
+<!-- ============ 02 DASHBOARD HERO ============ -->
+<section class="scr" id="dashboard">
+  <div class="fx sun side"></div><div class="fx grid" style="opacity:.6"></div>
+  <div class="scene"><div class="rig" style="transform:translate3d(-70px,30px,0) rotateX(16deg) rotateY(-18deg) rotateZ(4deg) scale(.93)">
+    <div class="win" id="dashwin" style="left:210px;top:110px;width:1560px;height:900px"></div>
+    <div class="fl" style="left:90px;top:720px;width:300px;transform:translateZ(220px)">
+      <div class="lbl"><svg class="i"><use href="#i-trend"/></svg>Qualified leads</div>
+      <div style="display:flex;align-items:flex-end;gap:10px;margin-top:8px"><div style="font-size:40px;font-weight:500;letter-spacing:-.04em">1,284</div><span class="chip c-up" style="margin-bottom:8px">▲ 3.2×</span></div>
+      <svg viewBox="0 0 260 60" style="width:100%;margin-top:6px"><path d="M0,52 C30,50 50,44 80,45 S130,30 160,28 S220,12 260,6" fill="none" stroke="url(#lg-line)" stroke-width="3" stroke-linecap="round" filter="url(#soft)"/></svg>
     </div>
-  </div>
-  <svg class="cursor" data-t="#dashboard .btn:not(.ghost)" data-dx="0.35"><use href="#hand"/></svg>
-</section>
-
-<!-- 04 PROJECTS GRID -->
-<section class="scr bg b2 grain" id="projects">
-  <div class="app tilt2" style="left:170px;top:110px;width:1580px;height:880px;display:flex;flex-direction:column">
-    <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search…</div><div style="margin-left:auto;display:flex;gap:10px"><div class="ico"></div><div class="ico"></div></div><div class="btn" style="height:34px;font-size:13px">Share</div></div>
-    <div style="padding:22px 28px 0;display:flex;align-items:center"><div style="font-size:22px;font-weight:500">Nova · Brand launch</div><span class="pill vi" style="margin-left:14px">8 deliverables</span><span class="muted" style="margin-left:auto">Sorted by: Latest</span></div>
-    <div id="grid" style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:22px;padding:20px 28px 28px"></div>
-  </div>
-</section>
-
-<!-- 05 REQUEST FORM CLOSE-UP -->
-<section class="scr bg b3 grain" id="request">
-  <div class="app tilt" style="left:150px;top:150px;width:1620px;height:860px;display:flex;transform:perspective(2600px) rotateX(12deg) rotateY(-16deg) rotateZ(4deg) translateX(-120px) scale(1.25)">
-    <div style="flex:1.25;padding:40px 48px">
-      <div style="font-size:40px;font-weight:500;letter-spacing:-.02em">Start a <span class="serif gradtxt" style="font-size:48px;padding-right:8px">project</span></div>
-      <div class="lbl">Service <span class="spark"></span></div>
-      <div class="seg"><div>Branding<small>Identity &amp; logo</small></div><div class="sel">Website<small>Design + build</small></div><div>Motion video<small>Promo &amp; ads</small></div></div>
-      <div class="lbl">Budget <span class="spark"></span></div>
-      <div style="display:flex;gap:14px"><div class="field" style="flex:1">15,500.00</div><div class="field" style="width:150px;justify-content:space-between">USD <span style="color:var(--mut)">⌄</span></div></div>
-      <div class="lbl">Timeline <span class="spark"></span></div>
-      <div class="seg"><div>Standard<small>4 weeks · Included</small></div><div class="sel" id="tl-express">Express<small>2 weeks · +$1,200</small></div></div>
-      <div class="lbl">Add‑ons</div>
-      <div class="seg"><div class="sel">Brand guide<small>Included</small></div><div>Social kit<small>+$800</small></div><div>Copywriting<small>+$600</small></div></div>
-      <div style="display:flex;gap:14px;margin-top:34px"><div class="btn ghost" style="height:62px;font-size:19px;padding:0 34px">Save draft</div><div class="btn" style="height:62px;font-size:19px;padding:0 40px">Send brief →</div></div>
+    <div class="fl" style="left:1380px;top:110px;width:350px;display:flex;gap:12px;align-items:center;transform:translateZ(260px)">
+      <div class="mark" style="width:38px;height:38px;border-radius:11px"><svg class="i" style="color:#1A0900;width:18px;height:18px;stroke-width:2.4"><use href="#i-check"/></svg></div>
+      <div><div style="font-size:15px;font-weight:500">Logo suite v3 approved</div><div style="font-size:12.5px;color:var(--t3);margin-top:2px">Nova · files sent to your team</div></div>
     </div>
-    <div style="flex:1;padding:34px 40px 34px 0">
-      <div class="card glow-v" style="height:100%;padding:34px;background:linear-gradient(160deg,rgba(255,122,26,.16),rgba(255,255,255,.02))">
-        <div style="display:flex;align-items:center"><div><div class="gradtxt" style="font-size:26px;font-weight:500">Proposal</div><div class="muted">ISP Agency → Nova Inc.</div></div><span class="pill pk" style="margin-left:auto">Draft</span></div>
-        <div style="height:1px;background:var(--line);margin:24px 0"></div>
-        <div id="lines" style="display:flex;flex-direction:column;gap:16px;font-size:17px"></div>
-        <div style="height:1px;background:var(--line);margin:24px 0"></div>
-        <div style="display:flex;align-items:flex-end"><div class="muted" style="font-size:16px">Total</div><div class="gradtxt" style="margin-left:auto;font-size:54px;font-weight:500;letter-spacing:-.03em">$17,300</div></div>
-        <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px">
-   <div style="display:flex;align-items:center;gap:12px;font-size:15px"><span class="pill up">Week 1</span>Strategy + wireframes</div>
-   <div style="display:flex;align-items:center;gap:12px;font-size:15px"><span class="pill vi">Week 2</span>Design, build &amp; launch</div>
- </div>
+  </div></div>
+  <svg class="cursor" data-t="#dash-new" data-dx=".7"><use href="#hand"/></svg>
+</section>
+
+<!-- ============ 03 PROJECTS ============ -->
+<section class="scr" id="projects">
+  <div class="fx sun"></div><div class="fx grid" style="opacity:.5"></div>
+  <div class="scene"><div class="rig" style="transform:translate3d(-90px,70px,0) rotateX(20deg) rotateY(14deg) rotateZ(-4deg) scale(.9)">
+    <div class="win" id="projwin" style="left:180px;top:90px;width:1560px;height:900px"></div>
+    <div class="fl" style="left:1450px;top:640px;width:330px;transform:translateZ(240px)">
+      <div style="display:flex;align-items:center;gap:10px"><div class="av a1">MR</div><div style="font-size:13px"><b>Maya R.</b> <span style="color:var(--t3)">commented</span></div><span style="margin-left:auto;font-size:12px;color:var(--t4)">2m</span></div>
+      <div style="font-size:14px;color:var(--t2);margin-top:10px;line-height:1.5">“Love the new hero. Can we try the CTA in amber?”</div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 04 REQUEST CLOSE-UP ============ -->
+<section class="scr" id="request">
+  <div class="fx sun top"></div>
+  <div class="scene" style="perspective:2200px"><div class="rig" style="transform:translate3d(-110px,40px,0) rotateX(14deg) rotateY(-14deg) rotateZ(3deg) scale(1.2)">
+    <div class="win" id="reqwin" style="left:170px;top:200px;width:1600px;height:650px"></div>
+  </div></div>
+  <div class="ripple" data-t="#opt-express" data-dx=".7" data-dy=".5" style="width:70px;height:70px"></div>
+  <svg class="cursor" data-t="#opt-express" data-dx=".7" data-dy=".5"><use href="#hand"/></svg>
+</section>
+
+<!-- ============ 05 ANALYTICS ============ -->
+<section class="scr" id="analytics">
+  <div class="fx sun side"></div><div class="fx grid" style="opacity:.5"></div>
+  <div class="scene"><div class="rig" style="transform:translate3d(110px,-40px,0) rotateX(18deg) rotateY(16deg) rotateZ(-4deg) scale(.9)">
+    <div class="win" id="anawin" style="left:190px;top:110px;width:1540px;height:880px"></div>
+    <div class="fl" style="left:70px;top:170px;width:300px;transform:translateZ(240px)">
+      <div class="lbl"><svg class="i"><use href="#i-spark"/></svg>Brand clarity score</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:10px">
+        <svg width="92" height="92" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#222" stroke-width="10"/><circle cx="50" cy="50" r="40" fill="none" stroke="url(#lg-ring)" stroke-width="10" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="33" transform="rotate(-90 50 50)" filter="url(#soft)"/></svg>
+        <div><div style="font-size:44px;font-weight:500;letter-spacing:-.04em;line-height:1">87</div><span class="chip c-up" style="margin-top:6px">▲ +41 pts</span></div>
       </div>
     </div>
-  </div>
-  <div class="ripple" data-t="#tl-express" data-dx="0.8" style="width:80px;height:80px"></div>
-  <svg class="cursor" data-t="#tl-express" data-dx="0.8"><use href="#hand"/></svg>
+  </div></div>
 </section>
 
-<!-- 06 ANALYTICS -->
-<section class="scr bg b3 grain" id="analytics">
-  <div class="app tilt2" style="left:180px;top:120px;width:1560px;height:850px;display:flex;flex-direction:column">
-    <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search…</div><div class="btn" style="margin-left:auto">Export</div></div>
-    <div style="display:flex;flex:1;min-height:0">
-      <aside class="side" id="side-ana"></aside>
-      <main class="main">
-        <div style="font-size:32px;font-weight:500;letter-spacing:-.02em">Before vs <span class="serif gradtxt" style="font-size:40px;padding-right:6px">after</span> ISP</div>
-        <div style="display:flex;gap:20px;flex:1;min-height:0">
-          <div class="card glow-p" style="flex:.9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
-            <div class="muted" style="align-self:flex-start">Brand clarity score</div>
-            <svg width="300" height="300" viewBox="0 0 300 300">
-              <circle cx="150" cy="150" r="118" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="22"/>
-              <circle cx="150" cy="150" r="118" fill="none" stroke="url(#gr)" stroke-width="22" stroke-linecap="round" stroke-dasharray="741" stroke-dashoffset="96" transform="rotate(-90 150 150)" filter="url(#neon)"/>
-              <text x="150" y="165" text-anchor="middle" fill="#fff" font-size="82" font-weight="500" font-family="Satoshi" letter-spacing="-3">87</text>
-              <text x="150" y="200" text-anchor="middle" fill="#BCAEA3" font-size="16" font-family="Satoshi">out of 100</text>
-            </svg>
-            <span class="pill up">▲ +41 since onboarding</span>
-          </div>
-          <div class="card" style="flex:2;display:flex;flex-direction:column">
-            <div style="display:flex;align-items:center"><h3>Monthly leads</h3><div style="margin-left:auto;display:flex;gap:16px" class="muted"><span>● <span style="color:#FFC08A">With ISP</span></span><span>● Before</span></div></div>
-            <div id="bars" style="flex:1;display:flex;align-items:flex-end;gap:16px;padding-top:16px"></div>
-          </div>
-        </div>
-      </main>
+<!-- ============ 06 FEATURES ============ -->
+<section class="scr" id="features">
+  <div class="fx sun"></div><div class="fx grid" style="opacity:.6"></div>
+  <div style="position:absolute;top:110px;left:0;right:0;text-align:center">
+    <div class="h-l wh-t">Everything your brand needs.</div>
+    <div class="h-l lt og-t">One studio.</div>
+  </div>
+  <div id="feat" style="position:absolute;left:150px;right:150px;top:440px;display:flex;gap:30px"></div>
+</section>
+
+<!-- ============ 07 MOBILE ============ -->
+<section class="scr v" id="mobile">
+  <div class="fx sun"></div><div class="fx grid" style="opacity:.6"></div>
+  <div style="position:absolute;top:150px;left:0;right:0;text-align:center">
+    <div class="eyebrow" style="font-size:22px;height:50px"><span class="tag" style="font-size:17px;height:34px">iOS</span>ISP Studio mobile</div>
+    <div class="h-l wh-t" style="margin-top:34px;font-size:100px">Approve from</div>
+    <div class="h-l lt og-t" style="font-size:100px">anywhere.</div>
+  </div>
+  <div class="scene" style="perspective:2000px"><div class="rig" style="transform:rotateX(8deg) rotateY(-16deg) rotateZ(3deg)">
+    <div class="phone" id="phone" style="left:320px;top:690px"></div>
+    <div class="fl" style="left:150px;top:1080px;width:330px;display:flex;gap:12px;align-items:center;transform:translateZ(200px)">
+      <div class="mark" style="width:40px;height:40px;border-radius:11px"><svg class="i" style="color:#1A0900;width:18px;height:18px;stroke-width:2.4"><use href="#i-check"/></svg></div>
+      <div><div style="font-size:16px;font-weight:500">Logo suite approved</div><div style="font-size:13px;color:var(--t3);margin-top:2px">Files sent to your team</div></div>
     </div>
-  </div>
-</section>
-
-<!-- 07 TAGLINE -->
-<section class="scr bg b2 grain" id="tagline">
-  <div class="center"><div class="glowtxt" style="font-size:150px">Brief. Design. Launch.</div></div>
-</section>
-
-<!-- 08 END CARD -->
-<section class="scr bg grain" id="endcard">
-  <div class="center" style="gap:30px">
-    <div class="glowtxt" style="font-size:210px;font-weight:500;letter-spacing:-.04em;display:flex;align-items:center">ISP<span style="display:inline-block;width:46px;height:46px;border-radius:50%;margin:70px 0 0 14px;background:var(--gBrand);box-shadow:0 0 20px #FF7A1A,0 0 50px #D9380A"></span></div>
-    <div style="font-size:40px;color:#FFE0C4;letter-spacing:.02em;text-shadow:0 0 20px rgba(255,122,26,.8)">Design that <span class="serif" style="font-size:50px">works.</span></div>
-    <div class="btn" style="height:76px;font-size:26px;padding:0 46px;margin-top:20px">Book a call →</div>
-  </div>
-</section>
-
-<!-- 09 MOBILE (vertical) -->
-<section class="scr v bg b2 grain" id="mobile">
-  <div style="position:absolute;top:160px;left:0;right:0;text-align:center">
-    <div class="glowtxt" style="font-size:96px;line-height:1.1">Approve from</div>
-    <div class="glowtxt serif" style="font-size:120px;line-height:1.1;font-weight:300">anywhere.</div>
-  </div>
-  <div class="phone" style="left:305px;top:610px;transform:perspective(2200px) rotateY(-14deg) rotateX(6deg) rotateZ(3deg)">
-    <div class="pscr">
-      <div class="notch"></div>
-      <div style="display:flex;align-items:center"><div><div class="muted">Wednesday</div><div style="font-size:28px;font-weight:500">Approvals</div></div><div class="av" style="margin-left:auto;width:42px;height:42px"></div></div>
-      <div class="tile glow-v" style="margin-top:20px" id="ptile"></div>
-      <div style="display:flex;gap:10px;margin-top:16px"><div class="btn ghost" style="flex:1;height:54px;font-size:16px">Comment</div><div class="btn" style="flex:1;height:54px;font-size:16px">✓ Approve</div></div>
-      <div class="card" style="margin-top:16px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt2" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:500">Homepage hero</div><div class="muted">Waiting on you · 2h</div></div><span class="pill pk" style="margin-left:auto">Review</span></div>
-      <div class="card" style="margin-top:12px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt3" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:500">Social set (9)</div><div class="muted">Approved · yesterday</div></div><span class="pill up" style="margin-left:auto">Done</span></div>
-      <div class="card glow-g" style="margin-top:14px;padding:16px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(255,196,107,.16),rgba(255,208,138,.08))"><div class="check" style="position:static;flex:none"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div><div style="font-weight:500">Website launched</div><div class="muted">nova.com is live · 3d ago</div></div></div>
+    <div class="fl" style="left:720px;top:1470px;width:290px;transform:translateZ(180px)">
+      <div class="lbl"><svg class="i"><use href="#i-clock"/></svg>Avg. turnaround</div>
+      <div style="font-size:44px;font-weight:500;letter-spacing:-.04em;margin-top:6px">4.2 <span class="lt" style="font-size:22px;color:var(--t2)">days</span></div>
+      <div class="bar" style="margin-top:8px"><span style="width:78%"></span></div>
     </div>
+  </div></div>
+  <svg class="cursor" data-t="#ph-approve" data-dx=".8" style="width:74px;height:83px"><use href="#hand"/></svg>
+</section>
+
+<!-- ============ 08 END CARD ============ -->
+<section class="scr" id="endcard">
+  <div class="fx grid"></div>
+  <div class="horizon" style="top:760px"></div>
+  <div class="fx sun"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:190px;text-align:center">
+    <div style="display:flex;align-items:center;gap:22px">
+      <div class="mark" style="width:96px;height:96px;border-radius:26px;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 0 60px rgba(255,106,18,.6)"><span style="width:34px;height:34px;border-radius:9px"></span></div>
+      <div style="font-size:110px;font-weight:500;letter-spacing:-.05em" class="wh-t">ISP</div>
+    </div>
+    <div style="font-size:60px;margin-top:30px;letter-spacing:-.03em"><span class="wh-t" style="font-weight:500">Let’s build</span> <span class="og-t lt">yours.</span></div>
+    <div style="display:flex;gap:16px;margin-top:44px"><div class="btn lg">Book a free call <svg class="i" style="width:22px;height:22px;stroke-width:2"><use href="#i-arrow"/></svg></div><div class="btn lg g">See our work</div></div>
   </div>
-  <svg class="cursor" data-t="#mobile .btn:not(.ghost)" style="width:84px"><use href="#hand"/></svg>
 </section>
 
 <script>
-const ICONS={grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
- folder:'<path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>',
- brush:'<path d="M14 4l6 6-9 9H5v-6z"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
- check:'<path d="M20 6L9 17l-5-5"/>',chat:'<path d="M4 5h16v11H8l-4 4z"/>',file:'<path d="M6 2h9l5 5v15H6z"/>'};
-function side(el,active){
-  el.innerHTML='<div class="who"><div class="av"></div><div><div style="font-weight:500">Nova Inc.</div><div class="muted" style="font-size:11px">Client workspace</div></div></div>'+
-  [['grid','Dashboard'],['folder','Projects',6],['brush','Brand kit'],['chart','Analytics'],['check','Approvals',3],['chat','Messages'],['file','Invoices']]
-   .map(([i,t,b])=>`<div class="nav ${t===active?'a':''}"><svg viewBox="0 0 24 24">${ICONS[i]}</svg>${t}${b?`<b>${b}</b>`:''}</div>`).join('');
+const I=(id,st='')=>`<svg class="i" style="${st}"><use href="#i-${id}"/></svg>`;
+const chrome=u=>`<div class="chrome"><i></i><i></i><i></i><div class="url">${I('lock','width:11px;height:11px')}${u}</div><span style="width:51px"></span></div>`;
+function sidebar(active){
+  const nav=(id,t,b)=>`<div class="nv ${t===active?'a':''}">${I(id)}${t}${b?`<em>${b}</em>`:''}</div>`;
+  return `<aside class="sb"><div class="brand"><div class="mark"><span></span></div><b>ISP Studio</b></div>
+  <div class="ws"><div class="lg">N</div><div><b style="font-size:13px">Nova Inc.</b><div style="font-size:11px;color:var(--t4)">Client workspace</div></div>${I('down','margin-left:auto;color:var(--t4)')}</div>
+  <div class="grp">Workspace</div>${nav('dash','Overview')}${nav('folder','Projects',6)}${nav('checkc','Approvals',3)}${nav('palette','Brand assets')}${nav('chart','Analytics')}${nav('msg','Messages',2)}
+  <div class="grp">Account</div>${nav('file','Invoices')}${nav('set','Settings')}
+  <div class="sbcard"><b>Need something new?</b>Brief us in two minutes — we reply within a day.<div class="btn" style="margin-top:12px;width:100%">${I('plus')}New request</div></div></aside>`;
 }
-side(document.getElementById('side-dash'),'Dashboard');side(document.getElementById('side-ana'),'Analytics');
+const topbar=c=>`<div class="tb"><div class="crumb">Nova Inc. <span>/</span> <b>${c}</b></div><div class="srch">${I('search','width:14px;height:14px')}Search projects, files…<span class="kbd">⌘K</span></div>
+  <div class="ib">${I('bell')}<span class="pip"></span></div><div class="avs"><div class="av a1">MR</div><div class="av a3">JS</div><div class="av a2">AK</div></div></div>`;
 
-// abstract "deliverable" thumbnails (gradient art, no photos)
-const ART=[
- ['radial-gradient(circle at 30% 30%,#FFD08A,#FF7A1A 55%,#2A0E02)','<div style="font:500 34px Satoshi;color:#fff;letter-spacing:-.03em;text-shadow:0 0 18px rgba(255,255,255,.6)">Nova<span style=color:#FFD08A>.</span></div>'],
- ['linear-gradient(135deg,#3A1204,#D9380A 55%,#FFD08A)','<div style="width:46%;height:56%;border-radius:10px;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)"></div>'],
- ['conic-gradient(from 120deg at 60% 40%,#FF5A1F,#FFB347,#FF7A1A,#FF5A1F)','<div style="width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 0 30px #fff"></div>'],
- ['linear-gradient(160deg,#1A0C05,#4A1A06 50%,#FFB347)','<div style="font:300 42px Satoshi;color:#fff">Launch</div>'],
- ['radial-gradient(circle at 70% 70%,#FFD08A,#D9380A 40%,#160A04)','<svg width="80" height="80" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="#fff"/></svg>'],
- ['linear-gradient(120deg,#FFB35C,#FF5A1F 45%,#5A1402)','<div style="display:grid;grid-template-columns:repeat(3,22px);gap:6px">'+'<i style="height:22px;border-radius:5px;background:rgba(255,255,255,.8)"></i>'.repeat(9)+'</div>'],
- ['radial-gradient(circle at 50% 120%,#FF7A1A,#3A1608 50%,#0E0704)','<div style="font:500 30px Satoshi;color:#fff;letter-spacing:.3em">ORBIT</div>'],
- ['linear-gradient(200deg,#FFC46B,#FFD08A 40%,#D9380A 75%,#24110A)','<div style="width:60px;height:60px;border-radius:16px;background:#fff;transform:rotate(45deg)"></div>']];
-function art(el,i,h){el.style.background=ART[i][0];if(h)el.style.height=h;el.innerHTML=ART[i][1];}
+// ---- mini mockup thumbnails ----
+const T={
+ web:()=>`<div class="th" style="height:100%;background:linear-gradient(180deg,#151210,#0E0C0B)"><div style="height:16%;display:flex;align-items:center;gap:6%;padding:0 7%;border-bottom:1px solid rgba(255,255,255,.06)"><i style="width:10%;height:26%;border-radius:3px;background:var(--og)"></i><i style="margin-left:auto;width:9%;height:12%;border-radius:2px;background:#333"></i><i style="width:9%;height:12%;border-radius:2px;background:#333"></i><i style="width:13%;height:34%;border-radius:4px;background:var(--og)"></i></div>
+   <div style="display:flex;padding:8% 7%;gap:6%;height:84%"><div style="flex:1"><i style="width:90%;height:12%;border-radius:3px;background:#EEE"></i><i style="width:70%;height:12%;border-radius:3px;background:linear-gradient(90deg,#FFC27A,#FF6A12);margin-top:5%"></i><i style="width:80%;height:5%;border-radius:2px;background:#3A3A3A;margin-top:9%"></i><i style="width:60%;height:5%;border-radius:2px;background:#3A3A3A;margin-top:4%"></i><i style="width:38%;height:13%;border-radius:5px;background:var(--og);margin-top:10%"></i></div>
+   <div style="flex:.9;border-radius:8px;background:radial-gradient(circle at 60% 40%,#FFB066,#FF6A12 45%,#5A1800 85%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)"></div></div></div>`,
+ logo:()=>`<div class="th" style="height:100%;display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr;gap:4px;padding:4px;background:#0C0C0C">
+   <div style="grid-row:span 2;border-radius:8px;background:linear-gradient(160deg,#1A1714,#0F0D0C);display:grid;place-items:center;container-type:size"><div style="display:flex;align-items:center;gap:6%;font-weight:500;font-size:22cqh;letter-spacing:-.04em;color:#fff"><span style="width:1em;height:1em;border-radius:50%;background:var(--og);box-shadow:0 0 20px rgba(255,106,18,.6)"></span>nova</div></div>
+   <div style="border-radius:8px;background:var(--og);display:grid;place-items:center"><span style="width:40%;aspect-ratio:1;border-radius:50%;background:#1A0900"></span></div>
+   <div style="border-radius:8px;background:#F3EDE6;display:grid;place-items:center;font-weight:500;color:#111;font-size:12px;letter-spacing:-.03em;container-type:size"><span style="font-size:34cqh">nova</span></div></div>`,
+ social:()=>`<div class="th" style="height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px;background:#0C0C0C">${[
+   'var(--og)','#171310','radial-gradient(circle at 30% 30%,#FFC27A,#C23A04)','#F3EDE6','linear-gradient(135deg,#2A1A10,#0E0B09)','var(--og)','#171310','radial-gradient(circle at 70% 70%,#FF8A2A,#3A1200)','#F3EDE6'].map((b,i)=>
+   `<div style="border-radius:4px;background:${b};display:grid;place-items:center;font-weight:500;font-size:10px;color:${i==3||i==8?'#111':'#fff'}">${['','10×','','NEW','','','',"",''][i]}</div>`).join('')}</div>`,
+ poster:()=>`<div class="th" style="height:100%;background:radial-gradient(120% 80% at 50% 110%,#FF6A12,#7A2200 45%,#0E0A08 80%);display:flex;flex-direction:column;justify-content:space-between;padding:9% 10%;container-type:size">
+   <div style="font-size:7cqh;color:#FFD3A0;letter-spacing:.2em">NOVA · 2026</div><div style="font-size:26cqh;font-weight:500;line-height:.9;letter-spacing:-.04em;color:#fff">Launch<br><span style="font-weight:300;color:#FFC27A">week.</span></div></div>`,
+ video:()=>`<div class="th" style="height:100%;background:linear-gradient(135deg,#2A1408,#0C0907);display:grid;place-items:center">
+   <div style="position:absolute;inset:0;background:radial-gradient(60% 70% at 70% 30%,rgba(255,138,42,.55),transparent 70%)"></div>
+   <div style="width:22%;aspect-ratio:1;max-width:46px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);position:relative;color:#fff">${I('play','width:40%;height:40%;margin-left:8%')}</div>
+   <div style="position:absolute;left:8%;right:8%;bottom:9%;height:3px;border-radius:3px;background:rgba(255,255,255,.2)"><span style="display:block;width:38%;height:100%;border-radius:3px;background:var(--og)"></span></div></div>`,
+ deck:()=>`<div class="th" style="height:100%;background:#F3EDE6;padding:9%;display:flex;flex-direction:column;container-type:size">
+   <div style="font-size:7cqh;color:#9A8F85;letter-spacing:.1em">Q4 RESULTS</div><div style="font-size:13cqh;font-weight:500;color:#111;letter-spacing:-.03em;margin-top:2%">Revenue <span style="color:#E2500C">+64%</span></div>
+   <div style="flex:1;display:flex;align-items:flex-end;gap:6%;margin-top:6%">${[30,45,40,62,78,100].map(h=>`<i style="flex:1;height:${h}%;border-radius:3px 3px 0 0;background:${h==100?'var(--og)':'#D9CFC5'}"></i>`).join('')}</div></div>`,
+ app:()=>`<div class="th" style="height:100%;background:radial-gradient(80% 80% at 50% 100%,#5A1800,#0E0B09 70%);display:flex;justify-content:center;align-items:flex-end;gap:6%;padding-top:8%">
+   ${[0,1].map(k=>`<div style="width:30%;height:${k?'82%':'92%'};border-radius:12px 12px 0 0;background:#0B0B0B;box-shadow:inset 0 0 0 2px #333;padding:9% 8% 0;display:flex;flex-direction:column;gap:6%">
+   <i style="height:8%;width:60%;border-radius:3px;background:#EEE"></i><i style="height:32%;border-radius:6px;background:var(--og)"></i><i style="height:7%;border-radius:3px;background:#2A2A2A"></i><i style="height:7%;width:70%;border-radius:3px;background:#2A2A2A"></i></div>`).join('')}</div>`,
+ pack:()=>`<div class="th" style="height:100%;background:linear-gradient(160deg,#1A1714,#0D0B0A);display:grid;place-items:center;container-type:size">
+   <div style="width:34%;height:64%;border-radius:6px;background:linear-gradient(90deg,#E2500C,#FF8A2A 50%,#FFB066);box-shadow:16px 16px 30px rgba(0,0,0,.6),inset -10px 0 20px rgba(0,0,0,.25);display:grid;place-items:center;transform:rotate(-6deg)"><div style="font-weight:500;color:#1A0900;font-size:12cqh;letter-spacing:-.03em;transform:rotate(-90deg)">nova</div></div></div>`
+};
 
-const G=[['Logo suite','Approved','g'],['Website — home','Approved','g'],['Launch poster','Review','v'],['Social campaign','Needs review',''],
-         ['Promo video 30s','In progress',''],['Social kit (9)','Approved','g'],['Pitch deck','Loading','v'],['App icon','No status','']];
-document.getElementById('grid').innerHTML=G.map(([t,s,g],i)=>`<div class="tile ${g?'glow-'+g:''}">${g==='g'?'<div class="check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>':''}<div class="thumb" data-a="${i}" style="flex:1"></div>
-  <div style="display:flex;align-items:flex-end"><div><div style="font-weight:500;font-size:15px">${t}</div><div class="muted" style="font-size:11px">Stage · v${(i%3)+1}</div></div><div class="muted" style="margin-left:auto;font-size:11px">${18+i} Nov 2026</div></div>
-  <div class="status">${s}</div></div>`).join('');
-document.querySelectorAll('#grid .thumb').forEach(e=>art(e,+e.dataset.a));
+// ---- DASHBOARD ----
+(function(){
+ const kpi=(ic,l,v,d,spark,hot)=>`<div class="pn ${hot?'hot':''}" style="flex:1"><div class="lbl">${I(ic)}${l}<span style="margin-left:auto">${I('dots')}</span></div><div style="display:flex;align-items:flex-end"><div class="val">${v}</div>
+  <svg viewBox="0 0 90 30" style="width:84px;margin:0 0 12px auto"><path d="${spark}" fill="none" stroke="url(#lg-line)" stroke-width="2.2" stroke-linecap="round"/></svg></div><div style="display:flex;align-items:center;gap:8px"><span class="chip c-up">${d}</span><span style="font-size:12px;color:var(--t4)">vs last month</span></div></div>`;
+ const proj=(n,s,p,due,av,th)=>`<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)"><div style="width:56px;height:40px;flex:none">${T[th]()}</div>
+  <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><b style="font-size:13.5px">${n}</b><span class="chip ${s[1]}">${s[0]}</span></div><div style="display:flex;align-items:center;gap:10px;margin-top:8px"><div class="bar" style="flex:1"><span style="width:${p}%"></span></div><span style="font-size:11.5px;color:var(--t3);width:30px">${p}%</span></div></div>
+  <div style="text-align:right;flex:none;width:84px"><div class="avs" style="justify-content:flex-end">${av.map(a=>`<div class="av ${a}" style="width:22px;height:22px"></div>`).join('')}</div><div style="font-size:11.5px;color:var(--t4);margin-top:5px">Due ${due}</div></div></div>`;
+ document.getElementById('dashwin').innerHTML=chrome('studio.ispagency.co/nova/overview')+`<div class="app">${sidebar('Overview')}<div class="mn">${topbar('Overview')}<div class="body">
+  <div class="hd"><div><h1>Good morning, Alex <span class="lt" style="color:var(--t3)">— here’s Nova this week.</span></h1><p>6 projects in motion · 3 deliverables waiting for your review</p></div>
+   <div style="margin-left:auto;display:flex;gap:10px"><div class="btn g">${I('cal','width:14px;height:14px')}Last 30 days${I('down','width:14px;height:14px')}</div><div class="btn" id="dash-new">${I('plus','width:14px;height:14px')}New request</div></div></div>
+  <div class="row">${kpi('globe','Website visitors','48.2K','▲ 18.4%','M0,26 C12,24 18,20 28,21 S44,14 54,13 S72,8 90,3',1)}${kpi('trend','Qualified leads','1,284','▲ 3.2×','M0,27 C15,26 22,22 32,22 S50,16 60,12 S78,6 90,4')}${kpi('eye','Brand reach','248.6K','▲ 32.4%','M0,24 C10,22 20,25 30,19 S48,15 58,16 S76,7 90,6')}${kpi('clock','Avg. turnaround','4.2 days','2× faster','M0,22 C15,20 25,18 35,15 S55,12 65,9 S80,6 90,4')}</div>
+  <div class="row" style="flex:1;min-height:0">
+   <div class="pn" style="flex:1.55;display:flex;flex-direction:column"><div style="display:flex;align-items:center"><h3>Website traffic</h3><span style="font-size:12px;color:var(--t3);margin-left:14px;display:flex;gap:14px;align-items:center"><span><span class="dot" style="background:var(--o2)"></span> This period</span><span><span class="dot" style="background:#444"></span> Previous</span></span>
+    <div style="margin-left:auto;display:flex;gap:4px;padding:3px;border-radius:9px;box-shadow:inset 0 0 0 1px var(--line)">${['7D','30D','90D','1Y'].map(x=>`<span style="font-size:11.5px;padding:3px 9px;border-radius:6px;${x=='30D'?'background:#222;color:var(--t1);font-weight:500':'color:var(--t3)'}">${x}</span>`).join('')}</div></div>
+    <div style="flex:1;display:flex;margin-top:14px;min-height:0"><div style="display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--t4);padding:0 10px 24px 0;text-align:right">${['15K','10K','5K','0'].map(x=>`<span>${x}</span>`).join('')}</div>
+     <div style="flex:1;position:relative;display:flex;flex-direction:column"><svg viewBox="0 0 800 300" preserveAspectRatio="none" style="flex:1;width:100%;overflow:visible">
+      <g stroke="rgba(255,255,255,.05)">${[1,100,200,299].map(y=>`<line x1="0" x2="800" y1="${y}" y2="${y}"/>`).join('')}</g>
+      <path d="M0,250 C50,246 80,238 130,236 S220,212 270,214 S350,190 400,176 S480,182 530,150 S620,110 670,100 S760,62 800,48 L800,300 L0,300Z" fill="url(#lg-fill)"/>
+      <path d="M0,270 C80,268 150,262 230,258 S380,248 460,240 S640,226 800,214" fill="none" stroke="#3A3A3A" stroke-width="2" stroke-dasharray="5 6"/>
+      <path d="M0,250 C50,246 80,238 130,236 S220,212 270,214 S350,190 400,176 S480,182 530,150 S620,110 670,100 S760,62 800,48" fill="none" stroke="url(#lg-line)" stroke-width="3.5" stroke-linecap="round" filter="url(#soft)"/>
+      <line x1="670" x2="670" y1="100" y2="300" stroke="rgba(255,170,100,.35)" stroke-dasharray="3 4"/></svg>
+      <div style="position:absolute;left:83.75%;top:33.3%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px #FF8A2A,0 0 18px #FF8A2A"></div>
+      <div style="position:absolute;left:calc(83.75% - 160px);top:4%;width:150px;padding:9px 11px;border-radius:10px;background:#1C1C1C;box-shadow:inset 0 0 0 1px var(--line2),0 10px 24px rgba(0,0,0,.5)"><div style="font-size:11px;color:var(--t3)">Nov 24 · visitors</div><div style="display:flex;align-items:center;gap:6px;margin-top:3px"><b style="font-size:15px">12,480</b><span class="chip c-up" style="height:18px;font-size:10.5px">▲ 18%</span></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t4);padding-top:8px">${['Oct 28','Nov 4','Nov 11','Nov 18','Nov 25'].map(x=>`<span>${x}</span>`).join('')}</div></div></div></div>
+   <div class="pn" style="flex:1;display:flex;flex-direction:column"><div style="display:flex;align-items:center;margin-bottom:6px"><h3>Projects in motion</h3><span style="margin-left:auto;font-size:12px;color:var(--t3)">View all</span></div>
+    ${proj('Brand identity',['In review','c-rv'],86,'Nov 22',['a1','a3'],'logo')}${proj('Website redesign',['Design','c-nt'],64,'Dec 4',['a2','a1','a4'],'web')}${proj('Launch film · 30s',['Editing','c-nt'],41,'Dec 9',['a3'],'video')}${proj('Social launch kit',['Approved','c-ok'],100,'Nov 18',['a1'],'social')}${proj('Investor deck',['Approved','c-ok'],100,'Nov 12',['a2','a3'],'deck')}${proj('Packaging system',['Brief','c-nt'],12,'Jan 15',['a4'],'pack')}</div></div>
+ </div></div></div>`;
+})();
 
-document.getElementById('updates').innerHTML=[['Logo suite v3','Approved','up',0],['Website home','Review','pk',1],['Promo video','Rendering','vi',4],['Social kit','Approved','up',5]]
- .map(([t,s,c,a])=>`<div style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;background:rgba(255,255,255,.03)"><div class="thumb" data-a="${a}" style="width:44px;height:44px;flex:none;transform:scale(1)"></div><div><div style="font-weight:500;font-size:14px">${t}</div><div class="muted" style="font-size:11px">Nova Inc.</div></div><span class="pill ${c}" style="margin-left:auto">${s}</span></div>`).join('');
-document.querySelectorAll('#updates .thumb').forEach(e=>{art(e,+e.dataset.a);e.firstElementChild&&(e.firstElementChild.style.transform='scale(.35)')});
+// ---- PROJECTS ----
+(function(){
+ const items=[['Logo suite','Brand identity','logo',['Approved','c-ok'],'v3',4],['Homepage','Website','web',['In review','c-rv'],'v2',12],['Launch film','Motion · 0:30','video',['Editing','c-nt'],'v1',3],['Launch poster','Print','poster',['Approved','c-ok'],'v2',2],
+   ['Social kit','9 posts','social',['In review','c-rv'],'v1',7],['Investor deck','Presentation','deck',['Approved','c-ok'],'v4',5],['Mobile app UI','Product','app',['Design','c-nt'],'v1',9],['Packaging','Print','pack',['Brief','c-nt'],'v0',0]];
+ const card=([n,t,th,s,v,c],i)=>`<div class="pn" style="padding:10px;display:flex;flex-direction:column;gap:10px;${i==1?'box-shadow:inset 0 0 0 1.5px rgba(255,150,70,.75),0 0 0 4px rgba(255,106,18,.1),0 0 40px rgba(255,106,18,.22)':''}">
+  <div style="flex:1;min-height:0;position:relative">${T[th]()}${s[0]=='Approved'?`<div style="position:absolute;top:8px;left:8px;height:22px;padding:0 8px 0 5px;border-radius:7px;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#1A0900;background:var(--og);box-shadow:0 4px 12px rgba(0,0,0,.4)">${I('check','width:13px;height:13px;stroke-width:2.6')}Approved</div>`:''}</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:0 4px 2px"><div><b style="font-size:14px">${n}</b><div style="font-size:12px;color:var(--t3);margin-top:2px">${t} · ${v}</div></div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px">${c?`<span style="font-size:12px;color:var(--t3);display:flex;align-items:center;gap:4px">${I('cmt','width:13px;height:13px')}${c}</span>`:''}${s[0]=='Approved'?'':`<span class="chip ${s[1]}">${s[0]}</span>`}</div></div></div>`;
+ document.getElementById('projwin').innerHTML=chrome('studio.ispagency.co/nova/projects')+`<div class="app">${sidebar('Projects')}<div class="mn">${topbar('Projects')}<div class="body">
+  <div class="hd"><div><h1>Brand launch <span class="lt" style="color:var(--t3)">· Nova 2026</span></h1><p>8 deliverables · 3 approved · 2 waiting on you</p></div>
+   <div style="margin-left:auto;display:flex;gap:10px;align-items:center"><div style="display:flex;gap:4px;padding:3px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line)">${['All','In review','Approved','Archived'].map(x=>`<span style="font-size:12.5px;padding:5px 11px;border-radius:7px;${x=='All'?'background:#222;color:var(--t1);font-weight:500':'color:var(--t3)'}">${x}</span>`).join('')}</div>
+   <div class="btn g">${I('filter','width:14px;height:14px')}Filter</div><div class="btn">${I('up','width:14px;height:14px')}Upload</div></div></div>
+  <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:14px">${items.map(card).join('')}</div>
+ </div></div></div>`;
+})();
 
-document.getElementById('lines').innerHTML=[['Website design + build','$12,800'],['Express timeline','$1,200'],['Brand guide','Included'],['CMS + hosting setup','$3,300']]
- .map(([a,b])=>`<div style="display:flex"><span style="color:#EADBD0">${a}</span><span style="margin-left:auto;font-weight:500">${b}</span></div>`).join('');
+// ---- REQUEST ----
+(function(){
+ const opt=(id,ic,t,s,sel)=>`<div class="opt ${sel?'sel':''}" ${id?`id="${id}"`:''}><div class="oi">${I(ic)}</div><div><b>${t}</b><small>${s}</small></div><span class="rd"></span></div>`;
+ document.getElementById('reqwin').innerHTML=chrome('studio.ispagency.co/nova/new-request')+`<div class="app">${sidebar('Projects')}<div class="mn">${topbar('New request')}
+  <div style="flex:1;display:flex;min-height:0">
+   <div style="flex:1.35;padding:26px 30px;border-right:1px solid var(--line)">
+    <div style="display:flex;gap:26px"><div class="step d"><i>${I('check','width:12px;height:12px;stroke-width:2.6')}</i>Service</div><div class="step a"><i>2</i>Scope &amp; timeline</div><div class="step"><i>3</i>Review</div></div>
+    <div style="font-size:28px;font-weight:500;letter-spacing:-.03em;margin-top:22px">Tell us about the <span class="og-t lt">project.</span></div>
+    <div class="fl-l">What do you need?</div>
+    <div class="row" style="gap:12px">${opt('','pen','Branding','Identity, logo, guide')}${opt('','globe','Website','Design + build, CMS',1)}${opt('','video','Motion','Promo, ads, explainers')}</div>
+    <div class="fl-l" style="display:flex">Budget<span style="margin-left:auto;font-weight:500;color:var(--t1)">$15,500</span></div>
+    <div class="slider"><span style="width:58%"></span><i style="left:58%"></i></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t4)"><span>$5k</span><span>$10k</span><span>$20k</span><span>$30k+</span></div>
+    <div class="fl-l">Timeline</div>
+    <div class="row" style="gap:12px">${opt('','cal','Standard','4 weeks · included')}${opt('opt-express','zap','Express','2 weeks · +$1,200',1)}</div>
+    <div style="display:flex;gap:10px;margin-top:26px"><div class="btn g" style="height:42px;padding:0 18px;font-size:14px">Back</div><div class="btn" style="height:42px;padding:0 20px;font-size:14px;margin-left:auto">Continue ${I('arrow','width:15px;height:15px')}</div></div>
+   </div>
+   <div style="flex:1;padding:26px 30px;background:radial-gradient(90% 60% at 100% 0%,rgba(255,106,18,.10),transparent 70%)">
+    <div style="display:flex;align-items:center"><h3 style="font-size:16px;font-weight:500">Estimate</h3><span class="chip c-rv" style="margin-left:auto">Draft</span></div>
+    <div style="font-size:13px;color:var(--t3);margin-top:4px">ISP Agency → Nova Inc.</div>
+    <div style="margin-top:20px;display:flex;flex-direction:column">${[['Website design','$8,400'],['Development + CMS','$4,400'],['Express timeline','$1,200'],['Brand guide','Included'],['Hosting setup (1 yr)','$3,300']].map(([a,b])=>`<div style="display:flex;padding:11px 0;border-top:1px solid var(--line);font-size:14px"><span style="color:var(--t2)">${a}</span><b style="margin-left:auto">${b}</b></div>`).join('')}</div>
+    <div style="display:flex;align-items:flex-end;margin-top:14px;padding-top:16px;border-top:1px solid var(--line2)"><span style="color:var(--t3);font-size:14px">Total</span><span class="og-t" style="margin-left:auto;font-size:44px;font-weight:500;letter-spacing:-.04em">$17,300</span></div>
+    <div class="pn" style="margin-top:18px;display:flex;gap:12px;align-items:center"><div class="avs"><div class="av a1">MR</div><div class="av a3">JS</div></div><div style="font-size:13px;color:var(--t2);line-height:1.45"><b style="color:var(--t1)">Maya &amp; Jon</b> will lead this.<br>Kick‑off within 48 hours.</div></div>
+   </div></div></div></div>`;
+})();
 
-const before=[22,26,24,30,28,31,29,33,30],after=[34,46,52,61,70,78,84,92,100];
-document.getElementById('bars').innerHTML=['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'].map((m,i)=>`<div style="flex:1;height:100%;display:flex;flex-direction:column;align-items:center;gap:8px">
- <div style="flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:6px"><div style="width:38%;height:${before[i]}%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.05))"></div>
- <div style="width:38%;height:${after[i]}%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#FFB347,#FF7A1A 55%,#D9380A);box-shadow:0 0 16px rgba(255,122,26,.8)"></div></div><div class="muted" style="font-size:12px">${m}</div></div>`).join('');
+// ---- ANALYTICS ----
+(function(){
+ const before=[22,26,24,30,28,31,29,33,30,32,31,34],after=[24,30,38,46,52,58,64,70,78,85,92,100];
+ const m=['Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'];
+ document.getElementById('anawin').innerHTML=chrome('studio.ispagency.co/nova/analytics')+`<div class="app">${sidebar('Analytics')}<div class="mn">${topbar('Analytics')}<div class="body">
+  <div class="hd"><div><h1>Impact report <span class="lt" style="color:var(--t3)">· 12 months with ISP</span></h1><p>Measured across website, social and paid channels</p></div><div style="margin-left:auto;display:flex;gap:10px"><div class="btn g">${I('cal','width:14px;height:14px')}Last 12 months</div><div class="btn">${I('file','width:14px;height:14px')}Export PDF</div></div></div>
+  <div class="row">${[['trend','Qualified leads','1,284','▲ 3.2×',1],['globe','Conversion rate','7.82%','▲ 2.1 pts'],['users','Returning visitors','38%','▲ 12 pts'],['zap','Revenue influenced','$184K','▲ 64%']].map(([ic,l,v,d,h])=>`<div class="pn ${h?'hot':''}" style="flex:1"><div class="lbl">${I(ic)}${l}</div><div class="val">${v}</div><span class="chip c-up">${d}</span></div>`).join('')}</div>
+  <div class="row" style="flex:1;min-height:0">
+   <div class="pn" style="flex:1.7;display:flex;flex-direction:column"><div style="display:flex;align-items:center"><h3>Monthly leads</h3><span style="font-size:12px;color:var(--t3);margin-left:auto;display:flex;gap:14px;align-items:center"><span><span class="dot" style="background:var(--o2)"></span> With ISP</span><span><span class="dot" style="background:#3A3A3A"></span> Before</span></span></div>
+    <div style="flex:1;display:flex;align-items:flex-end;gap:12px;padding-top:18px;min-height:0">${m.map((x,i)=>`<div style="flex:1;height:100%;display:flex;flex-direction:column;align-items:center;gap:8px"><div style="flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px">
+     <i style="display:block;width:38%;height:${before[i]}%;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#333,#222)"></i><i style="display:block;width:38%;height:${after[i]}%;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#FFC27A,#FF8A2A 45%,#C83A04);${i==11?'box-shadow:0 0 24px rgba(255,138,42,.7)':''}"></i></div><span style="font-size:11px;color:${i==11?'var(--t1)':'var(--t4)'}">${x}</span></div>`).join('')}</div></div>
+   <div class="pn" style="flex:1;display:flex;flex-direction:column"><h3>Top channels</h3>
+    <table class="tbl" style="margin-top:14px"><tr><th>Channel</th><th style="text-align:right">Leads</th><th style="text-align:right">Change</th></tr>
+    ${[['Organic search',512,'+188%'],['Instagram',304,'+240%'],['LinkedIn',221,'+96%'],['Referral',148,'+54%'],['Paid',99,'+31%']].map(([a,b,c],i)=>`<tr><td><b>${a}</b><div class="bar" style="margin-top:7px;width:${[92,64,48,34,22][i]}%"><span style="width:100%"></span></div></td><td style="text-align:right;color:var(--t1)">${b}</td><td style="text-align:right"><span class="chip c-up">${c}</span></td></tr>`).join('')}</table></div></div>
+ </div></div></div>`;
+})();
 
-const pt=document.getElementById('ptile');pt.innerHTML='<div class="thumb" style="height:300px"></div><div style="display:flex;align-items:center;padding:4px 4px 0"><div><div style="font-weight:500">Logo suite — final</div><div class="muted" style="font-size:12px">by ISP Design Team · v3</div></div><span class="pill vi" style="margin-left:auto">New</span></div>';
-art(pt.firstElementChild,0);art(document.getElementById('pt2'),1);art(document.getElementById('pt3'),5);
-document.querySelectorAll('#pt2>*,#pt3>*').forEach(e=>e.style.transform='scale(.4)');
+// ---- FEATURES ----
+document.getElementById('feat').innerHTML=[
+ ['pen','Brief in minutes','Pick a service, set a budget, done. No long email threads.',`<div class="row" style="gap:8px">${['Branding','Website','Motion'].map((x,i)=>`<span class="chip ${i==1?'c-ok':'c-nt'}" style="height:34px;font-size:15px;padding:0 14px;border-radius:10px">${x}</span>`).join('')}</div>`],
+ ['eye','Review in one place','Comment on every file, compare versions and approve in one click.',`<div style="display:flex;align-items:center;gap:12px"><div class="avs"><div class="av a1" style="width:36px;height:36px;font-size:12px">MR</div><div class="av a3" style="width:36px;height:36px;font-size:12px">JS</div><div class="av a2" style="width:36px;height:36px;font-size:12px">AK</div></div><span class="chip c-ok" style="height:34px;font-size:15px;padding:0 14px;border-radius:10px">${I('check','width:15px;height:15px;stroke-width:2.6')} Approved</span></div>`],
+ ['trend','Launch & measure','Live dashboards show what your new brand is actually doing.',`<svg viewBox="0 0 300 60" style="width:100%"><path d="M0,54 C40,52 70,44 110,44 S170,28 210,24 S270,8 300,4" fill="none" stroke="url(#lg-line)" stroke-width="3.5" stroke-linecap="round" filter="url(#soft)"/></svg>`]
+].map(([ic,t,d,x],i)=>`<div class="pn ${i==1?'hot':''}" style="flex:1;padding:40px;border-radius:26px;height:440px;display:flex;flex-direction:column">
+ <div class="mark" style="width:62px;height:62px;border-radius:17px"><svg class="i" style="width:28px;height:28px;color:#1A0900;stroke-width:1.8"><use href="#i-${ic}"/></svg></div>
+ <div style="font-size:36px;font-weight:500;letter-spacing:-.03em;margin-top:32px">${t}</div><div style="font-size:21px;color:var(--t2);margin-top:12px;line-height:1.5">${d}</div><div style="margin-top:auto">${x}</div></div>`).join('');
 
-// pick frame: #name or #name-flat (no 3D tilt)
+// ---- PHONE ----
+document.getElementById('phone').innerHTML=`<div class="ps"><div class="island"></div><div class="sbar"><span>9:41</span><span style="letter-spacing:2px">▂▄▆ ▮</span></div>
+ <div style="display:flex;align-items:center;margin-top:10px"><div><div style="font-size:14px;color:var(--t3)">Wednesday, 19 Nov</div><div style="font-size:30px;font-weight:500;letter-spacing:-.03em">Approvals</div></div><div class="av a1" style="margin-left:auto;width:42px;height:42px;font-size:14px">AK</div></div>
+ <div style="display:flex;gap:6px;margin-top:16px">${['Waiting · 3','Approved','All'].map((x,i)=>`<span style="font-size:13px;padding:6px 12px;border-radius:999px;${i==0?'background:#1F1F1F;color:var(--t1);font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,138,42,.4)':'color:var(--t3)'}">${x}</span>`).join('')}</div>
+ <div class="pn" style="margin-top:16px;padding:10px;border-radius:20px;box-shadow:inset 0 0 0 1.5px rgba(255,150,70,.6),0 0 30px rgba(255,106,18,.15)"><div style="height:240px">${T.web()}</div>
+  <div style="display:flex;align-items:center;padding:12px 6px 4px"><div><b style="font-size:16px">Homepage · v2</b><div style="font-size:12.5px;color:var(--t3);margin-top:2px">Website redesign · 12 comments</div></div><span class="chip c-rv" style="margin-left:auto">Review</span></div></div>
+ <div style="display:flex;gap:10px;margin-top:14px"><div class="btn g" style="flex:1;height:52px;font-size:16px;border-radius:14px">${I('cmt')}Comment</div><div class="btn" id="ph-approve" style="flex:1.3;height:52px;font-size:16px;border-radius:14px">${I('check','stroke-width:2.4')}Approve</div></div>
+ <div style="margin-top:20px;font-size:12px;color:var(--t4);letter-spacing:.08em;text-transform:uppercase">Up next</div>
+ ${[['Logo suite · v3','logo','Brand identity'],['Social kit · 9 posts','social','Social launch'],['Launch film · v1','video','Motion · 0:30']].map(([a,t,b])=>`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)"><div style="width:60px;height:44px;flex:none">${T[t]()}</div><div><b style="font-size:14.5px">${a}</b><div style="font-size:12.5px;color:var(--t3);margin-top:2px">${b}</div></div>${I('arrow','margin-left:auto;color:var(--t4)')}</div>`).join('')}
+</div>`;
+
+// ---- frame select ----
 let id=(location.hash||'#title').slice(1);
-if(id.endsWith('-flat')){id=id.slice(0,-5);document.body.classList.add('flat');document.querySelectorAll('.cursor,.ripple').forEach(e=>e.remove());}
+if(id.endsWith('-flat')){id=id.slice(0,-5);document.body.classList.add('flat');}
 document.getElementById(id).classList.add('on');
-// park each cursor on its target element (works through the 3D tilt)
-document.querySelectorAll('#'+id+' [data-t]').forEach(c=>{
+window.placed=document.fonts.ready.then(()=>document.querySelectorAll('#'+id+' [data-t]').forEach(c=>{
   const t=document.querySelector(c.dataset.t); if(!t) return;
-  const r=t.getBoundingClientRect(), x=r.left+r.width*(+c.dataset.dx||.5), y=r.top+r.height*.55;
+  const r=t.getBoundingClientRect(), x=r.left+r.width*(+c.dataset.dx||.5), y=r.top+r.height*(+c.dataset.dy||.55);
   if(c.classList.contains('ripple')){c.style.left=x+'px';c.style.top=y+'px';}
-  else{c.style.left=(x-c.getBoundingClientRect().width*.28)+'px';c.style.top=(y-6)+'px';}
-});
+  else{const w=c.getBoundingClientRect().width;c.style.left=(x-w*.3)+'px';c.style.top=(y-4)+'px';}
+}));
 </script>
 </body>
 </html>

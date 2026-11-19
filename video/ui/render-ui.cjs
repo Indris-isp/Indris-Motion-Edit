@@ -10,16 +10,16 @@ const fs = require('fs');
 
 const frames = [
   ['01_title', 'title', 1920, 1080],
-  ['02_services', 'chips', 1920, 1080],
-  ['03_dashboard', 'dashboard', 1920, 1080],
-  ['04_projects', 'projects', 1920, 1080],
-  ['05_request', 'request', 1920, 1080],
-  ['06_analytics', 'analytics', 1920, 1080],
-  ['07_tagline', 'tagline', 1920, 1080],
+  ['02_dashboard', 'dashboard', 1920, 1080],
+  ['03_projects', 'projects', 1920, 1080],
+  ['04_request', 'request', 1920, 1080],
+  ['05_analytics', 'analytics', 1920, 1080],
+  ['06_features', 'features', 1920, 1080],
+  ['07_mobile', 'mobile', 1080, 1920],
   ['08_endcard', 'endcard', 1920, 1080],
-  ['09_mobile', 'mobile', 1080, 1920],
   ['flat_dashboard', 'dashboard-flat', 1920, 1080],
   ['flat_projects', 'projects-flat', 1920, 1080],
+  ['flat_request', 'request-flat', 1920, 1080],
   ['flat_analytics', 'analytics-flat', 1920, 1080],
 ];
 
@@ -32,8 +32,9 @@ const frames = [
   for (const [name, hash, w, h] of frames) {
     if (only && !name.includes(only)) continue;
     const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 2 });
+    page.on('pageerror', e => console.error('PAGE ERROR', name, e.message));
     await page.goto(`${file}#${hash}`);
-    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(() => document.fonts.ready.then(() => window.placed));
     await page.screenshot({ path: path.join(outDir, `${name}.png`) });
     await page.close();
     console.log('rendered', name);
