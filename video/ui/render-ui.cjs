@@ -9,7 +9,8 @@ const screens = [
   ['analytics', 1920, 1080],
   ['brandkit', 1920, 1080],
   ['mobile', 1080, 1920],
-  ['components', 1920, 1080, true], // transparent background
+  ['components', 1920, 1080, true], // transparent background, for compositing
+  ['components-bg', 1920, 1080],
 ];
 
 (async () => {

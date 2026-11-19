@@ -24,6 +24,7 @@ body{font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antial
 .scr{display:none;position:relative;overflow:hidden}
 .scr.on{display:block}
 .stage.on{display:flex}
+.scr:not(.on){display:none!important}
 
 /* ---------- stage backgrounds ---------- */
 .stage{width:1920px;height:1080px;display:flex;align-items:center;justify-content:center;
@@ -70,7 +71,7 @@ body{font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antial
 .bar{height:8px;border-radius:9px;background:#F0EEEB;overflow:hidden}
 .bar>span{display:block;height:100%;border-radius:9px;background:var(--gAcc)}
 .dark{background:linear-gradient(160deg,#232323 0%,#0B0B0B 100%);color:#fff;border:none}
-.dark .muted{color:#9a9a9a}
+.dark .muted{color:rgba(255,220,195,.7)}
 .thumb{border-radius:14px;overflow:hidden;position:relative}
 table{width:100%;border-collapse:collapse;font-size:14px}
 td,th{text-align:left;padding:12px 6px;border-bottom:1px solid var(--line)}
@@ -91,13 +92,68 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
 
 /* components sheet */
 .sheet{width:1920px;height:1080px;position:relative}
+
+/* ================= GRADIENT THEME ================= */
+.blob{position:absolute;border-radius:50%;transform:translate(-50%,-50%);opacity:.9;pointer-events:none}
+.stage{background:
+   radial-gradient(ellipse 55% 50% at 50% 45%,rgba(255,196,140,.55),rgba(255,196,140,0) 70%),
+   linear-gradient(135deg,#FFB25E 0%,#FF7A2A 30%,#F24E28 58%,#B3263A 82%,#5E1530 100%)}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;
+  background:repeating-linear-gradient(115deg,rgba(255,255,255,.0) 0 120px,rgba(255,255,255,.07) 120px 122px)}
+.stage>*{position:relative;z-index:1}
+.stage>.blob{position:absolute;z-index:0}
+.stage>.float,.stage>.phone,.stage>div[style*="position:absolute"]{position:absolute}
+.win{background:linear-gradient(145deg,rgba(255,255,255,.88) 0%,rgba(255,244,234,.80) 50%,rgba(255,226,204,.72) 100%);
+  backdrop-filter:blur(30px);border:1.5px solid rgba(255,255,255,.7);
+  box-shadow:0 70px 140px rgba(90,15,10,.45),0 20px 40px rgba(90,15,10,.25),inset 0 1px 0 rgba(255,255,255,.9)}
+.side{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,240,226,.85) 100%);border-right:1px solid rgba(255,150,80,.18)}
+.nav.a{background:linear-gradient(135deg,#FFB862 0%,#FF821C 50%,#E65000 100%);color:#fff;box-shadow:0 10px 22px rgba(255,115,20,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+.nav.a i{background:#fff;border-color:#fff}
+.nav.a b{background:#fff;color:var(--acc2)}
+.nav b{background:linear-gradient(135deg,#FFB862,#E65000)}
+.top h1{background:linear-gradient(180deg,#5C3A2A 0%,#1E0E08 55%,#000 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top h1 .serif{background:linear-gradient(180deg,#FFB862,#FF821C 45%,#D9420A);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:6px}
+.tg-white{background:linear-gradient(180deg,#FFFFFF 0%,#FFE2C8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 20px rgba(120,20,0,.35))}
+.search{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,236,220,.8));border:1px solid rgba(255,140,60,.2)}
+.btn.o{background:linear-gradient(180deg,#FFFFFF,#FFE9D6);color:#3A1A0A;box-shadow:inset 0 0 0 1.5px rgba(255,130,28,.35),0 8px 18px rgba(255,115,20,.15)}
+.card,.float{border:1.5px solid transparent;
+  background:linear-gradient(160deg,#FFFFFF 0%,#FFF7F0 55%,#FFEBDC 100%) padding-box,
+             linear-gradient(140deg,rgba(255,255,255,1),rgba(255,180,120,.55) 60%,rgba(255,120,40,.5)) border-box;
+  box-shadow:0 18px 40px rgba(140,40,0,.10),inset 0 1px 0 #fff}
+.float{box-shadow:0 30px 60px rgba(120,30,0,.22),0 8px 18px rgba(120,30,0,.10)}
+.card.dark,.float.dark{color:#fff;border:1.5px solid transparent;
+  background:radial-gradient(ellipse 80% 60% at 85% 0%,rgba(255,130,28,.45),rgba(255,130,28,0) 70%) padding-box,
+             linear-gradient(155deg,#3D1A10 0%,#1C0A06 55%,#0A0403 100%) padding-box,
+             linear-gradient(140deg,rgba(255,170,100,.7),rgba(255,90,30,.15) 50%,rgba(255,130,28,.6)) border-box}
+.card.grad{color:#fff;border:1.5px solid transparent;
+  background:radial-gradient(ellipse 70% 60% at 15% 0%,rgba(255,236,200,.65),rgba(255,236,200,0) 70%) padding-box,
+             linear-gradient(140deg,#FFB25E 0%,#FF7A22 45%,#E2470E 100%) padding-box,
+             linear-gradient(140deg,#FFE3C2,rgba(255,255,255,.2)) border-box;
+  box-shadow:0 20px 40px rgba(230,80,0,.35),inset 0 1px 0 rgba(255,255,255,.5)}
+.card.grad .muted{color:rgba(255,255,255,.85)}
+.card.grad .chip{background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(255,255,255,.2));color:#fff}
+.chip{background:linear-gradient(135deg,#E8FBEF,#C9F1D8);color:#167A3E}
+.chip.o{background:linear-gradient(135deg,#FFF0E2,#FFD3AE);color:#C24300}
+.chip.g{background:linear-gradient(135deg,#FFFFFF,#F3E6DC);color:#6B4A3A}
+.bar{background:linear-gradient(90deg,#FFEBDA,#F7D9C3)}
+.bar>span{box-shadow:0 0 12px rgba(255,120,30,.5)}
+.av{background:radial-gradient(circle at 30% 25%,#FFE2C0,#FF9C48 55%,#D9420A)}
+.mark{background:linear-gradient(140deg,#FFC67A 0%,#FF821C 45%,#D9420A 100%)}
+.sidecard{background:radial-gradient(ellipse 90% 70% at 100% 0%,rgba(255,130,28,.55),rgba(255,130,28,0) 70%),linear-gradient(160deg,#3D1A10,#0A0403)}
+.phone{background:linear-gradient(150deg,#4A2A1E 0%,#120806 40%,#2A140C 100%);box-shadow:inset 0 0 0 2px rgba(255,170,110,.35);filter:drop-shadow(0 50px 60px rgba(90,15,10,.45))}
+.pscr{background:linear-gradient(180deg,#FFFFFF 0%,#FFF2E6 55%,#FFE1C8 100%)}
+.tab{background:linear-gradient(135deg,#3D1A10,#0A0403);box-shadow:0 12px 24px rgba(0,0,0,.25)}
+.kcol{background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,210,170,.35))!important;border:1px solid rgba(255,255,255,.6)}
 </style>
 </head>
 <body>
 
 <!-- ===================== 01 DASHBOARD ===================== -->
 <section class="scr stage" id="dashboard">
-  <div class="glow" style="left:50%;top:55%;width:1700px;height:1100px"></div>
+  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
+  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
+  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
+  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
   <div class="win">
     <aside class="side">
       <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
@@ -118,7 +174,7 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
         <div class="av"></div>
       </div>
       <div class="row">
-        <div class="card kpi" style="flex:1"><div class="muted">Brand reach</div><div class="v">248.6K</div><span class="chip">▲ 32.4%</span> <span class="muted">vs last month</span></div>
+        <div class="card kpi grad" style="flex:1"><div class="muted">Brand reach</div><div class="v">248.6K</div><span class="chip">▲ 32.4%</span> <span class="muted">vs last month</span></div>
         <div class="card kpi" style="flex:1"><div class="muted">Conversion rate</div><div class="v">7.82%</div><span class="chip">▲ 2.1%</span> <span class="muted">vs last month</span></div>
         <div class="card kpi" style="flex:1"><div class="muted">Active projects</div><div class="v">6</div><span class="chip o">3 awaiting review</span></div>
         <div class="card kpi dark" style="flex:1"><div class="muted">Avg. delivery</div><div class="v">4.2 <span style="font-size:20px;color:#bbb">days</span></div><span class="chip o" style="background:rgba(255,130,28,.18);color:#FFB070">⚡ 2× faster</span></div>
@@ -156,7 +212,10 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
 
 <!-- ===================== 02 PROJECT BOARD ===================== -->
 <section class="scr stage" id="projects">
-  <div class="glow" style="left:50%;top:55%;width:1700px;height:1100px"></div>
+  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
+  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
+  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
+  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
   <div class="win">
     <aside class="side">
       <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
@@ -181,7 +240,10 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
 
 <!-- ===================== 03 ANALYTICS ===================== -->
 <section class="scr stage" id="analytics">
-  <div class="glow" style="left:50%;top:55%;width:1700px;height:1100px"></div>
+  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
+  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
+  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
+  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
   <div class="win">
     <aside class="side">
       <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
@@ -218,7 +280,7 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
           <div class="row">
             <div class="card kpi" style="flex:1"><div class="muted">Time on site</div><div class="v">3m 48s</div><span class="chip">▲ 64%</span></div>
             <div class="card kpi" style="flex:1"><div class="muted">Bounce rate</div><div class="v">28.4%</div><span class="chip">▼ 19%</span></div>
-            <div class="card kpi" style="flex:1"><div class="muted">Revenue influenced</div><div class="v">$184K</div><span class="chip">▲ 3.2×</span></div>
+            <div class="card kpi grad" style="flex:1"><div class="muted">Revenue influenced</div><div class="v">$184K</div><span class="chip">▲ 3.2×</span></div>
           </div>
         </div>
       </div>
@@ -228,7 +290,10 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
 
 <!-- ===================== 04 BRAND KIT ===================== -->
 <section class="scr stage" id="brandkit">
-  <div class="glow" style="left:50%;top:55%;width:1700px;height:1100px"></div>
+  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
+  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
+  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
+  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
   <div class="win">
     <aside class="side">
       <div class="logo"><div class="mark">ISP</div>ISP Studio</div>
@@ -249,20 +314,20 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
         <div class="card" style="flex:1.2;display:flex;flex-direction:column;gap:16px">
           <h3>Logo suite</h3>
           <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="thumb" style="background:linear-gradient(160deg,#fff,#F1F1F1);display:grid;place-items:center;border:1px solid var(--line)"><div style="display:flex;align-items:center;gap:14px;font-size:40px;font-weight:800;letter-spacing:-.04em"><div class="mark" style="width:64px;height:64px;font-size:22px;border-radius:18px">N</div>Nova</div></div>
-            <div class="thumb" style="background:linear-gradient(160deg,#232323,#000);display:grid;place-items:center"><div style="display:flex;align-items:center;gap:14px;font-size:40px;font-weight:800;letter-spacing:-.04em;color:#fff"><div class="mark" style="width:64px;height:64px;font-size:22px;border-radius:18px">N</div>Nova</div></div>
+            <div class="thumb" style="background:linear-gradient(150deg,#FFFFFF,#FFF1E4 60%,#FFDCC0);display:grid;place-items:center"><div style="display:flex;align-items:center;gap:14px;font-size:40px;font-weight:800;letter-spacing:-.04em"><div class="mark" style="width:64px;height:64px;font-size:22px;border-radius:18px">N</div>Nova</div></div>
+            <div class="thumb" style="background:linear-gradient(150deg,#4A1E10,#1A0906 55%,#090303);display:grid;place-items:center"><div style="display:flex;align-items:center;gap:14px;font-size:40px;font-weight:800;letter-spacing:-.04em;color:#fff"><div class="mark" style="width:64px;height:64px;font-size:22px;border-radius:18px">N</div>Nova</div></div>
             <div class="thumb" style="background:var(--gAcc);display:grid;place-items:center"><div style="font-size:46px;font-weight:800;color:#fff;letter-spacing:-.04em">Nova<span class="serif" style="font-weight:400">.</span></div></div>
-            <div class="thumb" style="background:var(--accSoft);display:grid;place-items:center"><div class="mark" style="width:110px;height:110px;font-size:44px;border-radius:30px">N</div></div>
+            <div class="thumb" style="background:radial-gradient(circle at 30% 20%,#FFF5EC,#FFD2AE 70%,#FFB37A);display:grid;place-items:center"><div class="mark" style="width:110px;height:110px;font-size:44px;border-radius:30px">N</div></div>
           </div>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:22px">
           <div class="card">
             <h3>Colour palette</h3>
             <div style="display:flex;gap:12px;margin-top:16px">
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:#FF821C"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Ember</div><div class="muted">#FF821C</div></div>
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:#E65000"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Flame</div><div class="muted">#E65000</div></div>
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:#0A0A0A"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Ink</div><div class="muted">#0A0A0A</div></div>
-              <div style="flex:1"><div style="height:110px;border-radius:14px;background:#F5F4F2;border:1px solid var(--line)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Paper</div><div class="muted">#F5F4F2</div></div>
+              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#FFC67A,#FF821C 55%,#F2611A)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Ember</div><div class="muted">#FF821C</div></div>
+              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#FF8A3D,#E65000 55%,#B83200)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Flame</div><div class="muted">#E65000</div></div>
+              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#4A2418,#1A0C08 55%,#050202)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Ink</div><div class="muted">#0A0A0A</div></div>
+              <div style="flex:1"><div style="height:110px;border-radius:14px;background:linear-gradient(145deg,#FFFFFF,#FFEBDA 60%,#FFD9BA)"></div><div style="font-size:13px;font-weight:600;margin-top:8px">Paper</div><div class="muted">#F5F4F2</div></div>
             </div>
           </div>
           <div class="card" style="flex:1">
@@ -284,12 +349,15 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
 
 <!-- ===================== 05 MOBILE (vertical 1080x1920) ===================== -->
 <section class="scr stage v" id="mobile">
-  <div class="glow" style="left:50%;top:50%;width:1200px;height:1500px"></div>
+  <div class="blob" style="left:8%;top:12%;width:620px;height:620px;background:radial-gradient(closest-side,#FFD08A,rgba(255,208,138,0))"></div>
+  <div class="blob" style="left:88%;top:8%;width:760px;height:760px;background:radial-gradient(closest-side,#FF5A3C,rgba(255,90,60,0))"></div>
+  <div class="blob" style="left:82%;top:95%;width:900px;height:900px;background:radial-gradient(closest-side,#8E1E46,rgba(142,30,70,0))"></div>
+  <div class="blob" style="left:5%;top:92%;width:700px;height:700px;background:radial-gradient(closest-side,#FF8A2A,rgba(255,138,42,0))"></div>
   <div style="position:absolute;top:150px;left:0;right:0;text-align:center">
-    <div style="font-size:30px;color:var(--ink3);font-weight:500">Approve designs</div>
-    <div style="font-size:84px;font-weight:700;letter-spacing:-.04em;line-height:1.05">from <span class="serif" style="color:var(--acc2)">anywhere.</span></div>
+    <div style="font-size:30px;color:rgba(255,255,255,.8);font-weight:500">Approve designs</div>
+    <div class="tg-white" style="font-size:96px;font-weight:700;letter-spacing:-.04em;line-height:1.1;padding-bottom:10px">from <span class="serif">anywhere.</span></div>
   </div>
-  <div class="phone" style="position:absolute;left:325px;top:560px;transform:scale(1.05);transform-origin:top center">
+  <div class="phone" style="position:absolute;left:325px;top:560px">
     <div class="pscr">
       <div class="notch"></div>
       <div style="display:flex;align-items:center"><div><div class="muted">Wednesday</div><div style="font-size:26px;font-weight:700;letter-spacing:-.03em">Approvals</div></div><div class="av" style="margin-left:auto;width:42px;height:42px"></div></div>
@@ -302,11 +370,11 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
         <div style="display:flex;gap:10px;margin-top:14px"><div class="btn o" style="flex:1;justify-content:center;height:50px">Comment</div><div class="btn" style="flex:1;justify-content:center;height:50px">✓ Approve</div></div>
       </div>
       <div class="card" style="margin-top:14px;padding:14px;display:flex;gap:12px;align-items:center">
-        <div class="thumb" style="width:64px;height:64px;background:linear-gradient(160deg,#232323,#000);flex:none"></div>
+        <div class="thumb" style="width:64px;height:64px;background:linear-gradient(150deg,#5A2412,#1F0A06 60%,#0A0303);flex:none"></div>
         <div><div style="font-weight:600;font-size:14px">Homepage hero</div><div class="muted">Waiting on you · 2h</div></div><span class="chip g" style="margin-left:auto">Review</span>
       </div>
       <div class="card" style="margin-top:14px;padding:14px;display:flex;gap:12px;align-items:center">
-        <div class="thumb" style="width:64px;height:64px;background:var(--accSoft);flex:none"></div>
+        <div class="thumb" style="width:64px;height:64px;background:linear-gradient(145deg,#FFE3C8,#FF9F5A);flex:none"></div>
         <div><div style="font-weight:600;font-size:14px">Instagram set (9)</div><div class="muted">Approved · yesterday</div></div><span class="chip" style="margin-left:auto">Done</span>
       </div>
       <div class="tab"><i class="a"></i><i></i><i></i><i></i></div>
@@ -347,7 +415,7 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
   </div>
   <div style="position:absolute;left:1460px;top:90px;display:flex;flex-direction:column;gap:22px">
     <div class="btn" style="height:72px;font-size:24px;padding:0 40px">Let’s build yours →</div>
-    <div class="btn o" style="height:72px;font-size:24px;padding:0 40px;background:#fff">Book a call</div>
+    <div class="btn o" style="height:72px;font-size:24px;padding:0 40px">Book a call</div>
     <span class="chip o" style="font-size:18px;padding:8px 18px;align-self:flex-start">⚡ 2× faster delivery</span>
   </div>
   <div class="float" style="left:80px;top:420px;width:620px;padding:24px">
@@ -363,7 +431,7 @@ th{color:var(--ink3);font-weight:500;font-size:12px;text-transform:uppercase;let
   <div class="float" style="left:1120px;top:470px;width:380px;padding:22px">
     <div class="muted">Colour palette</div>
     <div style="display:flex;gap:10px;margin-top:12px">
-      <div style="flex:1;height:80px;border-radius:12px;background:#FF821C"></div><div style="flex:1;height:80px;border-radius:12px;background:#E65000"></div><div style="flex:1;height:80px;border-radius:12px;background:#0A0A0A"></div><div style="flex:1;height:80px;border-radius:12px;background:#F5F4F2;border:1px solid var(--line)"></div>
+      <div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#FFC67A,#FF821C 55%,#F2611A)"></div><div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#FF8A3D,#E65000 55%,#B83200)"></div><div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#4A2418,#1A0C08 55%,#050202)"></div><div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(145deg,#FFFFFF,#FFEBDA 60%,#FFD9BA)"></div>
     </div>
   </div>
   <div class="float" style="left:1560px;top:470px;width:280px;padding:22px">
@@ -388,11 +456,11 @@ const cols=[
 ];
 const k=document.getElementById('kanban');
 cols.forEach(([t,items],ci)=>{
-  const c=document.createElement('div');c.style.cssText='flex:1;display:flex;flex-direction:column;gap:14px;background:rgba(0,0,0,.025);border-radius:22px;padding:14px';
+  const c=document.createElement('div');c.className='kcol';c.style.cssText='flex:1;display:flex;flex-direction:column;gap:14px;background:rgba(0,0,0,.025);border-radius:22px;padding:14px';
   c.innerHTML=`<div style="display:flex;align-items:center;font-weight:600;font-size:15px;padding:4px 6px"><span class="dot" style="background:${['#C9C9C9','#FF821C','#FFB862','#1C8C4A'][ci]}"></span>${t}<span class="muted" style="margin-left:auto">${items.length+ (ci==1?2:1)}</span></div>`;
   items.forEach(([n,tag,cl,avs,img],i)=>{
     const d=document.createElement('div');d.className='card';d.style.padding='16px';
-    const thumb=img?`<div class="thumb" style="height:120px;margin-bottom:12px;background:${img==='g'?'var(--gAcc)':'linear-gradient(160deg,#232323,#000)'};display:grid;place-items:center;color:#fff;font-weight:800;font-size:28px;letter-spacing:-.03em">${img==='g'?'Nova.':'<span style="opacity:.8">▭ ▭ ▭</span>'}</div>`:'';
+    const thumb=img?`<div class="thumb" style="height:120px;margin-bottom:12px;background:${img==='g'?'var(--gAcc)':'linear-gradient(150deg,#5A2412,#1F0A06 60%,#0A0303)'};display:grid;place-items:center;color:#fff;font-weight:800;font-size:28px;letter-spacing:-.03em">${img==='g'?'Nova.':'<span style="opacity:.8">▭ ▭ ▭</span>'}</div>`:'';
     const prog=ci==1||ci==2?`<div class="bar" style="margin:12px 0 0"><span style="width:${[64,48,86,72][ci*2-2+i]||60}%"></span></div>`:'';
     d.innerHTML=`${thumb}<span class="chip ${cl}">${tag}</span><div style="font-weight:600;font-size:15px;margin-top:10px">${n}</div>${prog}
     <div style="display:flex;align-items:center;margin-top:12px"><div style="display:flex">${avs.map((a,j)=>`<div style="width:28px;height:28px;border-radius:50%;background:${a};border:2px solid #fff;margin-left:${j?-8:0}px"></div>`).join('')}</div><span class="muted" style="margin-left:auto">${ci==3?'✓ Delivered':['Nov 22','Nov 24','Nov 21','Nov 27'][ci]}</span></div>`;
@@ -406,7 +474,7 @@ const before=[22,26,24,30,28,31,29,33,30],after=[34,46,52,61,70,78,84,92,100];
 ['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'].forEach((m,i)=>{
   const g=document.createElement('div');g.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%';
   g.innerHTML=`<div style="flex:1;width:100%;display:flex;align-items:flex-end;gap:6px;justify-content:center">
-   <div style="width:40%;height:${before[i]}%;background:#E2E2E2;border-radius:8px 8px 4px 4px"></div>
+   <div style="width:40%;height:${before[i]}%;background:linear-gradient(180deg,#FFE7D2,#F6CBA8);border-radius:8px 8px 4px 4px"></div>
    <div style="width:40%;height:${after[i]}%;background:linear-gradient(180deg,#FFB862,#FF821C 50%,#E65000);border-radius:8px 8px 4px 4px;box-shadow:0 8px 18px rgba(255,115,20,.25)"></div></div>
    <div class="muted">${m}</div>`;
   b.appendChild(g);
@@ -414,7 +482,9 @@ const before=[22,26,24,30,28,31,29,33,30],after=[34,46,52,61,70,78,84,92,100];
 // gradient defs for components sheet ring
 document.body.insertAdjacentHTML('afterbegin','<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="ga" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC685"/><stop offset=".5" stop-color="#FF821C"/><stop offset="1" stop-color="#E44E00"/></linearGradient></defs></svg>');
 // pick screen
-const id=(location.hash||'#dashboard').slice(1);
+let id=(location.hash||'#dashboard').slice(1);
+if(id==='components-bg'){id='components';const el=document.getElementById(id);el.classList.add('stage');
+  el.insertAdjacentHTML('afterbegin',document.querySelector('#dashboard .blob').outerHTML);}
 document.getElementById(id).classList.add('on');
 </script>
 </body>
