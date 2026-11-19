@@ -1,4 +1,5 @@
 // Renders each frame in screens.html to out/<name>.png at 2x.
+// First run: ./fetch-fonts.sh  (downloads the Satoshi brand font)
 // Usage: node render-ui.cjs            (all frames)
 //        node render-ui.cjs dashboard  (one frame)
 // A "-flat" suffix renders the same screen without the 3D tilt or cursor,

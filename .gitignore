@@ -4,3 +4,4 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+video/fonts/Satoshi-*.ttf

@@ -6,22 +6,19 @@
 <!-- Style follows the user's two references: dark neon-gradient world with glowing UI (ref 2)
      + tilted 3D UI shots, close-ups and a hand cursor (ref 1). Render with render-ui.cjs -->
 <style>
-@font-face{font-family:Inter;src:url(fonts/Inter-400.ttf);font-weight:400}
-@font-face{font-family:Inter;src:url(fonts/Inter-500.ttf);font-weight:500}
-@font-face{font-family:Inter;src:url(fonts/Inter-600.ttf);font-weight:600}
-@font-face{font-family:Inter;src:url(fonts/Inter-700.ttf);font-weight:700}
-@font-face{font-family:Inter;src:url(fonts/Inter-800.ttf);font-weight:800}
-@font-face{font-family:'Instrument Serif';src:url(fonts/InstrumentSerif-Italic.ttf);font-style:italic}
+@font-face{font-family:Satoshi;src:url(fonts/Satoshi-Light.ttf);font-weight:300}
+@font-face{font-family:Satoshi;src:url(fonts/Satoshi-LightItalic.ttf);font-weight:300;font-style:italic}
+@font-face{font-family:Satoshi;src:url(fonts/Satoshi-Medium.ttf);font-weight:500}
 
 :root{
-  --ink:#FFF6EE; --mut:#A89A8F; --mut2:#6E625A; --line:rgba(255,255,255,.07);
+  --ink:#FFF6EE; --mut:#BCAEA3; --mut2:#6E625A; --line:rgba(255,255,255,.07);
   --pink:#FFB347; --violet:#FF7A1A; --blue:#D9380A; --cyan:#FFD08A; --red:#FF5A1F; --green:#FFC46B;
   --gBrand:linear-gradient(120deg,#FFB347 0%,#FF7A1A 50%,#D9380A 100%);
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:#050302}
-body{font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
-.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+body{font-family:Satoshi,sans-serif;font-weight:300;color:var(--ink);-webkit-font-smoothing:antialiased}
+.serif{font-family:Satoshi,sans-serif;font-style:normal;font-weight:300;letter-spacing:-.02em}
 .scr{display:none;position:relative;overflow:hidden;width:1920px;height:1080px}
 .scr.v{width:1080px;height:1920px}
 .scr.on{display:block}
@@ -48,7 +45,7 @@ body{font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antial
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 
 /* ---------- glowing type ---------- */
-.glowtxt{color:#fff;font-weight:600;letter-spacing:-.02em;
+.glowtxt{color:#fff;font-weight:500;letter-spacing:-.02em;
   text-shadow:-2px 0 rgba(255,179,71,.75),2px 0 rgba(255,110,30,.75),0 0 10px rgba(255,255,255,.65),0 0 34px rgba(255,150,60,.75),0 0 80px rgba(255,120,30,.45)}
 .gradtxt{background:linear-gradient(100deg,#FFD08A 0%,#FFB066 45%,#FF6A1A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -61,11 +58,11 @@ body{font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antial
 .tilt2{transform:perspective(2400px) rotateX(14deg) rotateY(22deg) rotateZ(-5deg)}
 body.flat .tilt,body.flat .tilt2{transform:none!important}
 .bar{height:64px;display:flex;align-items:center;gap:16px;padding:0 26px;border-bottom:1px solid var(--line)}
-.logo{font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:2px}
+.logo{font-weight:500;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:2px}
 .logo i{width:9px;height:9px;border-radius:50%;background:var(--gBrand);box-shadow:0 0 10px #FF7A1A,0 0 18px #D9380A;display:inline-block;margin-left:3px;margin-top:8px}
 .search{width:420px;height:38px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--mut2);font-size:14px;margin-left:40px}
 .ico{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--line)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 20px;border-radius:999px;font-weight:600;font-size:14px;color:#fff;white-space:nowrap;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 20px;border-radius:999px;font-weight:500;font-size:14px;color:#fff;white-space:nowrap;
   background:linear-gradient(120deg,#FFB347,#FF7A1A 55%,#D9380A);box-shadow:0 0 18px rgba(255,122,26,.7),inset 0 1px 0 rgba(255,255,255,.35)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .side{width:230px;border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:4px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0))}
@@ -79,10 +76,10 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 .card{border-radius:20px;padding:20px;position:relative;
   background:linear-gradient(160deg,rgba(255,255,255,.075) 0%,rgba(255,255,255,.025) 100%);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.08)}
-.card h3{margin:0;font-size:15px;font-weight:600}
+.card h3{margin:0;font-size:15px;font-weight:500}
 .muted{color:var(--mut);font-size:13px}
-.kv{font-size:32px;font-weight:700;letter-spacing:-.03em;margin:8px 0 6px}
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;color:#fff;background:rgba(255,255,255,.08)}
+.kv{font-size:32px;font-weight:500;letter-spacing:-.03em;margin:8px 0 6px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 10px;border-radius:99px;color:#fff;background:rgba(255,255,255,.08)}
 .pill.up{background:rgba(255,196,107,.14);color:#FFD08A;box-shadow:inset 0 0 0 1px rgba(255,196,107,.3)}
 .pill.vi{background:rgba(255,122,26,.2);color:#FFC08A;box-shadow:inset 0 0 0 1px rgba(255,122,26,.45)}
 .pill.pk{background:rgba(255,179,71,.18);color:#FFB070;box-shadow:inset 0 0 0 1px rgba(255,179,71,.45)}
@@ -96,19 +93,19 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 /* project tiles */
 .tile{border-radius:20px;padding:12px;background:linear-gradient(170deg,#26201C,#151110);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);display:flex;flex-direction:column;gap:10px;position:relative}
 .thumb{border-radius:14px;overflow:hidden;position:relative;display:grid;place-items:center}
-.status{height:34px;border-radius:10px;background:#090605;display:grid;place-items:center;font-size:13px;font-weight:600;color:#F5E8DD}
+.status{height:34px;border-radius:10px;background:#090605;display:grid;place-items:center;font-size:13px;font-weight:500;color:#F5E8DD}
 .check{position:absolute;left:18px;top:18px;width:24px;height:24px;border-radius:50%;background:#FFB347;box-shadow:0 0 14px #FFC46B;display:grid;place-items:center;z-index:2}
 .check svg{width:14px;height:14px;stroke:#2A1000;stroke-width:3;fill:none}
 
 /* segmented / form */
 .seg{display:flex;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
-.seg>div{flex:1;padding:18px 10px;text-align:center;font-size:19px;font-weight:600;color:var(--mut);border-right:1px solid rgba(255,255,255,.08)}
+.seg>div{flex:1;padding:18px 10px;text-align:center;font-size:19px;font-weight:500;color:var(--mut);border-right:1px solid rgba(255,255,255,.08)}
 .seg>div:last-child{border-right:none}
 .seg>div small{display:block;font-size:14px;font-weight:500;margin-top:4px;color:var(--mut2)}
 .seg>div.sel{color:#fff;background:linear-gradient(135deg,rgba(255,179,71,.35),rgba(255,122,26,.45) 50%,rgba(217,56,10,.35));box-shadow:inset 0 0 0 2px rgba(255,180,110,.9),0 0 26px rgba(255,122,26,.6)}
 .seg>div.sel small{color:#FFE3C8}
-.field{height:62px;border-radius:14px;display:flex;align-items:center;padding:0 20px;font-size:22px;font-weight:600;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
-.lbl{font-size:16px;font-weight:600;color:#E2D2C6;margin:22px 0 10px;display:flex;align-items:center}
+.field{height:62px;border-radius:14px;display:flex;align-items:center;padding:0 20px;font-size:22px;font-weight:500;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
+.lbl{font-size:16px;font-weight:500;color:#E2D2C6;margin:22px 0 10px;display:flex;align-items:center}
 .lbl .spark{margin-left:auto}
 
 .cursor{position:absolute;width:74px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(255,255,255,.35));z-index:20}
@@ -120,7 +117,7 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
   box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 0 5px rgba(255,190,120,.6),0 0 30px rgba(255,179,71,.7),0 0 60px rgba(255,110,30,.6),inset 0 0 30px rgba(255,255,255,.15)}
 .chip .ic{width:150px;height:86px;border-radius:999px 0 0 999px;display:grid;place-items:center;border-right:2px solid rgba(255,255,255,.6)}
 .chip .ic svg{width:40px;height:40px;fill:#fff;filter:drop-shadow(0 0 8px #fff)}
-.chip .tx{flex:1;text-align:center;font-size:42px;font-weight:600;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.8)}
+.chip .tx{flex:1;text-align:center;font-size:42px;font-weight:500;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.8)}
 
 /* phone */
 .phone{position:absolute;width:470px;height:980px;border-radius:70px;padding:14px;background:linear-gradient(150deg,#4A3426,#0F0B09 40%,#2E2118);
@@ -144,7 +141,7 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 <section class="scr bg grain" id="title">
   <div class="center">
     <div class="glowtxt" style="font-size:150px;line-height:1.05">Your brand<span class="spark" style="width:70px;height:70px;margin:0 18px 0 26px;vertical-align:middle"></span>deserves</div>
-    <div class="glowtxt serif" style="font-size:190px;line-height:1.05;font-weight:400">a glow‑up.</div>
+    <div class="glowtxt serif" style="font-size:170px;line-height:1.1;font-weight:300">a glow‑up.</div>
   </div>
 </section>
 
@@ -165,7 +162,7 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
       <aside class="side" id="side-dash"></aside>
       <main class="main">
         <div style="display:flex;align-items:flex-end">
-          <div><div style="font-size:34px;font-weight:600;letter-spacing:-.02em">Welcome back, <span class="serif gradtxt" style="font-size:40px;padding-right:6px">Alex</span></div><div class="muted" style="margin-top:4px">Your brand at a glance · updated 2 min ago</div></div>
+          <div><div style="font-size:34px;font-weight:500;letter-spacing:-.02em">Welcome back, <span class="serif gradtxt" style="font-size:40px;padding-right:6px">Alex</span></div><div class="muted" style="margin-top:4px">Your brand at a glance · updated 2 min ago</div></div>
           <div style="margin-left:auto;display:flex;gap:10px"><div class="btn ghost">Share report</div></div>
         </div>
         <div style="display:flex;gap:18px">
@@ -200,7 +197,7 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 <section class="scr bg b2 grain" id="projects">
   <div class="app tilt2" style="left:170px;top:110px;width:1580px;height:880px;display:flex;flex-direction:column">
     <div class="bar"><div class="logo">ISP<i></i></div><div class="search">⌕ Search…</div><div style="margin-left:auto;display:flex;gap:10px"><div class="ico"></div><div class="ico"></div></div><div class="btn" style="height:34px;font-size:13px">Share</div></div>
-    <div style="padding:22px 28px 0;display:flex;align-items:center"><div style="font-size:22px;font-weight:600">Nova · Brand launch</div><span class="pill vi" style="margin-left:14px">8 deliverables</span><span class="muted" style="margin-left:auto">Sorted by: Latest</span></div>
+    <div style="padding:22px 28px 0;display:flex;align-items:center"><div style="font-size:22px;font-weight:500">Nova · Brand launch</div><span class="pill vi" style="margin-left:14px">8 deliverables</span><span class="muted" style="margin-left:auto">Sorted by: Latest</span></div>
     <div id="grid" style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:22px;padding:20px 28px 28px"></div>
   </div>
 </section>
@@ -209,7 +206,7 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 <section class="scr bg b3 grain" id="request">
   <div class="app tilt" style="left:150px;top:150px;width:1620px;height:860px;display:flex;transform:perspective(2600px) rotateX(12deg) rotateY(-16deg) rotateZ(4deg) translateX(-120px) scale(1.25)">
     <div style="flex:1.25;padding:40px 48px">
-      <div style="font-size:40px;font-weight:600;letter-spacing:-.02em">Start a <span class="serif gradtxt" style="font-size:48px;padding-right:8px">project</span></div>
+      <div style="font-size:40px;font-weight:500;letter-spacing:-.02em">Start a <span class="serif gradtxt" style="font-size:48px;padding-right:8px">project</span></div>
       <div class="lbl">Service <span class="spark"></span></div>
       <div class="seg"><div>Branding<small>Identity &amp; logo</small></div><div class="sel">Website<small>Design + build</small></div><div>Motion video<small>Promo &amp; ads</small></div></div>
       <div class="lbl">Budget <span class="spark"></span></div>
@@ -222,11 +219,11 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
     </div>
     <div style="flex:1;padding:34px 40px 34px 0">
       <div class="card glow-v" style="height:100%;padding:34px;background:linear-gradient(160deg,rgba(255,122,26,.16),rgba(255,255,255,.02))">
-        <div style="display:flex;align-items:center"><div><div class="gradtxt" style="font-size:26px;font-weight:700">Proposal</div><div class="muted">ISP Agency → Nova Inc.</div></div><span class="pill pk" style="margin-left:auto">Draft</span></div>
+        <div style="display:flex;align-items:center"><div><div class="gradtxt" style="font-size:26px;font-weight:500">Proposal</div><div class="muted">ISP Agency → Nova Inc.</div></div><span class="pill pk" style="margin-left:auto">Draft</span></div>
         <div style="height:1px;background:var(--line);margin:24px 0"></div>
         <div id="lines" style="display:flex;flex-direction:column;gap:16px;font-size:17px"></div>
         <div style="height:1px;background:var(--line);margin:24px 0"></div>
-        <div style="display:flex;align-items:flex-end"><div class="muted" style="font-size:16px">Total</div><div class="gradtxt" style="margin-left:auto;font-size:54px;font-weight:700;letter-spacing:-.03em">$17,300</div></div>
+        <div style="display:flex;align-items:flex-end"><div class="muted" style="font-size:16px">Total</div><div class="gradtxt" style="margin-left:auto;font-size:54px;font-weight:500;letter-spacing:-.03em">$17,300</div></div>
         <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px">
    <div style="display:flex;align-items:center;gap:12px;font-size:15px"><span class="pill up">Week 1</span>Strategy + wireframes</div>
    <div style="display:flex;align-items:center;gap:12px;font-size:15px"><span class="pill vi">Week 2</span>Design, build &amp; launch</div>
@@ -245,15 +242,15 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
     <div style="display:flex;flex:1;min-height:0">
       <aside class="side" id="side-ana"></aside>
       <main class="main">
-        <div style="font-size:32px;font-weight:600;letter-spacing:-.02em">Before vs <span class="serif gradtxt" style="font-size:40px;padding-right:6px">after</span> ISP</div>
+        <div style="font-size:32px;font-weight:500;letter-spacing:-.02em">Before vs <span class="serif gradtxt" style="font-size:40px;padding-right:6px">after</span> ISP</div>
         <div style="display:flex;gap:20px;flex:1;min-height:0">
           <div class="card glow-p" style="flex:.9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
             <div class="muted" style="align-self:flex-start">Brand clarity score</div>
             <svg width="300" height="300" viewBox="0 0 300 300">
               <circle cx="150" cy="150" r="118" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="22"/>
               <circle cx="150" cy="150" r="118" fill="none" stroke="url(#gr)" stroke-width="22" stroke-linecap="round" stroke-dasharray="741" stroke-dashoffset="96" transform="rotate(-90 150 150)" filter="url(#neon)"/>
-              <text x="150" y="165" text-anchor="middle" fill="#fff" font-size="82" font-weight="700" font-family="Inter" letter-spacing="-3">87</text>
-              <text x="150" y="200" text-anchor="middle" fill="#A89A8F" font-size="16" font-family="Inter">out of 100</text>
+              <text x="150" y="165" text-anchor="middle" fill="#fff" font-size="82" font-weight="500" font-family="Satoshi" letter-spacing="-3">87</text>
+              <text x="150" y="200" text-anchor="middle" fill="#BCAEA3" font-size="16" font-family="Satoshi">out of 100</text>
             </svg>
             <span class="pill up">▲ +41 since onboarding</span>
           </div>
@@ -275,7 +272,7 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 <!-- 08 END CARD -->
 <section class="scr bg grain" id="endcard">
   <div class="center" style="gap:30px">
-    <div class="glowtxt" style="font-size:210px;font-weight:800;letter-spacing:-.04em;display:flex;align-items:center">ISP<span style="display:inline-block;width:46px;height:46px;border-radius:50%;margin:70px 0 0 14px;background:var(--gBrand);box-shadow:0 0 20px #FF7A1A,0 0 50px #D9380A"></span></div>
+    <div class="glowtxt" style="font-size:210px;font-weight:500;letter-spacing:-.04em;display:flex;align-items:center">ISP<span style="display:inline-block;width:46px;height:46px;border-radius:50%;margin:70px 0 0 14px;background:var(--gBrand);box-shadow:0 0 20px #FF7A1A,0 0 50px #D9380A"></span></div>
     <div style="font-size:40px;color:#FFE0C4;letter-spacing:.02em;text-shadow:0 0 20px rgba(255,122,26,.8)">Design that <span class="serif" style="font-size:50px">works.</span></div>
     <div class="btn" style="height:76px;font-size:26px;padding:0 46px;margin-top:20px">Book a call →</div>
   </div>
@@ -285,17 +282,17 @@ body.flat .tilt,body.flat .tilt2{transform:none!important}
 <section class="scr v bg b2 grain" id="mobile">
   <div style="position:absolute;top:160px;left:0;right:0;text-align:center">
     <div class="glowtxt" style="font-size:96px;line-height:1.1">Approve from</div>
-    <div class="glowtxt serif" style="font-size:130px;line-height:1.05;font-weight:400">anywhere.</div>
+    <div class="glowtxt serif" style="font-size:120px;line-height:1.1;font-weight:300">anywhere.</div>
   </div>
   <div class="phone" style="left:305px;top:610px;transform:perspective(2200px) rotateY(-14deg) rotateX(6deg) rotateZ(3deg)">
     <div class="pscr">
       <div class="notch"></div>
-      <div style="display:flex;align-items:center"><div><div class="muted">Wednesday</div><div style="font-size:28px;font-weight:700">Approvals</div></div><div class="av" style="margin-left:auto;width:42px;height:42px"></div></div>
+      <div style="display:flex;align-items:center"><div><div class="muted">Wednesday</div><div style="font-size:28px;font-weight:500">Approvals</div></div><div class="av" style="margin-left:auto;width:42px;height:42px"></div></div>
       <div class="tile glow-v" style="margin-top:20px" id="ptile"></div>
       <div style="display:flex;gap:10px;margin-top:16px"><div class="btn ghost" style="flex:1;height:54px;font-size:16px">Comment</div><div class="btn" style="flex:1;height:54px;font-size:16px">✓ Approve</div></div>
-      <div class="card" style="margin-top:16px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt2" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:600">Homepage hero</div><div class="muted">Waiting on you · 2h</div></div><span class="pill pk" style="margin-left:auto">Review</span></div>
-      <div class="card" style="margin-top:12px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt3" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:600">Social set (9)</div><div class="muted">Approved · yesterday</div></div><span class="pill up" style="margin-left:auto">Done</span></div>
-      <div class="card glow-g" style="margin-top:14px;padding:16px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(255,196,107,.16),rgba(255,208,138,.08))"><div class="check" style="position:static;flex:none"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div><div style="font-weight:600">Website launched</div><div class="muted">nova.com is live · 3d ago</div></div></div>
+      <div class="card" style="margin-top:16px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt2" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:500">Homepage hero</div><div class="muted">Waiting on you · 2h</div></div><span class="pill pk" style="margin-left:auto">Review</span></div>
+      <div class="card" style="margin-top:12px;padding:14px;display:flex;gap:12px;align-items:center"><div class="thumb" id="pt3" style="width:62px;height:62px;flex:none"></div><div><div style="font-weight:500">Social set (9)</div><div class="muted">Approved · yesterday</div></div><span class="pill up" style="margin-left:auto">Done</span></div>
+      <div class="card glow-g" style="margin-top:14px;padding:16px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(255,196,107,.16),rgba(255,208,138,.08))"><div class="check" style="position:static;flex:none"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div><div style="font-weight:500">Website launched</div><div class="muted">nova.com is live · 3d ago</div></div></div>
     </div>
   </div>
   <svg class="cursor" data-t="#mobile .btn:not(.ghost)" style="width:84px"><use href="#hand"/></svg>
@@ -307,7 +304,7 @@ const ICONS={grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y
  brush:'<path d="M14 4l6 6-9 9H5v-6z"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
  check:'<path d="M20 6L9 17l-5-5"/>',chat:'<path d="M4 5h16v11H8l-4 4z"/>',file:'<path d="M6 2h9l5 5v15H6z"/>'};
 function side(el,active){
-  el.innerHTML='<div class="who"><div class="av"></div><div><div style="font-weight:600">Nova Inc.</div><div class="muted" style="font-size:11px">Client workspace</div></div></div>'+
+  el.innerHTML='<div class="who"><div class="av"></div><div><div style="font-weight:500">Nova Inc.</div><div class="muted" style="font-size:11px">Client workspace</div></div></div>'+
   [['grid','Dashboard'],['folder','Projects',6],['brush','Brand kit'],['chart','Analytics'],['check','Approvals',3],['chat','Messages'],['file','Invoices']]
    .map(([i,t,b])=>`<div class="nav ${t===active?'a':''}"><svg viewBox="0 0 24 24">${ICONS[i]}</svg>${t}${b?`<b>${b}</b>`:''}</div>`).join('');
 }
@@ -315,36 +312,36 @@ side(document.getElementById('side-dash'),'Dashboard');side(document.getElementB
 
 // abstract "deliverable" thumbnails (gradient art, no photos)
 const ART=[
- ['radial-gradient(circle at 30% 30%,#FFD08A,#FF7A1A 55%,#2A0E02)','<div style="font:800 34px Inter;color:#fff;letter-spacing:-.03em;text-shadow:0 0 18px rgba(255,255,255,.6)">Nova<span style=color:#FFD08A>.</span></div>'],
+ ['radial-gradient(circle at 30% 30%,#FFD08A,#FF7A1A 55%,#2A0E02)','<div style="font:500 34px Satoshi;color:#fff;letter-spacing:-.03em;text-shadow:0 0 18px rgba(255,255,255,.6)">Nova<span style=color:#FFD08A>.</span></div>'],
  ['linear-gradient(135deg,#3A1204,#D9380A 55%,#FFD08A)','<div style="width:46%;height:56%;border-radius:10px;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)"></div>'],
  ['conic-gradient(from 120deg at 60% 40%,#FF5A1F,#FFB347,#FF7A1A,#FF5A1F)','<div style="width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 0 30px #fff"></div>'],
- ['linear-gradient(160deg,#1A0C05,#4A1A06 50%,#FFB347)','<div style="font:400 40px \'Instrument Serif\';font-style:italic;color:#fff">Launch</div>'],
+ ['linear-gradient(160deg,#1A0C05,#4A1A06 50%,#FFB347)','<div style="font:300 42px Satoshi;color:#fff">Launch</div>'],
  ['radial-gradient(circle at 70% 70%,#FFD08A,#D9380A 40%,#160A04)','<svg width="80" height="80" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="#fff"/></svg>'],
  ['linear-gradient(120deg,#FFB35C,#FF5A1F 45%,#5A1402)','<div style="display:grid;grid-template-columns:repeat(3,22px);gap:6px">'+'<i style="height:22px;border-radius:5px;background:rgba(255,255,255,.8)"></i>'.repeat(9)+'</div>'],
- ['radial-gradient(circle at 50% 120%,#FF7A1A,#3A1608 50%,#0E0704)','<div style="font:800 30px Inter;color:#fff;letter-spacing:.3em">ORBIT</div>'],
+ ['radial-gradient(circle at 50% 120%,#FF7A1A,#3A1608 50%,#0E0704)','<div style="font:500 30px Satoshi;color:#fff;letter-spacing:.3em">ORBIT</div>'],
  ['linear-gradient(200deg,#FFC46B,#FFD08A 40%,#D9380A 75%,#24110A)','<div style="width:60px;height:60px;border-radius:16px;background:#fff;transform:rotate(45deg)"></div>']];
 function art(el,i,h){el.style.background=ART[i][0];if(h)el.style.height=h;el.innerHTML=ART[i][1];}
 
 const G=[['Logo suite','Approved','g'],['Website — home','Approved','g'],['Launch poster','Review','v'],['Social campaign','Needs review',''],
          ['Promo video 30s','In progress',''],['Social kit (9)','Approved','g'],['Pitch deck','Loading','v'],['App icon','No status','']];
 document.getElementById('grid').innerHTML=G.map(([t,s,g],i)=>`<div class="tile ${g?'glow-'+g:''}">${g==='g'?'<div class="check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>':''}<div class="thumb" data-a="${i}" style="flex:1"></div>
-  <div style="display:flex;align-items:flex-end"><div><div style="font-weight:600;font-size:15px">${t}</div><div class="muted" style="font-size:11px">Stage · v${(i%3)+1}</div></div><div class="muted" style="margin-left:auto;font-size:11px">${18+i} Nov 2026</div></div>
+  <div style="display:flex;align-items:flex-end"><div><div style="font-weight:500;font-size:15px">${t}</div><div class="muted" style="font-size:11px">Stage · v${(i%3)+1}</div></div><div class="muted" style="margin-left:auto;font-size:11px">${18+i} Nov 2026</div></div>
   <div class="status">${s}</div></div>`).join('');
 document.querySelectorAll('#grid .thumb').forEach(e=>art(e,+e.dataset.a));
 
 document.getElementById('updates').innerHTML=[['Logo suite v3','Approved','up',0],['Website home','Review','pk',1],['Promo video','Rendering','vi',4],['Social kit','Approved','up',5]]
- .map(([t,s,c,a])=>`<div style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;background:rgba(255,255,255,.03)"><div class="thumb" data-a="${a}" style="width:44px;height:44px;flex:none;transform:scale(1)"></div><div><div style="font-weight:600;font-size:14px">${t}</div><div class="muted" style="font-size:11px">Nova Inc.</div></div><span class="pill ${c}" style="margin-left:auto">${s}</span></div>`).join('');
+ .map(([t,s,c,a])=>`<div style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;background:rgba(255,255,255,.03)"><div class="thumb" data-a="${a}" style="width:44px;height:44px;flex:none;transform:scale(1)"></div><div><div style="font-weight:500;font-size:14px">${t}</div><div class="muted" style="font-size:11px">Nova Inc.</div></div><span class="pill ${c}" style="margin-left:auto">${s}</span></div>`).join('');
 document.querySelectorAll('#updates .thumb').forEach(e=>{art(e,+e.dataset.a);e.firstElementChild&&(e.firstElementChild.style.transform='scale(.35)')});
 
 document.getElementById('lines').innerHTML=[['Website design + build','$12,800'],['Express timeline','$1,200'],['Brand guide','Included'],['CMS + hosting setup','$3,300']]
- .map(([a,b])=>`<div style="display:flex"><span style="color:#EADBD0">${a}</span><span style="margin-left:auto;font-weight:600">${b}</span></div>`).join('');
+ .map(([a,b])=>`<div style="display:flex"><span style="color:#EADBD0">${a}</span><span style="margin-left:auto;font-weight:500">${b}</span></div>`).join('');
 
 const before=[22,26,24,30,28,31,29,33,30],after=[34,46,52,61,70,78,84,92,100];
 document.getElementById('bars').innerHTML=['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'].map((m,i)=>`<div style="flex:1;height:100%;display:flex;flex-direction:column;align-items:center;gap:8px">
  <div style="flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:6px"><div style="width:38%;height:${before[i]}%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.05))"></div>
  <div style="width:38%;height:${after[i]}%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#FFB347,#FF7A1A 55%,#D9380A);box-shadow:0 0 16px rgba(255,122,26,.8)"></div></div><div class="muted" style="font-size:12px">${m}</div></div>`).join('');
 
-const pt=document.getElementById('ptile');pt.innerHTML='<div class="thumb" style="height:300px"></div><div style="display:flex;align-items:center;padding:4px 4px 0"><div><div style="font-weight:600">Logo suite — final</div><div class="muted" style="font-size:12px">by ISP Design Team · v3</div></div><span class="pill vi" style="margin-left:auto">New</span></div>';
+const pt=document.getElementById('ptile');pt.innerHTML='<div class="thumb" style="height:300px"></div><div style="display:flex;align-items:center;padding:4px 4px 0"><div><div style="font-weight:500">Logo suite — final</div><div class="muted" style="font-size:12px">by ISP Design Team · v3</div></div><span class="pill vi" style="margin-left:auto">New</span></div>';
 art(pt.firstElementChild,0);art(document.getElementById('pt2'),1);art(document.getElementById('pt3'),5);
 document.querySelectorAll('#pt2>*,#pt3>*').forEach(e=>e.style.transform='scale(.4)');
 
