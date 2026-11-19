@@ -160,6 +160,25 @@ body.flat .fl,body.flat .cursor,body.flat .ripple{display:none}
 .ps{width:100%;height:100%;border-radius:55px;overflow:hidden;position:relative;background:#0B0B0B;padding:58px 20px 20px}
 .island{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:118px;height:34px;border-radius:20px;background:#000}
 .sbar{position:absolute;top:22px;left:34px;right:34px;display:flex;justify-content:space-between;font-size:14px;font-weight:500}
+
+/* ---------- moving border glow: a comet of light running around the edge ----------
+   --t (0..1) is the loop time; --o offsets each element so they don't move in sync. */
+.rim{position:absolute;inset:0;border-radius:inherit;pointer-events:none;padding:2px;z-index:8;
+  background:conic-gradient(from calc(var(--t,0)*360deg + var(--o,0deg)),transparent 0deg 215deg,rgba(255,106,18,.25) 250deg,rgba(255,138,42,.95) 305deg,#FFE3C4 332deg,#FFFFFF 340deg,rgba(255,150,60,.9) 350deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.rim.bl{padding:6px;inset:-3px;filter:blur(10px);opacity:1}
+.rim.bl2{padding:14px;inset:-8px;filter:blur(26px);opacity:.75}
+.eyebrow,.btn{position:relative}
+
+/* ---------- logo reveal (light streak) ---------- */
+.streak{position:absolute;left:50%;transform:translateX(-50%);width:1250px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,106,18,.35) 15%,rgba(255,150,60,.9) 38%,#FFE8D0 50%,rgba(255,150,60,.9) 62%,rgba(255,106,18,.35) 85%,transparent 100%);
+  box-shadow:0 0 12px rgba(255,138,42,.9),0 0 40px rgba(255,106,18,.6)}
+.streak-glow{position:absolute;left:50%;transform:translate(-50%,-50%);width:1300px;height:180px;border-radius:50%;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(255,120,30,.45),rgba(255,90,10,.12) 45%,transparent 75%);filter:blur(6px)}
+.streak-hot{position:absolute;top:50%;width:420px;height:8px;border-radius:8px;transform:translate(-50%,-50%);mix-blend-mode:screen;
+  background:radial-gradient(50% 50% at 50% 50%,#fff 0%,#FFE6CC 25%,rgba(255,170,90,.8) 50%,rgba(255,138,42,0) 100%);filter:blur(1px);box-shadow:0 0 40px 14px rgba(255,150,60,.55),0 0 90px 30px rgba(255,110,20,.35)}
+.reflect{position:absolute;left:50%;transform:translateX(-50%) scaleY(-1);opacity:.10;filter:blur(3px);-webkit-mask:linear-gradient(0deg,#000,transparent 70%)}
 </style>
 </head>
 <body>
@@ -303,7 +322,22 @@ body.flat .fl,body.flat .cursor,body.flat .ripple{display:none}
   <svg class="cursor" data-t="#ph-approve" data-dx=".8" style="width:74px;height:83px"><use href="#hand"/></svg>
 </section>
 
-<!-- ============ 08 END CARD ============ -->
+<!-- ============ 08 LOGO REVEAL (light streak) ============ -->
+<section class="scr" id="logo">
+  <div class="fx" style="background:radial-gradient(50% 40% at 50% 52%,rgba(255,106,18,.10),transparent 70%)"></div>
+  <div style="position:absolute;left:0;right:0;top:330px;display:flex;justify-content:center;align-items:center;gap:30px">
+    <div class="mark" style="width:120px;height:120px;border-radius:32px;box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 70px rgba(255,106,18,.55)"><span style="width:44px;height:44px;border-radius:11px"></span></div>
+    <div class="wh-t" style="font-size:150px;font-weight:500;letter-spacing:-.05em;line-height:1">ISP Studio</div>
+  </div>
+  <div class="streak-glow" style="top:540px"></div>
+  <div class="streak" style="top:539px"><div class="streak-hot" id="hot" style="left:50%"></div></div>
+  <div style="position:absolute;left:0;right:0;top:600px;text-align:center;font-size:46px;letter-spacing:-.02em;color:var(--t1);display:flex;justify-content:center;align-items:center;gap:18px">
+    <svg class="i" style="width:40px;height:40px;color:var(--o1);stroke-width:1.4;filter:drop-shadow(0 0 10px rgba(255,138,42,.9))"><use href="#i-spark"/></svg><span class="lt">Your agency,</span><span class="lt og-t">in one workspace</span></div>
+  <div style="position:absolute;left:0;right:0;top:700px;display:flex;justify-content:center;align-items:center;gap:12px;font-size:30px;color:var(--t2)">
+    <span class="lt">by</span><div class="mark" style="width:34px;height:34px;border-radius:9px"><span style="width:12px;height:12px;border-radius:3px"></span></div><b style="color:var(--t1)">ISP Agency</b></div>
+</section>
+
+<!-- ============ 09 END CARD ============ -->
 <section class="scr" id="endcard">
   <div class="fx grid"></div>
   <div class="horizon" style="top:760px"></div>
@@ -467,6 +501,18 @@ document.getElementById('phone').innerHTML=`<div class="ps"><div class="island">
  <div style="margin-top:20px;font-size:12px;color:var(--t4);letter-spacing:.08em;text-transform:uppercase">Up next</div>
  ${[['Logo suite · v3','logo','Brand identity'],['Social kit · 9 posts','social','Social launch'],['Launch film · v1','video','Motion · 0:30']].map(([a,t,b])=>`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)"><div style="width:60px;height:44px;flex:none">${T[t]()}</div><div><b style="font-size:14.5px">${a}</b><div style="font-size:12.5px;color:var(--t3);margin-top:2px">${b}</div></div>${I('arrow','margin-left:auto;color:var(--t4)')}</div>`).join('')}
 </div>`;
+
+// ---- moving border glow on every surface ----
+document.querySelectorAll('.win,.fl,#feat .pn,.eyebrow,.btn.lg,.phone,.opt.sel,.hot,#projwin .pn[style*="1.5px"]').forEach((el,i)=>{
+  el.insertAdjacentHTML('beforeend','<i class="rim bl bl2"></i><i class="rim bl"></i><i class="rim"></i>');
+  el.style.setProperty('--o',((i*137)%360)+'deg');
+});
+// loop clock: setT(0..1) drives every moving glow (used by render-loops.cjs)
+window.setT=t=>{
+  document.documentElement.style.setProperty('--t',t);
+  const h=document.getElementById('hot'); if(h){h.style.left=(8+84*t)+'%';h.style.opacity=Math.sin(Math.PI*t).toFixed(3);}
+};
+setT(0.5);
 
 // ---- frame select ----
 let id=(location.hash||'#title').slice(1);
