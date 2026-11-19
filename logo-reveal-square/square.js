@@ -93,8 +93,93 @@ const BG_STYLES = {
   C: (x, y) => { const d = Math.abs((x - 540) * 0.574 - (y - 930) * 0.819) / 470, r = Math.hypot((x - 540) / 900, (y - 930) / 1300);
     return ramp(0.75 * d + 0.45 * r); },                                                               // diagonal orange sweep through the centre
 };
+/* ---------- animated backgrounds (black + orange), modelled on the three reference clips ----------
+   silk   : soft drifting smoke with thin glowing silk streaks
+   liquid : big soft orange blobs flowing over black, like a liquid mesh gradient
+   bands  : soft horizontal gradient bands rolling down in a loop
+   Computed at quarter resolution once per video frame, upscaled smoothly, then a fine film grain on top. */
+const fract = x => x - Math.floor(x);
+const h2 = (x, y) => fract(Math.sin(x * 127.1 + y * 311.7) * 43758.5453);
+function vnoise(x, y) {
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const a = h2(xi, yi), b = h2(xi + 1, yi), c = h2(xi, yi + 1), d = h2(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function fbm(x, y) { let s = 0, a = 0.5; for (let o = 0; o < 4; o++) { s += a * vnoise(x, y); x = x * 2.02 + 1.7; y = y * 2.03 + 9.2; a *= 0.5; } return s; }
+const HOT = [[0, [5, 4, 5]], [0.32, [62, 17, 3]], [0.62, [212, 78, 12]], [0.84, [255, 128, 36]], [1, [255, 196, 128]]];
+const hot = p => {
+  p = Math.min(1, Math.max(0, p));
+  for (let k = 1; k < HOT.length; k++) if (p <= HOT[k][0]) {
+    const [p0, c0] = HOT[k - 1], [p1, c1] = HOT[k], u = (p - p0) / (p1 - p0), e = u * u * (3 - 2 * u);
+    return c0.map((v, i) => v + (c1[i] - v) * e);
+  }
+  return HOT[HOT.length - 1][1];
+};
+const centre = (X, Y) => Math.exp(-(((X - 0.5) ** 2) / 0.16 + ((Y - 0.86) ** 2) / 0.30));  // keeps orange behind the logo row
+const sstep = (e0, e1, x) => { const u = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return u * u * (3 - 2 * u); };
+const rowGlow = (X, Y) => Math.exp(-((Y - 0.9) ** 2) / 0.10 - ((X - 0.5) ** 2) / 0.40);   // soft wide light behind the logo + labels
+const lift = (b, X, Y, k = 0.62) => 1 - (1 - b) * (1 - k * rowGlow(X, Y));               // soft 'screen' blend, no hard edge
+const ANIM = {
+  silk(X, Y, t) {                                   // soft drifting smoke + a few thin silk wisps
+    const qx = fbm(X * 0.9 + t * 0.05, Y * 0.9), qy = fbm(X * 0.9 + 5.2, Y * 0.9 - t * 0.04);
+    const f = fbm(X * 0.8 + 1.4 * qx + t * 0.03, Y * 0.8 + 1.4 * qy - t * 0.015);
+    let b = 0.04 + 0.9 * sstep(0.32, 0.74, f);
+    b = b * 0.68 + 0.42 * centre(X, Y);
+    const s = fract(f * 2.2 + qx * 0.8 + t * 0.04);
+    b += 0.30 * Math.exp(-((s - 0.5) ** 2) / 0.0006) * sstep(0.42, 0.66, f);
+    return hot(lift(b, X, Y));
+  },
+  liquid(X, Y, t) {                                 // several soft blobs flowing, with dark valleys between them
+    const wx = X + 0.16 * (fbm(X * 1.1 + t * 0.08, Y * 1.1) - 0.5), wy = Y + 0.16 * (fbm(X * 1.1 + 3.1, Y * 1.1 - t * 0.08) - 0.5);
+    const blobs = [[0.55, 0.36, 0.26, 1.0, 0.0], [0.42, 0.30, 0.30, 0.85, 1.7], [0.48, 0.42, 0.24, 0.9, 3.4], [0.63, 0.34, 0.28, 0.7, 5.1], [0.36, 0.40, 0.22, 0.8, 2.6]];
+    let b = 0;
+    blobs.forEach(([w, ax, r, a, ph], i) => {
+      const cx = 0.5 + ax * Math.sin(t * w + ph), cy = 0.89 + 0.7 * Math.sin(t * w * 0.77 + ph * 1.3 + i);
+      b += a * Math.exp(-(((wx - cx) ** 2) + ((wy - cy) ** 2) * 0.6) / (r * r));
+    });
+    b = 0.03 + 0.88 * (1 - Math.exp(-b * 1.5));
+    return hot(lift(b * 0.85, X, Y));
+  },
+  bands(X, Y, t) {                                  // soft gradient bands rolling down in a loop
+    const ph = Y * 1.05 - t * 0.21 + 0.05 * Math.sin(X * 3.2 + t * 0.4);
+    const band = 0.5 + 0.5 * Math.sin(2 * Math.PI * ph);
+    let b = 0.05 + 0.88 * Math.pow(band, 1.3);
+    const cy = Math.exp(-((Y - 0.86) ** 2) / 0.05);                             // never fully black behind the logo row
+    b = lift(Math.max(b, 0.4 * cy), X, Y, 0.5);
+    const edge = Math.min(1, Y / 0.18, (1.778 - Y) / 0.18);
+    return hot(b * (0.55 + 0.45 * edge));
+  },
+};
+const BW = 270, BH = 480;
+const bgLow = new OffscreenCanvas(BW, BH), bgLowCtx = bgLow.getContext('2d'), bgImg = bgLowCtx.createImageData(BW, BH);
+const bgFull = new OffscreenCanvas(W, H), bgFullCtx = bgFull.getContext('2d');
+const grain = new OffscreenCanvas(512, 512);
+(() => { const g = grain.getContext('2d'), im = g.createImageData(512, 512); let sd = 3;
+  for (let i = 0; i < im.data.length; i += 4) { sd = (sd * 16807) % 2147483647; const v = 128 + (sd / 2147483647 - 0.5) * 70; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+  g.putImageData(im, 0, 0); })();
+let bgFrame = -1;
+function animatedBg(t) {
+  const f = Math.round(t * FPS);
+  if (f === bgFrame) return bgFull;                                              // motion-blur sub-samples reuse the frame's background
+  bgFrame = f; const tt = f / FPS, fn = ANIM[BG_STYLE], d = bgImg.data;
+  for (let y = 0; y < BH; y++) for (let x = 0; x < BW; x++) {
+    const c = fn(x / BW, (y / BH) * 1.778, tt), i = (y * BW + x) * 4;
+    d[i] = c[0]; d[i + 1] = c[1]; d[i + 2] = c[2]; d[i + 3] = 255;
+  }
+  bgLowCtx.putImageData(bgImg, 0, 0);
+  bgFullCtx.imageSmoothingEnabled = true; bgFullCtx.imageSmoothingQuality = 'high';
+  bgFullCtx.globalCompositeOperation = 'source-over'; bgFullCtx.globalAlpha = 1;
+  bgFullCtx.drawImage(bgLow, 0, 0, W, H);
+  bgFullCtx.globalCompositeOperation = 'overlay'; bgFullCtx.globalAlpha = 0.07;   // fine film grain (also hides banding)
+  const ox = (f * 137) % 512, oy = (f * 251) % 512;
+  for (let y = -oy; y < H; y += 512) for (let x = -ox; x < W; x += 512) bgFullCtx.drawImage(grain, x, y);
+  bgFullCtx.globalCompositeOperation = 'source-over'; bgFullCtx.globalAlpha = 1;
+  return bgFull;
+}
 const bg = new OffscreenCanvas(W, H);
 (() => {
+  if (ANIM[BG_STYLE]) return;
   const g = bg.getContext('2d'), im = g.createImageData(W, H), d = im.data, fn = BG_STYLES[BG_STYLE] || BG_STYLES.orange;
   let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647 - 0.5;
   for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
@@ -130,7 +215,7 @@ function droppedCircle(i, t) {
 function draw(c, t) {
   if (!LK) layout(c);
   c.setTransform(1, 0, 0, 1, 0, 0); c.filter = 'none'; c.globalAlpha = 1;
-  c.drawImage(bg, 0, 0, W, H);
+  c.drawImage(ANIM[BG_STYLE] ? animatedBg(t) : bg, 0, 0, W, H);
   const z = 1 + 0.03 * ease(P(t, 9.3, DUR));                        // slow push-in on the hold
   c.setTransform(z, 0, 0, z, 540 * (1 - z), 960 * (1 - z));
   c.fillStyle = WHITE;
