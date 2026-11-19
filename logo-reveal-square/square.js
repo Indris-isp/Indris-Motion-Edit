@@ -120,6 +120,14 @@ const centre = (X, Y) => Math.exp(-(((X - 0.5) ** 2) / 0.16 + ((Y - 0.86) ** 2) 
 const sstep = (e0, e1, x) => { const u = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return u * u * (3 - 2 * u); };
 const rowGlow = (X, Y) => Math.exp(-((Y - 0.9) ** 2) / 0.10 - ((X - 0.5) ** 2) / 0.40);   // soft wide light behind the logo + labels
 const lift = (b, X, Y, k = 0.62) => 1 - (1 - b) * (1 - k * rowGlow(X, Y));               // soft 'screen' blend, no hard edge
+const SILK_STOPS = [[0, [6, 5, 6]], [0.3, [40, 12, 4]], [0.5, [130, 40, 8]], [0.68, [214, 84, 16]], [0.86, [250, 132, 46]], [1.0, [255, 186, 120]], [1.1, [255, 214, 170]]];
+const SILK = p => {                                  // light = orange -> warm white, shadow = black
+  for (let k = 1; k < SILK_STOPS.length; k++) if (p <= SILK_STOPS[k][0]) {
+    const [p0, c0] = SILK_STOPS[k - 1], [p1, c1] = SILK_STOPS[k], u = (p - p0) / (p1 - p0), e = u * u * (3 - 2 * u);
+    return c0.map((v, i) => v + (c1[i] - v) * e);
+  }
+  return SILK_STOPS[SILK_STOPS.length - 1][1];
+};
 const ANIM = {
   silk(X, Y, t) {                                   // soft drifting smoke + a few thin silk wisps
     const qx = fbm(X * 0.9 + t * 0.05, Y * 0.9), qy = fbm(X * 0.9 + 5.2, Y * 0.9 - t * 0.04);
@@ -141,6 +149,21 @@ const ANIM = {
     b = 0.03 + 0.88 * (1 - Math.exp(-b * 1.5));
     return hot(lift(b * 0.85, X, Y));
   },
+  silkref(X, Y, t) {                                // closely modelled on the reference: soft light from the top-left,
+    const tt = t * 0.022;                           // soft smoky clouds, a few thin silky light lines, slow drift
+    const lx = X, ly = Y / 1.778;
+    const dd = Math.hypot(lx * 0.75, ly) / 1.25;                                      // 0 at top-left -> 1 at bottom-right
+    let L = 0.98 - 0.62 * Math.pow(dd, 1.15);                                          // gentle diagonal falloff
+    L += 0.13 * Math.exp(-((lx + 0.10) ** 2) / 0.12 - ((ly - 0.05) ** 2) / 0.30);     // broad soft light from the top-left, spilling down the left side
+    const qx = fbm(X * 1.0 + tt, Y * 1.0 - tt * 0.6), qy = fbm(X * 1.0 + 4.3 - tt * 0.5, Y * 1.0 + 1.1);
+    const f = fbm(X * 1.15 + 1.7 * qx + tt, Y * 1.15 + 1.7 * qy);
+    L += 0.30 * (sstep(0.3, 0.72, f) - 0.5);                                           // soft smoky clouds
+    const g = fbm(X * 0.6 + 1.3 * qx + 3.0 + tt * 0.8, Y * 0.6 + 1.3 * qy);
+    const s = fract(g * 7.0 + 0.15);
+    L += 0.20 * Math.exp(-((s - 0.5) ** 2) / 0.0012) * Math.exp(-((ly - 0.25) ** 2) / 0.07) * sstep(0.35, 0.6, f);   // thin silk lines
+    L -= 0.26 * sstep(0.70, 1.05, dd);                                                 // black only in the bottom-right corner; orange stays dominant
+    return SILK(Math.min(1.1, Math.max(0, L)));
+  },
   bands(X, Y, t) {                                  // soft gradient bands rolling down in a loop
     const ph = Y * 1.05 - t * 0.21 + 0.05 * Math.sin(X * 3.2 + t * 0.4);
     const band = 0.5 + 0.5 * Math.sin(2 * Math.PI * ph);
@@ -151,7 +174,7 @@ const ANIM = {
     return hot(b * (0.55 + 0.45 * edge));
   },
 };
-const BW = 270, BH = 480;
+const BW = 360, BH = 640;
 const bgLow = new OffscreenCanvas(BW, BH), bgLowCtx = bgLow.getContext('2d'), bgImg = bgLowCtx.createImageData(BW, BH);
 const bgFull = new OffscreenCanvas(W, H), bgFullCtx = bgFull.getContext('2d');
 const grain = new OffscreenCanvas(512, 512);
