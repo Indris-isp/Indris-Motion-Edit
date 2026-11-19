@@ -1,0 +1,77 @@
+{
+ "posting": {
+  "text": "Posting every day...",
+  "dur": 1.098,
+  "pause": 0.3
+ },
+ "nobody": {
+  "text": "and still nobody's watching?",
+  "dur": 1.365,
+  "pause": 0.4
+ },
+ "unedited": {
+  "text": "Unedited footage.",
+  "dur": 0.968,
+  "pause": 0.2
+ },
+ "nobrand": {
+  "text": "No personal brand.",
+  "dur": 1.166,
+  "pause": 0.2
+ },
+ "nostrat": {
+  "text": "No strategy.",
+  "dur": 0.921,
+  "pause": 0.5
+ },
+ "meet": {
+  "text": "Meet I. S. P. Agency.",
+  "dur": 1.939,
+  "pause": 0.4
+ },
+ "editing": {
+  "text": "Video editing.",
+  "dur": 0.844,
+  "pause": 0.2
+ },
+ "branding": {
+  "text": "Personal branding.",
+  "dur": 0.969,
+  "pause": 0.2
+ },
+ "growth": {
+  "text": "Social media growth.",
+  "dur": 1.181,
+  "pause": 0.3
+ },
+ "allone": {
+  "text": "All in one team.",
+  "dur": 0.912,
+  "pause": 0.3
+ },
+ "turn": {
+  "text": "We turn your raw footage into content that actually grows you.",
+  "dur": 3.409,
+  "pause": 0.4
+ },
+ "record": {
+  "text": "You record.",
+  "dur": 0.716,
+  "pause": 0.3
+ },
+ "handle": {
+  "text": "We handle the rest.",
+  "dur": 0.942,
+  "pause": 0.4
+ },
+ "book": {
+  "text": "Book your free strategy call today.",
+  "dur": 1.804,
+  "pause": 0.2
+ },
+ "bio": {
+  "text": "Link in bio.",
+  "dur": 0.851,
+  "pause": 0.0
+ }
+}
