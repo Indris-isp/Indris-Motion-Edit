@@ -45,22 +45,49 @@ def tick():
     n = int(.012 * SR)
     return rng.standard_normal(n) * env(n, .0003, .0025)
 
+
+def impact(d=0.9, f0=95, f1=38):
+    """deep sub hit with a transient: the reference's cut 'boom'"""
+    n = int(d * SR); t = np.arange(n) / SR
+    f = f1 + (f0 - f1) * np.exp(-t / .06)
+    body = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / .32)
+    tr = rng.standard_normal(n) * np.exp(-t / .012) * .5
+    return np.tanh((body + tr) * 1.6)
+
+def riser(d=0.6, f0=300, f1=4000):
+    """noise riser that swells into the cut"""
+    n = int(d * SR); t = np.arange(n) / SR
+    w = whoosh(d, f0, f1)
+    return w * (t / d) ** 2 / (np.abs(w).max() + 1e-9)
+
+def glitch(d=0.3):
+    n = int(d * SR); x = np.zeros(n); k = 0
+    while k < n:
+        L = int(rng.uniform(.008, .03) * SR); f = rng.uniform(300, 3000)
+        seg = np.sign(np.sin(2 * np.pi * f * np.arange(min(L, n - k)) / SR)) * rng.uniform(.3, 1)
+        x[k:k + len(seg)] = seg; k += L + int(rng.uniform(0, .01) * SR)
+    return x * np.linspace(1, .2, n)
+
 SFX = np.zeros(N)
 def at(t, x, g):
     i = max(0, int(t * SR)); n = min(len(x), N - i)
     if n > 0: SFX[i:i + n] += x[:n] * g
 
 W = whoosh()
-CUES = [  # (time, sound, gain), cued to video.html v4 (HalftoneMotion structure)
-    (2.0, whoosh(.6, 900, 300), .3), (4.0, click(), .5), (4.05, shimmer(.5), .25), (4.28, whoosh(.45, 2600, 300), .45),
-    (4.34, pop(520), .35), (4.64, pop(560), .35), (4.88, pop(600), .35), (5.26, pop(640), .35),
-    (5.72, whoosh(.45, 300, 2400), .4), (7.3, whoosh(.45, 300, 2400), .4),
-    (7.75, whoosh(.6, 400, 2000), .3), (8.42, pop(560, .12), .3), (9.68, pop(600, .12), .3), (10.36, pop(640, .12), .3),
-    (10.8, whoosh(.5, 300, 3000), .45), (11.1, pop(700, .1), .2), (15.5, shimmer(.6), .2),
-    (15.95, whoosh(.5, 400, 1800), .3), (16.44, pop(520), .35), (20.12, click(), .5), (20.18, whoosh(.6, 300, 2400), .4),
-    (21.85, whoosh(.5, 1600, 300), .3), (22.1, pop(560), .3), (23.22, pop(600), .3), (24.26, pop(640), .3),
-    (27.05, whoosh(.45), .3), (32.2, click(), .5), (32.38, pop(480, .2), .4),
-    (33.55, whoosh(.6, 300, 2600), .45), (34.3, pop(400, .3), .5), (34.42, shimmer(1.6), .25),
+CUES = [  # (time, sound, gain), cued to video.html v5, styled on the reference's sound design
+    (1.5, riser(.6, 400, 3000), .35), (2.1, impact(.6, 120, 50), .55), (2.1, whoosh(.3, 2000, 400), .3),          # hard cut tight → wide
+    (4.0, click(), .6), (4.05, glitch(.25), .3), (3.7, riser(.6), .4), (4.28, impact(), .9), (4.3, whoosh(.45, 2600, 300), .5),
+    (4.34, pop(520), .4), (4.64, pop(560), .4), (4.88, pop(600), .4), (5.26, pop(640), .4),
+    (5.45, riser(.35), .35), (5.8, impact(.6, 110, 45), .6), (5.8, whoosh(.4, 300, 2400), .4),
+    (7.0, riser(.35), .35), (7.3, impact(.6, 110, 45), .6), (7.3, whoosh(.45, 300, 2400), .45),
+    (7.75, whoosh(.6, 400, 2000), .35), (8.42, pop(560, .12), .35), (9.68, pop(600, .12), .35), (10.36, pop(640, .12), .35),
+    (10.45, riser(.5, 300, 5000), .45), (10.95, impact(1.0), .9), (10.95, whoosh(.4, 3000, 300), .5),
+    (15.5, shimmer(.6), .25), (15.95, whoosh(.5, 400, 1800), .35), (16.44, pop(520), .4),
+    (19.85, riser(.3), .3), (20.12, click(), .6), (20.18, impact(.8, 100, 40), .75), (20.18, whoosh(.6, 300, 2400), .45),
+    (21.85, whoosh(.5, 1600, 300), .35), (22.1, pop(560), .35), (23.22, pop(600), .35), (24.26, pop(640), .35),
+    (27.05, whoosh(.45), .35), (27.2, impact(.5, 120, 50), .45),
+    (32.2, click(), .6), (32.38, pop(480, .2), .45), (33.15, riser(.45, 300, 5000), .45),
+    (33.55, impact(1.2, 90, 32), 1.0), (33.55, whoosh(.6, 300, 2600), .5), (34.3, pop(400, .3), .5), (34.42, shimmer(1.6), .3),
 ]
 for t, x, g in CUES: at(t, x, g)
 # thumb taps while the offer is typed (11.15 – 14.5 s)
@@ -79,7 +106,7 @@ write('out/sfx.wav', SFX)
 raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', sys.argv[1], '-ac', '2', '-ar', str(SR), '-f', 's16le', '-'], capture_output=True, check=True).stdout
 vo = np.frombuffer(raw, '<i2').reshape(-1, 2).astype(np.float64) / 32768
 mix = np.zeros((N, 2)); mix[:min(N, len(vo))] = vo[:N]
-mix += np.stack([SFX, SFX], 1) * 10 ** (-9 / 20)
+mix += np.stack([SFX, SFX], 1) * 10 ** (-4 / 20)
 tail = int(.8 * SR); mix[-tail:] *= np.linspace(1, 0, tail)[:, None] ** 2    # soft end
 mix *= min(1, .97 / np.abs(mix).max())
 write('out/audio_mix.wav', mix)

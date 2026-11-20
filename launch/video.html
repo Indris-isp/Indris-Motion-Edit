@@ -34,7 +34,7 @@ b{font-weight:500}.L{font-weight:300}
 .note{border-left:7px solid var(--o)}
 .bub{position:absolute;padding:16px 26px;border-radius:24px;font:300 26px/1.25 Satoshi;white-space:nowrap;box-shadow:0 20px 50px -18px rgba(30,40,80,.45)}
 .bw{background:#fff;color:#16120F;border-bottom-left-radius:6px}
-.bo{background:var(--acc);color:#fff;font-weight:500;border-bottom-right-radius:6px}
+.bo{background:linear-gradient(180deg,#3B8BFF,#1E6BF0);color:#fff;font-weight:300;border-bottom-right-radius:6px}
 .notif{display:flex;gap:14px;align-items:center;padding:14px 18px;border-radius:22px;background:rgba(40,36,40,.84);backdrop-filter:blur(16px);color:#fff;width:520px;box-shadow:0 20px 40px -14px rgba(0,0,0,.5)}
 .notif i{width:52px;height:52px;border-radius:14px;flex:none;display:grid;place-items:center;font:500 16px Satoshi;font-style:normal;color:#fff;background:var(--acc)}
 .kin{position:absolute;white-space:nowrap;font:500 150px/1 Satoshi;letter-spacing:-.045em}
@@ -83,7 +83,7 @@ b{font-weight:500}.L{font-weight:300}
     <div class="abs frost" id="s1bar" style="left:420px;top:390px;width:1080px;height:300px;border-radius:44px">
       <div class="abs" style="left:52px;top:46px;width:980px;font:300 46px/1.25 Satoshi;letter-spacing:-.02em" id="s1txt"></div>
       <div class="plusI" style="left:52px;bottom:42px;width:46px;height:46px;border-width:2.5px"></div>
-      <div class="btn" id="s1send" style="right:44px;bottom:36px;width:170px;height:60px">Send</div>
+      <div class="btn" id="s1send" style="right:44px;bottom:36px;width:200px;height:60px">Generate</div>
     </div>
   </div>
   <svg class="glove" id="s1cur"><use href="#glove"/></svg>
@@ -92,8 +92,7 @@ b{font-weight:500}.L{font-weight:300}
 
 <!-- S2 · folder on pink clouds -->
 <div class="scene" id="S2">
-  <div class="bgw" id="s2bgw"><img id="s2bg" style="filter:sepia(.35) hue-rotate(-30deg) saturate(1.5) brightness(1.08) blur(1.5px)"></div>
-  <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(255,170,190,.35),rgba(140,120,200,.25))"></div>
+  <div class="bgw" id="s2bgw"><img id="s2bg" style="filter:blur(1.5px) saturate(1.1)"></div>
   <div class="abs" id="fold" style="left:960px;top:560px;width:760px;height:620px;margin:-310px 0 0 -380px">
     <div class="abs wg fc" data-r="-22" style="left:20px;top:40px;width:230px;height:290px;padding:22px"><div style="height:120px;border-radius:14px;background:linear-gradient(135deg,#FFD08A,#FF9A3C)"></div><div style="margin-top:16px;font:500 24px Satoshi">Video editing</div><div style="margin-top:10px;height:8px;width:70%;border-radius:4px;background:#EEE"></div></div>
     <div class="abs wg fc" data-r="-8" style="left:200px;top:-30px;width:230px;height:300px;padding:22px"><div style="height:120px;border-radius:14px;background:linear-gradient(135deg,#FFC27E,#FF7A1A)"></div><div style="margin-top:16px;font:500 24px Satoshi">Personal branding</div><div style="margin-top:10px;height:8px;width:60%;border-radius:4px;background:#EEE"></div></div>
@@ -119,8 +118,8 @@ b{font-weight:500}.L{font-weight:300}
     <div class="wg wi" data-dx="-800" data-r="0" style="left:20px;top:330px;width:400px;height:270px;padding:26px 30px"><div class="L" style="font-size:18px;color:#E0560A">Script draft · due Friday</div><div style="margin-top:8px;font:500 36px Satoshi">Hook: “Stop scrolling.”</div><div class="L" style="margin-top:6px;font-size:18px;color:#999">Script writers</div><div style="margin-top:26px;padding:12px;border-radius:14px;background:#F3EEE9;font:500 18px Satoshi;text-align:center">✎ Review script</div></div>
     <div class="wg note wi" data-dx="-700" data-r="-2" style="left:60px;top:700px;width:400px;height:110px;padding:26px 28px"><div style="display:flex;justify-content:space-between;font:500 26px Satoshi">First cut review<span class="L" style="font-size:20px;color:#999">11:00</span></div></div>
     <div class="abs" id="phone" style="left:760px;top:110px;width:400px;height:840px;border-radius:70px;background:#111;padding:14px;box-shadow:0 60px 120px -30px rgba(20,30,60,.7);transform-origin:50% 50%">
-      <div style="position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:url(assets/nature/sky_clouds.jpg) center/cover">
-        <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(255,140,60,.35),rgba(255,90,40,.55))"></div>
+      <div style="position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:radial-gradient(ellipse at 30% 20%,#7FC4FF,#2E7BEA 45%,#163E9C 80%)">
+        <div class="abs" style="inset:0;background:radial-gradient(ellipse at 80% 90%,rgba(120,220,255,.6),transparent 60%)"></div>
         <div class="abs" style="left:50%;top:14px;margin-left:-60px;width:120px;height:34px;border-radius:20px;background:#111"></div>
         <div class="abs" style="left:0;right:0;top:80px;text-align:center;color:#fff;font:300 22px Satoshi">Monday, 24 August</div>
         <div class="abs" style="left:0;right:0;top:108px;text-align:center;color:#fff;font:500 130px/1 Satoshi;letter-spacing:-.04em">9:41</div>
@@ -133,7 +132,7 @@ b{font-weight:500}.L{font-weight:300}
     </div>
     <div class="bub bw wi" data-dx="700" data-r="-3" style="left:1300px;top:120px">who's editing my reels?</div>
     <div class="bub bo wi" data-dx="700" data-r="-2" style="left:1390px;top:290px">need a script by friday</div>
-    <div class="wg wi" data-dx="800" data-r="10" style="left:1370px;top:560px;width:380px;height:260px;padding:28px;background:linear-gradient(160deg,#FFB866,#FF7A1A 55%,#DD4C06);color:#fff"><div class="L" style="font-size:20px;opacity:.85">This week</div><div style="margin-top:8px;font:500 40px/1.1 Satoshi">12 videos<br>edited</div><div class="abs" style="left:28px;bottom:26px;padding:10px 20px;border-radius:14px;background:rgba(255,255,255,.25);font:500 20px Satoshi">＋ New</div></div>
+    <div class="wg wi" data-dx="800" data-r="10" style="left:1370px;top:560px;width:380px;height:260px;padding:28px;background:linear-gradient(160deg,#4B95FF,#1F64E0 60%,#174FC0);color:#fff"><div class="L" style="font-size:20px;opacity:.85">Monday</div><div style="margin-top:8px;font:500 40px/1.1 Satoshi">Meeting with<br>your editor</div><div class="abs" style="left:28px;bottom:26px;padding:10px 20px;border-radius:14px;background:rgba(255,255,255,.25);font:500 20px Satoshi">＋ New</div></div>
   </div>
   <div class="abs" id="wipe" style="top:-100px;bottom:-100px;background:#111;display:none"></div>
 </div>
@@ -168,7 +167,7 @@ b{font-weight:500}.L{font-weight:300}
     <div class="abs frost" id="s7bar" style="left:420px;top:340px;width:1080px;height:320px;border-radius:44px">
       <div class="abs" style="left:52px;top:46px;width:980px;font:300 46px/1.25 Satoshi;letter-spacing:-.02em" id="s7txt"></div>
       <div class="plusI" style="left:52px;bottom:42px;width:46px;height:46px;border-width:2.5px"></div>
-      <div class="btn" id="s7send" style="right:44px;bottom:36px;width:170px;height:60px">Send</div>
+      <div class="btn" id="s7send" style="right:44px;bottom:36px;width:200px;height:60px">Generate</div>
     </div>
     <div class="abs" id="s7right" style="left:420px;top:700px;padding:20px 34px;border-radius:24px;background:var(--acc);color:#fff;font:500 46px Satoshi;white-space:nowrap;box-shadow:0 20px 40px -14px rgba(220,80,0,.6);transform-origin:0 0"><span class="L">You're in the</span> right place.</div>
   </div>
@@ -211,7 +210,7 @@ const press=(t,tc)=>{const p=P(t,tc,tc+.14);return p>0&&p<1?1-.06*Math.sin(Math.
 function arc(p0,p1,p,bend=.15){const mx=(p0[0]+p1[0])/2,my=(p0[1]+p1[1])/2,dx=p1[0]-p0[0],dy=p1[1]-p0[1],c=[mx-dy*bend,my+dx*bend];
   const k=EIO(p),a=(1-k)*(1-k),b=2*(1-k)*k,d=k*k;return[a*p0[0]+b*c[0]+d*p1[0],a*p0[1]+b*c[1]+d*p1[1]]}
 const pending=[];const pp=(f,n)=>{const c=f%(2*n-2);return c<n?c:2*n-2-c};
-const N={blossom:420,sky_clouds:420,alps:420,valley_clouds:225,sunset_hills:225,field_bluesky:308};
+const N={pink_sunset:420,garden_flowers:420,lake:420,above_clouds:420,blossom:420,sky_clouds:420,alps:420,valley_clouds:225,sunset_hills:225,field_bluesky:308};
 function bg(img,clip,lt){const src=`assets/frames/${clip}/${String(pp(Math.max(0,Math.floor(lt*30)),N[clip])+1).padStart(4,'0')}.jpg`;
   if(img.dataset.src!==src){img.dataset.src=src;img.src=src;pending.push(img.decode().catch(()=>{}))}}
 const vis=(id,a,b,t)=>{const v=t>=a&&t<b;$(id).style.display=v?'block':'none';return v};
@@ -251,7 +250,7 @@ window.renderAt=async function(t){
   /* ===== S1 · prompt bar: tight on the words → pull back → click Send → pixel flash → iris shrinks away ===== */
   if(vis('S1',0,4.75,t)){
     bg($('s1bg'),'blossom',t);
-    const pull=EIO(P(t,2.0,2.7)), z=lerp(2.35,1,pull)*(1+.01*t);
+    const pull=t>=2.1?1:0, z=(pull?1.05-.05*EOUT(P(t,2.1,4.0)):2.35+.06*t);
     const fx=lerp(470,420,pull), fy=lerp(470,390,pull);          // keep the text line in view while tight
     $('s1cam').style.transform=`translate(${lerp(-fx*z+260,0,pull).toFixed(1)}px,${lerp(-fy*z+300,0,pull).toFixed(1)}px) scale(${z.toFixed(4)})`;
     $('s1bgw').style.transform=`scale(${(1+.18*(1-pull)+.01*t).toFixed(4)})`;$('s1bg').style.filter=`blur(${lerp(1,2.5,pull)}px)`;
@@ -259,11 +258,11 @@ window.renderAt=async function(t){
     const i=txt.indexOf('script');
     $('s1txt').innerHTML=(i<0?esc(txt):esc(txt.slice(0,i))+'<b>'+esc(txt.slice(i))+'</b>')+`<span class="caret" style="opacity:${Math.floor(t*2.6)%2?0:1}"></span>`;
     // cursor arrives, hesitates, clicks
-    const send=[1500-44-85,390+300-36-30];let g;
+    const send=[1500-44-100,390+300-36-30];let g;
     if(t<3.6)g=arc([1900,1150],[send[0]+70,send[1]+60],P(t,3.0,3.55));
     else if(t<3.95){const h=P(t,3.6,3.95);g=[send[0]+70-50*EIO(h)+10*Math.sin(h*9)*(1-h),send[1]+60-40*EIO(h)]}else g=[send[0]+20,send[1]+20];
     T($('s1cur'),{x:g[0]-30,y:g[1]-8,s:press(t,4.0),o:P(t,3.0,3.1)});
-    $('s1send').style.transform=`scale(${press(t,4.0)})`;
+    $('s1send').style.transform=`scale(${press(t,4.0)})`;$('s1send').innerHTML=t>4.02?`<span style="display:block;width:26px;height:26px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;transform:rotate(${(t*720)%360}deg)"></span>`:'Generate';
     $('s1send').style.background=t>4.0?`rgb(${Math.round(lerp(22,224,EOUT(P(t,4.0,4.15))))},${Math.round(lerp(18,86,EOUT(P(t,4.0,4.15))))},${Math.round(lerp(15,10,EOUT(P(t,4.0,4.15))))})`:'#16120F';
     // pixel flash (4.05–4.3)
     PIX.forEach(({e,d})=>{const p=P(t,4.05+d,4.2+d),q=P(t,4.25+d*.5,4.38+d*.5);e.style.opacity=(Math.sin(Math.PI*p)*.9+(p>=1?(1-q)*.6:0)).toFixed(3)});
@@ -276,7 +275,7 @@ window.renderAt=async function(t){
 
   /* ===== S2 · folder on pink clouds, the services pop out on "All in one place?" ===== */
   if(vis('S2',4.28,6.15,t)){
-    bg($('s2bg'),'sky_clouds',t-4.28);
+    bg($('s2bg'),'pink_sunset',t-4.28);
     $('s2bgw').style.transform=`scale(${(1.06-.03*P(t,4.3,6)).toFixed(4)}) translateY(${(EIN(P(t,5.75,6.1))*500).toFixed(1)}px)`;
     const fp=P(t,4.32,4.75), out=EIN(P(t,5.72,6.05));
     T($('fold'),{s:lerp(.2,1,BACK(fp))*(1-out*.85),y:-out*420,o:EOUT(clamp(fp*2))*(1-P(t,5.95,6.08)),b:out*6});
@@ -295,7 +294,7 @@ window.renderAt=async function(t){
 
   /* ===== S4 · widgets fly in around the phone (blue sky), phone turns side-on as the wipe ===== */
   if(vis('S4',7.3,11.25,t)){
-    bg($('s4bg'),'sky_clouds',t-7.3+4);
+    bg($('s4bg'),'pink_sunset',t-7.3+3.2);
     const tin=EOUT(P(t,7.3,7.65));
     $('s4bgw').style.transform=`translateY(${((1-tin)*-600).toFixed(1)}px) scale(${(1.05+.02*(t-7.3)).toFixed(4)})`;
     T($('s4cam'),{s:1+.02*P(t,7.6,10.8)});
@@ -313,10 +312,10 @@ window.renderAt=async function(t){
 
   /* ===== S5 · live transcript on the mountains → highlighted line lifts out → stats button, click → iris ===== */
   if(vis('S5',11.05,21.0,t)){
-    bg($('s5bg'),'alps',t-11.05);
+    bg($('s5bg'),'lake',t-11.05);$('s5bg').style.filter='brightness(1.18) saturate(1.45) contrast(1.06) sepia(.08)';
     $('s5bgw').style.transform=`scale(${(1.04+.03*P(t,11,21)).toFixed(4)})`;
     const pin=EOUT(P(t,11.08,11.5)),pout=EIN(P(t,15.95,16.3));
-    T($('panel'),{s:lerp(.92,1,pin)*(1-pout*.04),o:EOUT(clamp(pin*2))*(1-pout),b:pout*10});
+    T($('panel'),{s:lerp(.92,1,pin)*(1+.05*EIO(P(t,11.5,15.9)))*(1-pout*.04),x:-20*EIO(P(t,11.5,15.9)),o:EOUT(clamp(pin*2))*(1-pout),b:pout*10});
     $('plisten').textContent=typed(t,[['ISP is listening',11.2,11.55]]);
     $('pdot').style.opacity=(.55+.45*Math.sin(t*6)).toFixed(3);
     $('pl1').textContent=typed(t,[['you: ',11.5,11.6],['planning to edit your video,',11.08,12.3]]);
@@ -351,10 +350,10 @@ window.renderAt=async function(t){
 
   /* ===== S6 · "so what do we actually do?" → approved solid rows ===== */
   if(vis('S6',20.7,27.6,t)){
-    bg($('s6bgA'),'field_bluesky',t-20);bg($('s6bgB'),'valley_clouds',t-21.8);
+    bg($('s6bgA'),'field_bluesky',t-20);bg($('s6bgB'),'garden_flowers',t-14);
     const tilt=EIO(P(t,21.85,22.35));
-    $('s6bgwA').style.transform=`translateY(${(tilt*900).toFixed(1)}px) scale(${(1.04+.01*(t-20.7)).toFixed(4)})`;
-    $('s6bgwB').style.transform=`translateY(${((1-tilt)*-1100).toFixed(1)}px) scale(1.05)`;$('s6bgB').style.filter='blur(6px) brightness(.8)';
+    $('s6bgwA').style.transform=`translateX(${(-(t-20.7)*14).toFixed(1)}px) scale(${(1.04+.12*tilt+.008*(t-20.7)).toFixed(4)})`;$('s6bgA').style.filter=`blur(${(tilt*7).toFixed(1)}px)`;
+    $('s6bgwB').style.opacity=tilt.toFixed(3);$('s6bgwB').style.transform=`scale(${(1.16-.1*tilt+.006*(t-21.85)).toFixed(4)})`;$('s6bgB').style.filter='blur(7px) brightness(.82)';
     kin(K2,t);
     T($('k2'),{x:lerp(960-K2W/2+60-(t-20.7)*30,960-K2W*.42/2,tilt),y:lerp(500,180,tilt),s:lerp(1,.42,tilt),pre:'',post:''});
     $('k2').style.transformOrigin='0 0';
@@ -374,7 +373,7 @@ window.renderAt=async function(t){
 
   /* ===== S7 · prompt bar callback on golden hills, click → iris onto the dark halftone ===== */
   if(vis('S7',27.2,34.25,t)){
-    bg($('s7bg'),'sunset_hills',t-27.2);
+    bg($('s7bg'),'above_clouds',t-27.2);
     const tin=EIO(P(t,27.2,27.6));
     $('s7bgw').style.opacity=tin.toFixed(3);$('s7bgw').style.transform=`scale(${(1.12-.08*tin+.01*(t-27.2)).toFixed(4)})`;$('s7bg').style.filter='blur(3px)';
     T($('s7cam'),{s:1+.015*P(t,27.6,33.5)});
@@ -382,10 +381,10 @@ window.renderAt=async function(t){
     const txt=typed(t,[['Level up my content, ',28.2,29.0],['boost my sales',29.22,29.95],['\n& ',30.5,30.6],['position my brand',30.98,31.9]]);
     const i=txt.indexOf('position');
     $('s7txt').innerHTML=(i<0?esc(txt):esc(txt.slice(0,i))+'<b>'+esc(txt.slice(i))+'</b>').replace('\n','<br>')+`<span class="caret" style="opacity:${Math.floor(t*2.6)%2?0:1}"></span>`;
-    const send=[1500-44-85,340+320-36-30];
+    const send=[1500-44-100,340+320-36-30];
     let g=t<32.15?arc([1900,1150],[send[0]+20,send[1]+20],P(t,31.7,32.12)):[send[0]+20,send[1]+20];
     T($('s7cur'),{x:g[0]-30,y:g[1]-8,s:press(t,32.2),o:P(t,31.7,31.8)});
-    $('s7send').style.transform=`scale(${press(t,32.2)})`;
+    $('s7send').style.transform=`scale(${press(t,32.2)})`;$('s7send').innerHTML=t>32.22?`<span style="display:block;width:26px;height:26px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;transform:rotate(${(t*720)%360}deg)"></span>`:'Generate';
     pop($('s7right'),t,32.38,{d:.45,from:.6});
     // dark iris with glowing "Book" grows from the centre (ref 12.6–13.0)
     const ir=EIO(P(t,33.55,34.15)),I=$('iris2');
