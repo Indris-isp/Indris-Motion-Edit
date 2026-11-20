@@ -250,6 +250,169 @@ body{background:#333;font-family:Inter,sans-serif}
   <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
 </section>
 
+
+<!-- ====================== SCENES 5–8 (inserted before the script) ====================== -->
+<style>
+.thread{position:absolute;inset:0;z-index:40;pointer-events:none;overflow:visible}
+.thread path{fill:none;stroke:url(#gA);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 10px rgba(255,120,30,.7))}
+.win{position:absolute;border-radius:28px;background:#fff;overflow:hidden;color:#16120F;
+  box-shadow:0 0 0 10px rgba(255,255,255,.35),0 0 0 11px rgba(255,255,255,.6),0 80px 140px -30px rgba(0,0,0,.55)}
+.wbar{height:64px;background:#F4EFEA;display:flex;align-items:center;gap:10px;padding:0 24px;border-bottom:1px solid rgba(0,0,0,.06)}
+.wbar i{width:14px;height:14px;border-radius:50%;background:#E1D7CE;display:block}
+.url{margin-left:auto;margin-right:auto;width:520px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:grid;place-items:center;font:500 17px Inter;color:#7A6F67}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 56px;font:500 18px Inter;color:#4A403A}
+.nav .lg{display:flex;align-items:center;gap:10px;font:700 22px Inter;color:#16120F}
+.nav .lg span{width:36px;height:36px;border-radius:10px;background:var(--acc);display:grid;place-items:center}
+.btnO{padding:12px 22px;border-radius:12px;background:var(--acc);color:#fff;font:600 17px Inter;box-shadow:0 10px 24px -8px rgba(220,80,0,.6)}
+.solid{border-radius:36px;background:linear-gradient(135deg,#FFB866,#FF7A1A 48%,#DD4C06);color:#fff;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -14px 40px rgba(150,40,0,.35),0 40px 90px -20px rgba(220,80,0,.65)}
+.rowL{display:flex;align-items:center;gap:26px}
+.av2{flex:none;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;border:2px solid rgba(255,170,100,.55);background:rgba(20,10,5,.5);box-shadow:0 0 18px rgba(255,120,30,.4);font:700 20px Inter;color:#FFB067}
+.box{height:110px;border-radius:20px;display:flex;align-items:center;padding:0 40px;font:500 40px Inter;letter-spacing:-.02em;
+  background:rgba(20,10,5,.62);border:2px solid rgba(255,150,70,.7);box-shadow:0 0 26px rgba(255,120,30,.45),0 0 80px rgba(255,110,20,.22);backdrop-filter:blur(16px)}
+.box.fill{background:linear-gradient(100deg,#FFC27E,#FF8A2A 55%,#FF6A10);border-color:#FFD9B0;box-shadow:0 0 34px rgba(255,130,40,.85),0 0 100px rgba(255,110,20,.5)}
+</style>
+
+<!-- ============ T4→5 · TRANSITION: the reply bubble morphs into the URL pill, thread draws on ============ -->
+<section class="frame" id="t45" style="background:#2a1a10">
+  <div class="nat" style="background-image:url(assets/nature/garden_sunset.jpg);filter:blur(10px) brightness(.8)"></div>
+  <div class="label">Transition 4 → 5 · morph</div>
+  <div class="abs" style="left:960px;top:520px;transform:translate(-50%,-50%);width:900px;height:120px;border-radius:60px;
+     background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 30px rgba(255,130,40,.7),0 0 100px rgba(255,110,20,.45);
+     display:grid;place-items:center;font:600 46px Inter;letter-spacing:-.02em">
+    <span style="display:flex;gap:18px;align-items:center"><span style="opacity:.75">🔒</span>ispagency.co<span class="caret" style="height:46px"></span></span></div>
+  <!-- ghost of the outgoing words, blurring away -->
+  <div class="abs" style="left:960px;top:520px;transform:translate(-50%,-50%) scale(1.15);font:800 104px Inter;letter-spacing:-.05em;white-space:nowrap;opacity:.18;filter:blur(10px)">Yeah, we've got you.</div>
+  <svg class="thread"><path d="M1410 520 C1560 520 1600 700 1760 760 S1900 900 1990 980" stroke-dasharray="1400" stroke-dashoffset="560"/></svg>
+</section>
+
+<!-- ============ 5A · website pops up (browser on nature, thread plugged in) ============ -->
+<section class="frame" id="s5a">
+  <div class="nat" style="background-image:url(assets/nature/meadow_tree.jpg);filter:blur(7px)"></div>
+  <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(20,30,10,.25))"></div>
+  <div class="label">05 · The site</div>
+  <svg class="thread"><path d="M-40 760 C160 760 200 560 330 560"/></svg>
+  <div class="win" style="left:330px;top:120px;width:1260px;height:840px;transform:perspective(2200px) rotateX(6deg) rotateY(-4deg)">
+    <div class="wbar"><i></i><i></i><i></i><div class="url">🔒 ispagency.co</div></div>
+    <div style="position:relative;height:776px;background:#FFFCF9;overflow:hidden">
+      <div class="abs" style="left:50%;top:560px;width:2400px;height:2400px;transform:translateX(-50%);border-radius:50%;
+         background:radial-gradient(circle at 50% 0%,#FFB977 0%,#FFC58E 16%,#FFE1C4 30%,rgba(255,240,226,0) 48%);box-shadow:0 -2px 0 rgba(255,140,50,.55),0 -30px 100px rgba(255,150,60,.4)"></div>
+      <div class="nav"><div class="lg"><span><svg width="30" height="19"><use href="#isp"/></svg></span>ISP Agency</div>
+        <div style="display:flex;gap:36px"><span>Work</span><span>Services</span><span>About</span><span>Contact</span></div><span class="btnO">Book a call</span></div>
+      <div style="text-align:center;margin-top:70px">
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;border:1px solid rgba(255,122,26,.35);font:500 17px Inter;color:#7A6F67;background:#fff">
+          <b style="padding:5px 12px;border-radius:999px;background:var(--acc);color:#fff;font:600 15px Inter">New</b>Editing, scripts &amp; branding in one place</span>
+        <div style="margin-top:34px;font:600 104px/1 Inter;letter-spacing:-.055em">Content that moves<br><span class="acc-t">your brand</span> forward.</div>
+        <div style="margin-top:28px;font:400 24px Inter;color:#7A6F67">Video editing, personal branding, social media and scripting.</div>
+      </div>
+    </div>
+  </div>
+  <!-- scroll cue: cursor on the scrollbar / wheel -->
+  <div class="abs" style="left:1560px;top:250px;width:10px;height:120px;border-radius:5px;background:rgba(0,0,0,.25);transform:perspective(2200px) rotateX(6deg) rotateY(-4deg)"></div>
+  <svg class="abs" style="left:1380px;top:800px;width:60px;height:70px"><use href="#glove"/></svg>
+  <div class="abs" style="left:1450px;top:820px;font:600 18px Inter;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.4)">↓ scroll</div>
+</section>
+
+<!-- ============ 5B · scrolled to About: the solid with the numbers ============ -->
+<section class="frame" id="s5b">
+  <div class="nat" style="background-image:url(assets/nature/meadow_tree.jpg);filter:blur(9px)"></div>
+  <div class="label">05 · About us</div>
+  <div class="win" style="left:250px;top:90px;width:1420px;height:900px;transform:perspective(2200px) rotateX(4deg) rotateY(-3deg)">
+    <div class="wbar"><i></i><i></i><i></i><div class="url">🔒 ispagency.co/#about</div></div>
+    <div style="position:relative;height:836px;background:#FFFCF9;padding:56px 70px;overflow:hidden">
+      <!-- motion-blurred tail of the hero we just scrolled past -->
+      <div class="abs" style="left:0;right:0;top:-30px;height:90px;background:linear-gradient(180deg,#FFE1C4,rgba(255,252,249,0));filter:blur(8px)"></div>
+      <div style="font:700 15px Inter;letter-spacing:.16em;color:#D9601A">ABOUT US</div>
+      <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end">
+        <div style="font:600 64px/1.02 Inter;letter-spacing:-.05em">A small team that<br>ships <span class="acc-t">big content.</span></div>
+        <div style="width:440px;font:400 21px/1.5 Inter;color:#7A6F67">Editors, writers and strategists working as one studio for brands and creators.</div>
+      </div>
+      <!-- THE SOLID -->
+      <div class="solid" style="position:relative;margin-top:46px;height:420px;display:flex;align-items:center;padding:0 80px;gap:0;overflow:hidden">
+        <div class="abs" style="right:-120px;top:-160px;width:620px;height:620px;border-radius:50%;border:2px solid rgba(255,255,255,.25)"></div>
+        <div class="abs" style="right:-40px;top:-80px;width:460px;height:460px;border-radius:50%;border:2px solid rgba(255,255,255,.18)"></div>
+        <div style="flex:1">
+          <div style="font:800 190px/1 Inter;letter-spacing:-.065em">500<span style="opacity:.85">+</span></div>
+          <div style="margin-top:12px;font:600 32px Inter;letter-spacing:-.02em;opacity:.95">clients worked with</div>
+        </div>
+        <div style="width:2px;height:240px;background:rgba(255,255,255,.4);margin:0 70px"></div>
+        <div style="flex:1">
+          <div style="font:800 190px/1 Inter;letter-spacing:-.065em">1000<span style="opacity:.85">+</span></div>
+          <div style="margin-top:12px;font:600 32px Inter;letter-spacing:-.02em;opacity:.95">videos delivered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg class="thread"><path d="M1980 300 C1800 300 1760 470 1672 470"/></svg>
+</section>
+
+<!-- ============ 6A · site blurs out, headline rises in ============ -->
+<section class="frame" id="s6a" style="background:#FFF6EE">
+  <div class="abs" style="inset:-60px;filter:blur(26px) brightness(.95);transform:scale(1.12)">
+    <div class="nat" style="background-image:url(assets/nature/meadow_tree.jpg)"></div>
+    <div class="abs" style="left:250px;top:90px;width:1420px;height:900px;border-radius:28px;background:#FFFCF9"></div>
+    <div class="abs solid" style="left:320px;top:520px;width:1280px;height:420px"></div>
+  </div>
+  <div class="abs" style="inset:0;background:rgba(20,8,2,.18)"></div>
+  <div class="label">06 · What we do</div>
+  <div class="abs" style="left:960px;top:540px;transform:translate(-50%,-50%);white-space:nowrap;font:700 128px/1 Inter;letter-spacing:-.06em;color:#fff;text-shadow:0 10px 50px rgba(80,20,0,.35)">
+    <span>What</span> <span>we</span> <span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FFB067)">actually</span>
+    <span style="display:inline-block;opacity:.45;filter:blur(8px);transform:translateY(40px)">do</span></div>
+</section>
+
+<!-- ============ 6B · zoomed out: solid bars resolve into the three services (ref 0:01–0:03) ============ -->
+<section class="frame" id="s6b">
+  <div class="nat" style="background-image:url(assets/nature/valley_clouds.jpg);filter:blur(14px) brightness(.55)"></div>
+  <div class="abs" style="inset:0;background-image:linear-gradient(rgba(255,160,90,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,160,90,.07) 1px,transparent 1px);background-size:160px 160px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000,transparent 90%)"></div>
+  <div class="label">06 · What we do</div>
+  <div class="abs" style="left:960px;top:150px;transform:translateX(-50%);font:600 46px Inter;letter-spacing:-.04em;opacity:.55;white-space:nowrap">What we actually do</div>
+  <div class="abs" style="left:380px;top:270px;width:1160px;display:flex;flex-direction:column;gap:34px">
+    <div class="rowL"><div class="av2">01</div><div class="box" style="flex:1">We <b style="color:#FFB067;margin:0 12px">edit</b> your videos.</div></div>
+    <div class="rowL"><div class="av2">02</div><div class="box" style="flex:1">We <b style="color:#FFB067;margin:0 12px">write</b> your scripts.</div></div>
+    <div class="rowL"><div class="av2">03</div><div class="box fill" style="flex:1;position:relative">
+      <div style="position:absolute;inset:0;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 50%)"></div>
+      <span style="color:rgba(80,25,0,.45);font-weight:600">We even make demo videos for your SaaS…</span></div></div>
+    <div class="rowL" style="opacity:.6"><div class="av2" style="opacity:.0"></div><div class="box" style="width:180px;height:70px;padding:0 28px;font-size:40px;color:#FFB067">•••</div></div>
+  </div>
+  <div class="abs" style="left:1580px;top:560px;width:30px;height:30px;border-radius:50%;border:2px solid #FF8A2A;box-shadow:0 0 12px #FF7A1A"></div>
+</section>
+
+<!-- ============ 7 · three points, chat animation ============ -->
+<section class="frame" id="s7" style="background:#0C0503">
+  <div class="nat" style="background-image:url(assets/nature/clouds.jpg);filter:blur(5px) brightness(.85)"></div>
+  <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,20,50,.1),rgba(10,20,40,.35))"></div>
+  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
+    <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
+  <div class="label">07 · Why us</div>
+  <div class="abs glassD" style="right:260px;top:170px;border-radius:34px;border-bottom-right-radius:8px;padding:24px 34px;font:600 36px Inter;display:flex;gap:16px;align-items:center">
+    So what do I actually get? <span style="width:54px;height:54px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:700 18px Inter">SR</span></div>
+  <div class="abs" style="left:300px;top:330px;display:flex;flex-direction:column;gap:22px;align-items:flex-start">
+    <div class="glassD" style="border-radius:34px;border-top-left-radius:8px;padding:26px 38px;font:600 44px Inter;letter-spacing:-.02em"><span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FF9A4A)">1.</span> One team for edits, scripts &amp; branding</div>
+    <div class="glassD" style="border-radius:34px;border-top-left-radius:8px;padding:26px 38px;font:600 44px Inter;letter-spacing:-.02em"><span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FF9A4A)">2.</span> Every review &amp; change in one chat</div>
+    <div class="glassD" style="border-radius:34px;border-top-left-radius:8px;padding:26px 38px;font:600 44px Inter;letter-spacing:-.02em;opacity:.55;filter:blur(3px);transform:translateY(16px)"><span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FF9A4A)">3.</span> Content that's ready to post</div>
+  </div>
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
+</section>
+
+<!-- ============ 8 · END CARD ============ -->
+<section class="frame" id="s8">
+  <div class="nat" style="background-image:url(assets/nature/sunset_hills.jpg);filter:blur(6px) saturate(1.1)"></div>
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(0,0,0,0),rgba(40,12,0,.5))"></div>
+  <svg class="thread"><path d="M-40 640 C380 640 560 400 834 400"/><path d="M1086 400 C1360 400 1540 640 1960 640"/></svg>
+  <div class="abs" style="left:960px;top:400px;width:250px;height:250px;transform:translate(-50%,-50%);border-radius:68px;background:linear-gradient(160deg,#FFB866,#FF7A1A 50%,#D94806);
+     border:2.5px solid #FFD2A6;box-shadow:0 0 22px rgba(255,122,26,.9),0 0 80px rgba(255,110,20,.6),0 40px 80px -20px rgba(80,20,0,.6)">
+    <svg width="210" height="131" style="position:absolute;left:20px;top:60px"><use href="#isp"/></svg></div>
+  <div class="abs" style="left:960px;top:600px;transform:translateX(-50%);text-align:center;white-space:nowrap;text-shadow:0 6px 40px rgba(80,20,0,.45)">
+    <div style="font:700 110px/1 Inter;letter-spacing:-.055em">ISP Agency</div>
+    <div style="margin-top:18px;font:500 38px Inter;letter-spacing:-.02em;opacity:.95">Editing · Scripts · Branding. All in one place.</div>
+  </div>
+  <div class="abs" style="left:960px;top:880px;transform:translateX(-50%);display:flex;gap:16px;align-items:center">
+    <span class="btnO" style="font-size:26px;padding:18px 34px;border-radius:18px">Book a call</span>
+    <span style="padding:17px 30px;border-radius:18px;border:2px solid rgba(255,255,255,.7);font:600 26px Inter;backdrop-filter:blur(10px);background:rgba(255,255,255,.12)">ispagency.co</span>
+  </div>
+  <div class="label">08 · End card</div>
+</section>
+
 <script>
 let s=11; const r=()=>(s=(s*16807)%2147483647)/2147483647;
 const sp=document.getElementById("specks")||document.createElement("div");
