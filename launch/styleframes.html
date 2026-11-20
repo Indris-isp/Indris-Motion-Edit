@@ -30,6 +30,8 @@ body{background:#333;font-family:Inter,sans-serif}
 .caret{display:inline-block;width:4px;height:1em;background:#fff;vertical-align:-.12em;margin-left:4px;border-radius:2px}
 .nat{position:absolute;inset:-40px;background-size:cover;background-position:center;transform:scale(1.04)}
 .frameline{position:absolute;inset:26px;border:2px solid rgba(255,255,255,.55);border-radius:34px;z-index:58;pointer-events:none}
+.ans{padding:26px 40px;border-radius:34px;border-top-right-radius:8px;font:600 44px Inter;letter-spacing:-.02em;white-space:nowrap;background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 24px rgba(255,130,40,.55),0 30px 60px -20px rgba(0,0,0,.45)}
+.ans b{color:#FFF1E2;opacity:.8;margin-right:6px}
 </style>
 </head>
 <body>
@@ -384,12 +386,15 @@ body{background:#333;font-family:Inter,sans-serif}
   <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
     <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
   <div class="label">07 · Why us</div>
-  <div class="abs glassD" style="right:260px;top:170px;border-radius:34px;border-bottom-right-radius:8px;padding:24px 34px;font:600 36px Inter;display:flex;gap:16px;align-items:center">
-    So what do I actually get? <span style="width:54px;height:54px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:700 18px Inter">SR</span></div>
-  <div class="abs" style="left:300px;top:330px;display:flex;flex-direction:column;gap:22px;align-items:flex-start">
-    <div class="glassD" style="border-radius:34px;border-top-left-radius:8px;padding:26px 38px;font:600 44px Inter;letter-spacing:-.02em"><span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FF9A4A)">1.</span> One team for edits, scripts &amp; branding</div>
-    <div class="glassD" style="border-radius:34px;border-top-left-radius:8px;padding:26px 38px;font:600 44px Inter;letter-spacing:-.02em"><span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FF9A4A)">2.</span> Every review &amp; change in one chat</div>
-    <div class="glassD" style="border-radius:34px;border-top-left-radius:8px;padding:26px 38px;font:600 44px Inter;letter-spacing:-.02em;opacity:.55;filter:blur(3px);transform:translateY(16px)"><span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FF9A4A)">3.</span> Content that's ready to post</div>
+  <!-- client question: LEFT -->
+  <div class="abs glassD" style="left:260px;top:190px;border-radius:34px;border-top-left-radius:8px;padding:24px 34px;font:600 40px Inter;display:flex;gap:18px;align-items:center">
+    <span style="width:58px;height:58px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:700 19px Inter">SR</span>So what do I actually get?</div>
+  <!-- ISP answers: RIGHT, orange like the scene 4 reply -->
+  <div class="abs" style="right:260px;top:340px;display:flex;flex-direction:column;gap:22px;align-items:flex-end">
+    <div class="ans"><b>1.</b> One team for edits, scripts &amp; branding</div>
+    <div class="ans"><b>2.</b> Every review &amp; change in one chat</div>
+    <div class="ans" style="opacity:.55;filter:blur(3px);transform:translateY(16px)"><b>3.</b> Content that's ready to post</div>
+    <div style="font:600 18px Inter;opacity:.75;margin-top:-6px">ISP Agency</div>
   </div>
   <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
 </section>
