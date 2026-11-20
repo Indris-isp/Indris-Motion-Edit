@@ -13,8 +13,8 @@ from PIL import Image
 
 SRC = 'assets/nature/hand_phone.mp4'
 OUT = 'assets/frames/hand'
-START, COUNT, FPS = 5.6, 170, 30
-CROP = (380, 0, 1300, 1080)
+START, COUNT, FPS = 3.25, 90, 60
+CROP = (380, 0, 800, 1080)
 W, H = CROP[2], CROP[3]
 
 os.makedirs(OUT, exist_ok=True)
@@ -36,7 +36,7 @@ for i, f in enumerate(frames):
     green = (g - np.maximum(r, b)) > 40
     dark = (r < 70) & (g < 70) & (b < 70)
     # phone body = biggest dark blob; take the bounding box of dark pixels in the left-centre area
-    ys, xs = np.nonzero(dark & (xx < W * 0.75))
+    ys, xs = np.nonzero(dark & (xx < W * 0.97) & (yy < H * 0.75))
     x0, x1, y0, y1 = np.percentile(xs, 1), np.percentile(xs, 99), np.percentile(ys, 1), np.percentile(ys, 99)
     inside = (xx > x0 + 4) & (xx < x1 - 4) & (yy > y0 + 4) & (yy < y1 - 4)
     screen = green & inside
