@@ -1,0 +1,631 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ISP Agency: launch video</title>
+<!--
+  ISP Agency launch video · 1920x1080 · 60 fps · 36 s
+  Every frame is a pure function of time: await window.renderAt(seconds).
+  Scene timing, copy and colours live in CONFIG below.
+-->
+<style>
+@font-face{font-family:Satoshi;font-weight:300;src:url(fonts/Satoshi-Light.woff2) format("woff2")}
+@font-face{font-family:Satoshi;font-weight:500;src:url(fonts/Satoshi-Medium.woff2) format("woff2")}
+@font-face{font-family:LogoMark;font-weight:800;src:url(fonts/Inter-800.ttf)}
+:root{--acc:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#DD4C06)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:Satoshi,sans-serif;color:#fff}
+b,strong{font-weight:500}
+.L{font-weight:300}
+#stage{position:absolute;inset:0;overflow:hidden;background:#000}
+.scene{position:absolute;inset:0;overflow:hidden;display:none}
+.bg{position:absolute;left:-60px;top:-34px;width:2040px;height:1148px;object-fit:cover}
+.cam{position:absolute;inset:0;transform-origin:50% 50%}
+.abs{position:absolute}
+.acc-t{background-image:var(--acc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.acc-l{background-image:linear-gradient(135deg,#FFE0BC,#FFB067);-webkit-background-clip:text;background-clip:text;color:transparent}
+.w{display:inline-block;will-change:transform,filter,opacity}
+.caret{display:inline-block;width:4px;height:1em;background:#fff;vertical-align:-.12em;margin-left:4px;border-radius:2px}
+.neon{border:2px solid #FF8A2A;box-shadow:0 0 0 1px rgba(255,180,110,.35) inset,0 0 18px rgba(255,122,26,.75),0 0 60px rgba(255,110,20,.45),0 0 140px rgba(255,100,10,.25),inset 0 0 40px rgba(255,120,30,.25)}
+.sweep{position:absolute;left:12%;right:12%;top:-2px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#FFE2C4 50%,transparent);box-shadow:0 0 14px #FFB06A,0 0 30px #FF8A2A}
+.glassD{background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.10));border:1.5px solid rgba(255,255,255,.3);backdrop-filter:blur(30px);
+  box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 40px 90px -30px rgba(0,0,0,.6)}
+.ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1.5px solid rgba(255,255,255,.25);color:#fff;font:300 24px Satoshi}
+.pill{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.22);font:300 18px Satoshi;color:rgba(255,255,255,.85)}
+.orange{background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 30px rgba(255,130,40,.65),0 0 100px rgba(255,110,20,.4),0 50px 90px -20px rgba(0,0,0,.55)}
+.tile{border-radius:80px;background:linear-gradient(160deg,#FFB866,#FF7A1A 50%,#D94806);border:2.5px solid #FFD2A6;
+  box-shadow:0 0 22px rgba(255,122,26,.9),0 0 80px rgba(255,110,20,.6),0 40px 80px -20px rgba(80,20,0,.5)}
+.wordmark{position:absolute;left:96px;top:70px;display:flex;align-items:center;gap:14px;font:500 44px Satoshi;letter-spacing:-.04em}
+.wordmark i{width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center}
+.thread{position:absolute;inset:0;overflow:visible;pointer-events:none}
+.thread path{fill:none;stroke:url(#gA);stroke-width:12;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(255,120,30,.7))}
+/* website */
+.win{position:absolute;border-radius:28px;background:#fff;overflow:hidden;color:#16120F;
+  box-shadow:0 0 0 10px rgba(255,255,255,.35),0 0 0 11px rgba(255,255,255,.6),0 80px 140px -30px rgba(0,0,0,.55)}
+.wbar{position:relative;z-index:2;height:64px;background:#F4EFEA;display:flex;align-items:center;gap:10px;padding:0 24px;border-bottom:1px solid rgba(0,0,0,.06)}
+.wbar i{width:14px;height:14px;border-radius:50%;background:#E1D7CE;display:block}
+.url{position:absolute;left:50%;top:13px;transform:translateX(-50%);width:520px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:grid;place-items:center;font:300 17px Satoshi;color:#7A6F67}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 56px;font:300 18px Satoshi;color:#4A403A}
+.nav .lg{display:flex;align-items:center;gap:10px;font:500 22px Satoshi;color:#16120F}
+.nav .lg span{width:36px;height:36px;border-radius:10px;background:var(--acc);display:grid;place-items:center}
+.btnO{display:inline-block;padding:12px 22px;border-radius:12px;background:var(--acc);color:#fff;font:500 17px Satoshi;box-shadow:0 10px 24px -8px rgba(220,80,0,.6)}
+.solid{border-radius:36px;background:linear-gradient(135deg,#FFB866,#FF7A1A 48%,#DD4C06);color:#fff;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -14px 40px rgba(150,40,0,.35),0 40px 90px -20px rgba(220,80,0,.65)}
+/* scene 6 rows */
+.av2{position:absolute;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;border:2px solid rgba(255,170,100,.55);background:rgba(20,10,5,.5);box-shadow:0 0 18px rgba(255,120,30,.4);font:500 20px Satoshi;color:#FFB067}
+.box{position:absolute;height:110px;border-radius:20px;overflow:hidden;
+  background:rgba(20,10,5,.62);border:2px solid rgba(255,150,70,.7);box-shadow:0 0 26px rgba(255,120,30,.45),0 0 80px rgba(255,110,20,.22)}
+.box .fill{position:absolute;inset:0;background:linear-gradient(100deg,#FFC27E,#FF8A2A 55%,#FF6A10)}
+.box .fill::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 50%)}
+.box .tx{position:absolute;left:40px;top:0;height:100%;display:flex;align-items:center;font:300 40px Satoshi;letter-spacing:-.02em;white-space:nowrap}
+.box .tx b{color:#FFB067;margin:0 12px}
+/* card wheel */
+.card{position:absolute;left:0;top:0;width:600px;height:720px;transform-origin:50% 50%}
+.chip{position:absolute;left:50%;top:-92px;transform-origin:50% 100%;padding:14px 28px;border-radius:14px;white-space:nowrap;
+  background:rgba(22,15,11,.92);border:1.5px solid rgba(255,255,255,.22);font:500 30px Satoshi;box-shadow:0 18px 40px -12px rgba(0,0,0,.7)}
+.body{position:absolute;inset:0;border-radius:56px;background:#1B1411;padding:14px;box-shadow:0 0 0 1.5px rgba(255,170,100,.28),0 70px 120px -30px rgba(0,0,0,.85),0 0 90px rgba(255,110,20,.18)}
+.scr{position:relative;width:100%;height:100%;border-radius:44px;background:linear-gradient(180deg,#120D0B,#0B0807);overflow:hidden;padding:30px}
+.row{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px}
+.ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:500 13px Satoshi}
+.ic.u{border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.7)}
+.ic.i{background:var(--acc);color:#fff}
+.t{font:300 19px/1.5 Satoshi;color:rgba(255,255,255,.88)}
+.t li{margin-left:18px}
+.hd{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.08);font:500 21px Satoshi}
+.bar{display:flex;align-items:center;gap:14px;height:76px;border-radius:20px;padding:0 22px;margin:-6px -6px 26px;font:500 23px Satoshi;color:#2A1004;background:linear-gradient(100deg,#FFC27E,#FF8A2A 70%,#FF7314)}
+.bub{display:inline-block;padding:16px 20px;border-radius:18px;font:300 19px/1.45 Satoshi;max-width:420px}
+.bub.them{background:#2A221E;color:#fff;border-top-left-radius:6px}
+.bub.me{background:linear-gradient(135deg,#FFB866,#FF7A1A);color:#2A1004;font-weight:500;border-top-right-radius:6px}
+.dim{opacity:.22}
+#grain{position:absolute;inset:0;z-index:100;opacity:.07;mix-blend-mode:overlay;pointer-events:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC07A"/><stop offset=".5" stop-color="#FF7A1A"/><stop offset="1" stop-color="#D94806"/></linearGradient>
+    <filter id="whipA" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur id="whipAb" stdDeviation="0 0"/></filter>
+    <filter id="whipB" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur id="whipBb" stdDeviation="0 0"/></filter>
+    <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2"/></filter>
+    <symbol id="arrowO" viewBox="0 0 40 40"><path d="M5 3 35 17 21 21 16 36z" fill="url(#gA)" stroke="#FFE0C0" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 7 30 17" stroke="#fff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="glove" viewBox="0 0 26 30">
+      <g fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round">
+        <rect x="2.6" y="12.6" width="4.6" height="10" rx="2.3" transform="rotate(-38 4.9 17.6)"/><rect x="7.6" y="12" width="16.6" height="15.6" rx="6.5"/>
+        <rect x="8.6" y="1.4" width="4.8" height="15" rx="2.4"/><rect x="13" y="8" width="4.4" height="9" rx="2.2"/>
+        <rect x="17" y="9.4" width="4.2" height="8.4" rx="2.1"/><rect x="20.6" y="11" width="3.8" height="8" rx="1.9"/>
+      </g>
+      <path d="M8.9 15.5h4.2M13.3 16.6h3.8M17.3 17.4h3.6" stroke="#fff" stroke-width="2.4"/>
+      <path d="M14.5 21v4M18 21v4M21.2 21v3.4" stroke="#111" stroke-width="1.2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="sendI" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></g></symbol>
+    <symbol id="waveI" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></g></symbol>
+    <symbol id="spark" viewBox="0 0 24 24"><path d="M12 0c.6 6.2 5.8 11.4 12 12-6.2.6-11.4 5.8-12 12-.6-6.2-5.8-11.4-12-12C6.2 11.4 11.4 6.2 12 0z" fill="currentColor"/></symbol>
+    <symbol id="isp" viewBox="0 0 900 560">
+      <mask id="cresM" maskUnits="userSpaceOnUse" x="-100" y="-100" width="1100" height="760">
+        <rect x="-100" y="-100" width="1100" height="760" fill="#000"/>
+        <ellipse cx="450" cy="280" rx="405" ry="190" fill="#fff" transform="rotate(-14 450 280)"/>
+        <ellipse cx="478" cy="258" rx="378" ry="158" fill="#000" transform="rotate(-14 450 280)"/>
+      </mask>
+      <rect x="-100" y="-100" width="1100" height="760" fill="rgba(255,255,255,.85)" mask="url(#cresM)"/>
+      <text x="450" y="378" text-anchor="middle" font-family="LogoMark" font-weight="800" font-size="290" letter-spacing="-10" fill="#fff">ISP</text>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="stage">
+
+<!-- ===== S1 · THE ASK ===== -->
+<div class="scene" id="S1" style="z-index:10">
+  <div class="cam" id="s1root">
+    <img class="bg" id="s1bg">
+    <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(20,8,2,.35))"></div>
+    <div class="cam" id="s1cam">
+      <div class="abs" id="s1top" style="left:420px;top:262px;display:flex;gap:14px">
+        <div style="width:330px;height:58px;border-radius:14px;background:rgba(20,10,5,.45);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:0 20px;font:300 21px Satoshi;color:rgba(255,255,255,.75)">New chat <span style="opacity:.6">⌄</span></div>
+        <div style="width:58px;height:58px;border-radius:14px;background:rgba(20,10,5,.45);border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;font:300 30px Satoshi;color:rgba(255,255,255,.75)">+</div>
+      </div>
+      <div class="abs neon" id="s1bar" style="left:420px;top:350px;width:1080px;height:330px;border-radius:44px;background:linear-gradient(180deg,rgba(30,14,6,.62),rgba(14,7,3,.72));backdrop-filter:blur(24px);padding:48px 52px">
+        <div class="sweep" id="s1sweep"></div>
+        <div style="font:300 50px/1.22 Satoshi;letter-spacing:-.025em;color:#FFF5EC">
+          <span class="w s1w">Video editing,</span> <span class="w s1w">personal branding,</span><br>
+          <span class="w s1w">social media marketing</span> <span class="w s1w" style="opacity:.55">&amp;</span> <span class="w s1w" style="font-weight:500">scripting</span><span class="caret" id="s1caret"></span></div>
+        <div style="position:absolute;left:52px;right:52px;bottom:40px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:12px"><span class="ico">+</span><span class="pill">ISP Studio ⌄</span></div>
+          <div style="display:flex;gap:14px;align-items:center">
+            <span class="ico" style="border:none;color:rgba(255,255,255,.6)"><svg width="26" height="26"><use href="#waveI"/></svg></span>
+            <span class="ico" id="s1send" style="width:62px;height:62px;background:#fff;color:#1A0A03;box-shadow:0 0 30px rgba(255,140,50,.6)"><svg width="28" height="28"><use href="#sendI"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg class="abs" id="s1cur" style="left:0;top:0;width:120px;height:120px;filter:drop-shadow(0 0 20px rgba(255,120,30,.6)) drop-shadow(0 16px 20px rgba(0,0,0,.6))"><use href="#arrowO"/></svg>
+    <div class="abs" id="s1frame" style="inset:26px;border:2px solid rgba(255,255,255,.6);border-radius:34px"></div>
+  </div>
+</div>
+
+<!-- ===== S1C · ALL IN ONE PLACE?! ===== -->
+<div class="scene" id="S1C" style="z-index:9">
+  <div class="cam" id="s1croot">
+    <img class="bg" id="s1cbg">
+    <div class="cam" id="s1ccam">
+      <div class="abs" id="s1cline" style="left:40px;top:378px;display:flex;align-items:center;gap:44px;white-space:nowrap;font:500 210px/1 Satoshi;letter-spacing:-.05em;text-shadow:0 8px 40px rgba(0,30,60,.35)">
+        <span class="w L" id="s1cA">All in</span>
+        <span class="w" id="s1cBtn" style="position:relative;padding:20px 64px 34px;border-radius:52px;background:linear-gradient(180deg,#FF9A3C,#F06A10);
+          box-shadow:0 6px 0 #B84A08,0 30px 60px -10px rgba(120,40,0,.55),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -10px 24px rgba(160,50,0,.35)">one place</span>
+        <span class="w L" id="s1cQ">?!</span>
+      </div>
+    </div>
+    <div class="abs" id="s1cMorph" style="display:none;border-radius:52px;background:linear-gradient(160deg,#FFB866,#FF7A1A 50%,#D94806);border:2.5px solid #FFD2A6;box-shadow:0 0 22px rgba(255,122,26,.9),0 0 80px rgba(255,110,20,.6);overflow:hidden">
+      <div id="s1cMorphT" style="position:absolute;inset:0;display:grid;place-items:center;font:500 210px/1 Satoshi;letter-spacing:-.05em;white-space:nowrap">one place</div>
+    </div>
+    <svg class="abs" id="s1cCur" style="left:0;top:0;width:150px;height:174px;filter:drop-shadow(0 12px 14px rgba(80,20,0,.4))"><use href="#glove"/></svg>
+    <div class="abs" id="s1cCap" style="left:0;right:0;bottom:46px;text-align:center;font:300 16px Satoshi;color:rgba(255,255,255,.7)">[ ISP Agency ]</div>
+  </div>
+</div>
+
+<!-- ===== S2 · MEET ===== -->
+<div class="scene" id="S2" style="z-index:8">
+  <img class="bg" id="s2bg">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(0,0,0,0),rgba(40,12,0,.55))"></div>
+  <div class="cam" id="s2cam">
+    <svg class="abs" id="s2arcs" style="left:560px;top:30px;overflow:visible" width="800" height="800" viewBox="0 0 800 800">
+      <g fill="none" stroke="#FF7A1A" stroke-width="4" stroke-linecap="round" style="filter:drop-shadow(0 0 8px #FF7A1A) drop-shadow(0 0 22px #FF6A10)">
+        <path pathLength="1" d="M400 40 A360 360 0 0 1 735 270" opacity=".9"/><path pathLength="1" d="M752 360 A360 360 0 0 1 560 722" opacity=".55"/>
+        <path pathLength="1" d="M300 746 A360 360 0 0 1 45 455" opacity=".8"/><path pathLength="1" d="M60 290 A360 360 0 0 1 250 72" opacity=".35"/>
+      </g>
+    </svg>
+    <div class="abs tile" id="s2tile" style="left:810px;top:280px;width:300px;height:300px">
+      <svg id="s2mark" width="250" height="156" style="position:absolute;left:25px;top:72px;filter:drop-shadow(0 0 12px rgba(255,140,50,.9))"><use href="#isp"/></svg>
+    </div>
+    <svg class="abs" id="s2spark" style="left:1100px;top:250px;width:54px;height:54px;color:#FFE2C4;filter:drop-shadow(0 0 10px #fff)"><use href="#spark"/></svg>
+    <div class="abs" style="left:960px;top:800px;transform:translateX(-50%);white-space:nowrap;font:500 120px/1 Satoshi;letter-spacing:-.055em;text-shadow:0 6px 40px rgba(80,20,0,.45)">
+      <span class="w L" id="s2a">Meet</span> <span class="w" id="s2b" style="text-shadow:0 0 24px rgba(255,120,30,.9),0 0 70px rgba(200,60,0,.7)">ISP Agency.</span></div>
+  </div>
+</div>
+
+<!-- ===== S3 · CARD WHEEL ===== -->
+<div class="scene" id="S3" style="z-index:9">
+  <img class="bg" id="s3bg">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 75% 70% at 50% 45%,rgba(255,120,30,.10),rgba(10,4,1,.45) 100%)"></div>
+  <div class="cam" id="s3cam" style="transform-origin:50% 60%"></div>
+</div>
+<template id="c-brand"><div class="scr">
+  <div class="bar" style="background:linear-gradient(100deg,#FFE0BC,#FFB067)">◎ Brand Kit</div>
+  <div class="row r"><div class="ic i">ISP</div><div class="t">Logo, colours &amp; voice, built around <b>you</b>.</div></div>
+  <div class="row r dim"><div class="ic u">◎</div><div class="t">Can you refresh my profile banner?</div></div>
+  <div class="row r dim"><div class="ic i">ISP</div><div class="t">Done. Three directions ready for review.</div></div></div></template>
+<template id="c-edit"><div class="scr">
+  <div class="hd"><span style="display:flex;align-items:center;gap:12px"><span class="ic i">ISP</span>ISP Edit Suite</span><span style="opacity:.4">⟳</span></div>
+  <div class="row r"><div class="ic u">◎</div><div class="t">Can you edit my reels for launch week?</div></div>
+  <div class="row r"><div class="ic i">ISP</div><div class="t"><b>Yes. Here's how our editors handle it:</b>
+    <ul><li>Pro editors with <b>3+ years</b> of experience</li><li>Cuts on the beat, captions &amp; colour grade</li><li>Sound design that keeps people watching</li></ul></div></div>
+  <div class="row r dim"><div class="ic u">◎</div><div class="t">How fast can I get the first cut?</div></div>
+  <div class="row r dim"><div class="ic i">ISP</div><div class="t">We'll share a first cut for your review…</div></div></div></template>
+<template id="c-script"><div class="scr">
+  <div class="bar">✎ Script Room</div>
+  <div class="row r"><div class="ic i">ISP</div><div class="bub them">Hi 👋 What's your next video about?</div></div>
+  <div class="row r" style="justify-content:flex-end"><div class="bub me">A launch for my brand</div></div>
+  <div class="row r"><div class="ic i">ISP</div><div class="bub them">Here's your hook:<br><b>“Stop scrolling. This changes how you post.”</b></div></div>
+  <div class="row r dim" style="justify-content:flex-end"><div class="bub me">Love it. Write the rest?</div></div></div></template>
+<template id="c-social"><div class="scr">
+  <div class="hd"><span style="display:flex;align-items:center;gap:12px"><span class="ic i">ISP</span>Social Planner</span><span style="opacity:.4">⟳</span></div>
+  <div class="row r"><div class="ic u">◎</div><div class="t">Plan my posts for this month?</div></div>
+  <div class="row r"><div class="ic i">ISP</div><div class="t">Calendar ready: reels, carousels &amp; stories.</div></div>
+  <div class="row r dim"><div class="ic u">◎</div><div class="t">And captions?</div></div></div></template>
+
+<!-- ===== S4 · CHAT (+ morph into the URL bar) ===== -->
+<div class="scene" id="S4" style="z-index:8">
+  <img class="bg" id="s4bgA"><img class="bg" id="s4bgB">
+  <div class="abs" id="s4tint" style="inset:0;background:linear-gradient(180deg,rgba(0,20,50,.12),rgba(10,20,40,.32))"></div>
+  <div class="cam" id="s4cam">
+    <div class="wordmark" id="s4wm"><i><svg width="44" height="27"><use href="#isp"/></svg></i>isp agency</div>
+    <div class="abs glassD" id="s4input" style="left:330px;top:330px;width:1260px;height:340px;border-radius:44px;padding:48px 52px">
+      <div id="s4type" style="font:300 44px/1.3 Satoshi;letter-spacing:-.02em;width:1120px"></div>
+      <div style="position:absolute;left:52px;right:52px;bottom:40px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:12px"><span class="ico">+</span><span class="pill">◎ Sam · Creator</span></div>
+        <div style="display:flex;gap:14px;align-items:center">
+          <span class="ico" style="border:none;color:rgba(255,255,255,.7)"><svg width="26" height="26"><use href="#waveI"/></svg></span>
+          <span class="ico" id="s4send" style="width:62px;height:62px;background:var(--acc);border:none;box-shadow:0 0 0 8px rgba(255,140,50,.18),0 0 30px rgba(255,120,30,.6)"><svg width="28" height="28"><use href="#sendI"/></svg></span>
+        </div>
+      </div>
+    </div>
+    <div class="abs glassD" id="s4sent" style="right:200px;top:220px;width:760px;border-radius:30px;border-top-right-radius:8px;padding:22px 30px;font:300 26px/1.35 Satoshi">
+      Planning to edit your videos, need a script, or wanna just let us handle everything?</div>
+    <div class="abs glassD" id="s4dots" style="left:300px;top:430px;border-radius:30px;border-top-left-radius:8px;padding:18px 30px;font:500 40px/1 Satoshi;letter-spacing:6px"><span class="w">•</span><span class="w">•</span><span class="w">•</span></div>
+    <div class="abs glassD" id="s4yes" style="left:300px;top:410px;border-radius:40px;border-top-left-radius:10px;padding:30px 44px;font:500 60px Satoshi;letter-spacing:-.03em;display:flex;align-items:center;gap:20px;transform-origin:0 0">
+      <span style="width:66px;height:66px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:500 22px Satoshi">SR</span><span class="L">Yes, can you? 👀</span></div>
+    <!-- the big reply; later morphs into the URL pill -->
+    <div class="abs orange" id="s4got" style="border-radius:52px;border-top-right-radius:12px;overflow:hidden">
+      <div id="s4gotA" style="position:absolute;inset:0;display:grid;place-items:center;font:500 104px/1 Satoshi;letter-spacing:-.055em;white-space:nowrap"><span><span class="L">Yeah,</span> we've got you.</span></div>
+      <div id="s4gotB" style="position:absolute;inset:0;display:grid;place-items:center;font:500 46px/1 Satoshi;letter-spacing:-.02em;white-space:nowrap"></div>
+    </div>
+    <svg class="thread" id="s4thread"><path pathLength="1" d="M1410 520 C1560 520 1600 700 1760 760 S1900 900 1990 980"/></svg>
+  </div>
+</div>
+
+<!-- ===== S5 · WEBSITE ===== -->
+<div class="scene" id="S5" style="z-index:7">
+  <div class="cam" id="s5root">
+    <img class="bg" id="s5bg">
+    <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(20,30,10,.25))"></div>
+    <svg class="thread" id="s5thread"><path pathLength="1" d="M-40 760 C160 760 200 560 330 560"/></svg>
+    <div class="win" id="s5win" style="left:330px;top:120px;width:1260px;height:840px">
+      <div class="wbar"><i></i><i></i><i></i><div class="url" id="s5url">🔒 ispagency.co</div></div>
+      <div style="position:relative;height:776px;overflow:hidden;background:#FFFCF9">
+        <div id="s5page" style="position:absolute;left:0;top:0;width:100%">
+          <!-- hero -->
+          <div style="position:relative;height:776px;overflow:hidden">
+            <div class="abs" style="left:50%;top:560px;width:2400px;height:2400px;transform:translateX(-50%);border-radius:50%;
+               background:radial-gradient(circle at 50% 0%,#FFB977 0%,#FFC58E 16%,#FFE1C4 30%,rgba(255,240,226,0) 48%);box-shadow:0 -2px 0 rgba(255,140,50,.55),0 -30px 100px rgba(255,150,60,.4)"></div>
+            <div class="nav s5h"><div class="lg"><span><svg width="30" height="19"><use href="#isp"/></svg></span>ISP Agency</div>
+              <div style="display:flex;gap:36px"><span>Work</span><span>Services</span><span>About</span><span>Contact</span></div><span class="btnO">Book a call</span></div>
+            <div style="text-align:center;margin-top:70px">
+              <div class="s5h"><span style="display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;border:1px solid rgba(255,122,26,.35);font:300 17px Satoshi;color:#7A6F67;background:#fff">
+                <b style="padding:5px 12px;border-radius:999px;background:var(--acc);color:#fff;font:500 15px Satoshi">New</b>Editing, scripts &amp; branding in one place</span></div>
+              <div class="s5h" style="margin-top:34px;font:500 104px/1 Satoshi;letter-spacing:-.055em">Content that moves<br><span class="acc-t">your brand</span> <span class="L">forward.</span></div>
+              <div class="s5h" style="margin-top:28px;font:300 24px Satoshi;color:#7A6F67">Video editing, personal branding, social media and scripting.</div>
+            </div>
+          </div>
+          <!-- about -->
+          <div style="position:relative;height:776px;padding:50px 64px">
+            <div style="font:500 15px Satoshi;letter-spacing:.16em;color:#D9601A">ABOUT US</div>
+            <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end">
+              <div style="font:500 60px/1.02 Satoshi;letter-spacing:-.05em"><span class="L">A small team that</span><br>ships <span class="acc-t">big content.</span></div>
+              <div style="width:420px;font:300 21px/1.5 Satoshi;color:#7A6F67">Editors, writers and strategists working as one studio for brands and creators.</div>
+            </div>
+            <div class="solid" id="s5solid" style="position:relative;margin-top:44px;height:400px;display:flex;align-items:center;padding:0 76px;overflow:hidden">
+              <div class="abs" style="right:-120px;top:-160px;width:620px;height:620px;border-radius:50%;border:2px solid rgba(255,255,255,.25)"></div>
+              <div class="abs" style="right:-40px;top:-80px;width:460px;height:460px;border-radius:50%;border:2px solid rgba(255,255,255,.18)"></div>
+              <div style="flex:1"><div style="font:500 180px/1 Satoshi;letter-spacing:-.065em"><span id="s5n1">0</span><span style="opacity:.85">+</span></div>
+                <div class="L" style="margin-top:12px;font-size:32px;letter-spacing:-.01em">clients worked with</div></div>
+              <div style="width:2px;height:230px;background:rgba(255,255,255,.4);margin:0 64px"></div>
+              <div style="flex:1"><div style="font:500 180px/1 Satoshi;letter-spacing:-.065em"><span id="s5n2">0</span><span style="opacity:.85">+</span></div>
+                <div class="L" style="margin-top:12px;font-size:32px;letter-spacing:-.01em">videos delivered</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="abs" id="s5scroll" style="right:10px;top:16px;width:8px;height:110px;border-radius:4px;background:rgba(0,0,0,.22)"></div>
+      </div>
+    </div>
+    <svg class="abs" id="s5cur" style="left:0;top:0;width:64px;height:74px;filter:drop-shadow(0 10px 12px rgba(0,0,0,.35))"><use href="#glove"/></svg>
+  </div>
+</div>
+
+<!-- ===== S6 · WHAT WE DO ===== -->
+<div class="scene" id="S6" style="z-index:8">
+  <div class="abs" id="s6bgwrap" style="inset:0">
+    <img class="bg" id="s6bg">
+    <div class="abs" style="inset:0;background:rgba(10,4,2,.25);background-image:linear-gradient(rgba(255,160,90,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,160,90,.07) 1px,transparent 1px);background-size:160px 160px"></div>
+  </div>
+  <div class="cam" id="s6cam">
+    <div class="abs" id="s6head" style="left:960px;top:540px;white-space:nowrap;font:500 128px/1 Satoshi;letter-spacing:-.06em;text-shadow:0 10px 50px rgba(80,20,0,.35);transform-origin:50% 50%">
+      <span class="w L s6w">What</span> <span class="w L s6w">we</span> <span class="w acc-l s6w">actually</span> <span class="w acc-l s6w">do</span></div>
+    <div id="s6rows"></div>
+  </div>
+</div>
+
+<!-- ===== S7 · THREE POINTS ===== -->
+<div class="scene" id="S7" style="z-index:9">
+  <img class="bg" id="s7bg">
+  <div class="abs" id="s7tint" style="inset:0;background:linear-gradient(180deg,rgba(0,20,50,.1),rgba(10,20,40,.35))"></div>
+  <div class="cam" id="s7cam">
+    <div class="wordmark" id="s7wm"><i><svg width="44" height="27"><use href="#isp"/></svg></i>isp agency</div>
+    <div class="abs glassD s7b" id="s7q" style="left:260px;top:190px;border-radius:34px;border-top-left-radius:8px;padding:24px 34px;font:300 40px Satoshi;display:flex;gap:18px;align-items:center;transform-origin:0 0">
+      <span style="width:58px;height:58px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:500 19px Satoshi">SR</span>So what do I <b>actually</b> get?</div>
+    <div class="abs" style="right:260px;top:340px;display:flex;flex-direction:column;gap:22px;align-items:flex-end">
+      <div class="orange s7b s7a" style="padding:26px 40px;border-radius:34px;border-top-right-radius:8px;font:500 44px Satoshi;letter-spacing:-.02em;white-space:nowrap;transform-origin:100% 0"><span class="L" style="opacity:.85">1.</span> One team for edits, scripts &amp; branding</div>
+      <div class="orange s7b s7a" style="padding:26px 40px;border-radius:34px;border-top-right-radius:8px;font:500 44px Satoshi;letter-spacing:-.02em;white-space:nowrap;transform-origin:100% 0"><span class="L" style="opacity:.85">2.</span> Every review &amp; change in one chat</div>
+      <div class="orange s7b s7a" style="padding:26px 40px;border-radius:34px;border-top-right-radius:8px;font:500 44px Satoshi;letter-spacing:-.02em;white-space:nowrap;transform-origin:100% 0"><span class="L" style="opacity:.85">3.</span> Content that's ready to post</div>
+      <div class="L s7b" id="s7sig" style="font-size:18px;opacity:.8;margin-top:-6px">ISP Agency</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== END CARD ===== -->
+<div class="scene" id="S8" style="z-index:10">
+  <img class="bg" id="s8bg">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(0,0,0,0),rgba(40,12,0,.5))"></div>
+  <div class="cam" id="s8cam">
+    <svg class="thread" id="s8thread"><path pathLength="1" d="M-40 640 C380 640 560 400 834 400"/><path pathLength="1" d="M1960 640 C1540 640 1360 400 1086 400"/></svg>
+    <div class="abs" id="s8ring" style="left:960px;top:400px;width:260px;height:260px;border-radius:70px;border:3px solid #FFC890;box-shadow:0 0 30px #FF8A2A"></div>
+    <div class="abs tile" id="s8tile" style="left:835px;top:275px;width:250px;height:250px;border-radius:68px">
+      <svg width="210" height="131" style="position:absolute;left:20px;top:60px"><use href="#isp"/></svg></div>
+    <div class="abs" style="left:960px;top:600px;transform:translateX(-50%);text-align:center;white-space:nowrap;text-shadow:0 6px 40px rgba(80,20,0,.45)">
+      <div class="w s8w" style="display:block;font:500 110px/1 Satoshi;letter-spacing:-.055em">ISP Agency</div>
+      <div class="w s8w L" style="display:block;margin-top:18px;font-size:38px;letter-spacing:-.01em;opacity:.95">Editing · Scripts · Branding. All in one place.</div>
+    </div>
+    <div class="abs" style="left:960px;top:880px;transform:translateX(-50%);display:flex;gap:16px;align-items:center">
+      <span class="btnO w s8w" style="font-size:26px;padding:18px 34px;border-radius:18px">Book a call</span>
+      <span class="w s8w" style="padding:17px 30px;border-radius:18px;border:2px solid rgba(255,255,255,.7);font:500 26px Satoshi;backdrop-filter:blur(10px);background:rgba(255,255,255,.12)">ispagency.co</span>
+    </div>
+  </div>
+</div>
+
+<svg id="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
+</div>
+
+<script>
+'use strict';
+/* ================= CONFIG: timing (seconds), copy ================= */
+const CONFIG={
+  DUR:36, FPS:60,
+  // scene windows [in, out] (overlaps are the transitions)
+  S1:[0,3.75], S1C:[3.25,7.45], S2:[6.85,11.3], S3:[10.7,15.5], S4:[14.95,22.45], S5:[21.9,28.6], S6:[26.4,31.0], S7:[30.3,34.15], S8:[33.55,36],
+  typed:"Planning to edit your videos, need a script, or wanna just let us handle everything?",
+  url:"ispagency.co",
+  stats:[500,1000],
+  rows:[["We","edit","your videos."],["We","write","your scripts."],["We even make","demo videos","for your SaaS."]],
+};
+
+/* ================= math & easing ================= */
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const P=(t,a,b)=>clamp((t-a)/(b-a));
+function bez(x1,y1,x2,y2){const B=(u,a,b)=>3*a*u*(1-u)*(1-u)+3*b*u*u*(1-u)+u*u*u;
+  return p=>{if(p<=0)return 0;if(p>=1)return 1;let lo=0,hi=1,u=p;for(let i=0;i<28;i++){u=(lo+hi)/2;if(B(u,x1,x2)<p)lo=u;else hi=u}return B(u,y1,y2)}}
+const EIO=bez(.65,0,.35,1), EOUT=bez(.2,.8,.2,1), EIN=bez(.55,0,1,.45), BACK=bez(.34,1.56,.64,1);
+const settle=(t,t0,amp,f=2.2,d=6)=>t<t0?0:amp*Math.exp(-d*(t-t0))*Math.sin(2*Math.PI*f*(t-t0));
+const $=id=>document.getElementById(id);
+function T(e,o){const x=o.x||0,y=o.y||0,s=o.s==null?1:o.s,r=o.r||0,sx=o.sx==null?1:o.sx,sy=o.sy==null?1:o.sy;
+  e.style.transform=(o.pre||'')+`translate(${x.toFixed(2)}px,${y.toFixed(2)}px) rotate(${r.toFixed(3)}deg) scale(${(s*sx).toFixed(4)},${(s*sy).toFixed(4)})`+(o.post||'');
+  if(o.o!=null)e.style.opacity=clamp(o.o).toFixed(3);
+  if(o.b!=null)e.style.filter=o.b>0.05?`blur(${o.b.toFixed(2)}px)`:'none';}
+/* entrance: rise + de-blur (30 frames, eased out); exit faster */
+function rise(e,t,t0,{d=.5,dist=34,blur=10,out=null,outD=.3,dx=0}={}){
+  let p=EOUT(P(t,t0,t0+d)), o=p, y=(1-p)*dist, b=(1-p)*blur, x=(1-p)*dx;
+  if(out!=null){const q=EIN(P(t,out,out+outD));o*=1-q;y-=q*dist*.6;b+=q*blur}
+  T(e,{x,y,o,b});}
+function pop(e,t,t0,{d=.5,from=.6,out=null,outD=.3}={}){
+  const p=P(t,t0,t0+d);let s=lerp(from,1,BACK(p)),o=EOUT(clamp(p*2.2)),b=(1-EOUT(p))*8;
+  if(out!=null){const q=EIN(P(t,out,out+outD));s*=1-q*.3;o*=1-q;b+=q*10}
+  T(e,{s,o,b});}
+const press=(t,tc)=>{const p=P(t,tc,tc+8/60);return p>0&&p<1?1-.04*Math.sin(Math.PI*p):1};
+/* cursor on an arc: quadratic bezier, control point 15% off the line, eased, tiny overshoot */
+function arc(p0,p1,p,bend=.15){const mx=(p0[0]+p1[0])/2,my=(p0[1]+p1[1])/2,dx=p1[0]-p0[0],dy=p1[1]-p0[1];
+  const c=[mx-dy*bend,my+dx*bend];const u=EIO(p),os=Math.sin(Math.PI*clamp((p-.85)/.15))*.012*(p>.85?1:0);
+  const k=u+os,a=(1-k)*(1-k),b=2*(1-k)*k,d=k*k;return[a*p0[0]+b*c[0]+d*p1[0],a*p0[1]+b*c[1]+d*p1[1]]}
+const dash=(path,p)=>{path.style.strokeDasharray='1 1';path.style.strokeDashoffset=(1-clamp(p)).toFixed(4);path.style.opacity=p>.002?1:0};
+
+/* ================= background frames ================= */
+const pending=[];
+function bg(img,clip,lt,{blur=6,bright=1,sat=1,off=0,o=1,px=0,s=1.0}={}){
+  const i=clamp(Math.floor((lt+off)*30),0,224)+1, src=`assets/frames/${clip}/${String(i).padStart(4,'0')}.jpg`;
+  if(img.dataset.src!==src){img.dataset.src=src;img.src=src;pending.push(img.decode().catch(()=>{}));}
+  img.style.filter=`blur(${blur}px) brightness(${bright}) saturate(${sat})`;
+  img.style.opacity=clamp(o).toFixed(3);
+  img.style.transform=`translateX(${px.toFixed(2)}px) scale(${(1.03*s).toFixed(4)})`;}
+
+/* ================= scene 3 (card wheel) build ================= */
+const W3={R:1900,STEP:28,CS:1.45,PIV:{x:960,y:735+1900},
+  CARDS:[{id:'c-brand',label:'Personal Branding'},{id:'c-script',label:'Script Writers'},{id:'c-edit',label:'Professional Editors'},{id:'c-social',label:'Social Media'}],
+  SW:{t0:2.15,t1:2.7,from:2,to:1}, REV:[{card:2,t0:.45},{card:1,t0:2.7}]};
+const w3=W3.CARDS.map(c=>{const card=document.createElement('div');card.className='card';
+  const chip=document.createElement('div');chip.className='chip';chip.textContent=c.label;
+  const body=document.createElement('div');body.className='body';body.appendChild(document.getElementById(c.id).content.cloneNode(true));
+  card.appendChild(body);card.appendChild(chip);$('s3cam').appendChild(card);
+  return{card,chip,body,rows:[...body.querySelectorAll('.row.r:not(.dim), li')]}});
+const wheelPos=lt=>W3.SW.from+(W3.SW.to-W3.SW.from)*EIO(P(lt,W3.SW.t0,W3.SW.t1))+settle(lt,W3.SW.t1,.035,2.2,6);
+const wheelVel=lt=>(wheelPos(lt+1/120)-wheelPos(lt-1/120))*60;
+
+/* ================= scene 6 rows build ================= */
+const rowsEl=$('s6rows');
+const s6=CONFIG.rows.map((r,i)=>{const y=290+i*144;
+  const av=document.createElement('div');av.className='av2';av.textContent='0'+(i+1);av.style.left='380px';av.style.top=(y+17)+'px';
+  const bx=document.createElement('div');bx.className='box';bx.style.left='482px';bx.style.top=y+'px';bx.style.width='1060px';
+  bx.innerHTML=`<div class="fill"></div><div class="tx"><span class="L">${r[0]}</span><b>${r[1]}</b><span class="L">${r[2]}</span></div>`;
+  rowsEl.appendChild(av);rowsEl.appendChild(bx);return{av,bx,fill:bx.querySelector('.fill'),tx:bx.querySelector('.tx')}});
+
+/* ================= measurements (layout is static at build) ================= */
+const btnRect=(()=>{const S=$('S1C');S.style.display='block';const r=$('s1cBtn').getBoundingClientRect();S.style.display='none';return{x:r.left,y:r.top,w:r.width,h:r.height}})();
+
+/* ================= render ================= */
+const on=(id,t)=>{const [a,b]=CONFIG[id];const v=t>=a&&t<b;$(id).style.display=v?'block':'none';return v};
+
+window.renderAt=async function(t){
+  pending.length=0;
+
+  /* ---------- S1 · the ask ---------- */
+  if(on('S1',t)){const lt=t;
+    bg($('s1bg'),'valley_clouds',lt,{blur:5,bright:.85,px:-lt*6});
+    const pull=lerp(.9,1,EIO(P(lt,.1,1.2)))+.012*lt;
+    T($('s1cam'),{s:pull});
+    $('s1frame').style.opacity=(1-EIO(P(lt,.7,1.2))).toFixed(3);T($('s1frame'),{s:pull});
+    pop($('s1bar'),lt,.15,{d:.55,from:.9});
+    rise($('s1top'),lt,.35);
+    const ws=[...document.querySelectorAll('.s1w')], wt=[.65,.9,1.15,1.42,1.6];
+    ws.forEach((w,i)=>{rise(w,lt,wt[i],{dist:30,blur:12});if(i===3)w.style.opacity=(+w.style.opacity*.55).toFixed(3)});
+    $('s1caret').style.opacity=lt>2.0?(Math.floor(lt*2.6)%2?0:1):0;
+    $('s1sweep').style.left=(12+Math.sin(lt*1.6)*8)+'%';
+    // cursor: arc in, hesitate, click send
+    const send=[1417,609]; let c;
+    if(lt<2.3)c=arc([1820,1060],[1585,700],P(lt,1.55,2.3));
+    else if(lt<2.85){const h=P(lt,2.3,2.85);c=[1585+28*Math.sin(h*Math.PI*2)*(1-h),700-12*Math.sin(h*Math.PI*2)*(1-h)]}
+    else c=arc([1585,700],send,P(lt,2.85,3.12),.1);
+    const cs=press(lt,3.12)*(lt>3.12&&lt<3.25?.92:1);
+    T($('s1cur'),{x:c[0]-15,y:c[1]-9,s:cs,o:EOUT(P(lt,1.55,1.8))});
+    T($('s1send'),{s:press(lt,3.12)*(1+.25*Math.exp(-14*Math.max(0,lt-3.12))*(lt>3.12?1:0))});
+    // whip out to the left
+    const wo=EIN(P(lt,3.28,3.62));
+    $('whipAb').setAttribute('stdDeviation',`${(wo*70).toFixed(1)} 0`);
+    $('s1root').style.filter=wo>.01?'url(#whipA)':'none';
+    T($('s1root'),{x:-wo*1500});
+  }
+
+  /* ---------- S1C · ALL IN [ONE PLACE] ?! ---------- */
+  if(on('S1C',t)){const lt=t-3.25;
+    const wi=1-EOUT(P(lt,0,.45));
+    $('whipBb').setAttribute('stdDeviation',`${(wi*70).toFixed(1)} 0`);
+    $('s1croot').style.filter=wi>.01?'url(#whipB)':'none';
+    T($('s1croot'),{x:wi*1500});
+    bg($('s1cbg'),'field_bluesky',lt,{blur:5,px:-lt*10,o:1-EIO(P(t,6.95,7.4))});
+    T($('s1ccam'),{x:-lt*10,s:1+.012*lt});
+    const out=6.72;
+    rise($('s1cA'),t,3.62,{out,outD:.28,dx:-40});
+    pop($('s1cBtn'),t,3.95,{from:.55});
+    rise($('s1cQ'),t,4.4,{out,outD:.28,dx:40});
+    // press
+    const pr=P(t,5.55,5.75), dep=pr>0&&pr<1?Math.sin(Math.PI*pr):0;
+    if(t>=4.4&&t<6.75){const b=$('s1cBtn');b.style.transform+=` translateY(${(dep*6).toFixed(2)}px) scale(${(1-.03*dep).toFixed(4)})`}
+    // glove cursor
+    const tgt=[btnRect.x+btnRect.w*.78-lt*10,btnRect.y+btnRect.h*.72];
+    let g=lt<2.3?arc([1700,1150],tgt,P(t,4.8,5.5)):arc(tgt,[1750,1200],P(t,5.95,6.5));
+    T($('s1cCur'),{x:g[0]-41,y:g[1]-6,s:1-.06*dep,o:P(t,4.8,4.95)*(1-P(t,6.3,6.5))});
+    $('s1cCap').style.opacity=(EOUT(P(t,4.2,4.6))*(1-P(t,6.7,6.9))).toFixed(3);
+    // morph: the button becomes the logo tile (lands exactly where S2's tile sits)
+    const m=EIO(P(t,6.75,7.35)), M=$('s1cMorph');
+    if(t>=6.75){$('s1cBtn').style.opacity=0;M.style.display='block';
+      const cam=-lt*10, x0=btnRect.x+cam, y0=btnRect.y;
+      M.style.left=lerp(x0,810,m)+'px';M.style.top=lerp(y0,280,m)+'px';M.style.width=lerp(btnRect.w,300,m)+'px';M.style.height=lerp(btnRect.h,300,m)+'px';
+      M.style.borderRadius=lerp(52,80,m)+'px';T($('s1cMorphT'),{o:1-EIO(P(t,6.8,7.1)),b:EIO(P(t,6.8,7.1))*12,s:1-m*.5});
+    } else M.style.display='none';
+  }
+
+  /* ---------- S2 · Meet ISP Agency ---------- */
+  if(on('S2',t)){const lt=t-6.85;
+    bg($('s2bg'),'sunset_hills',lt,{blur:4,sat:1.1,s:1+.02*lt});
+    T($('s2cam'),{s:1+.012*Math.max(0,t-7.4)});
+    const tile=$('s2tile');tile.style.opacity=t>=7.35?1:0;
+    const pulse=t>=7.35?1+.05*Math.exp(-7*(t-7.35))*Math.sin((t-7.35)*14):1;
+    T(tile,{s:pulse*(1+.015*Math.sin(t*1.3))});
+    pop($('s2mark'),t,7.35,{d:.45,from:.5});
+    [...$('s2arcs').querySelectorAll('path')].forEach((p,i)=>dash(p,EOUT(P(t,7.45+i*.07,8.15+i*.07))));
+    $('s2arcs').style.transform=`rotate(${(t-7.4)*9}deg)`;$('s2arcs').style.transformOrigin='400px 400px';
+    const sp=EOUT(P(t,7.85,8.2));T($('s2spark'),{s:sp*(1+.15*Math.sin(t*4)),r:(t-7.8)*40,o:sp});
+    rise($('s2a'),t,8.0);rise($('s2b'),t,8.22);
+  }
+
+  /* ---------- S3 · card wheel (circle wipe in, dive out) ---------- */
+  if(on('S3',t)){const lt=t-10.7;
+    const r=lerp(150,1350,EIO(P(t,10.7,11.3)));$('S3').style.clipPath=t<11.3?`circle(${r}px at 960px 430px)`:'none';
+    const s=wheelPos(lt),v=wheelVel(lt);
+    bg($('s3bg'),'wheat_sunset',lt,{blur:11,bright:.8,sat:1.2,px:(s-2)*60});
+    const dive=EIN(P(t,15.0,15.5));
+    const push=1+.045*EOUT(P(lt,0,4.5)), roll=-1.2+.6*Math.sin(lt*.9)+v*1.6;
+    T($('s3cam'),{s:push*(1+dive*2.6),r:roll*.5*(1-dive),y:-8*lt,o:1-EIN(P(t,15.2,15.5)),b:dive*14});
+    w3.forEach((e,i)=>{const a=(i-s)*W3.STEP,ar=a*Math.PI/180;
+      const x=W3.PIV.x+W3.R*Math.sin(ar),y=W3.PIV.y-W3.R*Math.cos(ar),focus=clamp(1-Math.abs(i-s)),sc=W3.CS*(.88+.12*focus);
+      e.card.style.transform=`translate(${x-300}px,${y-360}px) rotate(${a}deg) scale(${sc})`;e.card.style.zIndex=Math.round(focus*10);
+      const mb=Math.min(14,Math.abs(v)*7*(.6+.4*(1-focus)));
+      e.body.style.filter=`blur(${mb.toFixed(2)}px) brightness(${.7+.3*focus})`;
+      const lag=-v*9+settle(lt,W3.SW.t1,4,2.4,6)*Math.sign(W3.SW.to-W3.SW.from);
+      e.chip.style.transform=`translateX(-50%) rotate(${lag}deg)`;e.chip.style.opacity=(.45+.55*focus).toFixed(3);e.chip.style.filter=`blur(${(mb*.6).toFixed(2)}px)`;
+      const rv=W3.REV.find(q=>q.card===i);
+      e.rows.forEach((row,k)=>{const p=rv?EOUT(P(lt,rv.t0+k*.11,rv.t0+k*.11+.38)):.85;
+        row.style.opacity=p.toFixed(3);row.style.transform=`translateY(${(1-p)*18}px)`;row.style.filter=`blur(${((1-p)*6).toFixed(2)}px)`});
+    });
+  }
+
+  /* ---------- S4 · chat, then the reply morphs into the URL pill ---------- */
+  if(on('S4',t)){const lt=t-14.95;
+    const bgo=1-EIO(P(t,22.0,22.4));
+    bg($('s4bgA'),'clouds',lt,{blur:4,bright:.9,o:bgo,s:1.06-.01*lt});
+    bg($('s4bgB'),'garden_sunset',Math.max(0,t-18.4),{blur:7,o:EIO(P(t,18.4,19.0))*bgo});
+    $('s4tint').style.opacity=bgo;
+    T($('s4cam'),{s:1+.01*lt});
+    rise($('s4wm'),t,15.3,{out:21.9,outD:.3});
+    // input: emerges from the dive, then types
+    const ip=EOUT(P(t,15.1,15.65)), iout=EIN(P(t,18.35,18.65));
+    T($('s4input'),{s:lerp(1.18,1,ip)*(1-iout*.25),y:-iout*120,x:iout*160,o:ip*(1-iout),b:(1-ip)*14+iout*12});
+    const n=Math.floor(CONFIG.typed.length*clamp(P(t,15.7,17.85)));
+    $('s4type').innerHTML=CONFIG.typed.slice(0,n)+`<span class="caret" style="opacity:${t>17.85&&Math.floor(t*2.6)%2?0:1}"></span>`;
+    T($('s4send'),{s:press(t,18.25)});
+    // hand to send
+    const send=[1507,599];let g;
+    if(t<18.5)g=arc([1850,1150],send,P(t,17.55,18.2));else g=arc(send,[1900,1200],P(t,18.5,19.0));
+    let hand=$('s4hand');if(!hand){hand=document.createElementNS('http://www.w3.org/2000/svg','svg');hand.id='s4hand';hand.setAttribute('class','abs');
+      hand.style.cssText='left:0;top:0;width:64px;height:74px;filter:drop-shadow(0 10px 12px rgba(0,0,0,.35))';hand.innerHTML='<use href="#glove"/>';$('s4cam').appendChild(hand)}
+    T(hand,{x:g[0]-27,y:g[1]-4,s:press(t,18.25),o:P(t,17.55,17.7)*(1-P(t,18.8,19.0))});
+    // thread
+    rise($('s4sent'),t,18.45,{dist:-40,out:20.95,outD:.25});$('s4sent').style.opacity=(+$('s4sent').style.opacity*.6).toFixed(3);
+    const dots=$('s4dots');pop(dots,t,18.85,{d:.35,from:.7,out:19.3,outD:.12});
+    [...dots.children].forEach((d,i)=>T(d,{y:-8*Math.max(0,Math.sin((t*7-i*.8)))}));
+    pop($('s4yes'),t,19.35,{from:.7,out:20.95,outD:.25});
+    // the big reply → URL pill → URL bar of the browser
+    const G=$('s4got');
+    const A={x:1920-220-1100,y:620,w:1100,h:184,r:52}, Bp={x:510,y:460,w:900,h:120,r:60}, C={x:700,y:133,w:520,h:38,r:12};
+    const g1=EIO(P(t,21.0,21.45)), g2=EIO(P(t,21.95,22.35));
+    let gx=lerp(lerp(A.x,Bp.x,g1),C.x,g2),gy=lerp(lerp(A.y,Bp.y,g1),C.y,g2),gw=lerp(lerp(A.w,Bp.w,g1),C.w,g2),gh=lerp(lerp(A.h,Bp.h,g1),C.h,g2),gr=lerp(lerp(A.r,Bp.r,g1),C.r,g2);
+    Object.assign(G.style,{left:gx+'px',top:gy+'px',width:gw+'px',height:gh+'px',borderRadius:`${gr}px ${g1>.5?gr:12}px ${gr}px ${gr}px`});
+    const gp=P(t,20.15,20.65);G.style.transformOrigin='100% 0';
+    T(G,{s:lerp(.6,1,BACK(gp)),o:EOUT(clamp(gp*2.2))*(1-EIO(P(t,22.25,22.4))),b:(1-EOUT(gp))*8});
+    T($('s4gotA'),{o:1-EIO(P(t,20.95,21.25)),b:EIO(P(t,20.95,21.25))*14,s:1-.3*g1});
+    const un=Math.floor(CONFIG.url.length*clamp(P(t,21.3,21.75)));
+    $('s4gotB').innerHTML=`<span style="display:flex;gap:16px;align-items:center"><span style="opacity:.75">🔒</span>${CONFIG.url.slice(0,un)}<span class="caret" style="height:46px;opacity:${Math.floor(t*2.6)%2?0:1}"></span></span>`;
+    T($('s4gotB'),{o:EOUT(P(t,21.2,21.4))*(1-EIO(P(t,21.95,22.15))),s:1-.5*g2});
+    const thr=$('s4thread').querySelector('path');dash(thr,EOUT(P(t,21.5,22.0)));
+    $('s4thread').style.opacity=(1-EIO(P(t,21.95,22.2))).toFixed(3);
+  }
+
+  /* ---------- S5 · website, scroll to About, count up ---------- */
+  if(on('S5',t)){const lt=t-21.9;
+    const blurOut=EIO(P(t,26.45,27.05));
+    bg($('s5bg'),'meadow_tree',lt,{blur:7,px:-lt*8});
+    T($('s5root'),{s:1+.01*lt+blurOut*.08,b:blurOut*26});
+    const wp=P(t,22.25,22.8), win=$('s5win');win.style.transformOrigin='630px 32px';
+    const tilt=`perspective(2200px) rotateX(${lerp(6,3,P(t,22.3,26.5))}deg) rotateY(${lerp(-4,-2,P(t,22.3,26.5))}deg) `;
+    T(win,{pre:tilt,s:lerp(.12,1,BACK(wp)),o:EOUT(clamp(wp*3))});
+    dash($('s5thread').querySelector('path'),EOUT(P(t,22.6,23.2)));
+    [...document.querySelectorAll('.s5h')].forEach((e,i)=>rise(e,t,22.65+i*.12,{dist:24}));
+    // scroll
+    const sc=EIO(P(t,23.85,24.75)), sv=Math.sin(Math.PI*P(t,23.85,24.75));
+    T($('s5page'),{y:-776*sc,b:sv*3});
+    $('s5scroll').style.top=(16+sc*560)+'px';
+    $('s5url').textContent='🔒 '+CONFIG.url+(t>24.3?'/#about':'');
+    pop($('s5solid'),t,24.5,{from:.94});
+    const cnt=EOUT(P(t,24.75,25.8));$('s5n1').textContent=Math.round(CONFIG.stats[0]*cnt);$('s5n2').textContent=Math.round(CONFIG.stats[1]*cnt);
+    // hand: scroll gesture
+    const hp=[1390,820-120*sc];
+    T($('s5cur'),{x:hp[0]+(1-EOUT(P(t,23.35,23.8)))*300,y:hp[1]+(1-EOUT(P(t,23.35,23.8)))*240,o:P(t,23.35,23.5)*(1-P(t,24.8,25.0))});
+  }
+
+  /* ---------- S6 · what we actually do ---------- */
+  if(on('S6',t)){const lt=t-26.4;
+    const z=EIO(P(t,27.9,28.5));
+    bg($('s6bg'),'valley_clouds',lt+3,{blur:14,bright:.55});
+    $('s6bgwrap').style.opacity=z.toFixed(3);
+    T($('s6cam'),{s:1+.01*lt});
+    const ws=[...document.querySelectorAll('.s6w')];[26.8,27.0,27.22,27.45].forEach((t0,i)=>rise(ws[i],t,t0,{dist:60,blur:16}));
+    const H=$('s6head');
+    T(H,{pre:'translate(-50%,-50%) ',y:lerp(0,-390,z),s:lerp(1,.36,z),o:lerp(1,.6,z)*(1-EIN(P(t,30.4,30.7)))});
+    s6.forEach((r,i)=>{const t0=28.4+i*.6, ex=30.35+i*.06;
+      pop(r.av,t,t0,{d:.4,from:.4,out:ex,outD:.25});
+      const wgrow=EOUT(P(t,t0+.05,t0+.38));
+      r.bx.style.width=(1060*Math.max(.001,wgrow))+'px';
+      const ox=EIN(P(t,ex,ex+.3));
+      T(r.bx,{x:ox*700,o:clamp(wgrow*4)*(1-ox),b:ox*16});
+      r.fill.style.opacity=(1-EIO(P(t,t0+.42,t0+.7))).toFixed(3);
+      rise(r.tx,t,t0+.45,{dist:22});
+    });
+  }
+
+  /* ---------- S7 · three points ---------- */
+  if(on('S7',t)){const lt=t-30.3;
+    const f=EIO(P(t,30.35,30.75));
+    bg($('s7bg'),'clouds',lt+3.5,{blur:5,bright:.85,o:f});$('s7tint').style.opacity=f;
+    T($('s7cam'),{s:1+.01*lt});
+    rise($('s7wm'),t,30.65,{out:33.55,outD:.3});
+    const col=EIN(P(t,33.5,33.9));
+    const bs=[...document.querySelectorAll('.s7b')];
+    pop($('s7q'),t,30.85,{from:.7});
+    [...document.querySelectorAll('.s7a')].forEach((e,i)=>pop(e,t,31.35+i*.5,{from:.7}));
+    rise($('s7sig'),t,32.6,{dist:10});
+    // collapse toward the end-card tile
+    T($('s7cam'),{s:(1+.01*lt)*(1-col*.75),y:-col*140,o:1-col,b:col*12});
+  }
+
+  /* ---------- S8 · end card ---------- */
+  if(on('S8',t)){const lt=t-33.55;
+    bg($('s8bg'),'sunset_hills',lt,{blur:6,sat:1.1,o:EIO(P(t,33.55,33.95)),s:1+.02*lt});
+    T($('s8cam'),{s:1+.02*lt});
+    pop($('s8tile'),t,33.85,{d:.55,from:.3});
+    const rp=P(t,34.05,34.7);T($('s8ring'),{pre:'translate(-50%,-50%) ',s:lerp(1,2.4,EOUT(rp)),o:rp>0?(1-rp)*.9:0});
+    [...$('s8thread').querySelectorAll('path')].forEach((p,i)=>dash(p,EOUT(P(t,34.0+i*.08,34.65+i*.08))));
+    [...document.querySelectorAll('.s8w')].forEach((e,i)=>rise(e,t,34.25+i*.16,{dist:30}));
+  }
+
+  await Promise.all(pending);
+};
+window.ready=document.fonts.ready;
+</script>
+</body>
+</html>
