@@ -23,11 +23,13 @@ body{background:#333;font-family:Inter,sans-serif}
 .neon{border:2px solid #FF8A2A;box-shadow:0 0 0 1px rgba(255,180,110,.35) inset,0 0 18px rgba(255,122,26,.75),0 0 60px rgba(255,110,20,.45),0 0 140px rgba(255,100,10,.25),inset 0 0 40px rgba(255,120,30,.25)}
 .sweep{position:absolute;left:12%;right:12%;top:-2px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#FFE2C4 50%,transparent);box-shadow:0 0 14px #FFB06A,0 0 30px #FF8A2A}
 /* glass (ref: Zelios) */
-.glassD{background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.05));border:1.5px solid rgba(255,255,255,.28);backdrop-filter:blur(30px);
+.glassD{background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.10));border:1.5px solid rgba(255,255,255,.28);backdrop-filter:blur(30px);
   box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 40px 90px -30px rgba(0,0,0,.6)}
 .ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1.5px solid rgba(255,255,255,.25);color:#fff;font:500 24px Inter}
 .pill{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.22);font:500 18px Inter;color:rgba(255,255,255,.85)}
 .caret{display:inline-block;width:4px;height:1em;background:#fff;vertical-align:-.12em;margin-left:4px;border-radius:2px}
+.nat{position:absolute;inset:-40px;background-size:cover;background-position:center;transform:scale(1.04)}
+.frameline{position:absolute;inset:26px;border:2px solid rgba(255,255,255,.55);border-radius:34px;z-index:58;pointer-events:none}
 </style>
 </head>
 <body>
@@ -68,7 +70,8 @@ body{background:#333;font-family:Inter,sans-serif}
 
 <!-- ============ 1A · search bar on black, neon edge (ref: Framer) ============ -->
 <section class="frame" id="s1a" style="background:radial-gradient(ellipse 60% 55% at 50% 50%,#1C0B03 0%,#080402 60%,#030201 100%)">
-  <div class="abs" style="inset:0;background-image:radial-gradient(rgba(255,150,80,.10) 1.2px,transparent 1.4px);background-size:36px 36px;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000,transparent 80%)"></div>
+  <div class="nat" style="background-image:url(assets/nature/valley_clouds.jpg);filter:blur(5px) brightness(.82)"></div><div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(20,8,2,.35))"></div><div class="frameline"></div>
+  <div class="abs" style="display:none;inset:0;background-image:radial-gradient(rgba(255,150,80,.10) 1.2px,transparent 1.4px);background-size:36px 36px;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000,transparent 80%)"></div>
   <div class="label">01 · The ask</div>
   <!-- top row: new chat + plus -->
   <div class="abs" style="left:420px;top:262px;display:flex;gap:14px">
@@ -76,7 +79,7 @@ body{background:#333;font-family:Inter,sans-serif}
     <div style="width:58px;height:58px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;font:400 30px Inter;color:rgba(255,255,255,.6)">+</div>
   </div>
   <!-- the bar -->
-  <div class="abs neon" style="left:420px;top:350px;width:1080px;height:330px;border-radius:44px;background:linear-gradient(180deg,rgba(40,18,6,.85),rgba(14,7,3,.9));padding:48px 52px">
+  <div class="abs neon" style="left:420px;top:350px;width:1080px;height:330px;border-radius:44px;background:linear-gradient(180deg,rgba(30,14,6,.62),rgba(14,7,3,.72));backdrop-filter:blur(24px);padding:48px 52px">
     <div class="sweep"></div>
     <div style="font:500 50px/1.22 Inter;letter-spacing:-.025em;color:#FFF5EC">Video editing, personal branding,<br>social media marketing <span style="opacity:.5">&amp;</span>
       <span style="display:inline-block;filter:blur(4px);opacity:.6;transform:translateY(16px)">scripting</span></div>
@@ -93,26 +96,20 @@ body{background:#333;font-family:Inter,sans-serif}
 </section>
 
 <!-- ============ 1B · FAST CUT: whip-pan blur between shots (ref: Higgsfield) ============ -->
-<section class="frame" id="s1b" style="background:#EDEAE6;color:#111">
-  <div class="label" style="color:#111">01 · Cut (whip)</div>
-  <div class="abs" style="left:-80px;top:360px;white-space:nowrap;font:700 330px/1 Inter;letter-spacing:-.05em;filter:url(#whip)">t sent. All in</div>
-  <div class="abs" style="left:1660px;top:330px;width:22px;height:400px;background:#111;border-radius:4px"></div>
+<section class="frame" id="s1b" style="background:#7a9a5a">
+  <div class="nat" style="background-image:url(assets/nature/green_field.jpg);filter:url(#whip) brightness(1.05)"></div>
+  <div class="label">01 · Cut (whip)</div>
+  <div class="abs" style="left:-80px;top:360px;white-space:nowrap;font:700 330px/1 Inter;letter-spacing:-.05em;color:#fff;filter:url(#whip)">t sent. All in</div>
+  <div class="abs" style="left:1660px;top:330px;width:22px;height:400px;background:#fff;border-radius:4px"></div>
   <!-- orange smear of the incoming button -->
   <div class="abs" style="left:1100px;top:400px;width:900px;height:250px;border-radius:60px;background:var(--acc);filter:url(#whip);opacity:.85"></div>
 </section>
 
 <!-- ============ 1C · ALL IN [ONE PLACE] ?! — the word is a button (ref: Higgsfield) ============ -->
 <section class="frame" id="s1c">
-  <!-- dreamy dusk dunes -->
-  <div class="abs" style="inset:0;background:linear-gradient(180deg,#5A2A1A 0%,#C9632C 30%,#F7A35C 52%,#FFD3A0 64%,#F2B27A 100%)"></div>
-  <div class="abs" style="left:-300px;top:600px;width:1500px;height:700px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#E8955A,#B3592A 70%);filter:blur(30px)"></div>
-  <div class="abs" style="left:700px;top:640px;width:1700px;height:700px;border-radius:50%;background:radial-gradient(ellipse at 40% 25%,#F0A86A,#C0622C 70%);filter:blur(34px)"></div>
-  <div class="abs" style="left:-200px;top:820px;width:2400px;height:600px;border-radius:50%;background:radial-gradient(ellipse at 50% 20%,#D9783E,#8E3D18 75%);filter:blur(26px)"></div>
-  <div class="abs" style="left:600px;top:380px;width:700px;height:300px;border-radius:50%;background:#FFE7C8;filter:blur(90px);opacity:.8"></div>
-  <!-- flower specks, out of focus -->
-  <div class="abs" id="specks" style="inset:0"></div>
+  <div class="nat" style="background-image:url(assets/nature/field_bluesky.jpg);filter:blur(5px) "></div>
   <!-- punched-in kinetic line, cropped by the frame -->
-  <div class="abs" style="left:-150px;top:378px;display:flex;align-items:center;gap:44px;white-space:nowrap;font:600 210px/1 Inter;letter-spacing:-.05em;text-shadow:0 10px 40px rgba(120,40,0,.25)">
+  <div class="abs" style="left:-150px;top:378px;display:flex;align-items:center;gap:44px;white-space:nowrap;font:600 210px/1 Inter;letter-spacing:-.05em;text-shadow:0 8px 40px rgba(0,30,60,.35)">
     <span>All in</span>
     <span style="position:relative;display:inline-block;padding:20px 64px 34px;border-radius:52px;background:linear-gradient(180deg,#FF9A3C,#F06A10);font-weight:700;
       box-shadow:0 6px 0 #B84A08,0 30px 60px -10px rgba(120,40,0,.55),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -10px 24px rgba(160,50,0,.35);transform:scale(.97) translateY(4px)">one place</span>
@@ -124,7 +121,8 @@ body{background:#333;font-family:Inter,sans-serif}
 </section>
 
 <!-- ============ 2 · MEET — neon tile on black, reflection, arcs (ref: Framer) ============ -->
-<section class="frame" id="s2" style="background:#040201">
+<section class="frame" id="s2" style="background:#B86A2A">
+  <div class="nat" style="background-image:url(assets/nature/sunset_hills.jpg);filter:blur(4px) saturate(1.1)"></div><div class="abs" style="inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(0,0,0,0),rgba(40,12,0,.55))"></div>
   <div class="abs" style="left:960px;top:430px;width:1300px;height:900px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(255,110,20,.28),transparent 65%)"></div>
   <!-- broken neon arcs -->
   <svg class="abs" style="left:560px;top:30px" width="800" height="800" viewBox="0 0 800 800">
@@ -135,20 +133,21 @@ body{background:#333;font-family:Inter,sans-serif}
   </svg>
   <div class="label">02 · Meet</div>
   <!-- tile -->
-  <div class="abs" style="left:960px;top:430px;width:300px;height:300px;transform:translate(-50%,-50%);border-radius:80px;background:linear-gradient(160deg,#2A1206,#0E0603);
-     border:2.5px solid #FF8A2A;box-shadow:0 0 22px rgba(255,122,26,.9),0 0 80px rgba(255,110,20,.6),inset 0 0 50px rgba(255,120,30,.5)">
+  <div class="abs" style="left:960px;top:430px;width:300px;height:300px;transform:translate(-50%,-50%);border-radius:80px;background:linear-gradient(160deg,#FFB866,#FF7A1A 50%,#D94806);
+     border:2.5px solid #FFD2A6;box-shadow:0 0 22px rgba(255,122,26,.9),0 0 80px rgba(255,110,20,.6),inset 0 0 50px rgba(255,120,30,.5)">
     <svg width="250" height="156" style="position:absolute;left:25px;top:72px;filter:drop-shadow(0 0 12px rgba(255,140,50,.9))"><use href="#isp"/></svg>
   </div>
   <!-- floor reflection -->
   <div class="abs" style="left:960px;top:745px;width:300px;height:300px;transform:translateX(-50%) scaleY(-1);border-radius:80px;border:2.5px solid #FF8A2A;opacity:.18;filter:blur(6px);
      -webkit-mask-image:linear-gradient(0deg,#000,transparent 60%)"></div>
   <svg class="abs" style="left:1100px;top:250px;width:54px;height:54px;color:#FFE2C4;filter:drop-shadow(0 0 10px #fff)"><use href="#spark"/></svg>
-  <div class="abs" style="left:960px;top:800px;transform:translateX(-50%);white-space:nowrap;font:700 120px/1 Inter;letter-spacing:-.055em">
-    Meet <span style="color:#FFB067;text-shadow:0 0 30px rgba(255,120,30,.8),0 0 80px rgba(255,100,10,.5)">ISP Agency.</span></div>
+  <div class="abs" style="left:960px;top:800px;transform:translateX(-50%);white-space:nowrap;font:700 120px/1 Inter;letter-spacing:-.055em;text-shadow:0 6px 40px rgba(80,20,0,.45)">
+    Meet <span style="color:#fff;text-shadow:0 0 24px rgba(255,120,30,.9),0 0 70px rgba(200,60,0,.7)">ISP Agency.</span></div>
 </section>
 
 <!-- ============ 3A · glowing bar, about to unfold into the card (ref: Doks) ============ -->
 <section class="frame" id="s3a" style="background:#0A0503">
+  <div class="nat" style="background-image:url(assets/nature/wheat_sunset.jpg);filter:blur(7px) brightness(.95) saturate(1.15)"></div><div class="abs" style="inset:0;background:rgba(15,6,2,.22)"></div>
   <div class="abs" style="inset:0;background-image:linear-gradient(rgba(255,140,60,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,140,60,.07) 1px,transparent 1px);background-size:160px 160px;background-position:-40px -20px;
      -webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000,transparent 90%)"></div>
   <div class="abs" id="nodes" style="inset:0"></div>
@@ -165,7 +164,8 @@ body{background:#333;font-family:Inter,sans-serif}
 </section>
 
 <!-- ============ 3B · cards fanned in 3D with floating labels (ref: Doks) ============ -->
-<section class="frame" id="s3b" style="background:radial-gradient(ellipse 90% 80% at 50% 100%,#B94A0A 0%,#5A2006 40%,#1A0904 75%,#0B0503 100%)">
+<section class="frame" id="s3b" style="background:#3a2010">
+  <div class="nat" style="background-image:url(assets/nature/wheat_sunset.jpg);filter:blur(12px) brightness(.8)"></div><div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(10,4,2,.35),rgba(60,20,0,.25))"></div>
   <div class="label">03 · The team</div>
   <div class="stage" style="perspective:1600px;perspective-origin:50% 30%">
     <!-- left card: personal branding (partly off-frame) -->
@@ -214,12 +214,7 @@ body{background:#333;font-family:Inter,sans-serif}
 
 <!-- ============ 4A · chat, aurora + glass input, hand on send (ref: Zelios) ============ -->
 <section class="frame" id="s4a" style="background:#0C0503">
-  <div class="abs" style="inset:0;background:
-     radial-gradient(ellipse 55% 60% at 8% 100%,rgba(255,140,60,.95),transparent 70%),
-     radial-gradient(ellipse 45% 50% at 40% 95%,rgba(255,90,90,.55),transparent 70%),
-     radial-gradient(ellipse 40% 40% at 75% 85%,rgba(255,170,90,.35),transparent 70%),
-     radial-gradient(ellipse 70% 60% at 90% 10%,rgba(120,40,10,.6),transparent 70%),
-     linear-gradient(160deg,#160804 0%,#0C0503 50%,#1A0A06 100%)"></div>
+  <div class="nat" style="background-image:url(assets/nature/clouds.jpg);filter:blur(4px) brightness(.9)"></div><div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,20,50,.15),rgba(10,20,40,.35))"></div>
   <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
     <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
   <div class="label">04 · We've got you</div>
@@ -240,11 +235,7 @@ body{background:#333;font-family:Inter,sans-serif}
 
 <!-- ============ 4B · the reply lands ============ -->
 <section class="frame" id="s4b" style="background:#0C0503">
-  <div class="abs" style="inset:0;background:
-     radial-gradient(ellipse 55% 60% at 92% 100%,rgba(255,140,60,.95),transparent 70%),
-     radial-gradient(ellipse 45% 50% at 60% 95%,rgba(255,90,90,.5),transparent 70%),
-     radial-gradient(ellipse 50% 50% at 10% 20%,rgba(120,40,10,.6),transparent 70%),
-     linear-gradient(200deg,#160804 0%,#0C0503 50%,#1A0A06 100%)"></div>
+  <div class="nat" style="background-image:url(assets/nature/garden_sunset.jpg);filter:blur(6px) "></div><div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(10,4,2,.25),rgba(20,8,2,.4))"></div>
   <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
     <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
   <div class="label">04 · We've got you</div>
@@ -261,7 +252,7 @@ body{background:#333;font-family:Inter,sans-serif}
 
 <script>
 let s=11; const r=()=>(s=(s*16807)%2147483647)/2147483647;
-const sp=document.getElementById('specks');
+const sp=document.getElementById("specks")||document.createElement("div");
 for(let i=0;i<70;i++){const y=720+r()*360,z=(y-720)/360,e=document.createElement('div'),d=6+z*26;
  e.style.cssText=`position:absolute;left:${r()*1920}px;top:${y}px;width:${d}px;height:${d}px;border-radius:50%;background:${r()<.5?'#FFE0B0':'#FF8A6A'};opacity:${.35+z*.4};filter:blur(${1+z*6}px)`;sp.appendChild(e)}
 const nd=document.getElementById('nodes');
