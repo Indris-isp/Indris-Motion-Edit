@@ -1,1 +1,10 @@
 assets/nature/*.mp4
+assets/frames/
+out/frames/
+out/seg_*.mp4
+out/check/
+out/render.log
+out/sfx.wav
+out/audio_mix.wav
+out/video_silent.mp4
+out/segs.txt
