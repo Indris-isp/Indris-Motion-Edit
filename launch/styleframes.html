@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ISP Agency launch: styleframes</title>
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(fonts/Inter-400.ttf)}
+@font-face{font-family:Inter;font-weight:500;src:url(fonts/Inter-500.ttf)}
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/Inter-600.ttf)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/Inter-700.ttf)}
+@font-face{font-family:Inter;font-weight:800;src:url(fonts/Inter-800.ttf)}
+:root{
+  --ink:#16120F; --mut:#7A6F67; --line:rgba(40,20,5,.08);
+  --a1:#FFB866; --a2:#FF7A1A; --a3:#DD4C06;
+  --acc:linear-gradient(135deg,var(--a1) 0%,var(--a2) 50%,var(--a3) 100%);
+  --paper:#FFFCF9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#ddd;font-family:Inter,sans-serif;color:var(--ink)}
+.frame{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper);margin:0 0 40px}
+/* ambient: dot grid + orange horizon arc (from the reference) */
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(60,30,10,.07) 1.2px,transparent 1.3px);background-size:32px 32px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
+.arc{position:absolute;left:50%;width:3200px;height:3200px;border-radius:50%;transform:translateX(-50%);
+  background:radial-gradient(circle at 50% 0%,#FFB977 0%,#FFC58E 18%,#FFE1C4 34%,rgba(255,240,226,0) 52%);
+  box-shadow:0 -2px 0 rgba(255,140,50,.55),0 -30px 120px rgba(255,150,60,.45)}
+.halo{position:absolute;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,rgba(255,150,60,.35),rgba(255,150,60,0) 70%)}
+.c{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.label{position:absolute;left:96px;top:64px;font:600 15px Inter;letter-spacing:.14em;text-transform:uppercase;color:#B9AEA6}
+.acc-t{background:var(--acc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.glass{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,250,245,.9));border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 30px 80px -20px rgba(150,60,0,.18),0 10px 24px -10px rgba(120,50,0,.12)}
+.ring{box-shadow:0 0 0 1.5px rgba(255,130,40,.55),0 0 0 7px rgba(255,140,50,.08),0 0 42px rgba(255,130,40,.28),0 30px 80px -20px rgba(150,60,0,.22)}
+.cursor{position:absolute;width:44px;height:44px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+.chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;border:1px solid rgba(40,20,5,.1);
+  background:#fff;font:500 17px Inter;color:#4A403A}
+.chip.on{background:#FFF1E4;border-color:rgba(255,122,26,.35);color:#C9520A}
+.iconTile{width:72px;height:72px;border-radius:20px;background:var(--acc);display:grid;place-items:center;
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 26px -6px rgba(230,90,10,.55)}
+/* chat */
+.bubble{position:absolute;padding:22px 28px;border-radius:28px;font:500 26px/1.35 Inter;letter-spacing:-.01em;max-width:860px}
+.me{background:var(--acc);color:#fff;border-bottom-right-radius:8px;box-shadow:0 18px 40px -14px rgba(220,80,0,.55)}
+.them{background:#fff;color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:8px;box-shadow:0 18px 40px -18px rgba(120,50,0,.25)}
+.meta{position:absolute;font:500 15px Inter;color:#B3A79E}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 15px Inter;color:#fff;position:absolute}
+/* phone */
+.phone{position:absolute;width:470px;height:960px;border-radius:72px;background:#111;padding:14px;
+  box-shadow:0 0 0 2px #2b2b2b inset,0 60px 120px -30px rgba(120,45,0,.45),0 20px 40px -10px rgba(0,0,0,.3)}
+.screen{position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:#FBF8F5}
+.pb{position:absolute;padding:14px 18px;border-radius:22px;font:500 19px/1.35 Inter;max-width:330px}
+</style>
+</head>
+<body>
+
+<!-- ============ SCENE 1A · the ask (composer, words rising in) ============ -->
+<section class="frame" id="s1a">
+  <div class="dots"></div>
+  <div class="arc" style="top:880px"></div>
+  <div class="label">01 · The ask</div>
+
+  <!-- faint chat header -->
+  <div class="c" style="top:300px;display:flex;align-items:center;gap:14px;opacity:.9">
+    <div style="width:12px;height:12px;border-radius:50%;background:#34C76A;box-shadow:0 0 0 5px rgba(52,199,106,.15)"></div>
+    <div style="font:500 20px Inter;color:#9A8F87">New message</div>
+  </div>
+
+  <!-- composer -->
+  <div class="c glass ring" style="top:470px;width:1240px;height:200px;border-radius:40px;padding:36px 44px">
+    <div style="font:500 44px/1.3 Inter;letter-spacing:-.03em;width:980px">
+      <span>Video editing, personal branding,</span><br>
+      <span>social media marketing</span>
+      <span style="color:#9A8F87"> &amp; </span>
+      <span style="display:inline-block;filter:blur(2.5px);opacity:.75;transform:translateY(10px)" class="acc-t">scripting</span>
+    </div>
+    <!-- send button (hover state) -->
+    <div style="position:absolute;right:34px;bottom:34px;width:84px;height:84px;border-radius:26px;background:var(--acc);display:grid;place-items:center;
+      box-shadow:0 0 0 8px rgba(255,122,26,.14),0 14px 30px -8px rgba(220,80,0,.6)">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+    </div>
+  </div>
+
+  <!-- service hints under the composer -->
+  <div class="c" style="top:640px;display:flex;gap:12px">
+    <span class="chip on">Video editing</span><span class="chip on">Personal branding</span><span class="chip on">Social media</span><span class="chip">Scripting</span>
+  </div>
+
+  <!-- cursor hesitating near send -->
+  <svg class="cursor" style="left:1460px;top:610px" viewBox="0 0 24 24"><path d="M4 2.5 20 12l-7 1.6L9.6 20.5z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- ============ SCENE 1B · sent → "ALL IN ONE PLACE?!" ============ -->
+<section class="frame" id="s1b">
+  <div class="dots"></div>
+  <div class="arc" style="top:930px"></div>
+  <div class="label">01 · The ask</div>
+
+  <div class="avatar" style="left:1712px;top:228px;background:#2A2522">You</div>
+  <div class="bubble me" style="right:236px;top:200px;font-size:24px">Video editing, personal branding, social media marketing &amp; scripting…</div>
+  <div class="meta" style="right:240px;top:300px">Sent · 10:24</div>
+
+  <div class="avatar" style="left:420px;top:440px;background:var(--acc);font-size:13px">ISP</div>
+  <div class="bubble them" style="left:486px;top:350px;padding:40px 72px 46px 56px;border-radius:44px;border-bottom-left-radius:10px">
+    <div style="font:800 112px/0.98 Inter;letter-spacing:-.055em;text-transform:uppercase">All in<br><span class="acc-t">one place</span>?!</div>
+  </div>
+  <div class="meta" style="left:490px;top:676px">ISP Agency · just now</div>
+
+  <!-- composer settled at bottom -->
+  <div class="c glass" style="top:860px;width:1100px;height:96px;border-radius:30px;display:flex;align-items:center;padding:0 22px 0 36px;justify-content:space-between">
+    <span style="font:500 24px Inter;color:#B3A79E">Message ISP Agency…</span>
+    <div style="width:56px;height:56px;border-radius:18px;background:#F1E9E2;display:grid;place-items:center">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B3A79E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE 2 · logo pop: Meet ISP Agency ============ -->
+<section class="frame" id="s2">
+  <div class="dots"></div>
+  <div class="halo" style="left:610px;top:120px;width:700px;height:600px"></div>
+  <div class="arc" style="top:820px"></div>
+  <div class="label">02 · Meet</div>
+
+  <!-- solid gradient mark -->
+  <div class="c" style="top:390px;width:300px;height:300px;border-radius:84px;background:var(--acc);
+     box-shadow:0 2px 0 rgba(255,255,255,.55) inset,0 -10px 30px rgba(170,50,0,.25) inset,0 0 0 10px rgba(255,140,50,.10),0 40px 90px -20px rgba(220,80,0,.65)">
+    <svg viewBox="0 0 900 560" width="260" height="162" style="position:absolute;left:20px;top:69px;overflow:visible">
+      <defs>
+        <mask id="cres2" maskUnits="userSpaceOnUse" x="-100" y="-100" width="1100" height="760">
+          <rect x="-100" y="-100" width="1100" height="760" fill="#000"/>
+          <ellipse cx="450" cy="280" rx="405" ry="190" fill="#fff" transform="rotate(-14 450 280)"/>
+          <ellipse cx="478" cy="258" rx="378" ry="158" fill="#000" transform="rotate(-14 450 280)"/>
+        </mask>
+      </defs>
+      <rect x="-100" y="-100" width="1100" height="760" fill="rgba(255,255,255,.85)" mask="url(#cres2)"/>
+      <text x="450" y="378" text-anchor="middle" font-family="Inter" font-weight="800" font-size="290" letter-spacing="-10" fill="#fff">ISP</text>
+    </svg>
+    <!-- glossy highlight -->
+    <div style="position:absolute;inset:0;border-radius:84px;background:linear-gradient(160deg,rgba(255,255,255,.35),rgba(255,255,255,0) 45%)"></div>
+  </div>
+
+  <div class="c" style="top:688px;text-align:center;white-space:nowrap">
+    <div style="font:600 128px/1 Inter;letter-spacing:-.055em">Meet <span class="acc-t">ISP Agency.</span></div>
+    <div style="margin-top:30px;font:400 30px Inter;color:var(--mut);letter-spacing:-.01em">Editing · Branding · Social · Scripts, all in one place.</div>
+  </div>
+</section>
+
+<!-- ============ SCENE 3 · the team cards ============ -->
+<section class="frame" id="s3">
+  <div class="dots"></div>
+  <div class="arc" style="top:1000px"></div>
+  <div class="label">03 · The team</div>
+
+  <div class="c" style="top:200px;text-align:center;white-space:nowrap">
+    <div style="font:600 84px/1.02 Inter;letter-spacing:-.05em">Real people behind your content.</div>
+  </div>
+
+  <!-- card 1 : editors (focused) -->
+  <div class="glass ring" style="position:absolute;left:330px;top:330px;width:610px;height:600px;border-radius:40px;padding:48px">
+    <div class="iconTile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9.5 5 2.5-5 2.5z" fill="#fff"/></svg></div>
+    <div style="margin-top:38px;font:600 48px/1.05 Inter;letter-spacing:-.04em">Professional Editors</div>
+    <div style="margin-top:16px;font:400 23px/1.45 Inter;color:var(--mut)">Cuts, pacing and motion that keep people watching.</div>
+    <div style="margin-top:40px;display:flex;align-items:center;gap:18px">
+      <div style="font:700 104px/1 Inter;letter-spacing:-.06em" class="acc-t">3+</div>
+      <div style="font:500 24px/1.25 Inter;color:var(--ink)">years of<br>experience</div>
+    </div>
+    <div style="position:absolute;left:48px;bottom:44px;display:flex;gap:10px">
+      <span class="chip on">Reels</span><span class="chip">YouTube</span><span class="chip">Ads</span>
+    </div>
+  </div>
+
+  <!-- card 2 : script writers -->
+  <div class="glass" style="position:absolute;left:980px;top:330px;width:610px;height:600px;border-radius:40px;padding:48px">
+    <div class="iconTile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+    <div style="margin-top:38px;font:600 48px/1.05 Inter;letter-spacing:-.04em">Script Writers</div>
+    <div style="margin-top:16px;font:400 23px/1.45 Inter;color:var(--mut)">Hooks and stories written for your voice.</div>
+    <!-- mini script doc -->
+    <div style="margin-top:36px;border-radius:20px;background:#FFF7F0;border:1px solid rgba(255,122,26,.18);padding:22px 24px">
+      <div style="font:700 14px Inter;letter-spacing:.12em;color:#D9601A">HOOK · 0:00</div>
+      <div style="margin-top:8px;font:500 22px/1.35 Inter">“Stop scrolling. This changes how you post.”</div>
+    </div>
+    <div style="position:absolute;left:48px;bottom:44px;display:flex;gap:10px">
+      <span class="chip">Hooks</span><span class="chip on">Storytelling</span><span class="chip">Captions</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE 4A · phone: typing the offer ============ -->
+<section class="frame" id="s4a">
+  <div class="dots"></div>
+  <div class="halo" style="left:560px;top:160px;width:800px;height:800px"></div>
+  <div class="arc" style="top:960px"></div>
+  <div class="label">04 · We've got you</div>
+
+  <div class="phone" style="left:725px;top:60px;transform:rotate(-4deg) scale(.88)">
+    <div class="screen">
+      <!-- header -->
+      <div style="position:absolute;left:0;right:0;top:0;height:150px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line)"></div>
+      <div style="position:absolute;left:50%;top:14px;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#111"></div>
+      <div style="position:absolute;left:34px;top:76px;width:52px;height:52px;border-radius:50%;background:#2A2522;display:grid;place-items:center;font:700 17px Inter;color:#fff">SR</div>
+      <div style="position:absolute;left:100px;top:80px;font:600 21px Inter">Sam · Creator</div>
+      <div style="position:absolute;left:100px;top:108px;font:500 15px Inter;color:#34A85E">● online</div>
+
+      <!-- composer with message being typed -->
+      <div style="position:absolute;left:18px;right:18px;bottom:330px;min-height:150px;border-radius:28px;background:#fff;padding:20px 76px 20px 22px;
+          font:500 21px/1.4 Inter;box-shadow:0 0 0 1.5px rgba(255,130,40,.5),0 0 28px rgba(255,130,40,.25)">
+        Planning to edit your videos, need a script, or wanna just let us handle everything?<span style="display:inline-block;width:2px;height:24px;background:var(--a2);vertical-align:-4px;margin-left:2px"></span>
+        <div style="position:absolute;right:14px;bottom:14px;width:50px;height:50px;border-radius:16px;background:var(--acc);display:grid;place-items:center;box-shadow:0 0 0 6px rgba(255,122,26,.14)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+        </div>
+      </div>
+      <!-- keyboard -->
+      <div style="position:absolute;left:0;right:0;bottom:0;height:310px;background:#EFE9E4;padding:22px 10px">
+        <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:8px">
+          <!-- keys -->
+          <script>for(let i=0;i<29;i++)document.write('<div style="height:52px;border-radius:9px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.12)"></div>')</script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <svg class="cursor" style="left:1150px;top:640px" viewBox="0 0 24 24"><path d="M4 2.5 20 12l-7 1.6L9.6 20.5z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- ============ SCENE 4B · "Yes, can you?" → "Yeah, we've got you." ============ -->
+<section class="frame" id="s4b">
+  <div class="dots"></div>
+  <div class="halo" style="left:560px;top:160px;width:800px;height:800px"></div>
+  <div class="arc" style="top:960px"></div>
+  <div class="label">04 · We've got you</div>
+
+  <div class="phone" style="left:725px;top:60px;transform:rotate(-4deg) scale(.88)">
+    <div class="screen">
+      <div style="position:absolute;left:0;right:0;top:0;height:150px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line)"></div>
+      <div style="position:absolute;left:50%;top:14px;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#111"></div>
+      <div style="position:absolute;left:34px;top:76px;width:52px;height:52px;border-radius:50%;background:#2A2522;display:grid;place-items:center;font:700 17px Inter;color:#fff">SR</div>
+      <div style="position:absolute;left:100px;top:80px;font:600 21px Inter">Sam · Creator</div>
+      <div style="position:absolute;left:100px;top:108px;font:500 15px Inter;color:#34A85E">● online</div>
+
+      <div class="pb" style="right:22px;top:190px;background:var(--acc);color:#fff;border-bottom-right-radius:6px">Planning to edit your videos, need a script, or wanna just let us handle everything?</div>
+      <div class="pb" style="left:22px;top:350px;background:#fff;border:1px solid var(--line);border-bottom-left-radius:6px">Yes, can you? 👀</div>
+      <div class="pb" style="right:22px;top:430px;background:var(--acc);color:#fff;font-weight:600;border-bottom-right-radius:6px">Yeah, we've got you. 🧡</div>
+      <div style="position:absolute;right:26px;top:494px;font:500 13px Inter;color:#B3A79E">Delivered</div>
+
+      <div style="position:absolute;left:18px;right:18px;bottom:30px;height:66px;border-radius:24px;background:#fff;border:1px solid var(--line);
+         font:500 19px Inter;color:#B3A79E;display:flex;align-items:center;padding-left:22px">Message…</div>
+    </div>
+  </div>
+
+  <!-- the payoff line pops out of the phone -->
+  <div class="glass ring" style="position:absolute;left:1090px;top:470px;padding:30px 42px;border-radius:36px;border-bottom-left-radius:10px;transform:rotate(-2deg)">
+    <div style="font:700 60px/1 Inter;letter-spacing:-.05em;white-space:nowrap">Yeah, <span class="acc-t">we've got you.</span></div>
+  </div>
+</section>
+
+</body>
+</html>
