@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ISP: card wheel (scene 3)</title>
+<!--
+  Scene 3 card animation, modelled on the reference's 0:03-0:04:
+  cards ride a large wheel that pivots below the frame; the focused card stands upright
+  with its label chip, neighbours peek in tilted at the edges. Content reveals row by row,
+  then the wheel swings (motion blur + soft overshoot) and the next card settles.
+  Every frame is a pure function of time: window.renderAt(seconds).
+-->
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(fonts/Inter-400.ttf)}
+@font-face{font-family:Inter;font-weight:500;src:url(fonts/Inter-500.ttf)}
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/Inter-600.ttf)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/Inter-700.ttf)}
+@font-face{font-family:Inter;font-weight:800;src:url(fonts/Inter-800.ttf)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:Inter,sans-serif;color:#fff}
+#stage{position:absolute;inset:0;overflow:hidden}
+#bg{position:absolute;inset:-80px;background:url(assets/nature/wheat_sunset.jpg) center/cover;filter:blur(11px) brightness(.8) saturate(1.2)}
+#tint{position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 45%,rgba(255,120,30,.10),rgba(10,4,1,.45) 100%)}
+#cam{position:absolute;inset:0;transform-origin:50% 60%}
+.card{position:absolute;left:0;top:0;width:600px;height:720px;transform-origin:50% 50%}
+.chip{position:absolute;left:50%;top:-92px;transform-origin:50% 100%;padding:14px 28px;border-radius:14px;white-space:nowrap;
+  background:rgba(22,15,11,.92);border:1.5px solid rgba(255,255,255,.22);font:600 30px Inter;letter-spacing:-.01em;
+  box-shadow:0 18px 40px -12px rgba(0,0,0,.7),0 0 0 1px rgba(255,140,60,.12)}
+.body{position:absolute;inset:0;border-radius:56px;background:#1B1411;padding:14px;
+  box-shadow:0 0 0 1.5px rgba(255,170,100,.28),0 70px 120px -30px rgba(0,0,0,.85),0 0 90px rgba(255,110,20,.18)}
+.scr{position:relative;width:100%;height:100%;border-radius:44px;background:linear-gradient(180deg,#120D0B,#0B0807);overflow:hidden;padding:30px 30px}
+.row{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px}
+.ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:700 13px Inter}
+.ic.u{border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.7)}
+.ic.i{background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#DD4C06);color:#fff}
+.t{font:500 19px/1.5 Inter;color:rgba(255,255,255,.88)}
+.t b{font-weight:700;color:#fff}
+.t li{margin-left:18px}
+.hd{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.08);font:600 21px Inter}
+.bar{display:flex;align-items:center;gap:14px;height:76px;border-radius:20px;padding:0 22px;margin:-6px -6px 26px;font:700 23px Inter;color:#2A1004;
+  background:linear-gradient(100deg,#FFC27E,#FF8A2A 70%,#FF7314)}
+.bub{display:inline-block;padding:16px 20px;border-radius:18px;font:500 19px/1.45 Inter;max-width:420px}
+.bub.them{background:#2A221E;color:#fff;border-top-left-radius:6px}
+.bub.me{background:linear-gradient(135deg,#FFB866,#FF7A1A);color:#2A1004;font-weight:600;border-top-right-radius:6px}
+.dim{opacity:.22}
+#flash{position:absolute;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"></div><div id="tint"></div>
+  <div id="cam"></div>
+  <div id="flash"></div>
+</div>
+
+<template id="c-brand">
+  <div class="scr">
+    <div class="bar" style="background:linear-gradient(100deg,#FFE0BC,#FFB067)">◎ Brand Kit</div>
+    <div class="row r"><div class="ic i">ISP</div><div class="t">Logo, colours & voice, built around <b>you</b>.</div></div>
+    <div class="row r dim"><div class="ic u">◎</div><div class="t">Can you refresh my profile banner?</div></div>
+    <div class="row r dim"><div class="ic i">ISP</div><div class="t">Done. Three directions ready for review.</div></div>
+  </div>
+</template>
+
+<template id="c-edit">
+  <div class="scr">
+    <div class="hd"><span style="display:flex;align-items:center;gap:12px"><span class="ic i">ISP</span>ISP Edit Suite</span><span style="opacity:.4">⟳</span></div>
+    <div class="row r"><div class="ic u">◎</div><div class="t">Can you edit my reels for launch week?</div></div>
+    <div class="row r"><div class="ic i">ISP</div><div class="t"><b>Yes. Here's how our editors handle it:</b>
+      <ul><li class="r2">Pro editors with <b>3+ years</b> of experience</li><li class="r3">Cuts on the beat, captions & colour grade</li><li class="r4">Sound design that keeps people watching</li></ul></div></div>
+    <div class="row r dim"><div class="ic u">◎</div><div class="t">How fast can I get the first cut?</div></div>
+    <div class="row r dim"><div class="ic i">ISP</div><div class="t">We'll share a first cut for your review…</div></div>
+  </div>
+</template>
+
+<template id="c-script">
+  <div class="scr">
+    <div class="bar">✎ Script Room</div>
+    <div class="row r"><div class="ic i">ISP</div><div class="bub them">Hi 👋 What's your next video about?</div></div>
+    <div class="row r" style="justify-content:flex-end"><div class="bub me">A launch for my brand</div></div>
+    <div class="row r"><div class="ic i">ISP</div><div class="bub them">Here's your hook:<br><b>“Stop scrolling. This changes how you post.”</b></div></div>
+    <div class="row r dim" style="justify-content:flex-end"><div class="bub me">Love it. Write the rest?</div></div>
+  </div>
+</template>
+
+<template id="c-social">
+  <div class="scr">
+    <div class="hd"><span style="display:flex;align-items:center;gap:12px"><span class="ic i">ISP</span>Social Planner</span><span style="opacity:.4">⟳</span></div>
+    <div class="row r"><div class="ic u">◎</div><div class="t">Plan my posts for this month?</div></div>
+    <div class="row r"><div class="ic i">ISP</div><div class="t">Calendar ready: reels, carousels & stories.</div></div>
+    <div class="row r dim"><div class="ic u">◎</div><div class="t">And captions?</div></div>
+  </div>
+</template>
+
+<script>
+'use strict';
+/* ---------- easing ---------- */
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const P=(t,a,b)=>clamp((t-a)/(b-a));
+function bez(x1,y1,x2,y2){const B=(u,a,b)=>3*a*u*(1-u)*(1-u)+3*b*u*u*(1-u)+u*u*u;
+  return p=>{if(p<=0)return 0;if(p>=1)return 1;let lo=0,hi=1,u=p;for(let i=0;i<28;i++){u=(lo+hi)/2;if(B(u,x1,x2)<p)lo=u;else hi=u}return B(u,y1,y2)}}
+const EIO=bez(.65,0,.25,1);           // easy-ease swing
+const EOUT=bez(.2,.8,.2,1);            // reveal settle
+/* damped overshoot after a move ends (like an AE spring), returns 0 at rest */
+const settle=(t,t0,amp,f=7,d=7)=>t<t0?0:amp*Math.exp(-d*(t-t0))*Math.sin(2*Math.PI*f*(t-t0)*.5);
+
+/* ---------- config (one place for revisions) ---------- */
+const W=1920,H=1080, R=1900, STEP=28, CS=1.45;  // CS = card scale (camera close, card runs off the bottom like the reference)               // wheel radius (px) and angle between cards (deg)
+const PIVOT={x:960,y:735+R};                        // pivot sits below the frame
+const CARDS=[                                        // order on the wheel, left -> right
+  {id:'c-brand',  label:'Personal Branding'},
+  {id:'c-script', label:'Script Writers'},
+  {id:'c-edit',   label:'Professional Editors'},
+  {id:'c-social', label:'Social Media'},
+];
+/* wheel position over time: 2 = Editors centred, 1 = Script Writers centred */
+const SWING={t0:1.05,t1:1.55,from:2,to:1};
+const REVEAL=[{card:2,t0:0.10},{card:1,t0:1.55}];   // content reveal start per card
+const DUR=2.6;
+
+/* ---------- build ---------- */
+const cam=document.getElementById('cam');
+const els=CARDS.map((c,i)=>{
+  const card=document.createElement('div');card.className='card';
+  const chip=document.createElement('div');chip.className='chip';chip.textContent=c.label;
+  const body=document.createElement('div');body.className='body';
+  body.appendChild(document.getElementById(c.id).content.cloneNode(true));
+  card.appendChild(body);card.appendChild(chip);cam.appendChild(card);
+  const rows=[...body.querySelectorAll('.row.r:not(.dim), li')];
+  return {card,chip,body,rows};
+});
+
+/* ---------- render ---------- */
+function wheelPos(t){
+  const p=EIO(P(t,SWING.t0,SWING.t1));
+  return SWING.from+(SWING.to-SWING.from)*p + settle(t,SWING.t1,-0.035,2.2,6)*(SWING.to-SWING.from);
+}
+function wheelVel(t){const e=1/120;return (wheelPos(t+e)-wheelPos(t-e))/(2*e)}
+
+window.renderAt=function(t){
+  const s=wheelPos(t), v=wheelVel(t);
+  // camera: slow push-in + slight roll that leans into the swing (never fully still)
+  const push=1.0+0.045*EOUT(P(t,0,DUR));
+  const roll=-1.2+0.6*Math.sin(t*0.9)+v*1.6;
+  cam.style.transform=`scale(${push}) rotate(${roll*0.5}deg) translateY(${-8*t}px)`;
+  document.getElementById('bg').style.transform=`translateX(${(s-2)*60}px) scale(1.06)`;   // background parallax
+
+  els.forEach((e,i)=>{
+    const a=(i-s)*STEP, ar=a*Math.PI/180;
+    const x=PIVOT.x+R*Math.sin(ar), y=PIVOT.y-R*Math.cos(ar);
+    const focus=clamp(1-Math.abs(i-s));                         // 1 when centred
+    const sc=CS*(0.88+0.12*focus);
+    e.card.style.transform=`translate(${x-300}px,${y-360}px) rotate(${a}deg) scale(${sc})`;
+    e.card.style.zIndex=Math.round(focus*10);
+    // motion blur proportional to angular speed (stronger further from centre)
+    const mb=Math.min(14,Math.abs(v)*7*(0.6+0.4*(1-focus)));
+    e.body.style.filter=`blur(${mb.toFixed(2)}px) brightness(${0.7+0.3*focus})`;
+    // label chip: lags behind the swing, then catches up with a little overshoot
+    const lag=-v*9 + settle(t,SWING.t1,4,2.4,6)*Math.sign(SWING.to-SWING.from);
+    e.chip.style.transform=`translateX(-50%) rotate(${lag}deg)`;
+    e.chip.style.opacity=(0.45+0.55*focus).toFixed(3);
+    e.chip.style.filter=`blur(${(mb*.6).toFixed(2)}px)`;
+    // content reveal: rows rise in with blur, staggered
+    const rv=REVEAL.find(r=>r.card===i);
+    e.rows.forEach((row,k)=>{
+      let p=rv?EOUT(P(t,rv.t0+k*0.11,rv.t0+k*0.11+0.38)):(i===2?1:0.0);
+      if(!rv&&i!==2)p=0.85;                                     // side cards already filled
+      row.style.opacity=(p).toFixed(3);
+      row.style.transform=`translateY(${(1-p)*18}px)`;
+      row.style.filter=`blur(${((1-p)*6).toFixed(2)}px)`;
+    });
+  });
+};
+renderAt(0);
+</script>
+</body>
+</html>
