@@ -11,37 +11,36 @@
   Every frame is a pure function of time: window.renderAt(seconds).
 -->
 <style>
-@font-face{font-family:Inter;font-weight:400;src:url(fonts/Inter-400.ttf)}
-@font-face{font-family:Inter;font-weight:500;src:url(fonts/Inter-500.ttf)}
-@font-face{font-family:Inter;font-weight:600;src:url(fonts/Inter-600.ttf)}
-@font-face{font-family:Inter;font-weight:700;src:url(fonts/Inter-700.ttf)}
-@font-face{font-family:Inter;font-weight:800;src:url(fonts/Inter-800.ttf)}
+@font-face{font-family:Satoshi;font-weight:300;src:url(fonts/Satoshi-Light.woff2) format("woff2")}
+@font-face{font-family:Satoshi;font-weight:500;src:url(fonts/Satoshi-Medium.woff2) format("woff2")}
+@font-face{font-family:LogoMark;font-weight:800;src:url(fonts/Inter-800.ttf)}
+b,strong{font-weight:500}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:Inter,sans-serif;color:#fff}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:Satoshi,sans-serif;color:#fff}
 #stage{position:absolute;inset:0;overflow:hidden}
 #bg{position:absolute;inset:-80px;background:url(assets/nature/wheat_sunset.jpg) center/cover;filter:blur(11px) brightness(.8) saturate(1.2)}
 #tint{position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 45%,rgba(255,120,30,.10),rgba(10,4,1,.45) 100%)}
 #cam{position:absolute;inset:0;transform-origin:50% 60%}
 .card{position:absolute;left:0;top:0;width:600px;height:720px;transform-origin:50% 50%}
 .chip{position:absolute;left:50%;top:-92px;transform-origin:50% 100%;padding:14px 28px;border-radius:14px;white-space:nowrap;
-  background:rgba(22,15,11,.92);border:1.5px solid rgba(255,255,255,.22);font:600 30px Inter;letter-spacing:-.01em;
+  background:rgba(22,15,11,.92);border:1.5px solid rgba(255,255,255,.22);font:500 30px Satoshi;letter-spacing:-.01em;
   box-shadow:0 18px 40px -12px rgba(0,0,0,.7),0 0 0 1px rgba(255,140,60,.12)}
 .body{position:absolute;inset:0;border-radius:56px;background:#1B1411;padding:14px;
   box-shadow:0 0 0 1.5px rgba(255,170,100,.28),0 70px 120px -30px rgba(0,0,0,.85),0 0 90px rgba(255,110,20,.18)}
 .scr{position:relative;width:100%;height:100%;border-radius:44px;background:linear-gradient(180deg,#120D0B,#0B0807);overflow:hidden;padding:30px 30px}
 .row{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px}
-.ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:700 13px Inter}
+.ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:500 13px Satoshi}
 .ic.u{border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.7)}
 .ic.i{background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#DD4C06);color:#fff}
-.t{font:500 19px/1.5 Inter;color:rgba(255,255,255,.88)}
-.t b{font-weight:700;color:#fff}
+.t{font:300 19px/1.5 Satoshi;color:rgba(255,255,255,.88)}
+.t b{font-weight:500;color:#fff}
 .t li{margin-left:18px}
-.hd{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.08);font:600 21px Inter}
-.bar{display:flex;align-items:center;gap:14px;height:76px;border-radius:20px;padding:0 22px;margin:-6px -6px 26px;font:700 23px Inter;color:#2A1004;
+.hd{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.08);font:500 21px Satoshi}
+.bar{display:flex;align-items:center;gap:14px;height:76px;border-radius:20px;padding:0 22px;margin:-6px -6px 26px;font:500 23px Satoshi;color:#2A1004;
   background:linear-gradient(100deg,#FFC27E,#FF8A2A 70%,#FF7314)}
-.bub{display:inline-block;padding:16px 20px;border-radius:18px;font:500 19px/1.45 Inter;max-width:420px}
+.bub{display:inline-block;padding:16px 20px;border-radius:18px;font:300 19px/1.45 Satoshi;max-width:420px}
 .bub.them{background:#2A221E;color:#fff;border-top-left-radius:6px}
-.bub.me{background:linear-gradient(135deg,#FFB866,#FF7A1A);color:#2A1004;font-weight:600;border-top-right-radius:6px}
+.bub.me{background:linear-gradient(135deg,#FFB866,#FF7A1A);color:#2A1004;font-weight:500;border-top-right-radius:6px}
 .dim{opacity:.22}
 #flash{position:absolute;inset:0;pointer-events:none}
 </style>

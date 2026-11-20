@@ -4,19 +4,18 @@
 <meta charset="utf-8">
 <title>ISP Agency launch: styleframes v3</title>
 <style>
-@font-face{font-family:Inter;font-weight:400;src:url(fonts/Inter-400.ttf)}
-@font-face{font-family:Inter;font-weight:500;src:url(fonts/Inter-500.ttf)}
-@font-face{font-family:Inter;font-weight:600;src:url(fonts/Inter-600.ttf)}
-@font-face{font-family:Inter;font-weight:700;src:url(fonts/Inter-700.ttf)}
-@font-face{font-family:Inter;font-weight:800;src:url(fonts/Inter-800.ttf)}
+@font-face{font-family:Satoshi;font-weight:300;src:url(fonts/Satoshi-Light.woff2) format("woff2")}
+@font-face{font-family:Satoshi;font-weight:500;src:url(fonts/Satoshi-Medium.woff2) format("woff2")}
+@font-face{font-family:LogoMark;font-weight:800;src:url(fonts/Inter-800.ttf)}
+b,strong{font-weight:500}
 :root{--o1:#FFB866;--o2:#FF7A1A;--o3:#DD4C06;--acc:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#DD4C06)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#333;font-family:Inter,sans-serif}
+body{background:#333;font-family:Satoshi,sans-serif}
 .frame{position:relative;width:1920px;height:1080px;overflow:hidden;margin:0 0 40px;color:#fff}
 .abs{position:absolute}
 .stage{position:absolute;inset:0;perspective:2000px}
 .p3{position:absolute;transform-style:preserve-3d}
-.label{position:absolute;left:96px;bottom:54px;font:600 14px Inter;letter-spacing:.16em;text-transform:uppercase;opacity:.45;z-index:60}
+.label{position:absolute;left:96px;bottom:54px;font:500 14px Satoshi;letter-spacing:.16em;text-transform:uppercase;opacity:.45;z-index:60}
 .acc-t{background-image:var(--acc);-webkit-background-clip:text;background-clip:text;color:transparent}
 .grain{position:absolute;inset:0;z-index:55;opacity:.13;mix-blend-mode:overlay;pointer-events:none}
 /* neon edge (ref: Framer) */
@@ -25,12 +24,12 @@ body{background:#333;font-family:Inter,sans-serif}
 /* glass (ref: Zelios) */
 .glassD{background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.10));border:1.5px solid rgba(255,255,255,.28);backdrop-filter:blur(30px);
   box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 40px 90px -30px rgba(0,0,0,.6)}
-.ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1.5px solid rgba(255,255,255,.25);color:#fff;font:500 24px Inter}
-.pill{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.22);font:500 18px Inter;color:rgba(255,255,255,.85)}
+.ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1.5px solid rgba(255,255,255,.25);color:#fff;font:500 24px Satoshi}
+.pill{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.22);font:500 18px Satoshi;color:rgba(255,255,255,.85)}
 .caret{display:inline-block;width:4px;height:1em;background:#fff;vertical-align:-.12em;margin-left:4px;border-radius:2px}
 .nat{position:absolute;inset:-40px;background-size:cover;background-position:center;transform:scale(1.04)}
 .frameline{position:absolute;inset:26px;border:2px solid rgba(255,255,255,.55);border-radius:34px;z-index:58;pointer-events:none}
-.ans{padding:26px 40px;border-radius:34px;border-top-right-radius:8px;font:600 44px Inter;letter-spacing:-.02em;white-space:nowrap;background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 24px rgba(255,130,40,.55),0 30px 60px -20px rgba(0,0,0,.45)}
+.ans{padding:26px 40px;border-radius:34px;border-top-right-radius:8px;font:500 44px Satoshi;letter-spacing:-.02em;white-space:nowrap;background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 24px rgba(255,130,40,.55),0 30px 60px -20px rgba(0,0,0,.45)}
 .ans b{color:#FFF1E2;opacity:.8;margin-right:6px}
 </style>
 </head>
@@ -65,7 +64,7 @@ body{background:#333;font-family:Inter,sans-serif}
         <ellipse cx="478" cy="258" rx="378" ry="158" fill="#000" transform="rotate(-14 450 280)"/>
       </mask>
       <rect x="-100" y="-100" width="1100" height="760" fill="rgba(255,255,255,.85)" mask="url(#cresM)"/>
-      <text x="450" y="378" text-anchor="middle" font-family="Inter" font-weight="800" font-size="290" letter-spacing="-10" fill="#fff">ISP</text>
+      <text x="450" y="378" text-anchor="middle" font-family="LogoMark" font-weight="800" font-size="290" letter-spacing="-10" fill="#fff">ISP</text>
     </symbol>
   </defs>
 </svg>
@@ -77,13 +76,13 @@ body{background:#333;font-family:Inter,sans-serif}
   <div class="label">01 · The ask</div>
   <!-- top row: new chat + plus -->
   <div class="abs" style="left:420px;top:262px;display:flex;gap:14px">
-    <div style="width:330px;height:58px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;padding:0 20px;font:500 21px Inter;color:rgba(255,255,255,.55)">New chat <span style="opacity:.6">⌄</span></div>
-    <div style="width:58px;height:58px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;font:400 30px Inter;color:rgba(255,255,255,.6)">+</div>
+    <div style="width:330px;height:58px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;padding:0 20px;font:500 21px Satoshi;color:rgba(255,255,255,.55)">New chat <span style="opacity:.6">⌄</span></div>
+    <div style="width:58px;height:58px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;font:300 30px Satoshi;color:rgba(255,255,255,.6)">+</div>
   </div>
   <!-- the bar -->
   <div class="abs neon" style="left:420px;top:350px;width:1080px;height:330px;border-radius:44px;background:linear-gradient(180deg,rgba(30,14,6,.62),rgba(14,7,3,.72));backdrop-filter:blur(24px);padding:48px 52px">
     <div class="sweep"></div>
-    <div style="font:500 50px/1.22 Inter;letter-spacing:-.025em;color:#FFF5EC">Video editing, personal branding,<br>social media marketing <span style="opacity:.5">&amp;</span>
+    <div style="font:500 50px/1.22 Satoshi;letter-spacing:-.025em;color:#FFF5EC">Video editing, personal branding,<br>social media marketing <span style="opacity:.5">&amp;</span>
       <span style="display:inline-block;filter:blur(4px);opacity:.6;transform:translateY(16px)">scripting</span></div>
     <div style="position:absolute;left:52px;right:52px;bottom:40px;display:flex;align-items:center;justify-content:space-between">
       <div style="display:flex;gap:12px"><span class="ico">+</span><span class="pill">ISP Studio ⌄</span></div>
@@ -101,7 +100,7 @@ body{background:#333;font-family:Inter,sans-serif}
 <section class="frame" id="s1b" style="background:#7a9a5a">
   <div class="nat" style="background-image:url(assets/nature/green_field.jpg);filter:url(#whip) brightness(1.05)"></div>
   <div class="label">01 · Cut (whip)</div>
-  <div class="abs" style="left:-80px;top:360px;white-space:nowrap;font:700 330px/1 Inter;letter-spacing:-.05em;color:#fff;filter:url(#whip)">t sent. All in</div>
+  <div class="abs" style="left:-80px;top:360px;white-space:nowrap;font:500 330px/1 Satoshi;letter-spacing:-.05em;color:#fff;filter:url(#whip)">t sent. All in</div>
   <div class="abs" style="left:1660px;top:330px;width:22px;height:400px;background:#fff;border-radius:4px"></div>
   <!-- orange smear of the incoming button -->
   <div class="abs" style="left:1100px;top:400px;width:900px;height:250px;border-radius:60px;background:var(--acc);filter:url(#whip);opacity:.85"></div>
@@ -111,14 +110,14 @@ body{background:#333;font-family:Inter,sans-serif}
 <section class="frame" id="s1c">
   <div class="nat" style="background-image:url(assets/nature/field_bluesky.jpg);filter:blur(5px) "></div>
   <!-- punched-in kinetic line, cropped by the frame -->
-  <div class="abs" style="left:-150px;top:378px;display:flex;align-items:center;gap:44px;white-space:nowrap;font:600 210px/1 Inter;letter-spacing:-.05em;text-shadow:0 8px 40px rgba(0,30,60,.35)">
-    <span>All in</span>
-    <span style="position:relative;display:inline-block;padding:20px 64px 34px;border-radius:52px;background:linear-gradient(180deg,#FF9A3C,#F06A10);font-weight:700;
+  <div class="abs" style="left:-150px;top:378px;display:flex;align-items:center;gap:44px;white-space:nowrap;font:500 210px/1 Satoshi;letter-spacing:-.05em;text-shadow:0 8px 40px rgba(0,30,60,.35)">
+    <span style="font-weight:300">All in</span>
+    <span style="position:relative;display:inline-block;padding:20px 64px 34px;border-radius:52px;background:linear-gradient(180deg,#FF9A3C,#F06A10);font-weight:500;
       box-shadow:0 6px 0 #B84A08,0 30px 60px -10px rgba(120,40,0,.55),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -10px 24px rgba(160,50,0,.35);transform:scale(.97) translateY(4px)">one place</span>
     <span>?!</span>
   </div>
   <svg class="abs" style="left:1190px;top:560px;width:150px;height:174px;transform:rotate(-12deg);filter:drop-shadow(0 12px 14px rgba(80,20,0,.4))"><use href="#glove"/></svg>
-  <div class="abs" style="left:0;right:0;bottom:46px;text-align:center;font:500 16px Inter;color:rgba(255,255,255,.6)">[ ISP Agency ]</div>
+  <div class="abs" style="left:0;right:0;bottom:46px;text-align:center;font:500 16px Satoshi;color:rgba(255,255,255,.6)">[ ISP Agency ]</div>
   <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
 </section>
 
@@ -143,8 +142,8 @@ body{background:#333;font-family:Inter,sans-serif}
   <div class="abs" style="left:960px;top:745px;width:300px;height:300px;transform:translateX(-50%) scaleY(-1);border-radius:80px;border:2.5px solid #FF8A2A;opacity:.18;filter:blur(6px);
      -webkit-mask-image:linear-gradient(0deg,#000,transparent 60%)"></div>
   <svg class="abs" style="left:1100px;top:250px;width:54px;height:54px;color:#FFE2C4;filter:drop-shadow(0 0 10px #fff)"><use href="#spark"/></svg>
-  <div class="abs" style="left:960px;top:800px;transform:translateX(-50%);white-space:nowrap;font:700 120px/1 Inter;letter-spacing:-.055em;text-shadow:0 6px 40px rgba(80,20,0,.45)">
-    Meet <span style="color:#fff;text-shadow:0 0 24px rgba(255,120,30,.9),0 0 70px rgba(200,60,0,.7)">ISP Agency.</span></div>
+  <div class="abs" style="left:960px;top:800px;transform:translateX(-50%);white-space:nowrap;font:500 120px/1 Satoshi;letter-spacing:-.055em;text-shadow:0 6px 40px rgba(80,20,0,.45)">
+    <span style="font-weight:300">Meet</span> <span style="color:#fff;text-shadow:0 0 24px rgba(255,120,30,.9),0 0 70px rgba(200,60,0,.7)">ISP Agency.</span></div>
 </section>
 
 <!-- ============ 3A · glowing bar, about to unfold into the card (ref: Doks) ============ -->
@@ -158,7 +157,7 @@ body{background:#333;font-family:Inter,sans-serif}
   <div class="abs" style="left:560px;top:470px;width:800px;height:140px;border-radius:14px;background:linear-gradient(100deg,#FFC27E,#FF8A2A 55%,#FF6A10);
      border:2px solid #FFD9B0;box-shadow:0 0 30px rgba(255,130,40,.8),0 0 90px rgba(255,110,20,.5)">
     <div style="position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 50%)"></div>
-    <div style="position:absolute;left:44px;top:42px;font:700 46px Inter;letter-spacing:-.03em;color:rgba(70,20,0,.35)">Professional Editors</div>
+    <div style="position:absolute;left:44px;top:42px;font:500 46px Satoshi;letter-spacing:-.03em;color:rgba(70,20,0,.35)">Professional Editors</div>
   </div>
   <div class="abs" style="left:470px;top:500px;width:74px;height:74px;border-radius:50%;background:#1A0C05;border:2px solid #FF8A2A;box-shadow:0 0 20px rgba(255,122,26,.6);display:grid;place-items:center;color:#FFB067">
     <svg width="34" height="34"><use href="#spark"/></svg></div>
@@ -173,17 +172,17 @@ body{background:#333;font-family:Inter,sans-serif}
     <!-- left card: personal branding (partly off-frame) -->
     <div class="p3" style="left:-160px;top:300px;width:520px;transform:rotateY(38deg) rotateZ(-8deg) translateZ(-200px)">
       <div style="height:680px;border-radius:44px;background:#151010;border:2px solid rgba(255,255,255,.08);padding:30px;opacity:.85">
-        <div style="height:66px;border-radius:16px;background:var(--acc);font:700 22px Inter;padding:20px 22px">Personal Branding</div>
+        <div style="height:66px;border-radius:16px;background:var(--acc);font:500 22px Satoshi;padding:20px 22px">Personal Branding</div>
       </div>
     </div>
     <!-- right card: script writers -->
     <div class="p3" style="left:1270px;top:240px;width:560px;transform:rotateY(-30deg) rotateZ(7deg) translateZ(-60px)">
-      <div class="abs" style="top:-82px;left:120px;padding:12px 22px;border-radius:12px;background:#1A1210;border:1.5px solid rgba(255,255,255,.2);font:600 26px Inter;transform:rotate(4deg)">Script Writers</div>
+      <div class="abs" style="top:-82px;left:120px;padding:12px 22px;border-radius:12px;background:#1A1210;border:1.5px solid rgba(255,255,255,.2);font:500 26px Satoshi;transform:rotate(4deg)">Script Writers</div>
       <div style="height:700px;border-radius:48px;background:#151010;border:2px solid rgba(255,255,255,.1);padding:34px;box-shadow:0 60px 120px -30px rgba(0,0,0,.8)">
-        <div style="display:flex;align-items:center;gap:14px;height:76px;border-radius:18px;background:#FFB067;color:#2A1004;padding:0 22px;font:700 24px Inter">✎ Script Room</div>
-        <div style="margin-top:28px;font:700 15px Inter;letter-spacing:.14em;color:#FF9A4A">HOOK · 0:00</div>
-        <div style="margin-top:10px;font:600 28px/1.35 Inter">“Stop scrolling. This changes how you post.”</div>
-        <div style="margin-top:26px;font:700 15px Inter;letter-spacing:.14em;color:rgba(255,255,255,.4)">STORY · 0:03</div>
+        <div style="display:flex;align-items:center;gap:14px;height:76px;border-radius:18px;background:#FFB067;color:#2A1004;padding:0 22px;font:500 24px Satoshi">✎ Script Room</div>
+        <div style="margin-top:28px;font:500 15px Satoshi;letter-spacing:.14em;color:#FF9A4A">HOOK · 0:00</div>
+        <div style="margin-top:10px;font:500 28px/1.35 Satoshi">“Stop scrolling. This changes how you post.”</div>
+        <div style="margin-top:26px;font:500 15px Satoshi;letter-spacing:.14em;color:rgba(255,255,255,.4)">STORY · 0:03</div>
         <div style="margin-top:12px;height:14px;width:90%;border-radius:7px;background:rgba(255,255,255,.12)"></div>
         <div style="margin-top:12px;height:14px;width:72%;border-radius:7px;background:rgba(255,255,255,.12)"></div>
         <div style="margin-top:12px;height:14px;width:80%;border-radius:7px;background:rgba(255,255,255,.12)"></div>
@@ -191,17 +190,17 @@ body{background:#333;font-family:Inter,sans-serif}
     </div>
     <!-- center card: editors -->
     <div class="p3" style="left:640px;top:220px;width:640px;transform:rotateX(8deg) rotateZ(-2deg)">
-      <div class="abs" style="top:-92px;left:170px;padding:14px 26px;border-radius:14px;background:#1A1210;border:1.5px solid rgba(255,255,255,.25);font:600 30px Inter;transform:rotate(-3deg);box-shadow:0 20px 40px -10px rgba(0,0,0,.6)">Professional Editors</div>
+      <div class="abs" style="top:-92px;left:170px;padding:14px 26px;border-radius:14px;background:#1A1210;border:1.5px solid rgba(255,255,255,.25);font:500 30px Satoshi;transform:rotate(-3deg);box-shadow:0 20px 40px -10px rgba(0,0,0,.6)">Professional Editors</div>
       <div style="height:740px;border-radius:52px;background:#141010;border:2px solid rgba(255,255,255,.12);padding:36px;box-shadow:0 0 0 1px rgba(255,140,60,.25),0 80px 140px -30px rgba(0,0,0,.85),0 0 80px rgba(255,110,20,.25)">
-        <div style="display:flex;align-items:center;gap:16px;height:84px;border-radius:20px;background:var(--acc);padding:0 24px;font:700 27px Inter">
+        <div style="display:flex;align-items:center;gap:16px;height:84px;border-radius:20px;background:var(--acc);padding:0 24px;font:500 27px Satoshi">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9.5 5 2.5-5 2.5z" fill="#fff"/></svg>Edit Suite</div>
         <div style="margin-top:34px;display:flex;align-items:center;gap:18px">
-          <div style="width:64px;height:64px;border-radius:50%;background:#3A2A22;display:grid;place-items:center;font:700 22px Inter">ED</div>
-          <div><div style="font:600 26px Inter">Lead Editor</div><div style="font:500 20px Inter;color:rgba(255,255,255,.5)">Reels · YouTube · Ads</div></div>
+          <div style="width:64px;height:64px;border-radius:50%;background:#3A2A22;display:grid;place-items:center;font:500 22px Satoshi">ED</div>
+          <div><div style="font:500 26px Satoshi">Lead Editor</div><div style="font:500 20px Satoshi;color:rgba(255,255,255,.5)">Reels · YouTube · Ads</div></div>
         </div>
         <div style="margin-top:34px;display:flex;align-items:baseline;gap:18px">
-          <div style="font:800 150px/1 Inter;letter-spacing:-.06em" class="acc-t">3+</div>
-          <div style="font:600 30px/1.2 Inter">years of<br>experience</div>
+          <div style="font:500 150px/1 Satoshi;letter-spacing:-.06em" class="acc-t">3+</div>
+          <div style="font:300 30px/1.2 Satoshi">years of<br>experience</div>
         </div>
         <div style="margin-top:34px;height:84px;border-radius:16px;background:#0A0706;border:1px solid rgba(255,255,255,.08);padding:12px;display:flex;gap:7px;position:relative">
           <div style="flex:2.2;border-radius:8px;background:linear-gradient(135deg,#FFB866,#FF7A1A)"></div><div style="flex:1;border-radius:8px;background:#3E2C22"></div>
@@ -217,12 +216,12 @@ body{background:#333;font-family:Inter,sans-serif}
 <!-- ============ 4A · chat, aurora + glass input, hand on send (ref: Zelios) ============ -->
 <section class="frame" id="s4a" style="background:#0C0503">
   <div class="nat" style="background-image:url(assets/nature/clouds.jpg);filter:blur(4px) brightness(.9)"></div><div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,20,50,.15),rgba(10,20,40,.35))"></div>
-  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
+  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:500 44px Satoshi;letter-spacing:-.04em">
     <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
   <div class="label">04 · We've got you</div>
 
   <div class="abs glassD" style="left:330px;top:330px;width:1260px;height:340px;border-radius:44px;padding:48px 52px">
-    <div style="font:500 44px/1.3 Inter;letter-spacing:-.02em">Planning to edit your videos, need a script,<br>or wanna just let us handle everything?<span class="caret"></span></div>
+    <div style="font:500 44px/1.3 Satoshi;letter-spacing:-.02em">Planning to edit your videos, need a script,<br>or wanna just let us handle everything?<span class="caret"></span></div>
     <div style="position:absolute;left:52px;right:52px;bottom:40px;display:flex;align-items:center;justify-content:space-between">
       <div style="display:flex;gap:12px"><span class="ico">+</span><span class="pill">◎ Sam · Creator</span></div>
       <div style="display:flex;gap:14px;align-items:center">
@@ -238,17 +237,17 @@ body{background:#333;font-family:Inter,sans-serif}
 <!-- ============ 4B · the reply lands ============ -->
 <section class="frame" id="s4b" style="background:#0C0503">
   <div class="nat" style="background-image:url(assets/nature/garden_sunset.jpg);filter:blur(6px) "></div><div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(10,4,2,.25),rgba(20,8,2,.4))"></div>
-  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
+  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:500 44px Satoshi;letter-spacing:-.04em">
     <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
   <div class="label">04 · We've got you</div>
 
-  <div class="abs glassD" style="right:200px;top:220px;border-radius:30px;border-bottom-right-radius:8px;padding:22px 30px;font:500 26px/1.35 Inter;opacity:.55;filter:blur(1.5px);width:760px">
+  <div class="abs glassD" style="right:200px;top:220px;border-radius:30px;border-bottom-right-radius:8px;padding:22px 30px;font:500 26px/1.35 Satoshi;opacity:.55;filter:blur(1.5px);width:760px">
     Planning to edit your videos, need a script, or wanna just let us handle everything?</div>
-  <div class="abs glassD" style="left:300px;top:410px;border-radius:40px;border-bottom-left-radius:10px;padding:30px 44px;font:600 60px Inter;letter-spacing:-.03em;display:flex;align-items:center;gap:20px">
-    <span style="width:66px;height:66px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:700 22px Inter">SR</span>Yes, can you? 👀</div>
-  <div class="abs" style="right:220px;top:620px;border-radius:52px;border-bottom-right-radius:12px;padding:40px 64px;font:800 104px/1 Inter;letter-spacing:-.055em;white-space:nowrap;
+  <div class="abs glassD" style="left:300px;top:410px;border-radius:40px;border-bottom-left-radius:10px;padding:30px 44px;font:500 60px Satoshi;letter-spacing:-.03em;display:flex;align-items:center;gap:20px">
+    <span style="width:66px;height:66px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:500 22px Satoshi">SR</span>Yes, can you? 👀</div>
+  <div class="abs" style="right:220px;top:620px;border-radius:52px;border-bottom-right-radius:12px;padding:40px 64px;font:500 104px/1 Satoshi;letter-spacing:-.055em;white-space:nowrap;
      background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 30px rgba(255,130,40,.7),0 0 100px rgba(255,110,20,.45),0 50px 90px -20px rgba(0,0,0,.6)">
-    Yeah, we've got you.</div>
+    <span style="font-weight:300">Yeah,</span> we've got you.</div>
   <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
 </section>
 
@@ -261,16 +260,16 @@ body{background:#333;font-family:Inter,sans-serif}
   box-shadow:0 0 0 10px rgba(255,255,255,.35),0 0 0 11px rgba(255,255,255,.6),0 80px 140px -30px rgba(0,0,0,.55)}
 .wbar{height:64px;background:#F4EFEA;display:flex;align-items:center;gap:10px;padding:0 24px;border-bottom:1px solid rgba(0,0,0,.06)}
 .wbar i{width:14px;height:14px;border-radius:50%;background:#E1D7CE;display:block}
-.url{margin-left:auto;margin-right:auto;width:520px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:grid;place-items:center;font:500 17px Inter;color:#7A6F67}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 56px;font:500 18px Inter;color:#4A403A}
-.nav .lg{display:flex;align-items:center;gap:10px;font:700 22px Inter;color:#16120F}
+.url{margin-left:auto;margin-right:auto;width:520px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:grid;place-items:center;font:500 17px Satoshi;color:#7A6F67}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 56px;font:500 18px Satoshi;color:#4A403A}
+.nav .lg{display:flex;align-items:center;gap:10px;font:500 22px Satoshi;color:#16120F}
 .nav .lg span{width:36px;height:36px;border-radius:10px;background:var(--acc);display:grid;place-items:center}
-.btnO{padding:12px 22px;border-radius:12px;background:var(--acc);color:#fff;font:600 17px Inter;box-shadow:0 10px 24px -8px rgba(220,80,0,.6)}
+.btnO{padding:12px 22px;border-radius:12px;background:var(--acc);color:#fff;font:500 17px Satoshi;box-shadow:0 10px 24px -8px rgba(220,80,0,.6)}
 .solid{border-radius:36px;background:linear-gradient(135deg,#FFB866,#FF7A1A 48%,#DD4C06);color:#fff;
   box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -14px 40px rgba(150,40,0,.35),0 40px 90px -20px rgba(220,80,0,.65)}
 .rowL{display:flex;align-items:center;gap:26px}
-.av2{flex:none;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;border:2px solid rgba(255,170,100,.55);background:rgba(20,10,5,.5);box-shadow:0 0 18px rgba(255,120,30,.4);font:700 20px Inter;color:#FFB067}
-.box{height:110px;border-radius:20px;display:flex;align-items:center;padding:0 40px;font:500 40px Inter;letter-spacing:-.02em;
+.av2{flex:none;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;border:2px solid rgba(255,170,100,.55);background:rgba(20,10,5,.5);box-shadow:0 0 18px rgba(255,120,30,.4);font:500 20px Satoshi;color:#FFB067}
+.box{height:110px;border-radius:20px;display:flex;align-items:center;padding:0 40px;font:500 40px Satoshi;letter-spacing:-.02em;
   background:rgba(20,10,5,.62);border:2px solid rgba(255,150,70,.7);box-shadow:0 0 26px rgba(255,120,30,.45),0 0 80px rgba(255,110,20,.22);backdrop-filter:blur(16px)}
 .box.fill{background:linear-gradient(100deg,#FFC27E,#FF8A2A 55%,#FF6A10);border-color:#FFD9B0;box-shadow:0 0 34px rgba(255,130,40,.85),0 0 100px rgba(255,110,20,.5)}
 </style>
@@ -281,10 +280,10 @@ body{background:#333;font-family:Inter,sans-serif}
   <div class="label">Transition 4 → 5 · morph</div>
   <div class="abs" style="left:960px;top:520px;transform:translate(-50%,-50%);width:900px;height:120px;border-radius:60px;
      background:linear-gradient(135deg,#FFB866,#FF7A1A 50%,#E0560A);border:2px solid #FFD2A6;box-shadow:0 0 30px rgba(255,130,40,.7),0 0 100px rgba(255,110,20,.45);
-     display:grid;place-items:center;font:600 46px Inter;letter-spacing:-.02em">
+     display:grid;place-items:center;font:500 46px Satoshi;letter-spacing:-.02em">
     <span style="display:flex;gap:18px;align-items:center"><span style="opacity:.75">🔒</span>ispagency.co<span class="caret" style="height:46px"></span></span></div>
   <!-- ghost of the outgoing words, blurring away -->
-  <div class="abs" style="left:960px;top:520px;transform:translate(-50%,-50%) scale(1.15);font:800 104px Inter;letter-spacing:-.05em;white-space:nowrap;opacity:.18;filter:blur(10px)">Yeah, we've got you.</div>
+  <div class="abs" style="left:960px;top:520px;transform:translate(-50%,-50%) scale(1.15);font:500 104px Satoshi;letter-spacing:-.05em;white-space:nowrap;opacity:.18;filter:blur(10px)">Yeah, we've got you.</div>
   <svg class="thread"><path d="M1410 520 C1560 520 1600 700 1760 760 S1900 900 1990 980" stroke-dasharray="1400" stroke-dashoffset="560"/></svg>
 </section>
 
@@ -302,17 +301,17 @@ body{background:#333;font-family:Inter,sans-serif}
       <div class="nav"><div class="lg"><span><svg width="30" height="19"><use href="#isp"/></svg></span>ISP Agency</div>
         <div style="display:flex;gap:36px"><span>Work</span><span>Services</span><span>About</span><span>Contact</span></div><span class="btnO">Book a call</span></div>
       <div style="text-align:center;margin-top:70px">
-        <span style="display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;border:1px solid rgba(255,122,26,.35);font:500 17px Inter;color:#7A6F67;background:#fff">
-          <b style="padding:5px 12px;border-radius:999px;background:var(--acc);color:#fff;font:600 15px Inter">New</b>Editing, scripts &amp; branding in one place</span>
-        <div style="margin-top:34px;font:600 104px/1 Inter;letter-spacing:-.055em">Content that moves<br><span class="acc-t">your brand</span> forward.</div>
-        <div style="margin-top:28px;font:400 24px Inter;color:#7A6F67">Video editing, personal branding, social media and scripting.</div>
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;border:1px solid rgba(255,122,26,.35);font:500 17px Satoshi;color:#7A6F67;background:#fff">
+          <b style="padding:5px 12px;border-radius:999px;background:var(--acc);color:#fff;font:500 15px Satoshi">New</b>Editing, scripts &amp; branding in one place</span>
+        <div style="margin-top:34px;font:500 104px/1 Satoshi;letter-spacing:-.055em">Content that moves<br><span class="acc-t">your brand</span> <span style="font-weight:300">forward.</span></div>
+        <div style="margin-top:28px;font:300 24px Satoshi;color:#7A6F67">Video editing, personal branding, social media and scripting.</div>
       </div>
     </div>
   </div>
   <!-- scroll cue: cursor on the scrollbar / wheel -->
   <div class="abs" style="left:1560px;top:250px;width:10px;height:120px;border-radius:5px;background:rgba(0,0,0,.25);transform:perspective(2200px) rotateX(6deg) rotateY(-4deg)"></div>
   <svg class="abs" style="left:1380px;top:800px;width:60px;height:70px"><use href="#glove"/></svg>
-  <div class="abs" style="left:1450px;top:820px;font:600 18px Inter;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.4)">↓ scroll</div>
+  <div class="abs" style="left:1450px;top:820px;font:500 18px Satoshi;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.4)">↓ scroll</div>
 </section>
 
 <!-- ============ 5B · scrolled to About: the solid with the numbers ============ -->
@@ -324,23 +323,23 @@ body{background:#333;font-family:Inter,sans-serif}
     <div style="position:relative;height:836px;background:#FFFCF9;padding:56px 70px;overflow:hidden">
       <!-- motion-blurred tail of the hero we just scrolled past -->
       <div class="abs" style="left:0;right:0;top:-30px;height:90px;background:linear-gradient(180deg,#FFE1C4,rgba(255,252,249,0));filter:blur(8px)"></div>
-      <div style="font:700 15px Inter;letter-spacing:.16em;color:#D9601A">ABOUT US</div>
+      <div style="font:500 15px Satoshi;letter-spacing:.16em;color:#D9601A">ABOUT US</div>
       <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end">
-        <div style="font:600 64px/1.02 Inter;letter-spacing:-.05em">A small team that<br>ships <span class="acc-t">big content.</span></div>
-        <div style="width:440px;font:400 21px/1.5 Inter;color:#7A6F67">Editors, writers and strategists working as one studio for brands and creators.</div>
+        <div style="font:500 64px/1.02 Satoshi;letter-spacing:-.05em"><span style="font-weight:300">A small team that</span><br>ships <span class="acc-t">big content.</span></div>
+        <div style="width:440px;font:300 21px/1.5 Satoshi;color:#7A6F67">Editors, writers and strategists working as one studio for brands and creators.</div>
       </div>
       <!-- THE SOLID -->
       <div class="solid" style="position:relative;margin-top:46px;height:420px;display:flex;align-items:center;padding:0 80px;gap:0;overflow:hidden">
         <div class="abs" style="right:-120px;top:-160px;width:620px;height:620px;border-radius:50%;border:2px solid rgba(255,255,255,.25)"></div>
         <div class="abs" style="right:-40px;top:-80px;width:460px;height:460px;border-radius:50%;border:2px solid rgba(255,255,255,.18)"></div>
         <div style="flex:1">
-          <div style="font:800 190px/1 Inter;letter-spacing:-.065em">500<span style="opacity:.85">+</span></div>
-          <div style="margin-top:12px;font:600 32px Inter;letter-spacing:-.02em;opacity:.95">clients worked with</div>
+          <div style="font:500 190px/1 Satoshi;letter-spacing:-.065em">500<span style="opacity:.85">+</span></div>
+          <div style="margin-top:12px;font:500 32px Satoshi;letter-spacing:-.02em;opacity:.95">clients worked with</div>
         </div>
         <div style="width:2px;height:240px;background:rgba(255,255,255,.4);margin:0 70px"></div>
         <div style="flex:1">
-          <div style="font:800 190px/1 Inter;letter-spacing:-.065em">1000<span style="opacity:.85">+</span></div>
-          <div style="margin-top:12px;font:600 32px Inter;letter-spacing:-.02em;opacity:.95">videos delivered</div>
+          <div style="font:500 190px/1 Satoshi;letter-spacing:-.065em">1000<span style="opacity:.85">+</span></div>
+          <div style="margin-top:12px;font:500 32px Satoshi;letter-spacing:-.02em;opacity:.95">videos delivered</div>
         </div>
       </div>
     </div>
@@ -357,8 +356,8 @@ body{background:#333;font-family:Inter,sans-serif}
   </div>
   <div class="abs" style="inset:0;background:rgba(20,8,2,.18)"></div>
   <div class="label">06 · What we do</div>
-  <div class="abs" style="left:960px;top:540px;transform:translate(-50%,-50%);white-space:nowrap;font:700 128px/1 Inter;letter-spacing:-.06em;color:#fff;text-shadow:0 10px 50px rgba(80,20,0,.35)">
-    <span>What</span> <span>we</span> <span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FFB067)">actually</span>
+  <div class="abs" style="left:960px;top:540px;transform:translate(-50%,-50%);white-space:nowrap;font:500 128px/1 Satoshi;letter-spacing:-.06em;color:#fff;text-shadow:0 10px 50px rgba(80,20,0,.35)">
+    <span style="font-weight:300">What</span> <span style="font-weight:300">we</span> <span class="acc-t" style="background-image:linear-gradient(135deg,#FFE0BC,#FFB067)">actually</span>
     <span style="display:inline-block;opacity:.45;filter:blur(8px);transform:translateY(40px)">do</span></div>
 </section>
 
@@ -367,13 +366,13 @@ body{background:#333;font-family:Inter,sans-serif}
   <div class="nat" style="background-image:url(assets/nature/valley_clouds.jpg);filter:blur(14px) brightness(.55)"></div>
   <div class="abs" style="inset:0;background-image:linear-gradient(rgba(255,160,90,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,160,90,.07) 1px,transparent 1px);background-size:160px 160px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000,transparent 90%)"></div>
   <div class="label">06 · What we do</div>
-  <div class="abs" style="left:960px;top:150px;transform:translateX(-50%);font:600 46px Inter;letter-spacing:-.04em;opacity:.55;white-space:nowrap">What we actually do</div>
+  <div class="abs" style="left:960px;top:150px;transform:translateX(-50%);font:500 46px Satoshi;letter-spacing:-.04em;opacity:.55;white-space:nowrap">What we actually do</div>
   <div class="abs" style="left:380px;top:270px;width:1160px;display:flex;flex-direction:column;gap:34px">
     <div class="rowL"><div class="av2">01</div><div class="box" style="flex:1">We <b style="color:#FFB067;margin:0 12px">edit</b> your videos.</div></div>
     <div class="rowL"><div class="av2">02</div><div class="box" style="flex:1">We <b style="color:#FFB067;margin:0 12px">write</b> your scripts.</div></div>
     <div class="rowL"><div class="av2">03</div><div class="box fill" style="flex:1;position:relative">
       <div style="position:absolute;inset:0;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 50%)"></div>
-      <span style="color:rgba(80,25,0,.45);font-weight:600">We even make demo videos for your SaaS…</span></div></div>
+      <span style="color:rgba(80,25,0,.45);font-weight:500">We even make demo videos for your SaaS…</span></div></div>
     <div class="rowL" style="opacity:.6"><div class="av2" style="opacity:.0"></div><div class="box" style="width:180px;height:70px;padding:0 28px;font-size:40px;color:#FFB067">•••</div></div>
   </div>
   <div class="abs" style="left:1580px;top:560px;width:30px;height:30px;border-radius:50%;border:2px solid #FF8A2A;box-shadow:0 0 12px #FF7A1A"></div>
@@ -383,18 +382,18 @@ body{background:#333;font-family:Inter,sans-serif}
 <section class="frame" id="s7" style="background:#0C0503">
   <div class="nat" style="background-image:url(assets/nature/clouds.jpg);filter:blur(5px) brightness(.85)"></div>
   <div class="abs" style="inset:0;background:linear-gradient(180deg,rgba(0,20,50,.1),rgba(10,20,40,.35))"></div>
-  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:600 44px Inter;letter-spacing:-.04em">
+  <div class="abs" style="left:96px;top:70px;display:flex;align-items:center;gap:14px;font:500 44px Satoshi;letter-spacing:-.04em">
     <div style="width:54px;height:54px;border-radius:15px;background:var(--acc);display:grid;place-items:center"><svg width="44" height="27"><use href="#isp"/></svg></div>isp agency</div>
   <div class="label">07 · Why us</div>
   <!-- client question: LEFT -->
-  <div class="abs glassD" style="left:260px;top:190px;border-radius:34px;border-top-left-radius:8px;padding:24px 34px;font:600 40px Inter;display:flex;gap:18px;align-items:center">
-    <span style="width:58px;height:58px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:700 19px Inter">SR</span>So what do I actually get?</div>
+  <div class="abs glassD" style="left:260px;top:190px;border-radius:34px;border-top-left-radius:8px;padding:24px 34px;font:500 40px Satoshi;display:flex;gap:18px;align-items:center">
+    <span style="width:58px;height:58px;border-radius:50%;background:#2E2420;display:grid;place-items:center;font:500 19px Satoshi">SR</span>So what do I actually get?</div>
   <!-- ISP answers: RIGHT, orange like the scene 4 reply -->
   <div class="abs" style="right:260px;top:340px;display:flex;flex-direction:column;gap:22px;align-items:flex-end">
     <div class="ans"><b>1.</b> One team for edits, scripts &amp; branding</div>
     <div class="ans"><b>2.</b> Every review &amp; change in one chat</div>
     <div class="ans" style="opacity:.55;filter:blur(3px);transform:translateY(16px)"><b>3.</b> Content that's ready to post</div>
-    <div style="font:600 18px Inter;opacity:.75;margin-top:-6px">ISP Agency</div>
+    <div style="font:500 18px Satoshi;opacity:.75;margin-top:-6px">ISP Agency</div>
   </div>
   <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
 </section>
@@ -408,12 +407,12 @@ body{background:#333;font-family:Inter,sans-serif}
      border:2.5px solid #FFD2A6;box-shadow:0 0 22px rgba(255,122,26,.9),0 0 80px rgba(255,110,20,.6),0 40px 80px -20px rgba(80,20,0,.6)">
     <svg width="210" height="131" style="position:absolute;left:20px;top:60px"><use href="#isp"/></svg></div>
   <div class="abs" style="left:960px;top:600px;transform:translateX(-50%);text-align:center;white-space:nowrap;text-shadow:0 6px 40px rgba(80,20,0,.45)">
-    <div style="font:700 110px/1 Inter;letter-spacing:-.055em">ISP Agency</div>
-    <div style="margin-top:18px;font:500 38px Inter;letter-spacing:-.02em;opacity:.95">Editing · Scripts · Branding. All in one place.</div>
+    <div style="font:500 110px/1 Satoshi;letter-spacing:-.055em">ISP Agency</div>
+    <div style="margin-top:18px;font:300 38px Satoshi;letter-spacing:-.01em;opacity:.95">Editing · Scripts · Branding. All in one place.</div>
   </div>
   <div class="abs" style="left:960px;top:880px;transform:translateX(-50%);display:flex;gap:16px;align-items:center">
     <span class="btnO" style="font-size:26px;padding:18px 34px;border-radius:18px">Book a call</span>
-    <span style="padding:17px 30px;border-radius:18px;border:2px solid rgba(255,255,255,.7);font:600 26px Inter;backdrop-filter:blur(10px);background:rgba(255,255,255,.12)">ispagency.co</span>
+    <span style="padding:17px 30px;border-radius:18px;border:2px solid rgba(255,255,255,.7);font:500 26px Satoshi;backdrop-filter:blur(10px);background:rgba(255,255,255,.12)">ispagency.co</span>
   </div>
   <div class="label">08 · End card</div>
 </section>
