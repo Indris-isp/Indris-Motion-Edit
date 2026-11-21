@@ -17,7 +17,7 @@
 
 **Tone:** confident, clean, fast. Premium SaaS launch, not cartoonish. No voiceover, music + SFX only.
 
-**Deliverables:** 30 s master in 16:9 (1920 × 1080, 60 fps), plus 9:16 and 1:1 cutdowns.
+**Deliverables:** 30 s master in 16:9 (1920 × 1080, 60 fps). Cutdowns dropped from rev 3 on.
 
 **Assets (still needed from SignWell):** Figma file with the UI screens, brand guide (colors, fonts), logo SVG, music license.
 Until they arrive, the UI is drawn as vector placeholders, colors and fonts live in `src/config.ts`, and the soundtrack is a synthesized temp track.
