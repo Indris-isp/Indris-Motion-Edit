@@ -7,7 +7,7 @@ import {Words} from '../components/Words';
 import {Editor, FieldChip, paletteCenter, slotCenter, sendCenter, SLOT_SIG, SLOT_DATE} from '../components/Editor';
 import {COPY, LIGHT} from '../config';
 import {BODY} from '../fonts';
-import {enter, exit, press, tween, pathAt, clamp, drift, Pt, inOutCubic} from '../anim';
+import {enter, exit, press, tween, pathAt, clamp, drift, Pt, inOutCubic, pop} from '../anim';
 import T from '../timing.json';
 
 const t = T.s3;
@@ -36,7 +36,7 @@ export const S3Fix: React.FC = () => {
   // Camera: zoom ≈130% into the signature line during the drags, ease back for Send.
   const z = interpolate(f, [t.zoomIn[0], t.zoomIn[1], t.zoomOut[0], t.zoomOut[1]], [0, 1, 1, 0], {...clamp, easing: (x) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2});
   // Opening: continue the match cut's speed, then decelerate out to the full editor (ease-out).
-  const o = interpolate(f, [t.open[0], t.open[1]], [1, 0], {...clamp, easing: inOutCubic});
+  const o = 0; // rev 7: morph match cut, no zoom opening
   const zoom = 1 + 0.9 * o + 0.3 * z;
 
   const sig = f >= t.drop1 ? enter(f, t.drop1) : 0;
@@ -53,7 +53,7 @@ export const S3Fix: React.FC = () => {
     <Stage>
       <Camera zoom={zoom} focus={o > 0 ? PAGE_FOCUS : ZOOM_FOCUS} amount={o > 0 ? o : z} push={tween(f, 0, 540, 1, 1.03)} rotate={1.2 * o + interpolate(z, [0, 1], [0, -0.6])}>
         <div style={{position: 'absolute', inset: 0}}>
-          <Editor sig={sig} date={date} status={status} statusScale={sendScale} hoverIndex={hover} build={f - 14} />
+          <Editor sig={sig} date={date} status={status} statusScale={sendScale} hoverIndex={hover} build={f - 2} chrome={pop(f, 0, 22)} />
         </div>
 
         {/* Dragged field follows the cursor. */}

@@ -35,8 +35,9 @@ export const Signature: React.FC<{progress: number; width?: number; color?: stri
 };
 
 export const Editor: React.FC<{
-  sig: number; date: number; status: Status; statusScale?: number; sigInk?: number; hoverIndex?: number; build?: number;
-}> = ({sig, date, status, statusScale = 1, sigInk = 0, hoverIndex = -1, build}) => {
+  sig: number; date: number; status: Status; statusScale?: number; sigInk?: number; hoverIndex?: number; build?: number; chrome?: number;
+}> = ({sig, date, status, statusScale = 1, sigInk = 0, hoverIndex = -1, build, chrome = 1}) => {
+  const ca = (a: number) => (a * chrome).toFixed(3);
   // build: frames since the build-in started (undefined = fully built). Fast staggered cascade.
   const bp = (k: number) => build === undefined ? 1 : pop(build, k * 2, 14);
   const fly = (k: number, dx: number, dy: number) => { const q = bp(k); return {opacity: q, transform: `translate(${(1 - q) * dx}px, ${(1 - q) * dy}px)`}; };
@@ -48,9 +49,9 @@ export const Editor: React.FC<{
   }[status];
   return (
     <div style={{position: 'absolute', left: 960 - WIN.w / 2, top: 540 - WIN.h / 2, width: WIN.w, height: WIN.h, borderRadius: 24,
-      background: COLORS.paper, overflow: 'hidden', boxShadow: '0 50px 120px rgba(43,89,232,.24), 0 6px 18px rgba(43,89,232,.14), 0 0 90px rgba(79,124,255,.32)', border: '1px solid #e4e9f5', fontFamily: BODY, color: COLORS.ink}}>
+      background: `rgba(255,255,255,${ca(1)})`, overflow: 'hidden', boxShadow: `0 50px 120px rgba(43,89,232,${ca(.24)}), 0 6px 18px rgba(43,89,232,${ca(.14)}), 0 0 90px rgba(79,124,255,${ca(.32)})`, border: `1px solid rgba(228,233,245,${ca(1)})`, fontFamily: BODY, color: COLORS.ink}}>
       {/* top bar */}
-      <div style={{height: WIN.top, borderBottom: `1px solid ${COLORS.line}`, display: 'flex', alignItems: 'center', gap: 14, padding: '0 24px'}}>
+      <div style={{height: WIN.top, borderBottom: `1px solid rgba(223,227,236,${ca(1)})`, display: 'flex', alignItems: 'center', gap: 14, padding: '0 24px'}}>
         {[0, 1, 2].map(i => <div key={i} style={{width: 14, height: 14, borderRadius: '50%', background: '#e3e6ee', ...fly(i, 0, -20)}} />)}
         <div style={{fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 26, color: COLORS.blue, marginLeft: 16, ...fly(3, 0, -24)}}>{COPY.s3.product}</div>
         <div style={{fontSize: 19, color: COLORS.ink2, marginLeft: 22, ...fly(4, 0, -24)}}>{COPY.s3.docName}</div>
@@ -64,7 +65,7 @@ export const Editor: React.FC<{
       </div>
       <div style={{display: 'flex', height: WIN.h - WIN.top}}>
         {/* field palette */}
-        <div style={{width: WIN.side, borderRight: `1px solid ${COLORS.line}`, padding: '0 24px', position: 'relative'}}>
+        <div style={{width: WIN.side, borderRight: `1px solid rgba(223,227,236,${ca(1)})`, padding: '0 24px', position: 'relative'}}>
           <div style={{position: 'absolute', top: 30, left: 24, fontSize: 15, fontWeight: TYPE.subheading, letterSpacing: '.12em', color: COLORS.ink2, ...fly(1, -40, 0)}}>FIELDS</div>
           {COPY.s3.fields.map((label, i) => (
             <div key={i} style={{position: 'absolute', left: 24, top: 150 + i * 76 - 30 - WIN.top, width: 232, height: 60, borderRadius: 12,
@@ -76,9 +77,10 @@ export const Editor: React.FC<{
           ))}
         </div>
         {/* document canvas */}
-        <div style={{flex: 1, background: COLORS.canvas, position: 'relative', overflow: 'hidden'}}>
+        <div style={{flex: 1, background: `rgba(238,241,247,${ca(1)})`, position: 'relative', overflow: 'hidden'}}>
           <div style={{position: 'absolute', left: PAGE.x - WIN.side, top: PAGE.y - WIN.top, width: PAGE.w, height: 900, background: '#fff',
             boxShadow: '0 8px 24px rgba(20,27,45,.08)'}}>
+            <div style={{opacity: build === undefined ? 1 : pop(build, 4, 18)}}>
             <div style={{position: 'absolute', left: 48, top: 48, fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 32}}>{COPY.s3.docTitle}</div>
             {[[110, 92], [134, 100], [158, 86], [182, 96], [206, 70]].map(([y, w], k) => (
               <div key={k} style={{position: 'absolute', left: 48, top: y, width: `${(w as number) * 0.85}%`, height: 9, borderRadius: 5, background: '#e8ebf2'}} />
@@ -99,6 +101,7 @@ export const Editor: React.FC<{
             {/* date slot */}
             <div style={{position: 'absolute', left: SLOT_DATE.x, top: SLOT_DATE.y, transform: `scale(${date})`, opacity: Math.min(1, date * 1.5)}}>
               <FieldChip label="Date signed" w={SLOT_DATE.w} h={SLOT_DATE.h} size={18} />
+            </div>
             </div>
           </div>
         </div>

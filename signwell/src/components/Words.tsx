@@ -21,7 +21,7 @@ export const Words: React.FC<{
           transform: `translateY(${(1 - Math.min(p, 1)) * 28}px) scale(${0.94 + 0.06 * Math.min(p, 1.05)})`,
           filter: blur > 0.2 ? `blur(${blur}px)` : 'none'}}>
           {/* Highlighter swipe behind accent words (reference: fast bar wipes behind key words). */}
-          {accent[i] && <span style={{position: 'absolute', zIndex: -1, left: accent[i - 1] ? `-${gap + 0.02}em` : '-0.14em', right: '-0.14em', top: '0.08em', bottom: '0.02em', borderRadius: `${accent[i - 1] ? 0 : 0.2}em ${accent[i + 1] ? 0 : 0.2}em ${accent[i + 1] ? 0 : 0.2}em ${accent[i - 1] ? 0 : 0.2}em`,
+          {accent[i] && <span style={{position: 'absolute', zIndex: -1, left: accent[i - 1] ? `-${gap + 0.02}em` : '-0.14em', right: '-0.14em', top: '0.08em', bottom: '0.02em', borderRadius: 0,
             background: 'rgba(255,255,255,.92)', boxShadow: '0 10px 30px rgba(43,89,232,.25), 0 0 30px rgba(79,124,255,.35)',
             transform: `scaleX(${pop(f, s + 5, 16)})`, transformOrigin: 'left center'}} />}
           {w}

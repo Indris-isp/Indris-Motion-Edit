@@ -9,6 +9,9 @@ import {BODY} from '../fonts';
 import {enter, exit, press, drift, tween, pathAt, clamp, easy, outCubic, inOutCubic} from '../anim';
 import {Easing} from 'remotion';
 import T from '../timing.json';
+import {WIN, PAGE} from '../components/Editor';
+// Screen rect of the SignWell page at the start of scene 3 (world coords, center origin).
+const PAGE_RECT = {x: PAGE.x + PAGE.w / 2 - WIN.w / 2, y: (PAGE.y + WIN.h) / 2 - WIN.h / 2, w: PAGE.w, h: WIN.h - PAGE.y};
 
 const XS = [-660, -220, 220, 660];
 const TILE = 280, TILE_Y = -60;
@@ -31,7 +34,8 @@ export const S2Problem: React.FC = () => {
   const t = T.s2;
   const out = exit(f, t.match[0]);
   // Match cut: the document accelerates into the lens (ease-in); scene 3 opens on the page and decelerates (ease-out).
-  const m = interpolate(f, [t.match[0], t.match[1]], [0, 1], {...clamp, easing: outCubic});
+  const m = interpolate(f, [t.match[0], t.match[1]], [0, 1], {...clamp, easing: inOutCubic});
+  const P = tween(f, 0, 360, 1, 1.04); // camera push, so the doc can leave the camera without a jump
 
   // Document travels tile to tile on arcs (each move 50 frames ≈ 0.83 s).
   const start = {x: -1100, y: TILE_Y - 20};
@@ -47,6 +51,18 @@ export const S2Problem: React.FC = () => {
   // Return arrow under the tiles, drawn after the last landing.
   const loop = tween(f, t.loop, t.loop + 50, 0, 1);
   const loopLen = 1500;
+
+  const docBox = (w: number, h: number) => (
+    <div style={{width: w, height: h, borderRadius: 10 * (1 - m), background: m > 0 ? '#fff' : f >= t.land[2] ? '#eef0f4' : '#fff',
+      border: `2px solid rgba(43,89,232,${1 - m})`, transform: `scale(${settle}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
+      boxShadow: `0 8px 24px rgba(20,27,45,${0.08 * m}), 0 34px 80px rgba(43,89,232,${0.32 * (1 - m)}), 0 6px 16px rgba(43,89,232,${0.2 * (1 - m)}), 0 0 70px rgba(79,124,255,${0.45 * (1 - m)})`,
+      padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8, overflow: 'hidden', boxSizing: 'border-box'}}>
+      {[90, 100, 80, 95].map((w2, k) => <div key={k} style={{height: 6, width: `${w2}%`, borderRadius: 3, background: COLORS.line, opacity: 1 - Math.min(1, m * 2)}} />)}
+      <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 - Math.min(1, m * 2) : 0}}>
+        <path d="M2 22c8-14 12 4 18-6s10-2 14 2 10-8 16-4 8 4 14 0" fill="none" stroke="#14286e" strokeWidth="2.4" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
 
   return (
     <Stage>
@@ -81,18 +97,16 @@ export const S2Problem: React.FC = () => {
           </svg>
 
         </div>
-        {/* The document, riding above the tiles. */}
-          <At x={doc.x * (1 - m)} y={(doc.y - 215 + drift(f, 3, 200)) * (1 - m)} style={{zIndex: 20}}>
-            <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#eef0f4' : '#fff', border: `2px solid ${LIGHT.accent}`, transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
-              boxShadow: m > 0 ? 'none' : LIGHT.glowStrong, padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
-              {[90, 100, 80, 95].map((w, k) => <div key={k} style={{height: 6, width: `${w}%`, borderRadius: 3, background: COLORS.line, opacity: 1 - Math.min(1, m * 2)}} />)}
-              <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 - Math.min(1, m * 2) : 0}}>
-                <path d="M2 22c8-14 12 4 18-6s10-2 14 2 10-8 16-4 8 4 14 0" fill="none" stroke="#14286e" strokeWidth="2.4" strokeLinecap="round" />
-              </svg>
-            </div>
-          </At>
-
+        {/* The document, riding above the tiles (inside the camera until the morph starts). */}
+        {f < t.match[0] && <At x={doc.x} y={doc.y - 215 + drift(f, 3, 200)} style={{zIndex: 20}}>{docBox(96, 124)}</At>}
       </Camera>
+      {/* Morph match cut: the document reshapes into the exact rect of the SignWell page in scene 3. */}
+      {f >= t.match[0] && (() => {
+        const y0 = (doc.y - 215 + drift(f, 3, 200)) * P;
+        return <At x={doc.x * P + (PAGE_RECT.x - doc.x * P) * m} y={y0 + (PAGE_RECT.y - y0) * m} style={{zIndex: 20}}>
+          {docBox(96 * P + (PAGE_RECT.w - 96 * P) * m, 124 * P + (PAGE_RECT.h - 124 * P) * m)}
+        </At>;
+      })()}
       {/* Headline stays steady outside the camera. */}
       <At x={0} y={440} style={{opacity: out}}>
         <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: LIGHT.pain}} />
