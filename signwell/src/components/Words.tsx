@@ -3,13 +3,14 @@ import {interpolate} from 'remotion';
 import {enter, drift, clamp} from '../anim';
 import {rnd} from '../fx/Glitch';
 import {DISPLAY} from '../fonts';
+import {TYPE} from '../config';
 
 // Kinetic headline: each word rises out of a mask with overshoot and a short RGB-split
 // stutter on arrival, then keeps a slow drift. `accent` maps word index → color.
 export const Words: React.FC<{
   words: string[]; f: number; start?: number; starts?: number[]; offset?: number;
   size?: number; color?: string; weight?: number; gap?: number; accent?: Record<number, string>;
-}> = ({words, f, start = 0, starts, offset = 4, size = 84, color = '#fff', weight = 800, gap = 0.28, accent = {}}) => (
+}> = ({words, f, start = 0, starts, offset = 4, size = 84, color = '#fff', weight = TYPE.heading, gap = 0.28, accent = {}}) => (
   <div style={{display: 'flex', gap: `0 ${gap}em`, justifyContent: 'center', flexWrap: 'nowrap', whiteSpace: 'nowrap',
     fontFamily: DISPLAY, fontWeight: weight, fontSize: size, letterSpacing: '-0.02em', color, lineHeight: 1.1,
     transform: `translateY(${drift(f, 3, 300)}px)`}}>

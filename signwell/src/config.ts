@@ -19,6 +19,14 @@ export const COLORS = {
   white: '#ffffff',
 };
 
+// Type guideline (client): Inter everywhere.
+export const TYPE = {
+  heading: 700,     // main headings
+  subheading: 600,  // subheadings
+  body: 400,        // body text
+  button: 600,      // buttons and navigation (500–600)
+};
+
 export const COPY = {
   s1: {
     emails: [

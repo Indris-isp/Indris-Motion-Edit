@@ -1,4 +1,5 @@
 import React from 'react';
+import {TYPE} from '../config';
 import {useCurrentFrame, interpolate, Easing} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
@@ -52,25 +53,25 @@ export const S4Payoff: React.FC = () => {
               boxShadow: '0 50px 100px rgba(0,0,0,.5)', border: '2px solid rgba(255,255,255,.12)'}}>
               <div style={{width: '100%', height: '100%', borderRadius: 44, background: '#fff', position: 'relative', overflow: 'hidden', fontFamily: BODY, color: COLORS.ink, padding: '58px 26px 26px'}}>
                 <div style={{position: 'absolute', top: 14, left: '50%', width: 90, height: 24, marginLeft: -45, borderRadius: 12, background: '#0d1220'}} />
-                <div style={{fontWeight: 700, fontSize: 22}}>{COPY.s3.docTitle}</div>
+                <div style={{fontWeight: TYPE.heading, fontSize: 22}}>{COPY.s3.docTitle}</div>
                 <div style={{fontSize: 15, color: COLORS.ink2, marginBottom: 22}}>From {COPY.s3.sender}</div>
                 {[100, 88, 94, 70].map((w, k) => <div key={k} style={{height: 8, width: `${w}%`, borderRadius: 4, background: '#e8ebf2', marginBottom: 12}} />)}
                 <div style={{marginTop: 30, height: 150, borderRadius: 14, border: `3px solid ${f >= t.signed ? COLORS.green : COLORS.blue}`,
                   background: f >= t.signed ? 'rgba(30,158,100,.06)' : 'rgba(43,89,232,.06)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                  <span style={{position: 'absolute', left: 12, top: 8, fontSize: 12, fontWeight: 700, letterSpacing: '.1em', color: COLORS.blue}}>SIGN HERE</span>
+                  <span style={{position: 'absolute', left: 12, top: 8, fontSize: 12, fontWeight: TYPE.subheading, letterSpacing: '.1em', color: COLORS.blue}}>SIGN HERE</span>
                   <Signature progress={ink} width={250} />
                 </div>
                 <div style={{position: 'absolute', left: 26, right: 26, bottom: 26, height: 64, borderRadius: 16, background: COLORS.green, color: '#fff',
-                  fontWeight: 700, fontSize: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${press(f, t.finish)})`}}>Finish</div>
+                  fontWeight: TYPE.button, fontSize: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${press(f, t.finish)})`}}>Finish</div>
                 {/* Done overlay */}
                 <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 236, background: '#fff', opacity: Math.min(1, done * 1.3),
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 30}}>
-                  <div style={{width: 84, height: 84, borderRadius: '50%', background: COLORS.green, color: '#fff', fontSize: 44, fontWeight: 800,
+                  <div style={{width: 84, height: 84, borderRadius: '50%', background: COLORS.green, color: '#fff', fontSize: 44, fontWeight: TYPE.heading,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${done})`}}>✓</div>
-                  <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 28}}>All signed</div>
+                  <div style={{fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 28}}>All signed</div>
                 </div>
                 <div style={{position: 'absolute', left: 26, right: 26, bottom: 26, height: 64, borderRadius: 16, background: COLORS.greenSoft, color: COLORS.green,
-                  fontWeight: 700, fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: Math.min(1, done * 1.3)}}>Copy sent to both parties</div>
+                  fontWeight: TYPE.button, fontSize: 18, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: Math.min(1, done * 1.3)}}>Copy sent to both parties</div>
               </div>
             </div>
           </At>
@@ -85,7 +86,7 @@ export const S4Payoff: React.FC = () => {
             <div style={{opacity: Math.min(1, counterIn * 1.4) * out, transform: `translateY(${(1 - counterIn) * -24}px)`, display: 'flex', alignItems: 'baseline', gap: 14,
               padding: '14px 26px', borderRadius: 16, background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.18)', fontFamily: BODY, color: '#fff'}}>
               <span style={{fontSize: 20, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', opacity: .75, whiteSpace: 'nowrap'}}>{COPY.s4.counterLabel}</span>
-              <span style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 52, color: '#5fe0a3', fontVariantNumeric: 'tabular-nums', minWidth: 60, textAlign: 'right'}}>{wait.v}</span>
+              <span style={{fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 52, color: '#5fe0a3', fontVariantNumeric: 'tabular-nums', minWidth: 60, textAlign: 'right'}}>{wait.v}</span>
               <span style={{fontSize: 24, fontWeight: 600, minWidth: 70}}>{wait.u}</span>
             </div>
           </At>

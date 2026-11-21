@@ -1,4 +1,5 @@
 import React from 'react';
+import {TYPE} from '../config';
 import {useCurrentFrame, interpolate} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
@@ -64,7 +65,7 @@ export const S2Problem: React.FC = () => {
                   border: `2px solid ${accent}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
                   paddingBottom: 30, gap: 8, fontFamily: BODY, color: '#fff'}}>
                   <div style={{marginBottom: 'auto', marginTop: 40, opacity: 0.6 + 0.4 * lit}}><Icon i={i} color={active ? COLORS.amber : '#fff'} /></div>
-                  <div style={{fontSize: 32, fontWeight: 700}}>{label}</div>
+                  <div style={{fontSize: 32, fontWeight: TYPE.subheading}}>{label}</div>
                   <div style={{fontSize: 20, fontWeight: 600, color: COLORS.amber, opacity: lit}}>{COPY.s2.delays[i]}</div>
                 </div>
               </At>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {TYPE} from '../config';
 import {useCurrentFrame} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
@@ -40,11 +41,11 @@ export const S1Hook: React.FC = () => {
                 <div style={{width: CARD_W, height: CARD_H, borderRadius: 20, background: COLORS.paper, opacity: Math.min(1, p * 1.5) * age,
                   transform: `scale(${0.9 + 0.1 * p})`, display: 'flex', alignItems: 'center', gap: 22, padding: '0 28px',
                   boxShadow: '0 24px 50px rgba(0,0,0,.35)', fontFamily: BODY}}>
-                  <div style={{width: 52, height: 52, borderRadius: '50%', background: '#f3c9a8', color: '#7a4422', fontWeight: 700,
+                  <div style={{width: 52, height: 52, borderRadius: '50%', background: '#f3c9a8', color: '#7a4422', fontWeight: TYPE.subheading,
                     fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>M</div>
                   <div style={{flex: 1, minWidth: 0}}>
-                    <div style={{fontSize: 18, color: COLORS.ink2, fontWeight: 500}}>{e.from}</div>
-                    <div style={{fontSize: 27, color: COLORS.ink, fontWeight: 700, whiteSpace: 'nowrap'}}>{e.subject}</div>
+                    <div style={{fontSize: 18, color: COLORS.ink2, fontWeight: TYPE.body}}>{e.from}</div>
+                    <div style={{fontSize: 27, color: COLORS.ink, fontWeight: TYPE.subheading, whiteSpace: 'nowrap'}}>{e.subject}</div>
                   </div>
                   <div style={{fontSize: 18, color: urgent ? '#e0452c' : COLORS.ink2, fontWeight: 600}}>{e.meta}</div>
                 </div>
@@ -58,7 +59,7 @@ export const S1Hook: React.FC = () => {
               display: 'flex', alignItems: 'baseline', gap: 14, padding: '14px 26px', borderRadius: 16,
               background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.18)', fontFamily: BODY, color: '#fff'}}>
               <span style={{fontSize: 20, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', opacity: .75, whiteSpace: 'nowrap'}}>{COPY.s1.counterLabel}</span>
-              <span style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 52, color: COLORS.amber, fontVariantNumeric: 'tabular-nums', minWidth: 34, textAlign: 'right', display: 'inline-block', transform: `scale(${punch})`}}>{days}</span>
+              <span style={{fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 52, color: COLORS.amber, fontVariantNumeric: 'tabular-nums', minWidth: 34, textAlign: 'right', display: 'inline-block', transform: `scale(${punch})`}}>{days}</span>
               <span style={{fontSize: 24, fontWeight: 600}}>{COPY.s1.counterUnit}</span>
             </div>
           </At>
