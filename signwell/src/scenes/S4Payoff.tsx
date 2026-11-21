@@ -1,5 +1,5 @@
 import React from 'react';
-import {useCurrentFrame, interpolate} from 'remotion';
+import {useCurrentFrame, interpolate, Easing} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
 import {Words} from '../components/Words';
@@ -31,19 +31,23 @@ export const S4Payoff: React.FC = () => {
   const counterIn = enter(f, t.count - 20);
   const wait = fmtWait(countValue(f, t.count, COPY.s4.fromMinutes, COPY.s4.toMinutes, 60));
   const out = interpolate(f, [t.exit, t.exit + 18], [1, 0], {...clamp, easing: easeIn});
+  // Match cut into the logo: push into the client's signature (ease-in); scene 5 opens on the same stroke.
+  const m = interpolate(f, [t.match[0], t.match[1]], [0, 1], {...clamp, easing: Easing.bezier(0.55, 0, 0.9, 0.45)});
+  const SIG = {x: 450, y: 14};
+  const whip = Math.max(0, 1 - phoneIn) * 14;
 
   return (
     <Stage>
-      <Camera push={tween(f, 0, 360, 1, 1.03)}>
-        <div style={{position: 'absolute', inset: 0, opacity: out, transform: `scale(${0.88 + 0.12 * out})`, transformOrigin: '960px 540px'}}>
+      <Camera push={tween(f, 0, 360, 1, 1.03)} zoom={1 + 2.2 * m} focus={SIG} amount={m} rotate={tween(f, 0, t.match[0], 0.6, -0.4) * (1 - m)}>
+        <div style={{position: 'absolute', inset: 0}}>
           {/* Pull back: editor shrinks to the left to make room for the phone. */}
           <div style={{position: 'absolute', inset: 0, transformOrigin: '960px 540px',
             transform: `translate(${-330 * pull}px, ${30 * pull + drift(f, 3, 280)}px) scale(${1 - 0.3 * pull})`}}>
-            <Editor sig={1} date={1} status={status} statusScale={statusScale} sigInk={deskInk} />
+            <div style={{opacity: out}}><Editor sig={1} date={1} status={status} statusScale={statusScale} sigInk={deskInk} /></div>
           </div>
 
           {/* Client's phone. */}
-          <At x={450 + (1 - phoneIn) * 700} y={30 + drift(f, 4, 260, 90)}>
+          <At x={450 + (1 - phoneIn) * 700} y={30 + drift(f, 4, 260, 90) * (1 - m)} style={{opacity: 1 - interpolate(m, [0.35, 0.85], [0, 1], clamp), filter: whip > 0.3 ? `blur(${whip}px)` : 'none'}}>
             <div style={{width: 340, height: 700, borderRadius: 56, background: '#0d1220', padding: 14, transform: `rotate(${3 * (1 - phoneIn) + 2}deg)`,
               boxShadow: '0 50px 100px rgba(0,0,0,.5)', border: '2px solid rgba(255,255,255,.12)'}}>
               <div style={{width: '100%', height: '100%', borderRadius: 44, background: '#fff', position: 'relative', overflow: 'hidden', fontFamily: BODY, color: COLORS.ink, padding: '58px 26px 26px'}}>
@@ -59,19 +63,26 @@ export const S4Payoff: React.FC = () => {
                 <div style={{position: 'absolute', left: 26, right: 26, bottom: 26, height: 64, borderRadius: 16, background: COLORS.green, color: '#fff',
                   fontWeight: 700, fontSize: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${press(f, t.finish)})`}}>Finish</div>
                 {/* Done overlay */}
-                <div style={{position: 'absolute', inset: 0, background: 'rgba(255,255,255,.94)', opacity: Math.min(1, done * 1.3),
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16}}>
-                  <div style={{width: 110, height: 110, borderRadius: '50%', background: COLORS.green, color: '#fff', fontSize: 56, fontWeight: 800,
+                <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 236, background: '#fff', opacity: Math.min(1, done * 1.3),
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 30}}>
+                  <div style={{width: 84, height: 84, borderRadius: '50%', background: COLORS.green, color: '#fff', fontSize: 44, fontWeight: 800,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${done})`}}>✓</div>
-                  <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 32}}>All signed</div>
+                  <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 28}}>All signed</div>
                 </div>
+                <div style={{position: 'absolute', left: 26, right: 26, bottom: 26, height: 64, borderRadius: 16, background: COLORS.greenSoft, color: COLORS.green,
+                  fontWeight: 700, fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: Math.min(1, done * 1.3)}}>Copy sent to both parties</div>
               </div>
             </div>
           </At>
 
+          {/* White twin of the signature: crossfades in as the phone fades, ready for scene 5. */}
+          <At x={SIG.x} y={SIG.y} style={{opacity: interpolate(m, [0.35, 0.85], [0, 1], clamp), transform: 'translate(-50%, -50%) rotate(2deg)'}}>
+            <Signature progress={1} width={250} color="#ffffff" />
+          </At>
+
           {/* Time-to-signed counter, top-right. */}
           <At x={545} y={-440}>
-            <div style={{opacity: Math.min(1, counterIn * 1.4), transform: `translateY(${(1 - counterIn) * -24}px)`, display: 'flex', alignItems: 'baseline', gap: 14,
+            <div style={{opacity: Math.min(1, counterIn * 1.4) * out, transform: `translateY(${(1 - counterIn) * -24}px)`, display: 'flex', alignItems: 'baseline', gap: 14,
               padding: '14px 26px', borderRadius: 16, background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.18)', fontFamily: BODY, color: '#fff'}}>
               <span style={{fontSize: 20, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', opacity: .75, whiteSpace: 'nowrap'}}>{COPY.s4.counterLabel}</span>
               <span style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 52, color: '#5fe0a3', fontVariantNumeric: 'tabular-nums', minWidth: 60, textAlign: 'right'}}>{wait.v}</span>
@@ -79,8 +90,8 @@ export const S4Payoff: React.FC = () => {
             </div>
           </At>
 
-          <At x={0} y={440}>
-            <Words words={COPY.s4.headline} f={f} start={t.words} offset={5} size={80} />
+          <At x={0} y={440} style={{opacity: out}}>
+            <Words words={COPY.s4.headline} f={f} start={t.words} offset={5} size={80} accent={{1: '#5fe0a3', 2: '#5fe0a3'}} />
           </At>
         </div>
       </Camera>

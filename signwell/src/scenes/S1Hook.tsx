@@ -18,12 +18,14 @@ export const S1Hook: React.FC = () => {
   const t = T.s1;
   const out = exit(f, t.exit);
   const emails = COPY.s1.emails;
-  const days = Math.round(countValue(f, t.counter, 0, COPY.s1.counterTo, 60));
+  const dv = countValue(f, t.counter, 0, COPY.s1.counterTo, 60);
+  const days = Math.round(dv);
+  const punch = 1 + 0.18 * Math.max(0, 1 - Math.abs(dv - days) * 3) * (f > t.counter && f < t.counter + 62 ? 1 : 0);
   const counterIn = enter(f, t.counter - 10);
 
   return (
     <Stage>
-      <Camera push={tween(f, 0, 240, 1, 1.06)}>
+      <Camera push={tween(f, 0, 240, 1, 1.07)} rotate={tween(f, 0, 240, -1.4, 0.4)}>
         <div style={{position: 'absolute', inset: 0, opacity: out, transform: `scale(${0.96 + 0.04 * out})`, transformOrigin: '960px 540px'}}>
           {/* Notification stack: newest on top; each new card pushes the older ones down. */}
           {emails.map((e, i) => {
@@ -56,13 +58,13 @@ export const S1Hook: React.FC = () => {
               display: 'flex', alignItems: 'baseline', gap: 14, padding: '14px 26px', borderRadius: 16,
               background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.18)', fontFamily: BODY, color: '#fff'}}>
               <span style={{fontSize: 20, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', opacity: .75, whiteSpace: 'nowrap'}}>{COPY.s1.counterLabel}</span>
-              <span style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 52, color: COLORS.amber, fontVariantNumeric: 'tabular-nums', minWidth: 34, textAlign: 'right'}}>{days}</span>
+              <span style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 52, color: COLORS.amber, fontVariantNumeric: 'tabular-nums', minWidth: 34, textAlign: 'right', display: 'inline-block', transform: `scale(${punch})`}}>{days}</span>
               <span style={{fontSize: 24, fontWeight: 600}}>{COPY.s1.counterUnit}</span>
             </div>
           </At>
 
           <At x={0} y={330}>
-            <Words words={COPY.s1.headline.split(' ')} f={f} start={t.headline} size={86} />
+            <Words words={COPY.s1.headline.split(' ')} f={f} start={t.headline} size={86} accent={{4: COLORS.amber}} />
           </At>
         </div>
       </Camera>

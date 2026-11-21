@@ -6,6 +6,7 @@ import {Words} from '../components/Words';
 import {COLORS, COPY} from '../config';
 import {BODY} from '../fonts';
 import {enter, exit, press, drift, tween, pathAt, clamp, easy} from '../anim';
+import {Easing} from 'remotion';
 import T from '../timing.json';
 
 const XS = [-660, -220, 220, 660];
@@ -27,7 +28,9 @@ const Icon: React.FC<{i: number; color: string}> = ({i, color}) => {
 export const S2Problem: React.FC = () => {
   const f = useCurrentFrame();
   const t = T.s2;
-  const out = exit(f, t.exit);
+  const out = exit(f, t.match[0]);
+  // Match cut: the document accelerates into the lens (ease-in); scene 3 opens on the page and decelerates (ease-out).
+  const m = interpolate(f, [t.match[0], t.match[1]], [0, 1], {...clamp, easing: Easing.bezier(0.55, 0, 0.9, 0.45)});
 
   // Document travels tile to tile on arcs (each move 50 frames ≈ 0.83 s).
   const start = {x: -1100, y: TILE_Y - 20};
@@ -66,17 +69,6 @@ export const S2Problem: React.FC = () => {
             );
           })}
 
-          {/* The document, riding above the tiles. */}
-          <At x={doc.x} y={doc.y - 215 + drift(f, 3, 200)} style={{zIndex: 20}}>
-            <div style={{width: 96, height: 124, borderRadius: 10, background: f >= t.land[2] ? '#e8e9ee' : '#fff', transform: `scale(${settle}) rotate(${drift(f, 3, 300)}deg)`,
-              boxShadow: '0 16px 30px rgba(0,0,0,.35)', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
-              {[90, 100, 80, 95].map((w, k) => <div key={k} style={{height: 6, width: `${w}%`, borderRadius: 3, background: COLORS.line}} />)}
-              <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 : 0}}>
-                <path d="M2 22c8-14 12 4 18-6s10-2 14 2 10-8 16-4 8 4 14 0" fill="none" stroke="#14286e" strokeWidth="2.4" strokeLinecap="round" />
-              </svg>
-            </div>
-          </At>
-
           {/* Return arrow: Email → back to Print. */}
           <svg width="1920" height="1080" style={{position: 'absolute', left: 0, top: 0}} viewBox="-960 -540 1920 1080">
             <path d={`M ${XS[3]} ${TILE_Y + 160} C ${XS[3]} 260, ${XS[0]} 260, ${XS[0]} ${TILE_Y + 170}`} fill="none" stroke={COLORS.amber} strokeWidth="5"
@@ -86,9 +78,20 @@ export const S2Problem: React.FC = () => {
           </svg>
 
           <At x={-panX} y={380}>
-            <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} />
+            <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: COLORS.amber}} />
           </At>
         </div>
+        {/* The document, riding above the tiles. */}
+          <At x={doc.x * (1 - m)} y={(doc.y - 215 + drift(f, 3, 200)) * (1 - m)} style={{zIndex: 20}}>
+            <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#e8e9ee' : '#fff', transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
+              boxShadow: '0 16px 30px rgba(0,0,0,.35)', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
+              {[90, 100, 80, 95].map((w, k) => <div key={k} style={{height: 6, width: `${w}%`, borderRadius: 3, background: COLORS.line, opacity: 1 - Math.min(1, m * 2)}} />)}
+              <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 - Math.min(1, m * 2) : 0}}>
+                <path d="M2 22c8-14 12 4 18-6s10-2 14 2 10-8 16-4 8 4 14 0" fill="none" stroke="#14286e" strokeWidth="2.4" strokeLinecap="round" />
+              </svg>
+            </div>
+          </At>
+
       </Camera>
     </Stage>
   );

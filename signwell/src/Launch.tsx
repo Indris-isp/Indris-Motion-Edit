@@ -8,17 +8,20 @@ import {S4Payoff} from './scenes/S4Payoff';
 import {S5Logo} from './scenes/S5Logo';
 import T from './timing.json';
 import './fonts';
+import {GlitchFX} from './fx/Glitch';
 
 const S = T.scenes;
 
 export const Launch: React.FC<{withAudio?: boolean}> = ({withAudio = true}) => (
   <AbsoluteFill>
+    <GlitchFX>
     <Background />
     <Sequence from={S.s1.from} durationInFrames={S.s1.dur} name="1 · Still waiting (hook)"><S1Hook /></Sequence>
     <Sequence from={S.s2.from} durationInFrames={S.s2.dur} name="2 · Paper loop (problem)"><S2Problem /></Sequence>
     <Sequence from={S.s3.from} durationInFrames={S.s3.dur} name="3 · Place it, send it (fix)"><S3Fix /></Sequence>
     <Sequence from={S.s4.from} durationInFrames={S.s4.dur} name="4 · Signed (payoff)"><S4Payoff /></Sequence>
     <Sequence from={S.s5.from} durationInFrames={S.s5.dur} name="5 · Logo + CTA"><S5Logo /></Sequence>
+    </GlitchFX>
     {withAudio && <Audio src={staticFile('soundtrack.wav')} />}
   </AbsoluteFill>
 );

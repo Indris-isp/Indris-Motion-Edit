@@ -104,6 +104,7 @@ place(sfx, whoosh(0.4), at('s1', T['s1']['headline']) - 0.1, 0.35)
 place(sfx, whoosh(0.35, False), at('s1', T['s1']['exit']), 0.3)
 for fr in T['s2']['land']: place(sfx, thunk, at('s2', fr), 0.8)
 place(sfx, whoosh(0.9), at('s2', T['s2']['loop']), 0.4)
+place(sfx, whoosh(0.75), at('s2', T['s2']['match'][0]), 0.55)
 place(sfx, whoosh(0.5), at('s3', 0), 0.45)
 for key in ['pick1', 'drop1', 'pick2', 'drop2']: place(sfx, click, at('s3', T['s3'][key]), 0.9)
 place(sfx, whoosh(0.6), at('s3', T['s3']['zoomIn'][0]), 0.25)
@@ -115,10 +116,25 @@ place(sfx, tick, at('s4', T['s4']['viewed']), 1.0)
 place(sfx, noise_burst(1.0, 2, 30) * np.sin(np.linspace(0, np.pi, SR)) * 0.4, at('s4', T['s4']['sign'][0]), 1.0)  # pen scratch
 place(sfx, click, at('s4', T['s4']['finish']), 1.0)
 place(sfx, chime, at('s4', T['s4']['signed']), 0.9)
-place(sfx, whoosh(0.5, False), at('s4', T['s4']['exit']), 0.4)
+place(sfx, whoosh(0.75), at('s4', T['s4']['match'][0]), 0.55)
 place(sfx, whoosh(0.7), at('s5', T['s5']['stroke'][0]), 0.45)
 place(sfx, chime, at('s5', T['s5']['word']), 0.6)
 place(sfx, pop, at('s5', T['s5']['cta']), 0.5)
+
+# Glitch stutters: gated noise + bit-crushed square blips, re-rolled every 2 video frames like the picture.
+def glitch_sfx(length_frames, amp):
+    n = int(length_frames / FPS * SR); out = np.zeros(n); step = int(2 / FPS * SR)
+    for s in range(0, n, step):
+        seg = min(step, n - s); tt = np.arange(seg) / SR
+        if rng.random() < 0.75:
+            f0 = rng.choice([220, 330, 880, 1760, 2640]) * (1 + rng.random() * 0.1)
+            sq = np.sign(np.sin(2 * np.pi * f0 * tt)) * 0.5
+            nz = np.round(rng.standard_normal(seg) * 3) / 3 * 0.6
+            out[s:s + seg] = (sq if rng.random() < 0.5 else nz) * (0.4 + 0.6 * rng.random())
+    shape = np.sin(np.linspace(0, np.pi, n)) ** 0.5
+    return out * shape * amp * 0.5
+for h in T['fx']['glitch']:
+    place(sfx, glitch_sfx(h['len'] + 2, h['amp']), (h['at'] - h['len'] / 2) / FPS, 1.0, float(rng.uniform(-0.3, 0.3)))
 
 mix = mus * 0.9 + sfx
 mix = np.tanh(mix / (np.abs(mix).max() + 1e-9) * 1.4) / np.tanh(1.4)

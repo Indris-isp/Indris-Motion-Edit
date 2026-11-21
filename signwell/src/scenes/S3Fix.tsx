@@ -1,5 +1,5 @@
 import React from 'react';
-import {useCurrentFrame, interpolate} from 'remotion';
+import {useCurrentFrame, interpolate, Easing} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
 import {Cursor} from '../components/Cursor';
@@ -25,16 +25,19 @@ export const cursorMoves = () => {
 };
 export const CURSOR_START: Pt = {x: 380, y: 470};
 export const ZOOM_FOCUS: Pt = {x: -10, y: 170};
+// Match-cut target: the page center, framed at 1.9× so it lines up with scene 2's document.
+export const PAGE_FOCUS: Pt = {x: 140, y: 113};
 
 // Scene 3 · Place it, send it (fix) — drag fields onto the document, click Send.
 export const S3Fix: React.FC = () => {
   const f = useCurrentFrame();
-  const win = enter(f, 0);
   const cur = pathAt(f, CURSOR_START, cursorMoves());
 
   // Camera: zoom ≈130% into the signature line during the drags, ease back for Send.
   const z = interpolate(f, [t.zoomIn[0], t.zoomIn[1], t.zoomOut[0], t.zoomOut[1]], [0, 1, 1, 0], {...clamp, easing: (x) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2});
-  const zoom = 1 + 0.3 * z;
+  // Opening: continue the match cut's speed, then decelerate out to the full editor (ease-out).
+  const o = interpolate(f, [t.open[0], t.open[1]], [1, 0], {...clamp, easing: Easing.bezier(0.1, 0.55, 0.3, 1)});
+  const zoom = 1 + 0.9 * o + 0.3 * z;
 
   const sig = f >= t.drop1 ? enter(f, t.drop1) : 0;
   const date = f >= t.drop2 ? enter(f, t.drop2) : 0;
@@ -48,9 +51,8 @@ export const S3Fix: React.FC = () => {
 
   return (
     <Stage>
-      <Camera zoom={zoom} focus={ZOOM_FOCUS} amount={z} push={tween(f, 0, 540, 1, 1.03)}>
-        <div style={{position: 'absolute', inset: 0, opacity: Math.min(1, win * 1.4),
-          transform: `translateY(${(1 - win) * 60}px) scale(${0.92 + 0.08 * win})`, transformOrigin: '960px 540px'}}>
+      <Camera zoom={zoom} focus={o > 0 ? PAGE_FOCUS : ZOOM_FOCUS} amount={o > 0 ? o : z} push={tween(f, 0, 540, 1, 1.03)} rotate={1.2 * o + interpolate(z, [0, 1], [0, -0.6])}>
+        <div style={{position: 'absolute', inset: 0}}>
           <Editor sig={sig} date={date} status={status} statusScale={sendScale} hoverIndex={hover} />
         </div>
 
@@ -78,7 +80,7 @@ export const S3Fix: React.FC = () => {
 
       {/* Headline sits outside the camera so it stays steady during the zoom. */}
       <At x={0} y={462 + drift(f, 2, 300)} style={{opacity: headOut}}>
-        <Words words={COPY.s3.headline} f={f} starts={[t.place, t.place + 4, t.send + 2, t.send + 6]} size={58} />
+        <Words words={COPY.s3.headline} f={f} starts={[t.place, t.place + 4, t.send + 2, t.send + 6]} size={58} accent={{2: '#8fb0ff', 3: '#8fb0ff'}} />
       </At>
     </Stage>
   );

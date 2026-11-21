@@ -34,6 +34,24 @@
 - Camera: pull back to show phone and desktop together.
 
 **Scene 5 · Logo + CTA (logo)** — 0:25–0:30, frames 1500–1800
-- On screen: everything scales away. A signature stroke draws, then the SignWell wordmark builds over it. Tagline: "Electronic signatures made easy." CTA button: "Start free · signwell.com".
-- Motion: stroke draws ~0.7 s, wordmark letters offset 2 frames, tagline and CTA follow with offset. Slow drift to the end.
+- On screen: opens on the client's signature from scene 4 (match cut), now white on brand blue. It settles under the SignWell wordmark as the letters build. Tagline: "Electronic signatures made easy." CTA button: "Start free · signwell.com".
+- Motion: signature eases down into place over 0.8 s (ease-out), wordmark letters offset 2 frames, tagline and CTA follow with offset. Slow drift to the end.
 - Camera: gentle push-in.
+
+---
+
+## Transitions and effects (rev 2)
+
+Scene order and lengths are unchanged. These layer on top.
+
+| Cut | Frame | Type | How |
+|---|---|---|---|
+| — | 10, 28, 46, 64 | Glitch hits | Small RGB-split stutter on each email card landing. |
+| 1 → 2 | 240 | **Block glitch transition** | 26-frame hit peaking on the cut: RGB channel split, displaced horizontal slices, inverted and colored data blocks, scanlines. Hides the cut completely. |
+| — | 502 | Glitch hit | Punctuates "Repeat." |
+| 2 → 3 | 558–654 | **Match cut** | The paper document accelerates into the lens (ease-in, 0.7 s) until it fills the frame, and scene 3 opens on the SignWell page at the same size, then eases out (0.9 s) to reveal the editor. A light glitch at 600 seals it. Paper becomes product. |
+| 3 → 4 | 1140 | **Smooth cut** | Continuity cut: the editor holds the exact same state across the cut, then the camera pulls back as the phone whips in with motion blur. |
+| — | 1012, 1290 | Glitch hits | On Send and on Signed. |
+| 4 → 5 | 1458–1554 | **Match cut** | Camera pushes into the client's signature on the phone (ease-in); it turns white as the phone fades and the background turns brand blue. Scene 5 opens on the same stroke at the same size, which eases down to become the line under the wordmark. Glitch hit at 1500. |
+
+Motion: every camera move is ease-in-out; the two match cuts pair an ease-in before the cut with an ease-out after it, so speed carries through the cut without a bump. Headline words rise out of a mask with a short RGB stutter, and one key word per headline takes an accent color. A slow-moving grid sits behind everything so nothing stops.
