@@ -79,6 +79,12 @@ b{font-weight:500}.L{font-weight:300}
 <!-- S1 · prompt bar on blossoms -->
 <div class="scene" id="S1"><div class="abs" id="s1in" style="inset:0">
   <div class="bgw" id="s1bgw"><img id="s1bg"></div>
+  <div class="abs" id="s1pillW" style="inset:0;transform-origin:0 50%">
+    <div class="abs frost" style="left:150px;top:390px;width:2400px;height:300px;border-radius:150px">
+      <div class="plusI" style="left:90px;top:92px;width:116px;height:116px;border-width:6px"></div>
+      <div class="abs" id="s1ptxt" style="left:260px;top:86px;white-space:nowrap;font:300 118px/1.08 Satoshi;letter-spacing:-.03em"></div>
+    </div>
+  </div>
   <div class="abs" id="s1cam" style="inset:0;transform-origin:0 0">
     <div class="abs frost" id="s1bar" style="left:420px;top:390px;width:1080px;height:300px;border-radius:44px">
       <div class="abs" style="left:52px;top:46px;width:980px;font:300 46px/1.25 Satoshi;letter-spacing:-.02em" id="s1txt"></div>
@@ -140,6 +146,7 @@ b{font-weight:500}.L{font-weight:300}
 <!-- S5 · live transcript on the mountains → pill → stats button -->
 <div class="scene" id="S5">
   <div class="bgw" id="s5bgw"><img id="s5bg"></div>
+  <div class="abs" id="lakeFl" style="left:-40px;right:-40px;bottom:-30px;height:380px;background-size:cover;background-position:center 100%;filter:blur(7px) saturate(1.15);-webkit-mask-image:linear-gradient(0deg,#000 45%,transparent 100%)"></div>
   <div class="panel" id="panel" style="left:340px;top:250px;width:1240px;height:560px;transform-origin:50% 50%">
     <div style="font:300 40px Satoshi;color:rgba(255,255,255,.92)"><span class="dot" id="pdot"></span><span id="plisten"></span></div>
     <div class="tl" id="pl1"></div>
@@ -250,12 +257,13 @@ window.renderAt=async function(t){
   /* ===== S1 · prompt bar: tight on the words → pull back → click Send → pixel flash → iris shrinks away ===== */
   if(vis('S1',0,4.75,t)){
     bg($('s1bg'),'blossom',t);
-    const pull=t>=2.1?1:0, z=(pull?1.05-.05*EOUT(P(t,2.1,4.0)):2.35+.06*t);
+    const pull=t>=2.1?1:0, z=1.05-.05*EOUT(P(t,2.1,4.0));$('s1pillW').style.display=pull?'none':'block';$('s1cam').style.display=pull?'block':'none';$('s1pillW').style.transform=`scale(${(1+.025*t).toFixed(4)})`;
     const fx=lerp(470,420,pull), fy=lerp(470,390,pull);          // keep the text line in view while tight
-    $('s1cam').style.transform=`translate(${lerp(-fx*z+260,0,pull).toFixed(1)}px,${lerp(-fy*z+300,0,pull).toFixed(1)}px) scale(${z.toFixed(4)})`;
+    $('s1cam').style.transform=`translate(${((1-z)*960).toFixed(1)}px,${((1-z)*540).toFixed(1)}px) scale(${z.toFixed(4)})`;
     $('s1bgw').style.transform=`scale(${(1+.18*(1-pull)+.01*t).toFixed(4)})`;$('s1bg').style.filter=`blur(${lerp(1,2.5,pull)}px)`;
     const txt=typed(t,[['Video editing, ',0,.75],['personal branding, ',1.0,1.75],['social media marketing ',2.12,3.1],['& ',3.4,3.5],['script writing',3.56,3.95]]);
     const i=txt.indexOf('script');
+    $('s1ptxt').innerHTML=esc(txt)+`<span class="caret" style="opacity:${Math.floor(t*2.6)%2?0:1}"></span>`;
     $('s1txt').innerHTML=(i<0?esc(txt):esc(txt.slice(0,i))+'<b>'+esc(txt.slice(i))+'</b>')+`<span class="caret" style="opacity:${Math.floor(t*2.6)%2?0:1}"></span>`;
     // cursor arrives, hesitates, clicks
     const send=[1500-44-100,390+300-36-30];let g;
@@ -305,7 +313,7 @@ window.renderAt=async function(t){
       const o=EIN(P(t,10.7,10.95));
       w.style.transform=`translateX(${((1-EOUT(p))*dx+o*dx*.6).toFixed(1)}px) rotate(${(r+(1-EOUT(p))*(dx>0?14:-14)).toFixed(2)}deg)`;
       w.style.opacity=(EOUT(clamp(p*2))*(1-o)).toFixed(3)});
-    [...document.querySelectorAll('.nt')].forEach((n,i)=>{const t0=[8.42,9.68,10.36][i];pop(n,t,t0,{d:.35,from:.85,dy:-30,out:10.72,outD:.2})});
+    [...document.querySelectorAll('.nt')].forEach((n,i)=>{const t0=[8.88,10.36,99][i];n.style.display=i<2?'flex':'none';pop(n,t,t0,{d:.35,from:.85,dy:-30,out:10.72,outD:.2})});
     // side-on wipe: the phone's dark edge sweeps across the frame
     const W=$('wipe');if(turn>0){W.style.display='block';const x=lerp(1920,-400,EIO(P(t,10.95,11.25)));W.style.left=x+'px';W.style.width=lerp(80,1200,Math.sin(Math.PI*P(t,10.95,11.25)))+'px'}else W.style.display='none';
   }
@@ -313,9 +321,10 @@ window.renderAt=async function(t){
   /* ===== S5 · live transcript on the mountains → highlighted line lifts out → stats button, click → iris ===== */
   if(vis('S5',11.05,21.0,t)){
     bg($('s5bg'),'lake',t-11.05);$('s5bg').style.filter='brightness(1.18) saturate(1.45) contrast(1.06) sepia(.08)';
+    $('lakeFl').style.backgroundImage=`url(assets/frames/garden_flowers/${String(pp(Math.floor((t-11)*30),420)+1).padStart(4,'0')}.jpg)`;$('lakeFl').style.transform=`translateX(${(-(t-11)*6).toFixed(1)}px)`;
     $('s5bgw').style.transform=`scale(${(1.04+.03*P(t,11,21)).toFixed(4)})`;
     const pin=EOUT(P(t,11.08,11.5)),pout=EIN(P(t,15.95,16.3));
-    T($('panel'),{s:lerp(.92,1,pin)*(1+.05*EIO(P(t,11.5,15.9)))*(1-pout*.04),x:-20*EIO(P(t,11.5,15.9)),o:EOUT(clamp(pin*2))*(1-pout),b:pout*10});
+    const rf1=EIO(P(t,12.45,12.8)),rf2=EIO(P(t,14.95,15.3));T($('panel'),{s:lerp(.92,1,pin)*(1+.03*EIO(P(t,11.5,15.9))+.07*rf1+.07*rf2)*(1-pout*.04),x:-20*EIO(P(t,11.5,15.9))-40*rf1+50*rf2,y:-30*rf1-45*rf2,o:EOUT(clamp(pin*2))*(1-pout),b:pout*10});
     $('plisten').textContent=typed(t,[['ISP is listening',11.2,11.55]]);
     $('pdot').style.opacity=(.55+.45*Math.sin(t*6)).toFixed(3);
     $('pl1').textContent=typed(t,[['you: ',11.5,11.6],['planning to edit your video,',11.08,12.3]]);
@@ -360,6 +369,7 @@ window.renderAt=async function(t){
     [...$('k2').querySelectorAll('.ch')].forEach(c=>{if(tilt>0){const m=EIO(P(t,21.9,22.2));const cur=c.style.color.match(/\d+/g).map(Number);
       if(cur[0]<100)c.style.color=`rgb(${cur.map(v=>Math.round(lerp(v,255,m)))})`}});
     const ex=EIN(P(t,27.05,27.45));$('k2').style.opacity=(1-ex).toFixed(3);
+    {const rb=[22.2,23.32,24.36].reduce((a,tt)=>a+EIO(P(t,tt-.12,tt+.28)),0);$('rows').style.transformOrigin='960px 480px';$('rows').style.transform=`translateY(${(-28*rb).toFixed(1)}px) scale(${(1+.035*rb).toFixed(4)})`;}
     rows.forEach((r,i)=>{const t0=[22.2,23.32,24.36][i];
       pop(r.av,t,t0-.1,{d:.38,from:.4});
       const wg=EOUT(P(t,t0-.06,t0+.26));r.bx.style.width=(1060*Math.max(.001,wg))+'px';
@@ -376,7 +386,7 @@ window.renderAt=async function(t){
     bg($('s7bg'),'above_clouds',t-27.2);
     const tin=EIO(P(t,27.2,27.6));
     $('s7bgw').style.opacity=tin.toFixed(3);$('s7bgw').style.transform=`scale(${(1.12-.08*tin+.01*(t-27.2)).toFixed(4)})`;$('s7bg').style.filter='blur(3px)';
-    T($('s7cam'),{s:1+.015*P(t,27.6,33.5)});
+    if(t<29.22){const z=1.9+.03*(t-27.2);$('s7cam').style.transformOrigin='0 0';$('s7cam').style.transform=`translate(${(170-472*z).toFixed(1)}px,${(500-400*z).toFixed(1)}px) scale(${z.toFixed(4)})`;}else{$('s7cam').style.transformOrigin='50% 50%';T($('s7cam'),{s:1.06-.06*EOUT(P(t,29.22,31.5))+.015*P(t,31.5,33.5)});}
     const bp=P(t,27.2,27.6);T($('s7bar'),{s:lerp(.92,1,BACK(bp)),o:EOUT(clamp(bp*2))});
     const txt=typed(t,[['Level up my content, ',28.2,29.0],['boost my sales',29.22,29.95],['\n& ',30.5,30.6],['position my brand',30.98,31.9]]);
     const i=txt.indexOf('position');

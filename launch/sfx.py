@@ -108,6 +108,6 @@ vo = np.frombuffer(raw, '<i2').reshape(-1, 2).astype(np.float64) / 32768
 mix = np.zeros((N, 2)); mix[:min(N, len(vo))] = vo[:N]
 mix += np.stack([SFX, SFX], 1) * 10 ** (-4 / 20)
 tail = int(.8 * SR); mix[-tail:] *= np.linspace(1, 0, tail)[:, None] ** 2    # soft end
-mix *= min(1, .97 / np.abs(mix).max())
+mix *= min(1, .89 / np.abs(mix).max())   # peak −1 dBFS
 write('out/audio_mix.wav', mix)
 print('wrote out/sfx.wav and out/audio_mix.wav')
