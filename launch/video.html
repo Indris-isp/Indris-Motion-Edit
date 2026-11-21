@@ -77,7 +77,7 @@ b{font-weight:500}.L{font-weight:300}
 <div id="stage">
 
 <!-- S1 · prompt bar on blossoms -->
-<div class="scene" id="S1"><div class="abs" id="s1in" style="inset:0">
+<div class="scene" id="S1" style="z-index:5"><div class="abs" id="s1in" style="inset:0">
   <div class="bgw" id="s1bgw"><img id="s1bg"></div>
   <div class="abs" id="s1pillW" style="inset:0;transform-origin:0 50%">
     <div class="abs frost" style="left:150px;top:390px;width:2400px;height:300px;border-radius:150px">
@@ -217,7 +217,7 @@ const press=(t,tc)=>{const p=P(t,tc,tc+.14);return p>0&&p<1?1-.06*Math.sin(Math.
 function arc(p0,p1,p,bend=.15){const mx=(p0[0]+p1[0])/2,my=(p0[1]+p1[1])/2,dx=p1[0]-p0[0],dy=p1[1]-p0[1],c=[mx-dy*bend,my+dx*bend];
   const k=EIO(p),a=(1-k)*(1-k),b=2*(1-k)*k,d=k*k;return[a*p0[0]+b*c[0]+d*p1[0],a*p0[1]+b*c[1]+d*p1[1]]}
 const pending=[];const pp=(f,n)=>{const c=f%(2*n-2);return c<n?c:2*n-2-c};
-const N={pink_sunset:420,garden_flowers:420,lake:420,above_clouds:420,blossom:420,sky_clouds:420,alps:420,valley_clouds:225,sunset_hills:225,field_bluesky:308};
+const N={hills:420,pink_sunset:420,garden_flowers:420,lake:420,above_clouds:420,blossom:420,sky_clouds:420,alps:420,valley_clouds:225,sunset_hills:225,field_bluesky:308};
 function bg(img,clip,lt){const src=`assets/frames/${clip}/${String(pp(Math.max(0,Math.floor(lt*30)),N[clip])+1).padStart(4,'0')}.jpg`;
   if(img.dataset.src!==src){img.dataset.src=src;img.src=src;pending.push(img.decode().catch(()=>{}))}}
 const vis=(id,a,b,t)=>{const v=t>=a&&t<b;$(id).style.display=v?'block':'none';return v};
@@ -228,11 +228,15 @@ const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const ORG=[255,122,26];
 function buildKin(el,words){el.innerHTML='';return words.map(w=>{const span=document.createElement('span');span.style.display='inline-block';span.style.marginRight='.24em';
   if(w.light)span.style.fontWeight=300;const chars=[...w.t].map(ch=>{const c=document.createElement('span');c.className='ch';c.textContent=ch;span.appendChild(c);return c});el.appendChild(span);return{...w,span,chars}})}
-function kin(words,t){for(const w of words){w.chars.forEach((c,i)=>{const t0=w.t0+i*.03,p=EOUT(P(t,t0,t0+.4)),k=EIO(P(t,t0+.12,t0+.4));
-  c.style.transform=`translateY(${((1-p)*70).toFixed(1)}px) rotate(${((1-p)*28).toFixed(2)}deg) scale(${(.6+.4*p).toFixed(3)})`;
-  c.style.opacity=clamp(p*1.6).toFixed(3);c.style.filter=p<.98?`blur(${((1-p)*8).toFixed(2)}px)`:'none';
-  const f=w.col;const col=ORG.map((v,j)=>Math.round(lerp(v,f[j],k)));c.style.color=`rgb(${col})`;
-  c.style.textShadow=k<.98?`0 0 ${(30*(1-k)).toFixed(0)}px rgba(255,140,40,${(.7*(1-k)).toFixed(2)})`:'none'})}}
+function kin(words,t,endHold=.12){words.forEach((w,wi)=>{const nx=wi<words.length-1?words[wi+1].t0:null;
+  const gap=Math.min(.07,((nx??w.t0+.5)-w.t0)/Math.max(1,w.chars.length));
+  const settle=nx!=null?nx+.04:w.t0+w.chars.length*gap+endHold;
+  const k=EIO(P(t,settle,settle+.18));
+  w.chars.forEach((c,i)=>{const tl=w.t0+i*gap,p=EOUT(P(t,tl,tl+.22));
+    c.style.transform=`translate(${(-(1-p)*.06).toFixed(3)}em,${((1-p)*.34).toFixed(3)}em) rotate(${((1-p)*16).toFixed(2)}deg) scale(${(.42+.58*p).toFixed(3)})`;
+    c.style.opacity=t<tl?0:clamp(.25+p).toFixed(3);c.style.filter=p<.98?`blur(${((1-p)*5).toFixed(2)}px)`:'none';
+    const f=w.col;c.style.color=`rgb(${ORG.map((v,j)=>Math.round(lerp(v,f[j],k)))})`;
+    c.style.textShadow=k<.98?`0 0 ${(18*(1-k)).toFixed(0)}px rgba(255,140,40,${(.55*(1-k)).toFixed(2)})`:'none'})})}
 const INK=[20,18,16];
 const K1=buildKin($('k1'),[{t:'Meet',t0:5.94,col:INK,light:true},{t:'ISP',t0:6.1,col:ORG},{t:'Agency.',t0:6.5,col:INK}]);
 const K2=buildKin($('k2'),[{t:'so',t0:20.64,col:INK,light:true},{t:'what',t0:20.82,col:INK,light:true},{t:'do',t0:21.12,col:INK,light:true},{t:'we',t0:21.22,col:INK,light:true},{t:'actually',t0:21.34,col:ORG},{t:'do?',t0:21.62,col:ORG}]);
@@ -248,8 +252,11 @@ const rows=ROWS.map((r,i)=>{const y=340+i*144,av=document.createElement('div');a
   bx.innerHTML=`<div class="fill"></div><div class="tx"><span class="L">${r[0]}</span><b>${r[1]}</b><span class="L">${r[2]}</span></div>`;
   $('rows').appendChild(av);$('rows').appendChild(bx);return{av,bx,fill:bx.querySelector('.fill'),tx:bx.querySelector('.tx')}});
 // pixel blocks (ref 2.0 s)
-const PIX=[];{let s=5;const r=()=>(s=(s*16807)%2147483647)/2147483647;for(let i=0;i<110;i++){const e=document.createElement('div'),z=50+r()*90;
-  e.style.cssText=`position:absolute;left:${r()*1920}px;top:${r()*1080}px;width:${z}px;height:${z}px;background:rgba(255,255,255,${(.25+r()*.6).toFixed(2)})`;$('pix').appendChild(e);PIX.push({e,d:r()*.18})}}
+const PIX=[];{const S=64,CX=1356,CY=621;let sd=5;const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  for(let y=0;y<1080;y+=S)for(let x=0;x<1920;x+=S){const e=document.createElement('div');
+    e.style.cssText=`position:absolute;left:${x}px;top:${y}px;width:${S}px;height:${S}px;background:rgb(255,${226+r()*24|0},${196+r()*40|0})`;
+    $('pix').appendChild(e);PIX.push({e,d:Math.hypot(x+S/2-CX,y+S/2-CY),j:r()})}}
+$('pix').style.filter='blur(1.5px) drop-shadow(0 0 14px rgba(255,150,60,.95))';$('pix').style.mixBlendMode='normal';
 
 window.renderAt=async function(t){
   pending.length=0;
@@ -273,12 +280,13 @@ window.renderAt=async function(t){
     $('s1send').style.transform=`scale(${press(t,4.0)})`;$('s1send').innerHTML=t>4.02?`<span style="display:block;width:26px;height:26px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;transform:rotate(${(t*720)%360}deg)"></span>`:'Generate';
     $('s1send').style.background=t>4.0?`rgb(${Math.round(lerp(22,224,EOUT(P(t,4.0,4.15))))},${Math.round(lerp(18,86,EOUT(P(t,4.0,4.15))))},${Math.round(lerp(15,10,EOUT(P(t,4.0,4.15))))})`:'#16120F';
     // pixel flash (4.05–4.3)
-    PIX.forEach(({e,d})=>{const p=P(t,4.05+d,4.2+d),q=P(t,4.25+d*.5,4.38+d*.5);e.style.opacity=(Math.sin(Math.PI*p)*.9+(p>=1?(1-q)*.6:0)).toFixed(3)});
+    {const R=lerp(40,1500,EIO(P(t,4.03,4.6))),fade=1-P(t,4.45,4.6),on=t>=4.03&&t<4.6;$('pix').style.display=on?'block':'none';
+      if(on)PIX.forEach(({e,d,j})=>{const band=1-Math.abs(d-R+(j-.5)*120)/240;e.style.opacity=(clamp(band)*(.55+.45*j)*fade).toFixed(3)});}
     // iris: the whole shot shrinks into a circle and falls back (4.3–4.72)
-    const ir=EIO(P(t,4.28,4.72));
-    $('s1in').style.clipPath=ir>0?`circle(${lerp(1200,0,ir).toFixed(0)}px at 960px 540px)`:'none';
-    $('s1in').style.transform=`scale(${lerp(1,.55,ir).toFixed(4)})`;
-    $('s1in').style.filter=ir>0?`blur(${(ir*6).toFixed(1)}px)`:'none';
+    const ir=EIO(P(t,4.3,4.72));
+    $('s1in').style.clipPath=ir>0?`ellipse(${lerp(1500,0,ir).toFixed(0)}px ${lerp(1000,0,ir).toFixed(0)}px at 960px 540px)`:'none';
+    $('s1in').style.transform=ir>0?`scale(${(lerp(1,.62,ir)*lerp(1,1.18,Math.sin(Math.PI*clamp(ir*1.2)))).toFixed(4)},${lerp(1,.62,ir).toFixed(4)})`:'none';
+    $('s1in').style.filter=ir>0?`blur(${(ir*7).toFixed(1)}px)`:'none';
   }
 
   /* ===== S2 · folder on pink clouds, the services pop out on "All in one place?" ===== */
@@ -293,11 +301,12 @@ window.renderAt=async function(t){
 
   /* ===== S3 · "Meet ISP Agency." letter wave on green hills (camera drifts right) ===== */
   if(vis('S3',5.8,7.65,t)){
-    bg($('s3bg'),'field_bluesky',t-5.8);
+    bg($('s3bg'),'hills',t-5.8);
     const tin=EOUT(P(t,5.8,6.15)),tout=EIN(P(t,7.3,7.62));
     $('s3bgw').style.transform=`translateY(${((1-tin)*-420+tout*700).toFixed(1)}px) scale(${(1.06+.02*(t-5.8)).toFixed(4)})`;
     kin(K1,t);
-    T($('k1'),{x:960-K1W/2-(t-5.9)*22,y:470+tout*620,b:tout*8});
+    {const c1=t>=6.98;$('S3').style.transformOrigin='1250px 330px';$('S3').style.transform=c1?`scale(${(1.3+.03*(t-6.98)).toFixed(4)})`:'none';}
+    T($('k1'),{x:960-K1W/2-(t-5.9)*22,y:250+tout*620,b:tout*8});
   }
 
   /* ===== S4 · widgets fly in around the phone (blue sky), phone turns side-on as the wipe ===== */
@@ -353,18 +362,19 @@ window.renderAt=async function(t){
     const ir=EIO(P(t,20.18,20.75)),I=$('iris1');
     if(ir>0){I.style.display='block';const R=lerp(10,1250,ir);I.style.width=I.style.height=2*R+'px';I.style.transform=`translate(${(cx-R).toFixed(1)}px,${(cy-R).toFixed(1)}px)`;
       $('iris1in').style.transform=`translate(${(R-cx).toFixed(1)}px,${(R-cy).toFixed(1)}px)`;
-      $('iris1in').style.background=`url(assets/frames/field_bluesky/${String(pp(Math.floor((t-20)*30),308)+1).padStart(4,'0')}.jpg) center/cover`;
+      $('iris1in').style.background=`url(assets/frames/hills/${String(pp(Math.floor((t-14)*30),420)+1).padStart(4,'0')}.jpg) center/cover`;
       I.style.boxShadow=`0 0 0 ${lerp(10,2,ir)}px rgba(255,255,255,.7)`}else I.style.display='none';
   }
 
   /* ===== S6 · "so what do we actually do?" → approved solid rows ===== */
   if(vis('S6',20.7,27.6,t)){
-    bg($('s6bgA'),'field_bluesky',t-20);bg($('s6bgB'),'garden_flowers',t-14);
+    bg($('s6bgA'),'hills',t-14);bg($('s6bgB'),'garden_flowers',t-14);
     const tilt=EIO(P(t,21.85,22.35));
     $('s6bgwA').style.transform=`translateX(${(-(t-20.7)*14).toFixed(1)}px) scale(${(1.04+.12*tilt+.008*(t-20.7)).toFixed(4)})`;$('s6bgA').style.filter=`blur(${(tilt*7).toFixed(1)}px)`;
     $('s6bgwB').style.opacity=tilt.toFixed(3);$('s6bgwB').style.transform=`scale(${(1.16-.1*tilt+.006*(t-21.85)).toFixed(4)})`;$('s6bgB').style.filter='blur(7px) brightness(.82)';
     kin(K2,t);
-    T($('k2'),{x:lerp(960-K2W/2+60-(t-20.7)*30,960-K2W*.42/2,tilt),y:lerp(500,180,tilt),s:lerp(1,.42,tilt),pre:'',post:''});
+    {const c1=t>=21.48&&t<21.72;$('S6').style.transformOrigin='1220px 330px';$('S6').style.transform=c1?`scale(${(1.34+.04*(t-21.48)).toFixed(4)})`:'none';}
+    {const wide=t>=21.72?.84:1;T($('k2'),{x:lerp(960-K2W*wide/2+60-(t-20.7)*30,960-K2W*.42/2,tilt),y:lerp(270+(1-wide)*60,180,tilt),s:lerp(wide,.42,tilt),pre:'',post:''});}
     $('k2').style.transformOrigin='0 0';
     [...$('k2').querySelectorAll('.ch')].forEach(c=>{if(tilt>0){const m=EIO(P(t,21.9,22.2));const cur=c.style.color.match(/\d+/g).map(Number);
       if(cur[0]<100)c.style.color=`rgb(${cur.map(v=>Math.round(lerp(v,255,m)))})`}});
