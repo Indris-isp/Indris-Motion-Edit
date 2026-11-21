@@ -7,7 +7,7 @@ import {Words} from '../components/Words';
 import {Editor, FieldChip, paletteCenter, slotCenter, sendCenter, SLOT_SIG, SLOT_DATE} from '../components/Editor';
 import {COPY} from '../config';
 import {BODY} from '../fonts';
-import {enter, exit, press, tween, pathAt, clamp, drift, Pt} from '../anim';
+import {enter, exit, press, tween, pathAt, clamp, drift, Pt, inOutCubic} from '../anim';
 import T from '../timing.json';
 
 const t = T.s3;
@@ -36,7 +36,7 @@ export const S3Fix: React.FC = () => {
   // Camera: zoom ≈130% into the signature line during the drags, ease back for Send.
   const z = interpolate(f, [t.zoomIn[0], t.zoomIn[1], t.zoomOut[0], t.zoomOut[1]], [0, 1, 1, 0], {...clamp, easing: (x) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2});
   // Opening: continue the match cut's speed, then decelerate out to the full editor (ease-out).
-  const o = interpolate(f, [t.open[0], t.open[1]], [1, 0], {...clamp, easing: Easing.bezier(0.1, 0.55, 0.3, 1)});
+  const o = interpolate(f, [t.open[0], t.open[1]], [1, 0], {...clamp, easing: inOutCubic});
   const zoom = 1 + 0.9 * o + 0.3 * z;
 
   const sig = f >= t.drop1 ? enter(f, t.drop1) : 0;

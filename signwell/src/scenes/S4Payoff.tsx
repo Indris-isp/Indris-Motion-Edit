@@ -7,7 +7,7 @@ import {countValue} from '../components/Counter';
 import {Editor, Signature} from '../components/Editor';
 import {COLORS, COPY} from '../config';
 import {BODY, DISPLAY} from '../fonts';
-import {enter, exit, press, tween, drift, clamp, easeIn} from '../anim';
+import {enter, exit, press, tween, drift, clamp, easeIn, outQuint} from '../anim';
 import T from '../timing.json';
 
 const t = T.s4;
@@ -21,8 +21,8 @@ const fmtWait = (min: number) => {
 // Scene 4 · Signed (payoff) — client signs on the phone, status flips to Signed, days become minutes.
 export const S4Payoff: React.FC = () => {
   const f = useCurrentFrame();
-  const pull = tween(f, t.pull[0], t.pull[1], 0, 1);
-  const phoneIn = enter(f, 10);
+  const pull = tween(f, t.pull[0], t.pull[1] + 12, 0, 1, outQuint);
+  const phoneIn = tween(f, 6, 62, 0, 1, outQuint);
   const ink = tween(f, t.sign[0], t.sign[1], 0, 1);
   const status = f >= t.signed ? 'signed' : f >= t.viewed ? 'viewed' : 'sent';
   const statusScale = press(f, t.viewed) * press(f, t.signed);

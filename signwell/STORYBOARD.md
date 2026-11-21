@@ -55,3 +55,19 @@ Scene order and lengths are unchanged. These layer on top.
 | 4 → 5 | 1458–1554 | **Match cut** | Camera pushes into the client's signature on the phone (ease-in); it turns white as the phone fades and the background turns brand blue. Scene 5 opens on the same stroke at the same size, which eases down to become the line under the wordmark. Glitch hit at 1500. |
 
 Motion: every camera move is ease-in-out; the two match cuts pair an ease-in before the cut with an ease-out after it, so speed carries through the cut without a bump. Headline words rise out of a mask with a short RGB stutter, and one key word per headline takes an accent color. A slow-moving grid sits behind everything so nothing stops.
+
+## Rev 3 — review notes applied
+
+| Time | Note | Change |
+|---|---|---|
+| 0:01.3 | Add a digital pop | Bit-crushed rising pop at frame 76. |
+| 0:02.1 | Digital bubble SFX for the text | One soft digital bubble per headline word, pitch rising word to word. |
+| 0:08.2 | Zoom and follow the element, faster pacing | Scene 2 camera zooms to 138% and locks onto the document as it hops tile to tile (in-out cubic), then eases out to reveal the loop. |
+| 0:08.4 | Remove glitch | Glitch hit on "Repeat." removed. |
+| 0:09.8 | Remove SFX, out-cubic curve | Match-cut push now uses an out-cubic curve; scene 3 opens from rest with in-out cubic. Whoosh removed. |
+| 0:10.4, 0:12.5 + whole video | Remove marker SFX | Every whoosh (filtered-noise swell) removed from the soundtrack. |
+| 0:16.9 | Remove glitch effect | Glitch hit on Send removed. |
+| 0:17.4 | Light digital notification | Two-note soft digital chime on the "Sent" toast. |
+| 0:19.8 | Ease: fast then slow | Pull-back and phone entrance use out-quint, no overshoot. |
+| 0:20.5 | Digital handwriting SFX | Granular stylus-on-glass texture following the signature stroke. |
+| 0:22.0, 0:26.6 | Remove cling SFX | Bell chimes on Signed and on the logo removed, plus the CTA ting. |

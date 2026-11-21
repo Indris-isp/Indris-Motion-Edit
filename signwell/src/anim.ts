@@ -8,6 +8,9 @@ export const easy = Easing.bezier(0.42, 0, 0.58, 1); // easy ease (camera, pans)
 export const easeOut = Easing.bezier(0.16, 1, 0.3, 1); // counters, settles
 export const easeIn = Easing.bezier(0.7, 0, 0.84, 0); // exits
 export const overshoot = Easing.bezier(0.34, 1.56, 0.64, 1); // entrances
+export const outCubic = Easing.bezier(0.33, 1, 0.68, 1); // fast start, long gentle settle
+export const outQuint = Easing.bezier(0.22, 1, 0.36, 1);
+export const inOutCubic = Easing.bezier(0.65, 0, 0.35, 1);
 export const handMove = Easing.bezier(0.45, 0, 0.25, 1.06); // cursor: ease in/out, tiny overshoot
 
 export const tween = (f: number, a: number, b: number, from: number, to: number, easing = easy) =>

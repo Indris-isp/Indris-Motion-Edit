@@ -99,27 +99,48 @@ thunk = add(tone(140, 0.25, 18, glide=0.4) * 0.6, noise_burst(0.04, 120, 8) * 0.
 chime = sum(tone(note(m), 1.4, 3.2) * g for m, g in [(84, .25), (88, .18), (91, .15), (96, .08)])
 tick = tone(1500, 0.05, 90) * 0.3
 
+# Review notes (rev 3): no whoosh ("marker") or chime ("cling") anywhere.
+def crush(x, levels=10):  # bit-crush for a digital edge
+    return np.round(x * levels) / levels
+def digital_pop():
+    n = int(0.07 * SR); tt = np.arange(n) / SR
+    f = 520 + 1500 * (1 - np.exp(-tt * 60))
+    return add(crush(np.sin(2 * np.pi * np.cumsum(f) / SR)) * np.exp(-tt * 55) * 0.42, tone(3200, 0.012, 400) * 0.15)
+def digital_bubble(base):
+    n = int(0.09 * SR); tt = np.arange(n) / SR
+    f = base * (1 + 1.4 * (1 - np.exp(-tt * 45)))
+    return crush(np.sin(2 * np.pi * np.cumsum(f) / SR), 14) * np.sin(np.linspace(0, np.pi, n)) ** 0.6 * np.exp(-tt * 18) * 0.26
+def notify():
+    a1 = tone(1318.5, 0.16, 26) * 0.22
+    a2 = tone(1760.0, 0.26, 18) * 0.2
+    out = np.zeros(len(a1) + int(0.075 * SR) + len(a2))
+    out[:len(a1)] += a1; i = int(0.075 * SR); out[i:i + len(a2)] += a2
+    return out
+def handwriting(dur):
+    n = int(dur * SR); out = np.zeros(n); tt = np.arange(n) / SR
+    speed = 0.35 + 0.65 * np.abs(np.sin(tt / dur * np.pi * 5.5))  # stroke speed, loops of the signature
+    pos = 0
+    while pos < n:
+        g = int(rng.uniform(0.006, 0.014) * SR); g = min(g, n - pos)
+        grain = rng.standard_normal(g); grain = grain - lowpass(grain, 5)
+        blip = np.sin(2 * np.pi * rng.uniform(2400, 4200) * np.arange(g) / SR) * 0.25
+        out[pos:pos + g] += crush((grain * 0.5 + blip) * np.hanning(g), 8) * speed[pos]
+        pos += g + int(rng.uniform(0.008, 0.03) * SR)
+    edge = np.minimum(1, np.minimum(tt, dur - tt) / 0.05)
+    return out * edge * 0.22
+
 for i, fr in enumerate(T['s1']['cards']): place(sfx, pop, at('s1', fr), 0.9, [-0.2, 0.2, -0.1, 0.1][i])
-place(sfx, whoosh(0.4), at('s1', T['s1']['headline']) - 0.1, 0.35)
-place(sfx, whoosh(0.35, False), at('s1', T['s1']['exit']), 0.3)
+for fr in T['sfx']['digitalPop']: place(sfx, digital_pop(), fr / FPS, 1.0)
+for i in range(len("Still waiting on a signature?".split())):
+    place(sfx, digital_bubble(420 + 70 * i), at('s1', T['s1']['headline'] + i * 4), 1.0, -0.25 + 0.1 * i)
 for fr in T['s2']['land']: place(sfx, thunk, at('s2', fr), 0.8)
-place(sfx, whoosh(0.9), at('s2', T['s2']['loop']), 0.4)
-place(sfx, whoosh(0.75), at('s2', T['s2']['match'][0]), 0.55)
-place(sfx, whoosh(0.5), at('s3', 0), 0.45)
 for key in ['pick1', 'drop1', 'pick2', 'drop2']: place(sfx, click, at('s3', T['s3'][key]), 0.9)
-place(sfx, whoosh(0.6), at('s3', T['s3']['zoomIn'][0]), 0.25)
 place(sfx, click, at('s3', T['s3']['send']), 1.1)
-place(sfx, whoosh(0.45), at('s3', T['s3']['send']) + 0.05, 0.5, 0.3)
-place(sfx, pop, at('s3', T['s3']['toast']), 0.6)
-place(sfx, whoosh(0.6, False), at('s4', 0), 0.3)
+place(sfx, notify(), at('s3', T['s3']['toast']), 1.0, 0.15)
 place(sfx, tick, at('s4', T['s4']['viewed']), 1.0)
-place(sfx, noise_burst(1.0, 2, 30) * np.sin(np.linspace(0, np.pi, SR)) * 0.4, at('s4', T['s4']['sign'][0]), 1.0)  # pen scratch
+sa, sb = T['s4']['sign']
+place(sfx, handwriting((sb - sa) / FPS), at('s4', sa), 1.0, 0.25)
 place(sfx, click, at('s4', T['s4']['finish']), 1.0)
-place(sfx, chime, at('s4', T['s4']['signed']), 0.9)
-place(sfx, whoosh(0.75), at('s4', T['s4']['match'][0]), 0.55)
-place(sfx, whoosh(0.7), at('s5', T['s5']['stroke'][0]), 0.45)
-place(sfx, chime, at('s5', T['s5']['word']), 0.6)
-place(sfx, pop, at('s5', T['s5']['cta']), 0.5)
 
 # Glitch stutters: gated noise + bit-crushed square blips, re-rolled every 2 video frames like the picture.
 def glitch_sfx(length_frames, amp):

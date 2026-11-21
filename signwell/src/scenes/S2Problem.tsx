@@ -5,7 +5,7 @@ import {Camera} from '../components/Camera';
 import {Words} from '../components/Words';
 import {COLORS, COPY} from '../config';
 import {BODY} from '../fonts';
-import {enter, exit, press, drift, tween, pathAt, clamp, easy} from '../anim';
+import {enter, exit, press, drift, tween, pathAt, clamp, easy, outCubic, inOutCubic} from '../anim';
 import {Easing} from 'remotion';
 import T from '../timing.json';
 
@@ -30,16 +30,18 @@ export const S2Problem: React.FC = () => {
   const t = T.s2;
   const out = exit(f, t.match[0]);
   // Match cut: the document accelerates into the lens (ease-in); scene 3 opens on the page and decelerates (ease-out).
-  const m = interpolate(f, [t.match[0], t.match[1]], [0, 1], {...clamp, easing: Easing.bezier(0.55, 0, 0.9, 0.45)});
+  const m = interpolate(f, [t.match[0], t.match[1]], [0, 1], {...clamp, easing: outCubic});
 
   // Document travels tile to tile on arcs (each move 50 frames ≈ 0.83 s).
   const start = {x: -1100, y: TILE_Y - 20};
   const doc = pathAt(f, start, t.land.map((a, i) => ({a: a - 50, b: a, to: {x: XS[i], y: TILE_Y - 20}, bend: i === 0 ? 0.05 : -0.22})));
   const settle = t.land.reduce((s, a) => s * press(f, a), 1);
 
-  // Camera follows the document, then eases back to center for the loop.
-  const follow = interpolate(f, [0, 30, 240, 300], [0.4, 0.35, 0.35, 0], {...clamp, easing: easy});
-  const panX = -doc.x * follow;
+  // Camera zooms in and locks onto the document while it hops tile to tile (fast phase),
+  // then eases back out to reveal the loop.
+  const zf = interpolate(f, [8, 40, 244, 296], [0, 1, 1, 0], {...clamp, easing: inOutCubic});
+  const focus = {x: doc.x, y: TILE_Y - 110};
+  const panX = 0;
 
   // Return arrow under the tiles, drawn after the last landing.
   const loop = tween(f, t.loop, t.loop + 50, 0, 1);
@@ -47,7 +49,7 @@ export const S2Problem: React.FC = () => {
 
   return (
     <Stage>
-      <Camera panX={panX} push={tween(f, 0, 360, 1, 1.04)}>
+      <Camera zoom={1 + 0.38 * zf} focus={focus} amount={0.92 * zf} push={tween(f, 0, 360, 1, 1.04)}>
         <div style={{position: 'absolute', inset: 0, opacity: out, transform: `scale(${0.96 + 0.04 * out})`, transformOrigin: '960px 540px'}}>
           {COPY.s2.steps.map((label, i) => {
             const pIn = enter(f, 4 + i * 4);
@@ -77,9 +79,6 @@ export const S2Problem: React.FC = () => {
               strokeLinecap="round" strokeLinejoin="round" opacity={interpolate(loop, [0.9, 1], [0, 1], clamp)} />
           </svg>
 
-          <At x={-panX} y={380}>
-            <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: COLORS.amber}} />
-          </At>
         </div>
         {/* The document, riding above the tiles. */}
           <At x={doc.x * (1 - m)} y={(doc.y - 215 + drift(f, 3, 200)) * (1 - m)} style={{zIndex: 20}}>
@@ -93,6 +92,10 @@ export const S2Problem: React.FC = () => {
           </At>
 
       </Camera>
+      {/* Headline stays steady outside the camera. */}
+      <At x={0} y={400} style={{opacity: out}}>
+        <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: COLORS.amber}} />
+      </At>
     </Stage>
   );
 };

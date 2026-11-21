@@ -143,18 +143,8 @@
         "amp": 1.0
       },
       {
-        "at": 502,
-        "len": 10,
-        "amp": 0.5
-      },
-      {
         "at": 600,
         "len": 10,
-        "amp": 0.35
-      },
-      {
-        "at": 1012,
-        "len": 8,
         "amp": 0.35
       },
       {
@@ -173,5 +163,13 @@
         "amp": 0.25
       }
     ]
+  },
+  "sfx": {
+    "digitalPop": [
+      76
+    ],
+    "bubbleWords": "s1.headline",
+    "notify": "s3.toast",
+    "handwriting": "s4.sign"
   }
 }
