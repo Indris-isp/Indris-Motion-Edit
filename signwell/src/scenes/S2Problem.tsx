@@ -83,7 +83,7 @@ export const S2Problem: React.FC = () => {
         </div>
         {/* The document, riding above the tiles. */}
           <At x={doc.x * (1 - m)} y={(doc.y - 215 + drift(f, 3, 200)) * (1 - m)} style={{zIndex: 20}}>
-            <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#eef0f4' : '#fff', border: LIGHT.cardBorder, transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
+            <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#eef0f4' : '#fff', border: `2px solid ${LIGHT.accent}`, transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
               boxShadow: m > 0 ? 'none' : LIGHT.glowStrong, padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
               {[90, 100, 80, 95].map((w, k) => <div key={k} style={{height: 6, width: `${w}%`, borderRadius: 3, background: COLORS.line, opacity: 1 - Math.min(1, m * 2)}} />)}
               <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 - Math.min(1, m * 2) : 0}}>
@@ -94,7 +94,7 @@ export const S2Problem: React.FC = () => {
 
       </Camera>
       {/* Headline stays steady outside the camera. */}
-      <At x={0} y={400} style={{opacity: out}}>
+      <At x={0} y={440} style={{opacity: out}}>
         <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: LIGHT.pain}} />
       </At>
     </Stage>

@@ -106,6 +106,11 @@ def digital_pop():
     n = int(0.07 * SR); tt = np.arange(n) / SR
     f = 520 + 1500 * (1 - np.exp(-tt * 60))
     return add(crush(np.sin(2 * np.pi * np.cumsum(f) / SR)) * np.exp(-tt * 55) * 0.42, tone(3200, 0.012, 400) * 0.15)
+def text_tick(i):  # crisp, quiet typing tick per word (dark reference style)
+    n = int(0.03 * SR); tt = np.arange(n) / SR
+    x = rng.standard_normal(n); x = x - lowpass(x, 4)
+    tick = x * np.exp(-tt * 260) * 0.22 + np.sin(2 * np.pi * (3600 + 150 * i) * tt) * np.exp(-tt * 380) * 0.08
+    return tick
 def digital_bubble(base):
     n = int(0.09 * SR); tt = np.arange(n) / SR
     f = base * (1 + 1.4 * (1 - np.exp(-tt * 45)))
@@ -132,7 +137,7 @@ def handwriting(dur):
 for i, fr in enumerate(T['s1']['cards']): place(sfx, pop, at('s1', fr), 0.9, [-0.2, 0.2, -0.1, 0.1][i])
 for fr in T['sfx']['digitalPop']: place(sfx, digital_pop(), fr / FPS, 1.0)
 for i in range(len("Still waiting on a signature?".split())):
-    place(sfx, digital_bubble(420 + 70 * i), at('s1', T['s1']['headline'] + i * 4), 1.0, -0.25 + 0.1 * i)
+    place(sfx, text_tick(i), at('s1', T['s1']['headline'] + i * 4), 1.0, -0.25 + 0.1 * i)
 for fr in T['s2']['land']: place(sfx, thunk, at('s2', fr), 0.8)
 for key in ['pick1', 'drop1', 'pick2', 'drop2']: place(sfx, click, at('s3', T['s3'][key]), 0.9)
 place(sfx, click, at('s3', T['s3']['send']), 1.1)
@@ -163,8 +168,19 @@ def glitch_sfx(length_frames, amp):
             out[s:s + seg] = (sq if rng.random() < 0.5 else nz) * (0.4 + 0.6 * rng.random())
     shape = np.sin(np.linspace(0, np.pi, n)) ** 0.5
     return out * shape * amp * 0.5
-for h in T['fx']['glitch']:
-    place(sfx, glitch_sfx(h['len'] + 2, h['amp']), (h['at'] - h['len'] / 2) / FPS, 1.0, float(rng.uniform(-0.3, 0.3)))
+# Camera FX hits: tonal swell into a soft sub thump (no noise whoosh).
+def lens_sfx(len_frames, amp, whip):
+    pre = int(len_frames / 2 / FPS * SR); post = int(0.45 * SR); n = pre + post; tt = np.arange(n) / SR
+    out = np.zeros(n)
+    sw = np.arange(pre) / SR
+    sweep = np.sin(2 * np.pi * np.cumsum(280 + 900 * (sw / max(sw[-1], 1e-6)) ** 2) / SR) * (np.linspace(0, 1, pre) ** 2) * 0.10
+    out[:pre] += sweep
+    tp = np.arange(post) / SR
+    out[pre:] += np.sin(2 * np.pi * (52 + 40 * np.exp(-tp * 30)) * tp) * np.exp(-tp * 7) * (0.42 if whip else 0.3)
+    out[pre:] += np.sin(2 * np.pi * 1760 * tp) * np.exp(-tp * 22) * 0.04
+    return out * amp
+for h in T['fx']['lens']:
+    place(sfx, lens_sfx(h['len'], h['amp'], h['kind'] == 'whip'), (h['at'] - h['len'] / 2) / FPS, 1.0)
 
 mix = mus * 0.9 + sfx
 mix = np.tanh(mix / (np.abs(mix).max() + 1e-9) * 1.4) / np.tanh(1.4)
