@@ -24,7 +24,7 @@ export const glitchAt = (f: number) => {
   return {g, seed};
 };
 
-const BLOCK_COLORS = ['#2b59e8', '#c2409f', '#3de0ff', '#ffffff'];
+const BLOCK_COLORS = ['#2b59e8', '#7b9bff', '#3de0ff', '#c9d6ff']; // light look: blues only
 
 export const GlitchFX: React.FC<{children: React.ReactNode}> = ({children}) => {
   const f = useCurrentFrame();
@@ -64,7 +64,7 @@ export const GlitchFX: React.FC<{children: React.ReactNode}> = ({children}) => {
           </filter>
         </defs>
       </svg>
-      <AbsoluteFill style={{filter: 'url(#rgbsplit)', transform: `translateY(${jump}px)`}}>
+      <AbsoluteFill style={{filter: 'url(#rgbsplit)', transform: `translateY(${jump}px) scale(${1 + g * 0.06})`}}>
         <AbsoluteFill>{children}</AbsoluteFill>
         {bands.map((b, i) => (
           <AbsoluteFill key={i} style={{clipPath: `inset(${b.y}px 0 ${Math.max(0, height - b.y - b.h)}px 0)`, transform: `translateX(${b.dx}px)`}}>
@@ -75,11 +75,11 @@ export const GlitchFX: React.FC<{children: React.ReactNode}> = ({children}) => {
       {/* Data blocks: inverted patches, solid color chips and noise stripes. */}
       {blocks.map((b, i) => (
         <div key={i} style={{position: 'absolute', left: b.x - b.w / 2, top: b.y, width: b.w, height: b.h,
-          ...(b.kind < 0.4 ? {backdropFilter: 'invert(1) hue-rotate(180deg)'}
-            : b.kind < 0.75 ? {background: b.color, opacity: 0.85, mixBlendMode: 'screen' as const}
+          ...(b.kind < 0.4 ? {background: 'rgba(43,89,232,.85)', mixBlendMode: 'multiply' as const}
+            : b.kind < 0.75 ? {background: b.color, opacity: 0.7}
             : {background: `repeating-linear-gradient(90deg, ${b.color} 0 3px, transparent 3px 7px)`, opacity: 0.7})}} />
       ))}
-      <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, rgba(0,0,0,.35) 0 1px, transparent 1px 3px)', opacity: g * 0.6, mixBlendMode: 'multiply'}} />
+      <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, rgba(0,0,0,.35) 0 1px, transparent 1px 3px)', opacity: g * 0.22, mixBlendMode: 'multiply'}} />
     </AbsoluteFill>
   );
 };

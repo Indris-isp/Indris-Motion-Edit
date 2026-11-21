@@ -5,7 +5,7 @@ import {Camera} from '../components/Camera';
 import {Cursor} from '../components/Cursor';
 import {Words} from '../components/Words';
 import {Editor, FieldChip, paletteCenter, slotCenter, sendCenter, SLOT_SIG, SLOT_DATE} from '../components/Editor';
-import {COPY} from '../config';
+import {COPY, LIGHT} from '../config';
 import {BODY} from '../fonts';
 import {enter, exit, press, tween, pathAt, clamp, drift, Pt, inOutCubic} from '../anim';
 import T from '../timing.json';
@@ -71,7 +71,7 @@ export const S3Fix: React.FC = () => {
         {/* Toast after Send. */}
         <At x={120} y={-300 + (1 - toast) * -40} style={{zIndex: 45}}>
           <div style={{opacity: Math.min(1, toast * 1.5), display: 'flex', alignItems: 'center', gap: 14, padding: '16px 26px', borderRadius: 16,
-            background: '#141b2d', color: '#fff', fontFamily: BODY, fontSize: 22, fontWeight: 600, boxShadow: '0 20px 40px rgba(0,0,0,.3)'}}>
+            background: '#141b2d', color: '#fff', fontFamily: BODY, fontSize: 22, fontWeight: 600, boxShadow: '0 20px 40px rgba(15,23,41,.25)'}}>
             <span style={{width: 30, height: 30, borderRadius: '50%', background: '#1e9e64', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17}}>✓</span>
             {COPY.s3.toast}
           </div>
@@ -80,7 +80,7 @@ export const S3Fix: React.FC = () => {
 
       {/* Headline sits outside the camera so it stays steady during the zoom. */}
       <At x={0} y={462 + drift(f, 2, 300)} style={{opacity: headOut}}>
-        <Words words={COPY.s3.headline} f={f} starts={[t.place, t.place + 4, t.send + 2, t.send + 6]} size={58} accent={{2: '#8fb0ff', 3: '#8fb0ff'}} />
+        <Words words={COPY.s3.headline} f={f} starts={[t.place, t.place + 4, t.send + 2, t.send + 6]} size={58} accent={{2: LIGHT.accent, 3: LIGHT.accent}} />
       </At>
     </Stage>
   );

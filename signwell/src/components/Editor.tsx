@@ -44,7 +44,7 @@ export const Editor: React.FC<{
   }[status];
   return (
     <div style={{position: 'absolute', left: 960 - WIN.w / 2, top: 540 - WIN.h / 2, width: WIN.w, height: WIN.h, borderRadius: 24,
-      background: COLORS.paper, overflow: 'hidden', boxShadow: '0 50px 120px rgba(0,0,0,.45)', fontFamily: BODY, color: COLORS.ink}}>
+      background: COLORS.paper, overflow: 'hidden', boxShadow: '0 50px 120px rgba(30,60,140,.20), 0 4px 14px rgba(30,60,140,.08)', border: '1px solid #e4e9f5', fontFamily: BODY, color: COLORS.ink}}>
       {/* top bar */}
       <div style={{height: WIN.top, borderBottom: `1px solid ${COLORS.line}`, display: 'flex', alignItems: 'center', gap: 14, padding: '0 24px'}}>
         {[0, 1, 2].map(i => <div key={i} style={{width: 14, height: 14, borderRadius: '50%', background: '#e3e6ee'}} />)}

@@ -1,5 +1,20 @@
 // Every client-facing value lives here: colors, fonts, copy, numbers.
 // Swap in SignWell's brand guide values when they arrive.
+// Light look (Officely-style reference): airy white ground, soft blue glows, ink type, one blue accent.
+export const LIGHT = {
+  bg: '#f6f8fe',
+  bgDeep: '#e8eefc',
+  ink: '#0f1729',
+  ink2: '#5b6479',
+  accent: '#2b59e8',
+  accentSoft: 'rgba(43,89,232,.10)',
+  glow: 'rgba(79,124,255,.42)',
+  pain: '#d9711c',
+  cardShadow: '0 30px 70px rgba(30,60,140,.14), 0 2px 6px rgba(30,60,140,.06)',
+  cardBorder: '1px solid #e4e9f5',
+  glass: 'rgba(255,255,255,.72)',
+};
+
 export const COLORS = {
   navy: '#0a1330',
   navy2: '#142356',

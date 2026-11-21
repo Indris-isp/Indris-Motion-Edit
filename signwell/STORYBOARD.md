@@ -71,3 +71,15 @@ Motion: every camera move is ease-in-out; the two match cuts pair an ease-in bef
 | 0:19.8 | Ease: fast then slow | Pull-back and phone entrance use out-quint, no overshoot. |
 | 0:20.5 | Digital handwriting SFX | Granular stylus-on-glass texture following the signature stroke. |
 | 0:22.0, 0:26.6 | Remove cling SFX | Bell chimes on Signed and on the logo removed, plus the CTA ting. |
+
+## Rev 4 — light look (Officely-style reference)
+
+Scenes, timing, cuts and SFX unchanged; the look changes:
+- White, airy ground with soft drifting blue glows and a light "curtain" of vertical streaks at the bottom.
+- Ink headlines (Inter 700) with one blue accent word; problem words and costs in a warm orange.
+- Headline words sharpen out of a blur as they rise; scene exits are focus pulls (blur + fade).
+- Cards: white with a hairline border and soft blue-tinted shadow; older email cards drift out of focus.
+- Counters roll like a slot machine with blurred neighbours; "6 days" rolls to "4 min" as the unit dissolves.
+- Editor softens slightly out of focus when the phone takes over (depth of field).
+- Logo end card: ink wordmark, navy signature, blue CTA button.
+- Glitch hits recoloured to blues only, with lighter scanlines and an overscan so no colour fringe shows at the edges.

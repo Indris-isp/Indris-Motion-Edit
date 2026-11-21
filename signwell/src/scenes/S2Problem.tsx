@@ -4,7 +4,7 @@ import {useCurrentFrame, interpolate} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
 import {Words} from '../components/Words';
-import {COLORS, COPY} from '../config';
+import {COLORS, COPY, LIGHT} from '../config';
 import {BODY} from '../fonts';
 import {enter, exit, press, drift, tween, pathAt, clamp, easy, outCubic, inOutCubic} from '../anim';
 import {Easing} from 'remotion';
@@ -51,22 +51,22 @@ export const S2Problem: React.FC = () => {
   return (
     <Stage>
       <Camera zoom={1 + 0.38 * zf} focus={focus} amount={0.92 * zf} push={tween(f, 0, 360, 1, 1.04)}>
-        <div style={{position: 'absolute', inset: 0, opacity: out, transform: `scale(${0.96 + 0.04 * out})`, transformOrigin: '960px 540px'}}>
+        <div style={{position: 'absolute', inset: 0, opacity: out, transform: `scale(${0.96 + 0.04 * out})`, transformOrigin: '960px 540px', filter: out < 0.99 ? `blur(${(1 - out) * 14}px)` : 'none'}}>
           {COPY.s2.steps.map((label, i) => {
             const pIn = enter(f, 4 + i * 4);
             const lit = interpolate(f, [t.land[i], t.land[i] + 10], [0, 1], clamp);
             const active = f >= t.land[i] && (i === 3 || f < t.land[i + 1]);
             const s = press(f, t.land[i]) * (0.9 + 0.1 * pIn);
-            const accent = active ? COLORS.amber : `rgba(255,255,255,${0.35 + 0.25 * lit})`;
+            const accent = active ? LIGHT.pain : lit > 0.5 ? '#d5dbe8' : '#e4e9f5';
             return (
               <At key={i} x={XS[i]} y={TILE_Y + (1 - pIn) * 50 + drift(f, 3, 280, i * 50)}>
                 <div style={{width: TILE, height: TILE, borderRadius: 32, opacity: Math.min(1, pIn * 1.4), transform: `scale(${s})`,
-                  background: active ? 'rgba(240,160,75,.14)' : 'rgba(255,255,255,.06)',
+                  background: active ? '#fff7ef' : '#ffffff', boxShadow: active ? '0 30px 70px rgba(217,113,28,.18)' : LIGHT.cardShadow,
                   border: `2px solid ${accent}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
-                  paddingBottom: 30, gap: 8, fontFamily: BODY, color: '#fff'}}>
-                  <div style={{marginBottom: 'auto', marginTop: 40, opacity: 0.6 + 0.4 * lit}}><Icon i={i} color={active ? COLORS.amber : '#fff'} /></div>
+                  paddingBottom: 30, gap: 8, fontFamily: BODY, color: LIGHT.ink}}>
+                  <div style={{marginBottom: 'auto', marginTop: 40, opacity: 0.6 + 0.4 * lit}}><Icon i={i} color={active ? LIGHT.pain : LIGHT.accent} /></div>
                   <div style={{fontSize: 32, fontWeight: TYPE.subheading}}>{label}</div>
-                  <div style={{fontSize: 20, fontWeight: 600, color: COLORS.amber, opacity: lit}}>{COPY.s2.delays[i]}</div>
+                  <div style={{fontSize: 20, fontWeight: 600, color: LIGHT.pain, opacity: lit}}>{COPY.s2.delays[i]}</div>
                 </div>
               </At>
             );
@@ -74,17 +74,17 @@ export const S2Problem: React.FC = () => {
 
           {/* Return arrow: Email → back to Print. */}
           <svg width="1920" height="1080" style={{position: 'absolute', left: 0, top: 0}} viewBox="-960 -540 1920 1080">
-            <path d={`M ${XS[3]} ${TILE_Y + 160} C ${XS[3]} 260, ${XS[0]} 260, ${XS[0]} ${TILE_Y + 170}`} fill="none" stroke={COLORS.amber} strokeWidth="5"
+            <path d={`M ${XS[3]} ${TILE_Y + 160} C ${XS[3]} 260, ${XS[0]} 260, ${XS[0]} ${TILE_Y + 170}`} fill="none" stroke={LIGHT.pain} strokeWidth="5"
               strokeLinecap="round" strokeDasharray={loopLen} strokeDashoffset={loopLen * (1 - loop)} />
-            <path d={`M ${XS[0] - 18} ${TILE_Y + 196} L ${XS[0]} ${TILE_Y + 170} L ${XS[0] + 18} ${TILE_Y + 196}`} fill="none" stroke={COLORS.amber} strokeWidth="5"
+            <path d={`M ${XS[0] - 18} ${TILE_Y + 196} L ${XS[0]} ${TILE_Y + 170} L ${XS[0] + 18} ${TILE_Y + 196}`} fill="none" stroke={LIGHT.pain} strokeWidth="5"
               strokeLinecap="round" strokeLinejoin="round" opacity={interpolate(loop, [0.9, 1], [0, 1], clamp)} />
           </svg>
 
         </div>
         {/* The document, riding above the tiles. */}
           <At x={doc.x * (1 - m)} y={(doc.y - 215 + drift(f, 3, 200)) * (1 - m)} style={{zIndex: 20}}>
-            <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#e8e9ee' : '#fff', transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
-              boxShadow: '0 16px 30px rgba(0,0,0,.35)', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
+            <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#eef0f4' : '#fff', border: LIGHT.cardBorder, transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
+              boxShadow: '0 20px 40px rgba(30,60,140,.18)', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
               {[90, 100, 80, 95].map((w, k) => <div key={k} style={{height: 6, width: `${w}%`, borderRadius: 3, background: COLORS.line, opacity: 1 - Math.min(1, m * 2)}} />)}
               <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 - Math.min(1, m * 2) : 0}}>
                 <path d="M2 22c8-14 12 4 18-6s10-2 14 2 10-8 16-4 8 4 14 0" fill="none" stroke="#14286e" strokeWidth="2.4" strokeLinecap="round" />
@@ -95,7 +95,7 @@ export const S2Problem: React.FC = () => {
       </Camera>
       {/* Headline stays steady outside the camera. */}
       <At x={0} y={400} style={{opacity: out}}>
-        <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: COLORS.amber}} />
+        <Words words={COPY.s2.headline} f={f} starts={t.words} size={80} accent={{3: LIGHT.pain}} />
       </At>
     </Stage>
   );

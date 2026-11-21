@@ -1,31 +1,25 @@
 import React from 'react';
-import {interpolate} from 'remotion';
-import {enter, drift, clamp} from '../anim';
-import {rnd} from '../fx/Glitch';
+import {enter, drift} from '../anim';
 import {DISPLAY} from '../fonts';
-import {TYPE} from '../config';
+import {TYPE, LIGHT} from '../config';
 
-// Kinetic headline: each word rises out of a mask with overshoot and a short RGB-split
-// stutter on arrival, then keeps a slow drift. `accent` maps word index → color.
+// Kinetic headline (light look): each word sharpens out of a blur as it rises a little,
+// with a slight scale settle, then keeps a slow drift. `accent` maps word index → color.
 export const Words: React.FC<{
   words: string[]; f: number; start?: number; starts?: number[]; offset?: number;
   size?: number; color?: string; weight?: number; gap?: number; accent?: Record<number, string>;
-}> = ({words, f, start = 0, starts, offset = 4, size = 84, color = '#fff', weight = TYPE.heading, gap = 0.28, accent = {}}) => (
+}> = ({words, f, start = 0, starts, offset = 4, size = 84, color = LIGHT.ink, weight = TYPE.heading, gap = 0.26, accent = {}}) => (
   <div style={{display: 'flex', gap: `0 ${gap}em`, justifyContent: 'center', flexWrap: 'nowrap', whiteSpace: 'nowrap',
-    fontFamily: DISPLAY, fontWeight: weight, fontSize: size, letterSpacing: '-0.02em', color, lineHeight: 1.1,
+    fontFamily: DISPLAY, fontWeight: weight, fontSize: size, letterSpacing: '-0.035em', color, lineHeight: 1.1,
     transform: `translateY(${drift(f, 3, 300)}px)`}}>
     {words.map((w, i) => {
       const s = starts ? starts[i] : start + i * offset;
-      const p = enter(f, s);
-      const stutter = interpolate(f, [s, s + 10], [1, 0], clamp);
-      const jx = stutter > 0 ? (rnd(Math.floor(f / 2) * 13 + i) - 0.5) * 14 * stutter : 0;
-      const split = 10 * stutter;
+      const p = Math.max(0, enter(f, s));
+      const blur = Math.max(0, 1 - p) * 14;
       return (
-        <span key={i} style={{display: 'inline-block', overflow: 'hidden', paddingBottom: '0.08em', marginBottom: '-0.08em'}}>
-          <span style={{display: 'inline-block', color: accent[i] ?? color,
-            transform: `translateY(${(1 - Math.min(p, 1)) * 105}%) translateX(${jx}px)`,
-            textShadow: split > 0.2 ? `${split}px 0 rgba(255,45,111,.85), ${-split}px 0 rgba(45,224,255,.85)` : 'none'}}>{w}</span>
-        </span>
+        <span key={i} style={{display: 'inline-block', color: accent[i] ?? color, opacity: Math.min(1, p * 1.3),
+          transform: `translateY(${(1 - Math.min(p, 1)) * 28}px) scale(${0.94 + 0.06 * Math.min(p, 1.05)})`,
+          filter: blur > 0.2 ? `blur(${blur}px)` : 'none'}}>{w}</span>
       );
     })}
   </div>
