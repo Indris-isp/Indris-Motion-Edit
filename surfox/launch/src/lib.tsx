@@ -40,14 +40,16 @@ export const At: React.FC<{x?: number; y?: number; style?: React.CSSProperties; 
 };
 
 // ---------- entrances / exits ----------
+export const EXIT = 12;
 type AnimOpts = {dur?: number; dy?: number; dx?: number; s0?: number; exit?: number; blur?: number};
 /** Overshoot entrance (~0.5 s) and a faster ease-in exit (60% of the entrance). */
 export function anim(f: number, start: number, o: AnimOpts = {}): React.CSSProperties {
   const {dur = 30, dy = 40, dx = 0, s0 = 0.96, exit, blur = 8} = o;
   const p = interpolate(f, [start, start + dur], [0, 1], {...CL, easing: E.back});
-  const op = interpolate(f, [start, start + dur * 0.6], [0, 1], {...CL, easing: E.out});
+  const op = interpolate(f, [start, start + dur * 0.4], [0, 1], {...CL, easing: E.out});
   let xs = 0;
-  if (exit !== undefined) xs = interpolate(f, [exit, exit + Math.round(dur * 0.6)], [0, 1], {...CL, easing: E.in});
+  // exits are fast (12 frames, ease-in) and finish exactly on the cut when exit = sceneDur - EXIT
+  if (exit !== undefined) xs = interpolate(f, [exit, exit + EXIT], [0, 1], {...CL, easing: E.in});
   const b = (1 - op) * blur + xs * blur * 0.6;
   return {
     opacity: op * (1 - xs),

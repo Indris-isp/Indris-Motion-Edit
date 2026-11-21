@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {C, COPY} from './config';
-import {anim, At, Bg, Camera, Chip, CL, count, Cursor, E, Fox, Glow, gradText, press, tw, usePick, Words} from './lib';
+import {anim, At, Bg, EXIT, Camera, Chip, CL, count, Cursor, E, Fox, Glow, gradText, press, tw, usePick, Words} from './lib';
 
 type S = {dur: number};
 const NIGHT = '#7C8BA0';
@@ -67,7 +67,7 @@ const Rings: React.FC<{y: number; start: number; o?: number}> = ({y, start, o = 
 export const Hook: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
-  const X = dur - 14;
+  const X = dur - EXIT;
   const cardY = pk(200, 180);
   return (
     <Bg dark>
@@ -91,13 +91,13 @@ export const Hook: React.FC<S> = ({dur}) => {
 export const Problem: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
-  const X = dur - 14;
-  const mins = Math.round(count(f, 44, COPY.problem.delayMinutes));
-  const deg = count(f, 44, 335);
-  const shake = f > 104 && f < 118 ? Math.sin((f - 104) * 1.9) * 7 * (1 - (f - 104) / 14) : 0;
+  const X = dur - EXIT;
+  const mins = Math.round(count(f, 36, COPY.problem.delayMinutes));
+  const deg = count(f, 36, 335);
+  const shake = f > 96 && f < 110 ? Math.sin((f - 96) * 1.9) * 7 * (1 - (f - 96) / 14) : 0;
   const D = pk(520, 580);
   const dial = (
-    <div style={{...anim(f, 24, {dy: 30, s0: 0.88, exit: X})}}>
+    <div style={{...anim(f, 12, {dy: 30, s0: 0.88, exit: X})}}>
       <div
         style={{
           position: 'relative',
@@ -121,7 +121,7 @@ export const Problem: React.FC<S> = ({dur}) => {
     </div>
   );
   const sub = (
-    <div style={{...anim(f, 112, {exit: X}), fontSize: pk(42, 46), color: C.mut, lineHeight: 1.35, textAlign: 'center', whiteSpace: 'nowrap'}}>
+    <div style={{...anim(f, 104, {exit: X}), fontSize: pk(42, 46), color: C.mut, lineHeight: 1.35, textAlign: 'center', whiteSpace: 'nowrap'}}>
       {COPY.problem.sub1}
       <br />
       <b style={{color: C.ink}}>{COPY.problem.sub2}</b>
@@ -131,7 +131,7 @@ export const Problem: React.FC<S> = ({dur}) => {
     <Bg>
       <Camera dur={dur} push={0.04}>
         <At x={pk(-430, 0)} y={pk(-90, -640)}>
-          <Words text={COPY.problem.head} start={6} size={pk(112, 122)} lineColors={['#9CA3AF', C.ink]} exit={X} />
+          <Words text={COPY.problem.head} start={0} size={pk(112, 122)} lineColors={['#9CA3AF', C.ink]} exit={X} />
         </At>
         <At x={pk(410, 0)} y={pk(0, 150)}>
           {dial}
@@ -149,7 +149,7 @@ export const Reveal: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
   const {width, height} = useVideoConfig();
-  const X = dur - 12;
+  const X = dur - EXIT;
   const r = tw(f, 0, 22, 0, Math.hypot(width, height) / 2 + 20, E.inOut);
   const glow = tw(f, 30, 70);
   return (
@@ -195,16 +195,16 @@ export const Doors: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
   const land = pk(true, false);
-  const X = dur - 14;
+  const X = dur - EXIT;
   return (
     <Bg>
       <Camera dur={dur} push={0.03}>
         <At y={pk(-330, -640)}>
-          <Words text={pk('Same AI. Three doors.', COPY.doors.head)} start={4} size={pk(100, 118)} accent={['Three', 'doors.']} exit={X} />
+          <Words text={pk('Same AI. Three doors.', COPY.doors.head)} start={0} size={pk(100, 118)} accent={['Three', 'doors.']} exit={X} />
         </At>
         {COPY.doors.cards.map((c, i) => {
-          const st = 18 + i * 4;
-          const chipAt = 60 + i * 6;
+          const st = 10 + i * 4;
+          const chipAt = 52 + i * 6;
           const pulse = interpolate(f, [chipAt, chipAt + 6, chipAt + 16], [1, 1.12, 1], CL);
           const x = land ? (i - 1) * 560 : i === 1 ? 40 : 0;
           const y = land ? 30 : -170 + i * 230;
@@ -258,7 +258,7 @@ export const Doors: React.FC<S> = ({dur}) => {
           );
         })}
         <At y={pk(340, 620)}>
-          <div style={{...anim(f, 80, {exit: X}), fontSize: pk(44, 46), color: C.mut, whiteSpace: 'nowrap'}}>
+          <div style={{...anim(f, 72, {exit: X}), fontSize: pk(44, 46), color: C.mut, whiteSpace: 'nowrap'}}>
             {COPY.doors.foot[0]} <b style={{color: C.ink}}>{COPY.doors.foot[1]}</b>
           </div>
         </At>
@@ -344,15 +344,15 @@ const Phone: React.FC<{f: number; X: number}> = ({f, X}) => {
           </div>
           <div style={{marginLeft: 'auto', fontSize: 19, color: C.teal, background: C.tealSoft, padding: '8px 14px', borderRadius: 999, fontWeight: 600, whiteSpace: 'nowrap', opacity: 0.6 + 0.4 * Math.sin(f / 10)}}>● AI live</div>
         </div>
-        {typing(270, 28, 44)}
-        {bubble(m[0], false, 270, 44)}
-        {bubble(m[1], true, 470, 92)}
-        {tag(COPY.chat.tags[0], 596, 104)}
-        {typing(660, 130, 146)}
-        {bubble(m[2], false, 660, 146)}
-        {bubble(m[3], true, 840, 196)}
-        {tag(COPY.chat.tags[1], 936, 208)}
-        {typing(1010, 290, 9999)}
+        {typing(270, 20, 80)}
+        {bubble(m[0], false, 270, 80)}
+        {bubble(m[1], true, 470, 122)}
+        {tag(COPY.chat.tags[0], 596, 134)}
+        {typing(660, 160, 176)}
+        {bubble(m[2], false, 660, 176)}
+        {bubble(m[3], true, 840, 216)}
+        {tag(COPY.chat.tags[1], 936, 228)}
+        {typing(1000, 300, 9999)}
       </div>
     </div>
   );
@@ -362,46 +362,47 @@ export const Chat: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
   const land = pk(true, false);
-  const X = dur - 12;
-  const sc = pk(0.74, 0.96);
-  const px = pk(300, 0),
-    py = pk(0, 230);
+  const X = dur - EXIT;
+  const sc = pk(0.98, 0.96);
+  const px = pk(320, 0),
+    py = pk(95, 230);
   // focus on the "Qualifies requirement" tag (phone-local offset ≈ +60, +300)
   const fx = px + 60 * sc,
     fy = py + 300 * sc;
-  const zoom = pk(1.4, 1.25);
-  const secs = count(f, 50, COPY.chat.statValue);
-  const peek = tw(f, 150, 186, 0, 1, E.back);
+  const zoom = pk(1.3, 1.25);
+  // the clock runs in real time while the AI types, and stops when the reply lands
+  const secs = interpolate(f, [20, 80], [0, COPY.chat.statValue], CL);
+  const peek = tw(f, 180, 216, 0, 1, E.back);
   const exitAll = anim(f, -100, {exit: X});
-  const side = land ? 1 - interpolate(f, [206, 232, 300, 330], [0, 1, 1, 0], {...CL, easing: E.inOut}) : 1;
+  const side = land ? 1 - interpolate(f, [226, 252, 305, 335], [0, 1, 1, 0], {...CL, easing: E.inOut}) : 1;
   return (
     <Bg>
       <Camera
         dur={dur}
         push={0.03}
         keys={[
-          [212, 1, fx, fy],
-          [256, zoom, fx, fy],
-          [300, zoom, fx, fy],
+          [232, 1, fx, fy],
+          [270, zoom, fx, fy],
+          [305, zoom, fx, fy],
           [340, 1, fx, fy],
         ]}
       >
         <At x={pk(-470, 0)} y={pk(-170, -730)} style={{opacity: side}}>
-          <Words text={COPY.chat.head} start={8} size={pk(100, 100)} accent={['your', 'best', 'rep.']} exit={X} />
+          <Words text={COPY.chat.head} start={2} size={pk(100, 100)} accent={['your', 'best', 'rep.']} exit={X} />
         </At>
         {/* first-reply stat */}
         <At x={pk(-470, 260)} y={pk(170, -500)} style={{opacity: side}}>
-          <div style={{...anim(f, 50, {s0: 0.8, exit: X})}}>
+          <div style={{...anim(f, 14, {s0: 0.8, exit: X})}}>
             {land ? (
               <div style={{textAlign: 'center'}}>
                 <div style={{fontSize: 28, letterSpacing: '.2em', color: C.teal, fontWeight: 700}}>{COPY.chat.statLabel}</div>
-                <div style={{fontSize: 190, fontWeight: 800, letterSpacing: '-.06em', lineHeight: 1.05, fontVariantNumeric: 'tabular-nums', ...gradText()}}>{Math.round(secs)}s</div>
+                <div style={{fontSize: 190, fontWeight: 800, letterSpacing: '-.06em', lineHeight: 1.05, fontVariantNumeric: 'tabular-nums', ...gradText()}}>{secs.toFixed(1)}s</div>
                 <div style={{fontSize: 36, color: C.mut, fontWeight: 500}}>{COPY.chat.statCaption}</div>
               </div>
             ) : (
               <div style={{display: 'flex', alignItems: 'center', gap: 18, background: '#fff', padding: '18px 30px', borderRadius: 999, boxShadow: '0 20px 40px rgba(15,40,50,.12)', whiteSpace: 'nowrap'}}>
                 <span style={{fontSize: 22, letterSpacing: '.16em', color: C.teal, fontWeight: 700}}>{COPY.chat.statLabel}</span>
-                <span style={{fontSize: 44, fontWeight: 800, letterSpacing: '-.04em', fontVariantNumeric: 'tabular-nums', ...gradText()}}>{Math.round(secs)}s</span>
+                <span style={{fontSize: 44, fontWeight: 800, letterSpacing: '-.04em', fontVariantNumeric: 'tabular-nums', ...gradText()}}>{secs.toFixed(1)}s</span>
               </div>
             )}
           </div>
@@ -409,7 +410,7 @@ export const Chat: React.FC<S> = ({dur}) => {
         {/* fox peeks from behind the phone */}
         <At x={px + 290 * sc + peek * 120 * sc} y={py + 380 * sc}>
           <div style={{transform: `rotate(${-14 + 8 * peek}deg)`, opacity: Math.min(1, peek * 3) * (exitAll.opacity as number)}}>
-            <Fox size={300 * sc} start={140} ignite={170} stagger={0} />
+            <Fox size={300 * sc} start={170} ignite={200} stagger={0} />
           </div>
         </At>
         <At x={px} y={py}>
@@ -428,10 +429,10 @@ export const Chat: React.FC<S> = ({dur}) => {
 export const Booked: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
-  const X = dur - 12;
+  const X = dur - EXIT;
   const B = 128; // night falls
   const night = tw(f, B, B + 22, 0, 1, E.inOut);
-  const q = Math.round(count(f, 40, COPY.booked.qualifySeconds));
+  const q = Math.round(count(f, 32, COPY.booked.qualifySeconds));
   const check = tw(f, 150, 170, 0, 1, E.inOut);
   const dot = 0.5 + 0.5 * Math.sin(f / 7);
   const W = pk(900, 880);
@@ -445,17 +446,17 @@ export const Booked: React.FC<S> = ({dur}) => {
         <Glow y={pk(-70, -180)} size={1400} o={night} />
         {/* phase A — qualified */}
         <At y={pk(-370, -640)}>
-          <Words text={pk('Qualified before you wake up.', COPY.booked.head)} start={6} size={pk(88, 104)} accent={['before', 'you', 'wake', 'up.']} exit={B} />
+          <Words text={pk('Qualified before you wake up.', COPY.booked.head)} start={0} size={pk(88, 104)} accent={['before', 'you', 'wake', 'up.']} exit={B} />
         </At>
         <At y={pk(70, 60)}>
-          <div style={{...anim(f, 14, {dy: 60, s0: 0.94, exit: B}), width: W, padding: 56, boxSizing: 'border-box', borderRadius: 40, background: '#fff', boxShadow: '0 40px 80px rgba(15,40,50,.14),0 6px 18px rgba(15,40,50,.08)'}}>
+          <div style={{...anim(f, 6, {dy: 60, s0: 0.94, exit: B}), width: W, padding: 56, boxSizing: 'border-box', borderRadius: 40, background: '#fff', boxShadow: '0 40px 80px rgba(15,40,50,.14),0 6px 18px rgba(15,40,50,.08)'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: 22, fontSize: 52, fontWeight: 700, letterSpacing: '-.02em'}}>
               <i style={{width: 28, height: 28, borderRadius: '50%', background: C.green, boxShadow: `0 0 0 ${6 + 8 * dot}px rgba(22,163,74,${0.22 - 0.12 * dot})`, display: 'inline-block'}} />
               {COPY.booked.status}
             </div>
             <div style={{marginTop: 44, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24}}>
               {[...COPY.booked.fields, ['TIME TO QUALIFY', `${Math.floor(q / 60)}m ${q % 60}s`]].map(([k, v], i) => (
-                <div key={k} style={{background: '#F5F6F7', borderRadius: 24, padding: '26px 30px', ...anim(f, 30 + i * 4, {dur: 24, dy: 24, s0: 0.92, blur: 4})}}>
+                <div key={k} style={{background: '#F5F6F7', borderRadius: 24, padding: '26px 30px', ...anim(f, 22 + i * 4, {dur: 24, dy: 24, s0: 0.92, blur: 4})}}>
                   <div style={{fontSize: 21, letterSpacing: '.12em', color: C.mut, fontWeight: 600}}>{k}</div>
                   <div style={{fontSize: 40, fontWeight: 700, marginTop: 8, color: i === 3 ? C.teal : C.ink, fontVariantNumeric: 'tabular-nums'}}>{v}</div>
                 </div>
@@ -511,7 +512,7 @@ export const Always: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
   const land = pk(true, false);
-  const X = dur - 12;
+  const X = dur - EXIT;
   const tx = pk(-400, 0);
   return (
     <Bg dark style={{background: '#070C16'}}>
@@ -522,19 +523,19 @@ export const Always: React.FC<S> = ({dur}) => {
           </div>
         </At>
         <At x={tx} y={pk(-150, -320)}>
-          <div style={{...anim(f, 4, {exit: X}), fontSize: pk(180, 200), fontWeight: 700, letterSpacing: '-.06em', whiteSpace: 'nowrap'}}>{COPY.always.time}</div>
+          <div style={{...anim(f, 0, {exit: X}), fontSize: pk(180, 200), fontWeight: 700, letterSpacing: '-.06em', whiteSpace: 'nowrap'}}>{COPY.always.time}</div>
         </At>
         <At x={tx} y={pk(20, -110)}>
-          <div style={{...anim(f, 14, {exit: X}), fontSize: pk(46, 48), color: C.nightText, whiteSpace: 'nowrap'}}>{COPY.always.asleep}</div>
+          <div style={{...anim(f, 10, {exit: X}), fontSize: pk(46, 48), color: C.nightText, whiteSpace: 'nowrap'}}>{COPY.always.asleep}</div>
         </At>
         <At x={tx} y={pk(115, -10)}>
-          <div style={{...anim(f, 22, {exit: X}), fontSize: pk(92, 96), fontWeight: 700, letterSpacing: '-.04em', whiteSpace: 'nowrap', ...gradText()}}>{COPY.always.awake}</div>
+          <div style={{...anim(f, 18, {exit: X}), fontSize: pk(92, 96), fontWeight: 700, letterSpacing: '-.04em', whiteSpace: 'nowrap', ...gradText()}}>{COPY.always.awake}</div>
         </At>
         {COPY.always.rows.map(([a, b], i) => (
           <At key={i} x={pk(440, 0)} y={pk(-110 + i * 115, 300 + i * 120)}>
             <div
               style={{
-                ...anim(f, 34 + i * 4, {dx: land ? 60 : 0, dy: land ? 0 : 30, exit: X}),
+                ...anim(f, 28 + i * 4, {dx: land ? 60 : 0, dy: land ? 0 : 30, exit: X}),
                 width: pk(740, 860),
                 gap: 30,
                 display: 'flex',
@@ -550,12 +551,12 @@ export const Always: React.FC<S> = ({dur}) => {
               }}
             >
               <span>{a}</span>
-              <span style={{color: '#5EEAF0', fontWeight: 600, ...anim(f, 50 + i * 4, {dur: 20, dy: 0, s0: 0.6, blur: 0})}}>● {b}</span>
+              <span style={{color: '#5EEAF0', fontWeight: 600, ...anim(f, 44 + i * 4, {dur: 20, dy: 0, s0: 0.6, blur: 0})}}>● {b}</span>
             </div>
           </At>
         ))}
         <At y={pk(420, 760)}>
-          <div style={{...anim(f, 50, {exit: X}), fontSize: 34, letterSpacing: '.3em', color: '#7FD9DE', fontWeight: 600}}>{COPY.always.label}</div>
+          <div style={{...anim(f, 44, {exit: X}), fontSize: 34, letterSpacing: '.3em', color: '#7FD9DE', fontWeight: 600}}>{COPY.always.label}</div>
         </At>
       </Camera>
     </Bg>
@@ -566,33 +567,33 @@ export const Always: React.FC<S> = ({dur}) => {
 export const Offer: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
-  const X = dur - 12;
-  const v = Math.round(count(f, 12, COPY.offer.price));
-  const bump = interpolate(f, [72, 78, 90], [1, 1.05, 1], CL);
+  const X = dur - EXIT;
+  const v = Math.round(count(f, 6, COPY.offer.price));
+  const bump = interpolate(f, [66, 72, 84], [1, 1.05, 1], CL);
   return (
     <Bg>
       <Camera dur={dur} push={0.05}>
         <Glow y={pk(0, -120)} size={1100} o={0.55} />
         <At y={pk(-340, -560)}>
-          <div style={anim(f, 2, {exit: X})}>
+          <div style={anim(f, 0, {exit: X})}>
             <Chip size={26} style={{background: C.teal, color: '#fff'}}>
               {COPY.offer.chip}
             </Chip>
           </div>
         </At>
         <At y={pk(-245, -430)}>
-          <div style={{...anim(f, 8, {exit: X}), fontSize: pk(50, 56), color: C.mut, fontWeight: 500, whiteSpace: 'nowrap'}}>{COPY.offer.pre}</div>
+          <div style={{...anim(f, 3, {exit: X}), fontSize: pk(50, 56), color: C.mut, fontWeight: 500, whiteSpace: 'nowrap'}}>{COPY.offer.pre}</div>
         </At>
         <At y={pk(-10, -130)}>
-          <div style={{...anim(f, 12, {dy: 60, s0: 0.85, exit: X})}}>
+          <div style={{...anim(f, 6, {dy: 60, s0: 0.85, exit: X})}}>
             <div style={{fontSize: pk(340, 400), fontWeight: 800, letterSpacing: '-.07em', lineHeight: 1, transform: `scale(${bump})`, fontVariantNumeric: 'tabular-nums', ...gradText(), padding: '0 .08em .06em 0'}}>${v}</div>
           </div>
         </At>
         <At y={pk(205, 160)}>
-          <div style={{...anim(f, 20, {exit: X}), fontSize: pk(56, 60), fontWeight: 600, color: C.mut}}>{COPY.offer.per}</div>
+          <div style={{...anim(f, 14, {exit: X}), fontSize: pk(56, 60), fontWeight: 600, color: C.mut}}>{COPY.offer.per}</div>
         </At>
         <At y={pk(330, 380)}>
-          <div style={{...anim(f, 50, {exit: X}), fontSize: pk(40, 42), color: C.mut, whiteSpace: 'nowrap'}}>{COPY.offer.line}</div>
+          <div style={{...anim(f, 44, {exit: X}), fontSize: pk(40, 42), color: C.mut, whiteSpace: 'nowrap'}}>{COPY.offer.line}</div>
         </At>
       </Camera>
     </Bg>
@@ -603,7 +604,7 @@ export const Offer: React.FC<S> = ({dur}) => {
 export const Cta: React.FC<S> = ({dur}) => {
   const f = useCurrentFrame();
   const pk = usePick();
-  const CLICK = 100;
+  const CLICK = 98;
   const by = pk(175, 290);
   const ripple = tw(f, CLICK, CLICK + 30, 0, 1, E.out);
   const lit = interpolate(f, [CLICK, CLICK + 6, CLICK + 40], [0, 1, 0.4], CL);
@@ -613,16 +614,16 @@ export const Cta: React.FC<S> = ({dur}) => {
       <Camera dur={dur} push={0.04}>
         <Glow y={pk(-150, -250)} size={1300} o={tw(f, 10, 50)} />
         <At y={pk(-305, -330)}>
-          <Fox size={pk(220, 300)} start={2} stagger={1} ignite={20} />
+          <Fox size={pk(220, 300)} start={0} stagger={1} ignite={18} />
         </At>
         <At y={pk(-95, -80)}>
-          <Words text={COPY.cta.name} start={22} stagger={5} size={pk(124, 140)} color="#fff" accent={['AI']} accentGrad />
+          <Words text={COPY.cta.name} start={20} stagger={5} size={pk(124, 140)} color="#fff" accent={['AI']} accentGrad />
         </At>
         <At y={pk(30, 60)}>
-          <div style={{...anim(f, 34), fontSize: pk(40, 42), color: C.nightText, whiteSpace: 'nowrap'}}>{COPY.cta.tag}</div>
+          <div style={{...anim(f, 32), fontSize: pk(40, 42), color: C.nightText, whiteSpace: 'nowrap'}}>{COPY.cta.tag}</div>
         </At>
         <At y={by}>
-          <div style={anim(f, 44, {s0: 0.8})}>
+          <div style={anim(f, 42, {s0: 0.8})}>
             <div style={{position: 'relative', transform: `scale(${press(f, CLICK)})`}}>
               <div
                 style={{
@@ -657,9 +658,9 @@ export const Cta: React.FC<S> = ({dur}) => {
           </div>
         </At>
         <At y={pk(305, 470)}>
-          <div style={{...anim(f, 54), fontSize: pk(42, 46), fontWeight: 600, color: '#5EEAF0', letterSpacing: '.01em'}}>{COPY.cta.url}</div>
+          <div style={{...anim(f, 52), fontSize: pk(42, 46), fontWeight: 600, color: '#5EEAF0', letterSpacing: '.01em'}}>{COPY.cta.url}</div>
         </At>
-        <Cursor from={pk<[number, number]>([620, 560], [430, 900])} to={[110, by + 20]} start={64} dur={36} click={CLICK} />
+        <Cursor from={pk<[number, number]>([620, 560], [430, 900])} to={[110, by + 20]} start={62} dur={36} click={CLICK} />
       </Camera>
       <AbsoluteFill style={{background: '#000', opacity: fade}} />
     </Bg>
