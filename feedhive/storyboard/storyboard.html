@@ -1,195 +1,376 @@
 <!doctype html><html><head><meta charset="utf-8">
+<title>FeedHive Storyboard v2</title>
 <style>
 @font-face{font-family:Inter;src:url(../../video/fonts/Inter-400.ttf);font-weight:400}
 @font-face{font-family:Inter;src:url(../../video/fonts/Inter-500.ttf);font-weight:500}
 @font-face{font-family:Inter;src:url(../../video/fonts/Inter-600.ttf);font-weight:600}
 @font-face{font-family:Inter;src:url(../../video/fonts/Inter-700.ttf);font-weight:700}
 @font-face{font-family:Inter;src:url(../../video/fonts/Inter-800.ttf);font-weight:800}
-:root{--blue:#3F51F5;--ink:#111827;--gray:#6B7280;--line:#E5E7EB;--tint:#EEF0FF;--green:#DCFCE7;--greenInk:#15803D;--red:#FEE2E2;--redInk:#B91C1C}
+@font-face{font-family:Serif;src:url(../../video/fonts/InstrumentSerif-Italic.ttf)}
+:root{--blue:#3F51F5;--blue2:#7C8CFF;--ink:#111827;--gray:#6B7280;--line:#E5E7EB;--tint:#EEF0FF;--green:#16A34A;--red:#EF4444;--pink:#FF2D87;--night:#0A0E1A}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter;background:#F4F5F9;color:var(--ink);width:2340px;padding:56px 60px 60px}
-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px}
-h1{font-size:44px;font-weight:800;letter-spacing:-1px}
-h1 span{color:var(--blue)}
-.meta{font-size:18px;color:var(--gray);margin-top:8px}
-.legend{font-size:16px;color:var(--gray);text-align:right;line-height:1.6}
-.bar{display:flex;height:44px;border-radius:10px;overflow:hidden;margin-bottom:34px;font-size:15px;font-weight:600}
-.bar div{display:flex;align-items:center;justify-content:center;color:#fff;border-right:2px solid #F4F5F9}
-.grid{display:grid;grid-template-columns:repeat(3,720px);gap:40px 30px}
-.panel{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(17,24,39,.06);overflow:hidden}
-.frame{width:720px;height:405px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
-.stage{width:1920px;height:1080px;transform:scale(.375);transform-origin:0 0;position:absolute;left:0;top:0;
- background:#fff;background-image:linear-gradient(#F1F2F6 2px,transparent 2px),linear-gradient(90deg,#F1F2F6 2px,transparent 2px);background-size:120px 120px}
-.cap{padding:18px 22px 22px}
-.cap .t{display:flex;justify-content:space-between;align-items:baseline}
-.cap h2{font-size:22px;font-weight:700}
-.tag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:99px;margin-left:8px;vertical-align:3px}
-.time{font-size:14px;color:var(--gray);font-weight:500}
-.cap p{font-size:14.5px;line-height:1.5;color:#374151;margin-top:8px}
-.cap b{color:var(--ink);font-weight:600}
-.abs{position:absolute}
-.badge{position:absolute;left:40px;top:36px;background:var(--ink);color:#fff;font-size:34px;font-weight:700;padding:10px 22px;border-radius:12px;z-index:5}
-.safe{position:absolute;left:420px;top:0;width:1080px;height:1080px;border-left:3px dashed rgba(63,81,245,.18);border-right:3px dashed rgba(63,81,245,.18);z-index:4}
-.anno{position:absolute;font-size:30px;font-weight:600;color:#E11D74;z-index:6}
-.win{position:absolute;background:#fff;border:2px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(17,24,39,.10);overflow:hidden}
-.win .top{height:56px;background:#F9FAFB;border-bottom:2px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:12px;font-size:24px;font-weight:600;color:var(--gray)}
+body{font-family:Inter;background:#ECEEF4;color:var(--ink);width:2592px;padding:56px 60px 64px}
+h1{font-size:50px;font-weight:800;letter-spacing:-1.5px}
+h1 em{font-family:Serif;font-weight:400;font-style:normal;color:var(--blue);font-size:58px}
+.meta{font-size:19px;color:var(--gray);margin-top:8px}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+.legend{font-size:16px;color:var(--gray);text-align:right;line-height:1.7}
+.legend i{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--pink);color:#fff;font-style:normal;font-weight:700;font-size:13px;text-align:center;line-height:22px;margin:0 4px}
+.arc{margin:26px 0 34px;background:#fff;border-radius:18px;padding:18px 26px 14px;box-shadow:0 2px 10px rgba(17,24,39,.05)}
+.arc .lbl{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gray);text-transform:uppercase}
+.act{display:flex;align-items:center;gap:16px;margin:0 0 16px}
+.act .pill{font-size:15px;font-weight:800;letter-spacing:3px;padding:8px 16px;border-radius:99px;color:#fff}
+.act .line{flex:1;height:2px}
+.act span.d{font-size:17px;color:var(--gray)}
+.row{display:grid;grid-template-columns:repeat(4,600px);gap:24px;margin-bottom:40px}
+.panel{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(17,24,39,.07);overflow:hidden;display:flex;flex-direction:column}
+.panel.dark{background:#151A2B;color:#E5E7EB}
+.frame{width:600px;height:337.5px;position:relative;overflow:hidden}
+.stage{width:1920px;height:1080px;transform:scale(.3125);transform-origin:0 0;position:absolute;left:0;top:0;overflow:hidden}
+.light{background:#fff;background-image:linear-gradient(#F1F2F6 2px,transparent 2px),linear-gradient(90deg,#F1F2F6 2px,transparent 2px);background-size:120px 120px}
+.nightbg{background:radial-gradient(ellipse at 50% 45%,#2A1420 0%,#0A0E1A 65%);}
+.nightbg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.04) 2px,transparent 2px);background-size:120px 120px}
+.cap{padding:16px 20px 20px;flex:1}
+.cap .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.cap h2{font-size:21px;font-weight:700;white-space:nowrap}
+.tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;padding:4px 9px;border-radius:99px;margin-left:8px;vertical-align:3px}
+.time{font-size:13px;color:var(--gray);font-weight:600;white-space:nowrap}
+.dark .time{color:#9CA3AF}
+.story{font-size:14.5px;line-height:1.45;margin-top:8px;font-weight:500}
+.dark .story{color:#F3F4F6}
+.beats{list-style:none;margin-top:10px;font-size:13.5px;line-height:1.45;color:#374151}
+.dark .beats{color:#C9CED8}
+.beats li{display:flex;gap:8px;margin-top:5px}
+.beats b{flex:none;width:20px;height:20px;border-radius:50%;background:var(--pink);color:#fff;font-size:11px;text-align:center;line-height:20px;margin-top:1px}
+.beats u{text-decoration:none;font-weight:700;color:var(--ink);white-space:nowrap}
+.dark .beats u{color:#fff}
+.cam{margin-top:10px;font-size:13px;color:var(--gray);border-top:1px dashed #E5E7EB;padding-top:8px}
+.dark .cam{border-color:#2B3247;color:#9CA3AF}
+.cam strong{color:var(--blue)}
+.dark .cam strong{color:#FCA5A5}
+/* stage helpers */
+.a{position:absolute}
+.sid{position:absolute;left:36px;top:32px;font-size:30px;font-weight:800;padding:10px 20px;border-radius:12px;z-index:20;background:#fff;color:var(--ink)}
+.nightbg .sid{background:rgba(255,255,255,.12);color:#fff}
+.bm{position:absolute;width:76px;height:76px;border-radius:50%;background:var(--pink);color:#fff;font-size:40px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:30;box-shadow:0 0 0 8px rgba(255,45,135,.25)}
+.win{position:absolute;background:#fff;border:2px solid var(--line);border-radius:22px;box-shadow:0 30px 70px rgba(0,0,0,.18);overflow:hidden}
+.win .tb{height:58px;background:#F9FAFB;border-bottom:2px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:12px;font-size:24px;font-weight:600;color:var(--gray)}
+.dw{background:#1B2236;border-color:#2B3247;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.dw .tb{background:#222A40;border-color:#2B3247;color:#9CA3AF}
 .dot{width:16px;height:16px;border-radius:50%;display:inline-block}
 .ln{height:18px;border-radius:9px;background:#E5E7EB;margin:16px 0}
-.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-weight:600;border-radius:14px}
-.head{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:-2px}
-.cursor{position:absolute;z-index:7}
+.dw .ln{background:#2E3650}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-weight:700;border-radius:16px}
+.hl{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:-3px;z-index:15}
+.ghost{opacity:.22}
+.speed{stroke-linecap:round}
+.cur{position:absolute;z-index:25}
+.glow{position:absolute;border-radius:50%;filter:blur(60px)}
 </style></head><body>
-<header>
- <div><h1><span>FeedHive</span> — 30 s launch video · Storyboard v1</h1>
- <div class="meta">1920 × 1080 · 60 fps · 1800 frames · music + SFX only · for approval</div></div>
- <div class="legend"><span style="color:#E11D74;font-weight:600">Pink</span> = motion & camera notes · dashed lines = centre 1080 × 1080 safe square (for 1:1 / 9:16 cutdowns)</div>
-</header>
-<div class="bar">
- <div style="flex:210;background:#111827">1 · Hook · 0–3.5 s</div>
- <div style="flex:330;background:#6B7280">2 · Problem · 3.5–9 s</div>
- <div style="flex:420;background:#3F51F5">3 · Fix: AI · 9–16 s</div>
- <div style="flex:330;background:#5B6BF7">4 · Fix: Automate · 16–21.5 s</div>
- <div style="flex:240;background:#15803D">5 · Payoff · 21.5–25.5 s</div>
- <div style="flex:270;background:#0B1240">6 · Logo + CTA · 25.5–30 s</div>
+
+<div class="top">
+ <div><h1>FeedHive · 30 s launch video — <em>Storyboard v2</em></h1>
+ <div class="meta">1920 × 1080 · 60 fps · 1800 frames · music + SFX only · Problem → Turn → Solution → Payoff · for approval</div></div>
+ <div class="legend"><i>1</i> beat markers = numbered key moments inside the shot (frame numbers in each caption)<br>Faded copies + streaks = motion trails · dashed pink boxes = camera framing / zoom target</div>
 </div>
-<div class="grid">
 
-<!-- 1 -->
-<div class="panel"><div class="frame"><div class="stage">
- <div class="badge">S1 · frame 150</div><div class="safe"></div>
- <div class="abs" style="right:90px;top:60px;text-align:right"><div style="font-size:28px;color:var(--gray);font-weight:500">Posts due this month</div><div style="font-size:96px;font-weight:800;color:var(--ink);line-height:1">180</div></div>
- <div class="win" style="left:700px;top:290px;width:520px;height:300px"><div class="top">New post</div>
-  <div style="padding:30px 34px"><div style="width:4px;height:44px;background:var(--blue)"></div><div class="ln" style="width:70%;background:#F3F4F6"></div><div class="ln" style="width:45%;background:#F3F4F6"></div></div></div>
- <div id="orbit"></div>
- <div class="head" style="top:830px;font-size:92px">6 channels. <span style="color:var(--blue)">Every day.</span></div>
- <div class="anno" style="left:80px;top:960px">↗ badges pop with overshoot, 3-frame offset · counter 0→180 over 60 f · push-in 100→106%</div>
+<!-- tension arc -->
+<div class="arc">
+ <div class="lbl">Viewer tension curve · what the music and edit follow</div>
+ <svg width="2440" height="150" viewBox="0 0 2440 150">
+  <defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#EF4444"/><stop offset=".37" stop-color="#EF4444"/><stop offset=".40" stop-color="#FFFFFF"/><stop offset=".43" stop-color="#3F51F5"/><stop offset="1" stop-color="#16A34A"/></linearGradient></defs>
+  <rect x="0" y="0" width="937" height="120" fill="#FEF2F2" rx="10"/>
+  <rect x="937" y="0" width="122" height="120" fill="#F5F3FF"/>
+  <rect x="1059" y="0" width="1381" height="120" fill="#EEF0FF" rx="10"/>
+  <path d="M0 100 C 120 40, 200 50, 244 45 S 560 18, 650 14 S 900 6, 937 4 L 990 4 C 1010 60, 1040 110, 1059 112 C 1200 108, 1400 80, 1650 62 S 2000 30, 2100 26 C 2250 24, 2350 40, 2440 60" stroke="url(#tg)" stroke-width="7" fill="none"/>
+  <g font-family="Inter" font-size="15" font-weight="700" fill="#6B7280">
+   <text x="12" y="142">1 Hook</text><text x="256" y="142">2 Tab chaos</text><text x="590" y="142">3 Burnout</text>
+   <text x="940" y="142" fill="#3F51F5">4 Turn</text><text x="1075" y="142">5 Create with AI</text><text x="1528" y="142">6 Automate</text><text x="1935" y="142">7 Before / After</text><text x="2265" y="142">8 Logo + CTA</text>
+  </g>
+  <g font-family="Inter" font-size="14" font-weight="800" letter-spacing="3"><text x="16" y="26" fill="#EF4444">PROBLEM · tension rises</text><text x="1076" y="26" fill="#3F51F5">SOLUTION · relief builds to payoff</text></g>
+  <g stroke="#fff" stroke-width="3"><line x1="244" y1="0" x2="244" y2="120"/><line x1="569" y1="0" x2="569" y2="120"/><line x1="1505" y1="0" x2="1505" y2="120"/><line x1="1912" y1="0" x2="1912" y2="120"/><line x1="2237" y1="0" x2="2237" y2="120"/></g>
+ </svg>
+</div>
+
+<!-- ============ ACT 1 ============ -->
+<div class="act"><span class="pill" style="background:#EF4444">ACT 1 · THE PROBLEM</span><span class="d">0:00 – 0:11.5 · dark, cramped, red · fast cuts · everything slightly too much</span><div class="line" style="background:#FCA5A5"></div></div>
+<div class="row">
+
+<!-- S1 HOOK -->
+<div class="panel dark"><div class="frame"><div class="stage nightbg">
+ <div class="sid">1 · f 110</div>
+ <div class="glow" style="left:660px;top:200px;width:600px;height:600px;background:rgba(239,68,68,.35)"></div>
+ <!-- phone -->
+ <div class="a" style="left:800px;top:250px;width:320px;height:640px;border-radius:52px;background:#0F1324;border:10px solid #2B3247;box-shadow:0 40px 90px rgba(0,0,0,.6)"></div>
+ <div id="notifs"></div>
+ <div id="slam"></div>
+ <div class="a" style="right:90px;top:80px;text-align:right;z-index:10"><div style="font-size:28px;color:#9CA3AF;font-weight:600">Posts due this month</div><div style="font-size:150px;font-weight:800;line-height:1;color:#F87171;letter-spacing:-5px">180</div><div style="font-size:24px;color:#F87171;font-weight:600">▲ counting…</div></div>
+ <div class="hl" style="top:900px;font-size:110px;color:#fff">180 posts. <span style="color:#F87171">This month.</span></div>
+ <div class="a" style="left:120px;top:120px;width:1680px;height:840px;border:5px dashed var(--pink);border-radius:20px;z-index:16"></div>
+  <div class="bm" style="left:760px;top:180px">1</div><div class="bm" style="left:300px;top:330px">2</div><div class="bm" style="left:1500px;top:240px">3</div><div class="bm" style="left:250px;top:880px">4</div>
 </div></div>
-<div class="cap"><div class="t"><h2>1 · Six channels<span class="tag" style="background:#111827;color:#fff">hook</span></h2><span class="time">0:00–0:03.5 · f 0–210</span></div>
-<p><b>On screen:</b> empty post card with blinking caret; six generic channel badges, each with a red "due today" dot; counter "Posts due this month 0 → 180".</p>
-<p><b>Motion:</b> badges stagger in, then orbit-drift ±4 px. Headline word by word. <b>Camera:</b> slow push-in.</p></div></div>
+<div class="cap"><div class="t"><h2>1 · 180 posts<span class="tag" style="background:#EF4444;color:#fff">hook</span></h2><span class="time">0:00–0:03 · f 0–180</span></div>
+<div class="story">One person, one phone, six channels — the pain lands in the first second.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 0–24</u> phone buzzes; notification banners stack up and spill over the top</span></li>
+ <li><b>2</b><span><u>f 18–48</u> six channel badges slam in from off-screen, 3 f offset, overshoot + speed streaks</span></li>
+ <li><b>3</b><span><u>f 40–100</u> counter 0 → 180, ease-out, red, ticks with SFX</span></li>
+ <li><b>4</b><span><u>f 96–180</u> headline punches in word by word, holds 84 f</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> whip-in then slow push · hard cut on a beat</div></div></div>
 
-<!-- 2 -->
-<div class="panel"><div class="frame"><div class="stage">
- <div class="badge">S2 · frame 420</div><div class="safe"></div>
- <div class="head" style="top:70px;font-size:72px">Write. Rewrite. Resize. <span style="color:var(--gray)">Repeat.</span></div>
- <div class="win" style="left:110px;top:270px;width:520px;height:560px"><div class="top"><span class="dot" style="background:#FCA5A5"></span><span class="dot" style="background:#FCD34D"></span><span class="dot" style="background:#86EFAC"></span>Notes.doc</div>
-  <div style="padding:30px"><div class="ln" style="width:90%;background:#C7D2FE"></div><div class="ln" style="width:80%;background:#C7D2FE"></div><div class="ln" style="width:85%;background:#C7D2FE"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:75%"></div></div></div>
- <div class="win" style="left:700px;top:270px;width:520px;height:560px"><div class="top">in · LinkedIn post</div>
-  <div style="padding:30px"><div class="ln" style="width:90%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:85%"></div><div class="ln" style="width:70%"></div>
-  <div style="margin-top:40px;font-size:26px;color:var(--greenInk);font-weight:600">✓ Pasted</div></div></div>
- <div class="win" style="left:1290px;top:270px;width:520px;height:560px"><div class="top">X · post</div>
-  <div style="padding:30px"><div class="ln" style="width:90%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:85%;background:#FECACA"></div>
-  <div style="margin-top:24px;font-size:34px;color:var(--redInk);font-weight:700">312 / 280</div>
-  <div style="margin-top:40px;display:inline-block;border:2px solid var(--line);border-radius:12px;padding:12px 20px;font-size:28px;font-weight:600">🕐 11:47 PM</div></div></div>
- <svg class="abs" style="left:0;top:0;z-index:6" width="1920" height="1080"><path d="M520 400 Q 760 200 900 420" stroke="#E11D74" stroke-width="5" fill="none" stroke-dasharray="14 10"/><path d="M960 470 Q 1250 250 1480 450" stroke="#E11D74" stroke-width="5" fill="none" stroke-dasharray="14 10"/></svg>
- <svg class="cursor" style="left:1470px;top:440px" width="52" height="64" viewBox="0 0 26 32"><path d="M2 2 L2 26 L8 20 L12 30 L16 28 L12 18 L20 18 Z" fill="#111" stroke="#fff" stroke-width="2"/></svg>
- <div class="anno" style="left:80px;top:950px">↗ cursor on arcs, click press 1→0.96→1 · red counter shakes once · easy-ease pan L→R following cursor</div>
+<!-- S2 TAB CHAOS -->
+<div class="panel dark"><div class="frame"><div class="stage nightbg">
+ <div class="sid">2 · f 330</div>
+ <div class="glow" style="left:500px;top:250px;width:900px;height:600px;background:rgba(239,68,68,.22)"></div>
+ <div id="fan"></div>
+ <!-- front X window -->
+ <div class="win dw" style="left:1050px;top:330px;width:560px;height:470px;transform:rotate(4deg);z-index:12">
+  <div class="tb"><span class="dot" style="background:#F87171"></span>X · post</div>
+  <div style="padding:30px"><div class="ln" style="width:92%"></div><div class="ln" style="width:84%"></div><div class="ln" style="width:88%;background:#7F1D1D"></div><div class="ln" style="width:60%;background:#7F1D1D"></div>
+  <div style="font-size:52px;font-weight:800;color:#F87171;margin-top:20px">312 / 280 ✕</div></div></div>
+ <div class="win dw" style="left:330px;top:390px;width:480px;height:420px;transform:rotate(-6deg);z-index:12">
+  <div class="tb"><span class="dot" style="background:#F87171"></span>Instagram · image</div>
+  <div style="margin:26px auto;width:260px;height:200px;background:linear-gradient(135deg,#3F51F5,#E1306C);border-radius:12px;position:relative"><div style="position:absolute;inset:-20px 40px;border:4px dashed #FCD34D;border-radius:8px"></div></div>
+  <div style="text-align:center;font-size:30px;font-weight:700;color:#FCD34D">⚠ Needs 4:5</div></div>
+ <svg class="a" style="left:0;top:0;z-index:18" width="1920" height="1080">
+  <path d="M640 330 Q 900 120 1180 420" stroke="#FF2D87" stroke-width="6" fill="none" stroke-dasharray="16 12"/>
+  <path d="M1220 760 Q 950 960 620 700" stroke="#FF2D87" stroke-width="6" fill="none" stroke-dasharray="16 12"/>
+ </svg>
+ <svg class="cur ghost" style="left:820px;top:200px" width="60" height="74" viewBox="0 0 26 32"><path d="M2 2 L2 26 L8 20 L12 30 L16 28 L12 18 L20 18 Z" fill="#fff"/></svg>
+ <svg class="cur ghost" style="left:1000px;top:240px;opacity:.4" width="60" height="74" viewBox="0 0 26 32"><path d="M2 2 L2 26 L8 20 L12 30 L16 28 L12 18 L20 18 Z" fill="#fff"/></svg>
+ <svg class="cur" style="left:1170px;top:410px" width="60" height="74" viewBox="0 0 26 32"><path d="M2 2 L2 26 L8 20 L12 30 L16 28 L12 18 L20 18 Z" fill="#fff" stroke="#000" stroke-width="2"/></svg>
+ <div class="hl" style="top:60px;font-size:100px;color:#fff">7 tabs. <span style="color:#F87171">1 caption.</span></div>
+ <div class="hl" style="top:900px;font-size:56px;color:#9CA3AF;letter-spacing:-1px">Copy. Paste. Rewrite. Resize. Repeat.</div>
+ <div class="bm" style="left:330px;top:250px">1</div><div class="bm" style="left:900px;top:170px">2</div><div class="bm" style="left:1640px;top:560px">3</div><div class="bm" style="left:250px;top:760px">4</div>
 </div></div>
-<div class="cap"><div class="t"><h2>2 · The rewrite grind<span class="tag" style="background:#6B7280;color:#fff">problem</span></h2><span class="time">0:03.5–0:09 · f 210–540</span></div>
-<p><b>On screen:</b> cursor copies a caption from Notes, pastes into LinkedIn, then X — counter turns red (312 / 280), it rewrites, then schedules for 11:47 PM.</p>
-<p><b>Motion:</b> text words land on each action beat. <b>Camera:</b> pan ≥0.8 s per window move.</p></div></div>
+<div class="cap"><div class="t"><h2>2 · Tab chaos<span class="tag" style="background:#EF4444;color:#fff">problem</span></h2><span class="time">0:03–0:07 · f 180–420</span></div>
+<div class="story">Seven tool windows fan out like a bad poker hand. One caption, rewritten for every network.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 180–210</u> windows fan out from centre, 3 f offset, tilted ±12°</span></li>
+ <li><b>2</b><span><u>f 210–300</u> cursor copies caption, arcs window to window, click presses 1→0.96→1</span></li>
+ <li><b>3</b><span><u>f 300–330</u> X counter turns red "312 / 280" + shake; IG crop warning "⚠ Needs 4:5"</span></li>
+ <li><b>4</b><span><u>f 330–420</u> sub-line ticks word by word on each action; windows jitter, never settle</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> handheld-feel micro-shake ±3 px · easy-ease pan following cursor (≥0.8 s per move)</div></div></div>
 
-<!-- 3 -->
-<div class="panel"><div class="frame"><div class="stage">
- <div class="badge">S3 · frame 860</div><div class="safe"></div>
- <div class="head" style="top:50px;font-size:72px"><span style="color:var(--blue)">Create</span> with AI.</div>
- <div class="win" style="left:200px;top:170px;width:1520px;height:820px">
-  <div style="height:56px;background:linear-gradient(90deg,#3F51F5,#7C8CFF);display:flex;align-items:center;gap:12px;padding:0 22px"><span class="dot" style="background:#FCA5A5"></span><span class="dot" style="background:#FCD34D"></span><span class="dot" style="background:#86EFAC"></span></div>
-  <div class="abs" style="left:30px;top:90px;width:680px">
-   <div style="display:flex;gap:16px"><div style="width:52px;height:52px;border-radius:50%;background:var(--blue)"></div><div style="background:#F3F4F6;border-radius:16px;padding:18px 22px;font-size:24px;line-height:1.4">Hi there 👋 I'm the FeedHive AI Assistant.</div></div>
-   <div style="margin:22px 0 0 90px;background:var(--blue);color:#fff;border-radius:16px;padding:18px 22px;font-size:24px">Create a post about latest trends in AI and business.</div>
-   <div style="display:flex;gap:16px;margin-top:22px"><div style="width:52px;height:52px;border-radius:50%;background:var(--blue)"></div><div style="background:#F3F4F6;border-radius:16px;padding:18px 22px;font-size:24px">Here's a post highlighting the latest trends…</div></div>
-   <div style="margin:22px 0 0 90px;background:var(--blue);color:#fff;border-radius:16px;padding:18px 22px;font-size:24px">Let's include a few bullet points.</div>
-   <div style="margin:22px 0 0 68px;display:flex;gap:14px;font-size:22px"><span style="padding:10px 18px;border-radius:10px;color:var(--gray)">✕ Discard</span><span class="btn" style="padding:10px 22px;font-size:22px;outline:6px solid rgba(63,81,245,.25)">✓ Accept</span></div>
-   <div style="position:absolute;top:610px;left:0;width:680px;height:90px;border:3px dashed #E11D74;border-radius:16px;display:flex;align-items:center;padding-left:22px;font-size:24px;color:var(--gray)">Ask the assistant…</div>
-  </div>
-  <div class="abs" style="left:770px;top:90px;width:710px;height:690px;border:2px solid var(--line);border-radius:16px;padding:26px 30px;font-size:22px;line-height:1.5">
-   <div style="font-weight:700;font-size:26px;margin-bottom:12px">Create a post</div>
-   <div style="color:#374151">AI is transforming the business landscape…</div>
-   <div style="background:var(--red);color:var(--redInk);text-decoration:line-through;margin-top:12px;padding:4px 8px">Generative AI tools are accelerating creativity and…</div>
-   <div style="background:var(--green);color:var(--greenInk);margin-top:8px;padding:4px 8px">• Smarter data analysis for deeper insights</div>
-   <div style="background:var(--green);color:var(--greenInk);margin-top:6px;padding:4px 8px">• Predictive analytics to guide decisions</div>
-   <div style="background:var(--green);color:var(--greenInk);margin-top:6px;padding:4px 8px">• Generative AI accelerating creativity</div>
-   <div style="background:var(--green);color:var(--greenInk);margin-top:6px;padding:4px 8px">• Personalized customer interactions</div>
-  </div>
+<!-- S3 BURNOUT -->
+<div class="panel dark"><div class="frame"><div class="stage nightbg" style="filter:saturate(.75)">
+ <div class="sid">3 · f 540</div>
+ <!-- clock -->
+ <div class="a" style="left:170px;top:240px;width:520px;height:520px;border-radius:50%;border:14px solid #2B3247;background:#0F1324"></div>
+ <svg class="a" style="left:170px;top:240px" width="520" height="520" viewBox="0 0 520 520">
+  <g stroke="#3B4560" stroke-width="8">
+   <line x1="260" y1="40" x2="260" y2="80"/><line x1="480" y1="260" x2="440" y2="260"/><line x1="260" y1="480" x2="260" y2="440"/><line x1="40" y1="260" x2="80" y2="260"/></g>
+  <path d="M260 260 L 260 90 A 170 170 0 1 1 120 160 Z" fill="rgba(248,113,113,.22)"/>
+  <line x1="260" y1="260" x2="140" y2="170" stroke="#F87171" stroke-width="14" stroke-linecap="round"/>
+  <line x1="260" y1="260" x2="250" y2="120" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".3"/>
+  <line x1="260" y1="260" x2="360" y2="150" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".15"/>
+  <circle cx="260" cy="260" r="16" fill="#F87171"/>
+ </svg>
+ <div class="a" style="left:170px;top:790px;width:520px;text-align:center;font-size:70px;font-weight:800;color:#F87171">11:47 PM</div>
+ <div class="a" style="left:170px;top:880px;width:520px;text-align:center;font-size:30px;color:#9CA3AF;font-weight:600">started 9:00 AM</div>
+ <!-- calendar with gaps -->
+ <div class="win dw" style="left:820px;top:240px;width:960px;height:400px">
+  <div class="tb">This week</div>
+  <div id="gaps" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:22px"></div></div>
+ <!-- falling graph -->
+ <div class="win dw" style="left:820px;top:680px;width:960px;height:250px">
+  <div class="tb">Reach</div>
+  <svg width="960" height="190"><path d="M40 40 C 200 50, 300 60, 420 90 S 700 150, 920 165" stroke="#F87171" stroke-width="8" fill="none"/><path d="M880 140 L 925 168 L 872 180" stroke="#F87171" stroke-width="8" fill="none"/></svg></div>
+ <div class="hl" style="top:60px;font-size:100px;color:#fff">…and still, <span style="color:#F87171">gaps.</span></div>
+ <div class="bm" style="left:120px;top:220px">1</div><div class="bm" style="left:1720px;top:200px">2</div><div class="bm" style="left:1720px;top:660px">3</div>
+</div></div>
+<div class="cap"><div class="t"><h2>3 · Burnout<span class="tag" style="background:#EF4444;color:#fff">problem</span></h2><span class="time">0:07–0:10 · f 420–600</span></div>
+<div class="story">All that effort, and the week still has holes. The cost: time, consistency, reach.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 420–480</u> clock hands spin 9:00 AM → 11:47 PM with motion blur, ease-in-out, tick SFX</span></li>
+ <li><b>2</b><span><u>f 470–530</u> week calendar: days flip red "✕ missed", 4 f stagger</span></li>
+ <li><b>3</b><span><u>f 520–580</u> reach line draws downward; arrow lands at f 580</span></li>
+ <li><b>4</b><span><u>f 580–600</u> colours drain to 60% saturation — the low point of the story</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> slow push 100 → 108%, slight dutch tilt 1.5° to feel off-balance</div></div></div>
+
+<!-- S4 TURN -->
+<div class="panel"><div class="frame"><div class="stage" style="background:radial-gradient(circle at 50% 52%,#ffffff 0%,#ffffff 44%,#0A0E1A 72%)">
+ <div class="sid">4 · f 650</div>
+ <!-- sucked-in debris -->
+ <div id="debris"></div>
+ <svg class="a" style="left:0;top:0" width="1920" height="1080" id="rays"></svg>
+ <div class="glow" style="left:760px;top:340px;width:400px;height:400px;background:rgba(63,81,245,.55)"></div>
+ <svg class="a" style="left:830px;top:410px;z-index:10" width="260" height="260" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#3F51F5"/><circle cx="50" cy="33" r="12.5" fill="#fff"/><circle cx="34" cy="60" r="12.5" fill="#fff"/><circle cx="66" cy="60" r="12.5" fill="#fff"/></svg>
+ <div class="hl" style="top:740px;font-size:120px;color:var(--ink)">Meet <span style="color:var(--blue)">FeedHive.</span></div>
+ <div class="bm" style="left:250px;top:250px">1</div><div class="bm" style="left:1100px;top:330px">2</div><div class="bm" style="left:1450px;top:690px">3</div>
+</div></div>
+<div class="cap"><div class="t"><h2>4 · The turn<span class="tag" style="background:#3F51F5;color:#fff">transition</span></h2><span class="time">0:10–0:11.5 · f 600–690</span></div>
+<div class="story">The whole mess gets sucked into one point — and the world flips from night to light.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 600–618</u> every window, badge and clock implodes to centre, ease-in, streak trails</span></li>
+ <li><b>2</b><span><u>f 618–630</u> blue flash + light rays; background wipes dark → white (whoosh + hit SFX)</span></li>
+ <li><b>3</b><span><u>f 630–690</u> FeedHive mark pops with overshoot, "Meet FeedHive." slides in 4 f later</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> fast push-in during implosion, settles on the mark with overshoot</div></div></div>
+</div>
+
+<!-- ============ ACT 2 ============ -->
+<div class="act"><span class="pill" style="background:#3F51F5">ACT 2 · THE SOLUTION</span><span class="d">0:11.5 – 0:30 · bright, roomy, blue · smooth camera · everything clicks into place</span><div class="line" style="background:#C7D2FE"></div></div>
+<div class="row">
+
+<!-- S5 CREATE WITH AI -->
+<div class="panel"><div class="frame"><div class="stage light">
+ <div class="sid">5 · f 930</div>
+ <div class="glow" style="left:300px;top:250px;width:700px;height:600px;background:rgba(63,81,245,.12)"></div>
+ <div class="hl" style="top:44px;font-size:96px"><span style="color:var(--blue)">Create</span> with AI.</div>
+ <div class="win" style="left:90px;top:200px;width:980px;height:800px">
+  <div style="height:58px;background:linear-gradient(90deg,#3F51F5,#7C8CFF);display:flex;align-items:center;gap:12px;padding:0 22px"><span class="dot" style="background:#FCA5A5"></span><span class="dot" style="background:#FCD34D"></span><span class="dot" style="background:#86EFAC"></span></div>
+  <div style="padding:28px 30px;font-size:26px">
+   <div style="display:flex;gap:16px"><div style="width:56px;height:56px;border-radius:50%;background:var(--blue);flex:none"></div><div style="background:#F3F4F6;border-radius:18px;padding:16px 22px">Hi there 👋 I'm the FeedHive AI Assistant.</div></div>
+   <div style="margin:18px 0 0 90px;background:var(--blue);color:#fff;border-radius:18px;padding:16px 22px">Create a post about latest trends in AI and business.</div>
+   <div style="margin:18px 0 0 72px;border:2px solid var(--line);border-radius:16px;padding:18px 22px;font-size:22px;line-height:1.5">
+    <div style="background:#FEE2E2;color:#B91C1C;text-decoration:line-through;padding:2px 8px">Generative AI tools are accelerating creativity…</div>
+    <div style="background:#DCFCE7;color:#15803D;padding:2px 8px;margin-top:6px">• Smarter data analysis for deeper insights</div>
+    <div style="background:#DCFCE7;color:#15803D;padding:2px 8px;margin-top:6px">• Predictive analytics to guide decisions</div>
+    <div style="background:#DCFCE7;color:#15803D;padding:2px 8px;margin-top:6px">• Personalized customer interactions</div>
+    <div style="margin-top:14px;display:flex;gap:14px"><span style="padding:8px 16px;color:var(--gray)">✕ Discard</span><span class="btn" style="padding:10px 26px;font-size:24px;box-shadow:0 0 0 10px rgba(63,81,245,.2)">✓ Accept</span></div>
+   </div>
+   <div style="margin-top:22px;border:2px solid var(--line);border-radius:16px;padding:20px 22px;color:#374151">Let's include a few bullet points.<span style="display:inline-block;width:3px;height:30px;background:var(--blue);vertical-align:-6px;margin-left:4px"></span></div>
+  </div></div>
+ <div class="a" style="left:80px;top:690px;width:1000px;height:150px;border:5px dashed var(--pink);border-radius:20px;z-index:16"></div>
+ <div class="a" style="left:90px;top:850px;font-size:26px;font-weight:700;color:var(--pink);z-index:17;background:#fff;padding:4px 10px">zoom 130% here while typing</div>
+ <svg class="cur" style="left:470px;top:600px" width="60" height="74" viewBox="0 0 26 32"><path d="M2 2 L2 26 L8 20 L12 30 L16 28 L12 18 L20 18 Z" fill="#111" stroke="#fff" stroke-width="2"/></svg>
+ <!-- channel fan-out -->
+ <div id="variants"></div>
+ <svg class="a" style="left:0;top:0;z-index:5" width="1920" height="1080" id="fanlines"></svg>
+ <div class="bm" style="left:1010px;top:690px">1</div><div class="bm" style="left:420px;top:520px">2</div><div class="bm" style="left:1150px;top:220px">3</div>
+</div></div>
+<div class="cap"><div class="t"><h2>5 · Create with AI<span class="tag" style="background:#3F51F5;color:#fff">solution</span></h2><span class="time">0:11.5–0:17 · f 690–1020</span></div>
+<div class="story">The real FeedHive UI. One prompt → a finished post → a version for every channel. The answer to scene 2.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 690–790</u> cursor types the prompt, Send press; AI reply streams in line by line</span></li>
+ <li><b>2</b><span><u>f 790–880</u> "add bullet points" → tracked changes stagger red → green; Accept press + glow</span></li>
+ <li><b>3</b><span><u>f 880–1020</u> post fans out into 6 channel cards (3 f offset) — "280 ✓", "4:5 ✓" fix scene 2's red errors</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> zoom 130% on prompt bar → ease back 100% → pan right to the fan-out</div></div></div>
+
+<!-- S6 AUTOMATE -->
+<div class="panel"><div class="frame"><div class="stage light">
+ <div class="sid">6 · f 1180</div>
+ <div class="hl" style="top:44px;font-size:96px"><span style="color:var(--blue)">Automate</span> the rest.</div>
+ <div class="win" style="left:90px;top:210px;width:1120px;height:800px"><div class="tb">Smart Scheduling · This week</div>
+  <div id="week" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:20px"></div></div>
+ <div id="flyers"></div>
+ <!-- automation -->
+ <div class="a" style="left:1290px;top:250px;width:560px;font-size:28px;font-weight:600">
+  <div style="font-size:24px;font-weight:800;letter-spacing:3px;color:var(--gray);margin-bottom:20px">AUTOMATION</div>
+  <div style="background:#fff;border:2px solid var(--line);border-radius:18px;padding:24px 26px;box-shadow:0 14px 34px rgba(17,24,39,.1)">⚡ New post published</div>
+  <div style="width:6px;height:56px;background:var(--blue);margin-left:50px"></div>
+  <div style="background:var(--tint);border:2px solid #C7D2FE;border-radius:18px;padding:24px 26px">◆ Post Condition: performs well</div>
+  <div style="width:6px;height:56px;background:var(--blue);margin-left:50px"></div>
+  <div style="background:#fff;border:2px solid var(--line);border-radius:18px;padding:24px 26px;box-shadow:0 14px 34px rgba(17,24,39,.1)">↻ Recycle in 30 days</div>
  </div>
- <svg class="cursor" style="left:470px;top:640px" width="52" height="64" viewBox="0 0 26 32"><path d="M2 2 L2 26 L8 20 L12 30 L16 28 L12 18 L20 18 Z" fill="#111" stroke="#fff" stroke-width="2"/></svg>
- <div class="anno" style="left:230px;top:1010px">zoom 130% on prompt bar ▸ ease back to 100% ▸ push toward Accept · diff lines stagger red → green</div>
+ <svg class="a" style="left:0;top:0;z-index:6" width="1920" height="1080"><path d="M1830 830 C 1900 600, 1900 420, 1840 300" stroke="#3F51F5" stroke-width="6" fill="none" stroke-dasharray="14 10"/><path d="M1822 320 L 1842 290 L 1862 322" stroke="#3F51F5" stroke-width="6" fill="none"/></svg>
+ <div class="bm" style="left:930px;top:120px">1</div><div class="bm" style="left:120px;top:880px">2</div><div class="bm" style="left:1780px;top:180px">3</div>
 </div></div>
-<div class="cap"><div class="t"><h2>3 · Create with AI<span class="tag" style="background:var(--blue);color:#fff">fix</span></h2><span class="time">0:09–0:16 · f 540–960</span></div>
-<p><b>On screen:</b> windows collapse into the FeedHive workspace (Figma SVG): AI Assistant chat + editor. Prompt typed, Send; post writes in; "add bullet points" shows tracked changes; cursor clicks <b>Accept</b>.</p>
-<p><b>Motion:</b> Send/Accept presses, bubbles staggered 3 f, editor writes line by line.</p></div></div>
+<div class="cap"><div class="t"><h2>6 · Automate<span class="tag" style="background:#3F51F5;color:#fff">solution</span></h2><span class="time">0:17–0:22 · f 1020–1320</span></div>
+<div class="story">The channel cards fly into the calendar at the best times, and a workflow keeps it running. The answer to scene 3.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 1020–1090</u> six cards fly on arcs into slots, overshoot landing, trails behind</span></li>
+ <li><b>2</b><span><u>f 1080–1200</u> rest of the week fills slot by slot with best-time chips, 2–4 f stagger</span></li>
+ <li><b>3</b><span><u>f 1180–1320</u> automation nodes connect with drawn lines; recycle loop arrow spins once</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> easy-ease pan calendar → automation, overlapping the last 20% of the fill</div></div></div>
 
-<!-- 4 -->
-<div class="panel"><div class="frame"><div class="stage">
- <div class="badge">S4 · frame 1200</div><div class="safe"></div>
- <div class="head" style="top:50px;font-size:72px"><span style="color:var(--blue)">Automate.</span></div>
- <div class="win" style="left:110px;top:190px;width:1020px;height:780px"><div class="top">Smart Scheduling · This week</div>
-  <div id="week" style="display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:20px"></div></div>
- <div class="abs" style="left:1210px;top:230px;width:600px">
-  <div style="font-size:26px;font-weight:700;color:var(--gray);margin-bottom:22px">Automation</div>
-  <div style="background:#fff;border:2px solid var(--line);border-radius:16px;padding:22px 26px;font-size:26px;font-weight:600;box-shadow:0 10px 30px rgba(17,24,39,.08)">⚡ New post published</div>
-  <div style="width:4px;height:60px;background:var(--blue);margin-left:50px"></div>
-  <div style="background:var(--tint);border:2px solid #C7D2FE;border-radius:16px;padding:22px 26px;font-size:26px;font-weight:600">◆ Post Condition: on Instagram</div>
-  <div style="width:4px;height:60px;background:var(--blue);margin-left:50px"></div>
-  <div style="background:#fff;border:2px solid var(--line);border-radius:16px;padding:22px 26px;font-size:26px;font-weight:600;box-shadow:0 10px 30px rgba(17,24,39,.08)">↻ Recycle in 30 days</div>
- </div>
- <svg class="abs" style="left:0;top:0;z-index:6" width="1920" height="1080"><path d="M960 130 Q 700 120 470 330" stroke="#E11D74" stroke-width="5" fill="none" stroke-dasharray="14 10"/></svg>
- <div class="anno" style="left:110px;top:1000px">post card flies in on an arc · slots fill 2–4 f stagger · nodes connect · ease pan calendar → flow</div>
-</div></div>
-<div class="cap"><div class="t"><h2>4 · Automate<span class="tag" style="background:#5B6BF7;color:#fff">fix</span></h2><span class="time">0:16–0:21.5 · f 960–1290</span></div>
-<p><b>On screen:</b> the accepted post shrinks into a card, flies into the week calendar and splits into per-channel versions with best-time chips ("Tue 9:15"). Automation flow builds: New post → Post Condition → Recycle.</p>
-<p><b>Camera:</b> easy-ease pan, overlapping the end of the slot fill.</p></div></div>
-
-<!-- 5 -->
-<div class="panel"><div class="frame"><div class="stage">
- <div class="badge">S5 · frame 1440</div><div class="safe"></div>
- <div class="head" style="top:50px;font-size:72px">A month of content. <span style="color:var(--greenInk)">Done.</span></div>
- <div class="abs" style="right:90px;top:180px;text-align:right"><div style="font-size:26px;color:var(--gray);font-weight:500">Posts due</div><div style="font-size:80px;font-weight:800;line-height:1;color:var(--greenInk)">0 ✓</div></div>
- <div class="win" style="left:420px;top:200px;width:1080px;height:740px"><div class="top">November</div>
-  <div id="month" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:16px"></div></div>
- <div class="abs" style="left:110px;top:780px;display:flex;align-items:center;gap:0">
-  <div style="width:70px;height:70px;border-radius:50%;background:#FBBF24;border:4px solid #fff"></div><div style="width:70px;height:70px;border-radius:50%;background:var(--blue);border:4px solid #fff;margin-left:-20px"></div>
-  <span style="margin-left:16px;background:var(--tint);color:var(--blue);font-weight:700;font-size:26px;padding:10px 18px;border-radius:99px">Collaborate.</span></div>
- <div class="anno" style="left:110px;top:1000px">pull back 115→100% · checks ripple diagonally · counter 180→0 over 60 f · hold ≥90 f with 1→1.02 drift</div>
-</div></div>
-<div class="cap"><div class="t"><h2>5 · Content machine<span class="tag" style="background:#15803D;color:#fff">payoff</span></h2><span class="time">0:21.5–0:25.5 · f 1290–1530</span></div>
-<p><b>On screen:</b> full month view, every day filled with a green check. Scene 1 counter returns: "Posts due 180 → 0". Teammate + FeedHive AI avatars with "Collaborate."</p>
-<p><b>Motion:</b> staggered check ripple, then a calm hold so the result reads.</p></div></div>
-
-<!-- 6 -->
+<!-- S7 BEFORE/AFTER -->
 <div class="panel"><div class="frame"><div class="stage" style="background:#fff">
- <div class="badge">S6 · frame 1700</div><div class="safe"></div>
- <div class="abs" style="left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:30px">
-  <svg width="130" height="130" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#3F51F5"/><circle cx="50" cy="34" r="12" fill="#fff"/><circle cx="35" cy="60" r="12" fill="#fff"/><circle cx="65" cy="60" r="12" fill="#fff"/></svg>
-  <span style="font-size:120px;font-weight:700;color:var(--blue);letter-spacing:-3px">FeedHive</span></div>
- <div class="head" style="top:470px;font-size:64px;letter-spacing:-1.5px">Social media using <span style="color:var(--blue)">Automation &amp; AI Agents.</span></div>
- <div class="abs" style="left:0;right:0;top:640px;text-align:center"><span class="btn" style="font-size:40px;padding:30px 60px;border-radius:20px">Get started for free</span>
-  <div style="margin-top:26px;font-size:34px;font-weight:600;color:var(--gray)">feedhive.com</div>
-  <div style="margin-top:34px;font-size:26px;color:#9CA3AF">Works with ChatGPT · Claude · MCP &amp; API</div></div>
- <div class="anno" style="left:110px;top:1000px">mark pops with overshoot ▸ wordmark +4 f ▸ tagline line offset ▸ CTA press · push-in 100→104%</div>
+ <div class="sid">7 · f 1440</div>
+ <div class="a" style="left:0;top:0;width:820px;height:1080px;background:#0A0E1A;filter:saturate(.5)">
+  <div class="a" style="left:60px;top:60px;font-size:34px;font-weight:800;letter-spacing:5px;color:#F87171">BEFORE</div>
+  <div class="win dw" style="left:90px;top:220px;width:420px;height:300px;transform:rotate(-8deg);opacity:.7"><div class="tb">Notes</div></div>
+  <div class="win dw" style="left:280px;top:340px;width:420px;height:300px;transform:rotate(5deg);opacity:.7"><div class="tb">X · 312 / 280</div></div>
+  <div class="win dw" style="left:150px;top:520px;width:420px;height:300px;transform:rotate(-3deg);opacity:.7"><div class="tb">This week ✕ ✕ ✕</div></div>
+  <div class="a" style="left:60px;top:880px;font-size:70px;font-weight:800;color:#F87171">180 due</div>
+ </div>
+ <div class="a" style="left:800px;top:0;width:40px;height:1080px;background:linear-gradient(90deg,rgba(63,81,245,0),#3F51F5,rgba(63,81,245,0));z-index:5"></div>
+ <div class="a" style="left:780px;top:490px;width:80px;height:80px;border-radius:50%;background:var(--blue);color:#fff;font-size:44px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:6">→</div>
+ <div class="a" style="left:900px;top:60px;font-size:34px;font-weight:800;letter-spacing:5px;color:var(--green)">WITH FEEDHIVE</div>
+ <div class="win" style="left:900px;top:140px;width:940px;height:720px"><div class="tb">November</div>
+  <div id="month" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:16px"></div></div>
+ <div class="a" style="left:900px;top:890px;font-size:70px;font-weight:800;color:var(--green)">0 due ✓ <span style="font-size:44px;color:var(--ink);letter-spacing:-1px">A month of content. Done.</span></div>
+ <div class="bm" style="left:700px;top:140px">1</div><div class="bm" style="left:1780px;top:100px">2</div><div class="bm" style="left:1780px;top:870px">3</div>
 </div></div>
-<div class="cap"><div class="t"><h2>6 · Logo + CTA<span class="tag" style="background:#0B1240;color:#fff">logo</span></h2><span class="time">0:25.5–0:30 · f 1530–1800</span></div>
-<p><b>On screen:</b> calendar scales away; logo builds (placeholder until logo SVG arrives); tagline; "Get started for free" + feedhive.com.</p>
-<p><b>Open:</b> add launch offer "Double your AI credits for 3 months"? <b>Motion:</b> slow drift to the end.</p></div></div>
+<div class="cap"><div class="t"><h2>7 · Before / After<span class="tag" style="background:#16A34A;color:#fff">payoff</span></h2><span class="time">0:22–0:26 · f 1320–1560</span></div>
+<div class="story">The proof shot: the chaos from Act 1 next to a calm, full month. Same person, same month.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 1320–1360</u> blue wipe sweeps left → right, splitting Before (desaturated) / After</span></li>
+ <li><b>2</b><span><u>f 1350–1420</u> green checks ripple diagonally across all 30 days</span></li>
+ <li><b>3</b><span><u>f 1400–1460</u> counter 180 → 0 over 60 f; then hold ≥ 90 f with 1 → 1.02 drift</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> pull back 115 → 100% to reveal both halves, then micro-push</div></div></div>
 
+<!-- S8 LOGO -->
+<div class="panel"><div class="frame"><div class="stage" style="background:radial-gradient(ellipse at 50% 40%,#E8EBFF 0%,#ffffff 60%)">
+ <div class="sid">8 · f 1740</div>
+ <svg class="a" style="left:0;top:0" width="1920" height="1080"><g fill="none" stroke="#C7D2FE" stroke-width="3"><circle cx="960" cy="330" r="190"/><circle cx="960" cy="330" r="270" opacity=".6"/><circle cx="960" cy="330" r="360" opacity=".3"/></g></svg>
+ <svg class="a" style="left:850px;top:220px" width="220" height="220" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#3F51F5"/><circle cx="50" cy="33" r="12.5" fill="#fff"/><circle cx="34" cy="60" r="12.5" fill="#fff"/><circle cx="66" cy="60" r="12.5" fill="#fff"/></svg>
+ <div class="hl" style="top:470px;font-size:130px;color:var(--blue)">FeedHive</div>
+ <div class="hl" style="top:640px;font-size:60px;letter-spacing:-1.5px">Social media using <span style="color:var(--blue)">Automation &amp; AI Agents.</span></div>
+ <div class="a" style="left:0;right:0;top:770px;text-align:center"><span class="btn" style="font-size:42px;padding:30px 64px;border-radius:22px;box-shadow:0 20px 50px rgba(63,81,245,.35)">Get started for free →</span></div>
+ <div class="a" style="left:0;right:0;top:930px;text-align:center;font-size:32px;font-weight:600;color:var(--gray)">feedhive.com · <span style="color:var(--blue)">Double your AI credits for 3 months</span></div>
+ <div class="bm" style="left:700px;top:200px">1</div><div class="bm" style="left:1640px;top:500px">2</div><div class="bm" style="left:1440px;top:780px">3</div>
+</div></div>
+<div class="cap"><div class="t"><h2>8 · Logo + CTA<span class="tag" style="background:#0B1240;color:#fff">logo</span></h2><span class="time">0:26–0:30 · f 1560–1800</span></div>
+<div class="story">Calendar folds into the logo mark. One promise, one action.</div>
+<ul class="beats">
+ <li><b>1</b><span><u>f 1560–1600</u> calendar scales down into the mark; rings pulse out</span></li>
+ <li><b>2</b><span><u>f 1596–1660</u> wordmark slides from behind mark (+4 f), tagline line by line</span></li>
+ <li><b>3</b><span><u>f 1660–1800</u> CTA pops + one press; launch offer line (optional); slow drift to end</span></li>
+</ul>
+<div class="cam"><strong>Camera</strong> gentle push-in 100 → 104% to the last frame</div></div></div>
 </div>
+
 <script>
-// orbit badges (scene 1)
-const labels=[['IG','#E1306C'],['in','#0A66C2'],['X','#111'],['f','#1877F2'],['TT','#111'],['@','#111']];
-const o=document.getElementById('orbit');
-labels.forEach(([t,c],i)=>{const a=-Math.PI/2+i*Math.PI/3+Math.PI/6, x=960+Math.cos(a)*470-60, y=440+Math.sin(a)*300-60;
- o.insertAdjacentHTML('beforeend',`<div class="abs" style="left:${x}px;top:${y}px;width:120px;height:120px;border-radius:30px;background:#fff;border:2px solid #E5E7EB;box-shadow:0 12px 30px rgba(17,24,39,.10);display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;color:${c}">${t}<span style="position:absolute;right:-8px;top:-8px;width:30px;height:30px;border-radius:50%;background:#EF4444;border:4px solid #fff"></span></div>`)});
-// week calendar (scene 4)
-const w=document.getElementById('week'),days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],times=['9:15','12:30','17:45'];
-days.forEach(d=>w.insertAdjacentHTML('beforeend',`<div style="font-size:22px;font-weight:700;color:#6B7280;text-align:center">${d}</div>`));
-const cols=['#E1306C','#0A66C2','#111','#1877F2'];
-for(let r=0;r<3;r++)for(let c=0;c<7;c++){const filled=(r*7+c)<16;
- w.insertAdjacentHTML('beforeend',`<div style="height:190px;border-radius:12px;${filled?`background:#EEF0FF;border-left:6px solid ${cols[(r+c)%4]}`:'border:2px dashed #E5E7EB'};padding:12px;font-size:19px;font-weight:600;color:#3F51F5">${filled?days[c]+' '+times[r]+'<div class="ln" style="height:12px;margin:10px 0;width:80%"></div><div class="ln" style="height:12px;margin:0;width:55%"></div>':''}</div>`)}
-// month (scene 5)
-const m=document.getElementById('month');
-days.forEach(d=>m.insertAdjacentHTML('beforeend',`<div style="font-size:20px;font-weight:700;color:#6B7280;text-align:center">${d}</div>`));
+const H=(el,s)=>document.getElementById(el).insertAdjacentHTML('beforeend',s);
+const CH=[['IG','#E1306C'],['in','#0A66C2'],['X','#111'],['f','#1877F2'],['TT','#111'],['@','#111']];
+// S1 notifications spilling out of phone
+for(let i=0;i<6;i++){const y=290+i*70-(i>3?(i-3)*120:0), x=820+(i%2?20:-20)-(i>3?(i-3)*30:0), r=(i>3?(i%2?6:-7):0);
+ H('notifs',`<div class="a" style="left:${x}px;top:${i>3?190-(i-4)*90:300+i*80}px;width:300px;height:66px;border-radius:16px;background:${i>3?'#3B1A24':'#1F2740'};border:2px solid ${i>3?'#7F1D1D':'#2B3247'};transform:rotate(${r}deg);display:flex;align-items:center;gap:12px;padding:0 14px;z-index:${8+i};font-size:20px;color:#E5E7EB;font-weight:600"><span style="width:34px;height:34px;border-radius:10px;background:${CH[i][1]};flex:none"></span>Post due today</div>`)}
+// S1 badges slamming with speed streaks
+const bp=[[260,420],[470,250],[1380,300],[1580,520],[300,660],[1500,720]];
+bp.forEach(([x,y],i)=>{const dx=x<960?-1:1;
+ H('slam',`<svg class="a" style="left:${x+(dx<0?-260:130)}px;top:${y+20}px;z-index:9" width="250" height="90"><g stroke="rgba(255,255,255,.35)" stroke-width="6" class="speed"><line x1="${dx<0?10:40}" y1="15" x2="${dx<0?200:240}" y2="15"/><line x1="${dx<0?50:0}" y1="45" x2="${dx<0?240:200}" y2="45"/><line x1="${dx<0?90:20}" y1="75" x2="${dx<0?220:150}" y2="75"/></g></svg>
+ <div class="a ghost" style="left:${x+dx*70}px;top:${y}px;width:130px;height:130px;border-radius:34px;background:#fff"></div>
+ <div class="a" style="left:${x}px;top:${y}px;width:130px;height:130px;border-radius:34px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:${CH[i][1]};z-index:10;transform:rotate(${dx*6}deg);box-shadow:0 20px 40px rgba(0,0,0,.5)">${CH[i][0]}<span style="position:absolute;right:-10px;top:-10px;width:36px;height:36px;border-radius:50%;background:#EF4444;border:5px solid #0A0E1A"></span></div>`)});
+// S2 fan of windows
+const tabs=['Notes','Canva','LinkedIn','Facebook','Spreadsheet'];
+tabs.forEach((t,i)=>{const r=-14+i*7, x=420+i*170, y=220+Math.abs(i-2)*40;
+ H('fan',`<div class="win dw" style="left:${x}px;top:${y}px;width:500px;height:440px;transform:rotate(${r}deg);z-index:${2+i}"><div class="tb"><span class="dot" style="background:#F87171"></span><span class="dot" style="background:#FCD34D"></span>${t}</div><div style="padding:26px"><div class="ln" style="width:85%"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:78%"></div></div></div>`)});
+// S3 week gaps
+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach((d,i)=>{const miss=[1,3,4,6].includes(i);
+ H('gaps',`<div style="height:290px;border-radius:14px;background:${miss?'#3B1A24':'#222A40'};border:3px ${miss?'solid #7F1D1D':'solid #2B3247'};display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 0;font-size:24px;font-weight:700;color:#9CA3AF">${d}<span style="font-size:${miss?64:40}px;color:${miss?'#F87171':'#4B5563'}">${miss?'✕':'•'}</span><span style="font-size:18px;color:${miss?'#F87171':'#6B7280'}">${miss?'missed':'posted'}</span></div>`)});
+// S4 debris + rays
+const deb=[[80,160,-12,'Notes'],[90,600,8,'X · 312/280'],[420,860,-6,'This week ✕'],[380,300,10,'Canva']];
+deb.forEach(([x,y,r,t],i)=>{H('debris',`<div class="win dw" style="left:${x}px;top:${y}px;width:300px;height:190px;transform:rotate(${r}deg) scale(.8);opacity:${.35+i*.12}"><div class="tb">${t}</div></div>`)});
+let rays='';for(let i=0;i<16;i++){const a=i/16*Math.PI*2,x2=960+Math.cos(a)*900,y2=540+Math.sin(a)*900;rays+=`<line x1="960" y1="540" x2="${x2}" y2="${y2}" stroke="rgba(124,140,255,${i%2?.18:.32})" stroke-width="${i%2?14:28}"/>`}
+rays+=`<g stroke="rgba(255,255,255,.4)" stroke-width="6" stroke-linecap="round"><line x1="420" y1="280" x2="760" y2="460"/><line x1="380" y1="700" x2="760" y2="600"/><line x1="600" y1="930" x2="830" y2="680"/><line x1="560" y1="150" x2="820" y2="420"/></g>`;
+document.getElementById('rays').innerHTML=rays;
+// S5 variants
+const vv=[['IG','#E1306C','4:5 ✓'],['in','#0A66C2','long-form ✓'],['X','#111','280 ✓'],['f','#1877F2','link ✓'],['TT','#111','9:16 ✓'],['@','#111','500 ✓']];
+let fl='';vv.forEach(([t,c,ok],i)=>{const x=1170+(i%2)*360, y=230+Math.floor(i/2)*265;
+ H('variants',`<div class="a" style="left:${x}px;top:${y}px;width:330px;height:230px;background:#fff;border:2px solid var(--line);border-radius:20px;box-shadow:0 16px 40px rgba(17,24,39,.12);padding:20px;z-index:8;transform:rotate(${(i%2?2:-2)}deg)"><div style="display:flex;align-items:center;gap:12px"><span style="width:52px;height:52px;border-radius:14px;background:${c};color:#fff;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center">${t}</span><span style="font-size:24px;font-weight:700;color:#15803D">${ok}</span></div><div class="ln" style="width:90%;margin-top:26px"></div><div class="ln" style="width:70%"></div></div>`);
+ fl+=`<path d="M1070 600 Q 1120 ${y+60} ${x} ${y+100}" stroke="#3F51F5" stroke-width="5" fill="none" stroke-dasharray="12 10" opacity=".6"/>`});
+document.getElementById('fanlines').innerHTML=fl;
+// S6 week calendar
+const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],times=['9:15','12:30','17:45'],cols=['#E1306C','#0A66C2','#111','#1877F2','#111','#3F51F5'];
+days.forEach(d=>H('week',`<div style="font-size:24px;font-weight:700;color:#6B7280;text-align:center">${d}</div>`));
+for(let r=0;r<3;r++)for(let c=0;c<7;c++){const k=r*7+c,filled=k<15,landing=k>=15&&k<17;
+ H('week',`<div style="height:196px;border-radius:14px;${filled?`background:#EEF0FF;border-left:8px solid ${cols[k%6]}`:landing?'border:4px solid #3F51F5;background:#F5F6FF':'border:3px dashed #E5E7EB'};padding:14px;font-size:21px;font-weight:700;color:#3F51F5">${filled?days[c]+' '+times[r]+'<div class="ln" style="height:12px;margin:12px 0;width:80%"></div><div class="ln" style="height:12px;margin:0;width:55%"></div>':landing?'<span style="color:#9CA3AF">landing…</span>':''}</div>`)}
+// flyers into slots
+[[560,190,'IG','#E1306C'],[860,220,'X','#111']].forEach(([x,y,t,c],i)=>{
+ H('flyers',`<div class="a ghost" style="left:${x+180}px;top:${y-40}px;width:200px;height:120px;border-radius:16px;background:#C7D2FE"></div><div class="a ghost" style="left:${x+90}px;top:${y-10}px;width:200px;height:120px;border-radius:16px;background:#C7D2FE;opacity:.4"></div>
+ <div class="a" style="left:${x}px;top:${y+40}px;width:200px;height:120px;border-radius:16px;background:#fff;border:3px solid #3F51F5;box-shadow:0 18px 40px rgba(63,81,245,.3);z-index:12;transform:rotate(${i?8:-6}deg);padding:14px;display:flex;gap:10px"><span style="width:46px;height:46px;border-radius:12px;background:${c};color:#fff;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center">${t}</span><span style="font-size:20px;font-weight:700;color:#3F51F5">→ Sun</span></div>`)});
+// S7 month
+days.forEach(d=>H('month',`<div style="font-size:20px;font-weight:700;color:#6B7280;text-align:center">${d}</div>`));
 for(let i=0;i<35;i++){const n=i-5+1,ok=n>=1&&n<=30;
- m.insertAdjacentHTML('beforeend',`<div style="height:112px;border-radius:10px;background:${ok?'#F0FDF4':'#F9FAFB'};border:2px solid ${ok?'#BBF7D0':'#F3F4F6'};padding:8px 10px;position:relative;font-size:18px;font-weight:600;color:#6B7280">${ok?n+`<span style="position:absolute;right:8px;bottom:6px;width:34px;height:34px;border-radius:50%;background:#16A34A;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center">✓</span><div style="height:10px;border-radius:5px;background:#C7D2FE;margin-top:8px;width:70%"></div>`:''}</div>`)}
+ H('month',`<div style="height:104px;border-radius:10px;background:${ok?'#F0FDF4':'#F9FAFB'};border:2px solid ${ok?'#BBF7D0':'#F3F4F6'};padding:6px 10px;position:relative;font-size:18px;font-weight:600;color:#6B7280">${ok?n+`<span style="position:absolute;right:8px;bottom:6px;width:36px;height:36px;border-radius:50%;background:#16A34A;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center">✓</span><div style="height:10px;border-radius:5px;background:${cols[n%6]};opacity:.5;margin-top:6px;width:60%"></div>`:''}</div>`)}
 </script>
 </body></html>
