@@ -62,6 +62,9 @@ b{font-weight:500}.L{font-weight:300}
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
+  <filter id="rgbs" x="-5%" y="-5%" width="110%" height="110%"><feColorMatrix in="SourceGraphic" result="r" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/><feOffset in="r" dx="22" result="r2"/>
+    <feColorMatrix in="SourceGraphic" result="b" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"/><feOffset in="b" dx="-22" result="b2"/><feColorMatrix in="SourceGraphic" result="g" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+    <feBlend in="r2" in2="g" mode="screen" result="rg"/><feBlend in="rg" in2="b2" mode="screen" result="rgb"/><feGaussianBlur in="rgb" stdDeviation="10 0"/></filter>
   <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2"/></filter>
   <symbol id="glove" viewBox="0 0 26 30"><g fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round">
     <rect x="2.6" y="12.6" width="4.6" height="10" rx="2.3" transform="rotate(-38 4.9 17.6)"/><rect x="7.6" y="12" width="16.6" height="15.6" rx="6.5"/>
@@ -123,6 +126,7 @@ b{font-weight:500}.L{font-weight:300}
     <div class="wg wi" data-dx="-600" data-r="0" style="left:500px;top:270px;width:150px;height:170px;text-align:center;padding-top:18px"><div style="font:500 26px Satoshi;color:#E0560A">Mon</div><div style="font:300 88px/1 Satoshi">24</div></div>
     <div class="wg wi" data-dx="-800" data-r="0" style="left:20px;top:330px;width:400px;height:270px;padding:26px 30px"><div class="L" style="font-size:18px;color:#E0560A">Script draft · due Friday</div><div style="margin-top:8px;font:500 36px Satoshi">Hook: “Stop scrolling.”</div><div class="L" style="margin-top:6px;font-size:18px;color:#999">Script writers</div><div style="margin-top:26px;padding:12px;border-radius:14px;background:#F3EEE9;font:500 18px Satoshi;text-align:center">✎ Review script</div></div>
     <div class="wg note wi" data-dx="-700" data-r="-2" style="left:60px;top:700px;width:400px;height:110px;padding:26px 28px"><div style="display:flex;justify-content:space-between;font:500 26px Satoshi">First cut review<span class="L" style="font-size:20px;color:#999">11:00</span></div></div>
+    <div class="abs" id="ph3" style="left:0;top:0;width:1920px;height:1080px;transform-style:preserve-3d;transform-origin:960px 530px">
     <div class="abs" id="phone" style="left:760px;top:110px;width:400px;height:840px;border-radius:70px;background:#111;padding:14px;box-shadow:0 60px 120px -30px rgba(20,30,60,.7);transform-origin:50% 50%">
       <div style="position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:radial-gradient(ellipse at 30% 20%,#7FC4FF,#2E7BEA 45%,#163E9C 80%)">
         <div class="abs" style="inset:0;background:radial-gradient(ellipse at 80% 90%,rgba(120,220,255,.6),transparent 60%)"></div>
@@ -131,10 +135,11 @@ b{font-weight:500}.L{font-weight:300}
         <div class="abs" style="left:0;right:0;top:108px;text-align:center;color:#fff;font:500 130px/1 Satoshi;letter-spacing:-.04em">9:41</div>
       </div>
     </div>
-    <div class="abs" id="notifs" style="left:640px;top:440px;display:flex;flex-direction:column;gap:12px">
+    <div class="abs" id="notifs" style="left:640px;top:440px;display:flex;flex-direction:column;gap:12px;transform:translateZ(70px)">
       <div class="notif nt"><i>ED</i><div style="flex:1"><div style="display:flex;justify-content:space-between;font:500 22px Satoshi">ISP Editors<span class="L" style="font-size:16px;opacity:.6">now</span></div><div class="L" style="font-size:20px;opacity:.85">Your reel's first cut is ready 🎬</div></div></div>
       <div class="notif nt"><i>SW</i><div style="flex:1"><div style="display:flex;justify-content:space-between;font:500 22px Satoshi">ISP Script Writers<span class="L" style="font-size:16px;opacity:.6">2m</span></div><div class="L" style="font-size:20px;opacity:.85">3 hooks drafted for your launch</div></div></div>
       <div class="notif nt"><i>ISP</i><div style="flex:1"><div style="display:flex;justify-content:space-between;font:500 22px Satoshi">ISP Agency<span class="L" style="font-size:16px;opacity:.6">1h</span></div><div class="L" style="font-size:20px;opacity:.85">Your content plan for this week</div></div></div>
+    </div>
     </div>
     <div class="bub bw wi" data-dx="700" data-r="-3" style="left:1300px;top:120px">who's editing my reels?</div>
     <div class="bub bo wi" data-dx="700" data-r="-2" style="left:1390px;top:290px">need a script by friday</div>
@@ -220,6 +225,9 @@ const pending=[];const pp=(f,n)=>{const c=f%(2*n-2);return c<n?c:2*n-2-c};
 const N={hills:420,pink_sunset:420,garden_flowers:420,lake:420,above_clouds:420,blossom:420,sky_clouds:420,alps:420,valley_clouds:225,sunset_hills:225,field_bluesky:308};
 function bg(img,clip,lt){const src=`assets/frames/${clip}/${String(pp(Math.max(0,Math.floor(lt*30)),N[clip])+1).padStart(4,'0')}.jpg`;
   if(img.dataset.src!==src){img.dataset.src=src;img.src=src;pending.push(img.decode().catch(()=>{}))}}
+/* reference glitch: frame A = over-bright cyan flash, frame B = RGB split + hue smear (each ~1/30 s) */
+const GLITCH=[2.1,16.44,27.2,29.22];
+function glitchAt(t){for(const g of GLITCH){const d=t-g;if(d>=-.034&&d<0)return 1;if(d>=0&&d<.034)return 2}return 0}
 const vis=(id,a,b,t)=>{const v=t>=a&&t<b;$(id).style.display=v?'block':'none';return v};
 /* typing with spoken timing: [text, start, end] segments */
 function typed(t,segs){let out='';for(const[s,a,b]of segs){if(t<a)break;out+=s.slice(0,Math.round(s.length*clamp(P(t,a,b))))}return out}
@@ -252,11 +260,12 @@ const rows=ROWS.map((r,i)=>{const y=340+i*144,av=document.createElement('div');a
   bx.innerHTML=`<div class="fill"></div><div class="tx"><span class="L">${r[0]}</span><b>${r[1]}</b><span class="L">${r[2]}</span></div>`;
   $('rows').appendChild(av);$('rows').appendChild(bx);return{av,bx,fill:bx.querySelector('.fill'),tx:bx.querySelector('.tx')}});
 // pixel blocks (ref 2.0 s)
-const PIX=[];{const S=64,CX=1356,CY=621;let sd=5;const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
-  for(let y=0;y<1080;y+=S)for(let x=0;x<1920;x+=S){const e=document.createElement('div');
-    e.style.cssText=`position:absolute;left:${x}px;top:${y}px;width:${S}px;height:${S}px;background:rgb(255,${226+r()*24|0},${196+r()*40|0})`;
-    $('pix').appendChild(e);PIX.push({e,d:Math.hypot(x+S/2-CX,y+S/2-CY),j:r()})}}
-$('pix').style.filter='blur(1.5px) drop-shadow(0 0 14px rgba(255,150,60,.95))';$('pix').style.mixBlendMode='normal';
+const PIX=[];{const S=56,CX=960,CY=540;let sd=5;const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  for(let y=0;y<1080;y+=S)for(let x=0;x<1920;x+=S){const e=document.createElement('div'),j=r();
+    e.style.cssText=`position:absolute;left:${x}px;top:${y}px;width:${S}px;height:${S}px;background:rgba(${225+j*30|0},${246+j*9|0},255,.85);backdrop-filter:blur(10px) brightness(1.5) saturate(1.3)`;
+    const dx=Math.abs(x+S/2-CX)/1.25,dy=Math.abs(y+S/2-CY);
+    $('pix').appendChild(e);PIX.push({e,d:Math.pow(Math.pow(dx,4)+Math.pow(dy,4),.25),j})}}
+$('pix').style.filter='blur(2px) drop-shadow(0 0 18px rgba(170,235,255,.9))';$('pix').style.mixBlendMode='normal';
 
 window.renderAt=async function(t){
   pending.length=0;
@@ -280,11 +289,11 @@ window.renderAt=async function(t){
     $('s1send').style.transform=`scale(${press(t,4.0)})`;$('s1send').innerHTML=t>4.02?`<span style="display:block;width:26px;height:26px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;transform:rotate(${(t*720)%360}deg)"></span>`:'Generate';
     $('s1send').style.background=t>4.0?`rgb(${Math.round(lerp(22,224,EOUT(P(t,4.0,4.15))))},${Math.round(lerp(18,86,EOUT(P(t,4.0,4.15))))},${Math.round(lerp(15,10,EOUT(P(t,4.0,4.15))))})`:'#16120F';
     // pixel flash (4.05–4.3)
-    {const R=lerp(40,1500,EIO(P(t,4.03,4.6))),fade=1-P(t,4.45,4.6),on=t>=4.03&&t<4.6;$('pix').style.display=on?'block':'none';
-      if(on)PIX.forEach(({e,d,j})=>{const band=1-Math.abs(d-R+(j-.5)*120)/240;e.style.opacity=(clamp(band)*(.55+.45*j)*fade).toFixed(3)});}
+    {const R=lerp(110,860,EIO(P(t,4.03,4.52))),fade=1-P(t,4.42,4.55),on=t>=4.03&&t<4.55;$('pix').style.display=on?'block':'none';
+      if(on)PIX.forEach(({e,d,j})=>{const band=Math.max(1-Math.abs(d-R+(j-.5)*90)/130,.75*(1-Math.abs(d-R*.72+(j-.5)*70)/90));e.style.opacity=(clamp(band)*(.6+.4*j)*fade*EOUT(P(t,4.03,4.1))).toFixed(3)});}
     // iris: the whole shot shrinks into a circle and falls back (4.3–4.72)
     const ir=EIO(P(t,4.3,4.72));
-    $('s1in').style.clipPath=ir>0?`ellipse(${lerp(1500,0,ir).toFixed(0)}px ${lerp(1000,0,ir).toFixed(0)}px at 960px 540px)`:'none';
+    $('s1in').style.clipPath='none';{const rx=lerp(1350,0,ir),ry=lerp(900,0,ir);$('s1in').style.webkitMaskImage=ir>0?`radial-gradient(ellipse ${rx.toFixed(0)}px ${ry.toFixed(0)}px at 960px 540px,#000 86%,transparent 100%)`:'none';}
     $('s1in').style.transform=ir>0?`scale(${(lerp(1,.62,ir)*lerp(1,1.18,Math.sin(Math.PI*clamp(ir*1.2)))).toFixed(4)},${lerp(1,.62,ir).toFixed(4)})`:'none';
     $('s1in').style.filter=ir>0?`blur(${(ir*7).toFixed(1)}px)`:'none';
   }
@@ -310,25 +319,26 @@ window.renderAt=async function(t){
   }
 
   /* ===== S4 · widgets fly in around the phone (blue sky), phone turns side-on as the wipe ===== */
-  if(vis('S4',7.3,11.25,t)){
+  if(vis('S4',7.3,10.95,t)){
     bg($('s4bg'),'pink_sunset',t-7.3+3.2);
     const tin=EOUT(P(t,7.3,7.65));
     $('s4bgw').style.transform=`translateY(${((1-tin)*-600).toFixed(1)}px) scale(${(1.05+.02*(t-7.3)).toFixed(4)})`;
-    T($('s4cam'),{s:1+.02*P(t,7.6,10.8)});
-    const ph=$('phone'),pp0=P(t,7.45,8.0),turn=EIO(P(t,10.78,11.18));
-    ph.style.transform=`perspective(1600px) translateX(${(-turn*620).toFixed(1)}px) rotateY(${(turn*88).toFixed(2)}deg) scale(${(lerp(.25,1,BACK(pp0))*(1+turn*1.6)).toFixed(4)}) rotate(${lerp(-4,0,turn)}deg)`;
+    T($('s4cam'),{s:(1+.02*P(t,7.6,10.4))*(1+.18*EIO(P(t,10.3,10.95))),x:-90*EIO(P(t,10.3,10.95))});$('s4cam').style.transformOrigin='960px 530px';
+    const ph=$('phone'),pp0=P(t,7.45,8.0),turn=EIO(P(t,10.6,10.93));
+    ph.style.transform=`scale(${lerp(.25,1,BACK(pp0)).toFixed(4)}) rotate(${lerp(-4,0,turn)}deg)`;
+    $('ph3').style.transform=`perspective(1500px) translateX(${(-turn*140).toFixed(1)}px) rotateY(${(turn*82).toFixed(2)}deg) scale(${(1+turn*.45).toFixed(4)})`;
     ph.style.opacity=EOUT(clamp(pp0*3)).toFixed(3);
     [...document.querySelectorAll('.wi')].forEach((w,i)=>{const t0=7.75+i*.09,p=P(t,t0,t0+.5),dx=+w.dataset.dx,r=+w.dataset.r;
-      const o=EIN(P(t,10.7,10.95));
+      const o=EIN(P(t,10.55,10.9))*.35;
       w.style.transform=`translateX(${((1-EOUT(p))*dx+o*dx*.6).toFixed(1)}px) rotate(${(r+(1-EOUT(p))*(dx>0?14:-14)).toFixed(2)}deg)`;
       w.style.opacity=(EOUT(clamp(p*2))*(1-o)).toFixed(3)});
-    [...document.querySelectorAll('.nt')].forEach((n,i)=>{const t0=[8.88,10.36,99][i];n.style.display=i<2?'flex':'none';pop(n,t,t0,{d:.35,from:.85,dy:-30,out:10.72,outD:.2})});
+    [...document.querySelectorAll('.nt')].forEach((n,i)=>{const t0=[8.88,10.36,99][i];n.style.display=i<2?'flex':'none';pop(n,t,t0,{d:.35,from:.85,dy:-30})});
     // side-on wipe: the phone's dark edge sweeps across the frame
-    const W=$('wipe');if(turn>0){W.style.display='block';const x=lerp(1920,-400,EIO(P(t,10.95,11.25)));W.style.left=x+'px';W.style.width=lerp(80,1200,Math.sin(Math.PI*P(t,10.95,11.25)))+'px'}else W.style.display='none';
+    const W=$('wipe');if(false){W.style.display='block';const x=lerp(1920,-400,EIO(P(t,10.95,11.25)));W.style.left=x+'px';W.style.width=lerp(80,1200,Math.sin(Math.PI*P(t,10.95,11.25)))+'px'}else W.style.display='none';
   }
 
   /* ===== S5 · live transcript on the mountains → highlighted line lifts out → stats button, click → iris ===== */
-  if(vis('S5',11.05,21.0,t)){
+  if(vis('S5',10.95,21.0,t)){
     bg($('s5bg'),'lake',t-11.05);$('s5bg').style.filter='brightness(1.18) saturate(1.45) contrast(1.06) sepia(.08)';
     $('lakeFl').style.backgroundImage=`url(assets/frames/garden_flowers/${String(pp(Math.floor((t-11)*30),420)+1).padStart(4,'0')}.jpg)`;$('lakeFl').style.transform=`translateX(${(-(t-11)*6).toFixed(1)}px)`;
     $('s5bgw').style.transform=`scale(${(1.04+.03*P(t,11,21)).toFixed(4)})`;
@@ -342,7 +352,7 @@ window.renderAt=async function(t){
     $('pl3t').innerHTML=l3.startsWith('isp:')?'<b style="color:#FFB067">isp:</b>'+esc(l3.slice(4)):esc(l3);
     $('phl').style.transform=`scaleX(${EOUT(P(t,15.5,15.85)).toFixed(3)})`;$('phl').style.opacity=P(t,15.5,15.55);
     // pill: lifts out of the highlighted line, recentres, then becomes the stats button
-    const lp=EIO(P(t,15.95,16.45)),m=EIO(P(t,16.44,16.85)),pill=$('pill');
+    const lp=EIO(P(t,15.95,16.45)),m=t<16.44?0:1,pill=$('pill');
     if(t>=15.95){pill.style.display='block';
       const w=lerp(HL.w+60,PILLW[0],lp),w2=lerp(w,PILLW[1],m),h=lerp(HL.h+16,100,lp);
       const x=lerp(HL.x-30,960-w2/2,lp),y=lerp(HL.y-8,490,lp);
@@ -350,8 +360,8 @@ window.renderAt=async function(t){
       const click=press(t,20.12);
       pill.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${click})`;
       $('pillA').style.fontSize=lerp(40,56,lp)+'px';
-      T($('pillA'),{o:1-EIO(P(t,16.44,16.62)),b:EIO(P(t,16.44,16.62))*8});
-      T($('pillB'),{o:EOUT(P(t,16.6,16.8))});
+      T($('pillA'),{o:t<16.44?1:0});
+      T($('pillB'),{o:t<16.44?0:1});
       pill.style.background=m>0?`linear-gradient(180deg,rgba(255,140,50,${lerp(.66,.9,m).toFixed(2)}),rgba(225,90,15,${lerp(.66,.9,m).toFixed(2)}))`:'';
     } else pill.style.display='none';
     $('n1').textContent=Math.round(500*EOUT(P(t,17.0,17.6))).toLocaleString('en');
@@ -421,6 +431,9 @@ window.renderAt=async function(t){
     const lp=EOUT(P(t,34.5,34.9));T($('s8line'),{y:(1-lp)*34,o:lp,b:(1-lp)*10});
     const up=EOUT(P(t,34.75,35.1));T($('s8url'),{y:(1-up)*20,o:up});
   }
+  {const g=glitchAt(t),st=$('stage');
+    st.style.filter=g===1?'brightness(1.22) saturate(1.8) hue-rotate(-28deg) contrast(1.08)':g===2?'url(#rgbs) hue-rotate(150deg) saturate(2.6) contrast(1.3)':'none';}
+  if(t>=16.44){const bl=[18.1,18.9,19.75].some(b=>t>=b&&t<b+.034);$('pillB').style.visibility=bl?'hidden':'visible'}
   await Promise.all(pending);
 };
 window.ready=document.fonts.ready;
