@@ -93,3 +93,11 @@ Scenes, timing, cuts and SFX unchanged; the look changes:
 | 0:07.8 | Top note: blue drop shadow | The travelling document has a strong blue shadow and glow. |
 | 0:08.9 | "Repeat" and the line in blue | "Repeat.", the delay labels, the loop line and the wait counter are blue. |
 | 0:08.9 | Pencil highlight SFX, low volume | Soft digital pencil/highlighter texture while the loop line draws (frames 490–540). |
+
+## Rev 6 — notes, aurora background, fast motion
+
+Notes applied: glitch removed everywhere and replaced by a smooth lens hit (zoom blur, bloom, light chromatic edge, punch-in, expanding blue ring) at 0:04, 0:10, 0:21.5 and 0:25; headline text SFX are now crisp typing ticks; "Print. Sign. Scan." moved down; the travelling document has a blue outline.
+
+Background: B · Blue aurora (client said all four options work; picked the bluest).
+
+Fast motion (from the green motion reference): snappier springs everywhere; a glowing guide dot falls, squashes and opens into the first email card, and zips in to become the CTA button; highlighter bars swipe in behind accent words (also keeps them readable on the aurora); the editor builds in a fast staggered cascade after the match cut; a blue ring opens through each transition.

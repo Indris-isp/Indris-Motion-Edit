@@ -1,5 +1,6 @@
 import React from 'react';
 import {TYPE} from '../config';
+import {pop} from '../anim';
 import {COLORS, COPY} from '../config';
 import {BODY, DISPLAY, HAND} from '../fonts';
 
@@ -34,8 +35,11 @@ export const Signature: React.FC<{progress: number; width?: number; color?: stri
 };
 
 export const Editor: React.FC<{
-  sig: number; date: number; status: Status; statusScale?: number; sigInk?: number; hoverIndex?: number;
-}> = ({sig, date, status, statusScale = 1, sigInk = 0, hoverIndex = -1}) => {
+  sig: number; date: number; status: Status; statusScale?: number; sigInk?: number; hoverIndex?: number; build?: number;
+}> = ({sig, date, status, statusScale = 1, sigInk = 0, hoverIndex = -1, build}) => {
+  // build: frames since the build-in started (undefined = fully built). Fast staggered cascade.
+  const bp = (k: number) => build === undefined ? 1 : pop(build, k * 2, 14);
+  const fly = (k: number, dx: number, dy: number) => { const q = bp(k); return {opacity: q, transform: `translate(${(1 - q) * dx}px, ${(1 - q) * dy}px)`}; };
   const pill = {
     send: {bg: COLORS.blue, fg: '#fff', label: COPY.s3.send},
     sent: {bg: COLORS.blueSoft, fg: COLORS.blue, label: 'Sent'},
@@ -47,25 +51,25 @@ export const Editor: React.FC<{
       background: COLORS.paper, overflow: 'hidden', boxShadow: '0 50px 120px rgba(43,89,232,.24), 0 6px 18px rgba(43,89,232,.14), 0 0 90px rgba(79,124,255,.32)', border: '1px solid #e4e9f5', fontFamily: BODY, color: COLORS.ink}}>
       {/* top bar */}
       <div style={{height: WIN.top, borderBottom: `1px solid ${COLORS.line}`, display: 'flex', alignItems: 'center', gap: 14, padding: '0 24px'}}>
-        {[0, 1, 2].map(i => <div key={i} style={{width: 14, height: 14, borderRadius: '50%', background: '#e3e6ee'}} />)}
-        <div style={{fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 26, color: COLORS.blue, marginLeft: 16}}>{COPY.s3.product}</div>
-        <div style={{fontSize: 19, color: COLORS.ink2, marginLeft: 22}}>{COPY.s3.docName}</div>
-        <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10, fontSize: 18, color: COLORS.ink2}}>
+        {[0, 1, 2].map(i => <div key={i} style={{width: 14, height: 14, borderRadius: '50%', background: '#e3e6ee', ...fly(i, 0, -20)}} />)}
+        <div style={{fontFamily: DISPLAY, fontWeight: TYPE.heading, fontSize: 26, color: COLORS.blue, marginLeft: 16, ...fly(3, 0, -24)}}>{COPY.s3.product}</div>
+        <div style={{fontSize: 19, color: COLORS.ink2, marginLeft: 22, ...fly(4, 0, -24)}}>{COPY.s3.docName}</div>
+        <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10, fontSize: 18, color: COLORS.ink2, ...fly(5, 40, 0)}}>
           To
           <span style={{display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 14px', borderRadius: 99, background: COLORS.blueSoft, color: COLORS.blue, fontWeight: 600}}>
             <span style={{width: 10, height: 10, borderRadius: '50%', background: COLORS.blue}} />{COPY.s3.recipient}</span>
         </div>
         <div style={{width: 140, height: 46, borderRadius: 12, background: pill.bg, color: pill.fg, fontWeight: TYPE.button, fontSize: 20, marginLeft: 16,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${statusScale})`}}>{pill.label}</div>
+          display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: bp(6), transform: `scale(${statusScale * (0.6 + 0.4 * bp(6))})`}}>{pill.label}</div>
       </div>
       <div style={{display: 'flex', height: WIN.h - WIN.top}}>
         {/* field palette */}
         <div style={{width: WIN.side, borderRight: `1px solid ${COLORS.line}`, padding: '0 24px', position: 'relative'}}>
-          <div style={{position: 'absolute', top: 30, left: 24, fontSize: 15, fontWeight: TYPE.subheading, letterSpacing: '.12em', color: COLORS.ink2}}>FIELDS</div>
+          <div style={{position: 'absolute', top: 30, left: 24, fontSize: 15, fontWeight: TYPE.subheading, letterSpacing: '.12em', color: COLORS.ink2, ...fly(1, -40, 0)}}>FIELDS</div>
           {COPY.s3.fields.map((label, i) => (
             <div key={i} style={{position: 'absolute', left: 24, top: 150 + i * 76 - 30 - WIN.top, width: 232, height: 60, borderRadius: 12,
               border: `2px solid ${hoverIndex === i ? COLORS.blue : COLORS.line}`, background: hoverIndex === i ? COLORS.blueSoft : '#fff',
-              display: 'flex', alignItems: 'center', gap: 12, padding: '0 18px', fontSize: 20, fontWeight: 600, color: hoverIndex === i ? COLORS.blue : COLORS.ink}}>
+              display: 'flex', alignItems: 'center', gap: 12, padding: '0 18px', fontSize: 20, fontWeight: 600, color: hoverIndex === i ? COLORS.blue : COLORS.ink, ...fly(2 + i, -70, 0)}}>
               <span style={{width: 26, height: 26, borderRadius: 7, background: COLORS.blueSoft, color: COLORS.blue, fontSize: 15, fontWeight: TYPE.heading,
                 display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{['✎', 'AB', '▦', 'T'][i]}</span>{label}
             </div>

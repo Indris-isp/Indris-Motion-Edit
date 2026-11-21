@@ -8,6 +8,9 @@ export const easy = Easing.bezier(0.42, 0, 0.58, 1); // easy ease (camera, pans)
 export const easeOut = Easing.bezier(0.16, 1, 0.3, 1); // counters, settles
 export const easeIn = Easing.bezier(0.7, 0, 0.84, 0); // exits
 export const overshoot = Easing.bezier(0.34, 1.56, 0.64, 1); // entrances
+export const outExpo = Easing.bezier(0.16, 1, 0.3, 1); // fast in, long buttery settle
+// pop: 0→1 over n frames with out-expo, for fast cascades
+export const pop = (f: number, start: number, n = 14) => interpolate(f, [start, start + n], [0, 1], {...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1)});
 export const outCubic = Easing.bezier(0.33, 1, 0.68, 1); // fast start, long gentle settle
 export const outQuint = Easing.bezier(0.22, 1, 0.36, 1);
 export const inOutCubic = Easing.bezier(0.65, 0, 0.35, 1);
@@ -18,7 +21,7 @@ export const tween = (f: number, a: number, b: number, from: number, to: number,
 
 // ~0.5 s entrance with slight overshoot (spring, damping 14). Returns 0 → ~1.05 → 1.
 export const enter = (f: number, start: number) =>
-  spring({frame: f - start, fps: FPS, config: {damping: 14, stiffness: 160, mass: 1}, durationInFrames: 30});
+  spring({frame: f - start, fps: FPS, config: {damping: 17, stiffness: 300, mass: 0.85}, durationInFrames: 22});
 
 // Exits: ~60% of an entrance (18 frames), ease-in. Returns 1 → 0.
 export const exit = (f: number, start: number, dur = 18) => tween(f, start, start + dur, 1, 0, easeIn);

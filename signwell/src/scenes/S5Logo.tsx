@@ -1,12 +1,12 @@
 import React from 'react';
 import {TYPE} from '../config';
 import {LIGHT} from '../config';
-import {useCurrentFrame} from 'remotion';
+import {useCurrentFrame, interpolate, Easing} from 'remotion';
 import {Stage, At} from '../components/Stage';
 import {Camera} from '../components/Camera';
 import {COLORS, COPY} from '../config';
 import {BODY, DISPLAY} from '../fonts';
-import {enter, tween, drift, easeOut} from '../anim';
+import {enter, tween, drift, easeOut, clamp} from '../anim';
 import {Signature} from '../components/Editor';
 import T from '../timing.json';
 
@@ -42,8 +42,15 @@ export const S5Logo: React.FC = () => {
               {COPY.s5.tagline}
             </div>
           </At>
+          {/* Guide dot zips in from the right and opens into the CTA button. */}
+          {f < t.cta + 6 && (() => {
+            const z = interpolate(f, [t.cta - 14, t.cta], [0, 1], {...clamp, easing: Easing.bezier(0.6, 0, 0.9, 0.5)});
+            return <At x={760 * (1 - z)} y={380} style={{opacity: interpolate(f, [t.cta - 14, t.cta - 10, t.cta + 2, t.cta + 6], [0, 1, 1, 0], clamp)}}>
+              <div style={{width: 30, height: 30, borderRadius: '50%', background: LIGHT.accent, boxShadow: '0 0 30px rgba(79,124,255,.8)', transform: `scaleX(${1 + 1.6 * z * (1 - z) * 2})`}} />
+            </At>;
+          })()}
           <At x={0} y={380}>
-            <div style={{opacity: Math.min(1, cta * 1.4), transform: `translateY(${(1 - cta) * 30}px) scale(${0.9 + 0.1 * cta})`, display: 'flex', alignItems: 'center', gap: 18,
+            <div style={{opacity: Math.min(1, cta * 1.4), transform: `scale(${0.15 + 0.85 * cta})`, display: 'flex', alignItems: 'center', gap: 18,
               padding: '24px 48px', borderRadius: 18, background: LIGHT.accent, color: '#fff', fontFamily: BODY, fontWeight: TYPE.button, fontSize: 34,
               boxShadow: '0 20px 50px rgba(43,89,232,.40), 0 0 60px rgba(79,124,255,.45)', whiteSpace: 'nowrap'}}>
               {COPY.s5.cta}<span style={{width: 2, height: 34, background: 'rgba(255,255,255,.35)'}} /><span style={{color: 'rgba(255,255,255,.85)', fontWeight: TYPE.button}}>{COPY.s5.url}</span>

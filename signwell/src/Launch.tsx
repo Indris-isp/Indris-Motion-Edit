@@ -12,7 +12,7 @@ import {LensFX} from './fx/Lens';
 
 const S = T.scenes;
 
-export const Launch: React.FC<{withAudio?: boolean; bg?: BgVariant; bgOnly?: boolean}> = ({withAudio = true, bg = 'glow', bgOnly = false}) => (
+export const Launch: React.FC<{withAudio?: boolean; bg?: BgVariant; bgOnly?: boolean}> = ({withAudio = true, bg = 'aurora', bgOnly = false}) => (
   <AbsoluteFill>
     <LensFX>
     <Background variant={bg} />

@@ -20,6 +20,9 @@ export const LensFX: React.FC<{children: React.ReactNode}> = ({children}) => {
   const f = useCurrentFrame();
   const {g, kind} = lensAt(f);
   if (g < 0.01) return <AbsoluteFill>{children}</AbsoluteFill>;
+  // Ring opening: an iris that expands out of the centre through the hit (reference: ring/iris wipes).
+  const h = T.fx.lens.find((x) => Math.abs(f - x.at) < x.len / 2);
+  const ring = h ? Math.min(1, Math.max(0, (f - (h.at - h.len / 2)) / h.len)) : -1;
   const whip = kind === 'whip';
   const punch = 1 + g * (whip ? 0.06 : 0.035);
   const split = g * (whip ? 6 : 3.5);
@@ -47,6 +50,11 @@ export const LensFX: React.FC<{children: React.ReactNode}> = ({children}) => {
       {/* Bloom */}
       <AbsoluteFill style={{background: 'radial-gradient(60% 60% at 50% 50%, rgba(255,255,255,.95) 0%, rgba(220,232,255,.6) 45%, rgba(255,255,255,0) 80%)', opacity: g * (whip ? 0.75 : 0.45)}} />
       <AbsoluteFill style={{boxShadow: `inset 0 0 ${200 * g}px rgba(79,124,255,${0.35 * g})`}} />
+      {whip && ring >= 0 && (
+        <div style={{position: 'absolute', left: '50%', top: '50%', width: 600, height: 600, marginLeft: -300, marginTop: -300, borderRadius: '50%',
+          border: `${10 * (1 - ring) + 2}px solid rgba(43,89,232,${0.8 * (1 - ring)})`, boxShadow: `0 0 60px rgba(79,124,255,${0.6 * (1 - ring)})`,
+          transform: `scale(${0.05 + ring * 3.2})`}} />
+      )}
     </AbsoluteFill>
   );
 };

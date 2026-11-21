@@ -40,7 +40,7 @@ export const S1Hook: React.FC = () => {
             return (
               <At key={i} x={0} y={y} style={{zIndex: 10 + i}}>
                 <div style={{width: CARD_W, height: CARD_H, borderRadius: 20, background: COLORS.paper, opacity: Math.min(1, p * 1.5) * age, filter: dof > 0.1 ? `blur(${dof}px)` : 'none', border: LIGHT.cardBorder,
-                  transform: `scale(${0.9 + 0.1 * p})`, display: 'flex', alignItems: 'center', gap: 22, padding: '0 28px',
+                  transform: i === 0 ? `scale(${0.08 + 0.92 * Math.min(1.04, p)}, ${0.12 + 0.88 * Math.min(1.04, p)})` : `scale(${0.9 + 0.1 * p})`, borderRadius: i === 0 ? 20 + (1 - Math.min(1, p)) * 40 : 20, display: 'flex', alignItems: 'center', gap: 22, padding: '0 28px',
                   boxShadow: LIGHT.cardShadow, fontFamily: BODY}}>
                   <div style={{width: 52, height: 52, borderRadius: '50%', background: '#f3c9a8', color: '#7a4422', fontWeight: TYPE.subheading,
                     fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>M</div>
@@ -53,6 +53,17 @@ export const S1Hook: React.FC = () => {
               </At>
             );
           })}
+
+          {/* Guide dot: falls with gravity, squashes on impact and opens into the first card. */}
+          {f < t.cards[0] + 10 && (() => {
+            const fall = interpolate(f, [0, t.cards[0]], [0, 1], {...clamp, easing: (x) => x * x});
+            const sq = interpolate(f, [t.cards[0], t.cards[0] + 3, t.cards[0] + 6], [0, 1, 0], clamp);
+            const dy = -620 + (TOP + 620) * fall;
+            return <At x={0} y={dy} style={{zIndex: 30, opacity: interpolate(f, [t.cards[0] + 2, t.cards[0] + 8], [1, 0], clamp)}}>
+              <div style={{width: 34, height: 34, borderRadius: '50%', background: LIGHT.accent, boxShadow: '0 0 30px rgba(79,124,255,.8)',
+                transform: `scale(${1 + 0.5 * sq + (1 - fall) * 0}, ${1 - 0.4 * sq + 0.35 * fall * (1 - sq)})`}} />
+            </At>;
+          })()}
 
           {/* Wait counter, top-right inside the 5% safe zone. */}
           <At x={590} y={-430}>

@@ -53,7 +53,7 @@ export const S3Fix: React.FC = () => {
     <Stage>
       <Camera zoom={zoom} focus={o > 0 ? PAGE_FOCUS : ZOOM_FOCUS} amount={o > 0 ? o : z} push={tween(f, 0, 540, 1, 1.03)} rotate={1.2 * o + interpolate(z, [0, 1], [0, -0.6])}>
         <div style={{position: 'absolute', inset: 0}}>
-          <Editor sig={sig} date={date} status={status} statusScale={sendScale} hoverIndex={hover} />
+          <Editor sig={sig} date={date} status={status} statusScale={sendScale} hoverIndex={hover} build={f - 14} />
         </div>
 
         {/* Dragged field follows the cursor. */}
