@@ -101,3 +101,8 @@ Notes applied: glitch removed everywhere and replaced by a smooth lens hit (zoom
 Background: B · Blue aurora (client said all four options work; picked the bluest).
 
 Fast motion (from the green motion reference): snappier springs everywhere; a glowing guide dot falls, squashes and opens into the first email card, and zips in to become the CTA button; highlighter bars swipe in behind accent words (also keeps them readable on the aurora); the editor builds in a fast staggered cascade after the match cut; a blue ring opens through each transition.
+
+## Rev 7
+
+- 2 → 3 transition replaced with a **morph match cut**: the document glides (in-out cubic, 0.7 s) and reshapes into the exact rect of the SignWell page while its blue outline and glow fade; across the cut the page is pixel-identical, then the editor chrome fades and builds in around it. No ring, bloom or zoom on this cut.
+- Highlighter bars behind accent words have sharp (square) corners.
