@@ -90,6 +90,10 @@ CUES = [  # (time, sound, gain), cued to video.html v5, styled on the reference'
     (33.55, impact(1.2, 90, 32), 1.0), (33.55, whoosh(.6, 300, 2600), .5), (34.3, pop(400, .3), .5), (34.42, shimmer(1.6), .3),
 ]
 CUES += [(2.07, glitch(.12), .45), (16.41, glitch(.12), .45), (27.17, glitch(.12), .4), (29.19, glitch(.12), .4), (10.6, whoosh(.35, 400, 3200), .4)]
+CUES = [c for c in CUES if not (4.3 <= c[0] <= 5.9 or 33.5 <= c[0] <= 36)]
+CUES += [(4.6, whoosh(.3, 2400, 400), .4), (4.62, pop(380, .25), .5), (4.64, pop(560), .35), (4.74, pop(600), .35), (4.84, pop(640), .35), (4.94, pop(680), .35),
+         (5.6, whoosh(.4, 300, 1800), .3), (9.68, pop(600, .12), .3), (8.6, tick(), .2),
+         (33.55, impact(1.0, 90, 32), .9), (33.55, whoosh(.45, 300, 2600), .45), (34.12, pop(520, .15), .3), (34.34, pop(560, .15), .3), (35.15, click(1400), .5)]
 for t, x, g in CUES: at(t, x, g)
 # thumb taps while the offer is typed (11.15 – 14.5 s)
 for t in [x for seg in [(0,0.75),(1.0,1.75),(2.12,3.1),(3.56,3.95),(28.2,29.0),(29.22,29.95),(30.98,31.9)] for x in np.arange(seg[0], seg[1], 0.075)]: at(t + rng.uniform(-.006, .006), tick(), .12 * rng.uniform(.6, 1))

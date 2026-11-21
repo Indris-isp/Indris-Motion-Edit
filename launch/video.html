@@ -57,6 +57,48 @@ b{font-weight:500}.L{font-weight:300}
   -webkit-mask-image:radial-gradient(ellipse 80% 75% at 12% 100%,#000 0%,transparent 75%),radial-gradient(ellipse 70% 70% at 92% 95%,#000 0%,transparent 75%)}
 .glow{font:500 190px/1 Satoshi;letter-spacing:-.04em;color:#FFD9B0;text-shadow:0 0 18px #FF9A3C,0 0 60px #FF7A1A,0 0 140px rgba(255,100,10,.7)}
 #pix{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+#pui{position:absolute;left:0;top:0;width:330px;height:710px;transform-origin:0 0;background:#0C0C0E;color:#ECECEE;overflow:hidden;border-radius:24px;font-family:Satoshi}
+#pui .st{height:30px;display:flex;justify-content:space-between;align-items:center;padding:0 22px;font:500 12px Satoshi;color:#ddd}
+#pui .hdr{height:52px;display:flex;align-items:center;gap:10px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+#pui .lg{width:28px;height:28px;border-radius:8px;background:var(--acc);display:grid;place-items:center}
+#pui .ub{position:absolute;right:10px;top:96px;width:232px;padding:12px 14px;border-radius:16px;background:#232327;font:300 13px/1.5 Satoshi;color:#E8E8EA;transform-origin:100% 0}
+#pui .ans{position:absolute;left:14px;right:12px;top:300px;font:300 13px/1.55 Satoshi;color:#D8D8DC}
+#pui .ans .nm{display:flex;align-items:center;gap:8px;font:500 14px Satoshi;color:#fff}
+#pui .ans .th{font:300 11px Satoshi;color:#8A8A90;margin:4px 0 10px 24px}
+#pui .ans h4{font:500 20px/1.2 Satoshi;color:#fff;margin:4px 0 8px}
+#pui .ans li{list-style:none;margin:3px 0}
+#pui .ans li::before{content:"✓ ";color:#FF8A2A;font-weight:500}
+#pui .lnk{margin-top:12px;display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:#1B1B1F;border:1px solid rgba(255,255,255,.08)}
+#pui .comp{position:absolute;left:10px;right:10px;bottom:12px;min-height:96px;border-radius:20px;background:#18181B;border:1px solid rgba(255,255,255,.08);padding:12px 14px 50px;font:300 15px/1.5 Satoshi;color:#ECECEE}
+#pui .comp .ph{color:#76767C}
+#pui .tools{position:absolute;left:10px;right:10px;bottom:10px;display:flex;align-items:center;gap:6px}
+#pui .tl{height:28px;padding:0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font:500 11px Satoshi;color:#bbb}
+#pui .snd{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--acc);display:grid;place-items:center;color:#fff}
+
+/* ref folder */
+.paper{position:absolute;border-radius:22px;background:#fff;padding:12px;box-shadow:0 18px 40px -16px rgba(80,40,90,.45)}
+.paper .pf{width:100%;height:100%;border-radius:12px;background:linear-gradient(160deg,#FFE27A,#FFC93C);position:relative;overflow:hidden}
+.paper .pl{position:absolute;left:14px;right:14px;bottom:12px;font:500 19px Satoshi;color:#5A3A00}
+/* ref widgets */
+.iw{position:absolute;background:#fff;border-radius:22px;color:#141210;box-shadow:0 24px 50px -22px rgba(40,30,80,.55)}
+.iw .h{display:flex;justify-content:space-between;align-items:center;font:500 26px Satoshi}
+.iw .h small{font:300 18px Satoshi;color:#8E8E93}
+.ib{position:absolute;padding:18px 28px;border-radius:30px;font:300 30px/1.2 Satoshi;white-space:nowrap;box-shadow:0 20px 44px -20px rgba(40,30,80,.5)}
+.ibw{background:#fff;color:#141210;border-bottom-left-radius:8px}
+.ibb{background:#1F7BFF;color:#fff;border-bottom-right-radius:8px}
+.ntf{display:flex;gap:14px;align-items:center;width:600px;padding:14px 18px;border-radius:24px;background:rgba(58,58,62,.82);backdrop-filter:blur(18px);color:#fff;box-shadow:0 20px 40px -14px rgba(0,0,0,.45)}
+.ntf i{width:52px;height:52px;border-radius:14px;flex:none;display:grid;place-items:center;font:500 16px Satoshi;font-style:normal;color:#fff;background:var(--acc)}
+.ntf .nm{display:flex;justify-content:space-between;font:500 22px Satoshi}
+.ntf .nm small{font:300 16px Satoshi;opacity:.6}
+.ntf .ms{font:300 20px Satoshi;opacity:.88}
+/* ref end card */
+.endbg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 45% 70% at 4% 70%,rgba(70,70,230,.75),transparent 70%),
+  radial-gradient(ellipse 50% 55% at 88% 105%,rgba(20,190,200,.7),transparent 70%),
+  radial-gradient(ellipse 35% 35% at 20% 105%,rgba(20,150,190,.55),transparent 70%),#03050B}
+.endbg::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.22) 1.4px,transparent 1.8px);background-size:18px 18px;
+  -webkit-mask-image:radial-gradient(ellipse 45% 70% at 4% 70%,#000,transparent 70%),radial-gradient(ellipse 50% 55% at 88% 105%,#000,transparent 70%)}
+.neon{font:500 230px/1 Satoshi;letter-spacing:-.04em;color:#FFE1C2;text-shadow:0 0 10px #FFB067,0 0 30px #FF8A2A,0 0 80px rgba(255,110,20,.85),0 0 160px rgba(255,100,10,.5)}
 #grain{position:absolute;inset:0;z-index:100;opacity:.05;mix-blend-mode:overlay;pointer-events:none}
 </style>
 </head>
@@ -71,6 +113,7 @@ b{font-weight:500}.L{font-weight:300}
     <rect x="8.6" y="1.4" width="4.8" height="15" rx="2.4"/><rect x="13" y="8" width="4.4" height="9" rx="2.2"/>
     <rect x="17" y="9.4" width="4.2" height="8.4" rx="2.1"/><rect x="20.6" y="11" width="3.8" height="8" rx="1.9"/></g>
     <path d="M8.9 15.5h4.2M13.3 16.6h3.8M17.3 17.4h3.6" stroke="#fff" stroke-width="2.4"/><path d="M14.5 21v4M18 21v4M21.2 21v3.4" stroke="#111" stroke-width="1.2" stroke-linecap="round"/></symbol>
+  <symbol id="sendI" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></g></symbol>
   <symbol id="isp" viewBox="0 0 900 560"><mask id="cm" maskUnits="userSpaceOnUse" x="-100" y="-100" width="1100" height="760"><rect x="-100" y="-100" width="1100" height="760" fill="#000"/>
     <ellipse cx="450" cy="280" rx="405" ry="190" fill="#fff" transform="rotate(-14 450 280)"/><ellipse cx="478" cy="258" rx="378" ry="158" fill="#000" transform="rotate(-14 450 280)"/></mask>
     <rect x="-100" y="-100" width="1100" height="760" fill="rgba(255,255,255,.88)" mask="url(#cm)"/>
@@ -97,20 +140,22 @@ b{font-weight:500}.L{font-weight:300}
   </div>
   <svg class="glove" id="s1cur"><use href="#glove"/></svg>
   <div id="pix"></div>
-</div></div>
+</div>
+<div class="abs" id="s1rim" style="left:960px;top:540px;border-radius:50%;display:none;box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 30px 6px rgba(140,170,255,.75),inset 0 0 40px rgba(140,170,255,.5)"></div></div>
 
 <!-- S2 · folder on pink clouds -->
 <div class="scene" id="S2">
   <div class="bgw" id="s2bgw"><img id="s2bg" style="filter:blur(1.5px) saturate(1.1)"></div>
-  <div class="abs" id="fold" style="left:960px;top:560px;width:760px;height:620px;margin:-310px 0 0 -380px">
-    <div class="abs wg fc" data-r="-22" style="left:20px;top:40px;width:230px;height:290px;padding:22px"><div style="height:120px;border-radius:14px;background:linear-gradient(135deg,#FFD08A,#FF9A3C)"></div><div style="margin-top:16px;font:500 24px Satoshi">Video editing</div><div style="margin-top:10px;height:8px;width:70%;border-radius:4px;background:#EEE"></div></div>
-    <div class="abs wg fc" data-r="-8" style="left:200px;top:-30px;width:230px;height:300px;padding:22px"><div style="height:120px;border-radius:14px;background:linear-gradient(135deg,#FFC27E,#FF7A1A)"></div><div style="margin-top:16px;font:500 24px Satoshi">Personal branding</div><div style="margin-top:10px;height:8px;width:60%;border-radius:4px;background:#EEE"></div></div>
-    <div class="abs wg fc" data-r="7" style="left:360px;top:-20px;width:230px;height:300px;padding:22px"><div style="height:120px;border-radius:14px;background:linear-gradient(135deg,#FFE0A6,#FFB04A)"></div><div style="margin-top:16px;font:500 24px Satoshi">Social media</div><div style="margin-top:10px;height:8px;width:75%;border-radius:4px;background:#EEE"></div></div>
-    <div class="abs wg fc" data-r="20" style="left:520px;top:50px;width:230px;height:290px;padding:22px"><div style="height:120px;border-radius:14px;background:linear-gradient(135deg,#FFB866,#DD4C06)"></div><div style="margin-top:16px;font:500 24px Satoshi">Script writing</div><div style="margin-top:10px;height:8px;width:55%;border-radius:4px;background:#EEE"></div></div>
-    <div class="abs" style="left:70px;top:230px;width:620px;height:400px;border-radius:44px;background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(255,248,240,.92));backdrop-filter:blur(18px);border:2px solid rgba(255,255,255,.95);box-shadow:0 40px 90px -30px rgba(80,30,60,.45)">
-      <div class="abs" style="left:-2px;top:-56px;width:240px;height:70px;border-radius:30px 30px 0 0;background:rgba(255,255,255,.82)"></div>
-      <div class="abs" style="left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:40px;background:var(--acc);display:grid;place-items:center;box-shadow:0 20px 40px -10px rgba(220,80,0,.6)"><svg width="126" height="78"><use href="#isp"/></svg></div>
-      <div class="abs" style="left:60px;bottom:56px;width:200px;height:6px;border-radius:3px;background:#FFC27E"></div>
+  <div class="abs" id="fold" style="left:960px;top:540px;width:660px;height:560px;margin:-300px 0 0 -330px;transform-origin:50% 55%">
+    <div class="abs" id="foldBack" style="left:30px;top:120px;width:600px;height:420px;border-radius:40px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px)"></div>
+    <div class="paper fc" data-r="-28" data-x="-40" style="left:70px;top:70px;width:200px;height:240px"><div class="pf" style="background:linear-gradient(160deg,#FFD9A8,#FF9A4A)"><svg class="abs" style="left:14px;top:-4px" width="34" height="60" viewBox="0 0 34 60"><path d="M10 52V12a7 7 0 0 1 14 0v34a4 4 0 0 1-8 0V16" fill="none" stroke="#2BB3C0" stroke-width="4" stroke-linecap="round"/></svg><div class="pl">Video editing</div></div></div>
+    <div class="paper fc" data-r="-10" data-x="-14" style="left:190px;top:20px;width:200px;height:250px"><div class="pf"><svg class="abs" style="left:84px;top:-6px" width="30" height="56" viewBox="0 0 34 60"><path d="M10 52V12a7 7 0 0 1 14 0v34a4 4 0 0 1-8 0V16" fill="none" stroke="#555" stroke-width="4" stroke-linecap="round"/></svg><div class="pl">Personal branding</div></div></div>
+    <div class="paper fc" data-r="6" data-x="12" style="left:310px;top:25px;width:200px;height:245px"><div class="pf" style="background:linear-gradient(160deg,#FFEA9A,#FFD34A)"><div class="pl">Social media</div></div></div>
+    <div class="paper fc" data-r="22" data-x="40" style="left:420px;top:70px;width:200px;height:235px"><div class="pf" style="background:linear-gradient(160deg,#FFD08A,#FFA43C)"><span class="abs" style="right:16px;top:14px;width:20px;height:20px;border-radius:50%;background:#E8332E;box-shadow:0 2px 3px rgba(0,0,0,.3)"></span><div class="pl">Script writing</div></div></div>
+    <div class="abs" id="foldFront" style="left:20px;top:240px;width:620px;height:320px;border-radius:40px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.9));backdrop-filter:blur(22px) saturate(1.2);border:2px solid rgba(255,255,255,.95);box-shadow:0 40px 90px -30px rgba(80,30,90,.5)">
+      <div class="abs" style="left:46px;bottom:62px;width:150px;height:5px;border-radius:3px;background:#FFC93C"></div>
+      <div class="abs" style="left:46px;bottom:48px;width:210px;height:5px;border-radius:3px;background:#FFC93C;opacity:.7"></div>
+      <div class="abs" style="right:44px;bottom:36px;width:96px;height:96px;border-radius:28px;background:var(--acc);display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(220,80,0,.6)"><svg width="80" height="50"><use href="#isp"/></svg></div>
     </div>
   </div>
 </div>
@@ -121,29 +166,31 @@ b{font-weight:500}.L{font-weight:300}
 <!-- S4 · widgets around the phone (natural blue sky) -->
 <div class="scene" id="S4">
   <div class="bgw" id="s4bgw"><img id="s4bg" style="filter:blur(2px)"></div>
-  <div class="abs" id="s4cam" style="inset:0">
-    <div class="wg note wi" data-dx="-700" data-r="-3" style="left:30px;top:120px;width:420px;height:120px;padding:24px 28px"><div style="display:flex;justify-content:space-between;font:500 26px Satoshi">Professional editors<span class="L" style="font-size:20px;color:#999">9:00</span></div><div class="L" style="margin-top:10px;font-size:20px;color:#7A6F67">3+ years of experience</div></div>
-    <div class="wg wi" data-dx="-600" data-r="0" style="left:500px;top:270px;width:150px;height:170px;text-align:center;padding-top:18px"><div style="font:500 26px Satoshi;color:#E0560A">Mon</div><div style="font:300 88px/1 Satoshi">24</div></div>
-    <div class="wg wi" data-dx="-800" data-r="0" style="left:20px;top:330px;width:400px;height:270px;padding:26px 30px"><div class="L" style="font-size:18px;color:#E0560A">Script draft · due Friday</div><div style="margin-top:8px;font:500 36px Satoshi">Hook: “Stop scrolling.”</div><div class="L" style="margin-top:6px;font-size:18px;color:#999">Script writers</div><div style="margin-top:26px;padding:12px;border-radius:14px;background:#F3EEE9;font:500 18px Satoshi;text-align:center">✎ Review script</div></div>
-    <div class="wg note wi" data-dx="-700" data-r="-2" style="left:60px;top:700px;width:400px;height:110px;padding:26px 28px"><div style="display:flex;justify-content:space-between;font:500 26px Satoshi">First cut review<span class="L" style="font-size:20px;color:#999">11:00</span></div></div>
-    <div class="abs" id="ph3" style="left:0;top:0;width:1920px;height:1080px;transform-style:preserve-3d;transform-origin:960px 530px">
-    <div class="abs" id="phone" style="left:760px;top:110px;width:400px;height:840px;border-radius:70px;background:#111;padding:14px;box-shadow:0 60px 120px -30px rgba(20,30,60,.7);transform-origin:50% 50%">
-      <div style="position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:radial-gradient(ellipse at 30% 20%,#7FC4FF,#2E7BEA 45%,#163E9C 80%)">
-        <div class="abs" style="inset:0;background:radial-gradient(ellipse at 80% 90%,rgba(120,220,255,.6),transparent 60%)"></div>
-        <div class="abs" style="left:50%;top:14px;margin-left:-60px;width:120px;height:34px;border-radius:20px;background:#111"></div>
-        <div class="abs" style="left:0;right:0;top:80px;text-align:center;color:#fff;font:300 22px Satoshi">Monday, 24 August</div>
-        <div class="abs" style="left:0;right:0;top:108px;text-align:center;color:#fff;font:500 130px/1 Satoshi;letter-spacing:-.04em">9:41</div>
+  <div class="abs" id="s4cam" style="inset:0;transform-origin:960px 560px">
+    <div class="iw wi" data-dx="-500" data-dy="-200" style="left:90px;top:30px;width:430px;height:110px;padding:22px 26px;transform-origin:50% 50%"><div class="h">launch reel edit<small>9:00 AM</small></div></div>
+    <div class="iw wi" data-dx="-600" data-dy="0" style="left:-60px;top:200px;width:400px;height:300px;padding:28px 30px 28px 90px"><div style="font:300 18px Satoshi;color:#E0560A">script draft due 🎬</div><div style="margin-top:6px;font:500 40px Satoshi">Fri, 28 <span class="L" style="color:#8E8E93">August</span></div><div style="font:300 16px Satoshi;color:#8E8E93">Via Calendar</div><div style="margin-top:44px;padding:12px;border-radius:14px;background:#F2F2F7;font:500 18px Satoshi;text-align:center">🔔 Set a reminder</div></div>
+    <div class="iw wi" data-dx="-420" data-dy="-80" style="left:430px;top:250px;width:180px;height:190px;padding:20px 22px"><div style="font:500 26px Satoshi"><span style="color:#FF3B30">Mon</span> <span class="L" style="color:#C7C7CC">Aug</span></div><div style="font:300 100px/1 Satoshi;letter-spacing:-.04em;margin-top:6px">24</div></div>
+    <div class="iw wi" data-dx="-500" data-dy="200" style="left:110px;top:790px;width:470px;height:120px;padding:24px 26px 24px 34px;border-left:8px solid #34C759"><div class="h">first cut review<small>11:00 AM</small></div></div>
+    <div class="ib ibw wi" data-dx="500" data-dy="-200" style="left:1180px;top:60px">who's editing my reels?</div>
+    <div class="ib ibb wi" id="tbub" data-dx="600" data-dy="0" style="left:1300px;top:330px;min-width:700px"><span id="tbubT"></span></div>
+    <div class="iw wi" data-dx="600" data-dy="300" style="left:1320px;top:610px;width:470px;height:420px;padding:34px;background:linear-gradient(160deg,#4C8DFF,#1E5FE0 60%,#174AC0);color:#fff;transform:rotate(10deg)"><div class="L" style="font-size:22px;opacity:.75">Monday</div><div style="margin-top:12px;font:500 44px/1.1 Satoshi">Meeting with<br>your editor</div><div class="abs" style="left:34px;bottom:34px;padding:12px 24px;border-radius:16px;background:rgba(255,255,255,.22);font:500 22px Satoshi">✎ New</div><div class="abs" style="right:34px;bottom:34px;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font:500 24px Satoshi">⟳</div></div>
+    <div class="abs" id="ph3" style="left:0;top:0;width:1920px;height:1080px;transform-style:preserve-3d;transform-origin:960px 560px">
+    <div class="abs" id="phone" style="left:780px;top:160px;width:360px;height:780px;border-radius:64px;background:#1a1a1c;padding:12px;box-shadow:0 0 0 2px #3a3a3e inset,0 60px 120px -30px rgba(30,20,60,.7);transform-origin:50% 50%">
+      <div style="position:relative;width:100%;height:100%;border-radius:54px;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 30% 25%,#7ED0FF,#2E7BEA 45%,#0F3E9C 80%)">
+        <div class="abs" style="inset:0;background:radial-gradient(ellipse 70% 50% at 75% 85%,rgba(110,240,220,.85),transparent 65%),radial-gradient(ellipse 60% 40% at 20% 75%,rgba(160,250,230,.55),transparent 70%)"></div>
+        <div class="abs" style="left:50%;top:14px;margin-left:-55px;width:110px;height:32px;border-radius:20px;background:#0a0a0a"></div>
+        <div class="abs" style="left:0;right:0;top:74px;text-align:center;color:#fff;font:500 18px Satoshi">Mon 24 Aug · 9:41 AM</div>
+        <div class="abs" style="left:0;right:0;top:98px;text-align:center;color:#fff;font:500 128px/1 Satoshi;letter-spacing:-.04em">9:41</div>
+        <div class="abs" style="left:34px;bottom:30px;width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.3);display:grid;place-items:center;color:#fff">❚</div>
+        <div class="abs" style="right:34px;bottom:30px;width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.3);display:grid;place-items:center;color:#fff">◉</div>
       </div>
     </div>
-    <div class="abs" id="notifs" style="left:640px;top:440px;display:flex;flex-direction:column;gap:12px;transform:translateZ(70px)">
-      <div class="notif nt"><i>ED</i><div style="flex:1"><div style="display:flex;justify-content:space-between;font:500 22px Satoshi">ISP Editors<span class="L" style="font-size:16px;opacity:.6">now</span></div><div class="L" style="font-size:20px;opacity:.85">Your reel's first cut is ready 🎬</div></div></div>
-      <div class="notif nt"><i>SW</i><div style="flex:1"><div style="display:flex;justify-content:space-between;font:500 22px Satoshi">ISP Script Writers<span class="L" style="font-size:16px;opacity:.6">2m</span></div><div class="L" style="font-size:20px;opacity:.85">3 hooks drafted for your launch</div></div></div>
-      <div class="notif nt"><i>ISP</i><div style="flex:1"><div style="display:flex;justify-content:space-between;font:500 22px Satoshi">ISP Agency<span class="L" style="font-size:16px;opacity:.6">1h</span></div><div class="L" style="font-size:20px;opacity:.85">Your content plan for this week</div></div></div>
+    <div class="abs" id="notifs" style="left:660px;top:520px;width:600px;height:300px;transform:translateZ(70px)">
+      <div class="ntf nt abs"><i>ED</i><div style="flex:1"><div class="nm">ISP Editors<small>now</small></div><div class="ms">your reel's first cut is ready 🎬</div></div></div>
+      <div class="ntf nt abs"><i>ISP</i><div style="flex:1"><div class="nm">ISP Agency<small>now</small></div><div class="ms">3+ yrs editing · scripts · branding</div></div></div>
+      <div class="ntf nt abs"><i>SW</i><div style="flex:1"><div class="nm">ISP Script Writers<small>now</small></div><div class="ms">3 hooks drafted for your launch</div></div></div>
     </div>
     </div>
-    <div class="bub bw wi" data-dx="700" data-r="-3" style="left:1300px;top:120px">who's editing my reels?</div>
-    <div class="bub bo wi" data-dx="700" data-r="-2" style="left:1390px;top:290px">need a script by friday</div>
-    <div class="wg wi" data-dx="800" data-r="10" style="left:1370px;top:560px;width:380px;height:260px;padding:28px;background:linear-gradient(160deg,#4B95FF,#1F64E0 60%,#174FC0);color:#fff"><div class="L" style="font-size:20px;opacity:.85">Monday</div><div style="margin-top:8px;font:500 40px/1.1 Satoshi">Meeting with<br>your editor</div><div class="abs" style="left:28px;bottom:26px;padding:10px 20px;border-radius:14px;background:rgba(255,255,255,.25);font:500 20px Satoshi">＋ New</div></div>
   </div>
   <div class="abs" id="wipe" style="top:-100px;bottom:-100px;background:#111;display:none"></div>
 </div>
@@ -151,12 +198,27 @@ b{font-weight:500}.L{font-weight:300}
 <!-- S5 · live transcript on the mountains → pill → stats button -->
 <div class="scene" id="S5">
   <div class="bgw" id="s5bgw"><img id="s5bg"></div>
-  <div class="abs" id="lakeFl" style="left:-40px;right:-40px;bottom:-30px;height:380px;background-size:cover;background-position:center 100%;filter:blur(7px) saturate(1.15);-webkit-mask-image:linear-gradient(0deg,#000 45%,transparent 100%)"></div>
-  <div class="panel" id="panel" style="left:340px;top:250px;width:1240px;height:560px;transform-origin:50% 50%">
-    <div style="font:300 40px Satoshi;color:rgba(255,255,255,.92)"><span class="dot" id="pdot"></span><span id="plisten"></span></div>
-    <div class="tl" id="pl1"></div>
-    <div class="tl" id="pl2"></div>
-    <div class="tl" id="pl3" style="margin-top:30px"><span class="hlb" id="phl"></span><span style="position:relative" id="pl3t"></span></div>
+  <div class="abs" id="s5hand" style="inset:0;transform-origin:960px 540px">
+    <div id="pui">
+      <div class="st"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="hdr"><span class="lg"><svg width="22" height="14"><use href="#isp"/></svg></span>
+        <div><div style="font:500 13px Satoshi">ISP Agency</div><div style="font:300 10px Satoshi;color:#8A8A90">Content team · online</div></div>
+        <span style="margin-left:auto;font:300 16px Satoshi;color:#8A8A90">⋯</span></div>
+      <div style="position:absolute;left:14px;top:90px;width:280px;font:300 13px/1.5 Satoshi;color:#D8D8DC"><div style="display:flex;align-items:center;gap:8px;font:500 14px Satoshi;color:#fff;margin-bottom:6px"><span class="lg" style="width:18px;height:18px;border-radius:5px"><svg width="14" height="9"><use href="#isp"/></svg></span>isp agency</div>Hi 👋 Tell us what you're working on.</div>
+      <div class="ub" id="pub" style="top:150px">Planning to edit your video, need a script, or want us to just handle everything?</div>
+      <div class="ans" id="pans">
+        <div class="nm pa"><span class="lg" style="width:18px;height:18px;border-radius:5px"><svg width="14" height="9"><use href="#isp"/></svg></span>isp agency</div>
+        <div class="th pa">✦ Thought for 1 second</div>
+        <h4 class="pa">Yeah, we've got you.</h4>
+        <div class="pa">Here's how we'll handle it:</div>
+        <ul style="margin-top:6px"><li class="pa">Editing that keeps people watching</li><li class="pa">Scripts written in your voice</li><li class="pa">Or we run everything, end to end</li></ul>
+        <div class="lnk pa"><span class="lg" style="width:34px;height:34px;border-radius:10px"><svg width="26" height="16"><use href="#isp"/></svg></span>
+          <div><div style="font:500 13px Satoshi;color:#fff">ISP Agency</div><div style="font:300 11px Satoshi;color:#8A8A90">ispagency.co</div></div><span style="margin-left:auto;color:#FF8A2A">↗</span></div>
+      </div>
+      <div class="comp"><span id="ptype"></span><span class="caret" id="pcaret" style="width:2px;background:#FF8A2A"></span><span class="ph" id="pph">Ask ISP to create something…</span>
+        <div class="tools"><span class="tl">+</span><span class="tl">✎ Edit</span><span class="tl" style="margin-left:auto">◌ Chat</span><span class="snd" id="psend" style="margin-left:6px"><svg width="16" height="16"><use href="#sendI"/></svg></span></div></div>
+    </div>
+    <img id="hand" class="abs" style="left:0;top:0;transform-origin:0 0">
   </div>
   <div class="pillO" id="pill"><div class="tx" id="pillA">Yeah, we've got you.</div>
     <div class="tx" id="pillB" style="display:flex;gap:40px;justify-content:center;color:#fff"><span><b id="n1">0</b><b>+</b> <span class="L">clients</span></span><span style="width:2px;height:54px;background:rgba(255,255,255,.55)"></span><span><b id="n2">0</b><b>+</b> <span class="L">videos delivered</span></span></div></div>
@@ -184,24 +246,25 @@ b{font-weight:500}.L{font-weight:300}
     <div class="abs" id="s7right" style="left:420px;top:700px;padding:20px 34px;border-radius:24px;background:var(--acc);color:#fff;font:500 46px Satoshi;white-space:nowrap;box-shadow:0 20px 40px -14px rgba(220,80,0,.6);transform-origin:0 0"><span class="L">You're in the</span> right place.</div>
   </div>
   <svg class="glove" id="s7cur"><use href="#glove"/></svg>
-  <div class="abs" id="iris2" style="left:0;top:0;border-radius:50%;overflow:hidden;display:none;background:#070403">
-    <div class="abs" id="iris2in" style="width:1920px;height:1080px"><div class="half"></div>
-      <div class="abs" style="left:960px;top:540px;transform:translate(-50%,-50%)"><span class="glow">Book</span></div></div></div>
+  <div class="abs" id="iris2" style="left:0;top:0;border-radius:50%;overflow:hidden;display:none;background:#03050B">
+    <div class="abs" id="iris2in" style="width:1920px;height:1080px"><div class="endbg"></div>
+      <div class="abs" style="left:960px;top:540px;transform:translate(-50%,-50%)"><span class="neon">Book</span></div></div></div>
 </div>
 
 <!-- S8 · dark halftone CTA -->
-<div class="scene" id="S8" style="background:#070403"><div class="half" id="s8half"></div>
-  <div class="abs" id="s8book" style="left:960px;top:540px;transform:translate(-50%,-50%)"><span class="glow">Book</span></div>
-  <div class="abs" id="s8cta" style="left:960px;top:500px;text-align:center;white-space:nowrap">
-    <div id="s8logo" style="width:150px;height:150px;margin:0 auto 46px;border-radius:40px;background:var(--acc);display:grid;place-items:center;box-shadow:0 0 60px rgba(255,120,30,.6)"><svg width="126" height="78"><use href="#isp"/></svg></div>
-    <div id="s8line" style="font:500 92px/1 Satoshi;letter-spacing:-.04em;color:#FFF1E2;text-shadow:0 0 30px rgba(255,130,40,.6)">Book a call <span class="L">with us today.</span></div>
-    <div class="L" id="s8url" style="margin-top:28px;font-size:36px;color:rgba(255,230,210,.8)">ispagency.co</div>
-  </div>
+<div class="scene" id="S8" style="background:#03050B"><div class="endbg" id="s8bg"></div>
+  <div class="abs" id="s8book" style="left:960px;top:540px;transform:translate(-50%,-50%)"><span class="neon">Book</span></div>
+  <div class="abs" id="s8line" style="left:960px;top:540px;white-space:nowrap;font:500 58px/1 Satoshi;letter-spacing:-.02em;color:#F4F6FA">
+    <span class="w" id="s8a">Book a call</span> <span class="w L" id="s8b">with us today.</span></div>
+  <div class="abs" id="s8white" style="inset:0;background:#FBFBFB;display:none">
+    <div class="abs" style="left:960px;top:540px;transform:translate(-50%,-50%);text-align:center;white-space:nowrap;color:#141210">
+      <div style="font:500 40px Satoshi;letter-spacing:-.02em">ISP Agency</div><div class="L" style="margin-top:10px;font-size:22px;color:#8A8F96">ispagency.co</div></div></div>
 </div>
 
 <svg id="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#noise)"/></svg>
 </div>
 
+<script src="assets/frames/hand/quads.js"></script>
 <script>
 'use strict';
 /* Voiceover word timings (s): video 0.0 · personal 1.02 · social 2.12 · and script 3.40–3.86 · All 4.34 · one 4.88 · place 5.26 ·
@@ -252,7 +315,22 @@ function measure(id,fn){const S=$(id);const d=S.style.display;S.style.display='b
 const K1W=measure('S3',()=>$('k1').getBoundingClientRect().width), K2W=measure('S6',()=>$('k2').getBoundingClientRect().width);
 const PILLW=measure('S5',()=>{const a=$('pillA');a.style.position='static';a.style.display='inline-block';const w=a.getBoundingClientRect().width;a.style.position='';a.style.display='';
   $('n1').textContent='500';$('n2').textContent='1,000';const b=$('pillB');b.style.position='static';b.style.display='inline-flex';const w2=b.getBoundingClientRect().width;b.style.position='';b.style.display='flex';return[w+110,w2+120]});
-const HL=measure('S5',()=>{$('pl3t').innerHTML='<b style="color:#FFB067">isp:</b> yeah, we\'ve got you.';const r=$('pl3t').getBoundingClientRect();$('pl3t').innerHTML='';return{x:r.left,y:r.top,w:r.width,h:r.height}});
+function adj(m){return[m[4]*m[8]-m[5]*m[7],m[2]*m[7]-m[1]*m[8],m[1]*m[5]-m[2]*m[4],m[5]*m[6]-m[3]*m[8],m[0]*m[8]-m[2]*m[6],m[2]*m[3]-m[0]*m[5],m[3]*m[7]-m[4]*m[6],m[1]*m[6]-m[0]*m[7],m[0]*m[4]-m[1]*m[3]]}
+function mm(a,b){const c=[];for(let i=0;i<3;i++)for(let j=0;j<3;j++){let s=0;for(let k=0;k<3;k++)s+=a[3*i+k]*b[3*k+j];c.push(s)}return c}
+function mv(m,v){return[m[0]*v[0]+m[1]*v[1]+m[2]*v[2],m[3]*v[0]+m[4]*v[1]+m[5]*v[2],m[6]*v[0]+m[7]*v[1]+m[8]*v[2]]}
+function basis(p){const m=[p[0],p[2],p[4],p[1],p[3],p[5],1,1,1];const v=mv(adj(m),[p[6],p[7],1]);return mm(m,[v[0],0,0,0,v[1],0,0,0,v[2]])}
+function quadT(w,h,q){const s=basis([0,0,w,0,0,h,w,h]),d=basis([q[0][0],q[0][1],q[1][0],q[1][1],q[3][0],q[3][1],q[2][0],q[2][1]]);
+  const m=mm(d,adj(s));for(let i=0;i<9;i++)m[i]/=m[8];
+  return `matrix3d(${m[0]},${m[3]},0,${m[6]},${m[1]},${m[4]},0,${m[7]},0,0,1,0,${m[2]},${m[5]},0,1)`}
+const lerpQ=(a,b,p)=>a.map((pt,i)=>[lerp(pt[0],b[i][0],p),lerp(pt[1],b[i][1],p)]);
+const rectQ=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+
+const QUADS=window.QUADS_DATA,HS=1.5,PX=165,PY=-117;
+const handIdx=t=>pp(Math.max(0,Math.floor((t-10.85)*30)),90);
+const handQ=t=>QUADS.quads[handIdx(t)].map(p=>[PX+p[0]*HS,PY+p[1]*HS]);
+function quadM(w,h,q){const s=basis([0,0,w,0,0,h,w,h]),d=basis([q[0][0],q[0][1],q[1][0],q[1][1],q[3][0],q[3][1],q[2][0],q[2][1]]);return mm(d,adj(s))}
+function mapPt(m,x,y){const v=mv(m,[x,y,1]);return[v[0]/v[2],v[1]/v[2]]}
+const H4=measure('S5',()=>{const h=document.querySelector('#pans h4'),a=$('pans');return{x:a.offsetLeft+h.offsetLeft,y:a.offsetTop+h.offsetTop,w:h.offsetWidth,h:h.offsetHeight}});
 // approved solid rows
 const ROWS=[["We","edit","your videos."],["We","write","your scripts."],["We even create","demo videos","for your SaaS product."]];
 const rows=ROWS.map((r,i)=>{const y=340+i*144,av=document.createElement('div');av.className='av2';av.textContent='0'+(i+1);av.style.left='380px';av.style.top=(y+17)+'px';
@@ -271,7 +349,7 @@ window.renderAt=async function(t){
   pending.length=0;
 
   /* ===== S1 · prompt bar: tight on the words → pull back → click Send → pixel flash → iris shrinks away ===== */
-  if(vis('S1',0,4.75,t)){
+  if(vis('S1',0,4.62,t)){
     bg($('s1bg'),'blossom',t);
     const pull=t>=2.1?1:0, z=1.05-.05*EOUT(P(t,2.1,4.0));$('s1pillW').style.display=pull?'none':'block';$('s1cam').style.display=pull?'block':'none';$('s1pillW').style.transform=`scale(${(1+.025*t).toFixed(4)})`;
     const fx=lerp(470,420,pull), fy=lerp(470,390,pull);          // keep the text line in view while tight
@@ -291,21 +369,25 @@ window.renderAt=async function(t){
     // pixel flash (4.05–4.3)
     {const R=lerp(110,860,EIO(P(t,4.03,4.52))),fade=1-P(t,4.42,4.55),on=t>=4.03&&t<4.55;$('pix').style.display=on?'block':'none';
       if(on)PIX.forEach(({e,d,j})=>{const band=Math.max(1-Math.abs(d-R+(j-.5)*90)/130,.75*(1-Math.abs(d-R*.72+(j-.5)*70)/90));e.style.opacity=(clamp(band)*(.6+.4*j)*fade*EOUT(P(t,4.03,4.1))).toFixed(3)});}
-    // iris: the whole shot shrinks into a circle and falls back (4.3–4.72)
-    const ir=EIO(P(t,4.3,4.72));
-    $('s1in').style.clipPath='none';{const rx=lerp(1350,0,ir),ry=lerp(900,0,ir);$('s1in').style.webkitMaskImage=ir>0?`radial-gradient(ellipse ${rx.toFixed(0)}px ${ry.toFixed(0)}px at 960px 540px,#000 86%,transparent 100%)`:'none';}
-    $('s1in').style.transform=ir>0?`scale(${(lerp(1,.62,ir)*lerp(1,1.18,Math.sin(Math.PI*clamp(ir*1.2)))).toFixed(4)},${lerp(1,.62,ir).toFixed(4)})`:'none';
-    $('s1in').style.filter=ir>0?`blur(${(ir*7).toFixed(1)}px)`:'none';
+    // iris (ref 2.45–2.55): the shot squeezes into an oval, then a rimmed circle the size of the folder
+    const ir=EIO(P(t,4.3,4.6));
+    {const rx=lerp(1350,330,ir),ry=lerp(900,330,ir);
+     $('s1in').style.webkitMaskImage=ir>0?`radial-gradient(ellipse ${rx.toFixed(0)}px ${ry.toFixed(0)}px at 960px 540px,#000 ${lerp(86,98,ir).toFixed(1)}%,transparent 100%)`:'none';
+     $('s1in').style.transform=ir>0?`scale(${(lerp(1,.8,ir)*lerp(1,1.12,Math.sin(Math.PI*ir))).toFixed(4)},${lerp(1,.8,ir).toFixed(4)})`:'none';
+     $('s1in').style.filter=ir>0?`blur(${(Math.sin(Math.PI*ir)*5).toFixed(1)}px)`:'none';
+     const rim=$('s1rim');if(ir>.55){rim.style.display='block';const R=lerp(rx,330,1)*.8*lerp(1,1,ir);const rr=Math.min(rx,ry)*.8;rim.style.width=rim.style.height=2*rr+'px';rim.style.margin=`${-rr}px 0 0 ${-rr}px`;rim.style.opacity=P(ir,.55,.8)}else rim.style.display='none';}
   }
 
   /* ===== S2 · folder on pink clouds, the services pop out on "All in one place?" ===== */
-  if(vis('S2',4.28,6.15,t)){
+  if(vis('S2',4.28,6.0,t)){
     bg($('s2bg'),'pink_sunset',t-4.28);
     $('s2bgw').style.transform=`scale(${(1.06-.03*P(t,4.3,6)).toFixed(4)}) translateY(${(EIN(P(t,5.75,6.1))*500).toFixed(1)}px)`;
-    const fp=P(t,4.32,4.75), out=EIN(P(t,5.72,6.05));
-    T($('fold'),{s:lerp(.2,1,BACK(fp))*(1-out*.85),y:-out*420,o:EOUT(clamp(fp*2))*(1-P(t,5.95,6.08)),b:out*6});
-    [...document.querySelectorAll('.fc')].forEach((c,i)=>{const t0=[4.34,4.64,4.88,5.26][i],p=P(t,t0,t0+.4),r=+c.dataset.r;
-      c.style.transform=`translateY(${((1-BACK(p))*240).toFixed(1)}px) rotate(${(r*BACK(p)).toFixed(2)}deg)`;c.style.opacity=EOUT(clamp(p*3)).toFixed(3)});
+    // ref 2.65–3.9: folder appears at the circle's size, blurred, sharpens; papers spring out in a quick stagger; folder recedes
+    const ap=P(t,4.6,4.85), rec=EIO(P(t,5.0,5.95)), fin=EIN(P(t,5.6,5.95));
+    T($('fold'),{s:lerp(1.08,1,EOUT(ap))*lerp(1,.32,rec)*(1-fin*.6),y:-rec*60-fin*80,o:(t>=4.6?1:0)*(1-P(t,5.82,5.95)),b:(1-EOUT(ap))*14+fin*4});
+    [...document.querySelectorAll('.fc')].forEach((c,i)=>{const t0=4.64+i*.1,p=P(t,t0,t0+.38),r=+c.dataset.r,x=+c.dataset.x;
+      c.style.transform=`translate(${(x*BACK(p)).toFixed(1)}px,${((1-BACK(p))*190).toFixed(1)}px) rotate(${(r*BACK(p)).toFixed(2)}deg)`;c.style.opacity=t<t0?0:1;
+      c.style.filter=p<1?`blur(${((1-EOUT(p))*6).toFixed(1)}px)`:'none'});
   }
 
   /* ===== S3 · "Meet ISP Agency." letter wave on green hills (camera drifts right) ===== */
@@ -319,47 +401,59 @@ window.renderAt=async function(t){
   }
 
   /* ===== S4 · widgets fly in around the phone (blue sky), phone turns side-on as the wipe ===== */
-  if(vis('S4',7.3,10.95,t)){
+  if(vis('S4',7.3,11.0,t)){
     bg($('s4bg'),'pink_sunset',t-7.3+3.2);
     const tin=EOUT(P(t,7.3,7.65));
     $('s4bgw').style.transform=`translateY(${((1-tin)*-600).toFixed(1)}px) scale(${(1.05+.02*(t-7.3)).toFixed(4)})`;
-    T($('s4cam'),{s:(1+.02*P(t,7.6,10.4))*(1+.18*EIO(P(t,10.3,10.95))),x:-90*EIO(P(t,10.3,10.95))});$('s4cam').style.transformOrigin='960px 530px';
-    const ph=$('phone'),pp0=P(t,7.45,8.0),turn=EIO(P(t,10.6,10.93));
-    ph.style.transform=`scale(${lerp(.25,1,BACK(pp0)).toFixed(4)}) rotate(${lerp(-4,0,turn)}deg)`;
-    $('ph3').style.transform=`perspective(1500px) translateX(${(-turn*140).toFixed(1)}px) rotateY(${(turn*82).toFixed(2)}deg) scale(${(1+turn*.45).toFixed(4)})`;
-    ph.style.opacity=EOUT(clamp(pp0*3)).toFixed(3);
-    [...document.querySelectorAll('.wi')].forEach((w,i)=>{const t0=7.75+i*.09,p=P(t,t0,t0+.5),dx=+w.dataset.dx,r=+w.dataset.r;
-      const o=EIN(P(t,10.55,10.9))*.35;
-      w.style.transform=`translateX(${((1-EOUT(p))*dx+o*dx*.6).toFixed(1)}px) rotate(${(r+(1-EOUT(p))*(dx>0?14:-14)).toFixed(2)}deg)`;
-      w.style.opacity=(EOUT(clamp(p*2))*(1-o)).toFixed(3)});
-    [...document.querySelectorAll('.nt')].forEach((n,i)=>{const t0=[8.88,10.36,99][i];n.style.display=i<2?'flex':'none';pop(n,t,t0,{d:.35,from:.85,dy:-30})});
-    // side-on wipe: the phone's dark edge sweeps across the frame
-    const W=$('wipe');if(false){W.style.display='block';const x=lerp(1920,-400,EIO(P(t,10.95,11.25)));W.style.left=x+'px';W.style.width=lerp(80,1200,Math.sin(Math.PI*P(t,10.95,11.25)))+'px'}else W.style.display='none';
+    // ref 3.9–5.5: widgets slide in from the frame edges, the phone grows from a point, the camera keeps pushing in
+    const push=EIO(P(t,7.3,10.6)), turn=EIO(P(t,10.55,10.95));
+    $('s4cam').style.transform=`perspective(1800px) rotateY(${(lerp(4,-3,push)).toFixed(2)}deg) scale(${(lerp(1,1.14,push)*(1+.15*turn)).toFixed(4)}) translateX(${(-80*turn).toFixed(1)}px)`;
+    const ph=$('phone'),pg=EOUT(P(t,7.35,8.35));
+    ph.style.transform=`scale(${lerp(.05,1,pg).toFixed(4)})`;ph.style.opacity=clamp(P(t,7.35,7.45)).toFixed(3);
+    $('ph3').style.transform=`perspective(1500px) translateX(${(-turn*140).toFixed(1)}px) rotateY(${(turn*84).toFixed(2)}deg) scale(${(1+turn*.45).toFixed(4)})`;
+    [...document.querySelectorAll('.wi')].forEach((w,i)=>{const t0=7.4+i*.05,p=EOUT(P(t,t0,t0+.55)),dx=+w.dataset.dx,dy=+w.dataset.dy||0;
+      const base=w.id==='tbub'?'':'';w.style.translate=`${((1-p)*dx).toFixed(1)}px ${((1-p)*dy).toFixed(1)}px`;w.style.opacity=clamp(p*1.5).toFixed(3);
+      w.style.filter=p<.98?`blur(${((1-p)*8).toFixed(1)}px)`:'none'});
+    $('tbubT').textContent=typed(t,[['need a script ',8.6,9.1],['by friday?',9.4,9.9]])||'\u00a0';if(t<8.6)$('tbub').style.opacity=0;
+    // notifications stack newest-on-top (ref 4.15–4.85)
+    const NT=[8.88,9.68,10.36],nts=[...document.querySelectorAll('.nt')];
+    nts.forEach((n,i)=>{const p=P(t,NT[i],NT[i]+.3);const above=NT.filter((x,j)=>j>i&&t>=x).length;
+      const slot=NT.slice(i+1).reduce((a,x)=>a+EOUT(P(t,x,x+.3)),0);
+      n.style.transform=`translateY(${(slot*96+(1-EOUT(p))*-20).toFixed(1)}px) scale(${lerp(.9,1,BACK(p)).toFixed(4)})`;n.style.opacity=(t<NT[i]?0:EOUT(clamp(p*2))).toFixed(3)});
+    // smooth hand-off: blur up as the phone turns
+    $('S4').style.filter=turn>.05?`blur(${(EIN(P(t,10.7,10.98))*14).toFixed(1)}px)`:'none';
   }
 
   /* ===== S5 · live transcript on the mountains → highlighted line lifts out → stats button, click → iris ===== */
-  if(vis('S5',10.95,21.0,t)){
+  if(vis('S5',10.8,21.0,t)){
     bg($('s5bg'),'lake',t-11.05);$('s5bg').style.filter='brightness(1.18) saturate(1.45) contrast(1.06) sepia(.08)';
-    $('lakeFl').style.backgroundImage=`url(assets/frames/garden_flowers/${String(pp(Math.floor((t-11)*30),420)+1).padStart(4,'0')}.jpg)`;$('lakeFl').style.transform=`translateX(${(-(t-11)*6).toFixed(1)}px)`;
     $('s5bgw').style.transform=`scale(${(1.04+.03*P(t,11,21)).toFixed(4)})`;
-    const pin=EOUT(P(t,11.08,11.5)),pout=EIN(P(t,15.95,16.3));
-    const rf1=EIO(P(t,12.45,12.8)),rf2=EIO(P(t,14.95,15.3));T($('panel'),{s:lerp(.92,1,pin)*(1+.03*EIO(P(t,11.5,15.9))+.07*rf1+.07*rf2)*(1-pout*.04),x:-20*EIO(P(t,11.5,15.9))-40*rf1+50*rf2,y:-30*rf1-45*rf2,o:EOUT(clamp(pin*2))*(1-pout),b:pout*10});
-    $('plisten').textContent=typed(t,[['ISP is listening',11.2,11.55]]);
-    $('pdot').style.opacity=(.55+.45*Math.sin(t*6)).toFixed(3);
-    $('pl1').textContent=typed(t,[['you: ',11.5,11.6],['planning to edit your video,',11.08,12.3]]);
-    $('pl2').textContent=typed(t,[['you: ',12.45,12.5],['need a script, or want us to just handle everything?',12.52,14.7]]);
-    const l3=typed(t,[['isp: ',15.0,15.1],["yeah, we've got you.",15.22,15.95]]);
-    $('pl3t').innerHTML=l3.startsWith('isp:')?'<b style="color:#FFB067">isp:</b>'+esc(l3.slice(4)):esc(l3);
-    $('phl').style.transform=`scaleX(${EOUT(P(t,15.5,15.85)).toFixed(3)})`;$('phl').style.opacity=P(t,15.5,15.55);
+    // phone in hand (v3): the hand-off arrives through a blur, typing on the spoken words, the reply streams in
+    const hin=EOUT(P(t,10.8,11.15)),pout=EIN(P(t,15.95,16.3));
+    $('S5').style.opacity=hin.toFixed(3);
+    {const im=$('hand'),src=`assets/frames/hand/${String(handIdx(t)+1).padStart(4,'0')}.webp`;if(im.dataset.src!==src){im.dataset.src=src;im.src=src;pending.push(im.decode().catch(()=>{}))}}
+    $('hand').style.transform=`translate(${PX}px,${PY}px) scale(${HS})`;
+    const q=handQ(t);$('pui').style.transform=quadT(330,710,q);
+    T($('s5hand'),{s:lerp(1.12,1,hin)*(1+.05*EIO(P(t,11.2,15.9))),b:(1-hin)*14+pout*12,o:1-pout});
+    const n=Math.floor(84*clamp(P(t,11.15,14.45))),full="Planning to edit your video, need a script, or want us to just handle everything?",sent=t>=14.62;
+    $('ptype').textContent=sent?'':full.slice(0,n);$('pph').style.display=n>0&&!sent?'none':'inline';
+    $('pcaret').style.opacity=(n>0&&!sent)||Math.floor(t*2.6)%2?1:0;
+    $('psend').style.transform=`scale(${press(t,14.58)})`;
+    pop($('pub'),t,14.62,{d:.35,from:.85});$('pub').style.display=t>=14.62?'block':'none';
+    [...document.querySelectorAll('#pans .pa')].forEach((e,i)=>{const t0=[14.8,14.95,15.22,15.42,15.52,15.6,15.68,15.78][i];
+      const p=EOUT(P(t,t0,t0+.28));T(e,{y:(1-p)*10,o:t<t0?0:p,b:(1-p)*6});});
+    // the reply lifts out of the phone as the pill (ref lift-out)
+    const M=quadM(330,710,q),c1=mapPt(M,H4.x,H4.y),c2=mapPt(M,H4.x+H4.w,H4.y+H4.h);
+    const HL={x:c1[0],y:c1[1],w:c2[0]-c1[0],h:c2[1]-c1[1]};
     // pill: lifts out of the highlighted line, recentres, then becomes the stats button
     const lp=EIO(P(t,15.95,16.45)),m=t<16.44?0:1,pill=$('pill');
     if(t>=15.95){pill.style.display='block';
-      const w=lerp(HL.w+60,PILLW[0],lp),w2=lerp(w,PILLW[1],m),h=lerp(HL.h+16,100,lp);
-      const x=lerp(HL.x-30,960-w2/2,lp),y=lerp(HL.y-8,490,lp);
+      const w=lerp(HL.w+24,PILLW[0],lp),w2=lerp(w,PILLW[1],m),h=lerp(HL.h+10,100,lp);
+      const x=lerp(HL.x-12,960-w2/2,lp),y=lerp(HL.y-5,490,lp);
       pill.style.width=w2+'px';pill.style.height=h+'px';
       const click=press(t,20.12);
       pill.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${click})`;
-      $('pillA').style.fontSize=lerp(40,56,lp)+'px';
+      $('pillA').style.fontSize=lerp(HL.h*.8,56,lp)+'px';
       T($('pillA'),{o:t<16.44?1:0});
       T($('pillB'),{o:t<16.44?0:1});
       pill.style.background=m>0?`linear-gradient(180deg,rgba(255,140,50,${lerp(.66,.9,m).toFixed(2)}),rgba(225,90,15,${lerp(.66,.9,m).toFixed(2)}))`:'';
@@ -402,7 +496,7 @@ window.renderAt=async function(t){
   }
 
   /* ===== S7 · prompt bar callback on golden hills, click → iris onto the dark halftone ===== */
-  if(vis('S7',27.2,34.25,t)){
+  if(vis('S7',27.2,33.95,t)){
     bg($('s7bg'),'above_clouds',t-27.2);
     const tin=EIO(P(t,27.2,27.6));
     $('s7bgw').style.opacity=tin.toFixed(3);$('s7bgw').style.transform=`scale(${(1.12-.08*tin+.01*(t-27.2)).toFixed(4)})`;$('s7bg').style.filter='blur(3px)';
@@ -417,19 +511,20 @@ window.renderAt=async function(t){
     $('s7send').style.transform=`scale(${press(t,32.2)})`;$('s7send').innerHTML=t>32.22?`<span style="display:block;width:26px;height:26px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;transform:rotate(${(t*720)%360}deg)"></span>`:'Generate';
     pop($('s7right'),t,32.38,{d:.45,from:.6});
     // dark iris with glowing "Book" grows from the centre (ref 12.6–13.0)
-    const ir=EIO(P(t,33.55,34.15)),I=$('iris2');
+    const ir=EIO(P(t,33.55,33.95)),I=$('iris2');
     if(ir>0){I.style.display='block';const R=lerp(6,1250,ir);I.style.width=I.style.height=2*R+'px';I.style.transform=`translate(${960-R}px,${540-R}px)`;
-      $('iris2in').style.transform=`translate(${R-960}px,${R-540}px)`;I.style.boxShadow=`0 0 0 3px rgba(255,200,150,${(.9*(1-ir)).toFixed(2)})`}else I.style.display='none';
+      $('iris2in').style.transform=`translate(${R-960}px,${R-540}px)`;I.style.boxShadow=`0 0 0 3px rgba(255,255,255,${(.9*(1-P(ir,.7,1))).toFixed(2)})`}else I.style.display='none';
   }
 
   /* ===== S8 · CTA ===== */
-  if(vis('S8',34.15,36.01,t)){
-    $('s8half').style.transform=`scale(${(1+.03*(t-34.15)).toFixed(4)})`;
-    const bo=EIO(P(t,34.3,34.6));T($('s8book'),{pre:'translate(-50%,-50%) ',s:1+bo*.15,o:1-bo,b:bo*12});
-    T($('s8cta'),{pre:'translate(-50%,-50%) ',s:1+.015*(t-34.5)});
-    pop($('s8logo'),t,34.42,{d:.45,from:.4});
-    const lp=EOUT(P(t,34.5,34.9));T($('s8line'),{y:(1-lp)*34,o:lp,b:(1-lp)*10});
-    const up=EOUT(P(t,34.75,35.1));T($('s8url'),{y:(1-up)*20,o:up});
+  if(vis('S8',33.95,36.01,t)){
+    $('s8bg').style.transform=`scale(${(1+.02*(t-33.95)).toFixed(4)})`;
+    // ref 0.25–0.6: the neon word holds, shrinks and dims; then the line arrives small and white, word by word
+    const nb=EIO(P(t,33.95,34.25)),no=EIN(P(t,34.05,34.2));
+    T($('s8book'),{pre:'translate(-50%,-50%) ',s:lerp(1,.82,nb),o:1-no,b:no*10});
+    const lw=$('s8line');lw.style.transform='translate(-50%,-50%)';
+    [['s8a',34.12],['s8b',34.34]].forEach(([id,t0])=>{const p=EOUT(P(t,t0,t0+.22));T($(id),{x:(1-p)*-24,o:p,b:(1-p)*10})});
+    $('s8white').style.display=t>=35.15?'block':'none';
   }
   {const g=glitchAt(t),st=$('stage');
     st.style.filter=g===1?'brightness(1.22) saturate(1.8) hue-rotate(-28deg) contrast(1.08)':g===2?'url(#rgbs) hue-rotate(150deg) saturate(2.6) contrast(1.3)':'none';}
