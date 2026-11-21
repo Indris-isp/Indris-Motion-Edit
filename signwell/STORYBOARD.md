@@ -83,3 +83,13 @@ Scenes, timing, cuts and SFX unchanged; the look changes:
 - Editor softens slightly out of focus when the phone takes over (depth of field).
 - Logo end card: ink wordmark, navy signature, blue CTA button.
 - Glitch hits recoloured to blues only, with lighter scanlines and an overscan so no colour fringe shows at the edges.
+
+## Rev 5 — review notes applied
+
+| Time | Note | Change |
+|---|---|---|
+| 0:01.9, 0:05.1 | Blue glow / drop shadow on every solid | All cards, pills, tiles, editor window, phone, toast and CTA get a blue drop shadow plus a soft blue glow. |
+| 0:06.0 | Selection outline in blue | Active tile outline and fill are blue (orange retired). |
+| 0:07.8 | Top note: blue drop shadow | The travelling document has a strong blue shadow and glow. |
+| 0:08.9 | "Repeat" and the line in blue | "Repeat.", the delay labels, the loop line and the wait counter are blue. |
+| 0:08.9 | Pencil highlight SFX, low volume | Soft digital pencil/highlighter texture while the loop line draws (frames 490–540). |

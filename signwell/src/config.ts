@@ -9,8 +9,9 @@ export const LIGHT = {
   accent: '#2b59e8',
   accentSoft: 'rgba(43,89,232,.10)',
   glow: 'rgba(79,124,255,.42)',
-  pain: '#d9711c',
-  cardShadow: '0 30px 70px rgba(30,60,140,.14), 0 2px 6px rgba(30,60,140,.06)',
+  pain: '#2b59e8', // was orange; client wants blue throughout
+  cardShadow: '0 28px 60px rgba(43,89,232,.22), 0 4px 12px rgba(43,89,232,.14), 0 0 46px rgba(79,124,255,.30)', // blue drop shadow + glow
+  glowStrong: '0 34px 80px rgba(43,89,232,.32), 0 6px 16px rgba(43,89,232,.20), 0 0 70px rgba(79,124,255,.45)',
   cardBorder: '1px solid #e4e9f5',
   glass: 'rgba(255,255,255,.72)',
 };

@@ -137,6 +137,15 @@ for fr in T['s2']['land']: place(sfx, thunk, at('s2', fr), 0.8)
 for key in ['pick1', 'drop1', 'pick2', 'drop2']: place(sfx, click, at('s3', T['s3'][key]), 0.9)
 place(sfx, click, at('s3', T['s3']['send']), 1.1)
 place(sfx, notify(), at('s3', T['s3']['toast']), 1.0, 0.15)
+def pencil_highlight(dur):
+    n = int(dur * SR); tt = np.arange(n) / SR
+    grain = rng.standard_normal(n); grain = lowpass(grain, 3) - lowpass(grain, 24)   # soft graphite band
+    grain *= 0.55 + 0.45 * np.abs(np.sin(tt * 2 * np.pi * 7))                         # stroke texture
+    shimmer = np.sin(2 * np.pi * np.cumsum(2200 + 900 * tt / dur) / SR) * 0.18         # rising digital highlight
+    env_ = np.sin(np.linspace(0, np.pi, n)) ** 0.7
+    return crush(grain * 0.7 + shimmer, 16) * env_ * 0.12
+la = T['s2']['loop']
+place(sfx, pencil_highlight(50 / FPS), at('s2', la), 0.8, -0.1)  # loop line draws over 50 frames
 place(sfx, tick, at('s4', T['s4']['viewed']), 1.0)
 sa, sb = T['s4']['sign']
 place(sfx, handwriting((sb - sa) / FPS), at('s4', sa), 1.0, 0.25)

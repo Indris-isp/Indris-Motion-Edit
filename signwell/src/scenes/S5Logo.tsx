@@ -45,7 +45,7 @@ export const S5Logo: React.FC = () => {
           <At x={0} y={380}>
             <div style={{opacity: Math.min(1, cta * 1.4), transform: `translateY(${(1 - cta) * 30}px) scale(${0.9 + 0.1 * cta})`, display: 'flex', alignItems: 'center', gap: 18,
               padding: '24px 48px', borderRadius: 18, background: LIGHT.accent, color: '#fff', fontFamily: BODY, fontWeight: TYPE.button, fontSize: 34,
-              boxShadow: '0 20px 50px rgba(43,89,232,.35)', whiteSpace: 'nowrap'}}>
+              boxShadow: '0 20px 50px rgba(43,89,232,.40), 0 0 60px rgba(79,124,255,.45)', whiteSpace: 'nowrap'}}>
               {COPY.s5.cta}<span style={{width: 2, height: 34, background: 'rgba(255,255,255,.35)'}} /><span style={{color: 'rgba(255,255,255,.85)', fontWeight: TYPE.button}}>{COPY.s5.url}</span>
             </div>
           </At>

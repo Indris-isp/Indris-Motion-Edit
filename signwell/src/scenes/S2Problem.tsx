@@ -61,7 +61,7 @@ export const S2Problem: React.FC = () => {
             return (
               <At key={i} x={XS[i]} y={TILE_Y + (1 - pIn) * 50 + drift(f, 3, 280, i * 50)}>
                 <div style={{width: TILE, height: TILE, borderRadius: 32, opacity: Math.min(1, pIn * 1.4), transform: `scale(${s})`,
-                  background: active ? '#fff7ef' : '#ffffff', boxShadow: active ? '0 30px 70px rgba(217,113,28,.18)' : LIGHT.cardShadow,
+                  background: active ? '#f3f6ff' : '#ffffff', boxShadow: active ? LIGHT.glowStrong : LIGHT.cardShadow,
                   border: `2px solid ${accent}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
                   paddingBottom: 30, gap: 8, fontFamily: BODY, color: LIGHT.ink}}>
                   <div style={{marginBottom: 'auto', marginTop: 40, opacity: 0.6 + 0.4 * lit}}><Icon i={i} color={active ? LIGHT.pain : LIGHT.accent} /></div>
@@ -84,7 +84,7 @@ export const S2Problem: React.FC = () => {
         {/* The document, riding above the tiles. */}
           <At x={doc.x * (1 - m)} y={(doc.y - 215 + drift(f, 3, 200)) * (1 - m)} style={{zIndex: 20}}>
             <div style={{width: 96, height: 124, borderRadius: 10, background: m > 0 ? '#fff' : f >= t.land[2] ? '#eef0f4' : '#fff', border: LIGHT.cardBorder, transform: `scale(${settle * (1 + 11.7 * m)}) rotate(${drift(f, 3, 300) * (1 - m)}deg)`,
-              boxShadow: '0 20px 40px rgba(30,60,140,.18)', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
+              boxShadow: m > 0 ? 'none' : LIGHT.glowStrong, padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 8}}>
               {[90, 100, 80, 95].map((w, k) => <div key={k} style={{height: 6, width: `${w}%`, borderRadius: 3, background: COLORS.line, opacity: 1 - Math.min(1, m * 2)}} />)}
               <svg width="68" height="30" viewBox="0 0 68 30" style={{marginTop: 'auto', opacity: f >= t.land[1] ? 1 - Math.min(1, m * 2) : 0}}>
                 <path d="M2 22c8-14 12 4 18-6s10-2 14 2 10-8 16-4 8 4 14 0" fill="none" stroke="#14286e" strokeWidth="2.4" strokeLinecap="round" />

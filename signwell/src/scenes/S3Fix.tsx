@@ -71,7 +71,7 @@ export const S3Fix: React.FC = () => {
         {/* Toast after Send. */}
         <At x={120} y={-300 + (1 - toast) * -40} style={{zIndex: 45}}>
           <div style={{opacity: Math.min(1, toast * 1.5), display: 'flex', alignItems: 'center', gap: 14, padding: '16px 26px', borderRadius: 16,
-            background: '#141b2d', color: '#fff', fontFamily: BODY, fontSize: 22, fontWeight: 600, boxShadow: '0 20px 40px rgba(15,23,41,.25)'}}>
+            background: '#141b2d', color: '#fff', fontFamily: BODY, fontSize: 22, fontWeight: 600, boxShadow: '0 20px 40px rgba(43,89,232,.30), 0 0 40px rgba(79,124,255,.35)'}}>
             <span style={{width: 30, height: 30, borderRadius: '50%', background: '#1e9e64', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17}}>✓</span>
             {COPY.s3.toast}
           </div>

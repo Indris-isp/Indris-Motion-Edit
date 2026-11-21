@@ -54,7 +54,7 @@ export const S4Payoff: React.FC = () => {
           {/* Client's phone. */}
           <At x={450 + (1 - phoneIn) * 700} y={30 + drift(f, 4, 260, 90) * (1 - m)} style={{opacity: 1 - interpolate(m, [0.35, 0.85], [0, 1], clamp), filter: whip > 0.3 ? `blur(${whip}px)` : 'none'}}>
             <div style={{width: 340, height: 700, borderRadius: 56, background: '#0d1220', padding: 14, transform: `rotate(${3 * (1 - phoneIn) + 2}deg)`,
-              boxShadow: '0 50px 100px rgba(30,60,140,.30), 0 6px 16px rgba(15,23,41,.18)', border: '2px solid #2a3142'}}>
+              boxShadow: '0 50px 100px rgba(43,89,232,.34), 0 6px 16px rgba(43,89,232,.2), 0 0 70px rgba(79,124,255,.40)', border: '2px solid #2a3142'}}>
               <div style={{width: '100%', height: '100%', borderRadius: 44, background: '#fff', position: 'relative', overflow: 'hidden', fontFamily: BODY, color: COLORS.ink, padding: '58px 26px 26px'}}>
                 <div style={{position: 'absolute', top: 14, left: '50%', width: 90, height: 24, marginLeft: -45, borderRadius: 12, background: '#0d1220'}} />
                 <div style={{fontWeight: TYPE.heading, fontSize: 22}}>{COPY.s3.docTitle}</div>
