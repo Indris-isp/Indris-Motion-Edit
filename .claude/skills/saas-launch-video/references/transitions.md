@@ -26,14 +26,19 @@ The reference cuts almost never look like a plain cut. Each one below is either 
 | **Slot reel** | `reel` | Numbers on an arc (`x = -d²·26`), scaled and faded by distance, vertical blur from speed |
 | **3D swing-in** | `laptop` | rotateY −60° → −24° while translating in, blur from speed, and a sin bob afterwards |
 
-## Recipes not yet built (add as shots when a brief needs them)
+## Signature transitions (each is a shot)
 
-- **Shape morph** (ref A 27 s): animate one card's `width/height/border-radius/background` from a solid accent square → folder → UI panel, then cross-fade the UI content in at the end.
-- **Rack focus** (ref A 33 s): two layers, one sharp and one blurred, swapping blur values over 0.4 s while the camera scales 1 → 1.15.
-- **Colour-ize wall** (ref A 16 s): a grid of avatars with `filter: grayscale(1)`. Flip random ones to grayscale(0) with a small pop, staggered after a toggle animates on.
-- **Device dive** (ref B): scale a laptop or phone until its screen fills the frame (scale about 3.2 centred on the screen), then cut to a full-frame version of the screen content. It reads as one continuous move.
-- **Glass card world** (ref B): full-bleed photo background, the product in a rounded `backdrop-filter: blur()` card, thin 1 px white grid lines, and words placed around the card.
-- **Comet message** (ref A 3.5 s): a pill moving along a path with 3–4 trailing copies at decreasing opacity and increasing blur.
+| Name | Shot | Recipe |
+|---|---|---|
+| **Shape morph** | `morph` | One card box is keyframed (`layout(t)`): square 560 (radius 90) → folder 1000×600 (radius 34, a tab element grows on the top-left) → panel 1100×640. An accent fill layer fades over a white layer, the tab widens and drops into the header bar, then content cross-fades in. |
+| **Rack focus / depth of field** | `rackfocus` | The UI sits in a `soft` layer and the button is outside it. The camera scales 1 → 2 around the button (origin = the button, plus a 60% pull toward the centre). `soft` blurs 0 → 7 px and the laptop base 0 → 10 px. A large, heavily blurred foreground pill slides past to sell depth. |
+| **Colour-ize wall** | `colorize` | A face grid with `grayscale(1)` and opacity .5. After a toggle animates on, chosen faces go to grayscale(0) with a scale pop and a channel badge, staggered by distance from the centre plus jitter. A radial white wash keeps the copy readable. |
+| **Device dive** | `dive` | The screen content is authored at full 1920×1080 and shown scaled by 880/1920 inside a 16:9 screen centred on the stage. The camera scales by 1920/880 around the centre with `eio`, so at the end the screen *is* the frame. The bezel blurs as it passes and the corner radius goes to 0. Then the content keeps animating. |
+| **Glass card world** | `dive` (after the dive) | `backdrop-filter: blur(22px)` card at 14% white with a 2 px inner line, a thin 1-px white grid, and words on the card. With a screenshot, the screenshot blurs and gets an accent tint. |
+
+## Recipe still open
+
+- **Comet message** (ref A 3.5 s): a pill moving along a path with 3–4 trailing copies at decreasing opacity and increasing blur. Build it as a shot when a brief needs it.
 
 ## Choosing transitions
 

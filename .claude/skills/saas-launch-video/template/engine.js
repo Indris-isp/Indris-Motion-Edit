@@ -73,6 +73,16 @@ const person = i => (B.people || ['MK', 'JL', 'AS', 'TR', 'BN', 'EO'])[i % (B.pe
 const iconHTML = s => B.brand.logo
   ? `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;background:#fff;overflow:hidden"><img src="${B.brand.logo}" style="width:100%;height:100%;object-fit:contain"></div>`
   : `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;--s:${s}px"><i></i></div>`;
+/* 3D-looking hand pointer (fingertip at 35,8 inside the 110x130 box) */
+const handHTML = () => `<svg width="110" height="130" viewBox="0 0 22 26"><defs><linearGradient id="hg${fid++}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc2)"/><stop offset="1" style="stop-color:var(--acc3)"/></linearGradient></defs><path d="M7 1.5c1 0 1.8.8 1.8 1.8v7.2l.6-.1c.9-.1 1.7.4 2 1.2.6-.3 1.4-.3 2 .1.5-.3 1.3-.3 1.9.1.9.6 1.5 1.6 1.5 2.7V19c0 3.3-2.7 6-6 6H9.6c-1.7 0-3.3-.8-4.3-2.1L1.6 18c-.6-.8-.5-1.9.3-2.5.8-.6 1.9-.5 2.5.3l.8 1V3.3C5.2 2.3 6 1.5 7 1.5z" fill="url(#hg${fid - 1})" stroke="#fff" stroke-width="1"/></svg>`;
+function mkHand(c) { const h = D(c, 'abs', { left: 0, top: 0, width: 110, height: 130, filter: 'drop-shadow(0 18px 18px rgba(20,40,110,.45))' }, handHTML()); h.style.transformOrigin = '35px 8px'; return h; }
+/* animate a hand from off-frame (dx,dy) to the target tip position (tx,ty), arriving at t1, pressing at t1..t1+.3 */
+function moveHand(h, t, tx, ty, t0, t1, dx = 420, dy = 520) {
+  const hp = eio(P(t, t0, t1)), press = t > t1 && t < t1 + .3 ? 1 - .12 * Math.sin(P(t, t1, t1 + .3) * Math.PI) : 1;
+  S(h, { x: L(tx - 35 + dx, tx - 35, hp) - Math.sin(hp * Math.PI) * 60, y: L(ty - 8 + dy, ty - 8, hp), s: press, o: P(t, t0 - .05, t0 + .15), r: L(18, 0, hp) });
+}
+/* centre of an element in stage coordinates */
+function centerOf(e) { const r = e.getBoundingClientRect(), sr = stage.getBoundingClientRect(); return { x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height / 2 }; }
 const glyphHTML = (g, col, s = 26) => `<span class="glyph" style="width:${s}px;height:${s}px;border-radius:${s * .27}px;font-size:${s * .54}px;background:${col}">${g}</span>`;
 
 /* typed text. segs: [{t, cls}] → {el, chars, cur}; typeP(T, p, t) reveals p∈[0,1] with blur-in per char + blinking cursor */

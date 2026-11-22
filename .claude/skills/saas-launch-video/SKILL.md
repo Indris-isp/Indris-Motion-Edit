@@ -1,6 +1,6 @@
 ---
 name: saas-launch-video
-description: Make a premium, fast-paced SaaS / app / product launch video (motion-graphics promo, product demo film, feature announcement, explainer teaser) in the problem→solution style of top SaaS launch films. Kinetic typography, a 3D laptop with the product UI, hand-cursor clicks, circle reveals, blur-whip transitions, count-ups, logo reveal, music and SFX synced to every cut, rendered frame-exact to MP4. Use when the user asks for a launch video, product video, promo, SaaS ad, motion-graphics edit or app teaser, or wants to analyze a reference launch video and copy its style.
+description: Make a premium, fast-paced SaaS / app / product launch video (motion-graphics promo, product demo film, feature announcement, explainer teaser) in the problem→solution style of top SaaS launch films. Kinetic typography, a 3D laptop with the product UI, hand-cursor clicks, circle reveals, blur-whip transitions, count-ups, logo reveal, music and SFX synced to every cut, shape morphs, rack focus, colour-ize face walls, device dives, rendered frame-exact to MP4. Use when the user asks for a launch video, product video, promo, SaaS ad, motion-graphics edit or app teaser, or wants to analyze a reference launch video and copy its style.
 ---
 
 # SaaS launch video
@@ -11,7 +11,7 @@ This skill turns a product brief into a 22–35 s, 1920×1080 launch film. The f
 - `template/`: the engine and a complete working film ("Loopin", a fictional demo).
   - `brief.js`: all copy, numbers and colours.
   - `timeline.js`: the shot order, seconds and speed.
-  - `shots.js`: the 12 reusable shots.
+  - `shots.js`: the 16 reusable shots (12 in the default timeline, plus the signature shots `colorize`, `morph`, `rackfocus` and `dive`).
   - `engine.js`: the core.
   - `render.cjs`, `audio.py`, `build.sh`: render, sound and final build.
 - `scripts/new_project.py`: starts a project from the template.
@@ -56,7 +56,7 @@ python3 .claude/skills/saas-launch-video/scripts/new_project.py <project_dir> --
 
 - Rewrite **all** of `<project_dir>/brief.js` from the beat sheet. Nothing from Loopin should survive unless intended.
 - Put the logo and screenshots in `assets/`, and set `brand.logo`, `inbox.screenshot` and `inbox.click`.
-- Edit `timeline.js` for shot order and length (see `references/shot-library.md`).
+- Edit `timeline.js` for shot order and length (see `references/shot-library.md`). Mix in the signature shots (`dive`, `morph`, `rackfocus`, `colorize`) so the film never repeats a move. Swap them in for benefits rather than adding length.
 - If a beat needs a shot that doesn't exist, write it with the skeleton and rules in `shot-library.md`, using `references/transitions.md`.
 
 ### 4. Storyboard (gate 2)

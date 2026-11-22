@@ -44,6 +44,16 @@ window.BRIEF = {
   /* BENEFIT — one action fans out to many places (uses channels) */
   reply: { l1: 'Reply once.', l2: 'Everyone sees it.', message: 'Fixed in v2.1, take a look ✓', avatar: 'YOU' },
 
+  /* BENEFIT — grey wall of faces lights up as a toggle connects (integrations / team adoption) */
+  colorize: { l1: 'Plugs into', l2: 'your tools.', toggle: 'Connect Chat, Email & Docs', pill: '48 clients synced' },
+  /* BENEFIT — accent card with a headline morphs into a folder, then into the product panel; a hand approves */
+  morph: { l1: 'Approvals,', l2: 'one click.', title: 'Review · Homepage v2', panelTitle: 'Homepage v2',
+    meta: [['Owner', 'Maya K.'], ['Due', 'Today'], ['Comments', '12 resolved']], button: 'Approve', done: 'Approved ✓' },
+  /* BENEFIT — laptop whips in, a request types and sends, camera pushes onto the button with depth of field */
+  rack: { request: 'Review the new pricing page', button: 'Send request', done: 'Sent ✓', screenshot: null },
+  /* TRANSITION/BENEFIT — camera dives into the laptop screen until it fills the frame; headline on glass */
+  dive: { l1: 'Lives where', l2: 'you already work.', screenshot: null },
+
   /* PROOF — dashboard with count-ups */
   proof: {
     pre: 'Close feedback ', accent: '3.2× faster',

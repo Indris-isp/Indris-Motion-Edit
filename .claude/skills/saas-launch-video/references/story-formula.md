@@ -11,7 +11,7 @@ The film sells a *relief*. The viewer has to feel the problem in the first 6–8
 | 3 | **Pain** | Turn the mess into one number | `pain` | 2.0–2.4 |
 | 4 | **Turn** | Darkness, then light: the product is coming | `turn` | 1.8–2.2 |
 | 5 | **Reveal** | Name + icon | `brand` | 1.5–1.8 |
-| 6–8 | **Benefits ×3** | Each one is a headline + UI proof that kills one part of the pain | `laptop`, `circle`, `fanout` | 2.4–2.8 each |
+| 6–8 | **Benefits ×3** | Each one is a headline + UI proof that kills one part of the pain | `laptop`, `circle`, `fanout`, or the signature shots `colorize`, `morph`, `rackfocus`, `dive` | 2.4–2.8 each |
 | 9 | **Proof** | Outcome numbers | `dashboard` | 2.2–2.6 |
 | 10 | **Social proof** | Others trust it | `social` | 1.7–2.0 |
 | 11 | **Ease** | It's fast to start (removes the last objection) | `reel` | 1.5–1.8 |

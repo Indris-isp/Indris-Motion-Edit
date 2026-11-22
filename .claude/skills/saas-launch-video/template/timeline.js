@@ -5,6 +5,9 @@
  *          The shot shows secondsOnScreen*speed of its authored length (see shots.js `len`);
  *          if that is less than `len`, the tail hold is trimmed.
  *   overrides: e.g. { tin: 'whip', tout: 'fade' } to change the transitions.
+ * Shots: hook chaos pain turn brand laptop circle fanout dashboard social reel cta,
+ *        plus colorize morph rackfocus dive (see references/shot-library.md). For example,
+ *        swap a benefit for ['dive', 2.5, 1.25] or ['morph', 2.8, 1.35] to vary the moves.
  * Pacing rules: 1.5-2.8 s per shot, CTA 2.5-3.5 s, total 22-35 s. A shot whose last move ends
  * more than 0.6 s before its cut will feel stuck: raise speed or lower seconds.
  */

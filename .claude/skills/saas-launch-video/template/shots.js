@@ -342,7 +342,7 @@ shot('dashboard', { hero: 2.6, len: 4.0, tin: 'whip', tout: 'up',
 
 /* ===== social: "Trusted by N+" count-up, logo marquee, rating ticks up ===== */
 shot('social', { hero: 2.0, len: 3.0, tin: 'up', tout: 'fade',
-  sfx: [[0.2, 'ticks10'], [1.0, 'pop'], [2.8, 'whoosh']],
+  sfx: [[0.2, 'ticks10'], [1.0, 'pop'], [1.9, 'riser'], [2.8, 'whoosh']],
   build(c, s) {
     const so = B.social;
     D(c, 'blob', { width: 1200, height: 500, left: 360, top: -260, opacity: .8 });
@@ -372,7 +372,7 @@ shot('social', { hero: 2.0, len: 3.0, tin: 'up', tout: 'fade',
 
 /* ===== reel: slot-machine number rolls to the answer ("02 minutes to set up") ===== */
 shot('reel', { hero: 1.9, len: 2.5, tin: 'fade', tout: 'fade',
-  sfx: [[0.1, 'reel'], [0.9, 'type10'], [1.5, 'riser']],
+  sfx: [[0.1, 'reel'], [0.9, 'type10']],
   build(c, s) {
     const su = B.setup, step = su.to < su.from ? -1 : 1, list = [];
     for (let n = su.from; step < 0 ? n >= su.to : n <= su.to; n += step) list.push(n);
@@ -421,4 +421,186 @@ shot('cta', { hero: 2.6, len: 4.0, bg: '#fff', tin: 'zoom',
     blurIn(s.tag, t, 1.0, 1.4, { y: 24 });
     s.bl.forEach((e, i) => { const a = 1.35 + i * .15, k = P(t, a, a + .35); S(e, { y: (1 - eo(k)) * 40, o: k * 2, s: L(.9, 1, bo(k)) }); });
     blurIn(s.url, t, 1.85, 2.2, { y: 12, blur: 10 });
+  } });
+
+/* ===== colorize: a grey wall of faces; a toggle flips on and faces light up with channel badges ===== */
+shot('colorize', { hero: 2.6, len: 3.2, tin: 'up', tout: 'whip',
+  sfx: [[0.05, 'pops6'], [0.3, 'type12'], [1.2, 'click'], [1.45, 'pops8'], [1.9, 'pops6'], [2.25, 'pop'], [2.95, 'whoosh']],
+  build(c, s) {
+    const cz = B.colorize, ch = B.channels;
+    s.grid = D(c, 'abs', { left: 0, top: 0, width: 1920, height: 1080 });
+    s.faces = [];
+    for (let r = 0; r < 9; r++) for (let k = 0; k < 15; k++) {
+      const x = -30 + k * 138 + (r % 2) * 69, y = -40 + r * 132, i = r * 15 + k;
+      const w = D(s.grid, 'abs', { left: x, top: y, width: 100, height: 100 }, av(person(i), 100, i));
+      const dx = x + 50 - 960, dy = y + 50 - 540, d = Math.hypot(dx, dy * 1.6);
+      const centre = Math.abs(dx) < 560 && Math.abs(dy) < 230;               // keep the middle clear for the copy
+      const lit = !centre && hash(i * 3.7) < .32;
+      let bd = null;
+      if (lit) { const g = ch[i % ch.length]; bd = D(w, 'abs', { right: -4, bottom: -4 }, glyphHTML(g[0], g[1], 34)); }
+      s.faces.push({ w, bd, lit, d0: .02 + d * .00045, d1: 1.35 + d * .0009 + hash(i) * .35 });
+    }
+    s.wash = D(c, 'ctr', { left: 960, top: 560, width: 1500, height: 720, borderRadius: '50%', background: 'radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.97) 35%,rgba(255,255,255,0) 70%)' });
+    s.h1 = typed(c, 'ctr head', { left: 960, top: 410, fontSize: '96px' }, [{ t: cz.l1 }], false);
+    s.h2 = typed(c, 'ctr head acc', { left: 960, top: 505, fontSize: '96px' }, [{ t: cz.l2 }]);
+    s.tog = D(c, 'ctr card row', { left: 960, top: 650, padding: '14px 18px 14px 22px', borderRadius: '999px', gap: '16px' },
+      `${iconHTML(40)}<span style="font-size:24px;font-weight:600;white-space:nowrap">${cz.toggle}</span><span class="sw" style="position:relative;width:74px;height:42px;border-radius:999px;background:#D9DEE8;display:block"><span class="kn" style="position:absolute;left:4px;top:4px;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25);display:block"></span></span>`);
+    s.sw = s.tog.querySelector('.sw'); s.kn = s.tog.querySelector('.kn');
+    s.pill = D(c, 'ctr pill', { left: 960, top: 745, fontSize: '20px', fontWeight: 600, color: 'var(--acc)' }, `<span style="width:10px;height:10px;border-radius:50%;background:#19B36B;display:inline-block"></span>${cz.pill}`);
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.08, 1, eo(P(t, 0, 3.2))) });
+    s.grid.style.transform = `translateY(${(-t * 14).toFixed(1)}px)`;
+    for (const f of s.faces) {
+      const a = P(t, f.d0, f.d0 + .35), on = f.lit ? P(t, f.d1, f.d1 + .3) : 0;
+      f.w.style.opacity = (C(a * 3) * (.5 + .5 * on)).toFixed(3);
+      f.w.style.filter = `grayscale(${(1 - on).toFixed(2)})`;
+      f.w.style.transform = `scale(${(L(.6, 1, bo(a)) * (1 + .18 * Math.sin(on * Math.PI))).toFixed(3)})`;
+      if (f.bd) f.bd.style.transform = `scale(${bo(P(t, f.d1 + .12, f.d1 + .4)).toFixed(3)})`;
+    }
+    S(s.wash, { o: eo(P(t, .1, .5)) });
+    typeP(s.h1, P(t, .3, .7), t, false); typeP(s.h2, P(t, .7, 1.05), t, t < 1.3);
+    const tp = P(t, .55, .9); S(s.tog, { y: (1 - eo(tp)) * 50, o: tp * 2, s: L(.9, 1, bo(tp)) });
+    const k = eio(P(t, 1.15, 1.4));
+    s.kn.style.transform = `translateX(${(k * 32).toFixed(1)}px)`;
+    s.sw.style.background = k > .5 ? 'var(--acc)' : '#D9DEE8';
+    const q = P(t, 2.2, 2.5); S(s.pill, { y: (1 - eo(q)) * 30, o: q * 2, s: L(.8, 1, bo(q)) });
+  } });
+
+/* ===== morph: an accent card with a headline morphs into a folder, then into a UI panel; a hand approves ===== */
+shot('morph', { hero: 3.4, len: 4.0, tin: 'zoom', tout: 'up',
+  sfx: [[0.0, 'pop'], [0.9, 'whoosh_s'], [1.3, 'swoop'], [1.6, 'pops6'], [2.0, 'whoosh_s'], [2.95, 'click'], [3.02, 'pop'], [3.78, 'whoosh']],
+  build(c, s) {
+    const m = B.morph;
+    D(c, 'blob', { width: 1100, height: 700, left: 410, top: 200 });
+    s.tab = D(c, 'abs', { borderRadius: '22px 22px 0 0' });
+    s.card = D(c, 'abs', { overflow: 'hidden', boxShadow: '0 40px 90px -20px rgba(var(--accRGB),.45)' });
+    s.white = D(s.card, 'abs', { inset: 0, background: '#fff' });
+    s.fill = D(s.card, 'abs', { inset: 0, background: 'linear-gradient(150deg,var(--acc2),var(--acc) 55%,var(--acc3))' });
+    s.h = D(s.card, 'ctr head', { left: '50%', top: '50%', fontSize: '92px', color: '#fff', textAlign: 'center' }, `${m.l1}\n<span style="color:var(--acc4)">${m.l2}</span>`);
+    s.hdr = D(s.card, 'abs row', { left: 0, top: 0, right: 0, height: 76, padding: '0 30px', background: 'var(--acc)', color: '#fff', fontSize: '24px', fontWeight: 600, justifyContent: 'space-between' },
+      `<span class="row" style="gap:12px">${iconHTML(36)}${m.title}</span><span class="row" style="gap:8px">${['All', 'Mine', 'Done'].map((x, i) => `<span style="font-size:15px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,${i ? .18 : .95});color:${i ? '#fff' : 'var(--acc)'}">${x}</span>`).join('')}</span>`);
+    s.tiles = []; for (let i = 0; i < 6; i++) s.tiles.push(D(s.card, 'abs', { left: 34 + (i % 3) * 228, top: 110 + Math.floor(i / 3) * 250, width: 206, height: 228, borderRadius: '16px', background: '#fff', boxShadow: 'inset 0 0 0 1.5px #E6EAF2', padding: '12px' },
+      `<div style="height:120px;border-radius:10px;background:linear-gradient(135deg,var(--tint),rgba(var(--acc2RGB),${.15 + (i % 3) * .12}))"></div><div class="ln" style="width:70%;margin-top:14px"></div><div class="ln" style="width:45%;margin-top:10px"></div><div class="row" style="margin-top:12px;gap:0">${av(person(i), 28, i)}${av(person(i + 2), 28, i + 2)}</div>`));
+    s.panel = D(s.card, 'abs', { top: 100, width: 340, borderRadius: '20px', background: '#F7F9FD', boxShadow: 'inset 0 0 0 1.5px #E6EAF2', padding: '24px' },
+      `<div style="font-size:26px;font-weight:700;letter-spacing:-.02em">${m.panelTitle}</div>` + m.meta.map(r => `<div class="row" style="justify-content:space-between;margin-top:16px;font-size:18px"><span style="color:var(--mut);font-weight:500">${r[0]}</span><b>${r[1]}</b></div>`).join('') +
+      `<div class="btn" style="margin-top:34px;height:60px;border-radius:16px;background:var(--ink);color:#fff;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center"></div>`);
+    s.btn = s.panel.querySelector('.btn'); s.btn.textContent = m.button;
+    s.hand = mkHand(c);
+    s.rip = D(c, 'ctr', { left: 0, top: 0, width: 80, height: 80, borderRadius: '50%', border: '4px solid rgba(var(--accRGB),.7)' });
+  },
+  layout(t, s) { // returns the card box for time t (the morph keyframes)
+    const a = eio(P(t, .9, 1.3)), b = eio(P(t, 1.3, 1.75));
+    const w = L(L(560, 1000, a), 1100, b), h = L(L(560, 600, a), 640, b);
+    return { w, h, x: 960 - w / 2, y: 585 - h / 2, r: L(L(90, 34, a), 30, b), a, b };
+  },
+  measure(s, sc) { sc.update(3.6, s, sc.cam, sc, true); const p = centerOf(s.btn); s.tx = p.x; s.ty = p.y; },
+  update(t, s, c, sc, noCam) {
+    S(c, { s: noCam ? 1 : L(1, 1.05, t / 4) });
+    const k = sc.layout(t, s), pop = bo(P(t, 0, .35));
+    Object.assign(s.card.style, { left: k.x + 'px', top: k.y + 'px', width: k.w + 'px', height: k.h + 'px', borderRadius: k.r + 'px', transform: `scale(${L(.6, 1, pop).toFixed(3)})`, opacity: C(t * 6).toFixed(3) });
+    s.fill.style.opacity = (1 - k.b).toFixed(3);
+    s.fill.style.filter = `brightness(${L(1, 1.12, k.a).toFixed(3)})`;
+    blurIn(s.h, t, .1, .5, { y: 20 });
+    if (t > .85) S(s.h, { o: 1 - P(t, .85, 1.1), b: P(t, .85, 1.1) * 16, s: L(1, .9, P(t, .85, 1.1)) });
+    // folder tab grows from the card's top-left, then widens into the header bar
+    const ta = P(t, .95, 1.2);
+    const tw = L(300, k.w, k.b), th = L(64, 0, k.b);
+    Object.assign(s.tab.style, { left: (k.x + L(46, 0, k.b)) + 'px', top: (k.y - th + 2) + 'px', width: tw + 'px', height: th + 'px', background: 'var(--acc2)', opacity: (ta * (1 - k.b)).toFixed(3) });
+    s.hdr.style.opacity = P(t, 1.45, 1.75).toFixed(3);
+    s.h.style.display = t > 1.2 ? 'none' : 'block';
+    s.tiles.forEach((e, i) => { const q = P(t, 1.6 + i * .06, 1.9 + i * .06); S(e, { y: (1 - eo(q)) * 40, o: q * 2, s: L(.9, 1, eo(q)) }); });
+    const pp = eo(P(t, 2.0, 2.4)); s.panel.style.left = (k.w - 24 - 340 + (1 - pp) * 420) + 'px'; s.panel.style.height = (k.h - 124) + 'px'; s.panel.style.opacity = C(pp * 3).toFixed(3);
+    const done = t >= 2.98 || noCam;
+    s.btn.textContent = done && !noCam ? B.morph.done : B.morph.button;
+    s.btn.style.background = done && !noCam ? '#19B36B' : 'var(--ink)';
+    s.btn.style.transform = `scale(${(done && !noCam ? L(.9, 1, bo(P(t, 2.98, 3.2))) : 1).toFixed(3)})`;
+    if (noCam || s.tx == null) return;
+    moveHand(s.hand, t, s.tx, s.ty, 2.3, 2.95);
+    const ri = P(t, 2.95, 3.5); s.rip.style.left = s.tx + 'px'; s.rip.style.top = s.ty + 'px'; S(s.rip, { s: L(.2, 1.8, eo(ri)), o: ri > 0 ? 1 - ri : 0 });
+  } });
+
+/* ===== rackfocus: laptop whips in, a request types and sends, camera pushes onto the button as the screen falls out of focus ===== */
+shot('rackfocus', { hero: 2.7, len: 3.0, tout: 'fade',
+  sfx: [[0.0, 'whoosh'], [0.5, 'type16'], [1.0, 'whoosh_s'], [1.55, 'click'], [1.6, 'pop'], [1.7, 'swoop'], [2.78, 'whoosh']],
+  build(c, s) {
+    const rk = B.rack, ib = B.inbox;
+    s.rays = D(c, 'rays', { height: 1080, opacity: .5 });
+    s.lap = D(c, 'abs', { left: 360, top: 130, width: 1200, height: 860, perspective: '2400px' });
+    s.scr = D(s.lap, 'abs', { left: 50, top: 0, width: 1100, height: 690, transformOrigin: '50% 100%' });
+    const bez = D(s.scr, 'abs', { inset: 0, borderRadius: '32px', background: '#1a1c22', padding: '20px', boxShadow: '0 70px 130px -30px rgba(20,40,110,.55)' });
+    const app = D(bez, '', { width: '100%', height: '100%', borderRadius: '14px', background: '#fff', overflow: 'hidden', position: 'relative' });
+    s.base = D(s.lap, 'abs', { left: -10, top: 690, width: 1220, height: 50, transformOrigin: '50% 0', borderRadius: '0 0 34px 34px', background: 'linear-gradient(180deg,#d9dde6,#aeb4c2)' });
+    s.soft = D(app, 'abs', { inset: 0 });                         // everything that goes out of focus
+    if (rk.screenshot) s.soft.innerHTML = `<img src="${rk.screenshot}" style="width:100%;height:100%;object-fit:cover;object-position:top left">`;
+    else {
+      D(s.soft, 'abs', { left: 0, top: 0, bottom: 0, width: 190, background: '#F6F8FC', padding: '22px 14px' }, ib.nav.map((x, i) => `<div style="font-size:15px;font-weight:600;padding:10px 12px;border-radius:8px;${i == 1 ? 'background:var(--tint);color:var(--acc)' : 'color:#6B7180'}">${x}</div>`).join(''));
+      D(s.soft, 'abs', { left: 220, top: 130, right: 30 }, ib.items.slice(0, 5).map((it, i) => `<div class="row" style="padding:13px 14px;margin-bottom:9px;border-radius:12px;box-shadow:inset 0 0 0 1px #EDF0F6">${av(person(i), 36, i)}<div style="flex:1;font-size:17px;font-weight:600">${it[0]}</div><div class="ln" style="width:90px"></div></div>`).join(''));
+    }
+    s.bar = D(s.soft, 'abs row', { left: 220, top: 34, right: 230, height: 70, borderRadius: '16px', background: '#fff', boxShadow: '0 10px 30px -10px rgba(30,50,110,.3), inset 0 0 0 1.5px #E3E8F3', padding: '0 20px', fontSize: '22px', fontWeight: 500 });
+    s.req = typed(s.bar, '', {}, [{ t: rk.request }]);
+    s.btn = D(app, 'abs', { right: 30, top: 34, width: 186, height: 70, borderRadius: '16px', background: 'var(--acc)', color: '#fff', fontSize: '21px', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 14px 30px -10px rgba(var(--accRGB),.7)' });
+    s.btn.textContent = rk.button;
+    s.fg = D(c, 'ctr pill', { left: 600, top: 930, fontSize: '40px', padding: '24px 40px' }, `${av(person(2), 70, 2)}${rk.request}`); // out-of-focus foreground element
+    s.hand = mkHand(c);
+  },
+  measure(s, sc) { sc.update(1.5, s, sc.cam, sc, true); const p = centerOf(s.btn); s.bx = p.x; s.by = p.y; s.focus = { x: s.bx + (960 - s.bx) * .6, y: s.by + (540 - s.by) * .6 }; },
+  update(t, s, c, sc, noCam) {
+    const push = noCam ? 0 : eio(P(t, 1.65, 2.6));
+    if (!noCam && s.bx != null) { c.style.transformOrigin = `${s.bx}px ${s.by}px`; S(c, { s: L(1, 2.0, push), x: (960 - s.bx) * .6 * push, y: (540 - s.by) * .6 * push }); }
+    else S(c, {});
+    S(s.rays, { o: .5 * eo(P(t, 0, .4)) });
+    const lx = tt => L(1300, 0, eo(P(tt, 0, .55)));
+    const ry = L(-50, -10, eo(P(t, 0, .7))) + Math.sin(t * 1.1);
+    S(s.lap, { x: lx(t), bx: Math.min(80, vel(lx, t) * .4), o: C(t * 8) });
+    s.scr.style.transform = `rotateY(${ry.toFixed(2)}deg) rotateX(7deg)`;
+    s.base.style.transform = `rotateY(${ry.toFixed(2)}deg) rotateX(64deg)`;
+    typeP(s.req, P(t, .5, 1.35), t, t < 1.55);
+    const sent = t >= 1.57 && !noCam;
+    s.btn.textContent = sent ? B.rack.done : B.rack.button;
+    s.btn.style.background = sent ? '#19B36B' : 'var(--acc)';
+    s.btn.style.transform = `scale(${(t > 1.5 && t < 1.75 ? 1 - .1 * Math.sin(P(t, 1.5, 1.75) * Math.PI) : 1).toFixed(3)})`;
+    s.btn.style.boxShadow = sent ? `0 0 0 ${(push * 14).toFixed(1)}px rgba(25,179,107,.18), 0 14px 30px -10px rgba(25,179,107,.6)` : '0 14px 30px -10px rgba(var(--accRGB),.7)';
+    s.soft.style.filter = push > .01 ? `blur(${(push * 7).toFixed(2)}px)` : 'none';                  // depth of field: background falls away
+    s.base.style.filter = push > .01 ? `blur(${(push * 10).toFixed(2)}px)` : 'none';
+    const fp = P(t, 1.7, 3.0); S(s.fg, { x: L(-200, 900, fp), o: fp > 0 ? Math.min(1, fp * 4) * .9 : 0, b: 26, s: 1.6 });    // foreground blur sells the depth
+    if (noCam || s.bx == null) return;
+    moveHand(s.hand, t, s.bx - 20, s.by + 10, .95, 1.5);
+    if (t > 1.9) s.hand.style.opacity = (1 - P(t, 1.9, 2.2)).toFixed(3);
+  } });
+
+/* ===== dive: a laptop rises, the camera flies into its screen until the screen IS the frame (no cut), then the headline lands ===== */
+shot('dive', { hero: 2.9, len: 3.2, tin: 'fade', tout: 'whip',
+  sfx: [[0.0, 'whoosh_s'], [0.55, 'shimmer'], [0.95, 'whoosh'], [1.85, 'hit_s'], [2.0, 'whoosh_s'], [2.98, 'whoosh']],
+  build(c, s) {
+    const dv = B.dive, SW = 880, SH = 495, sc0 = SW / 1920;
+    s.k = 1920 / SW;
+    D(c, 'blob', { width: 1100, height: 600, left: 410, top: 600 });
+    s.lap = D(c, 'abs', { left: 960 - SW / 2 - 22, top: 540 - SH / 2 - 22, width: SW + 44, height: SH + 120 });
+    s.bez = D(s.lap, 'abs', { left: 0, top: 0, width: SW + 44, height: SH + 44, borderRadius: '30px', background: '#1a1c22', boxShadow: '0 60px 120px -30px rgba(20,40,110,.55)' });
+    s.base = D(s.lap, 'abs', { left: -60, top: SH + 44, width: SW + 164, height: 30, borderRadius: '0 0 26px 26px', background: 'linear-gradient(180deg,#d9dde6,#aeb4c2)' });
+    s.scrn = D(c, 'abs', { left: 960 - SW / 2, top: 540 - SH / 2, width: SW, height: SH, overflow: 'hidden', borderRadius: '12px' });
+    s.world = D(s.scrn, 'abs', { left: 0, top: 0, width: 1920, height: 1080, transformOrigin: '0 0', transform: `scale(${sc0})` });   // authored at full-frame size
+    s.bg = D(s.world, 'abs', { inset: 0, background: dv.screenshot ? `url('${dv.screenshot}') top left/cover` : 'radial-gradient(ellipse at 30% 20%,var(--acc2) 0%,var(--acc) 45%,var(--acc3) 100%)' });
+    s.tintL = D(s.world, 'abs', { inset: 0, background: 'linear-gradient(180deg,rgba(var(--accRGB),.55),rgba(var(--accRGB),.8))', opacity: 0 });
+    const pos = [[330, 260], [1600, 300], [420, 820], [1520, 830]];
+    s.cards = B.channels.concat(B.channels).slice(0, 4).map((g, i) => D(s.world, 'ctr card row', { left: pos[i][0], top: pos[i][1], padding: '20px 30px 20px 20px', borderRadius: '26px', gap: '16px' }, `<div class="glyph" style="width:74px;height:74px;font-size:34px;background:${g[1]}">${g[0]}</div><div style="font-size:32px;font-weight:600">${g[2]}</div>`));
+    s.glass = D(s.world, 'ctr', { left: 960, top: 540, width: 1180, height: 380, borderRadius: '44px', background: 'rgba(255,255,255,.14)', backdropFilter: 'blur(22px)', boxShadow: 'inset 0 0 0 2px rgba(255,255,255,.4), 0 40px 80px -30px rgba(0,0,40,.4)' });
+    s.h1 = D(s.world, 'ctr head', { left: 960, top: 488, fontSize: '112px', color: '#fff' }, dv.l1);
+    s.h2 = D(s.world, 'ctr head', { left: 960, top: 600, fontSize: '112px', color: 'var(--acc4)' }, dv.l2);
+    s.grid = D(s.world, 'abs', { inset: 0, background: 'linear-gradient(90deg,transparent 559px,rgba(255,255,255,.28) 559px 561px,transparent 561px 1359px,rgba(255,255,255,.28) 1359px 1361px,transparent 1361px),linear-gradient(0deg,transparent 179px,rgba(255,255,255,.28) 179px 181px,transparent 181px 899px,rgba(255,255,255,.28) 899px 901px,transparent 901px)', opacity: 0 });
+  },
+  update(t, s, c) {
+    const rise = eo(P(t, 0, .6)), dive = eio(P(t, .95, 1.9));
+    S(c, { s: L(1, s.k, dive) * L(.9, 1, rise), y: (1 - rise) * 160 });
+    s.lap.style.opacity = C(rise * 2).toFixed(3); s.scrn.style.opacity = C(rise * 2).toFixed(3);
+    s.lap.style.filter = dive > .01 ? `blur(${(dive * 8).toFixed(1)}px)` : 'none';
+    s.scrn.style.borderRadius = L(12, 0, P(t, 1.6, 1.9)) + 'px';
+    s.cards.forEach((e, i) => { const a = P(t, .4 + i * .1, .75 + i * .1), out = eio(P(t, 1.9, 2.5)), dx = (i % 2 ? 1 : -1) * 260 * out, dy = (i < 2 ? -1 : 1) * 120 * out;
+      S(e, { x: dx, y: dy + Math.sin(t * 1.6 + i) * 10 + (1 - eo(a)) * 60, o: C(a * 2), s: L(.8, 1, bo(a)), r: (i % 2 ? 3 : -3) * out }); });
+    const settle = P(t, 1.9, 2.4);
+    if (B.dive.screenshot) { s.bg.style.filter = `blur(${(eo(settle) * 14).toFixed(1)}px)`; s.tintL.style.opacity = (eo(settle) * .9).toFixed(3); }
+    S(s.glass, { o: eo(settle), s: L(.92, 1, eo(settle)) });
+    s.grid.style.opacity = (eo(settle) * .8).toFixed(3);
+    blurIn(s.h1, t, 2.0, 2.4, { y: 26 }); blurIn(s.h2, t, 2.15, 2.55, { y: 26 });
   } });
