@@ -50,7 +50,8 @@ window.BRIEF = {
   morph: { l1: 'Approvals,', l2: 'one click.', title: 'Review · Homepage v2', panelTitle: 'Homepage v2',
     meta: [['Owner', 'Maya K.'], ['Due', 'Today'], ['Comments', '12 resolved']], button: 'Approve', done: 'Approved ✓' },
   /* BENEFIT — laptop whips in, a request types and sends, camera pushes onto the button with depth of field */
-  rack: { request: 'Review the new pricing page', button: 'Send request', done: 'Sent ✓', screenshot: null },
+  rack: { request: 'Review the new pricing page', button: 'Send request', done: 'Sent ✓', screenshot: null,
+    l1: 'Ask once.', l2: 'Get answers.' },   // l1/l2 show in 9:16 only (fills the space above the laptop)
   /* TRANSITION/BENEFIT — camera dives into the laptop screen until it fills the frame; headline on glass */
   dive: { l1: 'Lives where', l2: 'you already work.', screenshot: null },
 

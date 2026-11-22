@@ -12,7 +12,9 @@
  * more than 0.6 s before its cut will feel stuck: raise speed or lower seconds.
  */
 window.TIMELINE = {
-  FPS: 30, BPM: 128, W: 1920, H: 1080,
+  FPS: 30, BPM: 128,
+  FORMAT: '16:9',          // or '9:16'. Override per render with FORMAT=9:16 ./build.sh (or FORMAT=both)
+  // shotsVertical: [...],  // optional: a different (shorter) shot list for 9:16 only
   shots: [
     ['hook',      1.6, 1.35],
     ['chaos',     2.0, 1.3],

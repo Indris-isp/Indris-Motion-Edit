@@ -5,7 +5,12 @@
  */
 'use strict';
 const TL = window.TIMELINE, B = window.BRIEF;
-const W = TL.W || 1920, H = TL.H || 1080, FPS = TL.FPS || 30;
+/* FORMAT: '16:9' (1920x1080) or '9:16' (1080x1920). Set TIMELINE.FORMAT, or override per render with ?fmt=9:16 */
+const FMT = new URLSearchParams(location.search).get('fmt') || TL.FORMAT || '16:9';
+const V = FMT === '9:16';                       // vertical
+const W = V ? 1080 : 1920, H = V ? 1920 : 1080, FPS = TL.FPS || 30;
+const CX = W / 2, CY = H / 2;
+const lv = (land, vert) => V ? vert : land;     // pick a value per format
 
 /* ---------- math & easing ---------- */
 const C = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -119,7 +124,7 @@ function shot(id, def) { SHOTS[id] = def; }
 const scenes = [];
 function buildTimeline() {
   let a = 0;
-  TL.shots.forEach((row, i) => {
+  (V && TL.shotsVertical ? TL.shotsVertical : TL.shots).forEach((row, i) => {
     const [id, dur, k = 1, over = {}] = row, def = SHOTS[id];
     if (!def) throw new Error('unknown shot ' + id);
     const sc = Object.assign({ id, i, a, b: a + dur, dur, k, vd: dur * k }, def, over);
@@ -136,14 +141,14 @@ function applyTr(sc, lt) {
   const I = sc.tin, O = sc.tout, ti = .3, to = .24;
   if (I && lt < ti) {
     const p = eo(lt / ti), q = 1 - p;
-    if (I === 'whip') { o.x = q * 700; o.bx = q * 60; }
+    if (I === 'whip') { o.x = q * W * .36; o.bx = q * 60; }
     if (I === 'up') { o.y = q * 500; o.by = q * 50; }
     if (I === 'zoom') { o.s = L(.82, 1, p); o.bx = o.by = q * 24; }
     if (I === 'fade') { o.o = C(lt / .2); o.bx = o.by = q * 30; o.s = L(1.06, 1, p); }
   }
   if (O && lt > d - to) {
     const p = ei(P(lt, d - to, d));
-    if (O === 'whip') { o.x += -p * 800; o.bx += p * 70; }
+    if (O === 'whip') { o.x += -p * W * .42; o.bx += p * 70; }
     if (O === 'up') { o.y += -p * 600; o.by += p * 60; }
     if (O === 'zoom') { o.s *= L(1, 1.6, p); o.bx += p * 30; o.by += p * 30; o.o = 1 - p * .6; }
     if (O === 'fade') { o.o = 1 - p; o.bx += p * 30; o.by += p * 30; }
@@ -176,11 +181,13 @@ window.exportCues = function () {
   sfx.sort((x, y) => x[0] - y[0]);
   const find = id => { const s = scenes.find(s => s.id === id); return s ? s : null; };
   const turn = find('turn'), cta = find('cta');
-  return { FPS, BPM: TL.BPM || 128, DUR: window.DUR, W, H, sfx,
+  return { FPS, BPM: TL.BPM || 128, DUR: window.DUR, W, H, FMT, sfx,
     markers: { turn: turn ? turn.a : null, drop: turn ? turn.b : 0, cta: cta ? cta.a : window.DUR },
     scenes: scenes.map(s => ({ id: s.id, a: s.a, b: s.b, k: s.k, hero: s.hero })) };
 };
 function boot() {
+  stage.style.width = W + 'px'; stage.style.height = H + 'px';
+  document.documentElement.style.setProperty('--camOrigin', `${CX}px ${CY}px`);
   applyTheme(B.brand);
   buildTimeline();
   document.fonts.ready.then(() => Promise.all([...document.images].map(im => im.complete ? 0 : new Promise(r => { im.onload = im.onerror = r; })))).then(() => {

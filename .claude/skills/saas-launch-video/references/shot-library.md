@@ -54,6 +54,7 @@ shot('myshot', { hero: 1.8, len: 3.0, tin: 'whip', tout: 'fade',
 ```
 
 Rules:
+- Lay out for both formats: use `CX`, `CY`, `W`, `H` and `lv(landscape, vertical)` instead of fixed numbers, and check both boards.
 - `update` must be a pure function of `t`, because frames render out of order on 4 workers.
 - Position with `left`/`top`, plus `ctr` for centring. Animate only through `S()` or `transform`/`opacity`/`filter`.
 - Shared helpers: `mkHand(c)` + `moveHand(h, t, x, y, t0, t1)` for a hand that travels and presses, `centerOf(el)` for a target's stage position (call it in `measure()`), and `iconHTML`/`glyphHTML`/`av` for the icon, glyphs and avatars.

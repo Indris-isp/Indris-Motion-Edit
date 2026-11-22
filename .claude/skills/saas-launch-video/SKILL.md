@@ -1,11 +1,11 @@
 ---
 name: saas-launch-video
-description: Make a premium, fast-paced SaaS / app / product launch video (motion-graphics promo, product demo film, feature announcement, explainer teaser) in the problem→solution style of top SaaS launch films. Kinetic typography, a 3D laptop with the product UI, hand-cursor clicks, circle reveals, blur-whip transitions, count-ups, logo reveal, music and SFX synced to every cut, shape morphs, rack focus, colour-ize face walls, device dives, rendered frame-exact to MP4. Use when the user asks for a launch video, product video, promo, SaaS ad, motion-graphics edit or app teaser, or wants to analyze a reference launch video and copy its style.
+description: Make a premium, fast-paced SaaS / app / product launch video (motion-graphics promo, product demo film, feature announcement, explainer teaser) in the problem→solution style of top SaaS launch films. Kinetic typography, a 3D laptop with the product UI, hand-cursor clicks, circle reveals, blur-whip transitions, count-ups, logo reveal, music and SFX synced to every cut, shape morphs, rack focus, colour-ize face walls, device dives, rendered frame-exact to MP4 in 16:9 and 9:16 (Reels/TikTok/Shorts). Use when the user asks for a launch video, product video, promo, SaaS ad, motion-graphics edit or app teaser, or wants to analyze a reference launch video and copy its style.
 ---
 
 # SaaS launch video
 
-This skill turns a product brief into a 22–35 s, 1920×1080 launch film. The film has a problem-first story, a cut every 1.5–2.8 s, motion graphics throughout, and music and SFX on every beat. Each frame is a pure function of time in a headless browser, so the output is frame-exact and repeatable.
+This skill turns a product brief into a 22–35 s launch film, in 16:9 (1920×1080) and/or 9:16 (1080×1920). The film has a problem-first story, a cut every 1.5–2.8 s, motion graphics throughout, and music and SFX on every beat. Each frame is a pure function of time in a headless browser, so the output is frame-exact and repeatable.
 
 **What's here**
 - `template/`: the engine and a complete working film ("Loopin", a fictional demo).
@@ -62,7 +62,7 @@ python3 .claude/skills/saas-launch-video/scripts/new_project.py <project_dir> --
 ### 4. Storyboard (gate 2)
 
 ```bash
-cd <project_dir> && node render.cjs --board
+cd <project_dir> && node render.cjs --board                   # add --format 9:16 for the vertical board
 ```
 
 Read `out/board.png` yourself and check that:
@@ -76,7 +76,7 @@ Fix any problems, then show the board to the user (`SendUserFile`) and **wait fo
 ### 5. Render and QA
 
 ```bash
-cd <project_dir> && NAME=<product>_launch ./build.sh
+cd <project_dir> && NAME=<product>_launch ./build.sh          # add FORMAT=9:16 or FORMAT=both for vertical
 ```
 
 Then Read `out/qa_sheet.png` (two frames per second) and check:
@@ -103,8 +103,26 @@ Send the MP4 (`SendUserFile`, display `render`). Give a short shot list with tim
 
 ## Formats
 
-- The template is built for **16:9 at 1920×1080**.
-- For **9:16**, set `W:1080,H:1920` in `timeline.js`, change `#stage` and `.cam` (origin 540px 960px) in `index.html`, and re-lay out each shot's `left/top`. Stack the headline above the device, and drop the side cards in `dashboard` or move them below. Render a board and check every shot before the full render.
+One project renders both formats from the same brief and timeline:
+
+| Format | Size | Use | Command |
+|---|---|---|---|
+| **16:9** | 1920×1080 | Website, YouTube, Product Hunt, LinkedIn, X | `./build.sh` → `out/<NAME>.mp4` |
+| **9:16** | 1080×1920 | Reels, TikTok, Shorts, Stories | `FORMAT=9:16 ./build.sh` → `out/<NAME>_9x16.mp4` |
+| both | | | `FORMAT=both ./build.sh` |
+
+- Boards and stills take the flag too: `node render.cjs --board --format 9:16` writes `out/board_9x16.png`.
+- In the browser preview, use the "switch to 9:16" link, or open `index.html?fmt=9:16`.
+- To make 9:16 the project default, set `FORMAT: '9:16'` in `timeline.js`.
+- Every shot has a portrait layout (`lv(landscape, vertical)` in `shots.js`):
+  - copy is stacked above the device
+  - big numbers and taglines break onto two lines
+  - the morph ends in a tall panel
+  - `dive` flies into a **phone** instead of a laptop
+  - `rackfocus` shows `rack.l1/l2` above the laptop
+- For a different vertical cut (vertical viewers drop off faster), add `shotsVertical: [...]` to `timeline.js`. It replaces `shots` in 9:16 only, so you can drop the slower beats (e.g. `social`, `reel`) and aim for 15–22 s.
+- Vertical safe zone: keep copy out of the top 250 px and bottom 350 px, where app UI sits. The template layouts already do.
+- Check the 9:16 board as carefully as the 16:9 one. Long product names or headlines can overflow a 1080 px width: shorten the copy, or lower that shot's font size with `lv(...)`.
 - For a 15–20 s cutdown, use the short arc in `story-formula.md`.
 
 ## Guardrails

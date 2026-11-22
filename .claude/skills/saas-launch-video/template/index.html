@@ -17,7 +17,7 @@ html,body{margin:0;background:#111;overflow:hidden}
 #wrap{position:absolute;left:0;top:0;transform-origin:0 0}
 #stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#fff;font-family:var(--font),Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 .scene{position:absolute;inset:0;overflow:hidden;display:none;will-change:transform,filter}
-.cam{position:absolute;inset:0;transform-origin:960px 540px}
+.cam{position:absolute;inset:0;transform-origin:var(--camOrigin,960px 540px)}
 .abs{position:absolute}
 .ctr{position:absolute;transform:translate(-50%,-50%)}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,rgba(var(--blobRGB),1) 0%,rgba(var(--blobRGB),0) 70%)}
@@ -49,7 +49,7 @@ body.render #ui{display:none}
 <body>
 <div id="wrap"><div id="stage"><div id="flash"></div></div></div>
 <svg width="0" height="0" style="position:absolute"><defs id="fdefs"></defs></svg>
-<div id="ui"><button id="play">Play</button><input id="scrub" type="range" min="0" value="0"><span id="tc">0.00s</span><span>(preview only, no audio; the render is frame-exact)</span></div>
+<div id="ui"><button id="play">Play</button><a id="fmt" style="color:#9cf"></a><input id="scrub" type="range" min="0" value="0"><span id="tc">0.00s</span><span>(preview only, no audio; the render is frame-exact)</span></div>
 <script src="brief.js"></script>
 <script src="timeline.js"></script>
 <script src="engine.js"></script>
@@ -59,8 +59,9 @@ boot();
 /* preview: fit to window, play/scrub. Rendering adds ?render=1 and drives renderAt() itself. */
 const R = new URLSearchParams(location.search).has('render');
 if (R) document.body.classList.add('render');
+const fl = document.getElementById('fmt'); fl.textContent = V ? 'switch to 16:9' : 'switch to 9:16'; fl.href = '?fmt=' + (V ? '16:9' : '9:16');
 const wrap = document.getElementById('wrap');
-function fit() { const s = R ? 1 : Math.min(innerWidth / 1920, (innerHeight - 48) / 1080); wrap.style.transform = `scale(${s})`; }
+function fit() { const s = R ? 1 : Math.min(innerWidth / W, (innerHeight - 48) / H); wrap.style.transform = `scale(${s})`; }
 addEventListener('resize', fit); fit();
 if (!R) {
   const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
