@@ -34,14 +34,14 @@ fs.mkdirSync(out, { recursive: true });
     const items = FRAMES.filter(f => f[0][0] === set);
     const title = set === 'A' ? 'TeamBuildr Strength · “From spreadsheet to scoreboard” · 45 s' : 'TeamBuildr AMS · “Who’s ready today?” · 20 s';
     const html = `<html><head><style>
-      @font-face{font-family:Inter;src:url(file://${path.resolve(dir,'../../video/fonts/Inter-600.ttf')});font-weight:600}
-      @font-face{font-family:Inter;src:url(file://${path.resolve(dir,'../../video/fonts/Inter-800.ttf')});font-weight:800}
-      body{margin:0;background:#07090D;color:#F2F4F8;font-family:Inter;padding:60px}
-      h1{font-weight:800;font-size:40px;margin:0 0 8px} p{color:#8A94A8;font-weight:600;margin:0 0 40px;font-size:20px}
+      @font-face{font-family:Figtree;src:url(file://${path.resolve(dir,'assets/fonts/figtree-latin-600-normal.woff2')});font-weight:600}
+      @font-face{font-family:Figtree;src:url(file://${path.resolve(dir,'assets/fonts/figtree-latin-800-normal.woff2')});font-weight:800}
+      body{margin:0;background:#F6F7FA;color:#1E212E;font-family:Figtree;padding:60px}
+      h1{font-weight:800;font-size:40px;margin:0 0 8px} p{color:#6E7487;font-weight:600;margin:0 0 40px;font-size:20px}
       .g{display:grid;grid-template-columns:repeat(2,1fr);gap:36px}
-      img{width:100%;border-radius:12px;display:block;border:1px solid #2A3344}
-      .l{display:flex;justify-content:space-between;margin-top:12px;font-weight:600;font-size:20px} .l span{color:#8A94A8}
-    </style></head><body><h1>${title}</h1><p>Styleframes for approval · placeholder brand colors & UI until Figma + brand guide arrive</p><div class="g">
+      img{width:100%;border-radius:12px;display:block;border:1px solid #E6E8EE;box-shadow:0 10px 30px rgba(30,33,46,.08)}
+      .l{display:flex;justify-content:space-between;margin-top:12px;font-weight:600;font-size:20px} .l span{color:#6E7487}
+    </style></head><body><h1>${title}</h1><p>Styleframes for approval · TeamBuildr brand (colors, Figtree, logo from teambuildr.com) · UI rebuilt as placeholder until Figma arrives</p><div class="g">
     ${items.map(f => `<div><img src="file://${path.join(out, f[0] + '.png')}"><div class="l"><div>${f[0]} · ${f[1]} <span>(${f[2]})</span></div><span>${f[3]}</span></div></div>`).join('')}
     </div></body></html>`;
     const tmp = path.join(out, '_sheet.html');
