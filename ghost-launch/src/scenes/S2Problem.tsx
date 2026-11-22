@@ -55,7 +55,7 @@ export const S2Problem: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Background f={f} warm={0} parallax={x} />
+      <Background f={f + 240} warm={0} parallax={x} />
       <Camera f={f} scale={s} x={x} push={0.00008}>
         {/* tangled lines between tools */}
         <svg width={3200} height={1400} viewBox="-1600 -700 3200 1400" style={{ position: "absolute", left: "50%", top: "50%", marginLeft: -1600, marginTop: -700, opacity: stress * 0.9 }}>

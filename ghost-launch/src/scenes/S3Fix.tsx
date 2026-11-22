@@ -48,7 +48,7 @@ export const S3Fix: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Background f={f} warm={tw(f, 30, 120, 0.2, 1)} />
+      <Background f={f + 660} warm={tw(f, 20, 120, 0, 1)} />
       <Camera f={f} scale={camS} x={camX} y={camY} push={0.00006}>
         {winsOut > 0 && TOOL_X.map((tx, i) => {
           const j = jitter(f, i, 1 - m);

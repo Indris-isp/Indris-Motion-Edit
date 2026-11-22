@@ -19,7 +19,7 @@ export const S4Payoff: React.FC = () => {
   const hold = 1 + 0.02 * tw(f, 0, 360, 0, 1, (t) => t); // slow drift 1 → 1.02
   return (
     <AbsoluteFill>
-      <Background f={f + 480} warm={1} />
+      <Background f={f + 1140} warm={1} />
       <Camera f={f} scale={camS} x={camX} y={camY} push={0.00004}>
         <At y={DB_Y}>
           <div style={{ opacity: inA, transform: `scale(${DB_SCALE * hold})` }}>

@@ -20,7 +20,7 @@ export const S5Cta: React.FC = () => {
   const glow = tw(f, PRESS, PRESS + 30, 0, 1);
   return (
     <AbsoluteFill>
-      <Background f={f + 840} warm={1} />
+      <Background f={f + 1500} warm={1} />
       {dbOut < 1 && (
         <At y={DB_Y}>
           <div style={{ opacity: 1 - dbOut, transform: `scale(${DB_SCALE * 1.02 * (1 - 0.18 * dbOut)})`, filter: `blur(${dbOut * 8}px)` }}>
