@@ -10,3 +10,5 @@ launch-films/*/out/*.wav
 launch-films/*/out/video_silent.mp4
 launch-films/*/out/build.log
 .claude/skills/saas-launch-video/template/out/
+launch-films/*/out/board.png
+launch-films/*/out/cues.json
