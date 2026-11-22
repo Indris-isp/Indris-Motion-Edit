@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Launch video storyboard</title>
+<style>
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-700.ttf);font-weight:700}
+body{margin:0;background:#F3F5FA;font-family:Inter,sans-serif;color:#0B0D12;-webkit-font-smoothing:antialiased}
+#board{width:2460px;padding:70px 80px 80px;box-sizing:border-box}
+h1{font-size:52px;letter-spacing:-.04em;margin:0}
+h1 span{color:#2F6BFF}
+.sub{font-size:22px;color:#6B7180;margin:12px 0 26px;font-weight:500}
+.arc{display:flex;gap:10px;margin-bottom:40px}
+.arc div{flex:1;padding:12px 16px;border-radius:12px;font-weight:600;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 40px}
+.cell img{width:100%;border-radius:18px;display:block;box-shadow:0 24px 50px -20px rgba(30,50,110,.35)}
+.meta{display:flex;align-items:center;gap:12px;margin-top:18px}
+.n{font-weight:700;font-size:20px;color:#fff;background:#0B0D12;border-radius:8px;padding:3px 10px}
+.tc{font-weight:600;font-size:19px;color:#6B7180}
+.beat{font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:7px;margin-left:auto}
+.p{background:#FFECEC;color:#D63C3C}.t{background:#E9ECF5;color:#3A4160}.s{background:#E6EDFF;color:#2F6BFF}.c{background:#E8FBF2;color:#139B6E}
+.line{font-size:24px;font-weight:600;margin:12px 0 6px;letter-spacing:-.02em}
+.fx{font-size:18px;color:#4A5064;line-height:1.45;font-weight:500}
+.fx b{color:#0B0D12}
+</style>
+</head>
+<body>
+<div id="board">
+  <h1>Loopin, 40 s launch film <span>· storyboard in the reference style</span></h1>
+  <div class="sub">A made-up SaaS product, used to demo the skill. 16:9 · 60 fps · about 92 BPM (hits on transitions) · new visual event every 0.4–0.8 s</div>
+  <div class="arc">
+    <div class="p" style="flex:3">PROBLEM, 0–9 s: a real moment → chaos → the pain as a number</div>
+    <div class="t" style="flex:1">TURN, 9–12 s</div>
+    <div class="s" style="flex:3">SOLUTION, 12–33 s: brand → benefit headline + UI proof (×4)</div>
+    <div class="c" style="flex:2">PROOF + CTA, 33–40 s</div>
+  </div>
+  <div class="grid" id="g"></div>
+</div>
+<script>
+const F=[
+ ['0:00','p','Problem','“9:14 am”','<b>Focus-pull in</b> from a 40px blur, the minute digit <b>rolls</b> 3→4 with motion blur. A client message pill <b>flies in</b> (overshoot ease, ghost trail).'],
+ ['0:03','p','Problem','“Feedback is everywhere.”','A tilted 3D <b>wall of message cards</b> pops in with a stagger and red badges. The headline arrives on a <b>blur whip</b>: a sideways slide with motion streaks.'],
+ ['0:06','p','Pain','“127 unread · +38 today”','<b>Count-up</b> 0→127, a red pill <b>stamps</b> on with rotation. Avatar complaints orbit the number. The frame <b>desaturates and dips to black</b>.'],
+ ['0:09','t','Turn','(no words, music drops)','Dark navy starfield. A <b>light flare draws a ring</b> with a lens-flare star at its head, and the ring then turns into the app icon.'],
+ ['0:11','s','Reveal','“Loopin”','<b>White exposure flash</b> from dark to light. The icon slides left and the wordmark <b>types on</b> with a cursor. Channel pills rise in one by one.'],
+ ['0:14','s','Benefit 1','“Every comment, one inbox.”','A two-colour headline <b>types on</b>. A <b>3D-tilted laptop</b> swings in with the real UI. A <b>3D hand cursor</b> clicks, a ripple plays, and the row highlights.'],
+ ['0:19','s','Benefit 2','“Sorted by AI. Instantly.”','A <b>circle reveal</b> grows from the click point to full screen, in solid brand blue. A background of <b>repeated words</b> drifts behind the headline.'],
+ ['0:33','c','Proof','“Close feedback 3.2× faster”','A dashboard rises on a <b>blue dome horizon</b>. Numbers <b>count up</b> and bars grow. Side cards <b>fan out</b>, and a quote pill pops in.'],
+ ['0:37','c','CTA','“Close the loop on every client.”','Icon + wordmark, tagline with the accent on its second half, and buttons that <b>stagger up</b>. A blue <b>light-equalizer glow</b> pulses to the music. Hold about 3 s.'],
+];
+document.getElementById('g').innerHTML=F.map((f,i)=>`<div class="cell"><img src="out/${String(i+1).padStart(2,'0')}.png">
+ <div class="meta"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="tc">${f[0]}</span><span class="beat ${f[1]}">${f[2]}</span></div>
+ <div class="line">${f[3]}</div><div class="fx">${f[4]}</div></div>`).join('');
+</script>
+</body>
+</html>

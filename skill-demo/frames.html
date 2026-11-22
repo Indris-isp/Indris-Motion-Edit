@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Loopin storyboard frames</title>
+<style>
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-400.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(../video/fonts/Inter-800.ttf);font-weight:800}
+:root{--acc:#2F6BFF;--acc2:#5B8CFF;--ink:#0B0D12;--mut:#8A90A0;--red:#FF4D4F;--card:#FFFFFF}
+*{box-sizing:border-box}
+body{margin:0;background:#222;font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1920px;height:1080px;overflow:hidden;margin-bottom:40px;
+  background:linear-gradient(180deg,#fff 0%,#F5F7FC 100%)}
+.abs{position:absolute}
+.ctr{position:absolute;transform:translate(-50%,-50%)}
+/* soft blue blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,#9DBBFF 0%,rgba(157,187,255,0) 70%)}
+/* vertical light rays */
+.rays{position:absolute;left:0;right:0;bottom:0;height:520px;filter:blur(18px);
+  background:repeating-linear-gradient(90deg,rgba(47,107,255,.0) 0 40px,rgba(47,107,255,.55) 40px 70px,rgba(47,107,255,.1) 70px 120px,rgba(91,140,255,.7) 120px 140px);
+  -webkit-mask-image:linear-gradient(0deg,#000 0%,rgba(0,0,0,.6) 40%,transparent 100%)}
+.head{font-weight:600;letter-spacing:-.045em;line-height:1.02;text-align:center;white-space:nowrap}
+.acc{color:var(--acc)}
+.card{background:var(--card);border-radius:22px;box-shadow:0 30px 80px -20px rgba(30,50,110,.28),0 4px 14px rgba(30,50,110,.08)}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#fff;font-weight:500;font-size:20px;
+  box-shadow:0 12px 30px -8px rgba(30,50,110,.25)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;border:3px solid #fff;
+  box-shadow:0 8px 20px -6px rgba(0,0,0,.3)}
+.badge{background:var(--red);color:#fff;font-weight:700;border-radius:999px;padding:4px 12px;font-size:18px}
+.cursor{width:16px;height:52px;background:var(--acc);border-radius:3px;display:inline-block;vertical-align:-6px;margin-left:6px}
+.ghost{opacity:.18;filter:blur(6px)}
+.icon{width:120px;height:120px;border-radius:30px;background:linear-gradient(160deg,#6FA0FF,#2F6BFF 60%,#1F4FD6);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -6px 14px rgba(0,0,0,.18),0 24px 50px -12px rgba(47,107,255,.6);
+  display:flex;align-items:center;justify-content:center}
+.icon i{width:54px;height:54px;border-radius:50%;border:13px solid #0B0D12;background:#fff;display:block}
+.glyph{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:30px;
+  box-shadow:0 14px 30px -10px rgba(0,0,0,.35)}
+.row{display:flex;align-items:center;gap:14px}
+.ln{height:12px;border-radius:6px;background:#E7EBF3}
+.tag{font-size:14px;font-weight:600;padding:5px 10px;border-radius:8px}
+</style>
+</head>
+<body>
+
+<!-- 01 HOOK -->
+<section class="frame" id="f1">
+  <div class="blob" style="width:900px;height:600px;left:-200px;bottom:-250px"></div>
+  <div class="blob" style="width:700px;height:500px;right:-150px;top:-200px;opacity:.7"></div>
+  <div class="ctr head" style="left:960px;top:540px;font-size:230px">
+    9:1<span style="display:inline-block;position:relative;width:.6em;height:1em;vertical-align:top;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 75%,transparent 100%)">
+      <span style="position:absolute;left:0;top:-.62em;filter:blur(6px);opacity:.5">3</span>
+      <span style="position:absolute;left:0;top:.08em;filter:blur(1.5px)">4</span>
+    </span> <span class="acc" style="font-weight:500">am</span>
+  </div>
+  <!-- notification flying in -->
+  <div class="abs card row" style="left:1270px;top:170px;padding:16px 22px;border-radius:18px;transform:rotate(-3deg)">
+    <div class="av" style="width:54px;height:54px;background:linear-gradient(135deg,#FFB86B,#F06A2A)">MK</div>
+    <div><div style="font-size:15px;color:var(--mut);font-weight:600">Client · 9:14</div><div style="font-size:22px;font-weight:600">any update on the v2 feedback??</div></div>
+  </div>
+  <div class="abs card ghost" style="left:1330px;top:150px;width:470px;height:86px;border-radius:18px"></div>
+</section>
+
+<!-- 02 CHAOS + BLUR WHIP -->
+<section class="frame" id="f2">
+  <div class="blob" style="width:1200px;height:700px;left:350px;top:200px"></div>
+  <div class="abs" style="inset:0;transform:perspective(1800px) rotateX(18deg) rotateZ(-6deg) scale(1.15);transform-origin:50% 60%">
+    <!-- grid of message cards -->
+    <div id="grid"></div>
+  </div>
+  <!-- whip streak covering left side -->
+  <div class="abs" style="left:-200px;top:0;width:1300px;height:1080px;background:linear-gradient(90deg,rgba(255,255,255,1) 0%,rgba(255,255,255,.97) 55%,rgba(255,255,255,0) 100%);filter:blur(20px)"></div>
+  <div class="ctr head" style="left:520px;top:540px;font-size:124px">
+    <span style="position:absolute;left:-90px;top:0;opacity:.12;filter:blur(14px)">Feedback is</span>
+    Feedback is<br><span class="acc">everywhere.</span>
+  </div>
+</section>
+
+<!-- 03 PAIN STAT, DIMMING -->
+<section class="frame" id="f3" style="background:#fff">
+  <div class="blob" style="width:900px;height:600px;left:500px;top:250px"></div>
+  <div id="bubbles"></div>
+  <div class="ctr head" style="left:960px;top:500px;font-size:250px">127 <span style="font-weight:500">unread</span></div>
+  <div class="ctr badge" style="left:1210px;top:650px;font-size:40px;padding:12px 30px;transform:translate(-50%,-50%) rotate(-6deg);box-shadow:0 20px 40px -10px rgba(255,77,79,.6)">+38 today</div>
+  <!-- dip to black overlay mid-way -->
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(8,14,40,.25),rgba(8,14,40,.62))"></div>
+</section>
+
+<!-- 04 TURN: DARK FLARE -->
+<section class="frame" id="f4" style="background:radial-gradient(ellipse at 50% 50%,#0E2A6B 0%,#06112E 55%,#020611 100%)">
+  <div id="stars"></div>
+  <svg class="abs" style="left:0;top:0" width="1920" height="1080">
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <linearGradient id="arc" x1="0" x2="1"><stop offset="0" stop-color="#2F6BFF" stop-opacity="0"/><stop offset="1" stop-color="#BFD3FF"/></linearGradient>
+    </defs>
+    <circle cx="960" cy="540" r="120" fill="none" stroke="url(#arc)" stroke-width="26" stroke-linecap="round"
+      stroke-dasharray="560 1000" transform="rotate(-200 960 540)" filter="url(#glow)"/>
+  </svg>
+  <!-- lens flare star at arc head -->
+  <div class="ctr" style="left:1050px;top:458px;width:900px;height:3px;background:linear-gradient(90deg,transparent,rgba(190,215,255,.9),transparent)"></div>
+  <div class="ctr" style="left:1050px;top:458px;width:3px;height:220px;background:linear-gradient(0deg,transparent,rgba(190,215,255,.9),transparent)"></div>
+  <div class="ctr" style="left:1050px;top:458px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(160,195,255,.8) 25%,rgba(47,107,255,0) 70%)"></div>
+</section>
+
+<!-- 05 BRAND REVEAL -->
+<section class="frame" id="f5" style="background:#fff">
+  <div class="blob" style="width:1100px;height:520px;left:410px;top:-330px;opacity:.9"></div>
+  <div class="ctr row" style="left:960px;top:500px;gap:34px">
+    <div class="icon" style="width:150px;height:150px;border-radius:38px"><i style="width:68px;height:68px;border-width:16px"></i></div>
+    <div class="head" style="font-size:170px;font-weight:700;letter-spacing:-.06em">Loopi<span style="opacity:.35;filter:blur(4px)">n</span><span class="cursor" style="height:130px;width:10px;background:var(--ink);vertical-align:-14px"></span></div>
+  </div>
+  <div class="ctr row" style="left:960px;top:665px;gap:16px">
+    <span class="pill" style="font-size:18px"><span class="glyph" style="width:26px;height:26px;border-radius:7px;font-size:14px;background:#7C5CFF">#</span>Chat</span>
+    <span class="pill" style="font-size:18px"><span class="glyph" style="width:26px;height:26px;border-radius:7px;font-size:14px;background:#FF6A3D">@</span>Email</span>
+    <span class="pill" style="font-size:18px;opacity:.5;filter:blur(2px);transform:translateY(14px)"><span class="glyph" style="width:26px;height:26px;border-radius:7px;font-size:14px;background:#19B36B">✓</span>Docs</span>
+  </div>
+</section>
+
+<!-- 06 BENEFIT + 3D LAPTOP DEMO -->
+<section class="frame" id="f6">
+  <div class="rays" style="height:1080px;opacity:.55"></div>
+  <div class="abs head" style="left:110px;top:330px;font-size:104px;text-align:left">Every comment,<br><span class="acc">one inbox.</span></div>
+  <!-- laptop -->
+  <div class="abs" style="left:880px;top:120px;width:960px;height:860px;perspective:2200px">
+    <div style="position:absolute;left:40px;top:40px;width:880px;height:560px;transform:rotateY(-24deg) rotateX(8deg) rotateZ(2deg);transform-origin:50% 100%">
+      <div style="position:absolute;inset:0;border-radius:28px;background:#1a1c22;padding:18px;box-shadow:0 60px 120px -30px rgba(20,40,110,.55)">
+        <div id="app" style="width:100%;height:100%;border-radius:12px;background:#fff;overflow:hidden;display:flex"></div>
+      </div>
+    </div>
+    <div style="position:absolute;left:-20px;top:600px;width:1000px;height:46px;transform:rotateY(-24deg) rotateX(62deg);transform-origin:50% 0;
+      border-radius:0 0 30px 30px;background:linear-gradient(180deg,#d9dde6,#aeb4c2);box-shadow:0 40px 60px -20px rgba(20,40,110,.4)"></div>
+  </div>
+  <!-- 3D hand cursor -->
+  <svg class="abs" style="left:1335px;top:430px;filter:drop-shadow(0 18px 18px rgba(20,40,110,.45))" width="110" height="130" viewBox="0 0 22 26">
+    <defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FA6FF"/><stop offset="1" stop-color="#1F4FD6"/></linearGradient></defs>
+    <path d="M7 1.5c1 0 1.8.8 1.8 1.8v7.2l.6-.1c.9-.1 1.7.4 2 1.2.6-.3 1.4-.3 2 .1.5-.3 1.3-.3 1.9.1.9.6 1.5 1.6 1.5 2.7V19c0 3.3-2.7 6-6 6H9.6c-1.7 0-3.3-.8-4.3-2.1L1.6 18c-.6-.8-.5-1.9.3-2.5.8-.6 1.9-.5 2.5.3l.8 1V3.3C5.2 2.3 6 1.5 7 1.5z" fill="url(#hg)" stroke="#fff" stroke-width="1"/>
+  </svg>
+  <div class="ctr" style="left:1350px;top:445px;width:70px;height:70px;border-radius:50%;border:3px solid rgba(47,107,255,.6)"></div>
+</section>
+
+<!-- 07 CIRCLE REVEAL TRANSITION -->
+<section class="frame" id="f7">
+  <div class="rays" style="height:1080px;opacity:.4"></div>
+  <div class="abs card" style="left:330px;top:250px;width:1260px;height:600px;padding:30px;opacity:.95">
+    <div class="row"><div class="icon" style="width:40px;height:40px;border-radius:11px"><i style="width:18px;height:18px;border-width:5px"></i></div><b style="font-size:22px">Inbox</b></div>
+    <div id="rows7" style="margin-top:24px"></div>
+  </div>
+  <!-- expanding circle -->
+  <div class="abs" style="left:1240px;top:540px;width:1500px;height:1500px;margin:-750px 0 0 -750px;border-radius:50%;overflow:hidden;
+     background:var(--acc);box-shadow:0 0 0 30px rgba(47,107,255,.15)">
+    <div id="pattern" style="position:absolute;left:-200px;top:200px;width:2400px;color:rgba(255,255,255,.08);font-weight:600;font-size:64px;letter-spacing:-.03em;line-height:1.15;white-space:nowrap"></div>
+    <div class="abs head" style="left:540px;top:640px;font-size:96px;color:#fff;text-align:left">Sorted by AI.<br><span style="color:#CFE0FF">Instantly.</span></div>
+  </div>
+</section>
+
+<!-- 08 PROOF: DASHBOARD ON DOME + COUNTERS -->
+<section class="frame" id="f8">
+  <div class="abs" style="left:-300px;top:640px;width:2520px;height:1400px;border-radius:50%;background:radial-gradient(ellipse at 50% 0%,#5B8CFF 0%,#2F6BFF 30%,#1C49CC 70%);box-shadow:0 -40px 120px rgba(47,107,255,.45)"></div>
+  <div class="abs head" style="left:960px;top:70px;transform:translateX(-50%);font-size:84px">Close feedback <span class="acc">3.2× faster</span></div>
+  <div class="abs card" style="left:560px;top:260px;width:800px;height:470px;padding:34px">
+    <div class="row" style="justify-content:space-between"><b style="font-size:22px">Feedback overview</b><span class="tag" style="background:#EEF3FF;color:var(--acc)">This week</span></div>
+    <div class="row" style="margin-top:26px;gap:60px">
+      <div><div style="color:var(--mut);font-size:17px;font-weight:600">Resolved</div><div style="font-size:72px;font-weight:700;letter-spacing:-.04em">12,4<span style="opacity:.4;filter:blur(3px)">8</span>0</div></div>
+      <div><div style="color:var(--mut);font-size:17px;font-weight:600">Avg. reply</div><div style="font-size:72px;font-weight:700;letter-spacing:-.04em">18<span style="font-size:36px;color:var(--mut)"> min</span></div></div>
+    </div>
+    <div id="bars" class="row" style="align-items:flex-end;gap:22px;height:170px;margin-top:22px"></div>
+  </div>
+  <div class="abs card" style="left:200px;top:330px;width:300px;padding:24px;transform:rotate(-4deg)">
+    <div style="color:var(--mut);font-size:16px;font-weight:600">Clients happy</div>
+    <div style="font-size:60px;font-weight:700;letter-spacing:-.04em">94%</div>
+    <div class="row" id="avs" style="gap:0"></div>
+  </div>
+  <div class="abs card" style="left:1420px;top:300px;width:300px;padding:24px;transform:rotate(4deg)">
+    <div style="color:var(--mut);font-size:16px;font-weight:600">Rating</div>
+    <div style="font-size:60px;font-weight:700;letter-spacing:-.04em">4.9 <span style="font-size:30px;color:#FFB020">★★★★★</span></div>
+  </div>
+  <div class="abs pill" style="left:1280px;top:700px"><span class="av" style="width:36px;height:36px;font-size:14px;background:linear-gradient(135deg,#7C5CFF,#4B2FD6)">JL</span>“we shipped v2 a week early”</div>
+</section>
+
+<!-- 09 CTA -->
+<section class="frame" id="f9" style="background:#fff">
+  <div class="abs" style="left:0;right:0;bottom:-60px;height:520px;filter:blur(26px);
+     background:repeating-linear-gradient(90deg,transparent 0 36px,rgba(47,107,255,.75) 36px 64px,transparent 64px 96px);
+     -webkit-mask-image:radial-gradient(ellipse 50% 100% at 50% 100%,#000 30%,transparent 75%)"></div>
+  <div class="ctr row" style="left:960px;top:380px;gap:30px">
+    <div class="icon"><i></i></div>
+    <div class="head" style="font-size:140px;font-weight:700;letter-spacing:-.06em">Loopin</div>
+  </div>
+  <div class="ctr head" style="left:960px;top:520px;font-size:56px;font-weight:500">Close the loop <span class="acc">on every client.</span></div>
+  <div class="ctr row" style="left:960px;top:640px;gap:20px">
+    <span class="pill" style="background:var(--acc);color:#fff;padding:18px 34px;font-size:24px;font-weight:600">Start free →</span>
+    <span class="pill" style="padding:18px 34px;font-size:24px">Book a demo</span>
+  </div>
+  <div class="ctr" style="left:960px;top:730px;color:var(--mut);font-size:22px;font-weight:500">loopin.app</div>
+</section>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const AVC=[['#FFB86B','#F06A2A'],['#7C5CFF','#4B2FD6'],['#3DD6A0','#139B6E'],['#FF7AA8','#D63C77'],['#6FC3FF','#2386D6'],['#FFD36B','#E09A12']];
+const av=(n,s,i)=>`<div class="av" style="width:${s}px;height:${s}px;font-size:${s*.36}px;background:linear-gradient(135deg,${AVC[i%6][0]},${AVC[i%6][1]})">${n}</div>`;
+// f2 grid of chaos cards
+(function(){
+  const srcs=[['#','#7C5CFF'],['@','#FF6A3D'],['✉','#2386D6'],['☎','#19B36B']];
+  const msgs=['is this the final?','see my comments','logo bigger pls','where’s v2??','can we revert?','feedback in doc','urgent!!','did you see this?'];
+  let h='';
+  for(let r=0;r<5;r++)for(let c=0;c<8;c++){
+    const x=40+c*240,y=-40+r*230,k=(r*8+c);
+    const on=(k*7)%3!==0;
+    h+=`<div class="abs" style="left:${x}px;top:${y}px;width:200px;height:190px;border-radius:26px;background:rgba(255,255,255,${on?1:.55});
+      box-shadow:${on?'0 20px 40px -14px rgba(30,50,110,.3)':'inset 0 0 0 2px #E3E8F3'};padding:18px">`;
+    if(on){const s=srcs[k%4];h+=`<div class="glyph" style="width:46px;height:46px;font-size:22px;border-radius:12px;background:${s[1]}">${s[0]}</div>
+      <div style="font-size:17px;font-weight:600;margin-top:14px;line-height:1.2">${msgs[k%8]}</div>
+      ${k%3===1?`<span class="badge abs" style="right:-10px;top:-10px">${(k*13)%40+3}</span>`:''}`}
+    h+='</div>';
+  }
+  $('grid').innerHTML=h;
+})();
+// f3 orbiting bubbles
+(function(){
+  const q=['still waiting…','v2??','which file?','hello?','ETA?','missed this'];
+  const pos=[[260,200],[1500,180],[230,780],[1560,800],[860,880],[1180,150]];
+  $('bubbles').innerHTML=pos.map((p,i)=>`<div class="abs row" style="left:${p[0]}px;top:${p[1]}px;gap:10px">${av(['MK','JL','AS','TR','BN','EO'][i],58,i)}<span class="pill" style="font-size:18px;padding:8px 14px">${q[i]}</span></div>`).join('');
+})();
+// f4 stars
+(function(){let h='';for(let i=0;i<160;i++){const x=(i*137.5)%1920,y=(i*91.7)%1080,s=(i%5)/3+1;h+=`<div class="abs" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px;border-radius:50%;background:#fff;opacity:${.2+(i%7)/12}"></div>`}$('stars').innerHTML=h})();
+// f6 app UI
+(function(){
+  const items=[['MK','Logo needs more contrast','#','Design',1],['JL','Pricing copy feels long','@','Copy',0],['AS','Love the new hero!','✉','Praise',0],['TR','Checkout bug on Safari','#','Bug',0],['BN','Can we add dark mode?','@','Request',0]];
+  const col={Design:['#EEF3FF','#2F6BFF'],Copy:['#FFF3E8','#E0701E'],Praise:['#E8FBF2','#139B6E'],Bug:['#FFECEC','#D63C3C'],Request:['#F1ECFF','#6A4BE0']};
+  let side=`<div style="width:170px;background:#F6F8FC;padding:18px 14px">${['Inbox','Assigned','Done','Clients'].map((t,i)=>`<div style="font-size:14px;font-weight:600;padding:9px 10px;border-radius:8px;${i==0?'background:#E6EDFF;color:#2F6BFF':'color:#6B7180'}">${t}</div>`).join('')}</div>`;
+  let main=`<div style="flex:1;padding:20px 22px"><div style="font-size:20px;font-weight:700;margin-bottom:12px">All feedback <span class="badge" style="font-size:12px;padding:2px 8px;background:#2F6BFF">5 new</span></div>`+
+    items.map(it=>`<div class="row" style="padding:11px 12px;margin-bottom:8px;border-radius:12px;${it[4]?'background:#EEF3FF;box-shadow:inset 0 0 0 2px #2F6BFF':'background:#fff;box-shadow:inset 0 0 0 1px #EDF0F6'}">
+      ${av(it[0],34,it[0].charCodeAt(0))}<div style="flex:1;font-size:15px;font-weight:600">${it[1]}</div>
+      <span class="tag" style="background:${col[it[3]][0]};color:${col[it[3]][1]}">${it[3]}</span>
+      ${it[4]?'<span class="tag" style="background:#2F6BFF;color:#fff">Resolve ✓</span>':''}</div>`).join('')+'</div>';
+  $('app').innerHTML=side+main;
+})();
+// f7 rows + pattern
+(function(){
+  $('rows7').innerHTML=[0,1,2,3,4,5].map(i=>`<div class="row" style="padding:14px 0;border-bottom:1px solid #EEF1F6">${av(['MK','JL','AS','TR','BN','EO'][i],40,i)}<div class="ln" style="width:${380-i*30}px"></div><div class="ln" style="width:120px;margin-left:auto;background:#E6EDFF"></div></div>`).join('');
+  let p='';for(let i=0;i<9;i++)p+=(i%2?'instantly sorted · instantly sorted · instantly sorted · instantly sorted':'by AI by AI by AI by AI by AI by AI by AI by AI by AI by AI')+'<br>';
+  $('pattern').innerHTML=p;
+})();
+// f8 bars + avatars
+(function(){
+  $('bars').innerHTML=[40,62,48,80,96,120,150].map((h,i)=>`<div style="flex:1;height:${h}px;border-radius:10px 10px 4px 4px;background:${i>=5?'linear-gradient(180deg,#5B8CFF,#2F6BFF)':'#E3EAFB'}"></div>`).join('');
+  $('avs').innerHTML=[0,1,2,3].map(i=>`<div style="margin-left:${i?-12:0}px">${av(['MK','JL','AS','+9'][i],40,i)}</div>`).join('');
+})();
+</script>
+</body>
+</html>
