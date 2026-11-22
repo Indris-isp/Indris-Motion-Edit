@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Launch film</title>
+<style>
+@font-face{font-family:Inter;src:url(fonts/Inter-400.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(fonts/Inter-800.ttf);font-weight:800}
+/* palette is derived from BRIEF.brand.accent by applyTheme() in engine.js */
+:root{--acc:#2F6BFF;--accRGB:47,107,255;--acc2:#5B8CFF;--acc2RGB:91,140,255;--acc3:#1F4FD6;--acc4:#CFE0FF;--tint:#EEF3FF;--blobRGB:157,187,255;
+  --night1:#0E2A6B;--night2:#06112E;--ink:#0B0D12;--mut:#8A90A0;--red:#FF4D4F;--font:Inter}
+*{box-sizing:border-box}
+html,body{margin:0;background:#111;overflow:hidden}
+#wrap{position:absolute;left:0;top:0;transform-origin:0 0}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#fff;font-family:var(--font),Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.scene{position:absolute;inset:0;overflow:hidden;display:none;will-change:transform,filter}
+.cam{position:absolute;inset:0;transform-origin:var(--camOrigin,960px 540px)}
+.abs{position:absolute}
+.ctr{position:absolute;transform:translate(-50%,-50%)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,rgba(var(--blobRGB),1) 0%,rgba(var(--blobRGB),0) 70%)}
+.rays{position:absolute;left:0;right:0;bottom:0;filter:blur(18px);
+  background:repeating-linear-gradient(90deg,rgba(var(--accRGB),0) 0 40px,rgba(var(--accRGB),.55) 40px 70px,rgba(var(--accRGB),.1) 70px 120px,rgba(var(--acc2RGB),.7) 120px 140px);
+  -webkit-mask-image:linear-gradient(0deg,#000 0%,rgba(0,0,0,.6) 40%,transparent 100%)}
+.head{font-weight:600;letter-spacing:-.045em;line-height:1.02;white-space:pre}
+.acc{color:var(--acc)}
+.card{background:#fff;border-radius:22px;box-shadow:0 30px 80px -20px rgba(30,50,110,.28),0 4px 14px rgba(30,50,110,.08)}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#fff;font-weight:500;font-size:20px;white-space:nowrap;box-shadow:0 12px 30px -8px rgba(30,50,110,.25)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;border:3px solid #fff;flex:none;box-shadow:0 8px 20px -6px rgba(0,0,0,.3)}
+.badge{background:var(--red);color:#fff;font-weight:700;border-radius:999px;padding:4px 12px;font-size:18px}
+.icon{width:120px;height:120px;border-radius:30px;background:linear-gradient(160deg,var(--acc2),var(--acc) 60%,var(--acc3));flex:none;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -6px 14px rgba(0,0,0,.18),0 24px 50px -12px rgba(var(--accRGB),.6);display:flex;align-items:center;justify-content:center}
+.icon i{width:45%;height:45%;border-radius:50%;border:solid var(--ink);border-width:calc(var(--s,120px)*.11);background:#fff;display:block}
+.glyph{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:30px;flex:none;box-shadow:0 14px 30px -10px rgba(0,0,0,.35)}
+.row{display:flex;align-items:center;gap:14px}
+.ln{height:12px;border-radius:6px;background:#E7EBF3}
+.tag{font-size:14px;font-weight:600;padding:5px 10px;border-radius:8px;white-space:nowrap}
+.ch{display:inline-block;white-space:pre}
+.cur{display:inline-block;width:.07em;height:.9em;background:var(--acc);border-radius:3px;vertical-align:-.08em;margin-left:.04em}
+.num{font-variant-numeric:tabular-nums}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:500}
+#ui{position:fixed;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;background:rgba(0,0,0,.75);color:#fff;font:13px Inter,sans-serif}
+#ui input{flex:1}
+body.render #ui{display:none}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage"><div id="flash"></div></div></div>
+<svg width="0" height="0" style="position:absolute"><defs id="fdefs"></defs></svg>
+<div id="ui"><button id="play">Play</button><a id="fmt" style="color:#9cf"></a><input id="scrub" type="range" min="0" value="0"><span id="tc">0.00s</span><span>(preview only, no audio; the render is frame-exact)</span></div>
+<script src="brief.js"></script>
+<script src="timeline.js"></script>
+<script src="engine.js"></script>
+<script src="shots.js"></script>
+<script>
+boot();
+/* preview: fit to window, play/scrub. Rendering adds ?render=1 and drives renderAt() itself. */
+const R = new URLSearchParams(location.search).has('render');
+if (R) document.body.classList.add('render');
+const fl = document.getElementById('fmt'); fl.textContent = V ? 'switch to 16:9' : 'switch to 9:16'; fl.href = '?fmt=' + (V ? '16:9' : '9:16');
+const wrap = document.getElementById('wrap');
+function fit() { const s = R ? 1 : Math.min(innerWidth / W, (innerHeight - 48) / H); wrap.style.transform = `scale(${s})`; }
+addEventListener('resize', fit); fit();
+if (!R) {
+  const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
+  let playing = false, t0 = 0, cur = 0;
+  const wait = setInterval(() => { if (!window.READY) return; clearInterval(wait); scrub.max = window.TOTAL - 1; }, 50);
+  scrub.oninput = () => { cur = scrub.value / FPS; window.renderAt(cur); tc.textContent = cur.toFixed(2) + 's'; };
+  btn.onclick = () => { playing = !playing; btn.textContent = playing ? 'Pause' : 'Play'; t0 = performance.now() - cur * 1000; };
+  (function loop() { if (playing && window.READY) { cur = ((performance.now() - t0) / 1000) % window.DUR; window.renderAt(cur); scrub.value = Math.floor(cur * FPS); tc.textContent = cur.toFixed(2) + 's'; } requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>

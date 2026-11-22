@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Figtree;src:url(../fonts/figtree-latin-500-normal.woff2);font-weight:500}
+@font-face{font-family:Figtree;src:url(../fonts/figtree-latin-600-normal.woff2);font-weight:600}
+@font-face{font-family:Figtree;src:url(../fonts/figtree-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:Figtree;src:url(../fonts/figtree-latin-800-normal.woff2);font-weight:800}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1600px;height:1000px;font-family:Figtree;color:#1E212E;background:#fff;display:flex;overflow:hidden}
+.side{width:250px;background:#1E212E;color:#fff;padding:26px 20px}
+.nav{padding:13px 16px;border-radius:10px;font-weight:600;font-size:18px;color:#B9BDCB;margin-bottom:6px;display:flex;gap:12px;align-items:center}
+.nav.on{background:linear-gradient(120deg,#FF4500,#FF6A33 55%,#FF9A3D);color:#fff}
+.dot{width:10px;height:10px;border-radius:3px;background:currentColor;opacity:.8}
+.main{flex:1;display:flex;flex-direction:column;background:#F7F8FB}
+.top{height:88px;background:#fff;border-bottom:1px solid #E6E8EE;display:flex;align-items:center;justify-content:space-between;padding:0 34px}
+.btn{padding:14px 28px;border-radius:10px;background:linear-gradient(120deg,#FF4500,#FF6A33 55%,#FF9A3D);color:#fff;font-weight:700;font-size:20px;box-shadow:0 10px 24px -6px rgba(255,90,31,.5)}
+.chip{padding:9px 16px;border-radius:999px;background:#FFF1EA;color:#E5541F;font-weight:700;font-size:16px}
+.grid{flex:1;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:auto 1fr 1fr;gap:0;margin:22px 30px 30px;background:#fff;border-radius:16px;border:1px solid #E6E8EE;overflow:hidden}
+.h{padding:14px 14px;font-weight:700;font-size:15px;color:#6E7487;border-bottom:1px solid #E6E8EE;background:#FBFBFD}
+.cell{border-right:1px solid #EEF0F4;border-bottom:1px solid #EEF0F4;padding:12px 10px;min-height:0}
+.s{border-radius:12px;background:#fff;box-shadow:0 6px 16px -6px rgba(30,33,46,.18),inset 0 0 0 1px #EEF0F4;padding:12px 10px;margin-bottom:8px}
+.s b{display:block;font-size:16px;font-weight:700}
+.ex{display:flex;align-items:center;gap:7px;margin-top:9px;font-size:13px;font-weight:600;color:#6E7487;white-space:nowrap}
+.ic{width:18px;height:18px;border-radius:50%;border:2.5px solid;flex:none}
+</style></head><body>
+<div class="side">
+  <img src="logo-full.svg" style="width:190px;filter:brightness(0) invert(1);margin:6px 0 34px">
+  <div class="nav on"><span class="dot"></span>Program Builder</div>
+  <div class="nav"><span class="dot"></span>Calendars</div>
+  <div class="nav"><span class="dot"></span>Athletes</div>
+  <div class="nav"><span class="dot"></span>Exercise Library</div>
+  <div class="nav"><span class="dot"></span>Weight Room View</div>
+  <div class="nav"><span class="dot"></span>Reports</div>
+</div>
+<div class="main">
+  <div class="top">
+    <div style="display:flex;align-items:center;gap:16px"><div style="font-weight:800;font-size:30px;letter-spacing:-.02em">Off-Season Strength</div><span class="chip">Varsity Football · 42 athletes</span></div>
+    <div style="display:flex;gap:14px;align-items:center"><span style="font-weight:600;color:#6E7487;font-size:18px">Week 4</span><span class="btn" id="pub">Publish</span></div>
+  </div>
+  <div class="grid" id="g"></div>
+</div>
+<script>
+const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const S={0:['Lower Body A','#FF6A33',[['Back Squat','4 × 4'],['RDL','3 × 6'],['Nordic','3 × 5']]],1:['Speed + Plyo','#2BBAD6',[['Vertical Jump','3 × 3'],['Lateral Decel','3 × 10y']]],2:['Upper Body A','#7B4BDB',[['Bench Press','4 × 5'],['Pull Ups','3 × 8']]],3:['Recovery','#22B573',[['Mobility Flow','15 min'],['Session RPE','—']]],4:['Lower Body B','#FF6A33',[['Trap Bar DL','3 × 5'],['Goblet Squat','3 × 8']]]};
+const g=document.getElementById('g');
+days.forEach((d,i)=>g.insertAdjacentHTML('beforeend',`<div class="h">${d} · ${22+i}</div>`));
+for(let w=0;w<2;w++)days.forEach((d,i)=>{const s=S[i];g.insertAdjacentHTML('beforeend',`<div class="cell">${s?`<div class="s" style="border-left:4px solid ${s[1]}"><b>${s[0]}</b>${s[2].map(e=>`<div class="ex"><span class="ic" style="border-color:${s[1]}"></span><span style="color:#1E212E">${e[0]}</span><span style="margin-left:auto">${e[1]}</span></div>`).join('')}</div>`:''}</div>`)});
+document.fonts.ready.then(()=>document.body.dataset.ready=1);
+</script></body></html>
