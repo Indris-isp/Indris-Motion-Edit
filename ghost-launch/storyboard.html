@@ -101,12 +101,20 @@ dd.say { font-weight: 600; }
 .bar-w { height: 1cqw; border-radius: 1cqw; background: #e4e5e8; }
 .abs { position: absolute; }
 .lime-btn { background: #d1ff19; color: #15171a; font: 700 2.6cqw var(--f-body); padding: 1.6cqw 3.4cqw; border-radius: 1cqw; display: inline-block; box-shadow: 0 0 0 1px rgba(17,34,32,.12); }
+
+.fx { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.fx .card { gap: 6px; padding: 16px; }
+.fx .n { font: 600 11px var(--f-mono); color: var(--purple); letter-spacing: .08em; }
+.fx b { font-size: 15px; letter-spacing: -0.01em; }
+.fx p { font-size: 13.5px; color: var(--mute); }
+dd.fxs { display: flex; flex-wrap: wrap; gap: 6px; }
+.fxtag { font: 600 11px var(--f-mono); background: var(--purple-soft); color: var(--purple); padding: 3px 7px; border-radius: 4px; text-decoration: none; }
 </style>
 
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">Storyboard v3 · for approval · Indris Motion</div>
+  <div class="eyebrow">Storyboard v4 · for approval · Indris Motion</div>
   <h1>Ghost launch video: what it is, who it’s for, and <em>why it matters.</em></h1>
   <p class="lede">A 45-second explainer-style launch video. A viewer who has never heard of Ghost should come away knowing what Ghost is, who it’s for, the three problems it solves, and why Ghost is the brand to trust with that. It has no voiceover, so short on-screen lines carry the story.</p>
   <div class="spec">
@@ -114,9 +122,35 @@ dd.say { font-weight: 600; }
     <div><span class="eyebrow">Length</span><b>45.0 s · 2700 frames</b></div>
     <div><span class="eyebrow">Scenes</span><b>12 scenes in 5 acts</b></div>
     <div><span class="eyebrow">Audio</span><b>Music + SFX, on-screen text</b></div>
-    <div><span class="eyebrow">Look</span><b>White gradient, ghost.org UI</b></div>
+    <div><span class="eyebrow">Look</span><b>Reference-style motion, ghost.org UI</b></div>
   </div>
 </header>
+
+
+<section>
+  <div class="row"><h2>Animation style, taken from your references</h2><span class="eyebrow">effects library · reused across scenes</span></div>
+  <p class="lede">Both Pinterest references are SaaS launch films. Ref 2 (“officely”) sets the overall language: a bright white canvas with drifting colour auras, huge tight-tracked headlines with an accented second line, defocus transitions, floating avatars, a starfield logo reveal and 3D UI. Ref 1 adds motion-blur text slides and device push-ins. Each effect below has an ID, and every scene lists the effects it uses. The palette changes from their blue to Ghost’s purple (solution) and pink (problem).</p>
+  <p class="eyebrow">References: <a href="https://pin.it/1ftrGQIuT">Ref 1 · pin.it/1ftrGQIuT</a> · <a href="https://pin.it/1pycc4NvC">Ref 2 · pin.it/1pycc4NvC</a></p>
+  <div class="fx">
+    <div class="card" id="fx01"><span class="n">FX01</span><b>Aura canvas</b><p>White ground with soft colour blobs drifting at the edges, and blurred vertical “light bars” glowing up from the bottom edge. In Ghost colours: lilac, pink and a touch of lime.</p><p><i>From: Both refs: background of every white scene</i></p></div>
+    <div class="card" id="fx02"><span class="n">FX02</span><b>Defocus type</b><p>Big two-line headlines. Line 1 is dark ink, line 2 is in the accent colour. Words rise in from a 12 px blur to sharp, and exit by blurring out, fading and growing slightly.</p><p><i>From: Ref 2: “Who’s actually in today?”</i></p></div>
+    <div class="card" id="fx03"><span class="n">FX03</span><b>Typewriter caret</b><p>Punch lines type themselves out with a blinking caret that stays after the last letter.</p><p><i>From: Ref 2: “go to waste|”, “10 minutes to go live|”</i></p></div>
+    <div class="card" id="fx04"><span class="n">FX04</span><b>Live ticker</b><p>A number inside the type ticks forward live (8:01 → 8:02), so the frame never feels static.</p><p><i>From: Ref 2: “8:01 am”</i></p></div>
+    <div class="card" id="fx05"><span class="n">FX05</span><b>Orbiting avatars</b><p>Small avatars with tiny speech-bubble labels float around the headline on slow parallax, with concentric rings pulsing behind.</p><p><i>From: Ref 2: 0:01–0:02, 0:08</i></p></div>
+    <div class="card" id="fx06"><span class="n">FX06</span><b>Bento grid dolly</b><p>A grid of rounded tiles (avatars, app icons, dotted placeholders) fills the frame. Tiles pop in with badges while the camera dollies across, then everything defocuses out.</p><p><i>From: Ref 2: 0:02–0:03</i></p></div>
+    <div class="card" id="fx07"><span class="n">FX07</span><b>Badge pill</b><p>A big statement (“46 replies”) gets a tilted red pill that springs flat, and its count keeps rising.</p><p><i>From: Ref 2: 0:08</i></p></div>
+    <div class="card" id="fx08"><span class="n">FX08</span><b>Star-to-logo reveal</b><p>Hard cut to a deep navy starfield. A sparkle streaks in and draws a glowing ring with its light trail, the ring becomes the app icon with a lens glow, then a flash to white and the wordmark types itself in.</p><p><i>From: Ref 2: 0:09–0:13. Ghost’s orb is a ring, so this fits perfectly</i></p></div>
+    <div class="card" id="fx09"><span class="n">FX09</span><b>Greyscale faces + toggle</b><p>A wall of greyscale faces. A toggle switch flips on, and faces around it turn to colour with small badges. A circular white mask then wipes the scene away.</p><p><i>From: Ref 2: 0:16–0:17</i></p></div>
+    <div class="card" id="fx10"><span class="n">FX10</span><b>Inline avatars</b><p>A small avatar stack sits inside the sentence while the rest of the words type in after it.</p><p><i>From: Ref 2: “See [faces] who’s in”</i></p></div>
+    <div class="card" id="fx11"><span class="n">FX11</span><b>3D laptop + DOF zoom</b><p>The product UI on a 3D laptop tilts into view. A hand cursor clicks, and the camera pushes into the UI with depth-of-field blur and a whip-pan with directional motion blur.</p><p><i>From: Ref 2: 0:19–0:21 · Ref 1: 0:05–0:11</i></p></div>
+    <div class="card" id="fx12"><span class="n">FX12</span><b>Brand-colour wall + morph</b><p>A full-bleed brand-colour screen with a repeated, faded background text pattern. A solid panel morphs (scale and corner radius) into the product window.</p><p><i>From: Ref 2: 0:26–0:28</i></p></div>
+    <div class="card" id="fx13"><span class="n">FX13</span><b>Floating cards on a horizon</b><p>Dashboard cards float in 3D over a big curved brand-colour horizon. Stat cards pop with overshoot and their numbers count up.</p><p><i>From: Ref 2: 0:36–0:38</i></p></div>
+    <div class="card" id="fx14"><span class="n">FX14</span><b>Proof marquee</b><p>A big counter, then a row of names sliding through a highlight “lens” bar, plus a rating-style pill that counts up.</p><p><i>From: Ref 2: “Trusted by 500+ companies”</i></p></div>
+    <div class="card" id="fx15"><span class="n">FX15</span><b>Rotary dial</b><p>Numbers sit on a large wheel that rotates until the target number locks in the center, with the label typing beside it.</p><p><i>From: Ref 2: “06 → 10 minutes to go live”</i></p></div>
+    <div class="card" id="fx16"><span class="n">FX16</span><b>End card</b><p>Icon and wordmark, a tagline with one accent word, two pill buttons and the URL, with light bars glowing below.</p><p><i>From: Ref 2: final card</i></p></div>
+    <div class="card" id="fx17"><span class="n">FX17</span><b>Motion-blur slide</b><p>Text slides sideways with strong horizontal motion blur, and an object flies in to become the hero.</p><p><i>From: Ref 1: 0:00–0:02</i></p></div>
+  </div>
+</section>
 
 <section>
   <h2>The brand in four answers</h2>
@@ -202,10 +236,12 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>A blinking cursor types a post title. Small reader avatars pop in around it, and a counter climbs from 1 to 2,480 subscribers.</dd>
       <dt>Text</dt><dd class="say">“You write. People read.”</dd>
-      <dt>Motion</dt><dd>Words land one by one with spring overshoot. Avatars stagger in 3 frames apart. The counter runs for 1 s, ease-out.</dd>
+      <dt>Motion</dt><dd>A caret types “You write.” Then “People read.” lands in purple on the second line, with a live reader counter ticking inside the line (2,478 → 2,480). Reader avatars with tiny bubbles (“Subscribed”, “Loved this”, “Shared”) orbit on parallax, and concentric rings pulse behind.</dd>
       <dt>Camera</dt><dd>Slow push-in from 100% to 105%.</dd>
       <dt>Sound</dt><dd>Soft key clicks, then light “pop” ticks for each reader. A warm synth pad starts.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx01">FX01</a> <a class="fxtag" href="#fx03">FX03</a> <a class="fxtag" href="#fx04">FX04</a> <a class="fxtag" href="#fx05">FX05</a></dd>
+      <dt>Transition</dt><dd>Out: the headline defocuses (blur up to 14 px, scale 1.04) while the bento grid rises from below.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> this is about someone who creates and has an audience.</div>
   </div>
 </article>
@@ -226,10 +262,12 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Four profile cards fan out in a row: Writers, Local news, Podcasters, Creators. Each shows a tiny publication header and a subscriber count.</dd>
       <dt>Text</dt><dd class="say">“You’re building an audience.”</dd>
-      <dt>Motion</dt><dd>The cards deal in from below with a 4-frame stagger and overshoot. Each subscriber count ticks up. The headline enters after the last card settles.</dd>
+      <dt>Motion</dt><dd>A bento grid of rounded tiles (creator avatars, a newspaper icon, a mic, a pen, publication cards) pops in with small badges while the camera dollies across. The grid then dims and defocuses, and the headline “You’re building an [avatar stack] audience.” sits on top with the avatars inline.</dd>
       <dt>Camera</dt><dd>Gentle pan from left to right across the cards (≥ 0.8 s), easy ease.</dd>
       <dt>Note</dt><dd>The icons in this sketch are placeholders. The final cards use simple line icons in the Ghost UI style, not emoji.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx06">FX06</a> <a class="fxtag" href="#fx02">FX02</a> <a class="fxtag" href="#fx10">FX10</a></dd>
+      <dt>Transition</dt><dd>Out: the camera dollies forward through the grid, and the tiles blur into the next scene.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> “This is for people like me: writers, journalists and creators.”</div>
   </div>
 </article>
@@ -256,11 +294,13 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Label chip: “PROBLEM 1 · RENTED REACH”. A generic social feed (dark UI, no real brand) shows your post outlined in pink. Other posts push it down and out of view while a “Reach” counter drops from 100% to 6%.</dd>
       <dt>Text</dt><dd class="say">“The algorithm decides who sees your work.”</dd>
-      <dt>Motion</dt><dd>The feed scrolls with ease-out deceleration. The counter counts down over 1 s. The text holds ≥ 1.5 s.</dd>
+      <dt>Motion</dt><dd>The headline “Who actually sees your post?” defocuses in, with line 2 in pink. A dark feed card slides in sideways with motion blur. Its “Reach” badge pill springs from tilted to flat and counts down from 100% to 6%, while the other posts bury it.</dd>
       <dt>Camera</dt><dd>Slow push toward the counter.</dd>
       <dt>Sound</dt><dd>A downward “whoop” as reach drops. The music turns minor.</dd>
       <dt>Note</dt><dd>“6%” is an illustration, not a statistic. The feed has no platform logos.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx02">FX02</a> <a class="fxtag" href="#fx07">FX07</a> <a class="fxtag" href="#fx17">FX17</a></dd>
+      <dt>Transition</dt><dd>Out: a horizontal motion-blur slide to the left.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> even with followers, a platform controls whether they see you.</div>
   </div>
 </article>
@@ -282,11 +322,13 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Label chip: “PROBLEM 2 · PLATFORM FEES”. A dark payments card with a ring chart reads “Your readers pay $1,000”. A pink 10% slice breaks off the ring and falls away as the figure rolls down to $900.</dd>
       <dt>Text</dt><dd class="say">“Many newsletter platforms take 10% of every subscription.”</dd>
-      <dt>Motion</dt><dd>Odometer-style digits over 1 s. The slice detaches with an ease-in and leaves the frame. A small “−$100 / month” tag appears.</dd>
+      <dt>Motion</dt><dd>A huge “$1,000” gets a tilted pink pill, “−10% platform fee”, that springs flat. The number rolls down to $900 as a ring slice breaks away. A caret types the line underneath: “every month, forever|”.</dd>
       <dt>Camera</dt><dd>Slight push-in on the ring.</dd>
       <dt>Sound</dt><dd>Coin ticks, then a dull “cut” whoosh.</dd>
       <dt>Note</dt><dd>No competitor is named. <span class="verify">verify</span> 10% is the commonly cited newsletter-platform fee, used as an illustration.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx07">FX07</a> <a class="fxtag" href="#fx03">FX03</a> <a class="fxtag" href="#fx02">FX02</a></dd>
+      <dt>Transition</dt><dd>Out: the slice falls out of frame and the white canvas whip-pans to the next scene.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> the money readers pay doesn’t all reach the creator.</div>
   </div>
 </article>
@@ -310,11 +352,13 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Label chip: “PROBLEM 3 · TOO MANY TOOLS”. Five generic app windows (Website, Email, Payments, Members, Analytics), each with its own price tag. The cursor copies a subscriber from Members and pastes it into Email by hand. Tangled lines connect the windows, and a running total adds up to $121 / month.</dd>
       <dt>Text</dt><dd class="say">“Five tools. Five bills. $121 a month.”</dd>
-      <dt>Motion</dt><dd>The windows drop in staggered. The cursor moves on arcs, with click presses. The lines draw on and the windows jitter, then everything freezes and drops to silence.</dd>
+      <dt>Motion</dt><dd>A bento of five generic tool tiles (Website, Email, Payments, Members, Analytics). Each gets a red price badge popping like a notification, and dotted lines tangle between them. The cursor copies a subscriber row by hand. A caret types “Five tools. Five bills. $121 a month|”.</dd>
       <dt>Camera</dt><dd>Easy-ease pan across the windows following the cursor, then a pull back to show all five.</dd>
       <dt>Sound</dt><dd>Clicks and a rising tension pulse, then a hard cut to silence.</dd>
       <dt>Note</dt><dd>The prices are illustrative, and there are no real tool logos.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx06">FX06</a> <a class="fxtag" href="#fx07">FX07</a> <a class="fxtag" href="#fx03">FX03</a></dd>
+      <dt>Transition</dt><dd>Out: hard cut to the navy starfield (FX08), so the mess vanishes instantly.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> doing this properly today means juggling and paying for many separate tools.</div>
   </div>
 </article>
@@ -334,9 +378,11 @@ dd.say { font-weight: 600; }
       <dt>On screen</dt><dd>The tangled windows from Scene 05 are pulled to the center and vanish into the Ghost orb. The official Ghost logo resolves, and under it the definition. The background shifts from pink to lilac and lime.</dd>
       <dt>Text</dt><dd class="say">“Ghost. One platform to publish, send newsletters and get paid by your readers.”</dd>
       <dt>Subline</dt><dd>“Open source · Built for independent creators”</dd>
-      <dt>Motion</dt><dd>The windows are parented and collapse together with an ease-in. The orb spins up, the wordmark wipes in, then the definition enters word by word. It holds ≥ 1.5 s.</dd>
+      <dt>Motion</dt><dd>Navy starfield. A sparkle streaks in and draws a glowing ring with its light trail, and the ring settles into the Ghost orb with a lens glow. Flash to white. The orb sits beside a wordmark that types “ghost” letter by letter. The definition rises under it in two lines, with “publish” in purple.</dd>
       <dt>Sound</dt><dd>A warm major chord, and the main music track begins.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx08">FX08</a> <a class="fxtag" href="#fx03">FX03</a> <a class="fxtag" href="#fx01">FX01</a></dd>
+      <dt>Transition</dt><dd>In: hard cut to navy. Out: flash to the white aura canvas and straight into the product.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> what Ghost is, and that it replaces the patchwork they just saw.</div>
   </div>
 </article>
@@ -365,10 +411,12 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Chip: “FIXES PROBLEM 1”. The Ghost editor, rebuilt from ghost.org: white page, “‹ Posts · Draft - saved”, bold title and serif body. The cursor clicks <b>Publish &amp; send</b>. The post goes live on the website, and an email copy flies out into inboxes, with a counter reading “Delivered to 2,480 subscribers”.</dd>
       <dt>Text</dt><dd class="say">“Every post lands in your readers’ inbox.”</dd>
-      <dt>Motion</dt><dd>The title types itself, one character per 2 frames. The button gets a press. Envelopes fan out staggered, and the delivered counter counts up.</dd>
+      <dt>Motion</dt><dd>A 3D laptop tilts in, showing the Ghost editor (rebuilt from ghost.org). A hand cursor clicks Publish &amp; send (with a press). The camera pushes into the button with depth-of-field blur, then whip-pans with motion blur to a stack of inbox cards. Line: “Straight to [avatar stack] every inbox|”.</dd>
       <dt>Camera</dt><dd>Zoom to 130% on the button for the click, then an easy-ease back out to show the inboxes.</dd>
       <dt>Sound</dt><dd>A “send” swoosh and soft delivery pings.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx11">FX11</a> <a class="fxtag" href="#fx10">FX10</a> <a class="fxtag" href="#fx03">FX03</a></dd>
+      <dt>Transition</dt><dd>Out: the camera dives into the inbox card with DOF blur.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> with Ghost, you reach your audience directly, with no feed deciding.</div>
   </div>
 </article>
@@ -391,11 +439,13 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Chip: “FIXES PROBLEM 2”. Ghost’s signup and tier cards: Free, Supporter $5/mo, Insider $12/mo. A reader picks Supporter and pays through Stripe. The $1,000 ring from Scene 04 returns, and the slice snaps back. A lime pill reads “0% payment fees”.</dd>
       <dt>Text</dt><dd class="say">“Paid memberships. You keep 100%.”</dd>
-      <dt>Motion</dt><dd>The tier cards stagger in. The cursor clicks Supporter with a press. The slice springs back into the ring and the revenue counter rolls up from $900 to $1,000.</dd>
+      <dt>Motion</dt><dd>A wall of greyscale reader faces. A Ghost toggle, “Paid memberships”, flips on, and faces around it turn to colour with small purple “$5/mo” badges. A circular wipe reveals the tier cards and the $1,000 ring with its slice snapping back. The pill reads “0% fees”, and the line is “You keep 100%.”</dd>
       <dt>Camera</dt><dd>Push from the tiers to the ring.</dd>
       <dt>Sound</dt><dd>A card “tap”, a payment chime, and a satisfying click as the slice returns.</dd>
       <dt>Note</dt><dd>ghost.org: “0% payment fees”. Stripe’s own card processing still applies, so the on-screen wording is “0% fees”, not “free”.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx09">FX09</a> <a class="fxtag" href="#fx07">FX07</a> <a class="fxtag" href="#fx02">FX02</a></dd>
+      <dt>Transition</dt><dd>Out: a circular white mask wipe from the toggle outwards.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> Ghost has subscriptions built in and takes no cut.</div>
   </div>
 </article>
@@ -420,10 +470,12 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Chip: “FIXES PROBLEM 3”. The five price tags from Scene 05 fly in, cross themselves out and fade. The Ghost admin dashboard (rebuilt from ghost.org) builds in their place: sidebar, Total / Paid / Free members, the pink members chart, MRR, and the “You keep 100%” panel.</dd>
       <dt>Text</dt><dd class="say">“Your whole business, in one place.”</dd>
-      <dt>Motion</dt><dd>The price tags strike through and drop out. The dashboard panels build with a 3-frame stagger, the counters run 1 s, and the chart draws on. It holds ≥ 1.5 s with a slow drift.</dd>
+      <dt>Motion</dt><dd>A full-bleed Ghost-purple screen with a faded, repeated background text pattern (“website · newsletter · members · payments · analytics”). A solid purple panel morphs into the Ghost dashboard window. Its stat cards (Total members, MRR, You keep 100%) then pop out and float in 3D over a curved purple horizon, with counters running.</dd>
       <dt>Camera</dt><dd>Pull back from the MRR card (115%) to the full dashboard.</dd>
       <dt>Sound</dt><dd>Paper-tear ticks for the struck-out tags, then the music lifts.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx12">FX12</a> <a class="fxtag" href="#fx13">FX13</a></dd>
+      <dt>Transition</dt><dd>Out: the dashboard cards drift up and defocus.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> Ghost replaces the five separate tools.</div>
   </div>
 </article>
@@ -444,11 +496,13 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>A big counter rolls up to “$100,000,000+” with the line “earned each year by publications on Ghost”. Four value chips follow: Open source · 0% payment fees · Funded by its users · You own your data.</dd>
       <dt>Text</dt><dd class="say">“$100,000,000+ earned each year by publications on Ghost.”</dd>
-      <dt>Motion</dt><dd>The counter runs 1 s, ease-out, and must never jump. The chips stagger in 4 frames apart. It holds ≥ 1.5 s.</dd>
+      <dt>Motion</dt><dd>“$100,000,000+” counts up (1 s, never jumping) under the line “earned each year by publications on Ghost”. A row of value chips slides through a highlight lens: Open source · 0% payment fees · Funded by its users · You own your data.</dd>
       <dt>Camera</dt><dd>Slow push-in.</dd>
       <dt>Sound</dt><dd>A rising whoosh into a soft impact as the number lands.</dd>
       <dt>Source</dt><dd>ghost.org: “$100,000,000+ Revenue earned each year by publications running on Ghost, with 0% payment fees”, and “Ghost is open source, independent, and funded 100% by its users.”</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx14">FX14</a> <a class="fxtag" href="#fx02">FX02</a></dd>
+      <dt>Transition</dt><dd>Out: the counter and chips blur out.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> this works at scale, and Ghost is on the creator’s side.</div>
   </div>
 </article>
@@ -461,9 +515,11 @@ dd.say { font-weight: 600; }
     <dl>
       <dt>On screen</dt><dd>Clean white-gradient frame with just the line. It is the deliberate counterpart to the problem scenes.</dd>
       <dt>Text</dt><dd class="say">“Your audience. Your revenue.”</dd>
-      <dt>Motion</dt><dd>Word-by-word reveal, and “revenue.” lands in purple italic. It holds the full 2 s.</dd>
+      <dt>Motion</dt><dd>A rotary dial of numbers turns from 10 down to 0 and locks “0” at the center, with “% fees” typing beside it. Then “Your audience. Your revenue.” lands, with “revenue.” in purple.</dd>
       <dt>Sound</dt><dd>A music swell.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx15">FX15</a> <a class="fxtag" href="#fx03">FX03</a></dd>
+      <dt>Transition</dt><dd>Out: a soft defocus into the end card.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> the one message, that you own it.</div>
   </div>
 </article>
@@ -480,10 +536,12 @@ dd.say { font-weight: 600; }
     <h3>One clear next step</h3>
     <dl>
       <dt>On screen</dt><dd>The official black Ghost logo, Ghost’s own hero line, a lime “Start publishing now →” button and “Try Ghost free for 14 days · ghost.org”.</dd>
-      <dt>Motion</dt><dd>The logo wipes in, then the tagline, button and URL arrive with a 4-frame offset. The button presses once. A slow drift runs to the last frame, which works as a thumbnail.</dd>
+      <dt>Motion</dt><dd>The Ghost orb and wordmark, then the tagline “Turn your audience into a business.” with “business.” in purple, typed with a caret. Two pills follow: a lime “Start publishing now →” and an outline “Try free for 14 days”, plus ghost.org. Purple and pink light bars glow from the bottom.</dd>
       <dt>Sound</dt><dd>A logo sting, and the music resolves.</dd>
       <dt>Source</dt><dd>ghost.org hero: “Turn your audience into a business.” CTA: “Start publishing now”, and “Try Ghost completely free for 14 days”.</dd>
-    </dl>
+          <dt>Effects</dt><dd class="fxs"><a class="fxtag" href="#fx16">FX16</a> <a class="fxtag" href="#fx03">FX03</a> <a class="fxtag" href="#fx01">FX01</a></dd>
+      <dt>Transition</dt><dd>Ends on a still, held frame that works as a thumbnail.</dd>
+</dl>
     <div class="takeaway"><b>Viewer understands:</b> where to go and that it’s free to try.</div>
   </div>
 </article>
@@ -492,8 +550,9 @@ dd.say { font-weight: 600; }
 
 <section class="brief">
   <div class="card">
-    <span class="eyebrow">What changed from v2</span>
+    <span class="eyebrow">What changed</span>
     <ul>
+      <li><b>v4:</b> every scene is redesigned with effects from your two Pinterest references (FX01–FX17). These include defocus type, the typewriter caret, orbiting avatars, bento grids, the star-to-logo reveal, greyscale faces with a toggle, a 3D laptop, the brand-colour wall, floating cards, the rotary dial and the end card.</li>
       <li>Added Act 1, so the viewer meets the creator before the problem.</li>
       <li>Split the problem into three numbered scenes, each with a label chip and one plain sentence.</li>
       <li>Added “Meet Ghost” with a one-line definition of what Ghost is.</li>
