@@ -31,11 +31,11 @@ export const S5Cta: React.FC = () => {
       <Camera f={f} push={0.00014}>
         <At y={-190 + drift(f, 4, 280)}>
           <div style={{ opacity: Math.min(1, logoIn * 1.5), transform: `scale(${0.94 + 0.06 * logoIn})` }}>
-            <GhostLogo width={560} reveal={wipe} />
+            <GhostLogo width={560} reveal={wipe} variant="black" />
           </div>
         </At>
         <At y={10 + drift(f, 3, 280, 1)}>
-          <div style={{ ...sans(700, 66, { letterSpacing: "-0.035em", whiteSpace: "nowrap" }), opacity: Math.min(1, tag * 1.5), transform: `translateY(${(1 - tag) * 28}px)` }}>
+          <div style={{ ...sans(700, 66, { letterSpacing: "-0.035em", whiteSpace: "nowrap", color: COLORS.text }), opacity: Math.min(1, tag * 1.5), transform: `translateY(${(1 - tag) * 28}px)` }}>
             {COPY.cta.tagline}
           </div>
         </At>
@@ -44,14 +44,14 @@ export const S5Cta: React.FC = () => {
             style={{
               ...sans(700, 32, { color: COLORS.paperInk, letterSpacing: "-0.01em" }), background: COLORS.lime, borderRadius: 12, padding: "22px 40px",
               opacity: Math.min(1, btn * 1.5), transform: `translateY(${(1 - btn) * 30}px) scale(${press(f, PRESS)})`,
-              boxShadow: `0 16px ${40 + 30 * glow}px rgba(209,255,25,${0.18 + 0.17 * glow})`, whiteSpace: "nowrap",
+              boxShadow: `0 0 0 1.5px rgba(17,34,32,.12), 0 16px ${36 + 24 * glow}px rgba(120,160,0,${0.22 + 0.15 * glow})`, whiteSpace: "nowrap",
             }}
           >
             {COPY.cta.button} →
           </div>
         </At>
         <At y={262 + drift(f, 3, 280, 3)}>
-          <div style={{ ...sans(500, 24, { color: COLORS.mute, whiteSpace: "nowrap" }), opacity: Math.min(1, sub * 1.5) }}>{COPY.cta.sub}</div>
+          <div style={{ ...sans(500, 24, { color: COLORS.textMute, whiteSpace: "nowrap" }), opacity: Math.min(1, sub * 1.5) }}>{COPY.cta.sub}</div>
         </At>
       </Camera>
     </AbsoluteFill>

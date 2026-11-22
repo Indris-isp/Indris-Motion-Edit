@@ -10,7 +10,7 @@ export const Window: React.FC<{ title: string; w: number; h: number; style?: Rea
   <div
     style={{
       width: w, height: h, borderRadius: 18, background: COLORS.panel, border: `2px solid ${accent ? COLORS.pink : COLORS.line}`,
-      boxShadow: "0 30px 60px rgba(0,0,0,.45)", overflow: "hidden", display: "flex", flexDirection: "column", ...style,
+      boxShadow: "0 30px 60px rgba(17,24,39,.22)", overflow: "hidden", display: "flex", flexDirection: "column", ...style,
     }}
   >
     <div style={{ height: 46, display: "flex", alignItems: "center", gap: 9, padding: "0 18px", borderBottom: `1.5px solid ${COLORS.line}`, background: COLORS.bg2 }}>
@@ -41,7 +41,7 @@ export const FeedCard: React.FC<{ mine?: boolean; seed: number; style?: React.CS
     <div
       style={{
         width: 620, height: 220, borderRadius: 20, background: COLORS.panel, border: `2.5px solid ${mine ? COLORS.pink : COLORS.line}`,
-        padding: 24, display: "flex", gap: 20, boxShadow: mine ? "0 0 60px rgba(255,61,127,.25)" : "0 20px 40px rgba(0,0,0,.35)", ...style,
+        padding: 24, display: "flex", gap: 20, boxShadow: mine ? "0 0 60px rgba(255,36,125,.25)" : "0 20px 40px rgba(17,24,39,.18)", ...style,
       }}
     >
       <div style={{ width: 56, height: 56, borderRadius: 28, background: mine ? COLORS.pink : t, flexShrink: 0 }} />
@@ -95,9 +95,9 @@ export const Donut: React.FC<{ size: number; slicePct: number; sliceOffset?: { x
 };
 
 /** Official Ghost logo (white, from ghost.org). `reveal` 0..1 wipes it in from the left. */
-export const GhostLogo: React.FC<{ width: number; reveal?: number }> = ({ width, reveal = 1 }) => (
+export const GhostLogo: React.FC<{ width: number; reveal?: number; variant?: "white" | "black" }> = ({ width, reveal = 1, variant = "white" }) => (
   <Img
-    src={staticFile("brand/ghost-logo-white.png")}
+    src={staticFile(`brand/ghost-logo-${variant}.png`)}
     style={{ width, height: width * (294 / 800), display: "block", clipPath: `inset(0 ${100 - reveal * 100}% 0 0)` }}
   />
 );

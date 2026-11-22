@@ -11,7 +11,7 @@ export const Kinetic: React.FC<{
   lines: string[][];
   start: number;
   accent?: string;
-  accentColor?: "pink" | "lime";
+  accentColor?: "pink" | "lime" | "purple";
   size?: number;
   offset?: number;
   lineGap?: number;
@@ -39,7 +39,7 @@ export const Kinetic: React.FC<{
                   lineHeight: 1.04,
                   letterSpacing: "-0.035em",
                   paddingRight: isAcc ? size * 0.04 : 0,
-                  color: isAcc ? COLORS[accentColor] : li === dimLine ? COLORS.mute : COLORS.ink,
+                  color: isAcc ? COLORS[accentColor] : li === dimLine ? COLORS.textMute : COLORS.text,
                   opacity: Math.min(1, Math.max(0, p * 1.6)),
                   transform: `translateY(${(1 - p) * size * 0.55}px) scale(${0.92 + 0.08 * p})`,
                   filter: `blur(${Math.max(0, (1 - p) * 10)}px)`,

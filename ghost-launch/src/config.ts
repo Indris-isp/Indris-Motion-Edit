@@ -30,6 +30,9 @@ export const COLORS = {
   yellow: "#FFC52E",
   paper: "#FFFFFF",
   paperInk: "#15171A",
+  // On the white gradient stage (ghost.org hero: dark ink on white)
+  text: "#112220",
+  textMute: "#64748B",
 };
 
 export const FONTS = {
@@ -53,14 +56,14 @@ export const COPY = {
     channels: ["Website", "Newsletter", "Members", "Social web"],
     line: ["One", "place.", "Ghost."],
     accent: "Ghost.",
-    accentColor: "lime",
+    accentColor: "purple",
   },
   payoff: {
     members: 2480,
     revenue: 1000,
     line: ["Your", "audience.", "Your", "revenue."],
     accent: "revenue.",
-    accentColor: "lime",
+    accentColor: "purple",
     feeNote: "0% platform fees",
   },
   cta: {

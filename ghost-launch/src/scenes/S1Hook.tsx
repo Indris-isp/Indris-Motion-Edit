@@ -15,7 +15,7 @@ export const S1Hook: React.FC = () => {
   const p = Array.from({ length: INSERTS }, (_, k) => enter(f, 22 + 12 * k));
   const sumTo = (k: number) => p.slice(0, k + 1).reduce((a, b) => a + b, 0);
   const yMine = STEP * sumTo(INSERTS - 1) - 40;
-  const feedDim = tw(f, 96, 130, 1, 0.22);
+  const feedDim = tw(f, 96, 130, 1, 0.1);
   const feedBlur = tw(f, 96, 130, 0, 6);
   const out = exit(f, 222);
 
@@ -39,15 +39,15 @@ export const S1Hook: React.FC = () => {
           ))}
         </AbsoluteFill>
         <At y={0}>
-          <Kinetic f={f} start={108} lines={[COPY.hook.l1, COPY.hook.l2]} accent={COPY.hook.accent} accentColor={COPY.hook.accentColor as "pink" | "lime"} size={150} offset={5} dimLine={1} exitAt={222} />
+          <Kinetic f={f} start={108} lines={[COPY.hook.l1, COPY.hook.l2]} accent={COPY.hook.accent} accentColor={COPY.hook.accentColor as "pink" | "lime" | "purple"} size={150} offset={5} dimLine={1} exitAt={222} />
         </At>
       </Camera>
       {/* reach counter, top-right, inside the 5% title-safe area */}
       <At x={650} y={-420} style={{ opacity: Math.min(1, reachIn) * out, transform: `translate(-50%,-50%) translate(650px, ${-420 + (1 - reachIn) * 20}px)` }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, width: 300 }}>
-          <div style={sans(600, 18, { color: COLORS.mute, letterSpacing: "0.14em" })}>REACH</div>
-          <div style={sans(800, 64, { letterSpacing: "-0.04em", color: reach < 50 ? COLORS.pink : COLORS.ink, fontVariantNumeric: "tabular-nums" })}>{reach}%</div>
-          <div style={{ width: 300, height: 8, borderRadius: 4, background: COLORS.panel2, overflow: "hidden" }}>
+          <div style={sans(600, 18, { color: COLORS.textMute, letterSpacing: "0.14em" })}>REACH</div>
+          <div style={sans(800, 64, { letterSpacing: "-0.04em", color: reach < 50 ? COLORS.pink : COLORS.text, fontVariantNumeric: "tabular-nums" })}>{reach}%</div>
+          <div style={{ width: 300, height: 8, borderRadius: 4, background: "#E2E4EA", overflow: "hidden" }}>
             <div style={{ width: `${tw(f, 40, 100, 100, 6, easeOut)}%`, height: "100%", background: COLORS.pink, marginLeft: "auto" }} />
           </div>
         </div>

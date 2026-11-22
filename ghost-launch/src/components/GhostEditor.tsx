@@ -18,7 +18,7 @@ const Para: React.FC<{ text: string; p: number }> = ({ text, p }) => (
 export const GhostEditor: React.FC<{ typed: number; body: number[]; btnScale: number; btnDone: number; caret: boolean }> = ({ typed, body, btnScale, btnDone, caret }) => {
   const title = COPY.fix.postTitle.slice(0, typed);
   return (
-    <div style={{ width: ED_W, height: ED_H, borderRadius: 14, background: COLORS.paper, overflow: "hidden", boxShadow: "0 50px 100px rgba(0,0,0,.55)", position: "relative" }}>
+    <div style={{ width: ED_W, height: ED_H, borderRadius: 14, background: COLORS.paper, overflow: "hidden", boxShadow: "0 0 0 1.5px rgba(17,24,39,.08), 0 40px 90px rgba(17,24,39,.18)", position: "relative" }}>
       {/* top bar */}
       <div style={{ height: 68, display: "flex", alignItems: "center", padding: "0 28px", gap: 22 }}>
         <div style={sans(600, 18, { color: INK })}>‹&nbsp; Posts</div>
@@ -63,7 +63,7 @@ export const Channel: React.FC<{ label: string; lit: number }> = ({ label, lit }
     <div
       style={{
         width: 300, height: 84, borderRadius: 12, display: "flex", alignItems: "center", gap: 16, padding: "0 26px", boxSizing: "border-box",
-        background: COLORS.panel, border: `2px solid ${on ? COLORS.lime : COLORS.line}`, boxShadow: on ? `0 0 ${36 * lit}px rgba(209,255,25,.22)` : "none",
+        background: COLORS.panel, border: `2px solid ${on ? COLORS.lime : COLORS.line}`, boxShadow: on ? `0 12px ${30 * lit}px rgba(17,24,39,.25)` : "0 10px 24px rgba(17,24,39,.12)",
       }}
     >
       <div style={{ width: 16, height: 16, borderRadius: 8, background: on ? COLORS.lime : COLORS.faint, transform: `scale(${1 + 0.4 * Math.sin(Math.PI * Math.min(1, lit))})` }} />

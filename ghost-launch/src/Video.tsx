@@ -8,7 +8,7 @@ import { S4Payoff } from "./scenes/S4Payoff";
 import { S5Cta } from "./scenes/S5Cta";
 
 export const GhostLaunch: React.FC = () => (
-  <AbsoluteFill style={{ background: COLORS.bg }}>
+  <AbsoluteFill style={{ background: "#FFFFFF" }}>
     <Series>
       <Series.Sequence durationInFrames={SCENES.hook}><S1Hook /></Series.Sequence>
       <Series.Sequence durationInFrames={SCENES.problem}><S2Problem /></Series.Sequence>

@@ -66,7 +66,7 @@ export const Dashboard: React.FC<{ f: number }> = ({ f }) => {
   const mrrPts = [8, 12, 10, 15, 14, 19, 22, 21, 27, 30].map((v, i) => [i * 24, 46 - v * 1.4]);
 
   return (
-    <div style={{ width: DB_W, height: DB_H, borderRadius: 18, background: COLORS.bg, border: `1.5px solid ${COLORS.line}`, display: "flex", overflow: "hidden", boxShadow: "0 60px 120px rgba(0,0,0,.6)", position: "relative" }}>
+    <div style={{ width: DB_W, height: DB_H, borderRadius: 18, background: COLORS.bg, border: `1.5px solid ${COLORS.line}`, display: "flex", overflow: "hidden", boxShadow: "0 50px 100px rgba(17,24,39,.28)", position: "relative" }}>
       {/* sidebar */}
       <div style={{ width: SIDE, borderRight: `1.5px solid ${COLORS.line}`, padding: "26px 24px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 2 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 22 }}>

@@ -25,41 +25,39 @@ const mix = (a: number[], b: number[], t: number) => a.map((v, k) => Math.round(
 const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
 
 /**
- * Animated gradient ground in Ghost colors. warm: 0 = problem (pink/magenta, tense), 1 = Ghost (purple + lime).
- * Three soft colour fields drift slowly over a dark diagonal base, so nothing ever fully stops.
+ * White gradient ground in Ghost colours (like the ghost.org hero). warm: 0 = problem (soft pink/rose), 1 = Ghost (lilac + lime).
+ * Soft colour washes drift slowly over a white base, so nothing ever fully stops.
  */
 export const Background: React.FC<{ f: number; warm?: number; parallax?: number }> = ({ f, warm = 0, parallax = 0 }) => {
   const w = Math.max(0, Math.min(1, warm));
-  const base1 = mix([24, 14, 22], [16, 14, 32], w); // deep wine → deep indigo
-  const base2 = mix([14, 15, 18], [12, 14, 22], w);
+  const base2 = mix([252, 246, 249], [246, 245, 252], w); // blush white → lilac white
   const blobA = mix([255, 36, 125], [142, 66, 255], w); // pink → purple
-  const blobB = mix([142, 30, 90], [255, 36, 125], w); // magenta → pink
-  const blobC = mix([90, 40, 160], [209, 255, 25], w); // violet → lime
-  const ax = 22 + drift(f, 8, 900), ay = 20 + drift(f, 6, 1100, 1);
-  const bx = 80 + drift(f, 7, 1000, 2), by = 78 + drift(f, 6, 950, 3);
-  const cx = 70 + drift(f, 9, 1300, 4), cy = 18 + drift(f, 5, 1200, 5);
+  const blobB = mix([255, 140, 190], [255, 120, 180], w); // rose
+  const blobC = mix([200, 170, 255], [209, 255, 25], w); // lilac → lime
+  const ax = 18 + drift(f, 8, 900), ay = 16 + drift(f, 6, 1100, 1);
+  const bx = 84 + drift(f, 7, 1000, 2), by = 82 + drift(f, 6, 950, 3);
+  const cx = 78 + drift(f, 9, 1300, 4), cy = 14 + drift(f, 5, 1200, 5);
   const gx = drift(f, 20, 900) - parallax * 0.15;
   const gy = drift(f, 14, 1100, 1);
   return (
-    <AbsoluteFill style={{ background: `linear-gradient(${135 + drift(f, 6, 1400)}deg, ${rgba(base1, 1)} 0%, ${rgba(base2, 1)} 55%, ${rgba(base1, 1)} 100%)`, overflow: "hidden" }}>
+    <AbsoluteFill style={{ background: `linear-gradient(${135 + drift(f, 6, 1400)}deg, #FFFFFF 0%, ${rgba(base2, 1)} 60%, #FFFFFF 100%)`, overflow: "hidden" }}>
       <AbsoluteFill
         style={{
           background: [
-            `radial-gradient(ellipse 55% 60% at ${ax}% ${ay}%, ${rgba(blobA, 0.34)}, transparent 70%)`,
-            `radial-gradient(ellipse 60% 55% at ${bx}% ${by}%, ${rgba(blobB, 0.3)}, transparent 70%)`,
-            `radial-gradient(ellipse 40% 38% at ${cx}% ${cy}%, ${rgba(blobC, 0.1 + 0.06 * w)}, transparent 70%)`,
+            `radial-gradient(ellipse 55% 60% at ${ax}% ${ay}%, ${rgba(blobA, 0.16)}, transparent 70%)`,
+            `radial-gradient(ellipse 60% 55% at ${bx}% ${by}%, ${rgba(blobB, 0.2)}, transparent 70%)`,
+            `radial-gradient(ellipse 42% 40% at ${cx}% ${cy}%, ${rgba(blobC, 0.18 + 0.1 * w)}, transparent 70%)`,
           ].join(", "),
         }}
       />
       <AbsoluteFill
         style={{
-          backgroundImage: `radial-gradient(rgba(255,255,255,0.07) 1.2px, transparent 1.2px)`,
+          backgroundImage: `radial-gradient(rgba(17,34,32,0.09) 1.2px, transparent 1.2px)`,
           backgroundSize: "48px 48px",
           backgroundPosition: `${gx}px ${gy}px`,
           maskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)",
         }}
       />
-      <AbsoluteFill style={{ background: "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 55%, rgba(0,0,0,0.5) 100%)" }} />
     </AbsoluteFill>
   );
 };
