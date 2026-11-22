@@ -1,0 +1,21 @@
+{
+  "name": "ghost-launch",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "stills": "node render-stills.mjs",
+    "render": "remotion render GhostLaunch out/ghost_launch_1920x1080.mp4 --codec=h264 --crf=16 --pixel-format=yuv420p"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "@remotion/bundler": "4.0.539",
+    "remotion": "4.0.539",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
