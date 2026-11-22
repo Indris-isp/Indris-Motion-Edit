@@ -725,3 +725,111 @@ shot('unmask', { hero: 3.1, len: 3.6, tin: 'up', tout: 'whip',
     S(s.st, { s: done ? L(1.4, 1, bo(P(t, 1.8, 2.05))) : bo(P(t, .5, .8)), o: P(t, .5, .6) });
     s.chips.forEach((e, i) => { const d = 2.05 + i * .1, k = P(t, d, d + .35); S(e, { s: L(.4, 1, bo(k)), o: C(k * 4), x: (i % 2 ? -1 : 1) * (1 - eo(k)) * 160 + Math.sin(t * 1.5 + i) * 6, y: (i < 2 ? 1 : -1) * (1 - eo(k)) * 90 + Math.cos(t * 1.3 + i) * 5 }); });
   } });
+
+/* ===== monitor (new, ref C): dark blue→violet stage, desktop monitor with a live chart, ✦ keywords pop around it,
+ *       big words flank the screen, then the scene pulls back into an iridescent frame and collapses into a line ===== */
+shot('monitor', { hero: 2.3, len: 3.5, tin: 'up', bg: 'linear-gradient(135deg,#F4E9FF,#E3E6FF 50%,#DCEBFF)',
+  sfx: [[0.0, 'boom'], [0.15, 'swell'], [0.5, 'ticks12'], [0.85, 'shimmer'], [0.9, 'pops3'], [1.85, 'whoosh_s'], [1.95, 'hit_s'], [2.5, 'whoosh'], [3.0, 'swoop'], [3.3, 'whoosh']],
+  build(c, s) {
+    const m = B.monitor;
+    D(c, 'blob', { width: 900, height: 700, left: -200, top: 500, background: 'radial-gradient(circle,rgba(243,184,255,1) 0%,rgba(243,184,255,0) 70%)' });
+    D(c, 'blob', { width: 900, height: 700, left: 1250, top: -200, background: 'radial-gradient(circle,rgba(159,216,255,1) 0%,rgba(159,216,255,0) 70%)' });
+    s.frame = D(c, 'ctr', { left: 960, top: 540, width: 1920, height: 1080, background: 'linear-gradient(135deg,#F3B8FF,#C9B8FF 45%,#9FD8FF)', boxShadow: '0 40px 120px -20px rgba(123,77,255,.55)' });
+    s.world = D(s.frame, 'abs', { inset: 0, overflow: 'hidden', background: `radial-gradient(ellipse 70% 60% at 50% 88%,var(--acc) 0%,${m.violet} 38%,#120c4a 72%,#060825 100%)` });
+    s.wcam = D(s.world, 'abs', { inset: 0, transformOrigin: '960px 540px' });
+    D(s.wcam, 'abs', { left: 1100, top: -200, width: 1100, height: 900, borderRadius: '50%', filter: 'blur(120px)', background: `radial-gradient(circle,${m.violet} 0%,rgba(0,0,0,0) 70%)`, opacity: .8 });
+    s.floor = D(s.wcam, 'abs', { left: -100, top: 905, width: 2120, height: 200, background: 'linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.35))', boxShadow: 'inset 0 2px 0 rgba(160,190,255,.5)' });
+    D(s.floor, 'abs', { inset: 0, opacity: .35, background: 'repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 3px,transparent 3px 14px)', WebkitMaskImage: 'linear-gradient(180deg,#000,transparent 70%)' });
+    // monitor
+    s.mon = D(s.wcam, 'abs', { left: 960 - 470, top: 150, width: 940, height: 760 });
+    s.glow = D(s.mon, 'abs', { left: -120, top: -80, width: 1180, height: 760, borderRadius: '50%', filter: 'blur(90px)', background: 'radial-gradient(circle,rgba(var(--acc2RGB),.75) 0%,rgba(0,0,0,0) 65%)' });
+    D(s.mon, 'abs', { left: 400, top: 590, width: 140, height: 200, background: 'linear-gradient(90deg,#0d1a4a,#1c3480 50%,#0d1a4a)' });
+    D(s.mon, 'abs', { left: 300, top: 740, width: 340, height: 22, borderRadius: '10px 10px 4px 4px', background: 'linear-gradient(180deg,#2a3f8f,#0d1a4a)' });
+    const bez = D(s.mon, 'abs', { left: 0, top: 0, width: 940, height: 600, borderRadius: '26px', background: '#070b22', padding: '22px', boxShadow: '0 0 0 2px rgba(140,170,255,.35), 0 50px 120px -20px rgba(0,0,0,.7), 0 0 120px rgba(var(--accRGB),.55)' });
+    const scr = D(bez, '', { position: 'relative', width: '100%', height: '100%', borderRadius: '12px', overflow: 'hidden', background: 'linear-gradient(160deg,#3a5cff,#5b3fe0 60%,#3a2bb8)' });
+    s.panel = D(scr, 'abs', { left: 60, top: 50, width: 776, height: 456, borderRadius: '20px', background: 'linear-gradient(180deg,#fff,#F1EEFF)', padding: '26px 30px', boxShadow: '0 30px 60px -20px rgba(0,0,40,.6)' },
+      `<div class="row" style="justify-content:space-between"><b style="font-size:24px;letter-spacing:-.02em">${m.panel}</b><span class="tag" style="background:#E8FBF2;color:#139B6E">● Live</span></div>`);
+    const PW = 716, PH = 300, pts = [];
+    for (let i = 0; i <= 40; i++) { const x = i / 40; pts.push([x * PW, PH - (40 + 210 * (x * x * .55 + x * .25) + 26 * Math.sin(x * 9) * (1 - x * .5))]); }
+    s.pts = pts; s.PW = PW;
+    const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
+    s.panel.insertAdjacentHTML('beforeend', `<svg class="abs" style="left:30px;top:110px;overflow:visible" width="${PW}" height="${PH}"><defs><linearGradient id="mfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9B7BFF" stop-opacity=".45"/><stop offset="1" stop-color="#9B7BFF" stop-opacity="0"/></linearGradient><clipPath id="mclip"><rect class="mcr" x="0" y="-20" width="0" height="${PH + 40}"/></clipPath></defs>
+      ${[1, 2, 3].map(k => `<line x1="0" x2="${PW}" y1="${k * PH / 4}" y2="${k * PH / 4}" stroke="#E6E2F5" stroke-width="1.5"/>`).join('')}
+      <g clip-path="url(#mclip)"><path d="${d} L${PW} ${PH} L0 ${PH}Z" fill="url(#mfill)"/><path d="${d}" fill="none" stroke="#7B4DFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`);
+    s.clip = s.panel.querySelector('.mcr');
+    s.head = D(s.panel, 'ctr', { left: 0, top: 0, width: 22, height: 22, borderRadius: '50%', background: '#fff', border: '5px solid var(--acc)', boxShadow: '0 0 0 8px rgba(var(--accRGB),.2)' });
+    s.tip = D(s.panel, 'ctr num', { left: 0, top: 0, background: 'var(--acc)', color: '#fff', fontSize: '18px', fontWeight: 700, padding: '6px 12px', borderRadius: '10px', boxShadow: '0 10px 20px -6px rgba(var(--accRGB),.7)', whiteSpace: 'nowrap' });
+    // ✦ keywords and flanking words
+    const kp = [[300, 330], [1560, 250], [1540, 760]];
+    s.kw = m.keywords.slice(0, 3).map((w, i) => D(s.wcam, 'ctr row', { left: kp[i][0], top: kp[i][1], gap: '14px', color: '#fff', fontSize: '58px', fontWeight: 500, letterSpacing: '-.03em', whiteSpace: 'nowrap', textShadow: '0 0 30px rgba(180,200,255,.6)' }, `<span class="spk" style="display:inline-block;font-size:44px">✦</span>${w}`));
+    s.fl = m.flank.map((w, i) => D(s.wcam, 'ctr', { left: 960, top: 470, color: '#fff', fontSize: '92px', fontWeight: 600, letterSpacing: '-.045em', whiteSpace: 'nowrap', textShadow: '0 0 50px rgba(180,200,255,.5)', zIndex: 0 }, w));
+    s.mon.style.zIndex = 1;
+    s.line = D(c, 'ctr', { left: 960, top: 540, width: 1200, height: 4, borderRadius: '2px', background: 'linear-gradient(90deg,transparent,#7B4DFF 20%,var(--acc) 80%,transparent)', boxShadow: '0 0 24px rgba(123,77,255,.8)' });
+  },
+  update(t, s, c) {
+    const m = B.monitor;
+    // camera: rises in from close, settles
+    const rise = eo(P(t, 0, 1.0));
+    S(s.wcam, { s: L(1.3, 1, rise) * L(1, 1.04, P(t, 1, 2.5)), y: (1 - rise) * 160 });
+    S(s.glow, { o: .7 + .3 * Math.sin(t * 3) });
+    // chart draws, tooltip rides the head
+    const cp = eio(P(t, .35, 2.2)), i = Math.min(40, Math.floor(cp * 40)), f = cp * 40 - i, a = s.pts[i], b = s.pts[Math.min(40, i + 1)];
+    const hx = L(a[0], b[0], f), hy = L(a[1], b[1], f);
+    s.clip.setAttribute('width', (cp * s.PW + 4).toFixed(1));
+    s.head.style.left = (30 + hx) + 'px'; s.head.style.top = (110 + hy) + 'px'; s.tip.style.left = (30 + hx) + 'px'; s.tip.style.top = (110 + hy - 44) + 'px';
+    S(s.head, { o: P(t, .35, .45) }); S(s.tip, { o: P(t, .4, .55), s: 1 + .05 * Math.sin(t * 8) });
+    s.tip.textContent = Math.round(m.value * cp).toLocaleString('en-US') + ' ' + m.unit;
+    // keywords: blur in staggered, sparkle spins, exit before the flank words
+    s.kw.forEach((e, k) => { const a0 = .8 + k * .17; blurIn(e, t, a0, a0 + .4, { x: (k ? 40 : -40), blur: 26 });
+      const out = P(t, 1.8, 2.0); if (out > 0) S(e, { o: 1 - out, b: out * 20, x: (k ? 1 : -1) * out * 60 });
+      e.querySelector('.spk').style.transform = `rotate(${(t * 140 + k * 40).toFixed(1)}deg) scale(${(1 + .15 * Math.sin(t * 6 + k)).toFixed(3)})`; });
+    s.fl.forEach((e, k) => { const p = eo(P(t, 1.9, 2.45)), dx = (k ? 1 : -1) * L(0, 705, p); S(e, { x: dx, o: P(t, 1.9, 2.05), bx: (1 - p) * 40 }); });
+    // pull back into an iridescent frame, then collapse to a line
+    const pb = eio(P(t, 2.5, 3.0)), col = eio(P(t, 2.95, 3.3));
+    const sc = L(1, .64, pb), pad = L(0, 24, pb);
+    s.world.style.inset = pad + 'px'; s.world.style.borderRadius = L(0, 40, pb) + 'px';
+    s.frame.style.borderRadius = L(0, 54, pb) + 'px';
+    s.frame.style.transform = `translate(-50%,-50%) scale(${(sc * L(1, 1.12, col)).toFixed(4)},${(sc * L(1, .006, col)).toFixed(4)})`;
+    s.frame.style.opacity = col > .97 ? 0 : 1;
+    S(s.line, { o: col > .9 ? 1 - P(t, 3.3, 3.5) : 0, s: L(.6, 1.25, P(t, 3.2, 3.5)) });
+    S(c, {});
+  } });
+
+/* ===== dropzone (new, ref C): pastel glass world; a hand drags the pixel file into the website slot, which goes live ===== */
+shot('dropzone', { hero: 2.75, len: 3.2, tin: 'fade', tout: 'zoom', bg: 'linear-gradient(135deg,#F4E9FF,#E3E6FF 50%,#DCEBFF)',
+  sfx: [[0.0, 'whoosh_s'], [0.15, 'type10'], [0.55, 'type12'], [0.85, 'whoosh_s'], [1.55, 'click'], [1.6, 'pop'], [1.9, 'hit_s'], [2.0, 'pops3'], [2.98, 'whoosh']],
+  build(c, s) {
+    const z = B.dropzone;
+    D(c, 'blob', { width: 1000, height: 700, left: -250, top: 450, background: 'radial-gradient(circle,rgba(243,184,255,1) 0%,rgba(243,184,255,0) 70%)' });
+    D(c, 'blob', { width: 1000, height: 700, left: 1200, top: -250, background: 'radial-gradient(circle,rgba(159,216,255,1) 0%,rgba(159,216,255,0) 70%)' });
+    s.h1 = typed(c, 'ctr head', { left: 960, top: 150, fontSize: '96px' }, [{ t: z.l1 }], false);
+    s.h2 = typed(c, 'ctr head', { left: 960, top: 250, fontSize: '96px', color: '#7B4DFF' }, [{ t: z.l2 }]);
+    s.card = D(c, 'ctr', { left: 960, top: 640, width: 820, height: 420, borderRadius: '34px', background: 'rgba(255,255,255,.62)', backdropFilter: 'blur(24px)', boxShadow: 'inset 0 0 0 2px rgba(255,255,255,.9), 0 40px 90px -30px rgba(90,60,200,.45)', padding: '34px 40px' });
+    s.title = typed(s.card, 'row', { fontSize: '34px', fontWeight: 600, letterSpacing: '-.02em', gap: '0' }, [{ t: z.title }]);
+    s.title.el.insertAdjacentHTML('afterbegin', `<span style="color:#7B4DFF;font-size:30px;margin-right:16px">✦</span>`);
+    D(s.card, '', { fontSize: '15px', fontWeight: 700, letterSpacing: '.14em', color: '#9A93B8', marginTop: '26px' }, z.label);
+    s.zone = D(s.card, 'abs', { left: 40, top: 160, width: 740, height: 200, borderRadius: '22px', border: '2.5px dashed #C9C1EA', background: 'rgba(255,255,255,.5)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', color: '#8C85AA', fontSize: '22px', fontWeight: 500 },
+      `<div style="width:56px;height:56px;border-radius:14px;border:2.5px solid #C9C1EA;display:flex;align-items:center;justify-content:center;font-size:28px">↑</div><div>${z.hint}</div>`);
+    s.file = D(c, 'ctr row', { left: 960, top: 700, width: 600, height: 128, borderRadius: '24px', background: 'rgba(255,255,255,.95)', padding: '0 34px', gap: '24px', boxShadow: 'inset 0 0 0 2px rgba(123,77,255,.0), 0 40px 70px -24px rgba(70,40,170,.5)' },
+      `<div style="width:62px;height:76px;border-radius:10px;border:3px solid #3a3360;position:relative;flex:none"><div style="position:absolute;right:-3px;top:-3px;width:22px;height:22px;background:#EFEAFF;border-left:3px solid #3a3360;border-bottom:3px solid #3a3360;border-radius:0 8px 0 6px"></div><div style="position:absolute;left:10px;bottom:12px;font-size:15px;font-weight:800;color:#7B4DFF">JS</div></div><div><div style="font-size:32px;font-weight:600;letter-spacing:-.02em">${z.file}</div><div style="font-size:18px;color:#9A93B8;font-weight:500;margin-top:4px">${z.size}</div></div>`);
+    s.live = D(c, 'ctr pill', { left: 960, top: 905, fontSize: '24px', fontWeight: 600, padding: '14px 26px', color: '#139B6E' }, `<span style="width:12px;height:12px;border-radius:50%;background:#19B36B;display:inline-block;box-shadow:0 0 0 6px rgba(25,179,107,.2)"></span>${z.live}`);
+    s.rip = D(c, 'ctr', { left: 960, top: 700, width: 600, height: 128, borderRadius: '26px', border: '3px solid #7B4DFF' });
+    s.hand = mkHand(c);
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.05, t / 3.2) });
+    typeP(s.h1, P(t, .1, .45), t, false); typeP(s.h2, P(t, .5, .9), t, t < 1.4);
+    const cp = P(t, 0, .45); S(s.card, { y: (1 - eo(cp)) * 90, s: L(.92, 1, eo(cp)), o: C(cp * 3), b: (1 - eo(cp)) * 14 });
+    typeP(s.title, P(t, .2, .6), t, false);
+    // file flies in tilted with the hand, wobbles, then drops into the zone
+    const fx = tt => L(760, 0, eio(P(tt, .75, 1.5))), fy = tt => L(420, -30, eio(P(tt, .75, 1.5))) + L(0, 30, eo(P(tt, 1.55, 1.85)));
+    const drop = eo(P(t, 1.55, 1.85));
+    S(s.file, { x: fx(t), y: fy(t), r: L(-14, 0, eo(P(t, .75, 1.6))) + Math.sin(t * 7) * 2 * (1 - drop), s: L(1.1, .96, drop) * (t > 1.85 ? 1 + .04 * Math.sin(P(t, 1.85, 2.1) * Math.PI) : 1), o: P(t, .75, .85), bx: Math.min(40, vel(fx, t) * .25), by: Math.min(30, vel(fy, t) * .25) });
+    const dropped = t >= 1.85;
+    s.file.style.boxShadow = dropped ? 'inset 0 0 0 3px #7B4DFF, 0 20px 40px -20px rgba(70,40,170,.4)' : '0 40px 70px -24px rgba(70,40,170,.5)';
+    s.zone.style.opacity = (1 - P(t, 1.6, 1.85) * .7).toFixed(3);
+    s.zone.style.borderColor = t > 1.3 && !dropped ? '#7B4DFF' : '#C9C1EA';
+    const rp = P(t, 1.85, 2.4); S(s.rip, { s: L(1, 1.25, eo(rp)), o: rp > 0 ? 1 - rp : 0 });
+    S(s.hand, { x: 960 + fx(t) + 170 - 35, y: 700 + fy(t) + 10 - 8, o: P(t, .75, .85) * (1 - P(t, 2.0, 2.3)), s: t > 1.5 && t < 1.85 ? .92 : 1, r: L(14, 0, eio(P(t, .75, 1.5))) + P(t, 1.9, 2.3) * 10 });
+    const lp = P(t, 2.0, 2.3); S(s.live, { s: L(.6, 1, bo(lp)), o: C(lp * 4), y: (1 - eo(lp)) * 30 });
+  } });

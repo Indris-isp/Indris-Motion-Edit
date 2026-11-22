@@ -30,6 +30,13 @@ window.BRIEF = {
   /* PAIN — the problem as a number */
   pain: { value: 2847, unit: 'anonymous', pill: '0 form fills', complaints: ['who was that?', 'pricing ×4…', 'no form fill', 'gone.', 'lead lost', 'bounced'] },
 
+  /* REVEAL — dark stage, monitor with a live chart, ✦ keywords, flanking words (new shot: monitor) */
+  monitor: { violet: '#6A2BFF', panel: 'Visitors identified', value: 1284, unit: 'today',     // PLACEHOLDER number
+    keywords: ['Identify', 'Enrich', 'Alert'], flank: ['Real-time', 'intent.'] },
+  /* EASE — pastel glass card, the pixel is dropped onto the site (new shot: dropzone) */
+  dropzone: { l1: 'One script.', l2: 'Live in 2 minutes.', title: 'Install RB2B', label: 'YOUR WEBSITE', hint: 'Drop your pixel here',
+    file: 'rb2b-pixel.js', size: 'Script · 2 KB', live: 'Live · identifying visitors' },
+
   /* BENEFIT — anonymous card is scanned and decodes into a named person (new shot: unmask) */
   unmask: {
     l1: 'Every visitor,', l2: 'has a name.',
