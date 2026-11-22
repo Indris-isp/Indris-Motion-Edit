@@ -8,3 +8,7 @@ ghost-launch/out/*.log
 ghost-launch/out/audio.wav
 ghost-launch/out/video_silent.mp4
 ghost-launch/out/stills/f*.png
+ghost-film/out/frames/
+ghost-film/out/*.wav
+ghost-film/out/*.log
+ghost-film/out/still_*.png

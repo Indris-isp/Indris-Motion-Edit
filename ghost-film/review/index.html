@@ -1,0 +1,78 @@
+<title>Ghost Launch Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: approval sheet. The board first, then the beat sheet table, then each shot full-size. */
+:root { --bg:#f4f4f5; --paper:#fff; --ink:#15171a; --mute:#5d6472; --line:#e4e4e7; --acc:#7a33ef; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#0f1012; --paper:#17181b; --ink:#eceef0; --mute:#9ea3ad; --line:#2a2c31; --acc:#a777ff; color-scheme:dark } }
+:root[data-theme="dark"] { --bg:#0f1012; --paper:#17181b; --ink:#eceef0; --mute:#9ea3ad; --line:#2a2c31; --acc:#a777ff; color-scheme:dark }
+body { background:var(--bg); color:var(--ink); font:15px/1.55 "Inter",system-ui,sans-serif; padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px)); padding-block:36px 80px; }
+.wrap { max-width:1120px; margin:0 auto; display:grid; gap:28px; }
+h1 { margin:0; font-size:clamp(30px,4.6vw,50px); letter-spacing:-0.04em; line-height:1.04; text-wrap:balance; }
+h2 { margin:0; font-size:24px; letter-spacing:-0.025em; }
+.lede { color:var(--mute); margin:0; max-width:70ch; font-size:16px; }
+.eyebrow { font:500 11px "JetBrains Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--mute); }
+.board, figure { margin:0; background:var(--paper); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.board img, figure img { display:block; width:100%; height:auto; }
+.board img { aspect-ratio:2400/1284; } figure img { aspect-ratio:16/9; background:#eee; }
+.tbl { overflow-x:auto; background:var(--paper); border:1px solid var(--line); border-radius:12px; }
+table { border-collapse:collapse; width:100%; min-width:820px; font-size:14px; }
+th { text-align:left; font:500 11px "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); padding:11px 14px; border-bottom:1px solid var(--line); }
+td { padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+tr:last-child td { border-bottom:0; }
+td.n, .tc { font:500 12px "JetBrains Mono",monospace; color:var(--acc); font-variant-numeric:tabular-nums; white-space:nowrap; }
+code { font:500 12px "JetBrains Mono",monospace; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:18px; }
+figcaption { padding:12px 16px 14px; display:grid; gap:3px; }
+.cap { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+figcaption p { margin:0; color:var(--mute); font-size:14px; }
+.note { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:18px 20px; display:grid; gap:8px; }
+.note ul { margin:0; padding-left:18px; display:grid; gap:6px; }
+</style>
+<div class="wrap">
+  <header style="display:grid;gap:12px">
+    <span class="eyebrow">Ghost launch film · v5 · storyboard for approval</span>
+    <h1>12 shots, 26.8 seconds, styled to ghost.org</h1>
+    <p class="lede">Built on the saas-launch-video skill. It follows the skill’s arc and pacing (a cut every 1.6–3 s) and ghost.org’s branding: Inter Bold headlines with tight tracking, ink #15171A, the white-and-black ground you approved, Ghost purple for line 2, a black primary button, and the real Ghost editor and orb.</p>
+  </header>
+  <div class="board"><img src="img/board.jpg" alt="Storyboard of all 12 shots" width="2400" height="1284"></div>
+  <section style="display:grid;gap:12px"><h2>Beat sheet</h2>
+    <div class="tbl"><table><thead><tr><th>#</th><th>Start</th><th>Shot</th><th>On-screen copy</th><th>What moves</th></tr></thead><tbody>
+<tr><td class="n">01</td><td class="tc">0.0s</td><td><code>hook</code></td><td><b>9:00 → 9:01 am · “Seen by 6% of your followers”</b></td><td>The clock focus-pulls in, the minute digit rolls and a notification flies in with a red dot.</td></tr>
+<tr><td class="n">02</td><td class="tc">1.6s</td><td><code>chaos</code></td><td><b>Five tools. / Zero control.</b></td><td>A tilted 3D wall of tool alerts pops in with red badges (“payment sync failed”, “10% platform fee”, “export members.csv”), and the headline blur-whips in.</td></tr>
+<tr><td class="n">03</td><td class="tc">3.6s</td><td><code>pain</code></td><td><b>94% unseen · red pill “6% reach”</b></td><td>The number counts up, the pill stamps on and complaint bubbles orbit, then it goes grey and dips to black.</td></tr>
+<tr><td class="n">04</td><td class="tc">5.8s</td><td><code>turn</code></td><td><b>(dark)</b></td><td>A navy starfield. A light flare draws a ring, the ring becomes the Ghost orb, then a white flash.</td></tr>
+<tr><td class="n">05</td><td class="tc">7.8s</td><td><code>brand</code></td><td><b>ghost · Website / Newsletter / Members</b></td><td>The orb lands and slides left, “ghost” types on and the three channel pills rise.</td></tr>
+<tr><td class="n">06</td><td class="tc">9.5s</td><td><code>laptop</code></td><td><b>Every post, / every inbox.</b></td><td>The real Ghost editor (from ghost.org) swings in on a 3D laptop and the hand clicks Publish. Fixes problem 1: reach.</td></tr>
+<tr><td class="n">07</td><td class="tc">12.2s</td><td><code>colorize</code></td><td><b>Paid members. / 0% fees.</b></td><td>A grey wall of readers. “Turn on paid memberships” toggles on and readers light up with badges. Fixes problem 2: fees.</td></tr>
+<tr><td class="n">08</td><td class="tc">15.0s</td><td><code>morph</code></td><td><b>One place, / no duct tape.</b></td><td>The headline card morphs into a folder, then a Ghost panel (Website · Newsletter · Payments), and the hand clicks Publish & send. Fixes problem 3: tools.</td></tr>
+<tr><td class="n">09</td><td class="tc">17.8s</td><td><code>dashboard</code></td><td><b>Keep 100% of your revenue</b></td><td>A Ghost-black horizon rises with the dashboard: 2,480 paid members, platform fee 10 → 0%, open rate 64%, MRR 2.4×.</td></tr>
+<tr><td class="n">10</td><td class="tc">20.2s</td><td><code>social</code></td><td><b>Last week, / 20,425 new publications</b></td><td>The count-up runs, a marquee of publications featured on ghost.org scrolls past and “$100M+ earned on Ghost every year” appears.</td></tr>
+<tr><td class="n">11</td><td class="tc">22.1s</td><td><code>reel</code></td><td><b>0 · % platform / fees.</b></td><td>A slot reel rolls 10 → 0 and the label types on.</td></tr>
+<tr><td class="n">12</td><td class="tc">23.8s</td><td><code>cta</code></td><td><b>ghost · Turn your audience into a business.</b></td><td>The orb pops, the wordmark types, the black “Start publishing now →” button and “Try free for 14 days” rise, then ghost.org.</td></tr>
+    </tbody></table></div>
+  </section>
+  <section style="display:grid;gap:12px"><h2>Each shot, full size</h2>
+    <div class="grid">
+<figure id="s01"><img src="img/s01.jpg" alt="Shot 01, hook" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>01 · hook</b><span class="tc">0.0s</span></div><p>9:00 → 9:01 am · “Seen by 6% of your followers”</p></figcaption></figure>
+<figure id="s02"><img src="img/s02.jpg" alt="Shot 02, chaos" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>02 · chaos</b><span class="tc">1.6s</span></div><p>Five tools. / Zero control.</p></figcaption></figure>
+<figure id="s03"><img src="img/s03.jpg" alt="Shot 03, pain" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>03 · pain</b><span class="tc">3.6s</span></div><p>94% unseen · red pill “6% reach”</p></figcaption></figure>
+<figure id="s04"><img src="img/s04.jpg" alt="Shot 04, turn" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>04 · turn</b><span class="tc">5.8s</span></div><p>(dark)</p></figcaption></figure>
+<figure id="s05"><img src="img/s05.jpg" alt="Shot 05, brand" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>05 · brand</b><span class="tc">7.8s</span></div><p>ghost · Website / Newsletter / Members</p></figcaption></figure>
+<figure id="s06"><img src="img/s06.jpg" alt="Shot 06, laptop" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>06 · laptop</b><span class="tc">9.5s</span></div><p>Every post, / every inbox.</p></figcaption></figure>
+<figure id="s07"><img src="img/s07.jpg" alt="Shot 07, colorize" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>07 · colorize</b><span class="tc">12.2s</span></div><p>Paid members. / 0% fees.</p></figcaption></figure>
+<figure id="s08"><img src="img/s08.jpg" alt="Shot 08, morph" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>08 · morph</b><span class="tc">15.0s</span></div><p>One place, / no duct tape.</p></figcaption></figure>
+<figure id="s09"><img src="img/s09.jpg" alt="Shot 09, dashboard" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>09 · dashboard</b><span class="tc">17.8s</span></div><p>Keep 100% of your revenue</p></figcaption></figure>
+<figure id="s10"><img src="img/s10.jpg" alt="Shot 10, social" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>10 · social</b><span class="tc">20.2s</span></div><p>Last week, / 20,425 new publications</p></figcaption></figure>
+<figure id="s11"><img src="img/s11.jpg" alt="Shot 11, reel" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>11 · reel</b><span class="tc">22.1s</span></div><p>0 · % platform / fees.</p></figcaption></figure>
+<figure id="s12"><img src="img/s12.jpg" alt="Shot 12, cta" width="1600" height="900" loading="lazy"><figcaption><div class="cap"><b>12 · cta</b><span class="tc">23.8s</span></div><p>ghost · Turn your audience into a business.</p></figcaption></figure>
+    </div>
+  </section>
+  <div class="note"><span class="eyebrow">Placeholders to confirm</span>
+    <ul>
+      <li>The people (initials), “Riverside Daily”, 2,480 members, 64% open rate, 2.4× MRR and the quote “We kept every dollar.” are fictional.</li>
+      <li>The publication names in shot 10 are the ones featured on ghost.org. Confirm they can be shown.</li>
+      <li>From ghost.org: 20,425 new publications last week, $100M+ earned every year, 0% payment fees, and “Try Ghost free for 14 days”.</li>
+    </ul>
+  </div>
+</div>
