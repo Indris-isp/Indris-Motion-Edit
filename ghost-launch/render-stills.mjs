@@ -10,10 +10,11 @@ const arg = process.argv[2];
 const frames = arg ? Object.fromEntries(arg.split(",").map((f) => [`f${f.padStart(4, "0")}`, Number(f)])) : KEY;
 
 const serveUrl = await bundle({ entryPoint: path.resolve("src/index.ts"), publicDir: path.resolve("public") });
-const composition = await selectComposition({ serveUrl, id: "GhostLaunch", browserExecutable: BROWSER });
+const inputProps = process.env.BG ? { bg: process.env.BG } : {};
+const composition = await selectComposition({ serveUrl, id: "GhostLaunch", browserExecutable: BROWSER, inputProps });
 fs.mkdirSync("out/stills", { recursive: true });
 for (const [name, frame] of Object.entries(frames)) {
   const output = `out/stills/${name}.png`;
-  await renderStill({ serveUrl, composition, frame, output, browserExecutable: BROWSER, chromiumOptions: { gl: "swangle" } });
+  await renderStill({ serveUrl, composition, frame, output: output.replace(".png", process.env.BG ? `_${process.env.BG}.png` : ".png"), inputProps, browserExecutable: BROWSER, chromiumOptions: { gl: "swangle" } });
   console.log(output, frame);
 }
