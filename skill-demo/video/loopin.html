@@ -50,7 +50,7 @@ html,body{margin:0;background:#fff;overflow:hidden}
 <script src="cues.js"></script>
 <script>
 'use strict';
-const W = 1920, H = 1080, SC = CUES.scenes;
+const W = 1920, H = 1080, SC = CUES.starts;
 /* ---------- math ---------- */
 const C = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const P = (t, a, b) => C((t - a) / (b - a));
@@ -127,7 +127,8 @@ function scene(cfg) {
   const root = D(stage, 'scene', { background: cfg.bg || 'linear-gradient(180deg,#fff 0%,#F5F7FC 100%)', zIndex: i + 1 });
   const cam = D(root, 'cam'); const st = {};
   cfg.build(cam, st, root);
-  scenes.push(Object.assign({ i, a, b, dur: b - a, root, cam, st }, cfg));
+  const k = CUES.speed[i];
+  scenes.push(Object.assign({ i, a, b, dur: b - a, k, vd: (b - a) * k, root, cam, st }, cfg));
 }
 /* scene-level transitions on the root */
 const TR = {
@@ -321,7 +322,7 @@ scene({ tin: 'up', build(c, s, root) {
   const r = s.res.getBoundingClientRect(), sr = stage.getBoundingClientRect();
   s.tx = r.left - sr.left + r.width * .45; s.ty = r.top - sr.top + r.height * .55;
 }, update(t, s, c, noCam) {
-  const camS = noCam ? 1 : L(1, 1.07, eio(t / 5));
+  const camS = noCam ? 1 : L(1, 1.07, eio(C(t / this.vd)));
   S(c, { s: camS });
   this.camEnd = 1.07;
   S(s.rays, { o: .55 * eo(P(t, 0, .6)) });
@@ -525,7 +526,7 @@ scene({ bg: '#fff', tin: 'zoom', build(c, s) {
 } });
 
 /* ---------- render ---------- */
-function show(sc, lt) { sc.root.style.display = 'block'; applyTr(sc, lt); sc.update(lt, sc.st, sc.cam); }
+function show(sc, lt) { sc.root.style.display = 'block'; applyTr(sc, lt); sc.update(lt * sc.k, sc.st, sc.cam); }
 window.renderAt = function (t) {
   document.getElementById('flash').style.opacity = 0;
   for (const sc of scenes) sc.root.style.display = 'none';

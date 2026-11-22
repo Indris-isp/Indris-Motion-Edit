@@ -7,8 +7,19 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(HERE, 'cues.js')).read()
-CUES = json.loads(src[src.index('{'):src.rindex('}') + 1])
-SR, DUR, BEAT = 44100, CUES['DUR'], 60 / CUES['BPM']
+CUES = json.loads(src[src.index('{'):src.index('};') + 1])
+ST = [0.0]
+for d in CUES['dur']: ST.append(ST[-1] + d)
+AU, K = CUES['authored'], CUES['speed']
+SR, DUR, BEAT = 44100, ST[-1], 60 / CUES['BPM']
+BAR = 4 * BEAT
+T_TURN, T_HIT, T_CTA = ST[3], ST[4], ST[11]
+
+def remap(T):
+    """authored time -> (real time, speed of that scene)"""
+    i = max(j for j in range(len(AU) - 1) if AU[j] <= T or j == 0)
+    if AU[i + 1] - T <= .3: return ST[i + 1] - (AU[i + 1] - T), K[i]   # stick to the cut
+    return ST[i] + (T - AU[i]) / K[i], K[i]
 N = int(DUR * SR) + SR
 rng = np.random.default_rng(7)
 
@@ -66,32 +77,36 @@ A_CH = [[57, 60, 64], [53, 57, 60]]                         # Am, F (tense intro
 C_CH = [[53, 57, 60, 64], [55, 59, 62, 67], [57, 60, 64, 67], [48, 55, 60, 64]]  # Fmaj7 G Am7 C
 C_RT = [41, 43, 45, 36]
 # A: 0 – 8.5  (half-time pulse, ticking hats, dark pad)
-for b in range(4):
-    add(pads, filt(sum(pad_note(n, 2.2) for n in A_CH[b % 2]), None, 900), b * 2.0, .9)
-    add(bass, bass_note(33 if b % 2 == 0 else 29, 1.9), b * 2.0, .8)
-for k in range(17):
+for b in range(int(np.ceil(T_TURN / BAR))):
+    add(pads, filt(sum(pad_note(n, BAR + .2) for n in A_CH[b % 2]), None, 900), b * BAR, .9)
+    add(bass, bass_note(33 if b % 2 == 0 else 29, BAR - .1), b * BAR, .8)
+for k in range(int(T_TURN / BEAT) + 1):
     tt = k * BEAT
     if k % 2 == 0: add(drums, kick(.8), tt, .75); kicks.append(tt)
     add(drums, hat(), tt + BEAT / 2, .10); add(drums, hat(), tt, .05)
 # B: 8.5 – 11 (break: shimmer pad only, riser and boom come from SFX)
-add(pads, filt(sum(pad_note(n, 2.6) for n in [69, 72, 76]), 300, 3000), 8.45, .45)
+add(pads, filt(sum(pad_note(n, T_HIT - T_TURN + .2) for n in [69, 72, 76]), 300, 3000), T_TURN - .05, .45)
 # C: 11 – 36 (full groove)
-bar0 = 11.0
-for b in range(int((36 - bar0) / 2)):
-    t0 = bar0 + b * 2.0; ch = C_CH[b % 4]
-    add(pads, filt(sum(pad_note(n, 2.15) for n in ch), None, 2600), t0, .8)
+bar0 = T_HIT
+for b in range(int(np.ceil((T_CTA - bar0) / BAR))):
+    t0 = bar0 + b * BAR; ch = C_CH[b % 4]
+    if t0 >= T_CTA - .05: break
+    add(pads, filt(sum(pad_note(n, min(BAR, T_CTA - t0) + .15) for n in ch), None, 2600), t0, .8)
     for e in range(8):
+        if t0 + e * BEAT / 2 >= T_CTA - .05: break
         add(bass, bass_note(C_RT[b % 4] + (12 if e % 4 == 3 else 0), BEAT / 2 * .9), t0 + e * BEAT / 2, .9)
         add(plk, pluck(ch[(e * 3) % len(ch)] + 12 + (12 if e in (3, 6) else 0)), t0 + e * BEAT / 2, .55)
     for q in range(4):
-        tt = t0 + q * BEAT; add(drums, kick(), tt, 1.0); kicks.append(tt)
+        tt = t0 + q * BEAT
+        if tt >= T_CTA - .05: break
+        add(drums, kick(), tt, 1.0); kicks.append(tt)
         if q % 2 == 1: add(drums, clap(), tt, .45)
         for s in range(4): add(drums, hat(open_=(s == 2)), tt + s * BEAT / 4, .16 if s == 2 else .07)
 # D: 36 – 40 (outro: big hit, pad + sparse plucks)
-add(pads, filt(sum(pad_note(n, 4.2) for n in [48, 55, 60, 64, 71]), None, 2400), 36.0, .9)
-add(bass, bass_note(36, 3.5), 36.0, .9)
-for e, n in enumerate([76, 72, 79, 76, 84, 79]): add(plk, pluck(n), 36.0 + e * BEAT / 2, .45 * (1 - e / 8))
-kicks.append(36.0)
+add(pads, filt(sum(pad_note(n, 4.2) for n in [48, 55, 60, 64, 71]), None, 2400), T_CTA, .9)
+add(bass, bass_note(36, DUR - T_CTA), T_CTA, .9)
+for e, n in enumerate([76, 72, 79, 76, 84, 79]): add(plk, pluck(n), T_CTA + e * BEAT / 2, .45 * (1 - e / 8))
+kicks.append(T_CTA)
 # sidechain duck on everything tonal
 tt = np.arange(N) / SR; duck = np.ones(N)
 for k in kicks:
@@ -131,26 +146,28 @@ def swell():
 def reel_times(n=8):  # when the slot-reel number crosses each integer (matches pos = 8*eo(...))
     return [.1 + 1.2 * (-np.log2(1 - k / (n + .0001)) / 10) for k in range(1, n + 1)]
 
-for at, kind in CUES['sfx']:
+hits = sorted(remap(a)[0] for a, kd in CUES['sfx'] if kd == 'hit')
+for at0, kind in CUES['sfx']:
+    at, k = remap(at0)
     base = ''.join(c for c in kind if not c.isdigit()); cnt = int(''.join(c for c in kind if c.isdigit()) or 1)
     if kind == 'whoosh': add(sfx, whoosh(.42), at, .55)
     elif kind == 'whoosh_s': add(sfx, whoosh(.3), at, .3)
-    elif base == 'pops': [add(sfx, pop(520 + 260 * rng.random()), at + i * .075, .22) for i in range(cnt)]
+    elif base == 'pops': [add(sfx, pop(520 + 260 * rng.random()), at + i * .075 / k, .22) for i in range(cnt)]
     elif kind == 'pop': add(sfx, pop(700), at, .3)
     elif kind == 'tick': add(sfx, tick(), at, .5)
-    elif base == 'ticks': [add(sfx, tick(), at + i * (.06 + .012 * i), .3) for i in range(cnt)]
-    elif base == 'type': [add(sfx, key(), at + i * .045 + rng.random() * .012, .16) for i in range(cnt)]
+    elif base == 'ticks': [add(sfx, tick(), at + i * (.06 + .012 * i) / k, .3) for i in range(cnt)]
+    elif base == 'type': [add(sfx, key(), at + (i * .045 + rng.random() * .012) / k, .16) for i in range(cnt)]
     elif kind == 'click': add(sfx, click(), at, .55)
     elif kind == 'stamp': add(sfx, stamp(), at, .6)
     elif kind == 'down': add(sfx, down(), at, .35)
     elif kind == 'boom': add(sfx, boom(), at, .9)
     elif kind == 'shimmer': add(sfx, shimmer(), at, .35)
-    elif base == 'riser': d = 2.0 if cnt == 2 else 1.0; add(sfx, riser(d), at, .45)
+    elif base == 'riser': d = min(h for h in hits if h > at) - at; add(sfx, riser(d), at, .45)
     elif kind == 'hit': add(sfx, hit(), at, .8)
     elif kind == 'hit_s': add(sfx, hit(.4), at, .35)
     elif kind == 'swoop': add(sfx, swoop(), at, .3)
     elif kind == 'swell': add(sfx, swell(), at, .3)
-    elif base == 'reel': [add(sfx, tick(), at + r - .1, .45) for r in reel_times(cnt)]
+    elif base == 'reel': [add(sfx, tick(), at + (r - .1) / k, .45) for r in reel_times(cnt)]
     else: print('unknown sfx', kind)
 
 # ---------------- reverb + master ----------------
