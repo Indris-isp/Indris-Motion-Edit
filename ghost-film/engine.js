@@ -71,8 +71,9 @@ const av = (n, s, i) => /\.(png|jpe?g|webp|svg)$/i.test(n)
   : `<div class="av" style="width:${s}px;height:${s}px;font-size:${s * .36}px;background:linear-gradient(135deg,${AVC[i % 6][0]},${AVC[i % 6][1]})">${n}</div>`;
 const person = i => (B.people || ['MK', 'JL', 'AS', 'TR', 'BN', 'EO'])[i % (B.people || [1, 2, 3, 4, 5, 6]).length];
 /* app icon: brief logo image, or a generated glossy ring icon */
-const iconHTML = s => B.brand.logo
-  ? `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;background:#fff;overflow:hidden"><img src="${B.brand.logo}" style="width:100%;height:100%;object-fit:contain"></div>`
+// Ghost: the logo mark stands on its own (no app-icon tile). dark=true renders it white with a soft glow for dark scenes.
+const iconHTML = (s, dark) => B.brand.logo
+  ? `<div style="width:${s}px;height:${s}px;display:flex;align-items:center;justify-content:center"><img src="${B.brand.logo}" style="width:100%;height:100%;object-fit:contain;${dark ? 'filter:invert(1) drop-shadow(0 0 18px rgba(255,255,255,.55)) drop-shadow(0 0 50px rgba(var(--acc2RGB),.8))' : ''}"></div>`
   : `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;--s:${s}px"><i></i></div>`;
 /* 3D-looking hand pointer (fingertip at 35,8 inside the 110x130 box) */
 const handHTML = () => `<svg width="110" height="130" viewBox="0 0 22 26"><defs><linearGradient id="hg${fid++}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc2)"/><stop offset="1" style="stop-color:var(--acc3)"/></linearGradient></defs><path d="M7 1.5c1 0 1.8.8 1.8 1.8v7.2l.6-.1c.9-.1 1.7.4 2 1.2.6-.3 1.4-.3 2 .1.5-.3 1.3-.3 1.9.1.9.6 1.5 1.6 1.5 2.7V19c0 3.3-2.7 6-6 6H9.6c-1.7 0-3.3-.8-4.3-2.1L1.6 18c-.6-.8-.5-1.9.3-2.5.8-.6 1.9-.5 2.5.3l.8 1V3.3C5.2 2.3 6 1.5 7 1.5z" fill="url(#hg${fid - 1})" stroke="#fff" stroke-width="1"/></svg>`;

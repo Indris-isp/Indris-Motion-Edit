@@ -107,7 +107,7 @@ shot('turn', { hero: 2.1, len: 2.5, bg: '#000',
       <filter id="rglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
       <circle class="ring" cx="960" cy="540" r="120" fill="none" style="stroke:var(--acc4)" stroke-width="24" stroke-linecap="round" filter="url(#rglow)"/></svg>`);
     s.ring = c.querySelector('.ring');
-    s.icon = D(c, 'ctr', { left: 960, top: 540 }, iconHTML(230));
+    s.icon = D(c, 'ctr', { left: 960, top: 540 }, iconHTML(260, true));
     s.fl = D(c, 'abs', { left: 0, top: 0, width: 0, height: 0 });
     s.fh = D(s.fl, 'ctr', { left: 0, top: 0, width: 900, height: 3, background: 'linear-gradient(90deg,transparent,rgba(220,232,255,.95),transparent)' });
     s.fv = D(s.fl, 'ctr', { left: 0, top: 0, width: 3, height: 240, background: 'linear-gradient(0deg,transparent,rgba(220,232,255,.95),transparent)' });
