@@ -28,7 +28,7 @@ const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
  * White gradient ground in Ghost colours (like the ghost.org hero). warm: 0 = problem (soft pink/rose), 1 = Ghost (lilac + lime).
  * Soft colour washes drift slowly over a white base, so nothing ever fully stops.
  */
-export const Background: React.FC<{ f: number; warm?: number; parallax?: number }> = ({ f, warm = 0, parallax = 0 }) => {
+export const Background: React.FC<{ f: number; warm?: number; parallax?: number; bars?: number }> = ({ f, warm = 0, parallax = 0, bars = 0.6 }) => {
   const w = Math.max(0, Math.min(1, warm));
   const base2 = mix([252, 246, 249], [246, 245, 252], w); // blush white → lilac white
   const blobA = mix([255, 36, 125], [142, 66, 255], w); // pink → purple
@@ -50,6 +50,16 @@ export const Background: React.FC<{ f: number; warm?: number; parallax?: number 
           ].join(", "),
         }}
       />
+      {/* FX01 light bars glowing up from the bottom edge */}
+      {bars > 0 && (
+        <AbsoluteFill style={{ opacity: bars * 0.55, filter: "blur(46px)" }}>
+          {Array.from({ length: 16 }, (_, k) => {
+            const hgt = 180 + 160 * (0.5 + 0.5 * Math.sin(k * 1.7 + f / 70)) + 80 * Math.sin(k * 0.6);
+            const c = k % 3 === 0 ? rgba(blobA, 0.55) : k % 3 === 1 ? rgba(blobB, 0.5) : rgba(blobC, 0.35 + 0.2 * w);
+            return <div key={k} style={{ position: "absolute", bottom: -40, left: 40 + k * 118 + drift(f, 10, 500, k), width: 110 + (k % 4) * 20, height: hgt * 0.85, borderRadius: 60, background: `linear-gradient(0deg, ${c}, transparent)` }} />;
+          })}
+        </AbsoluteFill>
+      )}
       <AbsoluteFill
         style={{
           backgroundImage: `radial-gradient(rgba(17,34,32,0.09) 1.2px, transparent 1.2px)`,

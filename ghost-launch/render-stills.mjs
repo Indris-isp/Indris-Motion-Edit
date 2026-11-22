@@ -5,7 +5,7 @@ import path from "node:path";
 import fs from "node:fs";
 
 const BROWSER = "/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell";
-const KEY = { "01_hook": 200, "02a_copy": 352, "02b_cut": 510, "02c_stack": 640, "03a_type": 790, "03b_click": 898, "03c_send": 1080, "04_payoff": 1440, "05_cta": 1750 };
+const KEY = { "01_hook": 170, "02_who": 380, "03_reach": 600, "04_fees": 860, "05a_tools": 1050, "05b_tools": 1162, "06a_star": 1262, "06b_meet": 1415, "07a_publish": 1558, "07b_inbox": 1655, "08a_faces": 1785, "08b_keep": 1892, "09a_wall": 1970, "09b_dash": 2135, "10_proof": 2290, "11a_dial": 2415, "11b_payoff": 2505, "12_cta": 2685 };
 const arg = process.argv[2];
 const frames = arg ? Object.fromEntries(arg.split(",").map((f) => [`f${f.padStart(4, "0")}`, Number(f)])) : KEY;
 

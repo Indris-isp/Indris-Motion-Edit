@@ -3,14 +3,29 @@ export const FPS = 60;
 export const W = 1920;
 export const H = 1080;
 
-// Scene lengths in frames. Must sum to 1800 (30.0 s).
+// Scene lengths in frames (storyboard v4). Must sum to 2700 (45.0 s).
 export const SCENES = {
-  hook: 240,
-  problem: 420,
-  fix: 480,
-  payoff: 360,
-  cta: 300,
+  hook: 210,
+  who: 210,
+  reach: 240,
+  fees: 240,
+  tools: 300,
+  meet: 240,
+  publish: 240,
+  paid: 240,
+  dash: 240,
+  proof: 180,
+  payoff: 180,
+  cta: 180,
 } as const;
+export type SceneKey = keyof typeof SCENES;
+/** Global start frame of each scene (for continuous background drift across cuts). */
+export const START = (() => {
+  let t = 0;
+  const o = {} as Record<SceneKey, number>;
+  (Object.keys(SCENES) as SceneKey[]).forEach((k) => { o[k] = t; t += SCENES[k]; });
+  return o;
+})();
 export const TOTAL = Object.values(SCENES).reduce((a, b) => a + b, 0);
 
 // Sampled from ghost.org and the Ghost admin dashboard shown there.

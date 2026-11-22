@@ -24,7 +24,7 @@ Promise.all(
   .then(() => continueRender(handle))
   .catch((e) => { console.error(e); continueRender(handle); });
 
-if (TOTAL !== 1800) throw new Error(`Scene lengths sum to ${TOTAL}, expected 1800`);
+if (TOTAL !== 2700) throw new Error(`Scene lengths sum to ${TOTAL}, expected 2700`);
 
 export const RemotionRoot: React.FC = () => (
   <Composition id="GhostLaunch" component={GhostLaunch} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
