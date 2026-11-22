@@ -25,15 +25,15 @@ const mix = (a: number[], b: number[], t: number) => a.map((v, k) => Math.round(
 const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
 
 /**
- * White gradient ground in Ghost colours (like the ghost.org hero). warm: 0 = problem (soft pink/rose), 1 = Ghost (lilac + lime).
+ * White-and-black gradient ground (client direction): soft black/charcoal washes drifting over white.
  * Soft colour washes drift slowly over a white base, so nothing ever fully stops.
  */
 export const Background: React.FC<{ f: number; warm?: number; parallax?: number; bars?: number }> = ({ f, warm = 0, parallax = 0, bars = 0.6 }) => {
   const w = Math.max(0, Math.min(1, warm));
-  const base2 = mix([252, 246, 249], [246, 245, 252], w); // blush white → lilac white
-  const blobA = mix([255, 36, 125], [142, 66, 255], w); // pink → purple
-  const blobB = mix([255, 140, 190], [255, 120, 180], w); // rose
-  const blobC = mix([200, 170, 255], [209, 255, 25], w); // lilac → lime
+  const base2 = mix([244, 244, 245], [245, 245, 247], w); // soft grey-white
+  const blobA = mix([17, 18, 20], [17, 18, 20], w); // black wash
+  const blobB = mix([40, 42, 46], [40, 42, 46], w); // charcoal wash
+  const blobC = mix([120, 124, 132], [120, 124, 132], w); // grey wash
   const ax = 18 + drift(f, 8, 900), ay = 16 + drift(f, 6, 1100, 1);
   const bx = 84 + drift(f, 7, 1000, 2), by = 82 + drift(f, 6, 950, 3);
   const cx = 78 + drift(f, 9, 1300, 4), cy = 14 + drift(f, 5, 1200, 5);
