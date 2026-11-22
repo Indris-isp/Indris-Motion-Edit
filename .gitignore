@@ -4,3 +4,7 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+ghost-launch/out/*.log
+ghost-launch/out/audio.wav
+ghost-launch/out/video_silent.mp4
+ghost-launch/out/stills/f*.png
