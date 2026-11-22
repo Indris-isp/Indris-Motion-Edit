@@ -61,7 +61,7 @@ window.BRIEF = {
     logos: ['404 Media', 'Tangle', 'Platformer', 'The Lever', 'Buffer', 'Kickstarter', 'Y Combinator', 'Unsplash'],
     rating: { from: 10, to: 100, prefix: '$', suffix: 'M+', note: 'earned on Ghost every year', stars: false } },
   /* EASE: the reel lands on zero platform fees */
-  setup: { from: 10, to: 0, l1: '% platform', l2: 'fees.', pad: false },
+  setup: { from: 10, to: 0, suffix: '%', l1: 'fees on what', l2: 'your readers pay.', pad: false, labelX: 1000 },
   /* CTA: ghost.org's own hero line and button */
   cta: { tagline: ['Turn your audience ', 'into a business.'], primary: 'Start publishing now →', secondary: 'Try free for 14 days' },
 };

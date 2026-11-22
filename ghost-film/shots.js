@@ -379,10 +379,10 @@ shot('reel', { hero: 1.9, len: 2.5, tin: 'fade', tout: 'fade',
     s.count = list.length - 1;
     D(c, 'blob', { width: 900, height: 600, left: 1200, top: 600, opacity: .8 });
     D(c, 'ctr', { left: 1230, top: 540, width: 1400, height: 1400, borderRadius: '50%', border: '2px solid #E3E8F3' });
-    s.dot = D(c, 'ctr', { left: 560, top: 540, width: 14, height: 14, borderRadius: '50%', background: 'var(--acc)', boxShadow: '0 0 0 10px rgba(var(--accRGB),.15)' });
-    s.items = list.map(n => D(c, 'ctr head num', { left: 760, top: 540, fontSize: '240px', fontWeight: 700 }, (su.pad === false ? String(n) : String(n).padStart(2, '0'))));
-    s.t1 = typed(c, 'abs head', { left: 960, top: 445, fontSize: '84px' }, [{ t: su.l1 }], false);
-    s.t2 = typed(c, 'abs head acc', { left: 960, top: 535, fontSize: '84px' }, [{ t: su.l2 }]);
+    s.dot = D(c, 'ctr', { left: su.suffix ? 505 : 560, top: 540, width: 14, height: 14, borderRadius: '50%', background: 'var(--acc)', boxShadow: '0 0 0 10px rgba(var(--accRGB),.15)' });
+    s.items = list.map(n => D(c, 'ctr head num', { left: 760, top: 540, fontSize: '240px', fontWeight: 700 }, (su.pad === false ? String(n) : String(n).padStart(2, '0')) + (su.suffix || '')));
+    s.t1 = typed(c, 'abs head', { left: su.labelX || 960, top: 445, fontSize: '84px' }, [{ t: su.l1 }], false);
+    s.t2 = typed(c, 'abs head acc', { left: su.labelX || 960, top: 535, fontSize: '84px' }, [{ t: su.l2 }]);
   },
   update(t, s, c) {
     S(c, { s: L(1, 1.04, t / 2.5) });
