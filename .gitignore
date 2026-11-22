@@ -4,3 +4,8 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+rb2b-video/out/frames/
+rb2b-video/out/still_*.png
+rb2b-video/out/stills.png
+rb2b-video/out/*.wav
+rb2b-video/out/video_silent.mp4
