@@ -4,3 +4,9 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+launch-films/*/out/frames/
+launch-films/*/out/still_*.png
+launch-films/*/out/*.wav
+launch-films/*/out/video_silent.mp4
+launch-films/*/out/build.log
+.claude/skills/saas-launch-video/template/out/
