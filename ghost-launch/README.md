@@ -19,4 +19,6 @@ npm run stills
 npm run render
 ```
 
-The stills land in `out/stills/`. The logo is a placeholder wordmark (`GhostWordmark` in `src/components/UI.tsx`); swap in the official SVG before delivery.
+The stills land in `out/stills/`.
+
+The brand styling is sampled from ghost.org: Inter Bold with tight tracking, Inter Bold Italic for emphasis, `#15171A` base, lime `#D1FF19` accent, pink `#FF247D` and purple chart colors, and green deltas. The editor and dashboard are vector rebuilds of the ones shown on ghost.org. The logo and orb in `public/brand/` are the PNGs served by ghost.org (800 px and 400 px); swap in vector versions if Ghost supplies them.

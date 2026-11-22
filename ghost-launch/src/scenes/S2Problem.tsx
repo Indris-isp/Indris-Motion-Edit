@@ -85,7 +85,7 @@ export const S2Problem: React.FC = () => {
         <Cursor f={f} keys={keys} opacity={tw(f, 55, 65, 0, 1) * cursorOut} />
       </Camera>
       <At y={370}>
-        <Kinetic f={f} start={315} lines={[COPY.problem.line.slice(0, 4), COPY.problem.line.slice(4)]} accent={COPY.problem.accent} size={76} offset={4} lineGap={2} exitAt={402} />
+        <Kinetic f={f} start={315} lines={[COPY.problem.line.slice(0, 4), COPY.problem.line.slice(4)]} accent={COPY.problem.accent} accentColor={COPY.problem.accentColor as "pink" | "lime"} size={76} offset={4} lineGap={2} exitAt={402} />
       </At>
       <At y={-170} style={{ opacity: tw(f, 300, 320, 0, 1) * exit(f, 402) }}>
         <div style={sans(600, 20, { color: COLORS.mute, letterSpacing: "0.16em" })}>$121 / MONTH · BEFORE THE {COPY.problem.feePct}% CUT</div>

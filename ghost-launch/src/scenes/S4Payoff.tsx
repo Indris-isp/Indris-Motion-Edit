@@ -28,7 +28,7 @@ export const S4Payoff: React.FC = () => {
         </At>
       </Camera>
       <At y={415}>
-        <Kinetic f={f} start={150} lines={[COPY.payoff.line]} accent={COPY.payoff.accent} size={72} offset={5} exitAt={342} />
+        <Kinetic f={f} start={150} lines={[COPY.payoff.line]} accent={COPY.payoff.accent} accentColor={COPY.payoff.accentColor as "pink" | "lime"} size={72} offset={5} exitAt={342} />
       </At>
     </AbsoluteFill>
   );

@@ -77,7 +77,7 @@ export const S3Fix: React.FC = () => {
               </At>
               {fly > 0 && fly < 1 && (
                 <At x={cx * fly} y={ED_UP + (CH_Y - ED_UP) * fly - Math.sin(Math.PI * fly) * 80}>
-                  <div style={{ width: 120, height: 72, borderRadius: 10, background: "#FBFBFA", boxShadow: "0 10px 30px rgba(255,61,127,.45)", transform: `scale(${1 - 0.5 * fly}) rotate(${(k - 1.5) * 8 * fly}deg)`, borderTop: `10px solid ${COLORS.pink}` }} />
+                  <div style={{ width: 120, height: 72, borderRadius: 10, background: "#FBFBFA", boxShadow: "0 10px 30px rgba(209,255,25,.35)", transform: `scale(${1 - 0.5 * fly}) rotate(${(k - 1.5) * 8 * fly}deg)`, borderTop: `10px solid ${COLORS.paperInk}` }} />
                 </At>
               )}
             </React.Fragment>
@@ -86,7 +86,7 @@ export const S3Fix: React.FC = () => {
         <Cursor f={f} keys={cursorKeys} opacity={tw(f, 150, 160, 0, 1) * tw(f, 262, 276, 1, 0, easeIn)} />
       </Camera>
       <At y={410}>
-        <Kinetic f={f} start={344} lines={[COPY.fix.line]} accent={COPY.fix.accent} size={72} offset={5} exitAt={462} />
+        <Kinetic f={f} start={344} lines={[COPY.fix.line]} accent={COPY.fix.accent} accentColor={COPY.fix.accentColor as "pink" | "lime"} size={72} offset={5} exitAt={462} />
       </At>
       <AbsoluteFill style={{ background: COLORS.bg, opacity: tw(f, 466, 480, 0, 1) }} />
     </AbsoluteFill>

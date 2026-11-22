@@ -38,7 +38,7 @@ export const Background: React.FC<{ f: number; warm?: number; parallax?: number 
       />
       <AbsoluteFill
         style={{
-          background: `radial-gradient(ellipse 50% 45% at ${50 + drift(f, 4, 700)}% ${55 + drift(f, 3, 800, 2)}%, rgba(255,61,127,${0.05 + 0.13 * warm}), transparent 70%)`,
+          background: `radial-gradient(ellipse 50% 45% at ${50 + drift(f, 4, 700)}% ${55 + drift(f, 3, 800, 2)}%, rgba(${warm > 0.5 ? "142,66,255" : "255,36,125"},${0.06 + 0.1 * Math.abs(warm - 0.5) * 2}), transparent 70%)`,
         }}
       />
       <AbsoluteFill style={{ background: "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%)" }} />

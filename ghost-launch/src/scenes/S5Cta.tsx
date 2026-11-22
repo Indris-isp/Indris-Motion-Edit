@@ -1,10 +1,10 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { COLORS, COPY } from "../config";
-import { drift, easeIn, enter, press, tw } from "../anim";
+import { drift, easeIn, easeOut, enter, press, tw } from "../anim";
 import { At, Background, Camera, sans } from "../components/Stage";
 import { Dashboard } from "../components/Dashboard";
-import { GhostWordmark } from "../components/UI";
+import { GhostLogo } from "../components/UI";
 import { DB_SCALE, DB_Y } from "./S4Payoff";
 
 const PRESS = 132;
@@ -12,9 +12,11 @@ const PRESS = 132;
 export const S5Cta: React.FC = () => {
   const f = useCurrentFrame();
   const dbOut = tw(f, 0, 18, 0, 1, easeIn); // exit: 60% of a 30f entrance
-  const letters = [0, 1, 2, 3, 4].map((i) => enter(f, 16 + i * 3));
-  const tag = enter(f, 44);
-  const btn = enter(f, 52);
+  const logoIn = enter(f, 14);
+  const wipe = tw(f, 14, 44, 0, 1, easeOut);
+  const tag = enter(f, 40);
+  const btn = enter(f, 48);
+  const sub = enter(f, 54);
   const glow = tw(f, PRESS, PRESS + 30, 0, 1);
   return (
     <AbsoluteFill>
@@ -27,25 +29,29 @@ export const S5Cta: React.FC = () => {
         </At>
       )}
       <Camera f={f} push={0.00014}>
-        <At y={-70 + drift(f, 4, 280)}>
-          <GhostWordmark size={230} letters={letters} />
+        <At y={-190 + drift(f, 4, 280)}>
+          <div style={{ opacity: Math.min(1, logoIn * 1.5), transform: `scale(${0.94 + 0.06 * logoIn})` }}>
+            <GhostLogo width={560} reveal={wipe} />
+          </div>
         </At>
-        <At y={90 + drift(f, 3, 280, 1)}>
-          <div style={{ ...sans(500, 34, { color: COLORS.mute, letterSpacing: "-0.01em", whiteSpace: "nowrap" }), opacity: Math.min(1, tag * 1.5), transform: `translateY(${(1 - tag) * 24}px)` }}>
+        <At y={10 + drift(f, 3, 280, 1)}>
+          <div style={{ ...sans(700, 66, { letterSpacing: "-0.035em", whiteSpace: "nowrap" }), opacity: Math.min(1, tag * 1.5), transform: `translateY(${(1 - tag) * 28}px)` }}>
             {COPY.cta.tagline}
           </div>
         </At>
-        <At y={210 + drift(f, 3, 280, 2)}>
+        <At y={160 + drift(f, 3, 280, 2)}>
           <div
             style={{
-              display: "flex", alignItems: "center", gap: 18, background: COLORS.pink, borderRadius: 16, padding: "22px 40px",
+              ...sans(700, 32, { color: COLORS.paperInk, letterSpacing: "-0.01em" }), background: COLORS.lime, borderRadius: 12, padding: "22px 40px",
               opacity: Math.min(1, btn * 1.5), transform: `translateY(${(1 - btn) * 30}px) scale(${press(f, PRESS)})`,
-              boxShadow: `0 16px ${40 + 30 * glow}px rgba(255,61,127,${0.3 + 0.2 * glow})`,
+              boxShadow: `0 16px ${40 + 30 * glow}px rgba(209,255,25,${0.18 + 0.17 * glow})`, whiteSpace: "nowrap",
             }}
           >
-            <span style={sans(700, 32)}>{COPY.cta.button}</span>
-            <span style={sans(500, 32, { opacity: 0.8 })}>· {COPY.cta.url}</span>
+            {COPY.cta.button} →
           </div>
+        </At>
+        <At y={262 + drift(f, 3, 280, 3)}>
+          <div style={{ ...sans(500, 24, { color: COLORS.mute, whiteSpace: "nowrap" }), opacity: Math.min(1, sub * 1.5) }}>{COPY.cta.sub}</div>
         </At>
       </Camera>
     </AbsoluteFill>

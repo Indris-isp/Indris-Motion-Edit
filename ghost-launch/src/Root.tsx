@@ -10,8 +10,9 @@ const faces: [string, string, string, string][] = [
   ["Inter", "Inter-600.ttf", "600", "normal"],
   ["Inter", "Inter-700.ttf", "700", "normal"],
   ["Inter", "Inter-800.ttf", "800", "normal"],
-  ["Instrument Serif", "InstrumentSerif-Regular.ttf", "400", "normal"],
-  ["Instrument Serif", "InstrumentSerif-Italic.ttf", "400", "italic"],
+  ["Inter", "inter-latin-700-italic.woff2", "700", "italic"],
+  ["Inter", "inter-latin-800-italic.woff2", "800", "italic"],
+  ["Source Serif 4", "source-serif-4-latin-400-normal.woff2", "400", "normal"],
 ];
 const handle = delayRender("Loading fonts");
 Promise.all(

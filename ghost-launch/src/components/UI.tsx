@@ -1,4 +1,5 @@
 import React from "react";
+import { Img, staticFile } from "remotion";
 import { COLORS, FONTS } from "../config";
 import { sans } from "./Stage";
 
@@ -48,7 +49,7 @@ export const FeedCard: React.FC<{ mine?: boolean; seed: number; style?: React.CS
         {mine ? (
           <>
             <div style={sans(700, 22)}>You</div>
-            <div style={{ fontFamily: FONTS.serif, fontSize: 34, color: COLORS.ink, lineHeight: 1.05 }}>Why I started writing again</div>
+            <div style={sans(700, 30, { letterSpacing: "-0.03em", lineHeight: 1.1 })}>Why I started writing again</div>
             <Bar w="85%" />
             <Bar w="60%" />
           </>
@@ -72,8 +73,8 @@ export const FeedCard: React.FC<{ mine?: boolean; seed: number; style?: React.CS
 };
 
 /** Donut ring with an optional detachable slice (pct of the ring). */
-export const Donut: React.FC<{ size: number; slicePct: number; sliceOffset?: { x: number; y: number; r: number }; sliceColor?: string; sliceOpacity?: number }> = ({
-  size, slicePct, sliceOffset = { x: 0, y: 0, r: 0 }, sliceColor = COLORS.pink, sliceOpacity = 1,
+export const Donut: React.FC<{ size: number; slicePct: number; sliceOffset?: { x: number; y: number; r: number }; sliceColor?: string; sliceOpacity?: number; ringColor?: string }> = ({
+  size, slicePct, sliceOffset = { x: 0, y: 0, r: 0 }, sliceColor = COLORS.pink, sliceOpacity = 1, ringColor = COLORS.ink,
 }) => {
   const r = 40, c = 2 * Math.PI * r, sw = 14;
   const main = c * (1 - slicePct / 100);
@@ -81,7 +82,7 @@ export const Donut: React.FC<{ size: number; slicePct: number; sliceOffset?: { x
     <div style={{ position: "relative", width: size, height: size }}>
       <svg width={size} height={size} viewBox="0 0 100 100" style={{ position: "absolute", inset: 0, transform: "rotate(-90deg)" }}>
         <circle cx="50" cy="50" r={r} fill="none" stroke={COLORS.panel2} strokeWidth={sw} />
-        <circle cx="50" cy="50" r={r} fill="none" stroke={COLORS.ink} strokeWidth={sw} strokeDasharray={`${main} ${c}`} />
+        <circle cx="50" cy="50" r={r} fill="none" stroke={ringColor} strokeWidth={sw} strokeDasharray={`${main} ${c}`} />
       </svg>
       <svg
         width={size} height={size} viewBox="0 0 100 100"
@@ -93,25 +94,15 @@ export const Donut: React.FC<{ size: number; slicePct: number; sliceOffset?: { x
   );
 };
 
-/** Placeholder wordmark. Swap for the official Ghost logo SVG before delivery. */
-export const GhostWordmark: React.FC<{ size: number; letters?: number[] }> = ({ size, letters }) => {
-  const word = "ghost";
-  return (
-    <div style={{ display: "flex", alignItems: "baseline" }}>
-      {word.split("").map((ch, i) => {
-        const p = letters ? letters[i] : 1;
-        return (
-          <span
-            key={i}
-            style={{
-              ...sans(800, size, { letterSpacing: "-0.05em", lineHeight: 1 }),
-              display: "inline-block", opacity: Math.min(1, Math.max(0, p * 1.5)), transform: `translateY(${(1 - p) * size * 0.4}px)`,
-            }}
-          >
-            {ch}
-          </span>
-        );
-      })}
-    </div>
-  );
-};
+/** Official Ghost logo (white, from ghost.org). `reveal` 0..1 wipes it in from the left. */
+export const GhostLogo: React.FC<{ width: number; reveal?: number }> = ({ width, reveal = 1 }) => (
+  <Img
+    src={staticFile("brand/ghost-logo-white.png")}
+    style={{ width, height: width * (294 / 800), display: "block", clipPath: `inset(0 ${100 - reveal * 100}% 0 0)` }}
+  />
+);
+
+/** Ghost orb mark (black artwork, inverted for dark UI). */
+export const GhostOrb: React.FC<{ size: number; rotate?: number; dark?: boolean }> = ({ size, rotate = 0, dark = true }) => (
+  <Img src={staticFile("brand/ghost-orb.png")} style={{ width: size, height: size, display: "block", filter: dark ? "invert(1)" : "none", transform: `rotate(${rotate}deg)` }} />
+);

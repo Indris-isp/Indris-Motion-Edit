@@ -39,7 +39,7 @@ export const S1Hook: React.FC = () => {
           ))}
         </AbsoluteFill>
         <At y={0}>
-          <Kinetic f={f} start={108} lines={[COPY.hook.l1, COPY.hook.l2]} accent={COPY.hook.accent} size={150} offset={5} dimLine={1} exitAt={222} />
+          <Kinetic f={f} start={108} lines={[COPY.hook.l1, COPY.hook.l2]} accent={COPY.hook.accent} accentColor={COPY.hook.accentColor as "pink" | "lime"} size={150} offset={5} dimLine={1} exitAt={222} />
         </At>
       </Camera>
       {/* reach counter, top-right, inside the 5% title-safe area */}

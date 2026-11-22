@@ -13,31 +13,37 @@ export const SCENES = {
 } as const;
 export const TOTAL = Object.values(SCENES).reduce((a, b) => a + b, 0);
 
+// Sampled from ghost.org and the Ghost admin dashboard shown there.
 export const COLORS = {
-  bg: "#15171A",
-  bg2: "#1C1F23",
-  panel: "#212429",
-  panel2: "#2A2E34",
-  line: "#363A41",
-  ink: "#F4F4F2",
-  mute: "#8B8F96",
-  faint: "#5A5E66",
-  pink: "#FF3D7F",
-  pinkDeep: "#E8175D",
-  green: "#30CF43",
+  bg: "#15171A", // Ghost --color-base
+  bg2: "#191B1F",
+  panel: "#1D1F23",
+  panel2: "#272A2F",
+  line: "#2C2F35",
+  ink: "#FFFFFF",
+  mute: "#8E9196",
+  faint: "#555960",
+  pink: "#FF247D", // Ghost --color-pink (charts)
+  purple: "#8E42FF", // MRR / subscriptions line
+  green: "#30CF43", // growth deltas
+  lime: "#D1FF19", // Ghost --color-lime (accents, CTA)
+  yellow: "#FFC52E",
+  paper: "#FFFFFF",
+  paperInk: "#15171A",
 };
 
 export const FONTS = {
-  sans: "'Inter', sans-serif",
-  serif: "'Instrument Serif', serif",
+  sans: "'Inter', sans-serif", // ghost.org uses InterVariable throughout
+  serif: "'Source Serif 4', serif", // editor body copy (Georgia-style)
 };
 
 export const COPY = {
-  hook: { l1: ["Your", "audience."], l2: ["Their", "algorithm."], accent: "algorithm.", reachFrom: 100, reachTo: 6 },
+  hook: { l1: ["Your", "audience."], l2: ["Their", "algorithm."], accent: "algorithm.", accentColor: "pink", reachFrom: 100, reachTo: 6 },
   problem: {
     tools: ["Website", "Members", "Email", "Payments", "Analytics"],
     line: ["Five", "tools.", "Five", "bills.", "A cut", "of every", "sale."],
     accent: "A cut",
+    accentColor: "pink",
     revenue: 1000,
     feePct: 10,
   },
@@ -47,17 +53,19 @@ export const COPY = {
     channels: ["Website", "Newsletter", "Members", "Social web"],
     line: ["One", "place.", "Ghost."],
     accent: "Ghost.",
+    accentColor: "lime",
   },
   payoff: {
     members: 2480,
     revenue: 1000,
     line: ["Your", "audience.", "Your", "revenue."],
     accent: "revenue.",
+    accentColor: "lime",
     feeNote: "0% platform fees",
   },
   cta: {
-    tagline: "Independent technology for modern publishing",
-    button: "Start your free trial",
-    url: "ghost.org",
+    tagline: "Turn your audience into a business.", // ghost.org hero headline
+    button: "Start publishing now",
+    sub: "Try Ghost free for 14 days · ghost.org",
   },
 };

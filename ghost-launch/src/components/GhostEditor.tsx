@@ -1,66 +1,73 @@
 import React from "react";
 import { COLORS, COPY, FONTS } from "../config";
-import { Bar } from "./UI";
 import { sans } from "./Stage";
 
 export const ED_W = 1280;
 export const ED_H = 720;
-// Button center relative to the editor center (for camera + cursor targeting)
-export const BTN = { x: ED_W / 2 - 150, y: -ED_H / 2 + 38 };
+// Publish button center relative to the editor center (camera + cursor target)
+export const BTN = { x: ED_W / 2 - 172, y: -ED_H / 2 + 34 };
 
-/** Vector rebuild of a Ghost-style post editor. */
+const INK = COLORS.paperInk;
+const GREY = "#8E9196";
+
+const Para: React.FC<{ text: string; p: number }> = ({ text, p }) => (
+  <div style={{ fontFamily: FONTS.serif, fontSize: 21, lineHeight: 1.6, color: "#2B2E33", opacity: p, transform: `translateY(${(1 - p) * 12}px)` }}>{text}</div>
+);
+
+/** Vector rebuild of the Ghost post editor as shown on ghost.org: white, calm, Inter titles, serif body. */
 export const GhostEditor: React.FC<{ typed: number; body: number[]; btnScale: number; btnDone: number; caret: boolean }> = ({ typed, body, btnScale, btnDone, caret }) => {
   const title = COPY.fix.postTitle.slice(0, typed);
   return (
-    <div style={{ width: ED_W, height: ED_H, borderRadius: 22, background: "#FBFBFA", overflow: "hidden", boxShadow: "0 50px 100px rgba(0,0,0,.55)", display: "flex", flexDirection: "column" }}>
-      <div style={{ height: 76, display: "flex", alignItems: "center", padding: "0 30px", gap: 18, borderBottom: "1.5px solid #ECECEA" }}>
-        <div style={sans(600, 20, { color: "#15171A" })}>‹ Posts</div>
-        <div style={sans(500, 18, { color: "#8B8F96" })}>Draft · Saved</div>
+    <div style={{ width: ED_W, height: ED_H, borderRadius: 14, background: COLORS.paper, overflow: "hidden", boxShadow: "0 50px 100px rgba(0,0,0,.55)", position: "relative" }}>
+      {/* top bar */}
+      <div style={{ height: 68, display: "flex", alignItems: "center", padding: "0 28px", gap: 22 }}>
+        <div style={sans(600, 18, { color: INK })}>‹&nbsp; Posts</div>
+        <div style={sans(400, 17, { color: GREY })}>Draft - saved</div>
         <div style={{ flex: 1 }} />
-        <div style={sans(600, 19, { color: "#5A5E66" })}>Preview</div>
+        <div style={sans(500, 18, { color: INK })}>Preview</div>
         <div
           style={{
-            ...sans(700, 20, { color: "#fff" }), background: btnDone ? COLORS.green : COLORS.pink, borderRadius: 10, padding: "12px 24px",
-            transform: `scale(${btnScale})`, boxShadow: "0 8px 20px rgba(255,61,127,.35)", minWidth: 180, textAlign: "center",
+            ...sans(600, 18, { color: "#fff" }), background: btnDone ? COLORS.green : INK, borderRadius: 7, padding: "10px 20px",
+            transform: `scale(${btnScale})`, minWidth: 196, textAlign: "center", boxSizing: "border-box",
           }}
         >
-          {btnDone ? "✓ Sent" : COPY.fix.button}
+          {btnDone ? "✓  Published & sent" : COPY.fix.button}
         </div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.8"><rect x="3" y="4" width="18" height="16" rx="2.5" /><line x1="15" y1="4" x2="15" y2="20" /></svg>
       </div>
-      <div style={{ flex: 1, display: "flex", justifyContent: "center", paddingTop: 44 }}>
-        <div style={{ width: 760, display: "flex", flexDirection: "column", gap: 18 }}>
-          <div style={{ height: 150, borderRadius: 14, background: "linear-gradient(135deg,#F1D7E0,#E9E2EC 50%,#DDE6EC)", position: "relative", overflow: "hidden" }}>
-            <svg viewBox="0 0 760 150" width="760" height="150" style={{ position: "absolute", inset: 0 }}>
-              <path d="M0 120 L140 70 L260 110 L400 50 L560 100 L760 60 L760 150 L0 150 Z" fill="#E3C4D1" />
-              <circle cx="640" cy="44" r="22" fill="#FF3D7F" opacity=".55" />
-            </svg>
-          </div>
-          <div style={{ fontFamily: FONTS.serif, fontSize: 64, lineHeight: 1.05, color: "#15171A", minHeight: 68, letterSpacing: "-0.01em" }}>
-            {title}
-            {caret && <span style={{ display: "inline-block", width: 3, height: 56, background: COLORS.pink, marginLeft: 4, verticalAlign: -6 }} />}
-            {typed === 0 && <span style={{ color: "#C9CACC" }}>Post title</span>}
-          </div>
-          {[92, 100, 76, 88].map((w, i) => (
-            <Bar key={i} w={`${w * body[i]}%`} h={14} c="#E2E3E1" style={{ opacity: body[i] }} />
-          ))}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, opacity: body[3] }}>
-            <div style={{ width: 38, height: 38, borderRadius: 19, border: "2px solid #D2D3D1", display: "grid", placeItems: "center", ...sans(400, 26, { color: "#8B8F96" }) }}>+</div>
-            {["Image", "Video", "Bookmark", "Button"].map((c) => <div key={c} style={sans(500, 17, { color: "#8B8F96" })}>{c}</div>)}
-          </div>
+      {/* writing column */}
+      <div style={{ position: "absolute", left: (ED_W - 720) / 2, top: 110, width: 720, display: "flex", flexDirection: "column", gap: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, ...sans(500, 16, { color: GREY }) }}>
+          <span>+ Add feature image</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={GREY} strokeWidth="1.8"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 16l5-5 4 4 3-3 6 6" /></svg>
+        </div>
+        <div style={{ ...sans(700, 54, { color: typed ? INK : "#C5C7CA", letterSpacing: "-0.03em", lineHeight: 1.08 }), minHeight: 60 }}>
+          {typed ? title : "Post title"}
+          {caret && <span style={{ display: "inline-block", width: 3, height: 50, background: INK, marginLeft: 4, verticalAlign: -6 }} />}
+        </div>
+        <Para p={body[0]} text="Local newsrooms are disappearing. Local stories aren’t. Here’s how a team of three built a newsroom that its readers pay for, without an algorithm deciding who gets to read it." />
+        <div style={{ ...sans(700, 30, { color: INK, letterSpacing: "-0.02em" }), opacity: body[1], transform: `translateY(${(1 - body[1]) * 12}px)`, marginTop: 6 }}>Why readers pay</div>
+        <Para p={body[2]} text="Trust is built one email at a time. Every story lands in the inbox, and every member supports the work directly." />
+        <div style={{ display: "flex", alignItems: "center", gap: 16, opacity: body[3] }}>
+          <div style={{ width: 34, height: 34, borderRadius: 17, border: "1.5px solid #D5D7DA", display: "grid", placeItems: "center", ...sans(400, 22, { color: GREY }) }}>+</div>
+          {["Image", "Gallery", "Video", "Bookmark", "Signup", "Button"].map((c) => <div key={c} style={sans(500, 16, { color: GREY })}>{c}</div>)}
         </div>
       </div>
     </div>
   );
 };
 
-export const Channel: React.FC<{ label: string; lit: number }> = ({ label, lit }) => (
-  <div
-    style={{
-      width: 300, height: 84, borderRadius: 18, display: "flex", alignItems: "center", gap: 16, padding: "0 26px", boxSizing: "border-box",
-      background: COLORS.panel, border: `2.5px solid ${lit > 0.5 ? COLORS.pink : COLORS.line}`, boxShadow: lit > 0.5 ? `0 0 ${40 * lit}px rgba(255,61,127,.35)` : "none",
-    }}
-  >
-    <div style={{ width: 18, height: 18, borderRadius: 9, background: lit > 0.5 ? COLORS.pink : COLORS.faint, transform: `scale(${1 + 0.4 * Math.sin(Math.PI * Math.min(1, lit))})` }} />
-    <div style={sans(700, 26)}>{label}</div>
-  </div>
-);
+export const Channel: React.FC<{ label: string; lit: number }> = ({ label, lit }) => {
+  const on = lit > 0.5;
+  return (
+    <div
+      style={{
+        width: 300, height: 84, borderRadius: 12, display: "flex", alignItems: "center", gap: 16, padding: "0 26px", boxSizing: "border-box",
+        background: COLORS.panel, border: `2px solid ${on ? COLORS.lime : COLORS.line}`, boxShadow: on ? `0 0 ${36 * lit}px rgba(209,255,25,.22)` : "none",
+      }}
+    >
+      <div style={{ width: 16, height: 16, borderRadius: 8, background: on ? COLORS.lime : COLORS.faint, transform: `scale(${1 + 0.4 * Math.sin(Math.PI * Math.min(1, lit))})` }} />
+      <div style={sans(700, 26, { letterSpacing: "-0.02em" })}>{label}</div>
+    </div>
+  );
+};
