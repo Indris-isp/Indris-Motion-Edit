@@ -40,6 +40,8 @@ html,body{margin:0;background:#111;overflow:hidden}
 .ch{display:inline-block;white-space:pre}
 .cur{display:inline-block;width:.07em;height:.9em;background:var(--acc);border-radius:3px;vertical-align:-.08em;margin-left:.04em}
 .num{font-variant-numeric:tabular-nums}
+/* client direction: sharp corners on every element. Circles (avatars, dots, rings, glows, dome) stay round. */
+#stage *:not(.av):not(.blob):not(.rays):not([style*="border-radius: 50%"]):not([style*="border-radius:50%"]){border-radius:0 !important}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:500}
 #ui{position:fixed;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;background:rgba(0,0,0,.75);color:#fff;font:13px Inter,sans-serif}
 #ui input{flex:1}
