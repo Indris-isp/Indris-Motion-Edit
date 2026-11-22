@@ -1,8 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { COLORS, START } from "../config";
+import { COLORS } from "../config";
 import { drift, easeOut, enter, tw } from "../anim";
-import { At, Background, Camera, sans } from "../components/Stage";
+import { At, Camera, sans } from "../components/Stage";
 import { Badge, Chip, Icon, MotionBlurDefs, Typer, mb, whip } from "../components/Fx";
 import { Cursor } from "../components/Cursor";
 
@@ -44,7 +44,10 @@ export const B3Tools: React.FC = () => {
   ];
   return (
     <AbsoluteFill>
-      <Background f={f + START.tools} warm={0} bars={0.5} />
+      {/* black ground (client request), with a faint glow and dot grid so it never reads flat */}
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse 80% 70% at 50% 40%, #16171B 0%, #0B0C0E 60%, #060607 100%)" }} />
+      <AbsoluteFill style={{ background: `radial-gradient(ellipse 45% 40% at ${30 + drift(f, 4, 600)}% 35%, rgba(255,255,255,0.05), transparent 70%)` }} />
+      <AbsoluteFill style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.2px, transparent 1.2px)", backgroundSize: "48px 48px", backgroundPosition: `${drift(f, 20, 900)}px ${drift(f, 14, 1100, 1)}px`, maskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)" }} />
       <MotionBlurDefs id="mbT" x={inn.blur} />
       <AbsoluteFill style={{ transform: `translateX(${inn.x}px)`, filter: mb("mbT", inn.blur) }}>
         <Camera f={f} push={0.00016}>
@@ -59,7 +62,7 @@ export const B3Tools: React.FC = () => {
               const bend = (k % 2 ? 1 : -1) * (90 + k * 18) * (1 + 0.15 * stress * Math.sin(f / 6 + k));
               const mx = (A.x + B.x) / 2 + bend * 0.4, my = (A.y + B.y) / 2 + bend;
               const L = 1400, draw = tw(f, 44 + k * 7, 84 + k * 7, 0, 1);
-              return <path key={k} d={`M${A.x} ${A.y} Q ${mx} ${my} ${B.x} ${B.y}`} fill="none" stroke={k % 3 === 0 ? COLORS.pink : "#A9ADB8"} strokeOpacity={k % 3 === 0 ? 0.75 : 0.55} strokeWidth={4} strokeLinecap="round" strokeDasharray={L} strokeDashoffset={L * (1 - draw)} />;
+              return <path key={k} d={`M${A.x} ${A.y} Q ${mx} ${my} ${B.x} ${B.y}`} fill="none" stroke={k % 3 === 0 ? COLORS.pink : "#5C616C"} strokeOpacity={k % 3 === 0 ? 0.85 : 0.8} strokeWidth={4} strokeLinecap="round" strokeDasharray={L} strokeDashoffset={L * (1 - draw)} />;
             })}
           </svg>
 
@@ -71,7 +74,7 @@ export const B3Tools: React.FC = () => {
             return (
               <At key={k} x={t.x + drift(f, 5, 240, k) + j * Math.sin(f * 0.9 + k)} y={t.y + (1 - p) * 120 + drift(f, 5, 300, k + 2) + j * Math.cos(f * 1.1 + k)}>
                 <div style={{ opacity: Math.min(1, p * 1.4), transform: `scale(${(0.7 + 0.3 * p) * clicked}) rotate(${stress * (k % 2 ? 3 : -3)}deg)`, position: "relative" }}>
-                  <div style={{ width: S, height: S, borderRadius: 50, background: "#fff", boxShadow: "0 22px 50px rgba(17,24,39,.13), 0 0 0 1px rgba(17,24,39,.05)", display: "grid", placeItems: "center", alignContent: "center", gap: 12 }}>
+                  <div style={{ width: S, height: S, borderRadius: 50, background: "#fff", boxShadow: "0 22px 50px rgba(0,0,0,.5)", display: "grid", placeItems: "center", alignContent: "center", gap: 12 }}>
                     <Icon name={t.icon} size={76} />
                     <div style={sans(700, 26, { color: COLORS.text, letterSpacing: "-0.02em" })}>{t.label}</div>
                   </div>
@@ -90,7 +93,7 @@ export const B3Tools: React.FC = () => {
             if (f < t.f) return null;
             return (
               <At key={k} x={t.x} y={t.y}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, ...sans(600, 22, { color: "#fff" }), background: t.tone === "red" ? "#F5313D" : COLORS.paperInk, borderRadius: 14, padding: "12px 18px", boxShadow: "0 14px 30px rgba(17,24,39,.25)", whiteSpace: "nowrap", opacity: Math.min(1, p * 1.5) * (t.tone === "red" ? 1 : 1 - gone), transform: `translateY(${(1 - p) * 16}px) scale(${0.9 + 0.1 * Math.min(1, p)})` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, ...sans(600, 22, { color: "#fff" }), background: t.tone === "red" ? "#F5313D" : "#2A2D33", border: t.tone === "red" ? "none" : "1.5px solid #3A3E46", borderRadius: 14, padding: "12px 18px", boxShadow: "0 14px 30px rgba(17,24,39,.25)", whiteSpace: "nowrap", opacity: Math.min(1, p * 1.5) * (t.tone === "red" ? 1 : 1 - gone), transform: `translateY(${(1 - p) * 16}px) scale(${0.9 + 0.1 * Math.min(1, p)})` }}>
                   <span>{t.tone === "red" ? "⚠" : "⇄"}</span>{t.text}
                 </div>
               </At>
@@ -99,7 +102,7 @@ export const B3Tools: React.FC = () => {
 
           {/* monthly bills receipt */}
           <At x={470} y={-60}>
-            <div style={{ width: 560, background: "#fff", borderRadius: 32, padding: "30px 34px", boxShadow: "0 30px 70px rgba(17,24,39,.14), 0 0 0 1px rgba(17,24,39,.05)", opacity: Math.min(1, enter(f, 26) * 1.4), transform: `translateY(${(1 - Math.min(1, enter(f, 26))) * 40}px) rotate(${stress * 1.2}deg)` }}>
+            <div style={{ width: 560, background: "#fff", borderRadius: 32, padding: "30px 34px", boxShadow: "0 30px 70px rgba(0,0,0,.55)", opacity: Math.min(1, enter(f, 26) * 1.4), transform: `translateY(${(1 - Math.min(1, enter(f, 26))) * 40}px) rotate(${stress * 1.2}deg)` }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                 <div style={sans(700, 30, { color: COLORS.text, letterSpacing: "-0.02em" })}>Monthly bills</div>
                 <div style={sans(500, 18, { color: COLORS.textMute })}>5 tools · 5 logins</div>
@@ -128,7 +131,7 @@ export const B3Tools: React.FC = () => {
 
           <Cursor f={f} keys={keys} opacity={tw(f, 100, 110, 0, 1) * tw(f, 226, 238, 1, 0)} />
           <At y={385}>
-            <Typer f={f} start={200} perChar={1.6} size={76} caretColor={COLORS.pink} lines={[[{ t: "Five tools. Five bills. " }, { t: "$121", c: COLORS.pink }, { t: " a month." }]]} />
+            <Typer f={f} start={200} perChar={1.6} size={76} color="#FFFFFF" caretColor={COLORS.pink} lines={[[{ t: "Five tools. Five bills. " }, { t: "$121", c: COLORS.pink }, { t: " a month." }]]} />
           </At>
         </Camera>
       </AbsoluteFill>
