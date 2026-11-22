@@ -1,0 +1,284 @@
+<title>Ghost Launch Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a production storyboard sheet. Each scene is a row: a 16:9 frame on the left, direction notes on the right. A proportional timeline runs along the top. */
+:root {
+  --bg: #f3f3f1; --paper: #ffffff; --ink: #15171a; --mute: #5f6268; --line: #dcdcd8;
+  --acc: #e8175d; --acc-soft: #fde4ec;
+  --frame: #15171a; --frame-ink: #f4f4f2; --frame-mute: #8b8f96;
+  --f-display: "Instrument Serif", Georgia, serif;
+  --f-body: "Inter", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e0f11; --paper: #17191c; --ink: #ececea; --mute: #9a9ea5; --line: #2a2d32;
+  --acc: #ff3d7f; --acc-soft: #3a1422; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0e0f11; --paper: #17191c; --ink: #ececea; --mute: #9a9ea5; --line: #2a2d32;
+  --acc: #ff3d7f; --acc-soft: #3a1422; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 80px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 48px; }
+h1, h2 { font-family: var(--f-display); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(40px, 6vw, 68px); line-height: 1; }
+h1 em, h2 em { color: var(--acc); }
+h2 { font-size: 32px; line-height: 1.1; }
+.eyebrow { font: 500 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+p { margin: 0; max-width: 68ch; }
+header { display: grid; gap: 16px; }
+.lede { font-size: 17px; color: var(--mute); }
+
+.spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.spec div { background: var(--paper); padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
+.spec b { font-weight: 600; font-size: 14px; }
+
+/* timeline */
+.tl { display: grid; gap: 10px; }
+.bar { display: flex; height: 46px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+.bar a { display: flex; align-items: center; justify-content: center; font: 500 11px var(--f-mono); color: var(--ink); text-decoration: none; border-right: 1px solid var(--line); background: var(--paper); min-width: 0; overflow: hidden; }
+.bar a:last-child { border-right: 0; }
+.bar a.p { background: var(--bg); color: var(--mute); }
+.bar a.t { background: var(--acc); color: #fff; }
+.bar a:hover, .bar a:focus-visible { outline: 2px solid var(--acc); outline-offset: -2px; }
+.acts { display: flex; font: 500 11px var(--f-mono); color: var(--mute); text-transform: uppercase; letter-spacing: .08em; }
+.acts span { border-left: 1px solid var(--line); padding-left: 6px; }
+
+/* scenes */
+.scenes { display: grid; gap: 28px; }
+.scene { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 22px; scroll-margin-top: 20px; }
+@media (max-width: 760px) { .scene { grid-template-columns: 1fr; padding: 16px; } }
+.scene-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.tc { font: 500 12px var(--f-mono); color: var(--acc); font-variant-numeric: tabular-nums; }
+.notes { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.notes h3 { font: 600 19px/1.25 var(--f-body); margin: 0; }
+dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 9px 14px; font-size: 14px; }
+dt { font: 500 10.5px/1.9 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+dd { margin: 0; min-width: 0; }
+dd.vo { font-family: var(--f-display); font-size: 19px; line-height: 1.3; font-style: italic; }
+.verify { display: inline-block; font: 500 10px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; background: var(--acc-soft); color: var(--acc); padding: 2px 6px; border-radius: 3px; vertical-align: 2px; }
+
+/* the 16:9 frame (always the video's own dark look) */
+.frame { position: relative; aspect-ratio: 16/9; max-width: 100%; background: var(--frame); color: var(--frame-ink); border-radius: 4px; overflow: hidden; container-type: inline-size; }
+.frame .lbl { position: absolute; left: 3cqw; bottom: 3cqw; font: 500 2.1cqw var(--f-mono); color: var(--frame-mute); letter-spacing: .06em; }
+.frame .c { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 6cqw; }
+.k { font: 800 6.4cqw/1.02 var(--f-body); letter-spacing: -0.035em; }
+.k.s { font-size: 4.6cqw; }
+.k i { font: italic 400 1.12em/1 var(--f-display); letter-spacing: 0; color: #ff3d7f; }
+.k .dim { color: var(--frame-mute); }
+.small { font: 500 2.4cqw var(--f-mono); color: var(--frame-mute); letter-spacing: .05em; }
+.mini { background: #22252a; border: 1px solid #33373e; border-radius: 1.2cqw; }
+.pink { color: #ff3d7f; }
+.arrow { position: absolute; font: 500 2.4cqw var(--f-mono); color: #ff3d7f; }
+
+.vo-script { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 24px; display: grid; gap: 10px; }
+.vo-script ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; font-family: var(--f-display); font-size: 19px; line-height: 1.35; }
+.vo-script li::marker { font: 500 12px var(--f-mono); color: var(--mute); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.box { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 22px; display: grid; gap: 12px; align-content: start; }
+.box ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 14.5px; }
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.sw { display: grid; gap: 6px; font: 500 11px var(--f-mono); color: var(--mute); }
+.sw span { width: 64px; height: 40px; border-radius: 4px; border: 1px solid var(--line); }
+@media (prefers-reduced-motion: no-preference) { .bar a { transition: background .15s; } }
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Storyboard v2 · for approval · Indris Motion</div>
+  <h1>Ghost: <em>own</em> what you publish.</h1>
+  <p class="lede">A 30-second launch video for Ghost, the open-source platform for independent publishers. It moves from attention to the problem, then to Ghost fixing it, then to the payoff, and ends on the logo and CTA. Music and SFX only, no voiceover.</p>
+  <div class="spec">
+    <div><span class="eyebrow">Format</span><b>16:9 · 1920×1080</b></div>
+    <div><span class="eyebrow">Frame rate</span><b>60 fps · H.264 mp4</b></div>
+    <div><span class="eyebrow">Length</span><b>30.0 s · 1800 frames</b></div>
+    <div><span class="eyebrow">Audience</span><b>Writers, newsletter creators, indie media</b></div>
+    <div><span class="eyebrow">Audio</span><b>Music + SFX, no VO</b></div>
+    <div><span class="eyebrow">Stack</span><b>Remotion (React), UI as SVG</b></div>
+  </div>
+</header>
+
+<section class="box">
+  <span class="eyebrow">Brief</span>
+  <dl>
+    <dt>Company</dt><dd>Ghost is an open-source publishing platform that combines a website, newsletters, paid memberships and analytics, so independent creators don’t need a stack of separate tools.</dd>
+    <dt>Goal</dt><dd>Launch video for the website hero and social posts.</dd>
+    <dt>Message</dt><dd class="vo">Stop renting your audience. Own it with Ghost.</dd>
+    <dt>Must show</dt><dd>1. The hook: your post buried in someone else’s feed. 2. The problem: five tools and a fee on every subscription. 3. The product: write, then Publish &amp; send in Ghost. 4. The payoff: members grow and you keep 100% of the revenue. 5. Logo + CTA.</dd>
+    <dt>Tone</dt><dd>Calm, confident and a little defiant. Premium SaaS launch, not cartoonish.</dd>
+  </dl>
+</section>
+
+<section class="tl" aria-label="Timeline">
+  <div class="scene-head"><h2>Timeline</h2><span class="eyebrow">5 scenes · 240 + 420 + 480 + 360 + 300 = 1800 frames</span></div>
+  <div class="acts">
+    <span style="width:13.3%">Hook</span><span style="width:23.3%">Problem</span><span style="width:26.7%">Fix</span><span style="width:20%">Payoff</span><span style="width:16.7%">CTA</span>
+  </div>
+  <div class="bar">
+    <a class="p" href="#s1" style="width:13.3%">01 · 0–4s</a>
+    <a class="p" href="#s2" style="width:23.3%">02 · 4–11s</a>
+    <a class="t" href="#s3" style="width:26.7%">03 · 11–19s</a>
+    <a href="#s4" style="width:20%">04 · 19–25s</a>
+    <a class="t" href="#s5" style="width:16.7%">05 · 25–30s</a>
+  </div>
+</section>
+
+<section class="scenes">
+
+<!-- 1 -->
+<article class="scene" id="s1">
+  <div class="frame">
+    <div style="position:absolute; left:50%; top:8cqw; transform:translateX(-50%); width:34cqw; display:grid; gap:1.6cqw; opacity:.55">
+      <div class="mini" style="height:6cqw"></div>
+      <div class="mini" style="height:6cqw; border-color:#ff3d7f; display:grid; place-items:center"><span class="small pink">your post</span></div>
+      <div class="mini" style="height:6cqw"></div>
+    </div>
+    <div class="small" style="position:absolute; right:6cqw; top:5cqw">REACH <span class="pink">100% → 6%</span></div>
+    <div style="position:absolute; left:0; right:0; bottom:8cqw; text-align:center" class="k">Your audience.<br><span class="dim">Their <i>algorithm.</i></span></div>
+    <span class="lbl">01 · HOOK</span>
+  </div>
+  <div class="notes">
+    <div class="scene-head"><span class="eyebrow">Scene 01 · Hook</span><span class="tc">0:00–0:04 · f 0–240</span></div>
+    <h3>Buried in the feed</h3>
+    <dl>
+      <dt>On screen</dt><dd>Charcoal background. A generic feed of post cards scrolls. One card, “your post”, is outlined in pink, and the feed pushes it down out of sight. Counter top-right: “Reach 100% → 6%”. Kinetic headline: “Your audience. Their algorithm.”</dd>
+      <dt>Motion</dt><dd>The feed scrolls with ease-out deceleration. The counter counts down over 1 s, ease-out. The headline comes in word by word with 3-frame offsets and spring overshoot, and “algorithm” lands in pink serif italic. It holds ≥ 1.5 s.</dd>
+      <dt>Camera</dt><dd>Slow push-in from 100% to 106%.</dd>
+      <dt>Sound</dt><dd>Soft scroll ticks, then a low sub hit on “algorithm”. A tense synth pulse starts.</dd>
+    </dl>
+  </div>
+</article>
+
+<!-- 2 -->
+<article class="scene" id="s2">
+  <div class="frame">
+    <div style="position:absolute; inset:7cqw 7cqw 18cqw; display:grid; grid-template-columns:repeat(5,1fr); gap:2cqw; align-items:center">
+      <div class="mini" style="height:15cqw;display:grid;place-items:center"><span class="small">website</span></div>
+      <div class="mini" style="height:15cqw;display:grid;place-items:center;transform:rotate(-3deg)"><span class="small">email</span></div>
+      <div class="mini" style="height:15cqw;display:grid;place-items:center;transform:rotate(2deg)"><span class="small">payments</span></div>
+      <div class="mini" style="height:15cqw;display:grid;place-items:center;transform:rotate(-2deg)"><span class="small">members</span></div>
+      <div class="mini" style="height:15cqw;display:grid;place-items:center;transform:rotate(3deg)"><span class="small">analytics</span></div>
+    </div>
+    <div class="small" style="position:absolute; right:6cqw; top:3.5cqw">MONTHLY REVENUE <span class="pink">$1,000 → $900</span></div>
+    <div style="position:absolute; left:0; right:0; bottom:6cqw; text-align:center" class="k s">Five tools. Five bills. <i>A cut</i> of every sale.</div>
+    <span class="lbl">02 · PROBLEM</span>
+  </div>
+  <div class="notes">
+    <div class="scene-head"><span class="eyebrow">Scene 02 · Problem</span><span class="tc">0:04–0:11 · f 240–660</span></div>
+    <h3>The duct-taped stack</h3>
+    <dl>
+      <dt>On screen</dt><dd>Five generic app windows: Website, Email, Payments, Members, Analytics. The cursor copies a subscriber row from Members, arcs over and pastes it into Email, then moves on to Payments. A revenue counter reads “$1,000”, a pink 10% slice cuts away, and the counter rolls down to “$900”. Text: “Five tools. Five bills. A cut of every sale.”</dd>
+      <dt>Motion</dt><dd>The windows drop in staggered, 3 frames apart, with overshoot, then jitter slightly. The cursor moves on bezier arcs, with click presses (scale 1 → 0.96 → 1 over 8 frames) and highlighted rows. The counter ticks down over 1 s and the slice falls out of frame with an ease-in. The text holds ≥ 1.5 s.</dd>
+      <dt>Camera</dt><dd>Easy-ease pan from left to right following the cursor (≥ 0.8 s), then a slight pull back to show all five windows.</dd>
+      <dt>Sound</dt><dd>Mouse clicks, a dull “cut” whoosh on the slice, and the pulse rising in pitch. Hard silence on the last frame.</dd>
+      <dt>Note</dt><dd>No competitor names or logos. <span class="verify">verify</span> The 10% figure is the common newsletter-platform fee and is shown as an illustration.</dd>
+    </dl>
+  </div>
+</article>
+
+<!-- 3 -->
+<article class="scene" id="s3">
+  <div class="frame">
+    <div class="mini" style="position:absolute; inset:7cqw 16cqw 17cqw; padding:3cqw 5cqw; text-align:left">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <span class="small">ghost admin · editor</span>
+        <span style="background:#ff3d7f; color:#fff; font:600 2.1cqw var(--f-body); padding:.8cqw 2cqw; border-radius:.8cqw">Publish &amp; send</span>
+      </div>
+      <div style="font:400 4.2cqw/1.1 var(--f-display); margin-top:2.4cqw">The future of local news</div>
+      <div style="height:1.1cqw;width:80%;background:#33373e;margin-top:2.2cqw;border-radius:1cqw"></div>
+      <div style="height:1.1cqw;width:64%;background:#33373e;margin-top:1.4cqw;border-radius:1cqw"></div>
+    </div>
+    <div style="position:absolute; left:10cqw; right:10cqw; bottom:9cqw; display:flex; justify-content:center; gap:2cqw">
+      <span class="mini small" style="padding:1cqw 2cqw">● website</span><span class="mini small" style="padding:1cqw 2cqw">● newsletter</span><span class="mini small" style="padding:1cqw 2cqw">● members</span><span class="mini small" style="padding:1cqw 2cqw">● social web</span>
+    </div>
+    <div style="position:absolute; left:0; right:0; bottom:3cqw; text-align:center" class="k s" >One place. <i>Ghost.</i></div>
+    <span class="lbl">03 · FIX</span>
+  </div>
+  <div class="notes">
+    <div class="scene-head"><span class="eyebrow">Scene 03 · Fix</span><span class="tc">0:11–0:19 · f 660–1140</span></div>
+    <h3>Five tools collapse into one Ghost</h3>
+    <dl>
+      <dt>On screen</dt><dd>The five windows from Scene 02 slide to the center and merge into the Ghost editor (SVG). The cursor types the title “The future of local news”, then clicks <b>Publish &amp; send</b>. Four destination chips appear: Website, Newsletter, Members, Social web (Ghost 6). The post card flies into each one. Text: “One place. Ghost.”</dd>
+      <dt>Motion</dt><dd>The windows are parented under one null and animate as a group into the editor frame, with the editor entering during the final 20% of the merge. Typing runs one character per 2 frames. The button gets a press. The chips stagger in 3 frames apart with overshoot, and each lights up pink as the card arrives.</dd>
+      <dt>Camera</dt><dd>Zoom into the Publish &amp; send button on the click (≈ 130%), then an easy-ease back to 100% to show the chips.</dd>
+      <dt>Sound</dt><dd>A warm major chord on the merge, when the main music track kicks in. Key clicks, then a “send” swoosh and four soft pings.</dd>
+      <dt>Asset</dt><dd>I rebuild the Ghost editor and admin as clean SVG, because the skill rules out screenshots. Send Figma or official screens if you have them. <span class="verify">verify</span> Ghost 6 social-web naming.</dd>
+    </dl>
+  </div>
+</article>
+
+<!-- 4 -->
+<article class="scene" id="s4">
+  <div class="frame">
+    <div style="position:absolute; inset:7cqw 12cqw 20cqw; display:grid; grid-template-columns:1fr 1fr; gap:3cqw">
+      <div class="mini" style="padding:3cqw; display:grid; align-content:center; gap:1cqw"><span class="small">PAID MEMBERS</span><span class="k" style="font-size:7cqw">0 → 2,480</span></div>
+      <div class="mini" style="padding:3cqw; display:grid; align-content:center; gap:1cqw; border-color:#ff3d7f"><span class="small pink">YOU KEEP</span><span class="k" style="font-size:7cqw">$1,000</span><span class="small">0% PLATFORM FEES</span></div>
+    </div>
+    <div style="position:absolute; left:0; right:0; bottom:5cqw; text-align:center" class="k s">Your audience. <i>Your</i> revenue.</div>
+    <span class="lbl">04 · PAYOFF</span>
+  </div>
+  <div class="notes">
+    <div class="scene-head"><span class="eyebrow">Scene 04 · Payoff</span><span class="tc">0:19–0:25 · f 1140–1500</span></div>
+    <h3>You keep everything</h3>
+    <dl>
+      <dt>On screen</dt><dd>The Ghost dashboard (SVG) with two cards. “Paid members” counts 0 → 2,480 with a small growth chart drawing on. The revenue card shows “$1,000”, and the pink slice from Scene 02 snaps back into place: “0% platform fees”. Text: “Your audience. Your revenue.”</dd>
+      <dt>Motion</dt><dd>Both counters run for 1 s, ease-out, staggered 4 frames apart. The slice returns on a spring. Hold the full board ≥ 1.5 s with a slow drift (scale 1 → 1.02).</dd>
+      <dt>Camera</dt><dd>Pull back from the revenue card (115%) to the whole dashboard (100%), easy ease.</dd>
+      <dt>Sound</dt><dd>Coin ticks while counting, a satisfying “click” when the slice returns, and the music lifts.</dd>
+      <dt>Note</dt><dd><span class="verify">verify</span> Ghost takes 0% of subscription revenue (Stripe processing still applies, hence “platform fees”). The 2,480 member count is illustrative.</dd>
+    </dl>
+  </div>
+</article>
+
+<!-- 5 -->
+<article class="scene" id="s5">
+  <div class="frame"><div class="c"><div>
+    <div class="k" style="font-size:9cqw"><i>Ghost</i></div>
+    <div class="small" style="margin-top:2cqw">INDEPENDENT TECHNOLOGY FOR MODERN PUBLISHING</div>
+    <div class="mini" style="display:inline-block; margin-top:4cqw; padding:1.8cqw 4cqw; background:#ff3d7f; border-color:#ff3d7f; font:600 2.8cqw var(--f-body)">Start your free trial · ghost.org</div>
+  </div></div><span class="lbl">05 · LOGO + CTA</span></div>
+  <div class="notes">
+    <div class="scene-head"><span class="eyebrow">Scene 05 · Logo + CTA</span><span class="tc">0:25–0:30 · f 1500–1800</span></div>
+    <h3>Lock-up</h3>
+    <dl>
+      <dt>On screen</dt><dd>The dashboard scales away. The Ghost logo builds in the center, then the tagline “Independent technology for modern publishing” and the CTA “Start your free trial · ghost.org”.</dd>
+      <dt>Motion</dt><dd>The dashboard exits faster than it entered (about 18 frames, ease-in). The logo builds over 30 frames with overshoot. The tagline and CTA follow, 4 frames apart. The CTA button gets one press. A slow drift runs to the last frame.</dd>
+      <dt>Camera</dt><dd>Gentle push-in from 100% to 104%.</dd>
+      <dt>Sound</dt><dd>A logo sting, then the music resolves and fades over the final 0.5 s.</dd>
+      <dt>Note</dt><dd>Needs the official Ghost logo SVG. <span class="verify">verify</span> The tagline and CTA wording.</dd>
+    </dl>
+  </div>
+</article>
+
+</section>
+
+<section class="two">
+  <div class="box">
+    <span class="eyebrow">Look</span>
+    <div class="swatches">
+      <div class="sw"><span style="background:#15171a"></span>Charcoal</div>
+      <div class="sw"><span style="background:#f4f4f2"></span>Off-white</div>
+      <div class="sw"><span style="background:#ff3d7f"></span>Ghost pink</div>
+      <div class="sw"><span style="background:#8b8f96"></span>Muted grey</div>
+    </div>
+    <ul>
+      <li>Type: Inter ExtraBold for headlines, Instrument Serif Italic for the one key word in each line. Fonts load before frame 0.</li>
+      <li>Scenes 01–02 are desaturated and tense. From Scene 03 the palette warms up and the layout gets more spacious.</li>
+      <li>Everything is positioned from the canvas center. Titles stay 5% inside every edge, and each scene’s key element stays inside the center 1080×1080.</li>
+      <li>Nothing ever fully stops: holding elements keep a slow drift, and every scene has a micro camera push.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <span class="eyebrow">Needs your decision</span>
+    <ul>
+      <li><b>Claims:</b> confirm the items marked <span class="verify">verify</span>. I couldn’t open ghost.org from this environment.</li>
+      <li><b>UI:</b> I rebuild the Ghost editor and dashboard as SVG, unless you have Figma exports.</li>
+      <li><b>Logo:</b> the official Ghost logo SVG.</li>
+      <li><b>Approve</b> this storyboard, and I’ll render a still of each scene’s key frame before the full animation.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
