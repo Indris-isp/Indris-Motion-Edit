@@ -12,3 +12,4 @@ ghost-film/out/frames/
 ghost-film/out/*.wav
 ghost-film/out/*.log
 ghost-film/out/still_*.png
+ghost-film/out/video_silent.mp4
