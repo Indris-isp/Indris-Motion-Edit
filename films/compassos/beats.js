@@ -22,7 +22,7 @@ right role?</div>
     note: 'Real match card. One reason gets the single yellow annotation ("Two payments launches and a marketplace P&L match their must-haves"), then the 92% fit is ringed. Slow push-in; the line stays on screen long enough to read.',
     bg: 'light', len: 6.5, hero: 3.4,
     cam: [[0, 1, .5, .5], [1.2, 1, .5, .5], [3.2, 1.07, .62, .6], [6.5, 1.09, .62, .6]],
-    camV: [[0, 1, .5, .5], [1.2, 1, .5, .5], [3.2, 1.14, .5, .45], [6.5, 1.18, .5, .45]],
+    camV: [[0, 1, .5, .5], [1.2, 1, .5, .5], [3.2, 1.06, .5, .45], [6.5, 1.08, .5, .45]],
     html: `<div class="hd" style="left:120px;top:130px;font-size:100px" data-in=".1,.8,up">See why it fits.</div>
       <div class="shot" style="left:560px;top:300px;width:1240px" data-in="0,.7,fade"><img src="assets/match.png"></div>
       <div class="hl" style="left:620px;top:600px;width:1046px;height:66px;opacity:.55" data-in="1.6,.7,wipe"></div>

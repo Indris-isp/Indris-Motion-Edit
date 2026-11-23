@@ -58,10 +58,10 @@ starts here.</div>`,
     cam: [[0, 1, .5, .5], [2.4, 1, .646, .564], [4, 1.2, .646, .564]],
     cursor: [[1.4, [.8, 1.05]], [2.6, [.646, .566], true]],
     camV: [[0, 1, .5, .5], [2.4, 1, .5, .5], [4, 1.15, .5, .5]], cursorV: [[1.4, [.8, 1.05]], [2.6, [.5, .5], true]],
-    html: `<div class="hd" style="left:120px;top:230px;font-size:120px;white-space:pre" data-in=".3,.8,up">Deliver
+    html: `<div class="hd" style="left:120px;top:230px;font-size:120px;white-space:pre" data-in=".3,.8,up" data-out="2.3,.4">Deliver
 the gallery.</div>
       <div class="dev" style="left:640px;top:200px;width:1200px" data-in=".1,.9,rise"><img src="assets/gal_digital_delivery_dev.png"></div>`,
-    htmlV: `<div class="hd" style="left:80px;top:260px;font-size:120px;white-space:pre" data-in=".3,.8,up">Deliver
+    htmlV: `<div class="hd" style="left:80px;top:260px;font-size:120px;white-space:pre" data-in=".3,.8,up" data-out="2.3,.4">Deliver
 the gallery.</div>
       <div class="dev" style="left:40px;top:640px;width:1000px" data-in=".1,.9,rise"><img src="assets/gal_digital_delivery_dev.png"></div>`,
     sfx: [[.1, 'whoosh'], [2.6, 'click']],
@@ -99,14 +99,14 @@ the gallery.</div>
     cam: [[0, 1, .5, .5], [2.2, 1, .5, .5], [3.2, 1.25, .79, .34], [4.4, 1.25, .79, .34], [5.4, 1.0, .5, .5]],
     cursor: [[4.4, [.95, 1.05]], [5.4, [.843, .9], true]],
     camV: [[0, 1, .5, .5], [2.2, 1, .5, .5], [3.2, 1.3, .76, .4], [4.4, 1.3, .76, .4], [5.4, 1.0, .5, .5]], cursorV: [[4.4, [.95, 1.05]], [5.4, [.786, .643], true]],
-    html: `<div class="hd" style="left:120px;top:230px;font-size:120px;white-space:pre" data-in=".3,.8,up">Sell
+    html: `<div class="hd" style="left:120px;top:230px;font-size:120px;white-space:pre" data-in=".3,.8,up" data-out="2.1,.4">Sell
 the prints.</div>
-      <div class="cap" style="left:126px;top:500px" data-in=".7,.7,up">8 × 10 fine art print</div>
+      <div class="cap" style="left:126px;top:500px" data-in=".7,.7,up" data-out="2.1,.4">8 × 10 fine art print</div>
       <div class="dev" style="left:600px;top:170px;width:1260px" data-in=".05,.9,rise"><img src="assets/gal_sell_photos_dev.png"></div>
       <div style="position:absolute;left:1424px;top:306px;width:332px;height:132px;border-radius:14px" data-ring="3.1,.6"></div>`,
-    htmlV: `<div class="hd" style="left:80px;top:260px;font-size:120px;white-space:pre" data-in=".3,.8,up">Sell
+    htmlV: `<div class="hd" style="left:80px;top:260px;font-size:120px;white-space:pre" data-in=".3,.8,up" data-out="2.1,.4">Sell
 the prints.</div>
-      <div class="cap" style="left:84px;top:530px;font-size:20px" data-in=".7,.7,up">8 × 10 fine art print</div>
+      <div class="cap" style="left:84px;top:530px;font-size:20px" data-in=".7,.7,up" data-out="2.1,.4">8 × 10 fine art print</div>
       <div class="dev" style="left:40px;top:640px;width:1000px" data-in=".05,.9,rise"><img src="assets/gal_sell_photos_dev.png"></div>`,
     sfx: [[.05, 'whoosh'], [3.1, 'pop'], [5.4, 'click']],
   },

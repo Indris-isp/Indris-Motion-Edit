@@ -50,7 +50,7 @@ money?</div>
     name: 'charge', src: 'sample', copy: 'Turn usage into a charge.', boards: [1.6, 6.0],
     note: 'Real Clocknext plan builder: the "Voice call" composite, one line item at $0.45 / call. The run\'s event chip flies into it; the price is ringed; result: 1 call × $0.45 = $0.45 charged to Acme Inc. (EXAMPLE).',
     bg: 'light', len: 9, hero: 6,
-    cam: [[0, 1, .5, .5], [3.0, 1, .5, .5], [4.6, 1.1, .7, .62], [9, 1.12, .7, .62]],
+    cam: [[0, 1, .5, .5], [3.0, 1, .5, .5], [4.6, 1.04, .7, .62], [9, 1.05, .7, .62]],
     html: `<div class="hd" style="left:120px;top:140px" data-in=".2,.8,up">Turn usage
 into a charge.</div>
       <div class="shot" style="left:980px;top:200px;width:820px" data-in=".3,.8,rise"><img src="assets/composite.png"></div>

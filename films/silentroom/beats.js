@@ -57,7 +57,7 @@ a place to start.</div>
     note: 'The writer types the first line. A suggestion appears as ghost text (burgundy italic, "Suggestion · Tab to accept"); accepted, it turns to ink. Then the writer strikes half of it and types their own clause: "I sat with the notes I had been avoiding all week." Held on that edit. Sample text; PLACEHOLDER until confirmed against the real AI-assisted workflow.',
     bg: 'light', len: 12, hero: 9.6,
     cam: [[0, 1, .5, .5], [4.6, 1, .5, .5], [6.4, 1.06, .64, .5], [12, 1.07, .64, .5]],
-    camV: [[0, 1, .5, .5], [4.6, 1, .5, .5], [6.4, 1.08, .5, .55], [12, 1.1, .5, .55]],
+    camV: [[0, 1, .5, .5], [4.6, 1, .5, .5], [6.4, 1.03, .5, .55], [12, 1.04, .5, .55]],
     html: `<div class="hd" style="left:120px;top:80px;font-size:64px" data-in=".1,.8,up">Shape the draft in your own words.</div>
       <div class="win" style="left:120px;top:220px;width:1680px;height:800px">
         <div class="side"><div class="cap" style="position:static;margin-bottom:6px">Project</div><div style="font:600 30px 'Source Serif 4';margin-bottom:30px">The Quiet Hours</div>

@@ -27,10 +27,10 @@ personal data?</div>
     bg: 'light', len: 7, hero: 5,
     cam: [[0, 1, .5, .5], [2.0, 1, .5, .5], [3.6, 1.45, .56, .78], [7, 1.5, .56, .78]],
     camV: [[0, 1, .5, .5], [2.0, 1, .5, .5], [3.6, 1.3, .5, .62], [7, 1.33, .5, .62]],
-    html: `<div class="hd" style="left:120px;top:110px" data-in=".1,.8,up">Start with five brokers.</div>
+    html: `<div class="hd" style="left:120px;top:110px" data-in=".1,.8,up" data-out="1.9,.4">Start with five brokers.</div>
       <div class="win" style="left:460px;top:290px;width:1300px" data-in=".2,.8,rise"><div class="bar"><i></i><i></i><i></i><span>supacheap.eu/en/free-tier</span></div><img src="assets/start.png"></div>
       <div class="ringbox" style="left:735px;top:866px;width:752px;height:232px" data-ring="3.8,.6"></div>`,
-    htmlV: `<div class="hd" style="left:80px;top:250px" data-in=".1,.8,up">Start with
+    htmlV: `<div class="hd" style="left:80px;top:250px" data-in=".1,.8,up" data-out="1.9,.4">Start with
 five brokers.</div>
       <div class="win" style="left:40px;top:640px;width:1000px" data-in=".2,.8,rise"><div class="bar"><i></i><i></i><i></i><span>supacheap.eu/en/free-tier</span></div><img src="assets/start.png"></div>
       <div class="ringbox" style="left:278px;top:1110px;width:582px;height:182px" data-ring="3.8,.6"></div>`,
@@ -40,7 +40,7 @@ five brokers.</div>
     name: 'send', src: 'real', copy: 'Send removal requests.', boards: [1.0, 6.2],
     note: 'The real free-test form, filled in field by field with dummy data (Alex Muster, Musterstraße 12, 10115 Berlin, Germany); both consent boxes ticked; cursor presses "Request confirmation link". Captured from the live page; nothing was submitted.',
     bg: 'light', len: 9, hero: 6.2,
-    cam: [[0, 1, .5, .5], [4.6, 1.03, .62, .5], [6.4, 1.1, .62, .8], [9, 1.1, .62, .8]],
+    cam: [[0, 1, .5, .5], [4.6, 1.03, .5, .5], [6.4, 1.06, .5, .8], [9, 1.06, .5, .8]],
     camV: [[0, 1, .5, .5], [6.4, 1.06, .5, .7], [9, 1.06, .5, .7]],
     cursor: [[5.2, [.98, 1.05]], [6.4, '#reqbtn', true]],
     cursorV: [[5.2, [.98, 1.05]], [6.4, '#reqbtn', true]],
