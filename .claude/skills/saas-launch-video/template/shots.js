@@ -12,12 +12,14 @@
 shot('hook', { hero: 1.9, len: 2.5, tout: 'whip',
   sfx: [[0.02, 'swell'], [1.0, 'tick'], [1.3, 'whoosh_s'], [1.35, 'pop'], [2.32, 'whoosh']],
   build(c, s) {
-    const h = B.hook, pre = h.from.slice(0, -1), d1 = h.from.slice(-1), d2 = h.to.slice(-1);
+    const h = B.hook, n = Math.max(h.from.length, h.to.length), fa = h.from.padStart(n, ' '), ta = h.to.padStart(n, ' ');
     D(c, 'blob', { width: 900, height: 600, left: -200, top: H - 350 });
     D(c, 'blob', { width: 700, height: 500, left: W - 550, top: -200, opacity: .7 });
     s.clock = D(c, 'ctr head', { left: CX, top: CY, fontSize: lv(230, 190) + 'px', lineHeight: 1.2, display: 'flex', alignItems: 'flex-start' },
-      `<span>${pre}</span><span style="display:block;position:relative;width:.62em;height:1.2em;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)"><span class="dg" style="position:absolute;left:0;top:0;display:block"><span style="display:block;height:1.2em">${d1}</span><span style="display:block;height:1.2em">${d2}</span></span></span><span class="acc" style="font-weight:500">&nbsp;${h.suffix}</span>`);
-    s.dg = s.clock.querySelector('.dg');
+      [...ta].map((ch, i) => fa[i] === ch ? `<span style="white-space:pre">${ch}</span>`
+        : `<span style="display:block;position:relative;width:${/[:.]/.test(ch) ? .3 : .62}em;height:1.2em;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)"><span class="dg" style="position:absolute;left:0;top:0;display:block"><span style="display:block;height:1.2em;white-space:pre">${fa[i]}</span><span style="display:block;height:1.2em">${ch}</span></span></span>`).join('') +
+      `<span class="acc" style="font-weight:500">&nbsp;${h.suffix}</span>`);
+    s.dg = [...s.clock.querySelectorAll('.dg')];
     s.notif = D(c, 'ctr card row', { left: lv(1500, CX), top: lv(215, CY - 340), padding: '16px 22px', borderRadius: '18px' },
       `${av(person(0), 54, 0)}<div><div style="font-size:15px;color:var(--mut);font-weight:600">${h.notifMeta}</div><div style="font-size:22px;font-weight:600;white-space:nowrap">${h.notif}</div></div>`);
     s.dot = D(c, 'ctr', { left: lv(1500, CX), top: lv(120, CY - 435), width: 14, height: 14, borderRadius: '50%', background: 'var(--red)' });
@@ -27,7 +29,7 @@ shot('hook', { hero: 1.9, len: 2.5, tout: 'whip',
     const p = eo(P(t, 0, .8));
     S(s.clock, { o: C(t / .3), b: (1 - p) * 36, s: L(1.14, 1, p) });
     const r = eio(P(t, .95, 1.25));
-    s.dg.style.transform = `translateY(${-r * 1.2}em)`; s.dg.style.filter = `blur(${(Math.sin(r * Math.PI) * 7).toFixed(1)}px)`;
+    s.dg.forEach((g, i) => { const rr = eio(P(t, .95 + i * .06, 1.25 + i * .06)); g.style.transform = `translateY(${-rr * 1.2}em)`; g.style.filter = `blur(${(Math.sin(rr * Math.PI) * 7).toFixed(1)}px)`; });
     const nx = tt => L(460, 0, bo(P(tt, 1.3, 1.8))), ny = tt => L(-140, 0, bo(P(tt, 1.3, 1.8)));
     S(s.notif, { x: nx(t), y: ny(t), r: L(10, -3, eo(P(t, 1.3, 1.8))), o: C((t - 1.3) * 6), bx: vel(nx, t) * .25, by: vel(ny, t) * .2 });
     S(s.dot, { x: 250, y: 50, s: bo(P(t, 1.7, 1.95)), o: P(t, 1.7, 1.75) });
@@ -79,7 +81,7 @@ shot('pain', { hero: 1.6, len: 3.0, tin: 'zoom', bg: '#000',
   sfx: [[0.1, 'ticks10'], [0.45, 'pops4'], [1.2, 'stamp'], [2.1, 'down']],
   build(c, s) {
     const pn = B.pain;
-    s.inner = D(c, 'abs', { inset: 0, background: '#fff' });
+    s.inner = D(c, 'abs', { inset: 0, background: 'var(--bgLight)', color: 'var(--ink)' });
     D(s.inner, 'blob', { width: 900, height: 600, left: CX - 460, top: CY - 290 });
     const pos = lv([[260, 200], [1480, 180], [230, 780], [1520, 800], [840, 880], [1100, 130]], [[90, 330], [600, 250], [70, 1420], [560, 1520], [330, 1700], [640, 520]]);
     s.bub = pn.complaints.slice(0, 6).map((q, i) => D(s.inner, 'abs row', { left: pos[i][0], top: pos[i][1], gap: '10px' }, `${av(person(i), 58, i)}<span class="pill" style="font-size:19px;padding:9px 15px">${q}</span>`));
@@ -101,7 +103,7 @@ shot('pain', { hero: 1.6, len: 3.0, tin: 'zoom', bg: '#000',
   } });
 
 /* ===== turn: dark starfield, a light flare draws a ring that becomes the app icon, white flash out ===== */
-shot('turn', { hero: 2.1, len: 2.5, bg: '#000',
+shot('turn', { hero: 2.1, len: 2.5, bg: '#000', marker: 'turn',
   sfx: [[0.0, 'boom'], [0.45, 'shimmer'], [0.5, 'riser']],
   build(c, s) {
     s.sky = D(c, 'abs', { inset: 0, background: 'radial-gradient(ellipse at 50% 50%,var(--night1) 0%,var(--night2) 55%,#020611 100%)' });
@@ -140,7 +142,7 @@ shot('turn', { hero: 2.1, len: 2.5, bg: '#000',
   } });
 
 /* ===== brand: icon lands, slides left, wordmark types on, channel pills rise ===== */
-shot('brand', { hero: 1.9, len: 2.5, bg: '#fff', tout: 'up',
+shot('brand', { hero: 1.9, len: 2.5, bg: 'light', tout: 'up',
   sfx: [[0.0, 'hit'], [0.7, 'type6'], [1.4, 'pops3'], [2.3, 'whoosh']],
   build(c, s) {
     D(c, 'blob', { width: 1100, height: 520, left: CX - 550, top: lv(-330, CY - 700), opacity: .9 });
@@ -233,7 +235,7 @@ shot('circle', { hero: 3.0, len: 4.0, under: 0.75, tout: 'zoom', bg: 'transparen
   sfx: [[0.0, 'hit_s'], [0.02, 'whoosh'], [1.25, 'pops9'], [3.7, 'whoosh']],
   build(c, s) {
     const so = B.sort;
-    s.blue = D(c, 'abs', { inset: 0, background: 'radial-gradient(ellipse at 50% 30%,var(--acc2) 0%,var(--acc) 45%,var(--acc3) 100%)' });
+    s.blue = D(c, 'abs', { inset: 0, background: 'var(--bgAccent)', color: 'var(--onDark)' });
     s.pat = D(s.blue, 'abs', { left: -300, top: -40, width: W + 700, color: 'rgba(255,255,255,.07)', fontWeight: 600, fontSize: '64px', letterSpacing: '-.03em', lineHeight: 1.15, whiteSpace: 'nowrap' });
     let p = ''; for (let i = 0; i < lv(10, 18); i++) p += Array(10).fill(so.pattern[i % so.pattern.length]).join(' · ') + '<br>';
     s.pat.innerHTML = p;
@@ -405,7 +407,7 @@ shot('reel', { hero: 1.9, len: 2.5, tin: 'fade', tout: 'fade',
   } });
 
 /* ===== cta: icon pops, wordmark types, tagline + buttons + URL, light-equalizer glow ===== */
-shot('cta', { hero: 2.6, len: 4.0, bg: '#fff', tin: 'zoom',
+shot('cta', { hero: 2.6, len: 4.0, bg: 'light', marker: 'cta', tin: 'zoom',
   sfx: [[0.0, 'hit'], [0.4, 'type6'], [1.0, 'whoosh_s'], [1.4, 'pops2']],
   build(c, s) {
     const ct = B.cta;

@@ -53,3 +53,19 @@ This style was studied from two premium SaaS launch films, frame by frame at 4 f
 3. **Look:** a white or very light background, soft accent blobs, vertical light rays, deep soft shadows, glass and white cards, rounded geometric sans, one accent plus red for alerts.
 4. **Motion:** expo-out moves with a slight overshoot. Constant drift and stagger. Motion blur on anything fast, and depth of field on 3D.
 5. **Small details:** cursors, 3D hand pointers, avatar bubbles, red badges, chat pills, toggles, tooltips, count-ups.
+
+## Ref C: no-code AI-agent platform, 8.2 s, 16:9, 30 fps (became the **midnight** style)
+
+| Time | On screen |
+|---|---|
+| 0.0–1.1 | Their real dashboard ("Today's Activity" table) rises from below on a deep blue gradient and tilts upright; "The No-Code Platform" fades in above it |
+| 1.1 | Cut: a monitor on a desk, screen showing their "Conversation Performance" chart; blue-violet glow behind |
+| 1.4–3.4 | ✦ "Design", ✦ "Deploy", ✦ "Scale" pop in one by one around the monitor (blur-in, small sparkle icon) |
+| 3.6–4.4 | "Smart [monitor] Agents": the words slide out from behind the monitor |
+| 4.5–5.3 | Frame-in-frame: the whole scene shrinks into a rounded card inside a glowing lavender/blue glass frame |
+| 5.3–5.8 | The card squashes vertically into a thin line on a lavender background |
+| 5.8–6.3 | The line opens into an empty white glass card |
+| 6.3–8.2 | The card builds itself: "Create Agent" slides up from a mask, a "Knowledge base" upload area appears, a file card ("Business_Info.txt") is dragged in by a hand cursor at an angle, snaps in with a violet outline |
+
+**Pacing:** a beat every ~0.4 s (audio hits are evenly spaced at 0.42 s, about 143 BPM). Almost no hard cuts: everything is continuous transforms.
+**Palette:** deep navy → electric blue → violet for dark scenes, lavender/ice for light scenes, white glass cards, product UI always real.

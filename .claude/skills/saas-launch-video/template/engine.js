@@ -4,9 +4,11 @@
  * each one's on-screen duration and playback speed. Copy and colours come from brief.js.
  */
 'use strict';
-const TL = window.TIMELINE, B = window.BRIEF;
+const TL = window.TIMELINE, B = window.BRIEF, QS = new URLSearchParams(location.search);
+const STYLE = window.STYLES[QS.get('style') || TL.STYLE || B.style || 'airy'];
+if (!STYLE) throw new Error('unknown style ' + (QS.get('style') || TL.STYLE));
 /* FORMAT: '16:9' (1920x1080) or '9:16' (1080x1920). Set TIMELINE.FORMAT, or override per render with ?fmt=9:16 */
-const FMT = new URLSearchParams(location.search).get('fmt') || TL.FORMAT || '16:9';
+const FMT = QS.get('fmt') || TL.FORMAT || '16:9';
 const V = FMT === '9:16';                       // vertical
 const W = V ? 1080 : 1920, H = V ? 1920 : 1080, FPS = TL.FPS || 30;
 const CX = W / 2, CY = H / 2;
@@ -23,22 +25,43 @@ const bo = p => { const c1 = 1.5, c3 = c1 + 1; return p <= 0 ? 0 : 1 + c3 * Math
 const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 const vel = (f, t) => Math.abs(f(t + 1 / 60) - f(t - 1 / 60));             // px moved in one 30 fps frame → motion blur
 
-/* ---------- theme: derive the palette from one accent colour ---------- */
-function hexRgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
+/* ---------- theme: the brand's own tokens (brief.js → brand) ---------- */
+function hexRgb(h) { h = String(h).trim(); const m = h.match(/rgba?\(([^)]+)\)/); if (m) return m[1].split(/[ ,/]+/).slice(0, 3).map(Number);
+  h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
 const mix = (a, b, p) => a.map((v, i) => Math.round(v + (b[i] - v) * p));
 const rgbS = c => c.join(',');
-function applyTheme(br) {
-  const a = hexRgb(br.accent), wt = [255, 255, 255], bk = [0, 0, 0], r = document.documentElement.style;
-  const acc2 = br.accentLight ? hexRgb(br.accentLight) : mix(a, wt, .28), acc3 = br.accentDark ? hexRgb(br.accentDark) : mix(a, bk, .22);
-  r.setProperty('--acc', `rgb(${rgbS(a)})`); r.setProperty('--accRGB', rgbS(a));
-  r.setProperty('--acc2', `rgb(${rgbS(acc2)})`); r.setProperty('--acc2RGB', rgbS(acc2));
-  r.setProperty('--acc3', `rgb(${rgbS(acc3)})`);
-  r.setProperty('--acc4', `rgb(${rgbS(mix(a, wt, .75))})`);
-  r.setProperty('--tint', `rgb(${rgbS(mix(a, wt, .91))})`);
-  r.setProperty('--blobRGB', rgbS(mix(a, wt, .55)));
-  r.setProperty('--night1', `rgb(${rgbS(mix(a, bk, .62))})`); r.setProperty('--night2', `rgb(${rgbS(mix(a, bk, .86))})`);
-  if (br.ink) r.setProperty('--ink', br.ink);
-  if (br.font) r.setProperty('--font', br.font);
+const BR = B.brand || {}, COL = BR.colors || {};
+function applyTheme() {
+  const wt = [255, 255, 255], bk = [0, 0, 0], r = document.documentElement.style, set = (k, v) => r.setProperty(k, v);
+  const a = hexRgb(COL.accent || BR.accent || '#2F6BFF');
+  const acc2 = COL.accent2 ? hexRgb(COL.accent2) : BR.accentLight ? hexRgb(BR.accentLight) : mix(a, wt, .28);
+  const acc3 = COL.accent3 ? hexRgb(COL.accent3) : BR.accentDark ? hexRgb(BR.accentDark) : mix(a, bk, .22);
+  const dark = COL.dark ? hexRgb(COL.dark) : mix(a, bk, .82);
+  set('--acc', `rgb(${rgbS(a)})`); set('--accRGB', rgbS(a));
+  set('--acc2', `rgb(${rgbS(acc2)})`); set('--acc2RGB', rgbS(acc2)); set('--acc3', `rgb(${rgbS(acc3)})`);
+  set('--acc4', `rgb(${rgbS(mix(a, wt, .75))})`); set('--tint', COL.tint || `rgb(${rgbS(mix(a, wt, .91))})`);
+  set('--blobRGB', rgbS(mix(a, wt, .55)));
+  set('--hi', COL.highlight || `rgb(${rgbS(a)})`);                         // second pop colour (numbers, badges)
+  set('--night1', `rgb(${rgbS(COL.dark ? mix(dark, wt, .06) : mix(a, bk, .62))})`); set('--night2', `rgb(${rgbS(COL.dark ? dark : mix(a, bk, .86))})`);
+  set('--dark', `rgb(${rgbS(dark)})`);
+  const g = COL.gradient || [`rgb(${rgbS(acc2)})`, `rgb(${rgbS(acc3)})`]; set('--gradA', g[0]); set('--gradB', g[1] || g[0]);
+  set('--bg', COL.bg || '#ffffff'); set('--bg2', COL.bg2 || (COL.bg ? COL.bg : '#F5F7FC'));
+  set('--surface', COL.surface || '#ffffff'); set('--ink', COL.ink || '#0B0D12'); set('--onDark', COL.onDark || '#ffffff');
+  set('--mut', COL.muted || '#8A90A0'); set('--line', COL.line || '#E3E8F3');
+  set('--radius', (BR.radius != null ? BR.radius : 22) + 'px');
+  // fonts: the brand's own files
+  const css = (BR.fonts || []).map(f => `@font-face{font-family:"${f.family}";src:url("${f.src}");font-weight:${f.weight || '100 900'};font-style:${f.style || 'normal'};font-display:block}`).join('');
+  if (css) { const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st); }
+  set('--font', `"${BR.display || BR.font || 'Inter'}",Inter,sans-serif`); set('--font-body', `"${BR.body || BR.display || BR.font || 'Inter'}",Inter,sans-serif`);
+  set('--head-weight', BR.headWeight || STYLE.head.weight); set('--head-track', BR.headTracking || STYLE.head.track);
+  // buttons as the site styles them
+  const bt = BR.buttons || {}, b1 = bt.primary || {}, b2 = bt.secondary || {};
+  set('--b1-bg', b1.bg || 'var(--acc)'); set('--b1-color', b1.color || '#fff'); set('--b1-border', b1.border || 'none'); set('--b1-radius', (b1.radius != null ? b1.radius : 999) + 'px');
+  set('--b2-bg', b2.bg || 'transparent'); set('--b2-color', b2.color || 'inherit'); set('--b2-border', b2.border || '2px solid currentColor'); set('--b2-radius', (b2.radius != null ? b2.radius : (b1.radius != null ? b1.radius : 999)) + 'px');
+  set('--bt-weight', bt.weight || 600);
+  // the style's scene backgrounds
+  set('--bgLight', STYLE.bg.light); set('--bgDark', STYLE.bg.dark); set('--bgAccent', STYLE.bg.accent);
+  document.body.classList.add('st-' + Object.keys(window.STYLES).find(k => window.STYLES[k] === STYLE), 'card-' + STYLE.card, 'tex-' + STYLE.texture);
 }
 
 /* ---------- DOM ---------- */
@@ -75,9 +98,7 @@ const av = (n, s, i) => /\.(png|jpe?g|webp|svg)$/i.test(n)
   : `<div class="av" style="width:${s}px;height:${s}px;font-size:${s * .36}px;background:linear-gradient(135deg,${AVC[i % 6][0]},${AVC[i % 6][1]})">${n}</div>`;
 const person = i => (B.people || ['MK', 'JL', 'AS', 'TR', 'BN', 'EO'])[i % (B.people || [1, 2, 3, 4, 5, 6]).length];
 /* app icon: brief logo image, or a generated glossy ring icon */
-const iconHTML = s => B.brand.logo
-  ? `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;background:#fff;overflow:hidden"><img src="${B.brand.logo}" style="width:100%;height:100%;object-fit:contain"></div>`
-  : `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;--s:${s}px"><i></i></div>`;
+const iconHTML = s => markHTML(s);
 /* 3D-looking hand pointer (fingertip at 35,8 inside the 110x130 box) */
 const handHTML = () => `<svg width="110" height="130" viewBox="0 0 22 26"><defs><linearGradient id="hg${fid++}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc2)"/><stop offset="1" style="stop-color:var(--acc3)"/></linearGradient></defs><path d="M7 1.5c1 0 1.8.8 1.8 1.8v7.2l.6-.1c.9-.1 1.7.4 2 1.2.6-.3 1.4-.3 2 .1.5-.3 1.3-.3 1.9.1.9.6 1.5 1.6 1.5 2.7V19c0 3.3-2.7 6-6 6H9.6c-1.7 0-3.3-.8-4.3-2.1L1.6 18c-.6-.8-.5-1.9.3-2.5.8-.6 1.9-.5 2.5.3l.8 1V3.3C5.2 2.3 6 1.5 7 1.5z" fill="url(#hg${fid - 1})" stroke="#fff" stroke-width="1"/></svg>`;
 function mkHand(c) { const h = D(c, 'abs', { left: 0, top: 0, width: 110, height: 130, filter: 'drop-shadow(0 18px 18px rgba(20,40,110,.45))' }, handHTML()); h.style.transformOrigin = '35px 8px'; return h; }
@@ -88,6 +109,59 @@ function moveHand(h, t, tx, ty, t0, t1, dx = 420, dy = 520) {
 }
 /* centre of an element in stage coordinates */
 function centerOf(e) { const r = e.getBoundingClientRect(), sr = stage.getBoundingClientRect(); return { x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height / 2 }; }
+/* the brand logo: onDark picks brand.logoOnDark, or inverts the normal logo to white */
+const logoHTML = (h, onDark = false, extra = '') => {
+  if (!BR.logo) return `<span class="head" style="font-size:${h}px">${B.product}</span>`;
+  const src = onDark && BR.logoOnDark ? BR.logoOnDark : BR.logo, inv = onDark && !BR.logoOnDark && BR.invertOnDark !== false;
+  return `<img src="${src}" style="height:${h}px;width:auto;display:block;${inv ? 'filter:brightness(0) invert(1);' : ''}${extra}">`;
+};
+/* the brand mark (square icon): brand.icon, else the generated ring icon */
+const markHTML = s => BR.icon
+  ? `<div style="width:${s}px;height:${s}px;border-radius:${s * .24}px;overflow:hidden;box-shadow:0 24px 50px -12px rgba(var(--accRGB),.55)"><img src="${BR.icon}" style="width:100%;height:100%;object-fit:cover"></div>`
+  : `<div class="icon" style="width:${s}px;height:${s}px;border-radius:${s * .25}px;--s:${s}px"><i></i></div>`;
+/* buttons in the site's own style (brand.buttons) */
+const btnHTML = (label, kind = 1, size = 1) => `<span class="btn b${kind}" style="font-size:${24 * size}px;padding:${18 * size}px ${34 * size}px">${label}</span>`;
+/* a product screen inside a device. kind: monitor | laptop | browser | phone | none. Returns { el, screen }.
+   src: an image (real UI); without one a neutral UI skeleton is drawn so the shot still works. */
+function device(parent, kind, o) {
+  kind = kind || STYLE.device; const w = o.w, img = o.src ? `<img src="${o.src}" style="width:100%;height:100%;object-fit:cover;object-position:${o.pos || 'top left'};display:block">` : skeletonHTML();
+  const el = D(parent, 'abs dev dev-' + kind, { left: o.x, top: o.y, width: w });
+  let scr;
+  if (kind === 'monitor') {
+    const h = o.h || w * .6;
+    const bez = D(el, '', { width: w, height: h, borderRadius: '24px', background: '#0b0f18', padding: '16px', boxShadow: '0 0 0 2px rgba(255,255,255,.08),0 50px 120px -20px rgba(0,0,0,.6),0 0 140px rgba(var(--acc2RGB),.35)' });
+    scr = D(bez, '', { width: '100%', height: '100%', borderRadius: '10px', overflow: 'hidden', background: '#fff' }, img);
+    D(el, '', { width: w * .14, height: w * .13, margin: '0 auto', background: 'linear-gradient(#2a3550,#141a26)' });
+    D(el, '', { width: w * .34, height: 14, margin: '0 auto', borderRadius: '8px', background: '#1b2232' });
+  } else if (kind === 'laptop') {
+    const h = o.h || w * .62;
+    const bez = D(el, '', { width: w, height: h, borderRadius: '26px', background: '#1a1c22', padding: '16px', boxShadow: '0 60px 120px -30px rgba(20,40,110,.5)' });
+    scr = D(bez, '', { width: '100%', height: '100%', borderRadius: '10px', overflow: 'hidden', background: '#fff' }, img);
+    D(el, '', { width: w * 1.12, marginLeft: -w * .06, height: 26, borderRadius: '0 0 24px 24px', background: 'linear-gradient(180deg,#d9dde6,#aeb4c2)' });
+  } else if (kind === 'browser') {
+    const h = o.h || w * .62;
+    const win = D(el, 'card', { width: w, height: h, overflow: 'hidden', padding: 0, borderRadius: 'var(--radius)', boxShadow: '0 50px 110px -30px rgba(10,20,50,.45),0 0 0 1px rgba(0,0,0,.06)' });
+    D(win, 'row', { height: 44, padding: '0 18px', gap: '8px', background: '#f3f4f6', borderBottom: '1px solid rgba(0,0,0,.06)' }, '<i style="width:12px;height:12px;border-radius:50%;background:#ff5f57"></i><i style="width:12px;height:12px;border-radius:50%;background:#febc2e"></i><i style="width:12px;height:12px;border-radius:50%;background:#28c840"></i>');
+    scr = D(win, '', { width: '100%', height: h - 44, overflow: 'hidden' }, img);
+  } else if (kind === 'phone') {
+    const h = o.h || w * 2.05;
+    const bez = D(el, '', { width: w, height: h, borderRadius: w * .14 + 'px', background: '#111', padding: w * .035 + 'px', boxShadow: '0 50px 110px -30px rgba(0,0,0,.6)' });
+    scr = D(bez, '', { width: '100%', height: '100%', borderRadius: w * .11 + 'px', overflow: 'hidden', background: '#fff' }, img);
+  } else {
+    const h = o.h || null;
+    scr = D(el, '', { width: w, height: h, borderRadius: 'var(--radius)', overflow: 'hidden', boxShadow: '0 50px 110px -30px rgba(10,20,50,.45),0 0 0 1px rgba(0,0,0,.06)' }, o.src ? `<img src="${o.src}" style="width:100%;display:block">` : skeletonHTML(w * .6));
+  }
+  return { el, screen: scr };
+}
+/* neutral UI skeleton (used only when no real screenshot is given) */
+function skeletonHTML(h) {
+  return `<div style="display:flex;height:${h ? h + 'px' : '100%'};background:#fff"><div style="width:22%;background:#f4f6fa;padding:18px">${[70, 50, 60, 40].map(v => `<div class="ln" style="width:${v}%;margin:12px 0"></div>`).join('')}</div>
+    <div style="flex:1;padding:24px">${[0, 1, 2, 3, 4].map(i => `<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px"><div style="width:34px;height:34px;border-radius:50%;background:var(--tint)"></div><div class="ln" style="flex:1;max-width:${60 - i * 6}%"></div><div class="ln" style="width:70px;background:var(--tint)"></div></div>`).join('')}</div></div>`;
+}
+/* parse "$100,000,000+" → {pre:'$', n:100000000, post:'+', dec:0} for count-ups */
+function parseStat(s) { const m = String(s).match(/^([^\d]*)([\d.,]+)(.*)$/); if (!m) return { pre: '', n: 0, post: s, dec: 0, sep: true };
+  const raw = m[2]; const dec = (raw.split('.')[1] || '').replace(/,/g, '').length; return { pre: m[1], n: parseFloat(raw.replace(/,/g, '')), post: m[3], dec, sep: raw.includes(',') || parseFloat(raw.replace(/,/g, '')) >= 10000 }; }
+const fmtStat = (st, k) => st.pre + (st.dec ? (st.n * k).toFixed(st.dec) : Math.round(st.n * k).toLocaleString('en-US', { useGrouping: st.sep })) + st.post;
 const glyphHTML = (g, col, s = 26) => `<span class="glyph" style="width:${s}px;height:${s}px;border-radius:${s * .27}px;font-size:${s * .54}px;background:${col}">${g}</span>`;
 
 /* typed text. segs: [{t, cls}] → {el, chars, cur}; typeP(T, p, t) reveals p∈[0,1] with blur-in per char + blinking cursor */
@@ -128,8 +202,10 @@ function buildTimeline() {
     const [id, dur, k = 1, over = {}] = row, def = SHOTS[id];
     if (!def) throw new Error('unknown shot ' + id);
     const sc = Object.assign({ id, i, a, b: a + dur, dur, k, vd: dur * k }, def, over);
-    sc.root = D(stage, 'scene', { background: sc.bg || 'linear-gradient(180deg,#fff 0%,#F5F7FC 100%)', zIndex: i + 1 });
+    const kind = ['light', 'dark', 'accent'].includes(sc.bg || 'light') ? (sc.bg || 'light') : 'custom';
+    sc.root = D(stage, 'scene k-' + kind, { background: kind === 'custom' ? sc.bg : STYLE.bg[kind], zIndex: i + 1 });
     sc.cam = D(sc.root, 'cam'); sc.st = {};
+    if (STYLE.texture === 'grain') D(sc.root, 'grain');
     sc.build(sc.cam, sc.st, sc);
     scenes.push(sc); a += dur;
   });
@@ -164,6 +240,7 @@ window.renderAt = function (t) {
     if (lt >= 0 && lt < sc.dur) {
       if (sc.under && i > 0 && lt < sc.under) { const pv = scenes[i - 1]; show(pv, pv.dur - 0.001); }
       show(sc, lt);
+      if (i > 0 && scenes[i - 1].flashOut && lt < .4) flash(Math.max(parseFloat(document.getElementById('flash').style.opacity) || 0, 1 - eo(lt / .4)));
     }
   });
 };
@@ -179,8 +256,7 @@ window.exportCues = function () {
     sfx.push([+at.toFixed(3), kind, sc.k]);
   }
   sfx.sort((x, y) => x[0] - y[0]);
-  const find = id => { const s = scenes.find(s => s.id === id); return s ? s : null; };
-  const turn = find('turn'), cta = find('cta');
+  const turn = scenes.find(s => s.marker === 'turn'), cta = scenes.find(s => s.marker === 'cta');
   return { FPS, BPM: TL.BPM || 128, DUR: window.DUR, W, H, FMT, sfx,
     markers: { turn: turn ? turn.a : null, drop: turn ? turn.b : 0, cta: cta ? cta.a : window.DUR },
     scenes: scenes.map(s => ({ id: s.id, a: s.a, b: s.b, k: s.k, hero: s.hero })) };
@@ -188,7 +264,7 @@ window.exportCues = function () {
 function boot() {
   stage.style.width = W + 'px'; stage.style.height = H + 'px';
   document.documentElement.style.setProperty('--camOrigin', `${CX}px ${CY}px`);
-  applyTheme(B.brand);
+  applyTheme();
   buildTimeline();
   document.fonts.ready.then(() => Promise.all([...document.images].map(im => im.complete ? 0 : new Promise(r => { im.onload = im.onerror = r; })))).then(() => {
     for (const sc of scenes) if (sc.measure) { sc.root.style.display = 'block'; sc.measure(sc.st, sc); sc.root.style.display = 'none'; }

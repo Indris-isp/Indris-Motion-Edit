@@ -21,6 +21,8 @@ Shorter cuts (15–20 s, e.g. for social): hook → pain → turn → brand → 
 
 ## Copy rules
 
+- **Their words first.** Pull the H1, section labels, stats and button labels from `brand/captured.md` and use them verbatim where they fit a beat. Write the problem beats in the same voice (their tone, their audience's words). A stat is only usable with the meaning its context sentence gives it.
+
 - **Hook:** a time, a notification, a calendar, a counter. Concrete beats clever: "9:14 am" plus "any update on the v2 feedback??" beats "Feedback is hard."
 - **Chaos headline:** name the problem in 2 + 1–2 words, with the payoff word in accent: "Feedback is / **everywhere.**", "Who's actually / **in today?**"
 - **Pain number:** a count that sounds painful at a glance ("127 unread", "46 replies", "9 tools") plus a red delta pill ("+38 today").

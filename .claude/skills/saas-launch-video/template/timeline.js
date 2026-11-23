@@ -13,6 +13,7 @@
  */
 window.TIMELINE = {
   FPS: 30, BPM: 128,
+  STYLE: 'airy',           // airy | editorial | midnight | cinematic (styles.js)
   FORMAT: '16:9',          // or '9:16'. Override per render with FORMAT=9:16 ./build.sh (or FORMAT=both)
   // shotsVertical: [...],  // optional: a different (shorter) shot list for 9:16 only
   shots: [

@@ -21,6 +21,26 @@ All 16 shots are listed below. Each shot is a self-contained block: it reads its
 | `dive` | Transition into a world | `dive.l1/l2`, `channels` (or `dive.screenshot`) | 3.2 | in: fade, out: whip | A laptop rises and the camera flies into its screen until the screen is exactly the frame (no cut). Cards spread out and the headline lands on a glass card over a thin grid. |
 | `cta` | CTA | `product`, `cta.*`, `url` | 4.0 | in: zoom | Icon pops with rotation, the wordmark types on, the tagline focus-pulls, buttons stagger up, the URL fades in, and the equalizer glow pulses |
 
+## Brand shots (`template/shots_brand.js`): the default for client films
+
+These are built around the client's real material, and they adapt to the style: device, card, background kind.
+
+| id | Beat | Brief fields | len | Transitions | What moves |
+|---|---|---|---|---|---|
+| `turnInk` | Turn (editorial / cinematic) | `launch.pill`, logo | 2.4 | ends on a hit | Hard cut to their dark; logo focus-pulls in (inverted or `logoOnDark`); a highlight light line sweeps; the launch pill pops |
+| `turnGlow` | Turn (midnight) | `icon`, logo | 2.4 | white flash out | Brand mark glows in on the dark gradient, a light streak crosses, the logo blurs in under it, flash to light |
+| `logoReveal` | Reveal | logo, `hero.eyebrow` | 2.4 | out: up | Their logo wipes in (mask + blur), eyebrow pill rises |
+| `uiHero` | Hero | `hero.l1/l2/eyebrow/screen/layers` | 4.0 | — | Their H1 types on (auto-fits long lines), their real screen rises in the style's device and tilts up, layers lift off it one by one |
+| `uiFeature` | Feature | `features[i]` (`label`, `l1`, `l2`, `image`, `click`) | 3.6 | whip / whip | Uppercase label + headline beside their feature image sliding in with motion blur; optional hand click. `{feature: i, flip: true}` |
+| `monitorWords` | Ref C | `words.screen/items` | 3.0 | zoom / zoom | Monitor with their screen rises; ✦ keywords pop in around it |
+| `splitWords` | Ref C | `split.left/right/screen` | 2.6 | out: zoom | "Word [screen] word.": words slide out from behind the device (stacked in 9:16) |
+| `frameCard` | Ref C transition | `words.screen`, `build.title` | 2.6 | — | Dark scene shrinks into a glass frame, squashes to a line, the line opens into a glass card with the title |
+| `uiBuild` | Ref C | `build.title/label/base/drag` | 3.6 | out: up | The card fills with their UI; a hand drags a second real piece in, it snaps with an outline, ✓ |
+| `statBig` | Proof | `stat.value/valueShort/caption/bold` | 3.0 | zoom / fade | Their real number counts up (keeps $, +, %, commas); highlight underline draws; caption focus-pulls |
+| `ctaBrand` | CTA | logo, `cta.tagline/primary/secondary`, `url` | 4.0 | in: zoom | Logo, tagline, **their buttons** (`brand.buttons`), URL; per-style glow (airy equalizer, midnight gradient, editorial none) |
+
+Helpers for new brand shots: `device(parent, kind, {x, y, w, h, src})` returns `{el, screen}`; `screenOverlay(dev)` + `mkLayers()` + `liftLayers()`; `logoHTML(h, onDark)`; `markHTML(s)`; `btnHTML(label, 1|2, size)`; `parseStat`/`fmtStat`; `skeletonHTML()` (template only).
+
 ## Using screenshots instead of the mock UI
 
 - Put a 16:10 screenshot in `assets/` and set `BRIEF.inbox.screenshot = 'assets/app.png'`.
@@ -57,6 +77,7 @@ Rules:
 - Lay out for both formats: use `CX`, `CY`, `W`, `H` and `lv(landscape, vertical)` instead of fixed numbers, and check both boards.
 - `update` must be a pure function of `t`, because frames render out of order on 4 workers.
 - Position with `left`/`top`, plus `ctr` for centring. Animate only through `S()` or `transform`/`opacity`/`filter`.
+- Use brand variables (`--ink`, `--onDark`, `--bgLight`, `--bgDark`, `--bgAccent`, `--hi`, `--radius`, `var(--font)`) and `bg: 'light'|'dark'|'accent'`, never fixed colours, so shots follow every brand and style.
 - Shared helpers: `mkHand(c)` + `moveHand(h, t, x, y, t0, t1)` for a hand that travels and presses, `centerOf(el)` for a target's stage position (call it in `measure()`), and `iconHTML`/`glyphHTML`/`av` for the icon, glyphs and avatars.
 - Pass numbers in `D()` styles only for px properties. `fontWeight`/`lineHeight`/`opacity`/`zIndex`/`flex` stay unitless (the helper handles them). Write font sizes as strings like `'104px'`.
 - Use CSS variables (`var(--acc)`, `rgba(var(--accRGB),.5)`) instead of hex, so the theme follows the brief. In SVG, put colours in `style="stroke:var(--acc)"`, not in attributes.

@@ -3,7 +3,7 @@
 //   node render.cjs --still 1,5.5  → out/still_1.00.png ...
 //   node render.cjs --board        → out/board.png (one annotated still per shot, for approval)
 //   node render.cjs --cues         → out/cues.json only (needed by audio.py)
-//   add --format 9:16 to any of these for the vertical (1080x1920) version
+//   add --format 9:16 to any of these for the vertical (1080x1920) version, --style <name> to preview another style
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -14,7 +14,8 @@ const get = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] :
 const WORKERS = +get('--workers', 4);
 const outDir = path.join(__dirname, 'out'), framesDir = path.join(outDir, 'frames');
 const FORMAT = get('--format', '');
-const url = 'file://' + path.join(__dirname, 'index.html') + '?render=1' + (FORMAT ? '&fmt=' + encodeURIComponent(FORMAT) : '');
+const STYLE_ARG = get('--style', '');
+const url = 'file://' + path.join(__dirname, 'index.html') + '?render=1' + (FORMAT ? '&fmt=' + encodeURIComponent(FORMAT) : '') + (STYLE_ARG ? '&style=' + encodeURIComponent(STYLE_ARG) : '');
 
 async function openPage(browser, W, H) {
   const page = await browser.newPage({ viewport: { width: W || 1920, height: H || 1080 }, deviceScaleFactor: 1 });

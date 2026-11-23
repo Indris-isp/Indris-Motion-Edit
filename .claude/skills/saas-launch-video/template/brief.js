@@ -1,15 +1,52 @@
-/* BRIEF: every word, number and colour in the film. Edit this file first.
- * The values below are the "Loopin" demo (a fictional product). Replace them all.
- * Keep headlines to 2-4 words per line; line 2 is the accent-coloured payoff.
+/* BRIEF: every word, number, colour, font and screenshot in the film.
+ * For a real client this file is generated from their website by scripts/make_brief.py
+ * (after scripts/capture_brand.cjs), then edited: the brand block holds THEIR tokens, the
+ * copy keeps THEIR real lines, and the screens are THEIR real UI cut into layers.
+ * The values below are the "Loopin" demo (a fictional product) so the template renders as-is.
+ * Headlines: 2-4 words per line; line 2 is the accent-coloured payoff.
  */
 window.BRIEF = {
   product: 'Loopin',
   url: 'loopin.app',
   brand: {
-    accent: '#2F6BFF',            // the one brand colour; the rest of the palette derives from it
-    // accentLight: '#5B8CFF', accentDark: '#1F4FD6', ink: '#0B0D12', font: 'Inter',
-    logo: null,                   // e.g. 'assets/logo.svg' (square works best); null = generated ring icon
+    colors: {                      // the brand's own colours, by role (from brand/brand.json)
+      accent: '#2F6BFF',           // primary brand colour: line-2 headlines, links, rings
+      // accent2: '#5B8CFF', accent3: '#1F4FD6',   // lighter / darker partners (derived if omitted)
+      // highlight: '#FF6600',     // second pop colour: stats underline, badges, launch pill
+      // gradient: ['#1769ff', '#17aeff'],          // the site's signature gradient, if it has one
+      // bg: '#ffffff', bg2: '#F5F7FC', surface: '#ffffff', ink: '#0B0D12', muted: '#8A90A0',
+      // dark: '#15171a', onDark: '#ffffff', line: '#E3E8F3', tint: '#EEF3FF',
+    },
+    // fonts: [{ family: 'Figtree', src: 'brand/fonts/Figtree-700.woff2', weight: 700 }],   // their webfonts
+    // display: 'Figtree', body: 'Figtree', headWeight: 800, headTracking: '-.03em',
+    // radius: 17,                                   // their card radius (px)
+    // buttons: { primary: { bg: 'linear-gradient(111deg,#1769ff,#17aeff)', color: '#fff', radius: 8 },
+    //            secondary: { bg: 'transparent', color: 'inherit', border: '2px solid currentColor', radius: 8 }, weight: 600 },
+    logo: null,                    // 'brand/logo.svg' (wordmark). null = product name in the display font
+    // logoOnDark: 'brand/logo-white.svg',          // else the logo is inverted to white on dark scenes
+    icon: null,                    // square brand mark ('brand/icon.png'); null = generated ring icon
   },
+  /* the launch line shown at the turn (turnInk) */
+  launch: { pill: 'Just launched: Loopin 2.0 →' },
+  /* HERO — their H1 + their main product screen, with pieces that lift off it (scripts/layers.py) */
+  hero: {
+    eyebrow: 'Client feedback, sorted',
+    l1: 'Every comment,', l2: 'one inbox.',
+    screen: null,                  // 'brand/ui/dashboard.png' — the real product screenshot
+    layers: [],                    // [{ src: 'brand/layers/toast.png', at: [0.80, 0.04, 0.17], scale: 1.25 }]  (x, y, width as fractions of the screen)
+  },
+  /* FEATURES — one per uiFeature shot ({ feature: i } in timeline.js) */
+  features: [
+    { label: 'Inbox', l1: 'Every comment,', l2: 'one inbox.', image: null, click: [0.8, 0.3] },
+    { label: 'Automation', l1: 'Sorted by AI.', l2: 'Instantly.', image: null },
+  ],
+  /* Ref C shots */
+  words: { screen: null, items: ['Collect', 'Sort', 'Resolve'] },          // monitorWords
+  split: { left: 'Ship', right: 'faster.', screen: null },                 // splitWords
+  build: { title: 'New review', label: 'TODAY · HOMEPAGE V2', base: null, drag: null },  // frameCard → uiBuild
+  /* PROOF — a real number from their site (never invent one) */
+  stat: { value: '12,480+', valueShort: '12k+', caption: 'comments resolved by teams on Loopin', bold: 'this month.' },
+
   people: ['MK', 'JL', 'AS', 'TR', 'BN', 'EO'],   // initials, or image paths like 'assets/p1.jpg'
   channels: [['#', '#7C5CFF', 'Chat'], ['@', '#FF6A3D', 'Email'], ['✓', '#19B36B', 'Docs']], // [glyph, colour, label]
 
@@ -73,5 +110,5 @@ window.BRIEF = {
   /* EASE — slot-reel number */
   setup: { from: 10, to: 2, l1: 'minutes', l2: 'to set up' },
   /* CTA */
-  cta: { tagline: ['Close the loop ', 'on every client.'], primary: 'Start free →', secondary: 'Book a demo' },
+  cta: { tagline: ['Close the loop ', 'on every client.'], primary: 'Start free →', secondary: 'Book a demo' },   // their real button labels
 };
