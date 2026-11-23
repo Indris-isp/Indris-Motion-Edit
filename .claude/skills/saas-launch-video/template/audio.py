@@ -6,7 +6,7 @@ Reads out/cues.json (written by `node render.cjs` or `node render.cjs --cues`) a
   out/sfx.wav    every shot's sound cues (whooshes on cuts, pops, typing, clicks, risers, hits)
   out/audio.wav  music + sfx (build.sh swaps in assets/music.* instead of the synth bed if present)
 
-SFX kinds: whoosh whoosh_s pop popsN tick ticksN typeN click stamp down boom shimmer riser
+SFX kinds: shutter click_s whoosh whoosh_s pop popsN tick ticksN typeN click stamp down boom shimmer riser
            hit hit_s swoop swell reel(N)   (N = count; spacing scales with the shot's speed)
 """
 import json, os, wave
@@ -68,43 +68,63 @@ def bass_note(n, d):
 
 # ---------------- music ----------------
 drums, bass, pads, plk = (np.zeros(N) for _ in range(4)); kicks = []
-A_CH = [[57, 60, 64], [53, 57, 60]]                                    # Am  F   (problem: tense)
-C_CH = [[53, 57, 60, 64], [55, 59, 62, 67], [57, 60, 64, 67], [48, 55, 60, 64]]  # Fmaj7 G Am7 C (solution: lift)
-C_RT = [41, 43, 45, 36]
-if T_TURN is not None:                                                  # A: intro until the turn
-    for b in range(int(np.ceil(T_TURN / BAR))):
-        add(pads, filt(sum(pad_note(n, BAR + .2) for n in A_CH[b % 2]), None, 900), b * BAR, .9)
-        add(bass, bass_note(33 if b % 2 == 0 else 29, BAR - .1), b * BAR, .8)
-    for k in range(int(T_TURN / BEAT) + 1):
-        tt = k * BEAT
-        if k % 2 == 0: add(drums, kick(.8), tt, .75); kicks.append(tt)
-        add(drums, hat(), tt + BEAT / 2, .10); add(drums, hat(), tt, .05)
-    add(pads, filt(sum(pad_note(n, T_DROP - T_TURN + .2) for n in [69, 72, 76]), 300, 3000), T_TURN - .05, .45)  # B: break
-b = 0                                                                    # C: groove from the reveal to the CTA
-while T_DROP + b * BAR < T_CTA - .05:
-    t0 = T_DROP + b * BAR; ch = C_CH[b % 4]
-    add(pads, filt(sum(pad_note(n, min(BAR, T_CTA - t0) + .15) for n in ch), None, 2600), t0, .8)
-    for e in range(8):
-        te = t0 + e * BEAT / 2
-        if te >= T_CTA - .05: break
-        add(bass, bass_note(C_RT[b % 4] + (12 if e % 4 == 3 else 0), BEAT / 2 * .9), te, .9)
-        add(plk, pluck(ch[(e * 3) % len(ch)] + 12 + (12 if e in (3, 6) else 0)), te, .55)
-    for q in range(4):
-        tt = t0 + q * BEAT
-        if tt >= T_CTA - .05: break
-        add(drums, kick(), tt, 1.0); kicks.append(tt)
-        if q % 2 == 1: add(drums, clap(), tt, .45)
-        for s in range(4): add(drums, hat(open_=(s == 2)), tt + s * BEAT / 4, .16 if s == 2 else .07)
-    b += 1
-add(pads, filt(sum(pad_note(n, DUR - T_CTA + .5) for n in [48, 55, 60, 64, 71]), None, 2400), T_CTA, .9)  # D: outro
-add(bass, bass_note(36, DUR - T_CTA + .3), T_CTA, .9)
-for e, n in enumerate([76, 72, 79, 76, 84, 79]): add(plk, pluck(n), T_CTA + e * BEAT / 2, .45 * (1 - e / 8))
-kicks.append(T_CTA)
+CALM = CU.get('MUSIC') == 'calm'   # story films: soft pad + felt-piano bed, no drums (TIMELINE.MUSIC = 'calm')
+def felt(n, v=1.0):                # soft piano-ish note: a few decaying partials, slow attack, lowpassed
+    d = 2.6; t = t_(d); f = midi(n)
+    x = sum(a * np.sin(2 * np.pi * f * k * t) * np.exp(-t / (1.1 / k)) for k, a in ((1, 1), (2, .35), (3, .12), (4, .05)))
+    return filt(x * np.minimum(1, t / .012), None, 2200) * v
+if CALM:
+    PROG = [[53, 57, 60, 64], [52, 55, 59, 64], [50, 53, 57, 60, 64], [46, 50, 53, 57]]   # Fmaj7  Cmaj7/E  Dm9  Bbmaj7
+    ROOT = [41, 40, 38, 34]; seg = 2 * BAR; nseg = int(np.ceil(DUR / seg)); end = DUR - 4.0
+    for b in range(nseg):
+        t0 = b * seg; ch = PROG[b % 4] if t0 < end else [53, 57, 60, 64, 69]
+        add(pads, filt(sum(pad_note(n, seg + .6) for n in ch), None, 1500), t0, .7)
+        add(bass, bass_note(ROOT[b % 4] if t0 < end else 41, seg - .05), t0, .35)
+        for e, n in enumerate([ch[0] + 12, ch[2] + 12, ch[1] + 24, ch[3] + 12, ch[2] + 24, ch[1] + 12]):   # sparse arpeggio
+            te = t0 + e * (seg / 6) + (rng.random() - .5) * .03
+            if te < DUR - 1.2: add(plk, felt(n, .55 + .25 * rng.random()), te, 1)
+    music = bass * .22 + pads * .30 + plk * .20
+    tonal_wet = pads * .30 + plk * .26
+
+if not CALM:
+    A_CH = [[57, 60, 64], [53, 57, 60]]                                    # Am  F   (problem: tense)
+    C_CH = [[53, 57, 60, 64], [55, 59, 62, 67], [57, 60, 64, 67], [48, 55, 60, 64]]  # Fmaj7 G Am7 C (solution: lift)
+    C_RT = [41, 43, 45, 36]
+    if T_TURN is not None:                                                  # A: intro until the turn
+        for b in range(int(np.ceil(T_TURN / BAR))):
+            add(pads, filt(sum(pad_note(n, BAR + .2) for n in A_CH[b % 2]), None, 900), b * BAR, .9)
+            add(bass, bass_note(33 if b % 2 == 0 else 29, BAR - .1), b * BAR, .8)
+        for k in range(int(T_TURN / BEAT) + 1):
+            tt = k * BEAT
+            if k % 2 == 0: add(drums, kick(.8), tt, .75); kicks.append(tt)
+            add(drums, hat(), tt + BEAT / 2, .10); add(drums, hat(), tt, .05)
+        add(pads, filt(sum(pad_note(n, T_DROP - T_TURN + .2) for n in [69, 72, 76]), 300, 3000), T_TURN - .05, .45)  # B: break
+    b = 0                                                                    # C: groove from the reveal to the CTA
+    while T_DROP + b * BAR < T_CTA - .05:
+        t0 = T_DROP + b * BAR; ch = C_CH[b % 4]
+        add(pads, filt(sum(pad_note(n, min(BAR, T_CTA - t0) + .15) for n in ch), None, 2600), t0, .8)
+        for e in range(8):
+            te = t0 + e * BEAT / 2
+            if te >= T_CTA - .05: break
+            add(bass, bass_note(C_RT[b % 4] + (12 if e % 4 == 3 else 0), BEAT / 2 * .9), te, .9)
+            add(plk, pluck(ch[(e * 3) % len(ch)] + 12 + (12 if e in (3, 6) else 0)), te, .55)
+        for q in range(4):
+            tt = t0 + q * BEAT
+            if tt >= T_CTA - .05: break
+            add(drums, kick(), tt, 1.0); kicks.append(tt)
+            if q % 2 == 1: add(drums, clap(), tt, .45)
+            for s in range(4): add(drums, hat(open_=(s == 2)), tt + s * BEAT / 4, .16 if s == 2 else .07)
+        b += 1
+    add(pads, filt(sum(pad_note(n, DUR - T_CTA + .5) for n in [48, 55, 60, 64, 71]), None, 2400), T_CTA, .9)  # D: outro
+    add(bass, bass_note(36, DUR - T_CTA + .3), T_CTA, .9)
+    for e, n in enumerate([76, 72, 79, 76, 84, 79]): add(plk, pluck(n), T_CTA + e * BEAT / 2, .45 * (1 - e / 8))
+    kicks.append(T_CTA)
 tt = np.arange(N) / SR; duck = np.ones(N)
 for k in kicks:
     i = int(k * SR); seg = tt[i:i + SR // 2] - k; duck[i:i + len(seg)] = np.minimum(duck[i:i + len(seg)], 1 - .55 * np.exp(-seg / .11))
-music = drums * .55 + (bass * .32 + pads * .24 + plk * .13) * duck
-tonal_wet = pads * .24 * duck + plk * .13
+if not CALM:
+    music = drums * .55 + (bass * .32 + pads * .24 + plk * .13) * duck
+    tonal_wet = pads * .24 * duck + plk * .13
 
 # ---------------- SFX ----------------
 sfx = np.zeros(N)
@@ -132,6 +152,12 @@ def down():
     t = t_(1.0); return osc(700 * (0.11 ** t), 1.0) * np.sin(np.pi * t) * .5 + sweep_noise(1.0, 3000, 200)[:len(t)] * np.sin(np.pi * t) * .5
 def stamp():
     t = t_(.3); return np.sin(2 * np.pi * (70 + 80 * np.exp(-t / .02)) * t) * np.exp(-t / .1) + filt(rng.standard_normal(len(t)), 800, 5000) * np.exp(-t / .03) * .6
+def shutter():                     # camera shutter: two mechanical clicks ~70 ms apart + a short air burst
+    t = t_(.16); a = filt(rng.standard_normal(len(t)), 1500, 9000) * np.exp(-t / .006)
+    t2 = t_(.2); b = filt(rng.standard_normal(len(t2)), 900, 6000) * np.exp(-t2 / .012) * .8
+    air = filt(rng.standard_normal(len(t_(.12))), 2000, 7000) * np.exp(-t_(.12) / .03) * .15
+    out = np.zeros(int(.3 * SR)); out[:len(a)] += a; out[int(.07 * SR):int(.07 * SR) + len(b)] += b; out[:len(air)] += air
+    return out
 def swoop():
     t = t_(.35); return osc(300 * 4 ** (t / .35), .35) * np.sin(np.pi * t / .35) * .6
 def swell():
@@ -156,6 +182,8 @@ for at, kind, k in CU['sfx']:
     elif kind == 'hit': add(sfx, hit(), at, .8)
     elif kind == 'hit_s': add(sfx, hit(.4), at, .35)
     elif kind == 'swoop': add(sfx, swoop(), at, .3)
+    elif kind == 'shutter': add(sfx, shutter(), at, .5)
+    elif kind == 'click_s': add(sfx, click(), at, .22)
     elif kind == 'swell': add(sfx, swell(), at, .3)
     elif base == 'reel':  # ticks where an eased reel (pos = n * expoOut) crosses each number
         for j in range(1, cnt + 1): add(sfx, tick(), at + 1.2 * (-np.log2(1 - j / (cnt + 1e-4)) / 10) / k, .45)

@@ -11,7 +11,7 @@ window.BEATS = {
     htmlV: `<img class="full" src="${IMG}" style="object-position:50% 30%" data-zoom="0,3.2,1.14,1.0,50,30"><div class="shade"></div>
       <div class="hd" style="left:80px;top:1240px;font-size:112px;color:#F7F4EF;white-space:pre" data-in=".5,.9,up">Your next shoot
 starts here.</div>`,
-    sfx: [[0, 'whoosh_s']],
+    sfx: [],
   },
   book: {
     name: 'book', src: 'illus', copy: 'Book the shoot.', boards: [1.3, 5.9],
@@ -49,7 +49,7 @@ starts here.</div>`,
         </div></div>
       <div class="dev" style="left:640px;top:1250px;width:380px;z-index:6" data-in="4.6,.8,rise" data-ring="5.6,.6"><img src="assets/invoice_phone.png" style="border-radius:34px 34px 0 0"></div>
       <div class="ph" style="left:0;top:0;width:1080px;height:1920px;border-radius:0;z-index:5" data-fly=".05,1.05,94,504,892,400,14"><img src="${IMG}" style="object-position:50% 24%"></div>`,
-    sfx: [[0, 'whoosh_s'], [1.45, 'pops4'], [3.9, 'click'], [4.15, 'pop'], [4.6, 'whoosh_s']],
+    sfx: [[0, 'shutter'], [3.9, 'click_s']],
   },
   deliver: {
     name: 'deliver', src: 'real', copy: 'Deliver the gallery.', boards: [1.6, 3.6],
@@ -64,7 +64,7 @@ the gallery.</div>
     htmlV: `<div class="hd" style="left:80px;top:260px;font-size:120px;white-space:pre" data-in=".3,.8,up" data-out="2.3,.4">Deliver
 the gallery.</div>
       <div class="dev" style="left:40px;top:640px;width:1000px" data-in=".1,.9,rise"><img src="assets/gal_digital_delivery_dev.png"></div>`,
-    sfx: [[.1, 'whoosh'], [2.6, 'click']],
+    sfx: [[2.6, 'click_s']],
   },
   photo: {
     name: 'photo', src: 'illus', copy: '(Deliver the gallery.)', boards: [.6, 3.6],
@@ -90,7 +90,7 @@ the gallery.</div>
       <div id="g2" class="ph" style="left:60px;top:960px;width:470px;height:630px;z-index:6" data-in=".12,.4,fade" data-fly="1.55,2.45,90,300,900,1205,4"><img src="${IMG}"></div>
       <div class="cap" style="left:90px;top:1540px;color:#E4DDD2;z-index:7;font-size:20px" data-in="2.6,.6,up">Editorial Bridal Portrait · 3 of 6</div>
       <div class="chip" style="position:absolute;left:700px;top:330px;background:#F7F4EF;color:#20201E;z-index:7;font-size:20px" data-in="3.3,.5,pop">♥ Client favourite</div>`,
-    sfx: [[1.4, 'click'], [1.55, 'whoosh_s'], [3.3, 'pop']],
+    sfx: [[1.4, 'click_s']],
   },
   prints: {
     name: 'prints', src: 'real', copy: 'Sell the prints.', boards: [1.8, 4.0],
@@ -108,7 +108,7 @@ the prints.</div>
 the prints.</div>
       <div class="cap" style="left:84px;top:530px;font-size:20px" data-in=".7,.7,up" data-out="2.1,.4">8 × 10 fine art print</div>
       <div class="dev" style="left:40px;top:640px;width:1000px" data-in=".05,.9,rise"><img src="assets/gal_sell_photos_dev.png"></div>`,
-    sfx: [[.05, 'whoosh'], [3.1, 'pop'], [5.4, 'click']],
+    sfx: [[5.4, 'click_s']],
   },
   end: {
     name: 'end', src: 'brand', copy: 'Run your studio in one place.', boards: [2.8],
@@ -121,6 +121,6 @@ the prints.</div>
       <div class="ctr" style="left:540px;top:860px" data-in=".3,.9,blur"><img src="assets/logo-white.png" style="height:84px;display:block"></div>
       <div class="hd ctr" style="left:540px;top:1060px;font-size:84px;color:#F7F4EF;white-space:pre;text-align:center" data-in="1.0,.8,up">Run your studio
 in one place.</div>`,
-    sfx: [[0, 'whoosh_s'], [.3, 'shimmer']],
+    sfx: [],
   },
 };

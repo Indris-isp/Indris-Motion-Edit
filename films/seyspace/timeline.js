@@ -1,6 +1,6 @@
 /* SeySpace — 30 s. Rows: ['beat', secondsOnScreen, speed, { d: BEATS.x, tin, tout }] */
 window.TIMELINE = {
-  FPS: 30, BPM: 84, STYLE: 'story', FORMAT: '16:9',
+  FPS: 30, BPM: 72, MUSIC: 'calm', STYLE: 'story', FORMAT: '16:9',
   shots: [
     ['beat', 3.4, 1.0, { d: BEATS.open }],
     ['beat', 6.6, 1.06, { d: BEATS.book }],

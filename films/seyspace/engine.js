@@ -257,7 +257,7 @@ window.exportCues = function () {
   }
   sfx.sort((x, y) => x[0] - y[0]);
   const turn = scenes.find(s => s.marker === 'turn'), cta = scenes.find(s => s.marker === 'cta');
-  return { FPS, BPM: TL.BPM || 128, DUR: window.DUR, W, H, FMT, sfx,
+  return { FPS, BPM: TL.BPM || 128, MUSIC: TL.MUSIC || 'groove', DUR: window.DUR, W, H, FMT, sfx,
     markers: { turn: turn ? turn.a : null, drop: turn ? turn.b : 0, cta: cta ? cta.a : window.DUR },
     scenes: scenes.map(s => ({ id: s.id, a: s.a, b: s.b, k: s.k, hero: s.hero, d: s.d ? { name: s.d.name, copy: s.d.copy, note: s.d.note, src: s.d.src, boards: s.d.boards } : null })) };
 };
