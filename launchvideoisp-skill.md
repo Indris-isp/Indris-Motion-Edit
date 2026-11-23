@@ -1,11 +1,11 @@
-# saas-launch-video: complete skill (knowledge + code)
+# launchvideoisp: complete skill (knowledge + code)
 
 > **For Claude, in a new chat:** this file contains a complete skill for making premium, fast-paced SaaS launch
 > videos (problem → solution, motion graphics, music and SFX) in **16:9 and 9:16** that are CREATIVE and on-brand:
 > it captures the client's website for fonts, colours, buttons, copy and UI language, REBUILDS their UI as animated
 > components (never pastes screenshots), writes one visual concept, and tells the story with creative moves.
 > 1. If you can run code (Claude Code), recreate the skill: write every file in **Part 2** to
->    `.claude/skills/saas-launch-video/<path>` exactly as given. Download the Inter font (https://rsms.me/inter/,
+>    `.claude/skills/launchvideoisp/<path>` exactly as given. Download the Inter font (https://rsms.me/inter/,
 >    SIL OFL) as `template/fonts/Inter-400.ttf` … `Inter-800.ttf`, and run `chmod +x template/build.sh`.
 >    Needs node + playwright (Chromium), python3 + numpy + Pillow, ffmpeg, and network access to the client's site.
 > 2. Then follow **`SKILL.md`** (Part 1) step by step: brief → beat sheet (user approves) → project →
@@ -57,7 +57,7 @@
 
 ````markdown
 ---
-name: saas-launch-video
+name: launchvideoisp
 description: Make a CREATIVE, premium, fast-paced SaaS / app / product launch video (motion-graphics promo, product film, feature announcement, app teaser) that is clearly the client's brand — built from their website's fonts, colours, buttons and UI language, but NOT by pasting screenshots. Claude captures the site, rebuilds the product's key UI components as clean animated vectors in their tokens, invents one visual concept for the film, and tells a problem→solution story with creative moves (kinetic type, illustrated problems, crowds and dials, strokes forming the logo, UI inside sentences, 3D podiums, charts as sets, dot-numbers, button floods, monitor + keywords, frame-to-card morphs) learned from reference films. Music and SFX on every cut; frame-exact MP4 in 16:9 and 9:16. Use when the user asks for a launch video, product video, promo, SaaS ad, motion-graphics edit or app teaser, gives a website / brand guide to follow, or wants to study a reference video and copy its style.
 ---
 

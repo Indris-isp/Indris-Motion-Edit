@@ -1,5 +1,5 @@
 ---
-name: saas-launch-video
+name: launchvideoisp
 description: Make a CREATIVE, premium, fast-paced SaaS / app / product launch video (motion-graphics promo, product film, feature announcement, app teaser) that is clearly the client's brand — built from their website's fonts, colours, buttons and UI language, but NOT by pasting screenshots. Claude captures the site, rebuilds the product's key UI components as clean animated vectors in their tokens, invents one visual concept for the film, and tells a problem→solution story with creative moves (kinetic type, illustrated problems, crowds and dials, strokes forming the logo, UI inside sentences, 3D podiums, charts as sets, dot-numbers, button floods, monitor + keywords, frame-to-card morphs) learned from reference films. Music and SFX on every cut; frame-exact MP4 in 16:9 and 9:16. Use when the user asks for a launch video, product video, promo, SaaS ad, motion-graphics edit or app teaser, gives a website / brand guide to follow, or wants to study a reference video and copy its style.
 ---
 

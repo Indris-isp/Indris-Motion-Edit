@@ -7,6 +7,6 @@
 - If a request is ambiguous, ask a short question instead of guessing.
 
 ## Repo
-- `.claude/skills/saas-launch-video/`: the launch-video skill (see its `SKILL.md`).
+- `.claude/skills/launchvideoisp/`: the launch-video skill (see its `SKILL.md`).
 - `skill-demo/`: example outputs from earlier sessions.
-- `saas-launch-video-skill.md` / `saas-launch-video-reference.md`: the skill exported as single Markdown files.
+- `launchvideoisp-skill.md` / `launchvideoisp-reference.md`: the skill exported as single Markdown files.

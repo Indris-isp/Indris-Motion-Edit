@@ -12,7 +12,7 @@
 > 5. any **9:16 adjustments**.
 > Follow the *Style bible* pacing rules: a cut every 1.5–2.8 s, an event every 0.4–0.8 s, 22–35 s total.
 > Copy the techniques, never another company's brand.
-> (The companion file `saas-launch-video-skill.md` adds the full rendering code for Claude Code.)
+> (The companion file `launchvideoisp-skill.md` adds the full rendering code for Claude Code.)
 
 ## Contents
 1. How the workflow runs (from the skill)
