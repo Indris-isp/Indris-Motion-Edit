@@ -1,0 +1,18 @@
+:root{--ringRGB:205,182,132;--mark:rgba(72,255,211,.35)}
+.hd{position:absolute;font:500 84px/1.06 'NB International';letter-spacing:-.02em;white-space:pre;color:#fff}
+.paper{position:absolute;background:#F6F3EA;border-radius:6px;box-shadow:0 50px 90px -30px rgba(0,0,0,.55);color:#171C3A;font-family:'DIN Pro'}
+.paper .t{position:absolute;left:44px;right:44px;display:flex;justify-content:space-between;font:400 26px 'DIN Pro'}
+.paper .t span:last-child{padding:2px 8px;margin-right:-8px;border-radius:4px}
+.tag{font:500 15px 'DIN Pro';letter-spacing:.16em;text-transform:uppercase;color:#8C92B0}
+.code{position:absolute;background:#0F132A;border-radius:14px;overflow:hidden;box-shadow:0 50px 90px -30px rgba(0,0,0,.6),0 0 0 1px #2A3055}
+.code .bar{height:56px;display:flex;align-items:center;gap:10px;padding:0 22px;background:#1D2347;font:500 22px 'Source Code Pro';color:#C9CEE6}
+.code .bar i{width:13px;height:13px;border-radius:50%;background:#3A416B}
+.code .bar b{margin-left:auto;color:#00D181;font-weight:500}
+.code pre{margin:0;padding:30px 36px;font:500 29px/52px 'Source Code Pro';color:#E6E8F2}
+.k{color:#48FFD3}.n{color:#CDB684}.g{color:#00D181}
+.ln{display:inline-block;border-radius:6px;padding:0 6px;margin:0 -6px}
+.ringbox{position:absolute;border-radius:8px}
+.step{display:flex;align-items:center;gap:14px;font:500 26px 'NB International';color:#fff}
+.step i{width:34px;height:34px;border-radius:50%;background:#00D181;color:#171C3A;font:700 20px 'DIN Pro';font-style:normal;display:flex;align-items:center;justify-content:center}
+.chip{position:absolute;font:500 24px 'DIN Pro';color:#171C3A;background:#48FFD3;border-radius:999px;padding:10px 20px;white-space:nowrap}
+.lab{position:absolute;font:500 17px 'DIN Pro';letter-spacing:.14em;text-transform:uppercase;color:#8C92B0}

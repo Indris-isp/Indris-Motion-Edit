@@ -1,0 +1,408 @@
+{
+ "url": "https://silentroom.media/",
+ "title": "SilentRoom Journal — Writing, AI & the Craft of Words",
+ "description": "A practical journal about writing, AI, and rare moments of silence.",
+ "ogImage": "https://silentroom.media/og-default.jpg",
+ "themeColor": null,
+ "favicon": "https://silentroom.media/favicon-32x32.png",
+ "colors": {
+  "backgrounds": [
+   [
+    "#f5f2ec",
+    1005310.2463378906
+   ],
+   [
+    "#1a2a38",
+    857070
+   ],
+   [
+    "#faf4d5",
+    20128.92578125
+   ],
+   [
+    "#2e2e2c",
+    7583.4111328125
+   ],
+   [
+    "#e14f62",
+    216
+   ]
+  ],
+  "text": [
+   [
+    "#6b6560",
+    2498
+   ],
+   [
+    "#2e2e2c",
+    1546
+   ],
+   [
+    "#a8a29e",
+    811
+   ],
+   [
+    "#f5f2ec",
+    729
+   ],
+   [
+    "#e14f62",
+    496
+   ],
+   [
+    "#e8b850",
+    28
+   ],
+   [
+    "#faf4d5",
+    9
+   ]
+  ],
+  "buttons": [
+   [
+    "#faf4d5",
+    2
+   ],
+   [
+    "#2e2e2c",
+    1
+   ]
+  ],
+  "accents": [
+   "#e14f62",
+   "#e8b850",
+   "#1a2a38"
+  ],
+  "gradients": []
+ },
+ "fonts": [
+  {
+   "family": "Fraunces",
+   "weights": [
+    "400",
+    "700",
+    "300"
+   ],
+   "largestSize": 72,
+   "sample": "I Asked You to Find a Mind, Not a Perfect Liar",
+   "tracking": "-1.584px",
+   "transform": "none"
+  },
+  {
+   "family": "JetBrains Mono",
+   "weights": [
+    "400",
+    "500"
+   ],
+   "largestSize": 14,
+   "sample": "Subscribe",
+   "tracking": "1.96px",
+   "transform": "uppercase"
+  }
+ ],
+ "fontFaces": [],
+ "radius": [],
+ "shadows": [],
+ "buttons": [
+  {
+   "text": "THE CRAFT",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 12px",
+   "y": 453,
+   "w": 141,
+   "h": 54
+  },
+  {
+   "text": "THE MACHINE",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 12px",
+   "y": 453,
+   "w": 159,
+   "h": 54
+  },
+  {
+   "text": "THE METHOD",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 12px",
+   "y": 453,
+   "w": 150,
+   "h": 54
+  },
+  {
+   "text": "THE DESK",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 12px",
+   "y": 453,
+   "w": 133,
+   "h": 54
+  },
+  {
+   "text": "THE STACK",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 12px",
+   "y": 453,
+   "w": 141,
+   "h": 54
+  },
+  {
+   "text": "SUBSCRIBE",
+   "bg": "#faf4d5",
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": "0px 0px 0px 1px solid #2e2e2c",
+   "font": "400 12px",
+   "y": 453,
+   "w": 139,
+   "h": 54
+  },
+  {
+   "text": "ALL everything",
+   "bg": null,
+   "image": null,
+   "color": "#e14f62",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1263,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "LONG READS the deep dive · 15–40 min",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1321,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "GUIDES step-by-step · 5–15 min",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1378,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "COMPARISONS side by side · 10–20 min",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1436,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "COLUMNS authorial voice · 5–10 min",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1493,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "DISPATCHES field notes · 3–5 min",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1551,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "BRIEFINGS the digest · 5–8 min",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 11px",
+   "y": 1608,
+   "w": 300,
+   "h": 53
+  },
+  {
+   "text": "The Craft",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 60px",
+   "y": 3321,
+   "w": 208,
+   "h": 74
+  },
+  {
+   "text": "The Machine",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 60px",
+   "y": 3613,
+   "w": 283,
+   "h": 74
+  },
+  {
+   "text": "The Method",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 60px",
+   "y": 3905,
+   "w": 266,
+   "h": 74
+  },
+  {
+   "text": "The Desk",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 60px",
+   "y": 4197,
+   "w": 209,
+   "h": 74
+  },
+  {
+   "text": "The Stack",
+   "bg": null,
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": null,
+   "font": "400 60px",
+   "y": 4489,
+   "w": 219,
+   "h": 74
+  },
+  {
+   "text": "SUBSCRIBE",
+   "bg": "#2e2e2c",
+   "image": null,
+   "color": "#faf4d5",
+   "radius": "0px",
+   "border": null,
+   "font": "500 14px",
+   "y": 5257,
+   "w": 166,
+   "h": 46
+  },
+  {
+   "text": "→ The Weekly One letter every week",
+   "bg": "#faf4d5",
+   "image": null,
+   "color": "#2e2e2c",
+   "radius": "0px",
+   "border": "1px solid #2e2e2c",
+   "font": "400 13px",
+   "y": 5686,
+   "w": 190,
+   "h": 66
+  }
+ ],
+ "copy": {
+  "h1": [
+   "Journal of THINKING WITH WORDS"
+  ],
+  "h2": [
+   "I Asked You to Find a Mind, Not a Perfect Liar",
+   "A Journal About Writing, AI, and the Rare Moments of Silence",
+   "Latest",
+   "One free letter a week."
+  ],
+  "h3": [
+   "The LVMH–OpenAI Deal: Articles In, Authors Out",
+   "The Voice You Can't Always Ruin",
+   "AI Models in Late Fall 2026: An Honest Comparison Using Independent Benchmarks",
+   "I Saw Goody Proctor Talking to Claude: When AI \"Detection\" Backlashes",
+   "First to Risk",
+   "Nurse, Scalpel!",
+   "The Craft",
+   "The Machine",
+   "The Method",
+   "The Desk",
+   "The Stack"
+  ],
+  "nav": [
+   "THE CRAFT",
+   "THE MACHINE",
+   "THE METHOD",
+   "THE DESK",
+   "THE STACK",
+   "SUBSCRIBE"
+  ],
+  "eyebrow": [
+   "Read the manifesto",
+   "READ MORE →"
+  ],
+  "stats": []
+ },
+ "logo": {
+  "src": "https://silentroom.media/journal-logo.webp",
+  "box": [
+   142,
+   165,
+   1157,
+   136
+  ],
+  "file": "logo.png",
+  "note": "screenshot crop: check it"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "image",
+   "w": 400,
+   "h": 280,
+   "y": 564,
+   "alt": "",
+   "file": "ui/image_00.png"
+  }
+ ],
+ "fontFiles": []
+}

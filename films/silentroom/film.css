@@ -1,0 +1,15 @@
+:root{--ringRGB:121,75,87;--mark:rgba(121,75,87,.16);--strike:#794B57}
+.hd{position:absolute;font:400 76px/1.08 'Source Serif 4';letter-spacing:-.015em;white-space:pre;color:#272521}
+.cap{position:absolute;font:500 19px Inter;letter-spacing:.14em;text-transform:uppercase;color:#7C756A}
+.note{width:330px;padding:24px 26px;background:#FFFDF7;border-radius:4px;box-shadow:0 18px 40px -18px rgba(39,37,33,.35),0 0 0 1px rgba(39,37,33,.06);font:italic 400 27px/1.35 'Source Serif 4';color:#272521}
+.note small{display:block;font:500 14px Inter;letter-spacing:.12em;color:#9C9385;font-style:normal;margin-bottom:8px}
+.win{position:absolute;background:#FBF8F1;border-radius:12px;overflow:hidden;box-shadow:0 50px 90px -30px rgba(39,37,33,.35),0 0 0 1px rgba(39,37,33,.08)}
+.tabs{height:46px;background:#E9E1D2;display:flex;gap:4px;padding:8px 10px 0}
+.tabs span{flex:1;min-width:0;background:#DDD3C1;border-radius:7px 7px 0 0;font:500 13px Inter;color:#6B6458;padding:9px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs span.on{background:#FBF8F1;color:#272521}
+.side{position:absolute;left:0;top:0;bottom:0;width:400px;background:#F1EBDF;border-right:1px solid #E3DACB;padding:30px 28px}
+.ed{font:400 38px/1.62 'Source Serif 4';color:#272521}
+.ghost{color:#B08E97}
+.chip{position:absolute;font:500 18px Inter;color:#794B57;background:#F3E9EC;border-radius:999px;padding:9px 16px;white-space:nowrap}
+.caret{width:2px;background:#794B57}
+.ph-tag{background:#FFE16A}

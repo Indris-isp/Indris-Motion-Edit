@@ -4,3 +4,13 @@ video/out/sheet*.png
 video/out/render.log
 video/out/video_silent.mp4
 node_modules/
+# brand captures: raw page grabs are large and re-capturable (keep brand.json, kit.png, logos)
+films/*/brand/page.png
+films/*/brand/hero.png
+films/*/brand/pages/
+films/*/brand/ui/
+films/*/brand/kit.html
+films/*/out/*
+!films/*/out/storyboard*.png
+# client-licensed web fonts (Veryfi NB International / DIN Pro / Source Code Pro): fetched from veryfi.com, not redistributed
+*.woff2

@@ -1,0 +1,7 @@
+{ "title": "Veryfi — The invoice doesn't add up (Thinking Mode)",
+  "concept": "A Thinking Mode feature launch. An invoice and its extracted data side by side; Thinking Mode catches one mismatch and the single value resolves from 180.00 to 108.00.",
+  "palette": [["navy","#171C3A"],["green","#00D181"],["mint","#48FFD3"],["sand","#CDB684"],["paper","#F6F3EA"]],
+  "fonts": ["NB International · headlines + UI labels", "DIN Pro · numbers", "Source Code Pro · API (veryfi.com)"],
+  "footnotes": ["OFFICIAL SYSTEM: NB International and DIN Pro (Veryfi's own web fonts), navy #171C3A and accents taken from veryfi.com; the wordmark is used solid in white on navy, with clear space and well over 90 px wide. No black, glow, shadow or container.",
+    "REAL: the request uses the documented Thinking Mode parameter (\"thinking\": \"light\") on POST /api/v8/partner/documents (faq.veryfi.com). The API window copies the style of veryfi.com.",
+    "ILLUSTRATIVE: the invoice is a labelled sample, and the response is labelled \"Illustrative API response\" unless Veryfi supplies a real API test capture. Please confirm approved palette hex values against the brand PDF; the guideline page only showed swatches as images."] }

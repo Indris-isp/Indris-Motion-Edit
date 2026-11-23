@@ -1,0 +1,7 @@
+{ "title": "DocsAlot — A support answer with a source",
+  "concept": "Launch film for the support bot. One customer asks in Slack, gets a cited answer, and the citation cuts to the exact source sentence. A second question shows a gap in the docs.",
+  "palette": [["white","#FFFFFF"],["charcoal","#202124"],["soft violet","#7763D9"]],
+  "fonts": ["Geist · overlay titles", "IBM Plex Mono · command labels"],
+  "footnotes": ["REAL: the question is DocsAlot's own documented example (\"@docsalot How do I configure authentication?\"); the answer and the highlighted sentence come from their real Authentication page (docs.docsalot.dev/document-apis/authentication); logo from docsalot.dev.",
+    "PLACEHOLDER: the Slack thread is a neutral rebuild (no Slack branding) until the team records the bot in a test workspace. Shot 5 (docs gap flag) is shown only if DocsAlot can supply that capture.",
+    "The end card mentions Discord, which the docs list as a second bot."] }

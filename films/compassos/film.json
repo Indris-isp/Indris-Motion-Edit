@@ -1,0 +1,7 @@
+{ "title": "Compass OS — A résumé tailored to the role, grounded in your experience",
+  "concept": "One sample candidate, one role, one claim. Compass OS explains the fit, tailors the résumé, and refuses the unsupported \"3x\". The payoff is the claim being replaced by a line traced to the profile.",
+  "palette": [["off-white","#F8F7F3"],["ink","#23272F"],["muted yellow","#F2D76B"]],
+  "fonts": ["DM Sans Semibold · headlines", "Inter · labels", "Gabarito · their wordmark"],
+  "footnotes": ["REAL UI: compass-os.dev match card (VP Product, Payments · Stripe · 92%), tailored résumé \"Resume for Stripe\", Pip's claim check, mascot, CTA button.",
+    "The concept asked for a Director-level role. Compass's own example screens are for VP Product, Payments, so the film follows that role to keep all three screens consistent. Their \"Director of Product, AI\" card exists if you prefer it, but it has no matching résumé screen.",
+    "SAMPLE DATA: the résumé on the left is a sample candidate built from the bullets on Compass's résumé example. The revised bullet is an overlay on the real card, written only from facts the match card attributes to the profile."] }

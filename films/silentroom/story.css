@@ -1,0 +1,13 @@
+/* base styles for shots_story.js (data-* animation attributes). Film-specific layout goes in film.css. */
+:root{--mark:rgba(242,215,107,.75);--strike:#C2412D;--ringRGB:47,107,255}
+.beat{font-family:var(--font-body)}
+.beat [data-in]{opacity:0}
+[data-mark]{background-image:linear-gradient(var(--mark),var(--mark));background-repeat:no-repeat;background-position:0 70%;background-size:0% 100%;border-radius:.12em;padding:0 .08em;margin:0 -.08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+[data-strike]{background-image:linear-gradient(transparent 47%,var(--strike) 47%,var(--strike) 57%,transparent 57%);background-repeat:no-repeat;background-size:0% 100%}
+[data-ring]{outline:3px solid transparent;outline-offset:26px;border-radius:inherit}
+[data-swap]{display:grid}[data-swap]>.sa,[data-swap]>.sb{grid-area:1/1}[data-swap]>.sb{opacity:0}
+[data-draw]{stroke-dasharray:1;stroke-dashoffset:1}
+.caret{display:inline-block;width:.08em;height:1em;background:currentColor;margin-left:.05em;vertical-align:-.12em}
+.ripple{border-radius:50%;border:3px solid rgba(var(--ringRGB),.9);opacity:0}
+.ph-tag{position:absolute;z-index:300;font:600 15px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;border-radius:6px;background:#FFE16A;color:#111;box-shadow:0 0 0 2px #111}
+body.render .ph-tag{display:var(--ph-display,block)}

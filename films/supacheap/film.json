@@ -1,0 +1,7 @@
+{ "title": "Supacheap.eu — Follow your first removal request",
+  "concept": "One person (dummy data) starts the free five-broker test, sends the requests, and checks what is still pending. The payoff is a small, honest status change: request sent, with confirmed removal kept separate.",
+  "palette": [["off-white","#F5F7F8"],["slate","#202936"],["teal","#198575"]],
+  "fonts": ["Inter Semibold · headlines", "IBM Plex Mono · status labels"],
+  "footnotes": ["REAL UI: supacheap.eu/en/free-tier, including the five named brokers and the real request form, filled with dummy data in a headless browser and never submitted.",
+    "PLACEHOLDER: the status/countdown dashboard is not public. Shot 4 follows the page's own description and must be replaced with a clean capture before render. \"Request sent\" is shown as pending; \"Removal confirmed\" stays a separate state at 0.",
+    "Brand note: supacheap.eu is a dark navy UI. The film frames it in the concept's off-white / slate / teal."] }

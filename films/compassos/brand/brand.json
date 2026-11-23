@@ -1,0 +1,1105 @@
+{
+ "url": "https://compass-os.dev/",
+ "title": "Compass OS: AI for your resume, LinkedIn and interview prep",
+ "description": "Compass OS keeps your resume, LinkedIn and wins current, runs interview practice for your role, and finds roles that fit when you move.",
+ "ogImage": "https://compass-os.dev/opengraph-image",
+ "themeColor": null,
+ "favicon": "https://compass-os.dev/favicon.ico?favicon.3wzid87j-y989.ico",
+ "colors": {
+  "backgrounds": [
+   [
+    "#ffffff",
+    5054798.542236328
+   ],
+   [
+    "#fbf1e1",
+    2003634.029296875
+   ],
+   [
+    "#ffd166",
+    1502291.890625
+   ],
+   [
+    "#ff7a59",
+    1422881.296875
+   ],
+   [
+    "#fff6e9",
+    1296000
+   ],
+   [
+    "#1b2c61",
+    144000
+   ],
+   [
+    "#17302a",
+    125811.75048828125
+   ],
+   [
+    "#ffe3d8",
+    56848.8818359375
+   ],
+   [
+    "#d6ecf7",
+    52199.875
+   ],
+   [
+    "#1e6b52",
+    26875.59375
+   ]
+  ],
+  "text": [
+   [
+    "#56635d",
+    6804
+   ],
+   [
+    "#17302a",
+    6468
+   ],
+   [
+    "#3e4a44",
+    343
+   ],
+   [
+    "#ffffff",
+    169
+   ],
+   [
+    "#9a3b1e",
+    135
+   ],
+   [
+    "#fff6e9",
+    65
+   ],
+   [
+    "#1e6b52",
+    49
+   ],
+   [
+    "#f4ede1",
+    40
+   ]
+  ],
+  "buttons": [
+   [
+    "#17302a",
+    7
+   ],
+   [
+    "#1e6b52",
+    2
+   ],
+   [
+    "#ff7a59",
+    1
+   ]
+  ],
+  "accents": [
+   "#17302a",
+   "#1e6b52",
+   "#ff7a59",
+   "#9a3b1e",
+   "#ffd166",
+   "#1b2c61"
+  ],
+  "gradients": [
+   "radial-gradient(46% 52% at 50% 86%, rgba(255, 150, 70, 0.32), rgba(255, 122, 89, 0.08) 60%, rgba(0, 0, 0, 0) 75%)",
+   "linear-gradient(90deg, rgb(255, 227, 216), rgba(255, 227, 216, 0) 75%)"
+  ]
+ },
+ "fonts": [
+  {
+   "family": "Nunito Sans",
+   "weights": [
+    "400",
+    "600",
+    "700",
+    "500",
+    "800"
+   ],
+   "largestSize": 18,
+   "sample": "Compass OS is where you maintain your career. It keeps your ",
+   "tracking": "normal",
+   "transform": "none"
+  },
+  {
+   "family": "Gabarito",
+   "weights": [
+    "800",
+    "700",
+    "600"
+   ],
+   "largestSize": 66.24,
+   "sample": "Your career, ready before you need it.",
+   "tracking": "-1.656px",
+   "transform": "none"
+  }
+ ],
+ "fontFaces": [
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/4f6667dd39116621-s.3p2_lha1f2xer.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/07935285219a259d-s.1qq4vpdcun5oj.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/f58031ded4338640-s.390ncx5urfkfu.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/77814b00d5ca94a4-s.21jp631_3pja2.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/605ce01b664af129-s.0wgildi0cnwt9.woff2"
+  },
+  {
+   "family": "Gabarito",
+   "weight": "400 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/ffd144a06bc467d1-s.0b7xx36t3ch-o.woff2"
+  },
+  {
+   "family": "Gabarito",
+   "weight": "400 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/e09a3b91bd741a49-s.p.1lywp3x9jvm8e.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/eaf40559951680c4-s.109ulqh0wub5u.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/325b8707bd86f089-s.02m2p-env-7db.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/64b071e9bd2bec73-s.0slsd4dj30esv.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/400b3f9692b7519e-s.187m47s3z4syd.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/0069d14c43d1997c-s.p.380f-mwhk0aej.woff2"
+  },
+  {
+   "family": "Gabarito",
+   "weight": "400 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/ffd144a06bc467d1-s.0b7xx36t3ch-o.woff2"
+  },
+  {
+   "family": "Gabarito",
+   "weight": "400 900",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/e09a3b91bd741a49-s.p.1lywp3x9jvm8e.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/eaf40559951680c4-s.109ulqh0wub5u.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/325b8707bd86f089-s.02m2p-env-7db.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/64b071e9bd2bec73-s.0slsd4dj30esv.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/400b3f9692b7519e-s.187m47s3z4syd.woff2"
+  },
+  {
+   "family": "Nunito Sans",
+   "weight": "200 1000",
+   "style": "normal",
+   "src": "https://compass-os.dev/_next/static/media/0069d14c43d1997c-s.p.380f-mwhk0aej.woff2"
+  }
+ ],
+ "radius": [
+  [
+   "999px",
+   31
+  ],
+  [
+   "24px",
+   28
+  ],
+  [
+   "12px",
+   13
+  ],
+  [
+   "14px",
+   8
+  ],
+  [
+   "32px",
+   6
+  ],
+  [
+   "50%",
+   3
+  ]
+ ],
+ "shadows": [
+  "rgb(23, 48, 42) 0px 4px 0px 0px",
+  "rgba(23, 48, 42, 0.25) 0px -3px 0px 0px inset",
+  "rgb(255, 122, 89) 0px 4px 0px 0px",
+  "rgb(255, 255, 255) 0px 0px 0px 3px, rgb(232, 90, 55) 0px 0px 0px 7px"
+ ],
+ "buttons": [
+  {
+   "text": "Skip to content",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "12px",
+   "border": null,
+   "font": "700 17px",
+   "y": -60,
+   "w": 148,
+   "h": 46
+  },
+  {
+   "text": "Career",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 101,
+   "h": 46
+  },
+  {
+   "text": "Practice",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 110,
+   "h": 46
+  },
+  {
+   "text": "Find",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 86,
+   "h": 46
+  },
+  {
+   "text": "Move",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 93,
+   "h": 46
+  },
+  {
+   "text": "Tailor",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 95,
+   "h": 46
+  },
+  {
+   "text": "Apply",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 97,
+   "h": 46
+  },
+  {
+   "text": "Pricing",
+   "bg": null,
+   "image": null,
+   "color": "#f4ede1",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 103,
+   "h": 46
+  },
+  {
+   "text": "Create free account",
+   "bg": "#ff7a59",
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 856,
+   "w": 159,
+   "h": 46
+  },
+  {
+   "text": "Compass OS",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "800 24px",
+   "y": 23,
+   "w": 183,
+   "h": 40
+  },
+  {
+   "text": "Chrome extension",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid currentColor",
+   "font": "700 15px",
+   "y": 22,
+   "w": 164,
+   "h": 42
+  },
+  {
+   "text": "Use in your AI app",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid currentColor",
+   "font": "700 15px",
+   "y": 22,
+   "w": 166,
+   "h": 42
+  },
+  {
+   "text": "Sign in",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid currentColor",
+   "font": "700 15px",
+   "y": 22,
+   "w": 86,
+   "h": 42
+  },
+  {
+   "text": "Create free account",
+   "bg": "#1e6b52",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #1e6b52",
+   "font": "700 15px",
+   "y": 22,
+   "w": 174,
+   "h": 42
+  },
+  {
+   "text": "Create free account",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 694,
+   "w": 195,
+   "h": 50
+  },
+  {
+   "text": "Free resume check",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 694,
+   "w": 187,
+   "h": 50
+  },
+  {
+   "text": "Get the Chrome extension",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 5476,
+   "w": 270,
+   "h": 50
+  },
+  {
+   "text": "Connect Compass OS",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 5936,
+   "w": 209,
+   "h": 50
+  },
+  {
+   "text": "X-ray your resume",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 6208,
+   "w": 187,
+   "h": 50
+  },
+  {
+   "text": "Monthly",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 7684,
+   "w": 86,
+   "h": 38
+  },
+  {
+   "text": "Yearly SAVE UP TO 34%",
+   "bg": null,
+   "image": null,
+   "color": "#56635d",
+   "radius": "999px",
+   "border": null,
+   "font": "700 14px",
+   "y": 7684,
+   "w": 183,
+   "h": 38
+  },
+  {
+   "text": "Create free account",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 15px",
+   "y": 8346,
+   "w": 222,
+   "h": 42
+  },
+  {
+   "text": "Start with Free, then upgrade",
+   "bg": "#1e6b52",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #1e6b52",
+   "font": "700 15px",
+   "y": 8345,
+   "w": 220,
+   "h": 42
+  },
+  {
+   "text": "Start with Free, then upgrade",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 15px",
+   "y": 8346,
+   "w": 222,
+   "h": 42
+  },
+  {
+   "text": "Start with Free, then upgrade",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 15px",
+   "y": 8345,
+   "w": 220,
+   "h": 42
+  },
+  {
+   "text": "Meet Sprig, a seedling z z",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "24px",
+   "border": null,
+   "font": "400 17px",
+   "y": 9829,
+   "w": 67,
+   "h": 67
+  },
+  {
+   "text": "Meet Wick, a trail lantern",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "24px",
+   "border": null,
+   "font": "400 17px",
+   "y": 9836,
+   "w": 71,
+   "h": 71
+  },
+  {
+   "text": "Create free account",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 9936,
+   "w": 195,
+   "h": 50
+  },
+  {
+   "text": "Meet the crew",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "999px",
+   "border": "1px solid #17302a",
+   "font": "700 16px",
+   "y": 9936,
+   "w": 156,
+   "h": 50
+  },
+  {
+   "text": "Compass OS",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "800 30px",
+   "y": 10233,
+   "w": 245,
+   "h": 64
+  },
+  {
+   "text": "Create free account",
+   "bg": "#17302a",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": null,
+   "font": "700 15px",
+   "y": 10364,
+   "w": 176,
+   "h": 44
+  },
+  {
+   "text": "How it works",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10266,
+   "w": 91,
+   "h": 32
+  },
+  {
+   "text": "Resume X-ray",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10338,
+   "w": 96,
+   "h": 32
+  },
+  {
+   "text": "Job tracker",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10374,
+   "w": 74,
+   "h": 32
+  },
+  {
+   "text": "Chrome extension",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10446,
+   "w": 124,
+   "h": 32
+  },
+  {
+   "text": "Claude & ChatGPT",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10482,
+   "w": 129,
+   "h": 32
+  },
+  {
+   "text": "Roadmap",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10518,
+   "w": 65,
+   "h": 32
+  },
+  {
+   "text": "Meet the crew",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10554,
+   "w": 98,
+   "h": 32
+  },
+  {
+   "text": "Interview guides",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10266,
+   "w": 113,
+   "h": 32
+  },
+  {
+   "text": "Questions to ask",
+   "bg": null,
+   "image": null,
+   "color": "#17302a",
+   "radius": "0px",
+   "border": null,
+   "font": "600 15px",
+   "y": 10302,
+   "w": 114,
+   "h": 32
+  }
+ ],
+ "copy": {
+  "h1": [
+   "Your career, ready before you need it."
+  ],
+  "h2": [
+   "Keep your career current in a few minutes a week.",
+   "Practice the interview before there is one.",
+   "Hear about the few roles worth a look.",
+   "When you decide to move, it's half done.",
+   "Materials that only say what's true.",
+   "The form gets filled. You press submit.",
+   "Ask about your career from Claude or ChatGPT.",
+   "See what a parser reads in your resume.",
+   "Every role tracked to an offer.",
+   "Three things Compass OS won't do.",
+   "Create a free account. Add Plus for a daily watch and no limits.",
+   "Questions",
+   "Keep your next move ready.",
+   "Product",
+   "Practice",
+   "Company"
+  ],
+  "h3": [
+   "Your personal brand",
+   "Your network",
+   "What you're worth",
+   "How to pass each interview",
+   "VP Product, Payments",
+   "Head of Product",
+   "VP Product Management",
+   "Director of Product, AI",
+   "WHERE COMPASS OS LOOKS",
+   "Free",
+   "Plus",
+   "Pro",
+   "Search Pass"
+  ],
+  "nav": [
+   "Career",
+   "Practice",
+   "Find",
+   "Move",
+   "Tailor",
+   "Apply",
+   "Pricing",
+   "Create free account",
+   "How it works",
+   "Features",
+   "Resume X-ray",
+   "Job tracker",
+   "Pricing",
+   "Chrome extension"
+  ],
+  "eyebrow": [
+   "TOP MATCH TODAY"
+  ],
+  "stats": [
+   {
+    "value": "$330k",
+    "context": "when an application goes quiet NEXT Warm paths in Pay on your roles Example Stripe $280k–$330k Oscar Health $265k–$300k Scale AI $245k–$285k Your expectation $275k What you're worth Know your number"
+   },
+   {
+    "value": "$300k",
+    "context": "uiet NEXT Warm paths in Pay on your roles Example Stripe $280k–$330k Oscar Health $265k–$300k Scale AI $245k–$285k Your expectation $275k What you're worth Know your number before anyone asks for it,"
+   },
+   {
+    "value": "$285k",
+    "context": "n Pay on your roles Example Stripe $280k–$330k Oscar Health $265k–$300k Scale AI $245k–$285k Your expectation $275k What you're worth Know your number before anyone asks for it, so a recruiter's call"
+   },
+   {
+    "value": "$275k",
+    "context": "ple Stripe $280k–$330k Oscar Health $265k–$300k Scale AI $245k–$285k Your expectation $275k What you're worth Know your number before anyone asks for it, so a recruiter's call is a conversation, not"
+   },
+   {
+    "value": "92%",
+    "context": "fits. It tells you why, too. TOP MATCH TODAY VP Product, Payments Stripe · Remote (US) 92% strong fit Two payments launches and a marketplace P&L match their must-haves; they ask for compliance exper"
+   },
+   {
+    "value": "87%",
+    "context": "xperience you list. $280k–$330k base Head of Product Oscar Health · New York · Hybrid 87% strong fit Scaled a product org from 6 to 30; B2B healthcare data is next to your analytics work. $265k–$30"
+   },
+   {
+    "value": "2B",
+    "context": "ct Oscar Health · New York · Hybrid 87% strong fit Scaled a product org from 6 to 30; B2B healthcare data is next to your analytics work. $265k–$300k base VP Product Management Vercel · Remote 83"
+   },
+   {
+    "value": "83%",
+    "context": "s next to your analytics work. $265k–$300k base VP Product Management Vercel · Remote 83% strong fit Strong title and platform overlap; the posting mentions developer tools you haven't led. $290k–$"
+   },
+   {
+    "value": "$340k",
+    "context": "title and platform overlap; the posting mentions developer tools you haven't led. $290k–$340k base Director of Product, AI Scale AI · San Francisco 76% strong fit AI platform scope fits; on-site in S"
+   },
+   {
+    "value": "76%",
+    "context": "ls you haven't led. $290k–$340k base Director of Product, AI Scale AI · San Francisco 76% strong fit AI platform scope fits; on-site in SF only. $245k–$285k base Example matches for a VP Product s"
+   },
+   {
+    "value": "28%",
+    "context": "t org across checkout, risk, and payouts. Launched an ML fraud model that cut chargebacks 28%. Grew payments revenue 3x in two years. 2 of 3 lines traced to your profile “3x” isn't in your profile. Rem"
+   },
+   {
+    "value": "3x",
+    "context": ", and payouts. Launched an ML fraud model that cut chargebacks 28%. Grew payments revenue 3x in two years. 2 of 3 lines traced to your profile “3x” isn't in your profile. Remove it, or add the fact to"
+   },
+   {
+    "value": "34%",
+    "context": "reate a free account. Add Plus for a daily watch and no limits. Monthly Yearly SAVE UP TO 34% Free Keep your career current between searches. $0 No card needed 50 tracked jobs Keyword job scoring, re"
+   },
+   {
+    "value": "30+",
+    "context": "a year Everything in Plus 300 AI credits a month Live voice mock interviews, 20 a month 30+ more job boards and career sites Credit packs: 100 more for $10, never expire Start with Free, then upgrade S"
+   }
+  ]
+ },
+ "logo": {
+  "svg": "<svg viewBox=\"0 0 120 120\" data-pose=\"hi\" data-mascot=\"pip\" class=\"pip-rig shrink-0 pip brand-pip\" aria-hidden=\"true\"><g class=\"pip-root\"><ellipse class=\"pip-shadow\" cx=\"60\" cy=\"113\" rx=\"28\" ry=\"4\" fill=\"#17302A\" opacity=\".12\"></ellipse><g class=\"pip-act\"><ellipse cx=\"47\" cy=\"106\" rx=\"10\" ry=\"5.5\" fill=\"#17302A\"></ellipse><ellipse cx=\"73\" cy=\"106\" rx=\"10\" ry=\"5.5\" fill=\"#17302A\"></ellipse><g class=\"pip-body\"><g class=\"pip-arm pip-arm-l\"><path d=\"M24 72 Q13 67 10 50\" stroke=\"#17302A\" stroke-width=\"6\" stroke-linecap=\"round\" fill=\"none\"></path><circle cx=\"10\" cy=\"50\" r=\"5.5\" fill=\"#17302A\"></circle></g><g class=\"pip-arm pip-arm-r\"><path d=\"M96 74 Q104 88 104 90\" stroke=\"#17302A\" stroke-width=\"6\" stroke-linecap=\"round\" fill=\"none\"></path><circle cx=\"104\" cy=\"90\" r=\"5.5\" fill=\"#17302A\"></circle></g><g class=\"pip-needle\"><path d=\"M60 6 L67 34 L60 40 L53 34Z\" fill=\"#17302A\"></path><path d=\"M60 40 L67 34 L60 44 L53 34Z\" fill=\"#FFF6E9\"></path><circle cx=\"60\" cy=\"34\" r=\"3\" fill=\"#FFD166\"></circle></g><circle cx=\"60\" cy=\"68\" r=\"38\" fill=\"#FF7A59\" stroke=\"#17302A\" stroke-width=\"3\"></circle><circle cx=\"60\" cy=\"69\" r=\"25\" fill=\"#FFF6E9\"></circle><path d=\"M60 46v5M60 87v5M37 69h5M78 69h5\" stroke=\"#E85A37\" stroke-width=\"2.5\" stroke-linecap=\"round\"></path><g transform=\"translate(0 0)\"><g class=\"pip-cheeks\" fill=\"#FFB49F\"><ellipse cx=\"44\" cy=\"74\" rx=\"4.5\" ry=\"3\"></ellipse><ellipse cx=\"76\" cy=\"74\" rx=\"4.5\" ry=\"3\"></ellipse></g><g class=\"pip-swap pip-gaze\"><g class=\"pip-look\"><g class=\"pip-blink\"><circle cx=\"51\" cy=\"65\" r=\"4\" fill=\"#17302A\"></circle><circle cx=\"69\" cy=\"65\" r=\"4\" fill=\"#17302A\"></circle><circle cx=\"52.4\" cy=\"63.6\" r=\"1.3\" fill=\"#fff\"></circle><circle cx=\"70.4\" cy=\"63.6\" r=\"1.3\" fill=\"#fff\"></circle></g></g></g><g class=\"pip-swap\"><path d=\"M53 74q7 6 14 0\" stroke=\"#17302A\" fill=\"none\" stroke-linecap=\"round\" stroke-width=\"3\"></path></g></g></g></g></g></svg>",
+  "box": [
+   137,
+   23,
+   40,
+   40
+  ],
+  "file": "logo.svg"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "image",
+   "w": 376,
+   "h": 628,
+   "y": 4965,
+   "alt": "The Compass Apply side panel after filling a sample application: profile answers, attached",
+   "file": "ui/image_00.png"
+  },
+  {
+   "i": 1,
+   "kind": "card",
+   "w": 716,
+   "h": 202,
+   "y": 466,
+   "alt": "TELL PIP WHERE YOU'RE HEADED Find me or roles in or , paying at least . Tap a yellow phras",
+   "file": "ui/card_01.png"
+  },
+  {
+   "i": 2,
+   "kind": "card",
+   "w": 280,
+   "h": 127,
+   "y": 406,
+   "alt": "Hi, I'm Pip. Tell me where you're headed, and I'll put the right one of the crew on it.",
+   "file": "ui/card_02.png"
+  },
+  {
+   "i": 3,
+   "kind": "card",
+   "w": 242,
+   "h": 118,
+   "y": 1030,
+   "alt": "I'm Sprig. A little care every week beats a scramble later. I keep your profile and Linked",
+   "file": "ui/card_03.png"
+  },
+  {
+   "i": 4,
+   "kind": "card",
+   "w": 371,
+   "h": 622,
+   "y": 1176,
+   "alt": "LinkedIn check Example 72 of 100 Headline names your role ! About is 96 words; aim for 150",
+   "file": "ui/card_04.png"
+  },
+  {
+   "i": 5,
+   "kind": "card",
+   "w": 321,
+   "h": 186,
+   "y": 1201,
+   "alt": "Example: a LinkedIn profile check",
+   "file": "ui/card_05.png"
+  },
+  {
+   "i": 6,
+   "kind": "card",
+   "w": 371,
+   "h": 622,
+   "y": 1176,
+   "alt": "Draft to Maya, Head of Product at Northwind Example Hi Maya, we met at the product leaders",
+   "file": "ui/card_06.png"
+  },
+  {
+   "i": 7,
+   "kind": "card",
+   "w": 321,
+   "h": 186,
+   "y": 1201,
+   "alt": "Example: an outreach draft",
+   "file": "ui/card_07.png"
+  },
+  {
+   "i": 8,
+   "kind": "card",
+   "w": 371,
+   "h": 622,
+   "y": 1176,
+   "alt": "Pay on your roles Example Stripe $280k–$330k Oscar Health $265k–$300k Scale AI $245k–$285k",
+   "file": "ui/card_08.png"
+  },
+  {
+   "i": 9,
+   "kind": "card",
+   "w": 321,
+   "h": 186,
+   "y": 1201,
+   "alt": "Example: pay on roles you track, beside your expectation",
+   "file": "ui/card_09.png"
+  },
+  {
+   "i": 10,
+   "kind": "card",
+   "w": 520,
+   "h": 602,
+   "y": 2051,
+   "alt": "How to pass each interview Free guides: what the interviewer is checking, how to run your ",
+   "file": "ui/card_10.png"
+  },
+  {
+   "i": 11,
+   "kind": "card",
+   "w": 386,
+   "h": 235,
+   "y": 3038,
+   "alt": "TOP MATCH TODAY VP Product, Payments Stripe · Remote (US) 92% strong fit Two payments laun",
+   "file": "ui/card_11.png"
+  },
+  {
+   "i": 12,
+   "kind": "card",
+   "w": 386,
+   "h": 235,
+   "y": 3038,
+   "alt": "Head of Product Oscar Health · New York · Hybrid 87% strong fit Scaled a product org from ",
+   "file": "ui/card_12.png"
+  },
+  {
+   "i": 13,
+   "kind": "card",
+   "w": 386,
+   "h": 208,
+   "y": 3295,
+   "alt": "VP Product Management Vercel · Remote 83% strong fit Strong title and platform overlap; th",
+   "file": "ui/card_13.png"
+  },
+  {
+   "i": 14,
+   "kind": "card",
+   "w": 386,
+   "h": 208,
+   "y": 3295,
+   "alt": "Director of Product, AI Scale AI · San Francisco 76% strong fit AI platform scope fits; on",
+   "file": "ui/card_14.png"
+  },
+  {
+   "i": 15,
+   "kind": "card",
+   "w": 340,
+   "h": 576,
+   "y": 3032,
+   "alt": "Wick keeps watch on your sources and brings back only what fits. On Plus, that happens eve",
+   "file": "ui/card_15.png"
+  },
+  {
+   "i": 16,
+   "kind": "card",
+   "w": 656,
+   "h": 305,
+   "y": 4465,
+   "alt": "Resume for Stripe · VP Product, Payments Example Led a 40-person product org across checko",
+   "file": "ui/card_16.png"
+  },
+  {
+   "i": 17,
+   "kind": "card",
+   "w": 280,
+   "h": 154,
+   "y": 4458,
+   "alt": "“3x” isn't in your profile. Remove it, or add the fact to your profile first. I won't make",
+   "file": "ui/card_17.png"
+  },
+  {
+   "i": 18,
+   "kind": "card",
+   "w": 276,
+   "h": 662,
+   "y": 7753,
+   "alt": "Free Keep your career current between searches. $0 No card needed 50 tracked jobs Keyword ",
+   "file": "ui/card_18.png"
+  },
+  {
+   "i": 19,
+   "kind": "card",
+   "w": 276,
+   "h": 662,
+   "y": 7753,
+   "alt": "Plus AI INCLUDED Your career's chief of staff, every day, with AI built in. $19 / month Bi",
+   "file": "ui/card_19.png"
+  },
+  {
+   "i": 20,
+   "kind": "card",
+   "w": 276,
+   "h": 662,
+   "y": 7753,
+   "alt": "Pro VOICE INTERVIEWS More AI, and a live interviewer to practice with. $49 / month Billed ",
+   "file": "ui/card_20.png"
+  },
+  {
+   "i": 21,
+   "kind": "card",
+   "w": 276,
+   "h": 662,
+   "y": 7753,
+   "alt": "Search Pass NEVER RENEWS Pro for one focused search. $59 once 30 days, no subscription Eve",
+   "file": "ui/card_21.png"
+  },
+  {
+   "i": 22,
+   "kind": "card",
+   "w": 480,
+   "h": 300,
+   "y": 9683,
+   "alt": "Meet Sprig, a seedling z z Meet Wick, a trail lantern Meet Pip, a pocket compass Meet Tuck",
+   "file": "ui/card_22.png"
+  }
+ ],
+ "fontFiles": []
+}

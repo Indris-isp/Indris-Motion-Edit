@@ -1,0 +1,7 @@
+{ "title": "SeySpace — From booked to delivered",
+  "concept": "One photographer, one job (The Elegance Collection). The same portrait opens the film, becomes the booking, is opened in the client gallery, and closes the film; the prints are sold from that same collection.",
+  "palette": [["warm white","#F7F4EF"],["charcoal","#20201E"],["beige","#C8B9A7"]],
+  "fonts": ["Instrument Serif · headlines", "Inter Medium · captions/UI"],
+  "footnotes": ["REAL UI: seyspace.com client gallery + gallery cart (Elegance Collection), client-portal invoice, logo, and the wedding photography from their site.",
+    "ILLUSTRATIVE: SeySpace has no public booking screen, so shot 2 is a booking card built in their UI language with their own sample figures ($1,800 + $650 = $2,450). Swap in a real booking capture if they can supply one.",
+    "Note: the cart thumbnail in the real capture is a different photo from the same collection; a fresh capture with the portrait in the cart would make the continuity exact."] }

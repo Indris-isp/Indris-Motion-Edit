@@ -1,0 +1,21 @@
+:root{--ringRGB:119,99,217;--mark:rgba(119,99,217,.25)}
+.hd{position:absolute;font:600 92px/1.04 Geist;letter-spacing:-.035em;white-space:pre;color:#202124}
+.cmd{position:absolute;font:500 22px 'IBM Plex Mono';color:#7763D9;background:#F1EEFC;border-radius:8px;padding:10px 16px;white-space:nowrap}
+.chat{position:absolute;background:#fff;border-radius:16px;box-shadow:0 40px 90px -30px rgba(32,33,36,.28),0 0 0 1px rgba(32,33,36,.08);overflow:hidden;font-family:Geist;color:#202124}
+.chat .top{height:64px;display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid #ECEBF1;font:600 24px Geist}
+.chat .top small{font:500 17px 'IBM Plex Mono';color:#8A8D95;margin-left:auto}
+.msg{display:flex;gap:18px;padding:18px 28px}
+.av{width:54px;height:54px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font:600 22px Geist;color:#fff}
+.msg b{font:600 23px Geist}.msg time{font:400 18px Geist;color:#8A8D95;margin-left:10px}
+.msg p{margin:6px 0 0;font:400 27px/1.42 Geist}
+.at{color:#7763D9;background:#F1EEFC;border-radius:6px;padding:0 6px}
+code{font:500 .85em 'IBM Plex Mono';background:#F3F3F6;border-radius:6px;padding:2px 7px}
+.src{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font:500 21px 'IBM Plex Mono';color:#7763D9;border:1.5px solid #CFC7F3;border-radius:10px;padding:10px 14px}
+.flag{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font:500 21px 'IBM Plex Mono';color:#9A4A00;background:#FFF3E2;border-radius:10px;padding:10px 14px}
+.bubble{position:absolute;background:#F3F3F6;border-radius:22px 22px 22px 6px;padding:26px 34px;font:400 40px Geist;color:#202124;white-space:nowrap}
+.bubble small{display:block;font:500 17px 'IBM Plex Mono';color:#8A8D95;margin-bottom:8px}
+.win{position:absolute;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 50px 90px -30px rgba(32,33,36,.35),0 0 0 1px rgba(32,33,36,.08)}
+.win .bar{height:40px;background:#F3F3F6;display:flex;align-items:center;gap:8px;padding:0 16px}.win .bar i{width:12px;height:12px;border-radius:50%;background:#D5D4DC}
+.win .bar span{margin-left:16px;font:500 15px 'IBM Plex Mono';color:#6B6E76}
+.hlbox{position:absolute;background:rgba(119,99,217,.26);border-radius:6px;box-shadow:inset 0 -3px 0 #7763D9}
+.ringbox{position:absolute;border-radius:10px}

@@ -1,0 +1,7 @@
+{ "title": "Clocknext — What did that AI run actually earn?",
+  "concept": "Follow one example agent run (run_4821 for Acme Inc., one voice call) from usage to billable charge to margin. One blue highlight carries the same run across three real Clocknext screens.",
+  "palette": [["navy","#101827"],["cool white","#F1F4F8"],["blue accent","#6B9BFF"]],
+  "fonts": ["Geist Semibold · headlines", "IBM Plex Mono · numbers"],
+  "footnotes": ["REAL UI: clocknext.com metering view, the Voice call composite ($0.45 / call), the Acme Inc. customer margin view (74.9%), lockup and button labels.",
+    "EXAMPLE FIGURES (labelled on screen) reconcile: provider cost $0.11 + you keep $0.34 = charge $0.45 (75.6%). $0.45 / call is Clocknext's own example price. Acme Inc. is their example customer.",
+    "Brand note: clocknext.com itself is cream and amber with Petrona headlines. This film follows the concept's navy / cool-white / blue direction around their real UI. A cream-and-amber version is a quick switch if they prefer their site look."] }
