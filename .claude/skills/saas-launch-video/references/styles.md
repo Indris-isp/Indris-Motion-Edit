@@ -16,6 +16,8 @@ Each style defines:
 - `turn`, `bpm`
 - the default `shots`
 
+The style's `shots` list is only a starting point. The concept decides the scene list (`concepts.md`, `creative-moves.md`).
+
 Shots ask for a scene **kind** (`bg: 'light' | 'dark' | 'accent'`), so the same shot renders differently per style.
 
 ## Choosing

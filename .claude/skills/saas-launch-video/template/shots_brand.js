@@ -138,8 +138,9 @@ shot('uiFeature', { hero: 2.8, len: 3.6, bg: 'light', tin: 'whip', tout: 'whip',
 shot('monitorWords', { hero: 2.4, len: 3.0, bg: 'dark', tin: 'zoom', tout: 'zoom',
   sfx: [[0.1, 'whoosh_s'], [0.55, 'pop'], [0.8, 'pop'], [1.05, 'pop'], [2.85, 'whoosh']],
   build(c, s, sc) {
-    const wd = B.words || {}, mw = lv(820, 860);
-    s.dev = device(c, sc.device || 'monitor', { x: CX - mw / 2, y: lv(190, CY - 330), w: mw, h: mw * .58, src: wd.screen || (B.hero || {}).screen });
+    const wd = Object.assign({}, B.words || {}, sc.items ? { items: sc.items } : {}), mw = lv(820, 860);
+    s.dev = device(c, sc.device || 'monitor', { x: CX - mw / 2, y: lv(190, CY - 330), w: mw, h: mw * .58, src: sc.component ? null : wd.screen, component: sc.component || wd.component });
+    if (sc.items) wd.items = sc.items;
     const pos = lv([[300, 330], [1430, 220], [1420, 640], [260, 700]], [[90, 470], [560, 360], [520, 1430], [110, 1540]]);
     s.words = (wd.items || ['Plan', 'Track', 'Ship']).slice(0, 4).map((w, i) => D(c, 'abs spark', { left: pos[i][0], top: pos[i][1], fontSize: lv(56, 70) + 'px' }, `<i></i>${w}`));
     s.bars = D(c, 'abs', { left: 0, right: 0, bottom: 0, height: 110, background: 'repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 3px,transparent 3px 9px)' });
@@ -154,10 +155,10 @@ shot('monitorWords', { hero: 2.4, len: 3.0, bg: 'dark', tin: 'zoom', tout: 'zoom
 shot('splitWords', { hero: 2.0, len: 2.6, bg: 'dark', tout: 'zoom',
   sfx: [[0.05, 'whoosh_s'], [0.35, 'swoop'], [0.5, 'pop'], [2.45, 'whoosh']],
   build(c, s, sc) {
-    const sp = B.split || {}, mw = lv(640, 700);
+    const sp = Object.assign({}, B.split || {}, sc.left ? { left: sc.left, right: sc.right } : {}), mw = lv(640, 700);
     s.left = D(c, 'ctr head', { left: lv(330, CX), top: lv(CY - 20, CY - 470), fontSize: lv(124, 120) + 'px' }, sp.left || 'Work');
     s.right = D(c, 'ctr head', { left: lv(1600, CX), top: lv(CY - 20, CY + 470), fontSize: lv(124, 120) + 'px', color: 'var(--hi)' }, sp.right || 'smarter.');
-    s.dev = device(c, sc.device || 'monitor', { x: CX - mw / 2, y: CY - mw * .36, w: mw, h: mw * .58, src: sp.screen || (B.hero || {}).screen });
+    s.dev = device(c, sc.device || 'monitor', { x: CX - mw / 2, y: CY - mw * .36, w: mw, h: mw * .58, src: sc.component ? null : sp.screen, component: sc.component || sp.component });
   },
   update(t, s, c) {
     S(c, { s: L(1, 1.05, t / 2.6) });
@@ -178,7 +179,7 @@ shot('frameCard', { hero: 1.0, len: 2.6, bg: 'light',
     s.frame = D(c, 'ctr glass', { left: CX, top: CY, width: W, height: H, borderRadius: '0px' });
     s.inner = D(c, 'ctr', { left: CX, top: CY, width: W, height: H, background: STYLE.bg.dark, overflow: 'hidden' });
     const mw = lv(760, 820);
-    s.dev = device(s.inner, sc.device || 'monitor', { x: 0, y: 0, w: mw, h: mw * .58, src: (B.words || {}).screen || (B.hero || {}).screen });
+    s.dev = device(s.inner, sc.device || 'monitor', { x: 0, y: 0, w: mw, h: mw * .58, src: sc.component ? null : (B.words || {}).screen, component: sc.component || (B.words || {}).component });
     s.devW = mw;
     s.card = D(c, 'ctr glass', { left: g.x, top: g.y, width: g.w, height: g.h });
     s.title = D(s.card, 'abs row', { left: 34, top: 30, gap: '14px', fontSize: lv(40, 46) + 'px', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font)', overflow: 'hidden' }, `<span class="spark" style="color:var(--acc)"><i></i></span><span class="tt">${(B.build || {}).title || 'New project'}</span>`);
@@ -209,9 +210,11 @@ shot('uiBuild', { hero: 3.0, len: 3.6, bg: 'light', tout: 'up',
     D(s.card, 'abs row', { left: 34, top: 30, gap: '14px', fontSize: lv(40, 46) + 'px', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font)' }, `<span class="spark" style="color:var(--acc)"><i></i></span>${b.title || 'New project'}`);
     s.lab = b.label ? D(s.card, 'abs label', { left: 36, top: 100, fontSize: '17px' }, b.label) : null;
     s.base = D(s.card, 'abs', { left: 34, top: 140, width: g.w - 68, height: g.h - 174, borderRadius: '18px', overflow: 'hidden', background: 'rgba(255,255,255,.7)', boxShadow: 'inset 0 0 0 1.5px rgba(0,0,0,.06)' },
-      b.base ? `<img src="${b.base}" style="width:100%;height:100%;object-fit:${b.baseFit || 'contain'};display:block">` : skeletonHTML(g.h - 174));
+      b.base && !b.baseComponent ? `<img src="${b.base}" style="width:100%;height:100%;object-fit:${b.baseFit || 'contain'};display:block">` : b.baseComponent ? '' : skeletonHTML(g.h - 174));
+    if (b.baseComponent) { const bc = renderComponent(s.base, b.baseComponent, { x: 0, y: 0, w: g.w - 68 }); bc.el.style.boxShadow = 'none'; bc.el.style.background = 'transparent'; }
     const dw = lv(520, 600);
-    s.drag = D(c, 'ctr', { left: g.x + lv(170, 60), top: g.y + lv(150, 260), width: dw }, b.drag ? `<img src="${b.drag}" style="width:100%;display:block;border-radius:16px">` : `<div class="card" style="height:${dw * .4}px"></div>`);
+    s.drag = D(c, 'ctr', { left: g.x + lv(170, 60), top: g.y + lv(150, 260), width: dw }, b.drag && !b.dragComponent ? `<img src="${b.drag}" style="width:100%;display:block;border-radius:16px">` : b.dragComponent ? '' : `<div class="card" style="height:${dw * .4}px"></div>`);
+    if (b.dragComponent) { const dc = renderComponent(s.drag, b.dragComponent, { x: 0, y: 0, w: dw }); dc.el.style.position = 'relative'; }
     s.drag.style.borderRadius = '16px';
     s.hand = mkHand(c);
     s.ok = D(c, 'ctr', { left: g.x + g.w / 2 - 20, top: g.y - g.h / 2 + 20, width: 56, height: 56, borderRadius: '50%', background: '#19B36B', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px', fontWeight: 800, boxShadow: '0 0 0 6px #fff' }, '✓');

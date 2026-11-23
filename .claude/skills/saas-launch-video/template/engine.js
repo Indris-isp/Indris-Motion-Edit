@@ -111,7 +111,7 @@ function moveHand(h, t, tx, ty, t0, t1, dx = 420, dy = 520) {
 function centerOf(e) { const r = e.getBoundingClientRect(), sr = stage.getBoundingClientRect(); return { x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height / 2 }; }
 /* the brand logo: onDark picks brand.logoOnDark, or inverts the normal logo to white */
 const logoHTML = (h, onDark = false, extra = '') => {
-  if (!BR.logo) return `<span class="head" style="font-size:${h}px">${B.product}</span>`;
+  if (!BR.logo) return `<span class="head" style="font-size:${h}px;${onDark ? 'color:#fff' : ''}">${B.product}</span>`;
   const src = onDark && BR.logoOnDark ? BR.logoOnDark : BR.logo, inv = onDark && !BR.logoOnDark && BR.invertOnDark !== false;
   return `<img src="${src}" style="height:${h}px;width:auto;display:block;${inv ? 'filter:brightness(0) invert(1);' : ''}${extra}">`;
 };
@@ -124,7 +124,7 @@ const btnHTML = (label, kind = 1, size = 1) => `<span class="btn b${kind}" style
 /* a product screen inside a device. kind: monitor | laptop | browser | phone | none. Returns { el, screen }.
    src: an image (real UI); without one a neutral UI skeleton is drawn so the shot still works. */
 function device(parent, kind, o) {
-  kind = kind || STYLE.device; const w = o.w, img = o.src ? `<img src="${o.src}" style="width:100%;height:100%;object-fit:cover;object-position:${o.pos || 'top left'};display:block">` : skeletonHTML();
+  kind = kind || STYLE.device; const w = o.w, img = o.src ? `<img src="${o.src}" style="width:100%;height:100%;object-fit:cover;object-position:${o.pos || 'top left'};display:block">` : o.component ? '' : skeletonHTML();
   const el = D(parent, 'abs dev dev-' + kind, { left: o.x, top: o.y, width: w });
   let scr;
   if (kind === 'monitor') {
@@ -150,6 +150,12 @@ function device(parent, kind, o) {
   } else {
     const h = o.h || null;
     scr = D(el, '', { width: w, height: h, borderRadius: 'var(--radius)', overflow: 'hidden', boxShadow: '0 50px 110px -30px rgba(10,20,50,.45),0 0 0 1px rgba(0,0,0,.06)' }, o.src ? `<img src="${o.src}" style="width:100%;display:block">` : skeletonHTML(w * .6));
+  }
+  if (o.component && !o.src) {   // a REBUILT component fills the screen (kit.js), not a screenshot
+    scr.style.background = 'var(--bgLight)'; scr.style.display = 'flex'; scr.style.alignItems = 'center'; scr.style.justifyContent = 'center';
+    const cw = (scr.clientWidth || w) * .78; const c = renderComponent(scr, o.component, { w: Math.min(cw, 640) }); c.el.style.position = 'relative'; c.el.style.boxShadow = '0 20px 40px -20px rgba(0,0,0,.3)';
+    const fit = (o.h || w * .6) * .82 / Math.max(1, c.el.offsetHeight || 400); if (fit < 1) c.el.style.zoom = fit.toFixed(3);
+    return { el, screen: scr, comp: c };
   }
   return { el, screen: scr };
 }

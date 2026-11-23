@@ -1,0 +1,357 @@
+/* CREATIVE MOVES — concept-driven scenes. Each takes its words and components from the timeline row:
+ *   ['podium', 2.6, 1.3, { headline: ['Make every rep', 'compete.'], entries: [...] }]
+ * Components come from B.kit (kit.js, rebuilt in brand tokens). No screenshots.
+ * All moves read brand variables and have 9:16 layouts. See references/creative-moves.md.
+ */
+'use strict';
+const PAL = () => [getComputedStyle(document.documentElement).getPropertyValue('--acc').trim(), getComputedStyle(document.documentElement).getPropertyValue('--hi').trim(),
+  getComputedStyle(document.documentElement).getPropertyValue('--acc2').trim(), getComputedStyle(document.documentElement).getPropertyValue('--dark').trim()];
+const hd = (a, b, accent = true) => `${kesc(a)}${b ? `\n<span style="color:${accent ? 'var(--acc)' : 'var(--mut)'}">${kesc(b)}</span>` : ''}`;
+const fitFs = (base, lines, maxW) => Math.min(base, maxW / (Math.max(...lines.map(l => String(l || '').length), 1) * .52));
+const HAND_SVG = (fill = '#fff', stroke = 'var(--ink)') => `<svg width="100" height="118" viewBox="0 0 22 26" style="filter:drop-shadow(0 14px 14px rgba(0,0,0,.35))"><path d="M7 1.5c1 0 1.8.8 1.8 1.8v7.2l.6-.1c.9-.1 1.7.4 2 1.2.6-.3 1.4-.3 2 .1.5-.3 1.3-.3 1.9.1.9.6 1.5 1.6 1.5 2.7V19c0 3.3-2.7 6-6 6H9.6c-1.7 0-3.3-.8-4.3-2.1L1.6 18c-.6-.8-.5-1.9.3-2.5.8-.6 1.9-.5 2.5.3l.8 1V3.3C5.2 2.3 6 1.5 7 1.5z" fill="${fill}" stroke="${stroke}" stroke-width="1"/></svg>`;
+
+/* ===== kinetic: one huge line (a time, a word), small accent, label, atmosphere ===== */
+shot('kinetic', { hero: 1.6, len: 2.4, bg: 'dark', tout: 'whip',
+  sfx: [[0.02, 'swell'], [0.5, 'tick'], [2.25, 'whoosh']],
+  build(c, s, sc) {
+    const glow = sc.glow || 'hi';
+    s.sun = D(c, 'abs', { left: -200, width: W + 400, bottom: lv(-420, -620), height: lv(700, 900), borderRadius: '50%', background: `radial-gradient(closest-side,var(--${glow}) 0%,rgba(var(--accRGB),.18) 55%,transparent)`, filter: 'blur(10px)', opacity: .9 });
+    const big = String(sc.big || '6:00'), fs = Math.min(lv(300, 260), W * .86 / (big.length * .56));
+    s.big = D(c, 'ctr head', { left: CX, top: CY - lv(70, 120), fontSize: fs + 'px', whiteSpace: 'nowrap' }, `${kesc(big)}${sc.small ? `<span style="color:var(--${glow});font-size:.5em;letter-spacing:-.02em"> ${kesc(sc.small)}</span>` : ''}`);
+    s.lab = sc.label ? D(c, 'ctr', { left: CX, top: CY + lv(140, 120), fontSize: lv(32, 36) + 'px', fontWeight: 600, letterSpacing: '.22em', opacity: .75, whiteSpace: 'nowrap', fontFamily: 'var(--font)' }, kesc(sc.label)) : null;
+    s.line = D(c, 'abs', { left: 0, top: CY, width: W, height: 2, background: `linear-gradient(90deg,transparent,var(--${glow}),transparent)` });
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.05, t / 2.4) });
+    blurIn(s.big, t, 0, .7, { blur: 40, s0: 1.15 });
+    if (s.lab) blurIn(s.lab, t, .5, .9, { y: 16, blur: 10 });
+    S(s.sun, { y: (1 - eo(P(t, 0, 1.4))) * 260, o: .9 });
+    const lp = eio(P(t, .3, 1.2)); s.line.style.transform = `translateX(${L(-W, W, lp).toFixed(0)}px)`; s.line.style.opacity = lp > 0 && lp < 1 ? .8 : 0;
+  } });
+
+/* ===== scribbles: the problem drawn as an illustration (whiteboard / paper / sticky) ===== */
+shot('scribbles', { hero: 2.4, len: 3.2, bg: 'light', tout: 'zoom',
+  sfx: [[0.2, 'type10'], [0.9, 'type10'], [1.6, 'swoop'], [2.2, 'stamp'], [3.0, 'whoosh']],
+  build(c, s, sc) {
+    const bw = lv(1560, 960), bh = lv(820, 1320), bx = CX - bw / 2, by = lv(90, 260), surf = sc.surface || 'whiteboard';
+    c.parentElement.style.background = 'linear-gradient(180deg,#eceff3,#e2e6ec)';
+    s.board = D(c, 'abs', { left: bx, top: by, width: bw, height: bh, borderRadius: '14px', background: surf === 'paper' ? '#fffdf7' : surf === 'sticky' ? '#fff3a6' : 'linear-gradient(160deg,#fff,#f6f7f9)',
+      boxShadow: surf === 'whiteboard' ? '0 0 0 14px #cfd5de,0 0 0 16px #b8c0cc,0 60px 120px -40px rgba(0,0,0,.45)' : '0 50px 100px -40px rgba(0,0,0,.45)', transformOrigin: '50% 50%' });
+    const col = k => ({ ink: '#1f3a8a', blue: '#1f3a8a', red: '#e11d48', black: '#1e212e', acc: 'var(--acc)', hi: 'var(--hi)' }[k] || k || '#1f3a8a');
+    s.items = (sc.items || []).map((it, i) => {
+      const e = D(s.board, 'abs', { left: it.x * bw, top: it.y * bh, fontFamily: 'var(--font)', fontWeight: 700, fontSize: (it.size || 64) * lv(1, .9) + 'px', color: col(it.color), transform: `rotate(${it.rot || (i % 2 ? 1.5 : -1.5)}deg)`, whiteSpace: 'nowrap', letterSpacing: '-.01em' });
+      const T = typed(e, '', {}, [{ t: it.t }], false);
+      if (it.strike) { e.style.position = 'absolute'; D(e, 'abs', { left: '-3%', right: '-3%', top: '52%', height: '7px', borderRadius: '4px', background: 'currentColor' }); }
+      let ring = null;
+      if (it.circle) { ring = D(e, 'abs', { left: '-6%', top: '-18%', width: '112%', height: '136%' }, `<svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="overflow:visible"><ellipse cx="50" cy="50" rx="50" ry="50" fill="none" stroke="#e11d48" stroke-width="4" vector-effect="non-scaling-stroke" pathLength="1" stroke-dasharray="0 1" transform="rotate(-4 50 50)"/></svg>`); ring = ring.querySelector('ellipse'); }
+      return { T, ring, d: .15 + i * .32 };
+    });
+    s.strokes = (sc.strokes || []).map((st, i) => {
+      const sv = D(s.board, 'abs', { left: 0, top: 0, width: bw, height: bh }, `<svg width="${bw}" height="${bh}" viewBox="0 0 1000 1000" preserveAspectRatio="none" style="overflow:visible"><path d="${st.d}" fill="none" stroke="${col(st.color)}" stroke-width="${st.w || 8}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" pathLength="1" stroke-dasharray="0 1"/></svg>`);
+      return { p: sv.querySelector('path'), d: .4 + i * .3 };
+    });
+    if (sc.smear) s.smear = D(s.board, 'abs', { left: bw * .18, top: bh * .74, width: bw * .55, height: 110, borderRadius: '60px', background: 'rgba(255,255,255,.92)', filter: 'blur(14px)' });
+    const cap = sc.caption || [];
+    s.cap = cap.length ? D(c, V ? 'ctr' : 'abs', V ? { left: CX, top: by + bh + 120 } : { right: 120, top: by + bh - 60 }, `<span style="display:inline-block;padding:22px 34px;border-radius:999px;background:var(--dark);color:#fff;font:800 ${lv(44, 46)}px var(--font);letter-spacing:-.02em;white-space:nowrap;box-shadow:0 20px 40px -10px rgba(0,0,0,.5)">${kesc(cap[0])} <span style="color:var(--hi)">${kesc(cap[1] || '')}</span></span>`) : null;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.03, 1, eo(P(t, 0, 3))) });
+    S(s.board, { r: -1.2, s: L(.96, 1, eo(P(t, 0, .5))), o: C(t * 6) });
+    s.items.forEach(it => { typeP(it.T, P(t, it.d, it.d + .45), t, false); if (it.ring) it.ring.setAttribute('stroke-dasharray', `${eio(P(t, it.d + .45, it.d + .8)).toFixed(3)} 1`); });
+    s.strokes.forEach(st => st.p.setAttribute('stroke-dasharray', `${eio(P(t, st.d, st.d + .5)).toFixed(3)} 1`));
+    if (s.smear) S(s.smear, { o: P(t, 1.8, 2.1), x: L(-200, 0, eo(P(t, 1.8, 2.2))) });
+    if (s.cap) { const q = P(t, 2.1, 2.4); S(s.cap, { s: L(.6, 1, bo(q)), o: q * 3 }); }
+  } });
+
+/* ===== crowd: N people (avatars in brand tints) with questions popping, centre counter card ===== */
+shot('crowd', { hero: 2.2, len: 3.0, bg: 'dark', tin: 'zoom', tout: 'whip',
+  sfx: [[0.05, 'pops8'], [0.6, 'pops6'], [1.4, 'stamp'], [2.85, 'whoosh']],
+  build(c, s, sc) {
+    const n = sc.count || 40, cols = lv(8, 5), rows = Math.ceil(n / cols), sx = lv(205, 190), sy = lv(175, 210), ox = CX - (cols - 1) * sx / 2 - 60, oy = CY - (rows - 1) * sy / 2 - 60;
+    const tints = [['var(--acc)', 'var(--acc2)'], ['var(--hi)', 'var(--acc2)'], ['var(--acc3)', 'var(--acc)'], ['var(--dark)', 'var(--acc3)']];
+    const names = sc.names || 'JS MK AR TB LC DW PM RV KO EH NS BG AT CJ LM QF'.split(' ');
+    s.av = []; for (let i = 0; i < n; i++) { const r = Math.floor(i / cols), k = i % cols, tn = tints[(i * 7) % 4];
+      s.av.push({ e: D(c, 'abs', { left: ox + k * sx + (r % 2) * lv(50, 0), top: oy + r * sy, width: 120, height: 120, borderRadius: '50%', background: `linear-gradient(135deg,${tn[0]},${tn[1]})`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', font: '700 40px var(--font)', boxShadow: '0 0 0 5px rgba(255,255,255,.08)' }, names[i % names.length]), d: .02 + hash(i) * .5, a: .45 + (i * 13 % 10) / 20 }); }
+    const qs = sc.questions || []; const spots = lv([[300, 150], [1380, 210], [230, 770], [1420, 780], [820, 900], [1500, 480]], [[90, 330], [600, 420], [80, 1450], [560, 1560], [300, 1700], [620, 760]]);
+    s.q = qs.slice(0, 6).map((q, i) => D(c, 'abs', { left: spots[i][0], top: spots[i][1], padding: '12px 20px', borderRadius: '999px', background: '#fff', color: 'var(--ink)', font: '600 22px var(--font-body)', whiteSpace: 'nowrap', boxShadow: '0 14px 30px -12px rgba(0,0,0,.5)' }, kesc(q)));
+    s.card = sc.center ? D(c, 'ctr', { left: CX, top: CY, padding: '30px 54px', borderRadius: '28px', background: 'rgba(10,14,24,.86)', backdropFilter: 'blur(8px)', boxShadow: '0 0 0 2px rgba(255,255,255,.08)', textAlign: 'center', color: '#fff' },
+      `<div class="head" style="font-size:${lv(120, 130)}px">${kesc(sc.center[0])}</div><div style="font:600 ${lv(30, 34)}px var(--font-body);opacity:.75;margin-top:8px">${kesc(sc.center[1] || '')}</div>`) : null;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.06, 1, eo(P(t, 0, 3))) });
+    s.av.forEach(a => { const k = P(t, a.d, a.d + .35); S(a.e, { s: L(.4, 1, bo(k)), o: k * a.a }); });
+    s.q.forEach((e, i) => { const d = .6 + i * .18, k = P(t, d, d + .3); S(e, { s: L(.5, 1, bo(k)), o: k * 3, y: Math.sin(t * 2 + i) * 6 }); });
+    if (s.card) { const k = P(t, 1.3, 1.65); S(s.card, { s: L(.7, 1, bo(k)), o: k * 3 }); }
+  } });
+
+/* ===== dial: a gauge sweeps to a bad (or good) value beside a headline ===== */
+shot('dial', { hero: 2.2, len: 2.8, bg: 'light', tout: 'whip',
+  sfx: [[0.1, 'type12'], [0.6, 'ticks12'], [1.7, 'down'], [2.65, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || [''], fs = fitFs(lv(124, 110), h, lv(860, 940));   // any number of lines; lines 2+ are muted (or accent)
+    s.h = typed(c, 'abs head', { left: lv(130, 80), top: lv(300, 260), fontSize: fs + 'px' }, h.map((l, i) => ({ t: (i ? '\n' : '') + l, cls: i ? 'l2' : '' })), false);
+    s.h.el.querySelectorAll('.l2').forEach(e => e.style.color = sc.accent ? 'var(--acc)' : 'var(--mut)');
+    const gx = lv(1060, 160), gy = lv(200, 820);
+    s.g = D(c, 'abs', { left: gx, top: gy, width: 760, height: 640 }, `<svg width="760" height="640" viewBox="0 0 760 640">
+      <path d="M80 520 A300 300 0 0 1 680 520" fill="none" stroke="var(--line)" stroke-width="56" stroke-linecap="round"/>
+      <path class="arc" d="M80 520 A300 300 0 0 1 680 520" fill="none" stroke="var(--ink)" stroke-width="56" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1"/>
+      <line class="ndl" x1="380" y1="520" x2="380" y2="250" stroke="var(--ink)" stroke-width="12" stroke-linecap="round"/><circle cx="380" cy="520" r="26" fill="var(--ink)"/>
+      <text class="val" x="380" y="420" text-anchor="middle" style="font:var(--head-weight) 150px var(--font);letter-spacing:-6px" fill="var(--ink)">0</text>
+      <text x="380" y="610" text-anchor="middle" style="font:700 30px var(--font-body);letter-spacing:6px" fill="var(--mut)">${kesc(sc.label || '')}</text></svg>`);
+    s.arc = s.g.querySelector('.arc'); s.ndl = s.g.querySelector('.ndl'); s.val = s.g.querySelector('.val');
+  },
+  update(t, s, c, sc) {
+    S(c, { s: L(1, 1.04, t / 2.8) });
+    typeP(s.h, P(t, .1, .8), t, false);
+    S(s.g, { o: C(P(t, .2, .4) * 3), s: L(.9, 1, eo(P(t, .2, .7))) });
+    const from = sc.from == null ? 100 : sc.from, to = sc.value == null ? 2 : sc.value;
+    const v = L(from, to, eio(P(t, .6, 1.8))), f = v / 100;
+    s.arc.setAttribute('stroke-dasharray', `${Math.max(.001, f).toFixed(3)} 1`);
+    const ang = Math.PI * (1 - f), r = 270; s.ndl.setAttribute('x2', (380 - Math.cos(ang) * -r * -1 * -1 + 0).toFixed(1));
+    s.ndl.setAttribute('x2', (380 - r * Math.cos(Math.PI * f)).toFixed(1)); s.ndl.setAttribute('y2', (520 - r * Math.sin(Math.PI * f)).toFixed(1));
+    s.val.textContent = Math.round(v) + (sc.unit || '%');
+  } });
+
+/* ===== funnel: a crowd of dots squeezed through a narrow gate; only a few get through ===== */
+shot('funnel', { hero: 2.4, len: 3.0, bg: 'light', tin: 'whip', tout: 'zoom',
+  sfx: [[0.1, 'swell'], [0.8, 'ticks10'], [2.85, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || ['', ''];
+    s.h = D(c, 'ctr head', { left: CX, top: lv(150, 230), fontSize: fitFs(lv(110, 100), [V ? h[0] : h.join(' ')], W * .9) + 'px', textAlign: 'center' }, `${kesc(h[0])}${V ? '\n' : ' '}<span style="color:var(--mut)">${kesc(h[1] || '')}</span>`);
+    s.cv = document.createElement('canvas'); s.cv.width = W; s.cv.height = H; s.cv.className = 'abs'; s.cv.style.left = 0; s.cv.style.top = 0; c.appendChild(s.cv);
+    s.gx = CX; s.gy = lv(660, CY + 260);
+    s.g1 = D(c, 'abs', { left: s.gx - 30, top: s.gy - lv(360, 520), width: 60, height: lv(330, 490), borderRadius: '30px', background: 'var(--ink)' });
+    s.g2 = D(c, 'abs', { left: s.gx - 30, top: s.gy + 30, width: 60, height: lv(330, 490), borderRadius: '30px', background: 'var(--ink)' });
+    s.gate = D(c, 'ctr', { left: s.gx, top: s.gy, padding: '8px 16px', borderRadius: '999px', background: 'var(--hi)', color: 'var(--ink)', font: '800 22px var(--font)', letterSpacing: '.06em' }, kesc(sc.gate || 'FEED'));
+    s.n = sc.count || 1200; s.pass = sc.pass || 24;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3) });
+    blurIn(s.h, t, 0, .45, { y: -16 });
+    const x = s.cv.getContext('2d'); x.clearRect(0, 0, W, H);
+    const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(), hi = getComputedStyle(document.documentElement).getPropertyValue('--hi').trim();
+    const cx = lv(480, CX), cy = lv(s.gy - 20, s.gy - 560), R = lv(330, 300), app = eo(P(t, 0, .6));
+    for (let i = 0; i < s.n; i++) {
+      const r = Math.sqrt(hash(i)) * R * app, a = hash(i + 999) * 6.283 + t * .2 * (hash(i + 7) - .5);
+      let X = cx + Math.cos(a) * r, Y = cy + Math.sin(a) * r * 1.05;
+      const push = eio(P(t, .5, 2.2)) * .25; X += (s.gx - 80 - X) * push * hash(i + 3); if (V) { X = cx + Math.cos(a) * r; Y += (s.gy - 60 - Y) * push * hash(i + 3); }
+      x.globalAlpha = (.25 + hash(i + 5) * .5) * C(t * 4); x.fillStyle = i % 9 === 0 ? hi : ink; x.beginPath(); x.arc(X, Y, 5, 0, 7); x.fill();
+    }
+    for (let i = 0; i < s.pass; i++) {
+      const d = .9 + i * .06, k = eio(P(t, d, d + .9));
+      const tx = lv(s.gx + 120 + hash(i + 50) * 700, s.gx - 300 + hash(i + 50) * 600), ty = lv(s.gy - 200 + hash(i + 70) * 400, s.gy + 140 + hash(i + 70) * 500);
+      const X = k < .5 ? L(lv(s.gx - 90, s.gx), s.gx, k * 2) : L(s.gx, tx, (k - .5) * 2), Y = k < .5 ? L(lv(s.gy, s.gy - 90), s.gy, k * 2) : L(s.gy, ty, (k - .5) * 2);
+      x.globalAlpha = k > 0 ? 1 : 0; x.fillStyle = i % 5 === 0 ? hi : ink; x.beginPath(); x.arc(X, Y, 6, 0, 7); x.fill();
+    }
+    x.globalAlpha = 1;
+  } });
+
+/* ===== strokesLogo: coloured strokes from the edges converge; the brand mark forms where they meet ===== */
+shot('strokesLogo', { hero: 1.7, len: 2.4, bg: 'dark', marker: 'turn', flashOut: false,
+  sfx: [[0.0, 'boom'], [0.2, 'shimmer'], [0.5, 'riser'], [2.35, 'hit']],
+  build(c, s, sc) {
+    const P_ = PAL(), cols = sc.colors || [P_[0], P_[1], P_[2], '#e11d48', '#1f3a8a'];
+    const ends = lv([[120, 200], [1800, 160], [200, 940], [1760, 960], [960, 60], [60, 520], [1860, 560]], [[60, 300], [1020, 260], [80, 1700], [1000, 1660], [540, 80], [40, 960], [1040, 1000]]);
+    s.svg = D(c, 'abs', { left: 0, top: 0, width: W, height: H }, `<svg width="${W}" height="${H}">${ends.map((e, i) => { const mx = (e[0] + CX) / 2 + (i % 2 ? 160 : -160), my = (e[1] + CY) / 2 + (i % 3 ? 90 : -90);
+      return `<path d="M${e[0]} ${e[1]} Q ${mx} ${my} ${CX + (e[0] < CX ? -40 : 40)} ${CY + (e[1] < CY ? -30 : 30)}" fill="none" stroke="${cols[i % cols.length]}" stroke-width="${i > 4 ? 3 : 6}" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1" opacity="${i > 4 ? .4 : .95}"/>`; }).join('')}</svg>`);
+    s.paths = [...s.svg.querySelectorAll('path')];
+    s.glow = D(c, 'ctr', { left: CX, top: CY - 20, width: 340, height: 340, borderRadius: '50%', background: 'radial-gradient(closest-side,var(--hi),transparent)', opacity: 0 });
+    s.mark = D(c, 'ctr', { left: CX, top: CY - 20 }, BR.markSvg ? `<div style="width:${lv(250, 240)}px;color:#fff">${BR.markSvg}</div>` : BR.icon ? markHTML(lv(220, 220)) : logoHTML(110, true));
+    s.word = D(c, 'ctr', { left: CX, top: CY + lv(220, 240), font: `800 ${lv(44, 48)}px var(--font)`, letterSpacing: '.32em', color: '#fff', whiteSpace: 'nowrap' }, kesc((sc.word || B.product).toUpperCase()));
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.06, 1, eo(P(t, 0, 2.4))) });
+    s.paths.forEach((p, i) => { const d = i * .05; p.setAttribute('stroke-dasharray', `${eio(P(t, d, d + .9)).toFixed(3)} 1`); p.style.opacity = (1 - P(t, 1.6, 2.2) * .7) * (i > 4 ? .4 : .95); });
+    const m = P(t, .85, 1.3); S(s.mark, { s: L(.3, 1, bo(m)), o: C(m * 3), b: (1 - eo(m)) * 12 });
+    S(s.glow, { o: eo(m) * (.55 + .15 * Math.sin(t * 6)), s: L(.5, 1.1, eo(m)) });
+    blurIn(s.word, t, 1.25, 1.7, { y: 16, blur: 12 });
+  } });
+
+/* ===== inline: a kinetic sentence with a rebuilt component sitting inside it ===== */
+shot('inline', { hero: 2.6, len: 3.4, bg: 'light', tin: 'up', tout: 'whip',
+  sfx: [[0.1, 'type8'], [0.55, 'whoosh_s'], [0.9, 'pops4'], [1.6, 'type8'], [2.3, 'pop'], [3.2, 'whoosh']],
+  build(c, s, sc) {
+    const fs = lv(150, 130);
+    s.w1 = D(c, 'abs head', { left: lv(140, 80), top: lv(250, 280), fontSize: fs + 'px' }, kesc(sc.before || ''));
+    s.w2 = D(c, 'abs head', { left: lv(1520, 80), top: lv(250, 1480), fontSize: fs + 'px', color: 'var(--acc)' }, kesc(sc.after || ''));
+    s.w3 = sc.line2 ? D(c, 'abs head', { left: lv(140, 80), top: lv(640, 1640), fontSize: fs + 'px', color: 'var(--acc)' }, kesc(sc.line2)) : null;
+    s.comp = renderComponent(c, sc.component, { x: lv(700, 110), y: lv(110, 520), w: lv(680, 860) });
+    s.comp.el.style.transformOrigin = '0 0';
+    s.btn = sc.button ? D(c, 'abs', { left: lv(1180, 600), top: lv(820, 1380) }, btnHTML(sc.button, 1, 1.25)) : null;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.4) });
+    const k1 = eo(P(t, 0, .45)); S(s.w1, { x: (1 - k1) * -200, o: k1 * 2, b: (1 - k1) * 12 });
+    const cp = P(t, .4, .95), cx = tt => L(lv(900, 0), 0, eo(P(tt, .4, .95))), cy = tt => L(lv(0, 900), 0, eo(P(tt, .4, .95)));
+    S(s.comp.el, { x: cx(t), y: cy(t), r: L(12, -3, eo(cp)), s: lv(1.18, 1), o: C(cp * 4), bx: Math.min(50, vel(cx, t) * .3), by: Math.min(50, vel(cy, t) * .3) });
+    revealParts(s.comp, t, .75); animateComponent(s.comp, t, .75);
+    const k2 = eo(P(t, 1.3, 1.7)); S(s.w2, { x: (1 - k2) * lv(200, 0), y: (1 - k2) * lv(0, 120), o: k2 * 2, b: (1 - k2) * 12 });
+    if (s.w3) { const k3 = eo(P(t, 1.6, 2.0)); S(s.w3, { y: (1 - k3) * 120, o: k3 * 2, b: (1 - k3) * 12 }); }
+    if (s.btn) { const q = P(t, 2.2, 2.5); S(s.btn, { s: L(.6, 1, bo(q)), o: q * 3 }); }
+  } });
+
+/* ===== componentHero: one rebuilt component, big, in 3D; it comes alive (typing, toggles, counters) ===== */
+shot('componentHero', { hero: 2.8, len: 3.6, bg: 'light', tin: 'zoom', tout: 'whip',
+  sfx: [[0.1, 'type8'], [0.5, 'whoosh_s'], [1.0, 'type14'], [2.0, 'click'], [3.4, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || ['', ''], fs = fitFs(lv(118, 110), h, lv(560, 900));
+    s.h = typed(c, 'abs head', { left: lv(120, 80), top: lv(360, 250), fontSize: fs + 'px' }, [{ t: h[0] }, { t: h[1] ? '\n' + h[1] : '', cls: sc.accent === false ? '' : 'acc' }], false);
+    if (sc.accent === false && s.h.el.lastElementChild) s.h.el.lastElementChild.style.color = 'var(--mut)';
+    s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '2400px' });
+    s.comp = renderComponent(s.wrap, sc.component, { x: lv(760, 80), y: lv(120, 560), w: lv(1040, 920) });
+    s.comp.el.style.transformOrigin = '50% 100%';
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.6) });
+    typeP(s.h, P(t, .1, .7), t, false);
+    const r = eo(P(t, .2, 1.0)), ry = tt => L(500, 0, eo(P(tt, .2, 1.0)));
+    s.comp.el.style.transform = `translateY(${ry(t).toFixed(1)}px) rotateX(${L(28, 0, r).toFixed(2)}deg) rotateY(${L(lv(-14, 0), lv(-4, 0), r).toFixed(2)}deg)`;
+    s.comp.el.style.opacity = C(P(t, .2, .35) * 3).toFixed(3);
+    revealParts(s.comp, t, .6, .08); animateComponent(s.comp, t, .6);
+  } });
+
+/* ===== podium: ranked entries (a leaderboard) become 3D podium blocks with medals and count-ups ===== */
+shot('podium', { hero: 2.4, len: 3.2, bg: 'dark', tin: 'zoom', tout: 'up',
+  sfx: [[0.1, 'type8'], [0.5, 'whoosh_s'], [0.7, 'ticks12'], [1.5, 'pops3'], [3.0, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || ['', ''];
+    s.h = D(c, 'ctr head', { left: CX, top: lv(150, 330), fontSize: fitFs(lv(110, 100), [h.join(' ')], W * .92) + 'px', textAlign: 'center', whiteSpace: V ? 'pre' : 'nowrap' }, `${kesc(h[0])}${V ? '\n' : ' '}<span style="color:var(--hi)">${kesc(h[1] || '')}</span>`);
+    D(c, 'abs', { left: 0, right: 0, top: lv(880, 1420), height: 300, background: 'linear-gradient(180deg,rgba(255,255,255,.06),transparent)' });
+    const es = sc.entries || [{ place: 2, value: '205', name: '' }, { place: 1, value: '210', name: '' }, { place: 3, value: '190', name: '' }];
+    const bw = lv(300, 290), gap = lv(40, 26), floor = lv(880, 1420), hs = { 1: lv(430, 520), 2: lv(330, 400), 3: lv(250, 300) };
+    s.blocks = es.map((e, i) => { const x = CX + (i - (es.length - 1) / 2) * (bw + gap), h0 = hs[e.place] || 280, top = floor - h0;
+      const b = D(c, 'abs', { left: x - bw / 2, top, width: bw, height: h0, borderRadius: '14px 14px 0 0', background: 'linear-gradient(180deg,color-mix(in srgb,var(--hi) 85%,#fff),var(--hi) 40%,color-mix(in srgb,var(--hi) 85%,#000))', boxShadow: '0 40px 80px -20px color-mix(in srgb,var(--hi) 55%,transparent)', transformOrigin: '50% 100%' },
+        `<div class="ctr head num" style="left:${bw / 2}px;top:${Math.min(110, h0 / 2)}px;font-size:${lv(110, 100)}px;color:#fff">0</div><div class="ctr" style="left:${bw / 2}px;top:${Math.min(110, h0 / 2) + 90}px;font:700 28px var(--font-body);color:#fff;opacity:.9;white-space:nowrap">${kesc(e.name || '')}</div>`);
+      const m = D(c, 'ctr', { left: x, top: top - 80, width: 86, height: 86, borderRadius: '50%', background: `radial-gradient(circle at 35% 30%,#fff,${['', '#ffc53d', '#c0c7d1', '#cd7f32'][e.place] || '#c0c7d1'} 45%)`, boxShadow: '0 10px 30px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', font: '800 40px var(--font)', color: '#1e212e' }, e.place);
+      return { b, m, n: b.querySelector('.num'), st: parseStat(e.value), d: .4 + (e.place === 1 ? .25 : e.place === 2 ? .1 : 0) }; });
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.2) });
+    blurIn(s.h, t, 0, .45, { y: -20 });
+    s.blocks.forEach(k => { const g = eo(P(t, k.d, k.d + .6)); k.b.style.transform = `scaleY(${g.toFixed(3)})`; k.n.textContent = fmtStat(k.st, eo(P(t, k.d + .2, k.d + 1.2)));
+      const q = P(t, k.d + .6, k.d + .9); S(k.m, { s: L(.3, 1, bo(q)), o: q * 3, y: (1 - eo(q)) * -40 }); });
+  } });
+
+/* ===== chartSet: their chart becomes the set (giant bars rising from the floor) + optional slider with a hand ===== */
+shot('chartSet', { hero: 2.6, len: 3.4, bg: 'light', tin: 'whip', tout: 'whip',
+  sfx: [[0.1, 'type8'], [0.4, 'swoop'], [0.7, 'pops2'], [1.6, 'click'], [3.2, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || ['', ''];
+    s.h = typed(c, 'abs head', { left: lv(130, 80), top: lv(170, 230), fontSize: lv(120, 110) + 'px' }, [{ t: h[0] }, { t: h[1] ? '\n' + h[1] : '', cls: 'acc' }], false);
+    s.pill = sc.pill ? D(c, 'abs', { left: lv(120, 80), top: lv(520, 500), padding: '12px 22px', borderRadius: '999px', background: 'var(--dark)', color: '#fff', font: '700 24px var(--font-body)' }, kesc(sc.pill)) : null;
+    const bars = sc.bars || [{ value: '405', label: 'TEAM AVG' }, { value: '365', label: 'ATHLETE' }];
+    const mx = Math.max(...bars.map(b => parseStat(b.value).n)), bw = lv(420, 400), gap = lv(60, 40), x0 = lv(900, CX - (bars.length * (bw + gap) - gap) / 2), maxH = lv(780, 900);
+    s.bars = bars.map((b, i) => { const st = parseStat(b.value), hgt = maxH * st.n / mx;
+      const e = D(c, 'abs', { left: x0 + i * (bw + gap), top: H - hgt, width: bw, height: hgt, borderRadius: '24px 24px 0 0', background: b.color || (i ? 'linear-gradient(180deg,var(--acc2),var(--acc))' : 'linear-gradient(180deg,color-mix(in srgb,var(--acc2) 45%,#fff),color-mix(in srgb,var(--acc2) 60%,#fff))'), transformOrigin: '50% 100%' },
+        `<div class="ctr head num" style="left:${bw / 2}px;top:70px;font-size:80px;color:${i ? '#fff' : 'var(--ink)'}">0</div><div class="ctr" style="left:${bw / 2}px;top:${hgt - 40}px;font:700 26px var(--font-body);color:${i ? '#fff' : 'var(--ink)'};white-space:nowrap">${kesc(b.label || '')}</div>`);
+      return { e, n: e.querySelector('.num'), st, d: .35 + i * .15 }; });
+    if (sc.slider) { s.sl = renderComponent(c, Object.assign({ type: 'slider' }, sc.slider), { x: lv(140, 80), y: lv(700, 1660 - 200), w: lv(620, 600) });
+      s.hand = D(c, 'abs', { left: 0, top: 0 }, HAND_SVG()); }
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.4) });
+    typeP(s.h, P(t, .05, .6), t, false); if (s.pill) blurIn(s.pill, t, .5, .8, { y: 14, blur: 8 });
+    s.bars.forEach(b => { b.e.style.transform = `scaleY(${eo(P(t, b.d, b.d + .7)).toFixed(3)})`; b.n.textContent = fmtStat(b.st, eo(P(t, b.d + .1, b.d + 1.1))); });
+    if (s.sl) { const q = P(t, .9, 1.2); S(s.sl.el, { y: (1 - eo(q)) * 60, o: q * 3 }); animateComponent(s.sl, t, 1.0);
+      const kn = s.sl.el._knob.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+      S(s.hand, { x: kn.left - sr.left + 2, y: kn.top - sr.top + 14, o: P(t, 1.2, 1.4) }); }
+  } });
+
+/* ===== fan: many cards (emails, notifications) fly out into a fan; a stat tile counts up ===== */
+shot('fan', { hero: 2.6, len: 3.4, bg: 'dark', tin: 'zoom', tout: 'fade',
+  sfx: [[0.1, 'type8'], [0.5, 'swoop'], [0.6, 'pops6'], [1.5, 'ticks10'], [3.2, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || ['', ''];
+    s.h = D(c, 'ctr head', { left: CX, top: lv(140, 300), fontSize: fitFs(lv(100, 96), [h.join(' ')], W * .9) + 'px', textAlign: 'center', whiteSpace: V ? 'pre' : 'nowrap' }, `${kesc(h[0])}${V ? '\n' : ' '}<span style="color:var(--hi)">${kesc(h[1] || '')}</span>`);
+    const n = sc.count || 7, base = kitSpec(sc.card || { type: 'email', from: B.product, subject: 'New issue' });
+    s.cards = []; for (let i = 0; i < n; i++) { const sp = Object.assign({}, base, sc.subjects ? { subject: sc.subjects[i % sc.subjects.length] } : {}, i % 2 && base.type === 'email' ? { dot: 'var(--hi)' } : {});
+      const k = renderComponent(c, sp, { x: CX - 210, y: lv(400, 760), w: 420 }); k.el.style.gap = '10px'; k.el.style.padding = '22px 24px';
+      s.cards.push({ k, i: i - (n - 1) / 2, d: .45 + Math.abs(i - (n - 1) / 2) * .06 }); }
+    s.stat = sc.stat ? renderComponent(c, sc.stat, { x: CX - lv(230, 260), y: lv(760, 1360), w: lv(460, 520) }) : null;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.4) });
+    blurIn(s.h, t, 0, .45, { y: -16 });
+    s.cards.forEach(({ k, i, d }) => { const p = eio(P(t, d, d + .7));
+      S(k.el, { x: i * lv(230, 120) * p, y: lv(Math.abs(i) * 40, Math.abs(i) * 60) * p + (1 - eo(P(t, d - .1, d + .3))) * 200, r: i * lv(14, 9) * p, o: C(P(t, d - .1, d + .1) * 5) }); });
+    if (s.stat) { const q = P(t, 1.3, 1.6); S(s.stat.el, { y: (1 - eo(q)) * 80, o: q * 3 }); animateComponent(s.stat, t, 1.3); }
+  } });
+
+/* ===== dotNumber: hundreds of dots fly in and assemble into the number ===== */
+shot('dotNumber', { hero: 2.2, len: 3.0, bg: 'dark', tin: 'fade', tout: 'zoom',
+  sfx: [[0.1, 'shimmer'], [0.3, 'ticks12'], [1.5, 'pop'], [2.85, 'whoosh']],
+  build(c, s, sc) {
+    s.cv = document.createElement('canvas'); s.cv.width = W; s.cv.height = H; s.cv.className = 'abs'; s.cv.style.left = 0; s.cv.style.top = 0; c.appendChild(s.cv);
+    s.cap = D(c, 'ctr', { left: CX, top: CY + lv(280, 330), font: `600 ${lv(42, 44)}px var(--font-body)`, textAlign: 'center', opacity: .85, width: W * .9 }, `${kesc((sc.caption || [])[0] || '')}${(sc.caption || [])[1] ? ` <span style="color:var(--hi)">${kesc(sc.caption[1])}</span>` : ''}`);
+    s.value = String(sc.value || '100+'); s.pts = null;
+  },
+  measure(s) { // sample the number's glyphs (fonts are ready now)
+    const o = document.createElement('canvas'); o.width = W; o.height = H; const x = o.getContext('2d');
+    const fam = getComputedStyle(document.documentElement).getPropertyValue('--font').trim(), fs = Math.min(lv(360, 300), W * .9 / (s.value.length * .6));
+    x.font = `800 ${fs}px ${fam}`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(s.value, CX, CY - lv(70, 80));
+    const d = x.getImageData(0, 0, W, H).data, pts = [], step = lv(11, 9);
+    for (let y = 0; y < H; y += step) for (let X = 0; X < W; X += step) if (d[(y * W + X) * 4 + 3] > 128) pts.push([X, y]);
+    s.pts = pts;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.04, 1, eo(P(t, 0, 3))) });
+    const x = s.cv.getContext('2d'); x.clearRect(0, 0, W, H); if (!s.pts) return;
+    const pal = PAL(); const cs = ['#ffffff', '#ffffff', '#ffffff', pal[1], pal[2]];
+    s.pts.forEach(([tx, ty], i) => { const d = hash(i) * .5, k = eio(P(t, .15 + d, .95 + d));
+      const sx = hash(i + 11) * W, sy = hash(i + 23) * H; x.globalAlpha = C(P(t, d * .5, d * .5 + .2) * 3) * (.8 + .2 * hash(i + 3));
+      x.fillStyle = cs[(i * 37) % cs.length]; x.beginPath(); x.arc(L(sx, tx, k), L(sy, ty, k), 3.4 + hash(i + 5) * 1.4, 0, 7); x.fill(); });
+    x.globalAlpha = 1;
+    blurIn(s.cap, t, 1.5, 1.9, { y: 18 });
+  } });
+
+/* ===== statLine: their real number, big, over a growth line drawn in their chart colour ===== */
+shot('statLine', { hero: 2.4, len: 3.0, bg: 'dark', tin: 'zoom', tout: 'fade',
+  sfx: [[0.1, 'swoop'], [0.3, 'ticks12'], [1.4, 'pop'], [2.85, 'whoosh']],
+  build(c, s, sc) {
+    const col = sc.color || 'var(--hi)';
+    const pts = lv('M0 900 C 300 880, 420 800, 620 780 S 980 720, 1180 560 S 1600 380, 1920 300', 'M0 1620 C 200 1600, 300 1500, 420 1460 S 640 1380, 760 1200 S 960 1000, 1080 900');
+    s.svg = D(c, 'abs', { left: 0, top: 0, width: W, height: H }, `<svg width="${W}" height="${H}"><defs><linearGradient id="slf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${col};stop-opacity:.45"/><stop offset="1" style="stop-color:${col};stop-opacity:0"/></linearGradient></defs>
+      <path class="ar" d="${pts} L${W} ${H} L0 ${H}Z" fill="url(#slf)" opacity="0"/><path class="ln" d="${pts}" fill="none" style="stroke:${col}" stroke-width="8" stroke-linecap="round" pathLength="1" stroke-dasharray="0 1"/></svg>`);
+    s.ln = s.svg.querySelector('.ln'); s.ar = s.svg.querySelector('.ar');
+    s.chip = sc.chip ? D(c, 'abs', { left: lv(1100, 560), top: lv(440, 1080), padding: '12px 20px', borderRadius: '12px', background: '#fff', color: 'var(--ink)', font: '800 32px var(--font)' }, kesc(sc.chip)) : null;
+    const v = V && sc.valueShort ? sc.valueShort : String(sc.value || ''); s.st = parseStat(v);
+    s.num = D(c, 'abs head num', { left: lv(120, 80), top: lv(150, 330), fontSize: Math.min(lv(180, 190), W * .86 / (v.length * .56)) + 'px' }, v);
+    s.bar = D(c, 'abs', { left: lv(130, 86), top: lv(350, 540), width: lv(640, 600), height: 12, borderRadius: '6px', background: 'var(--hi)', transformOrigin: '0 50%' });
+    s.cap = D(c, 'abs', { left: lv(130, 86), top: lv(400, 590), width: lv(760, 900), font: `500 ${lv(38, 42)}px/1.35 var(--font-body)`, opacity: .85 }, `${kesc(sc.caption || '')}${sc.bold ? ` <b style="opacity:1">${kesc(sc.bold)}</b>` : ''}`);
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3) });
+    s.ln.setAttribute('stroke-dasharray', `${eio(P(t, .1, 1.3)).toFixed(3)} 1`); s.ar.style.opacity = eo(P(t, .8, 1.5)).toFixed(3);
+    s.num.textContent = fmtStat(s.st, eo(P(t, .1, 1.2))); S(s.num, { o: C(t * 6), b: (1 - eo(P(t, 0, .3))) * 14 });
+    s.bar.style.transform = `scaleX(${eio(P(t, 1.0, 1.4)).toFixed(3)})`;
+    blurIn(s.cap, t, 1.2, 1.6, { y: 16 });
+    if (s.chip) { const q = P(t, 1.3, 1.6); S(s.chip, { s: L(.5, 1, bo(q)), o: q * 3 }); }
+  } });
+
+/* ===== flood: CTA — their button is clicked; its colour floods the frame; logo, tagline, buttons ===== */
+shot('flood', { hero: 3.0, len: 4.0, bg: 'light', marker: 'cta', tin: 'zoom',
+  sfx: [[0.6, 'click'], [0.65, 'hit'], [1.4, 'whoosh_s'], [1.9, 'pops2']],
+  build(c, s, sc) {
+    const ct = B.cta || {};
+    s.btn = D(c, 'ctr', { left: CX, top: CY }, btnHTML(sc.button || ct.primary || 'Get started', 1, lv(1.6, 1.8)));
+    s.hand = D(c, 'abs', { left: 0, top: 0 }, HAND_SVG());
+    s.flood = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: sc.fill || 'var(--b1-bg)' });
+    s.flood2 = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: 'var(--bgAccent)', opacity: sc.fill ? 0 : 0 });
+    s.logo = D(c, 'ctr', { left: CX, top: CY - lv(150, 260) }, logoHTML(BR.logoHeight || lv(120, 110), true));
+    const tg = ct.tagline || [B.product, ''];
+    s.tag = D(c, 'ctr head', { left: CX, top: CY + lv(10, -60), fontSize: lv(80, 84) + 'px', color: '#fff', textAlign: 'center' }, `${kesc(V ? String(tg[0]).trim() + '\n' : tg[0])}${kesc(tg[1] || '')}`);
+    s.btns = D(c, 'ctr row', { left: CX, top: CY + lv(160, 180), gap: '22px', flexDirection: V ? 'column' : 'row' },
+      `<span class="btn" style="background:#fff;color:var(--acc);border-radius:var(--b1-radius);font-size:${lv(32, 40)}px;padding:${lv(24, 30)}px ${lv(44, 60)}px">${kesc(ct.primary || '')}</span>` + (ct.secondary ? `<span class="btn" style="color:#fff;border:2px solid #fff;border-radius:var(--b2-radius);font-size:${lv(32, 40)}px;padding:${lv(22, 28)}px ${lv(44, 60)}px">${kesc(ct.secondary)}</span>` : ''));
+    s.bl = [...s.btns.children];
+    s.url = D(c, 'ctr', { left: CX, top: CY + lv(270, 420), color: '#fff', opacity: .8, font: `500 ${lv(26, 32)}px var(--font-body)` }, kesc(B.url || ''));
+  },
+  measure(s) { const p = centerOf(s.btn); s.bx = p.x; s.by = p.y; },
+  update(t, s, c) {
+    S(c, { s: L(1.02, 1, eo(P(t, 0, 4))) });
+    const bp = P(t, 0, .3); S(s.btn, { s: L(.7, 1, bo(bp)) * (t > .55 && t < .75 ? .93 : 1), o: C(bp * 3) * (1 - P(t, .9, 1.1)) });
+    if (s.bx != null) S(s.hand, { x: L(s.bx + 300, s.bx - 30, eio(P(t, .1, .55))), y: L(s.by + 300, s.by - 4, eio(P(t, .1, .55))), o: P(t, .1, .2) * (1 - P(t, .8, 1.0)) });
+    const R = 2400 * eio(P(t, .6, 1.3)); s.flood.style.clipPath = `circle(${R.toFixed(0)}px at ${(s.bx || CX).toFixed(0)}px ${(s.by || CY).toFixed(0)}px)`;
+    blurIn(s.logo, t, 1.1, 1.5, { blur: 20, s0: 1.1 }); blurIn(s.tag, t, 1.35, 1.75, { y: 24 });
+    s.bl.forEach((e, i) => { const a = 1.7 + i * .15, k = P(t, a, a + .35); S(e, { y: (1 - eo(k)) * 40, o: k * 2, s: L(.9, 1, bo(k)) }); });
+    blurIn(s.url, t, 2.1, 2.4, { y: 12, blur: 10 });
+  } });

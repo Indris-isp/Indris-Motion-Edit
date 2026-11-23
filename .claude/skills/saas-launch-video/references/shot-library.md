@@ -21,7 +21,9 @@ All 16 shots are listed below. Each shot is a self-contained block: it reads its
 | `dive` | Transition into a world | `dive.l1/l2`, `channels` (or `dive.screenshot`) | 3.2 | in: fade, out: whip | A laptop rises and the camera flies into its screen until the screen is exactly the frame (no cut). Cards spread out and the headline lands on a glass card over a thin grid. |
 | `cta` | CTA | `product`, `cta.*`, `url` | 4.0 | in: zoom | Icon pops with rotation, the wordmark types on, the tagline focus-pulls, buttons stagger up, the URL fades in, and the equalizer glow pulses |
 
-## Brand shots (`template/shots_brand.js`): the default for client films
+## Brand shots (`template/shots_brand.js`)
+
+> Creative moves (`creative-moves.md`) are the default for client films. `uiHero` and `uiFeature` show real screenshots: use them at most once, and only if the user asks for a literal product moment. The turns (`turnInk`, `turnGlow`, `logoReveal`), `statBig`, `ctaBrand` and the Ref C moves (now with `component:`) are fine to use.
 
 These are built around the client's real material, and they adapt to the style: device, card, background kind.
 

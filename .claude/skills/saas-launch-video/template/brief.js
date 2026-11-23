@@ -47,6 +47,16 @@ window.BRIEF = {
   /* PROOF — a real number from their site (never invent one) */
   stat: { value: '12,480+', valueShort: '12k+', caption: 'comments resolved by teams on Loopin', bold: 'this month.' },
 
+  /* UI KIT — their product components REBUILT (kit.js / references/ui-kit.md). Never screenshots. */
+  kit: {
+    inbox: { type: 'list', label: 'ALL FEEDBACK · 5 NEW', items: [
+      { title: 'Logo needs more contrast', icon: { kind: 'avatar', name: 'MK' }, tag: { text: 'Design' } },
+      { title: 'Checkout bug on Safari', icon: { kind: 'avatar', name: 'TR' }, tag: { text: 'Bug', color: '#D63C3C', bg: '#FFECEC' } },
+      { title: 'Love the new hero!', icon: { kind: 'avatar', name: 'AS' }, tag: { text: 'Praise', color: '#139B6E', bg: '#E8FBF2' } } ] },
+    reply: { type: 'editor', back: '← Inbox', actions: ['Assign', 'Resolve'], cover: 'linear-gradient(135deg,#dbe6ff,#5B8CFF)', title: 'Fixed in v2.1 ✓', lines: 3, toggle: 'Notify the client' },
+    email: { type: 'email', from: 'Loopin', subject: 'Your feedback was resolved ✓' },
+    resolved: { type: 'stat', label: 'Resolved this week', value: '12,480', delta: '+38%', dark: true },
+  },
   people: ['MK', 'JL', 'AS', 'TR', 'BN', 'EO'],   // initials, or image paths like 'assets/p1.jpg'
   channels: [['#', '#7C5CFF', 'Chat'], ['@', '#FF6A3D', 'Email'], ['✓', '#19B36B', 'Docs']], // [glyph, colour, label]
 

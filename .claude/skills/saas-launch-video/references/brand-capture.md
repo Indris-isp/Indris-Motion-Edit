@@ -1,5 +1,7 @@
 # Brand capture: matching the client's brand
 
+> Screenshots captured here are **reference material**: study them to rebuild the UI as kit components (`ui-kit.md`) and to pick colours, fonts and copy. They are not scene content. Pasting them into mockups makes the film look like the website, not like a launch film.
+
 The film has to look like it came from the client's own design team. All of that comes from their site or brand guide, never from the template.
 
 ## What `capture_brand.cjs` collects

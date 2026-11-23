@@ -51,6 +51,32 @@ html,body{margin:0;background:#111;overflow:hidden}
 .ch{display:inline-block;white-space:pre}
 .cur{display:inline-block;width:.07em;height:.9em;background:var(--acc);border-radius:3px;vertical-align:-.08em;margin-left:.04em}
 .num{font-variant-numeric:tabular-nums}
+
+/* ---- UI kit (kit.js): their components rebuilt in their tokens ---- */
+.kitc{background:var(--surface);color:var(--ink);border-radius:var(--radius);padding:28px 32px;font-family:var(--font-body);box-shadow:0 40px 90px -30px rgba(10,20,50,.45),0 0 0 1px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:18px}
+.kitc.kd{background:color-mix(in srgb,var(--dark) 88%,#fff);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 90px -30px rgba(0,0,0,.7)}
+.klab{font-family:var(--font);font-size:17px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.kttl{font-family:var(--font);font-size:28px;font-weight:700;letter-spacing:-.01em}.ksub{font-size:22px;color:var(--mut);margin-top:2px}
+.krow{display:flex;align-items:center;gap:18px}.krowb{display:flex;align-items:baseline;gap:16px;justify-content:space-between}
+.kbig{font-family:var(--font);font-weight:var(--head-weight);font-size:84px;letter-spacing:-.04em;line-height:1}.kdelta{font-weight:700;font-size:26px}
+.ktag{font-size:16px;font-weight:700;padding:6px 12px;border-radius:8px;white-space:nowrap}
+.kring{width:62px;height:62px;border-radius:50%;border:5px solid;display:flex;align-items:center;justify-content:center;flex:none;position:relative}
+.kdb{width:28px;height:4px;background:currentColor;border-radius:2px;position:relative;display:block}.kdb:before,.kdb:after{content:'';position:absolute;top:-9px;width:7px;height:22px;border-radius:3px;background:currentColor}.kdb:before{left:-2px}.kdb:after{right:-2px}
+.ktagdot{position:absolute;right:-8px;bottom:-8px;width:24px;height:24px;border-radius:50%;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.kglyph{width:48px;height:48px;border-radius:14px;color:#fff;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center;flex:none}
+.kbars{display:flex;align-items:flex-end;gap:14px;height:220px}.kbar{flex:1;border-radius:10px 10px 4px 4px;transform-origin:50% 100%}
+.kxl,.klegend{display:flex;justify-content:space-around;font-size:18px;color:var(--mut);gap:14px}.klegend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px}
+.kbar-top{display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid var(--line);font-size:20px;font-weight:600;color:var(--mut)}
+.kcover{height:230px;margin:6px 28px 0;border-radius:calc(var(--radius) - 6px)}.kedtitle{padding:0 28px;font-family:var(--font);font-weight:var(--head-weight);font-size:64px;letter-spacing:-.04em;line-height:1.05;min-height:68px}
+.kbody{padding:0 28px}.ktoggle{margin:4px 28px 26px auto}.kdarkpill{display:flex;gap:16px;align-items:center;background:var(--ink);color:#fff;border-radius:14px;padding:14px 20px;font-weight:600;font-size:22px;width:max-content}
+.ksw{width:62px;height:34px;border-radius:999px;background:#cbd2dc;position:relative;display:inline-block;flex:none;transition:none}.ksw i{position:absolute;left:4px;top:4px;width:26px;height:26px;border-radius:50%;background:#fff}.ksw.on{background:var(--hi)}.ksw.on i{left:32px;background:var(--ink)}
+.kemail b{font-size:22px}.kdot{width:34px;height:34px;border-radius:50%;flex:none}
+.ktrack{position:relative;height:10px;border-radius:5px;background:var(--line);margin:18px 0 8px}.kfill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--b1-bg)}.kknob{position:absolute;top:-15px;width:40px;height:40px;margin-left:-20px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3),0 0 0 4px var(--acc)}
+.kmsg{display:inline-block;padding:14px 20px;border-radius:20px;background:var(--tint);font-size:22px;max-width:80%}.kme{justify-content:flex-end}.kmsg.me{background:var(--acc);color:#fff}
+.klbrow{display:flex;gap:16px;align-items:flex-end}.klb{flex:1;background:var(--hi);color:#fff;border-radius:12px;padding:30px 16px 16px;text-align:center;position:relative}.klb.first{padding-top:44px}.klb b{display:block;font-family:var(--font);font-size:56px;letter-spacing:-.03em}.klb small{font-size:18px;opacity:.9}
+.kmedal{position:absolute;left:50%;top:-22px;margin-left:-22px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#1e212e;box-shadow:0 6px 14px rgba(0,0,0,.3)}.m1{background:#ffc53d}.m2{background:#c0c7d1}.m3{background:#cd7f32}
+.ktr{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:12px;font-size:20px;padding:12px 0;border-bottom:1px solid var(--line)}.kth{font-weight:700;color:var(--mut);font-size:16px;text-transform:uppercase;letter-spacing:.08em}
+.kfield{border:1.5px solid var(--line);border-radius:10px;padding:16px 18px;font-size:20px;color:var(--mut)}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:500}
 #ui{position:fixed;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;background:rgba(0,0,0,.75);color:#fff;font:13px Inter,sans-serif}
 #ui input{flex:1}
@@ -65,8 +91,10 @@ body.render #ui{display:none}
 <script src="timeline.js"></script>
 <script src="styles.js"></script>
 <script src="engine.js"></script>
+<script src="kit.js"></script>
 <script src="shots.js"></script>
 <script src="shots_brand.js"></script>
+<script src="shots_creative.js"></script>
 <script>
 boot();
 /* preview: fit to window, play/scrub. Rendering adds ?render=1 and drives renderAt() itself. */
