@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sizzle Sample</title>
+<style>
+@font-face{font-family:Inter;src:url(../fonts/Inter-400.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(../fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(../fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(../fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(../fonts/Inter-800.ttf);font-weight:800}
+@font-face{font-family:'Instrument Serif';src:url(../fonts/InstrumentSerif-Italic.ttf);font-style:italic}
+
+/* ---- BRAND TOKENS (swap for the client's palette) ---- */
+:root{
+  --bg0:#05071A; --bg1:#0B1033;
+  --a1:#7B61FF;  /* violet */
+  --a2:#22D3EE;  /* cyan   */
+  --a3:#F472B6;  /* pink highlight */
+  --txt:#F4F6FF; --mut:#9AA3C7;
+}
+html,body{margin:0;background:#000;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg0);
+  font-family:Inter,sans-serif;color:var(--txt);-webkit-font-smoothing:antialiased}
+
+/* ---------- background ---------- */
+.bgl{position:absolute;inset:0}
+#bgBase{background:radial-gradient(120% 90% at 50% 40%,var(--bg1) 0%,var(--bg0) 70%)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);mix-blend-mode:screen}
+#grid{position:absolute;left:-50%;width:200%;top:560px;height:900px;
+  transform-origin:50% 0;transform:perspective(700px) rotateX(72deg);
+  background-image:linear-gradient(rgba(140,150,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(140,150,255,.16) 1px,transparent 1px);
+  background-size:80px 80px;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 25%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 25%,#000 55%,transparent 100%)}
+#horizon{position:absolute;left:0;right:0;top:540px;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(123,97,255,.0) 10%,rgba(160,140,255,.55) 50%,rgba(34,211,238,.0) 90%,transparent);filter:blur(1px)}
+.dot{position:absolute;border-radius:50%;background:#fff}
+#vign{background:radial-gradient(130% 100% at 50% 50%,transparent 55%,rgba(0,0,0,.65) 100%)}
+#grain{opacity:.07;mix-blend-mode:overlay}
+
+/* ---------- phone ---------- */
+#phoneWrap{position:absolute;left:0;top:0;width:0;height:0;perspective:1800px}
+#phone{position:absolute;width:400px;height:820px;left:-200px;top:-410px;transform-style:preserve-3d}
+.slab{position:absolute;inset:0;border-radius:64px;background:linear-gradient(135deg,#2a2d3a,#0c0d13 60%,#1d1f2a)}
+#body{position:absolute;inset:0;border-radius:64px;
+  background:linear-gradient(135deg,#9aa0b4 0%,#3c4050 18%,#1a1c25 50%,#4a4e60 82%,#c3c8d8 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+#bezel{position:absolute;inset:5px;border-radius:59px;background:#000}
+#screen{position:absolute;inset:16px;border-radius:50px;overflow:hidden;background:#0A0C18}
+#island{position:absolute;left:50%;top:14px;width:118px;height:34px;margin-left:-59px;border-radius:20px;background:#000;z-index:5}
+#gloss{position:absolute;inset:16px;border-radius:50px;pointer-events:none;z-index:6;mix-blend-mode:screen}
+#btnL1,#btnL2,#btnR{position:absolute;width:6px;border-radius:3px;background:linear-gradient(90deg,#666a7c,#2a2c36)}
+#shadow{position:absolute;width:520px;height:90px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.75),rgba(0,0,0,0));filter:blur(14px)}
+#halo{position:absolute;width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(123,97,255,.38),rgba(34,211,238,.10) 55%,transparent);filter:blur(20px)}
+
+/* ---------- placeholder app screens ---------- */
+.scr{position:absolute;inset:0;padding:62px 22px 0;box-sizing:border-box;font-size:14px}
+.sbar{position:absolute;top:18px;left:34px;right:30px;display:flex;justify-content:space-between;font-weight:600;font-size:15px}
+.hdr{display:flex;align-items:center;gap:10px;margin:8px 0 18px}
+.av{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--a1),var(--a2))}
+.hdr b{font-size:19px}
+.hdr span{display:block;color:var(--mut);font-size:12px}
+.bub{border-radius:18px;padding:12px 14px;line-height:1.4;margin-bottom:12px}
+.bub.u{margin-left:70px;background:linear-gradient(135deg,var(--a1),#5B45E0);border-bottom-right-radius:6px}
+.bub.ai{margin-right:26px;background:#161A2E;border:1px solid rgba(255,255,255,.07);border-bottom-left-radius:6px}
+.ln{height:9px;border-radius:5px;background:linear-gradient(90deg,#3B4366,#272D49);margin:7px 0}
+.chip{display:inline-block;padding:7px 11px;border-radius:999px;background:rgba(34,211,238,.12);color:#8BEFFF;font-size:12px;margin:4px 4px 0 0;border:1px solid rgba(34,211,238,.25)}
+.card2{background:#131729;border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:16px;margin-bottom:12px}
+.kpi{font-size:44px;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,#fff,#9BE9FF);-webkit-background-clip:text;color:transparent}
+.bars{display:flex;align-items:flex-end;gap:9px;height:120px;margin-top:10px}
+.bar{flex:1;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--a2),var(--a1))}
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid rgba(255,255,255,.06)}
+.tag{font-size:11px;padding:4px 8px;border-radius:8px;background:rgba(123,97,255,.2);color:#C9BDFF}
+.inp{position:absolute;left:18px;right:18px;bottom:26px;height:48px;border-radius:24px;background:#151A2F;border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;padding:0 18px;color:var(--mut)}
+
+/* ---------- kinetic copy ---------- */
+.copy{position:absolute;top:0;width:760px}
+.eyebrow{display:flex;align-items:center;gap:16px;font-size:18px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--mut);margin-bottom:30px}
+.eyebrow i{display:block;height:2px;width:64px;background:linear-gradient(90deg,var(--a2),var(--a1))}
+.eyebrow em{font-style:normal;color:var(--a2)}
+.hl{display:block;white-space:nowrap}
+.w{display:inline-block;margin-right:.24em;will-change:transform}
+.w.n{font-weight:500;color:#DCE1F7}
+.w.k{font-weight:800;position:relative}
+.w.k .t{background:linear-gradient(100deg,#B7A8FF 0%,var(--a1) 30%,var(--a2) 75%,#B5F6FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 22px rgba(123,97,255,.45))}
+.w.k .u{position:absolute;left:0;bottom:.04em;height:.09em;border-radius:.05em;background:linear-gradient(90deg,var(--a1),var(--a2));transform-origin:0 50%}
+.w.s{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#fff}
+.sub{margin-top:30px;font-size:24px;line-height:1.5;color:var(--mut);font-weight:400}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="bgl" id="bgBase"></div>
+  <div class="blob" id="b1"></div><div class="blob" id="b2"></div><div class="blob" id="b3"></div>
+  <div id="grid"></div><div id="horizon"></div>
+  <div class="bgl" id="dots"></div>
+
+  <div id="halo"></div>
+  <div id="shadow"></div>
+  <div id="phoneWrap"><div id="phone">
+    <div id="slabs"></div>
+    <div id="body"></div><div id="bezel"></div>
+    <div id="btnL1"></div><div id="btnL2"></div><div id="btnR"></div>
+    <div id="screen">
+      <div id="island"></div>
+      <!-- SCREEN 1: placeholder for recording #1 -->
+      <div class="scr" id="s1">
+        <div class="sbar"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="hdr"><div class="av"></div><div><b>Assistant</b><span>Online · AI</span></div></div>
+        <div class="bub u">Summarize the biggest risks in our Q3 pipeline.</div>
+        <div class="bub ai" id="aiBub">
+          <div style="font-weight:600;margin-bottom:6px">3 deals need attention</div>
+          <div class="ln" style="width:92%"></div><div class="ln" style="width:78%"></div>
+          <div class="ln" style="width:86%"></div><div class="ln" style="width:54%"></div>
+          <div style="margin-top:8px"><span class="chip">Draft follow-ups</span><span class="chip">Open report</span></div>
+        </div>
+        <div class="inp">Ask anything…</div>
+      </div>
+      <!-- SCREEN 2: placeholder for recording #2 -->
+      <div class="scr" id="s2">
+        <div class="sbar"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="hdr"><div class="av"></div><div><b>Insights</b><span>Updated just now</span></div></div>
+        <div class="card2"><div style="color:var(--mut);font-size:12px">Forecast accuracy</div><div class="kpi" id="kpi">+38%</div>
+          <div class="bars" id="bars"></div></div>
+        <div class="card2" style="padding:4px 16px">
+          <div class="row" style="border:0"><span>Churn risk · Acme</span><span class="tag">High</span></div>
+          <div class="row"><span>Upsell · Northwind</span><span class="tag">Ready</span></div>
+          <div class="row"><span>Renewal · Globex</span><span class="tag">On track</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="gloss"></div>
+  </div></div>
+
+  <!-- copy blocks -->
+  <div class="copy" id="c1">
+    <div class="eyebrow"><em>01</em><i></i>Ask</div>
+    <div class="lines"></div>
+  </div>
+  <div class="copy" id="c2">
+    <div class="eyebrow"><em>02</em><i></i>Decide</div>
+    <div class="lines"></div>
+  </div>
+
+  <div class="bgl" id="vign"></div>
+  <svg class="bgl" id="grain" width="1920" height="1080"><filter id="nz"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/></filter><rect width="100%" height="100%" filter="url(#nz)"/></svg>
+</div>
+
+<script>
+/* ===== helpers ===== */
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ramp=(t,a,b)=>clamp((t-a)/(b-a));
+const eOut=t=>1-Math.pow(1-t,3);
+const eIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const eExpo=t=>t===1?1:1-Math.pow(2,-10*t);
+const eBack=t=>{const c=1.5;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+
+/* ===== COPY =====
+   Each line is a list of words. Prefix *  = key word (bold + gradient + underline sweep)
+                                  prefix ~  = serif italic accent
+   size is picked from copy length so short lines go big, long ones stack tighter. */
+const COPY=[
+  {el:'c1', lines:[['Ask','*anything.'],['Get','~real','*answers'],['in','seconds.']],
+   sub:null},
+  {el:'c2', lines:[['Turn','*scattered','*data'],['into','*decisions','your'],['whole','team','~trusts.']],
+   sub:'Live forecasts, risk flags and next steps — generated for you.'}
+];
+function fitSize(c){const n=c.lines.flat().join(' ').length;return n<34?104:n<52?88:74}
+
+const words=[]; // {el,ci,i,line}
+COPY.forEach((c,ci)=>{
+  const host=$(c.el).querySelector('.lines'),fs=fitSize(c);
+  host.style.fontSize=fs+'px';host.style.lineHeight='1.08';host.style.letterSpacing='-.035em';
+  let i=0;
+  c.lines.forEach((ln,li)=>{
+    const L=document.createElement('span');L.className='hl';
+    ln.forEach(w=>{
+      const s=document.createElement('span');let cls='n',txt=w;
+      if(w[0]==='*'){cls='k';txt=w.slice(1)} else if(w[0]==='~'){cls='s';txt=w.slice(1)}
+      s.className='w '+cls;
+      if(cls==='k'){s.innerHTML='<span class="t"></span><span class="u"></span>';s.firstChild.textContent=txt}
+      else s.textContent=txt;
+      if(cls==='s')s.style.fontSize='1.08em';
+      L.appendChild(s);words.push({el:s,ci,i:i++,li,cls});
+    });
+    host.appendChild(L);
+  });
+  if(c.sub){const p=document.createElement('div');p.className='sub';p.textContent=c.sub;$(c.el).appendChild(p);c.subEl=p}
+});
+
+/* bars for screen 2 */
+const BARH=[.35,.52,.44,.68,.6,.82,1];
+BARH.forEach(()=>{const b=document.createElement('div');b.className='bar';$('bars').appendChild(b)});
+
+/* phone side thickness (stacked slabs = cheap extrusion) */
+for(let k=1;k<=12;k++){const d=document.createElement('div');d.className='slab';d.style.transform=`translateZ(${-k*1.6}px)`;
+  d.style.filter=`brightness(${1-k*.03})`;$('slabs').appendChild(d)}
+$('btnL1').style.cssText+='left:-5px;top:180px;height:56px';
+$('btnL2').style.cssText+='left:-5px;top:256px;height:56px';
+$('btnR').style.cssText+='right:-5px;top:220px;height:96px';
+
+/* deterministic dust particles */
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const DOTS=[...Array(70)].map(()=>({x:rnd()*1920,y:rnd()*1080,r:.6+rnd()*2.2,v:6+rnd()*18,a:.15+rnd()*.5,p:rnd()*6.28}));
+DOTS.forEach(d=>{const e=document.createElement('div');e.className='dot';e.style.width=e.style.height=d.r*2+'px';$('dots').appendChild(e);d.el=e});
+
+/* ===== timeline (5 s sample) =====
+   0.0–3.2  screen 1 · phone LEFT, copy RIGHT
+   3.2–4.3  glide: phone → RIGHT (flips tilt), copy swaps sides
+   4.3–5.0  screen 2 · phone RIGHT, copy LEFT, settling */
+const T_SW0=3.2,T_SW1=4.3;
+const LEFT={x:560,ry:22,rz:-3},RIGHT={x:1360,ry:-22,rz:3};
+
+function renderAt(t){
+  /* --- background drift --- */
+  const bg=(id,x,y,s,col)=>{const e=$(id);e.style.cssText=`left:${x-s/2}px;top:${y-s/2}px;width:${s}px;height:${s}px;background:${col}`};
+  const sw=eIO(ramp(t,T_SW0,T_SW1)); // 0→1 across the switch
+  bg('b1',lerp(380,1500,sw)+Math.sin(t*.6)*60, 420+Math.cos(t*.5)*40, 900,'radial-gradient(closest-side,rgba(123,97,255,.55),transparent)');
+  bg('b2',lerp(1500,420,sw)+Math.cos(t*.4)*80, 700+Math.sin(t*.7)*50, 800,'radial-gradient(closest-side,rgba(34,211,238,.30),transparent)');
+  bg('b3',960+Math.sin(t*.3)*200, 120, 700,'radial-gradient(closest-side,rgba(244,114,182,.18),transparent)');
+  $('grid').style.backgroundPosition=`${-sw*240}px ${t*40}px`;
+  DOTS.forEach(d=>{const y=((d.y-t*d.v)%1080+1080)%1080;d.el.style.transform=`translate(${d.x+Math.sin(t+d.p)*10 - sw*120*d.r/3}px,${y}px)`;
+    d.el.style.opacity=d.a*(.6+.4*Math.sin(t*2+d.p))});
+
+  /* --- phone --- */
+  const intro=eExpo(ramp(t,0,.9));
+  const P={x:lerp(LEFT.x,RIGHT.x,sw),ry:lerp(LEFT.ry,RIGHT.ry,sw),rz:lerp(LEFT.rz,RIGHT.rz,sw)};
+  const arc=Math.sin(sw*Math.PI); // mid-glide lift + push back
+  const float=Math.sin(t*1.6)*8;
+  const y=560+float-arc*30+(1-intro)*140;
+  const z=-arc*220-(1-intro)*300;
+  const rx=6+Math.sin(t*1.1)*1.2-arc*4;
+  const ry=P.ry+Math.sin(t*.9)*2+(1-intro)*25;
+  $('phoneWrap').style.cssText=`left:${P.x}px;top:${y}px;opacity:${clamp(intro*1.4)}`;
+  $('phone').style.transform=`translateZ(${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${P.rz}deg) scale(1.08)`;
+  // gloss follows tilt
+  const g=50+ry*1.6;
+  $('gloss').style.background=`linear-gradient(${115+ry*.6}deg,transparent ${g-28}%,rgba(255,255,255,.16) ${g-6}%,rgba(255,255,255,.04) ${g+4}%,transparent ${g+18}%)`;
+  $('shadow').style.cssText=`left:${P.x-260+ry*2}px;top:${y+400}px;opacity:${intro*(1-arc*.5)};transform:scale(${1-arc*.2},1)`;
+  $('halo').style.cssText=`left:${P.x-450}px;top:${y-450}px;opacity:${intro*.95}`;
+
+  /* --- screen playback (stand-in for the mp4s) --- */
+  const scrSwap=ramp(t,3.55,3.95);
+  $('s1').style.opacity=1-scrSwap; $('s2').style.opacity=scrSwap;
+  $('s1').style.transform=`translateY(${-scrSwap*40}px)`; $('s2').style.transform=`translateY(${(1-scrSwap)*40}px)`;
+  const ai=ramp(t,.9,2.4);
+  $('aiBub').querySelectorAll('.ln').forEach((l,i)=>{l.style.opacity=clamp(ai*5-i)});
+  $('aiBub').style.opacity=clamp(ai*4);
+  $('aiBub').querySelectorAll('.chip').forEach((c,i)=>c.style.opacity=ramp(t,2.3+i*.15,2.6+i*.15));
+  [...$('bars').children].forEach((b,i)=>{b.style.height=(BARH[i]*eBack(ramp(t,3.9+i*.06,4.5+i*.06))*100)+'%'});
+  $('kpi').textContent='+'+Math.round(38*eOut(ramp(t,3.9,4.7)))+'%';
+
+  /* --- copy --- */
+  // block 1 sits right, block 2 sits left
+  $('c1').style.left='1000px'; $('c2').style.left='170px';
+  const c1h=$('c1').offsetHeight,c2h=$('c2').offsetHeight;
+  $('c1').style.top=(540-c1h/2)+'px'; $('c2').style.top=(540-c2h/2)+'px';
+  const IN=[.35,T_SW1-.6], OUT=[T_SW0-.25,99];
+  words.forEach(w=>{
+    const tin=IN[w.ci]+w.i*(w.ci?.045:.075)+w.li*.05;
+    const pin=eOut(ramp(t,tin,tin+.6));
+    const tout=OUT[w.ci]+w.i*.03;
+    const pout=eIO(ramp(t,tout,tout+.45));
+    const dir=w.ci===0?1:-1; // exits toward where the phone is heading
+    const ty=(1-pin)*70, blur=(1-pin)*14+pout*10;
+    const tx=-pout*dir*-160;
+    w.el.style.transform=`translate(${tx}px,${ty}px) rotate(${(1-pin)*4}deg)`;
+    w.el.style.opacity=pin*(1-pout);
+    w.el.style.filter=blur>.3?`blur(${blur}px)`:'none';
+    if(w.cls==='k'){const u=w.el.querySelector('.u');u.style.transform=`scaleX(${eOut(ramp(t,tin+.35,tin+.85))})`;
+      const pulse=1+.04*Math.max(0,Math.sin((t-tin-.4)*3))*ramp(t,tin+.4,tin+.6);
+      w.el.querySelector('.t').style.display='inline-block';w.el.querySelector('.t').style.transform=`scale(${pulse})`}
+  });
+  // eyebrows + sub
+  [[ 'c1',IN[0],OUT[0],1],['c2',IN[1],OUT[1],-1]].forEach(([id,a,b,d])=>{
+    const e=$(id).querySelector('.eyebrow');const p=eOut(ramp(t,a-.2,a+.4)),q=eIO(ramp(t,b-.1,b+.35));
+    e.style.opacity=p*(1-q);e.style.transform=`translateX(${(1-p)*-40*d}px)`;
+    e.querySelector('i').style.width=64*p+'px';
+  });
+  const s=COPY[1].subEl, ps=eOut(ramp(t,IN[1]+.55,IN[1]+1.05));
+  s.style.opacity=ps; s.style.transform=`translateY(${(1-ps)*24}px)`;
+}
+window.renderAt=renderAt;
+renderAt(+(new URLSearchParams(location.search).get('t')||2.6));
+</script>
+</body>
+</html>
