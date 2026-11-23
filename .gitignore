@@ -14,3 +14,4 @@ films/*/out/*
 !films/*/out/storyboard*.png
 # client-licensed web fonts (Veryfi NB International / DIN Pro / Source Code Pro): fetched from veryfi.com, not redistributed
 *.woff2
+films/*/out/still*.png
