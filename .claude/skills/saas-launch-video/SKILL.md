@@ -24,6 +24,9 @@ The film must look like **the client made it** and feel **creative**: one concep
 
 Requirements: node + playwright (Chromium), python3 + numpy + Pillow, ffmpeg, network access to the client's site.
 
+## Cost rule: ask before anything expensive
+Never render a full video (`./build.sh`), render test or example films, or run repeated fix-and-check loops unless the user explicitly asks for it **in this conversation**. Approving a skill change, a plan or a storyboard is *not* approval to render. Before a render, say what it will produce (formats, length) and wait for a clear "yes, render". Cheap checks (`render.cjs --board` / `--still`) are fine only inside a step the user asked for.
+
 ## Workflow (two approval gates)
 
 1. **Inputs**: website URL (+ brand guide / Figma / product screenshots if they have them), reference film(s), what the product solves, 3 features, real proof numbers, CTA, formats.
@@ -33,7 +36,7 @@ Requirements: node + playwright (Chromium), python3 + numpy + Pillow, ffmpeg, ne
 5. **Gate 1**: show the concept + scene list (move, seconds, words, which component, what the viewer sees) → wait for approval.
 6. **Build**: write the rows in `timeline.js` as `[move, seconds, speed, { params }]` and `STYLE`. Write new moves in `shots_creative.js` when the concept needs one (`creative-moves.md` → "Writing a move").
 7. **Gate 2**: `node render.cjs --board` (+ `--format 9:16`). Read them: brand fidelity, creativity checklist (below), no overflow. Show the boards next to `brand/kit.png` → wait for approval.
-8. **Render + QA**: `NAME=<client> FORMAT=both ./build.sh`; Read `out/qa_sheet*.png`: something new every half-second, readable text, clean cuts.
+8. **Render + QA** (only after the user says to render; see the cost rule): `NAME=<client> FORMAT=both ./build.sh`; Read `out/qa_sheet*.png`: something new every half-second, readable text, clean cuts.
 9. **Deliver**: MP4s + one line per scene; say what is a placeholder; music is synthesized unless `assets/music.*` is given.
 
 ## Creativity checklist (every board)
