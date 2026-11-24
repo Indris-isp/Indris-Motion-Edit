@@ -1,0 +1,761 @@
+{
+ "url": "https://www.seyspace.com/",
+ "title": "SeySpace | All-in-one Photography Business Platform | SeySpace Studio",
+ "description": "Client galleries, websites, and studio management tools for modern photographers.",
+ "ogImage": "https://seyspace.com/og-image.jpg",
+ "themeColor": null,
+ "favicon": "https://www.seyspace.com/images/favicon-black.png",
+ "colors": {
+  "backgrounds": [
+   [
+    "#ffffff",
+    7486951.94140625
+   ],
+   [
+    "#485949",
+    1268720
+   ],
+   [
+    "#f0e6d8",
+    314279.625
+   ],
+   [
+    "#1b3b32",
+    150264.84375
+   ],
+   [
+    "#0c0c0e",
+    130169
+   ],
+   [
+    "#fafaf9",
+    124041
+   ],
+   [
+    "#e4ebd8",
+    97796
+   ],
+   [
+    "#1f3b25",
+    97796
+   ],
+   [
+    "#e0e5d8",
+    97796
+   ],
+   [
+    "#000000",
+    3848
+   ]
+  ],
+  "text": [
+   [
+    "#000000",
+    716
+   ],
+   [
+    "#ffffff",
+    477
+   ],
+   [
+    "#111611",
+    205
+   ],
+   [
+    "#4a3b2c",
+    143
+   ]
+  ],
+  "buttons": [
+   [
+    "#ffffff",
+    1
+   ]
+  ],
+  "accents": [
+   "#4a3b2c",
+   "#1b3b32",
+   "#1f3b25"
+  ],
+  "gradients": [
+   "linear-gradient(to top, oklab(0 0 0 / 0.9) 0%, oklab(0 0 0 / 0.5) 50%, rgba(0, 0, 0, 0) 100%)",
+   "linear-gradient(to top, oklab(0.128998 -0.0038857 -0.0418156 / 0.95) 0%, oklab(0.128998 -0.0038857 -0.0418156 / 0.6) 50%, rgba(0, 0, 0, 0) 100%)",
+   "linear-gradient(lab(91.8091 1.77085 8.11867 / 0.9) 0%, lab(91.8091 1.77085 8.11867 / 0.3) 50%, rgba(0, 0, 0, 0) 100%)",
+   "linear-gradient(to top, rgb(27, 59, 50) 0%, lab(22.2046 -14.3846 1.76106 / 0.5) 50%, rgba(0, 0, 0, 0) 100%)",
+   "linear-gradient(in oklab, rgb(68, 66, 71) 0%, rgb(26, 25, 28) 50%, rgb(46, 45, 51) 100%)"
+  ]
+ },
+ "fonts": [
+  {
+   "family": "Plus Jakarta Sans",
+   "weights": [
+    "700",
+    "300",
+    "400",
+    "500",
+    "600"
+   ],
+   "largestSize": 110,
+   "sample": "Everything you need to run your photography business",
+   "tracking": "-5.5px",
+   "transform": "none"
+  }
+ ],
+ "fontFaces": [
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/fef07dbb0973bf53-s.518e079e.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/8a480f0b521d4e75-s.ea323500.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/53b9e256198e5412-s.853d50a3.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/7178b3e590c64307-s.55554cd0.woff2"
+  },
+  {
+   "family": "Geist",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/caa3a2e1cccd8315-s.p.3b6cae6d.woff2"
+  },
+  {
+   "family": "Geist Mono",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/5ce348bf30bf5439-s.56c1f21e.woff2"
+  },
+  {
+   "family": "Geist Mono",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/4fa387ec64143e14-s.3b336396.woff2"
+  },
+  {
+   "family": "Geist Mono",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/6306c77e7c8268e4-s.e3369375.woff2"
+  },
+  {
+   "family": "Geist Mono",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/7d817b4c03b0c5f1-s.a40b9a8b.woff2"
+  },
+  {
+   "family": "Geist Mono",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/bbc41e54d2fcbd21-s.fe42ddf4.woff2"
+  },
+  {
+   "family": "Geist Mono",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/797e433ab948586e-s.p.29207c2f.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/4a439e1ba971da1a-s.f6f6239b.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/b3b0afff8ab38d95-s.542be403.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/b12ef0642bbc5f5f-s.b2fd768f.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/83a6e70a3a81dd9f-s.cd5d2b7b.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/99ac5753282bcf05-s.82772c94.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/2f13ad8e538108e0-s.p.9b936cf7.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/4a439e1ba971da1a-s.f6f6239b.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/b3b0afff8ab38d95-s.542be403.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/b12ef0642bbc5f5f-s.b2fd768f.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/83a6e70a3a81dd9f-s.cd5d2b7b.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/99ac5753282bcf05-s.82772c94.woff2"
+  },
+  {
+   "family": "Roboto Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/2f13ad8e538108e0-s.p.9b936cf7.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/2c55a0e60120577a-s.2a48534a.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/9c72aa0f40e4eef8-s.18a48cbc.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/ad66f9afd8947f86-s.7a40eb73.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/5476f68d60460930-s.c995e352.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/2bbe8d2671613f1f-s.76dcb0b2.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/1bffadaabf893a1e-s.7cd81963.woff2"
+  },
+  {
+   "family": "Inter",
+   "weight": "100 900",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+  },
+  {
+   "family": "Space Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/4ba802ed8e67eac5-s.e45fea2b.woff2"
+  },
+  {
+   "family": "Space Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/d7a0600e467cf0bd-s.20ecb425.woff2"
+  },
+  {
+   "family": "Space Mono",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/dc0d9adbac686440-s.p.3b382e45.woff2"
+  },
+  {
+   "family": "Space Mono",
+   "weight": "700",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/b8f2b92a9960dd69-s.12167c5a.woff2"
+  },
+  {
+   "family": "Space Mono",
+   "weight": "700",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/28e60ca39c9ae554-s.7a4e9fcc.woff2"
+  },
+  {
+   "family": "Space Mono",
+   "weight": "700",
+   "style": "normal",
+   "src": "https://www.seyspace.com/_next/static/media/8d05cfa5faa8406c-s.p.4adea45d.woff2"
+  }
+ ],
+ "radius": [
+  [
+   "20px",
+   17
+  ],
+  [
+   "3.35544e+07px",
+   7
+  ],
+  [
+   "16px",
+   7
+  ],
+  [
+   "24px",
+   7
+  ],
+  [
+   "6px",
+   6
+  ],
+  [
+   "12px",
+   1
+  ]
+ ],
+ "shadows": [
+  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 4px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px",
+  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px"
+ ],
+ "buttons": [
+  {
+   "text": "Business Solutions",
+   "bg": null,
+   "image": null,
+   "color": "#000000",
+   "radius": "0px",
+   "border": null,
+   "font": "500 14px",
+   "y": 28,
+   "w": 146,
+   "h": 36
+  },
+  {
+   "text": "Resources",
+   "bg": null,
+   "image": null,
+   "color": "#000000",
+   "radius": "0px",
+   "border": null,
+   "font": "500 14px",
+   "y": 28,
+   "w": 91,
+   "h": 36
+  },
+  {
+   "text": "Join Studio",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "3.35544e+07px",
+   "border": null,
+   "font": "700 14px",
+   "y": 26,
+   "w": 125,
+   "h": 40
+  },
+  {
+   "text": "Get Started",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "3.35544e+07px",
+   "border": null,
+   "font": "700 18px",
+   "y": 692,
+   "w": 208,
+   "h": 60
+  },
+  {
+   "text": "Make Payment",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "16px",
+   "border": null,
+   "font": "700 9.5px",
+   "y": 2970,
+   "w": 199,
+   "h": 38
+  },
+  {
+   "text": "Get Started",
+   "bg": "#ffffff",
+   "image": null,
+   "color": "#000000",
+   "radius": "3.35544e+07px",
+   "border": null,
+   "font": "500 18px",
+   "y": 6816,
+   "w": 178,
+   "h": 60
+  },
+  {
+   "text": "Accept All Cookies",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "3.35544e+07px",
+   "border": null,
+   "font": "700 12px",
+   "y": 750,
+   "w": 342,
+   "h": 36
+  },
+  {
+   "text": "Reject Non-Essential",
+   "bg": null,
+   "image": null,
+   "color": null,
+   "radius": "3.35544e+07px",
+   "border": "1px solid currentColor",
+   "font": "600 12px",
+   "y": 794,
+   "w": 167,
+   "h": 34
+  },
+  {
+   "text": "Manage Preferences",
+   "bg": null,
+   "image": null,
+   "color": null,
+   "radius": "3.35544e+07px",
+   "border": "1px solid currentColor",
+   "font": "600 12px",
+   "y": 794,
+   "w": 167,
+   "h": 34
+  }
+ ],
+ "copy": {
+  "h1": [
+   "Everything you need to run your photography business"
+  ],
+  "h2": [
+   "Tools for the modern photographer",
+   "Alex Stone",
+   "The SeySpace Ecosystem",
+   "Built for photographers who want to grow.",
+   "We believe your work belongs to you.",
+   "Start using SeySpace today for free"
+  ],
+  "h3": [
+   "THE ELEGANCE COLLECTION",
+   "High-Density Delivery",
+   "Full-Service Commerce",
+   "Lead Optimization",
+   "Automatic Scheduling",
+   "Digital Signing",
+   "Creative Workflows",
+   "Seamless Collaboration",
+   "Photographer-first design",
+   "Modern client experience",
+   "All-in-one platform",
+   "Built to scale with you",
+   "Data Sovereignty",
+   "Financial Freedom",
+   "Creative Sanctity",
+   "Platform",
+   "Business",
+   "Resources",
+   "Company"
+  ],
+  "nav": [
+   "Pricing",
+   "Login"
+  ],
+  "eyebrow": [],
+  "stats": []
+ },
+ "logo": {
+  "src": "https://www.seyspace.com/images/logo-black.png",
+  "box": [
+   104,
+   24,
+   163,
+   44
+  ],
+  "file": "logo.png",
+  "note": "screenshot crop: check it"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "image",
+   "w": 321,
+   "h": 415,
+   "y": 936,
+   "alt": "Photographer with Vintage Camera",
+   "file": "ui/image_00.png"
+  },
+  {
+   "i": 1,
+   "kind": "image",
+   "w": 321,
+   "h": 415,
+   "y": 932,
+   "alt": "Fashion Models on City Street",
+   "file": "ui/image_01.png"
+  },
+  {
+   "i": 2,
+   "kind": "image",
+   "w": 996,
+   "h": 598,
+   "y": 2387,
+   "alt": "Portfolio Backdrop",
+   "file": "ui/image_02.png"
+  },
+  {
+   "i": 3,
+   "kind": "image",
+   "w": 638,
+   "h": 256,
+   "y": 2536,
+   "alt": "Store Cover",
+   "file": "ui/image_03.png"
+  },
+  {
+   "i": 4,
+   "kind": "image",
+   "w": 891,
+   "h": 350,
+   "y": 3563,
+   "alt": "Galleries",
+   "file": "ui/image_04.png"
+  },
+  {
+   "i": 5,
+   "kind": "image",
+   "w": 429,
+   "h": 732,
+   "y": 3563,
+   "alt": "Digital Store",
+   "file": "ui/image_05.png"
+  },
+  {
+   "i": 6,
+   "kind": "image",
+   "w": 429,
+   "h": 350,
+   "y": 3945,
+   "alt": "Studio CRM",
+   "file": "ui/image_06.png"
+  },
+  {
+   "i": 7,
+   "kind": "image",
+   "w": 429,
+   "h": 350,
+   "y": 3945,
+   "alt": "Smart Booking",
+   "file": "ui/image_07.png"
+  },
+  {
+   "i": 8,
+   "kind": "image",
+   "w": 429,
+   "h": 350,
+   "y": 4327,
+   "alt": "Legal Contracts",
+   "file": "ui/image_08.png"
+  },
+  {
+   "i": 9,
+   "kind": "image",
+   "w": 429,
+   "h": 350,
+   "y": 4327,
+   "alt": "Production Planning",
+   "file": "ui/image_09.png"
+  },
+  {
+   "i": 10,
+   "kind": "image",
+   "w": 429,
+   "h": 350,
+   "y": 4327,
+   "alt": "Team Add-ons",
+   "file": "ui/image_10.png"
+  },
+  {
+   "i": 11,
+   "kind": "image",
+   "w": 368,
+   "h": 266,
+   "y": 6010,
+   "alt": "Photography Studio Aesthetics",
+   "file": "ui/image_11.png"
+  },
+  {
+   "i": 12,
+   "kind": "image",
+   "w": 1440,
+   "h": 600,
+   "y": 6436,
+   "alt": "Photographer",
+   "file": "ui/image_12.png"
+  },
+  {
+   "i": 16,
+   "kind": "card",
+   "w": 314,
+   "h": 410,
+   "y": 927,
+   "alt": "",
+   "file": "ui/card_16.png"
+  },
+  {
+   "i": 17,
+   "kind": "card",
+   "w": 314,
+   "h": 410,
+   "y": 915,
+   "alt": "",
+   "file": "ui/card_17.png"
+  },
+  {
+   "i": 18,
+   "kind": "card",
+   "w": 307,
+   "h": 405,
+   "y": 945,
+   "alt": "",
+   "file": "ui/card_18.png"
+  },
+  {
+   "i": 19,
+   "kind": "card",
+   "w": 998,
+   "h": 600,
+   "y": 2333,
+   "alt": "SEYSPACE.COM/ALEX-STONE SEYSPACE STUDIO Alex Stone EDITORIAL & WEDDING PHOTOGRAPHY STUDIO ",
+   "file": "ui/card_19.png"
+  },
+  {
+   "i": 20,
+   "kind": "card",
+   "w": 640,
+   "h": 550,
+   "y": 2493,
+   "alt": "SEYSPACE.COM/WEDDING THE ELEGANCE COLLECTION OCTOBER 27TH, 2025 VIEW GALLERY THE ELEGANCE ",
+   "file": "ui/card_20.png"
+  },
+  {
+   "i": 21,
+   "kind": "card",
+   "w": 252,
+   "h": 532,
+   "y": 2503,
+   "alt": "9:41 AS Alex Stone CLIENT PORTAL INVOICE $2,450 UNPAID Session Fee $1,800 Retouching $650 ",
+   "file": "ui/card_21.png"
+  },
+  {
+   "i": 22,
+   "kind": "card",
+   "w": 393,
+   "h": 274,
+   "y": 4869,
+   "alt": "Photographer-first design Tailored to the unique needs of visual artists. We stripped away",
+   "file": "ui/card_22.png"
+  },
+  {
+   "i": 23,
+   "kind": "card",
+   "w": 393,
+   "h": 274,
+   "y": 4869,
+   "alt": "Modern client experience Impress your clients from the first touchpoint. Offer frictionles",
+   "file": "ui/card_23.png"
+  },
+  {
+   "i": 24,
+   "kind": "card",
+   "w": 393,
+   "h": 297,
+   "y": 5167,
+   "alt": "All-in-one platform Stop duct-taping software together. SeySpace unifies your entire busin",
+   "file": "ui/card_24.png"
+  },
+  {
+   "i": 25,
+   "kind": "card",
+   "w": 393,
+   "h": 297,
+   "y": 5167,
+   "alt": "Built to scale with you Start simple. Upgrade as your business grows. Whether you are shoo",
+   "file": "ui/card_25.png"
+  },
+  {
+   "i": 26,
+   "kind": "card",
+   "w": 368,
+   "h": 266,
+   "y": 5720,
+   "alt": "Data Sovereignty Your client lists, contract data, and gallery traffic belong to you. We n",
+   "file": "ui/card_26.png"
+  },
+  {
+   "i": 27,
+   "kind": "card",
+   "w": 368,
+   "h": 266,
+   "y": 6010,
+   "alt": "Financial Freedom Keep what you earn. Our commission structures are transparent and capped",
+   "file": "ui/card_27.png"
+  },
+  {
+   "i": 28,
+   "kind": "card",
+   "w": 368,
+   "h": 266,
+   "y": 6010,
+   "alt": "Creative Sanctity No \"suggested posts\". No ads on your galleries. We provide a pure, unadu",
+   "file": "ui/card_28.png"
+  },
+  {
+   "i": 29,
+   "kind": "card",
+   "w": 384,
+   "h": 289,
+   "y": 587,
+   "alt": "We use cookies SeySpace uses strictly necessary cookies to keep you signed in, and optiona",
+   "file": "ui/card_29.png"
+  }
+ ],
+ "fontFiles": []
+}
