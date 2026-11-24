@@ -1,0 +1,82 @@
+/* Founders Minimal caption preset.
+   All sizes scale from --H (the frame height in px). Set --H on the stage:
+   1080 for 1920x1080, 1920 for 1080x1920 (then see STYLE.md "Vertical 9:16"). */
+
+.fm-stage {
+  --H: 1080px;
+  --sky-1: #f6fafd;        /* cloud white */
+  --sky-2: #bfdff4;        /* ice-blue haze on the line's left/right edges */
+  --sky-3: #79b9e6;        /* sky blue */
+  --ghost: 0.22;           /* how much text bleeds through the subject matte */
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  font-family: "Inter Display", "SF Pro Display", "Inter", system-ui, sans-serif;
+  font-feature-settings: "ss01" 0, "cv11" 1;   /* single-storey a is OFF, straight-sided t */
+}
+
+/* Caption block: one line (or a two-line stack), centred horizontally.
+   Single lines: the x-height centre sits at 50% of the frame height (--cap-y).
+   Stacks hang from the same point: line 1 above it, the hero line below. */
+.fm-cap {
+  --cap-y: 0.50;
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(var(--H) * var(--cap-y));
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.fm-cap.is-stack { transform: translateY(-8%); }   /* small line on the centre, hero hangs below */
+
+.fm-line {
+  display: block;
+  line-height: 1;
+  /* room for descenders and the drop shadow; background-clip:text clips to the padding box */
+  padding: 0.06em 0.08em 0.16em;
+  margin: -0.06em 0 -0.16em;
+  color: transparent;
+  -webkit-background-clip: text; background-clip: text;
+  background-image: var(--sky-tex), linear-gradient(100deg, var(--sky-2) 0%, var(--sky-1) 26%, var(--sky-1) 74%, var(--sky-2) 100%);
+  background-size: calc(var(--H) * 1.6) calc(var(--H) * 0.9), 100% 100%;
+  background-position: var(--tex-x, 0px) var(--tex-y, 0px), 0 0;
+  background-blend-mode: multiply;
+  filter: drop-shadow(0 0 calc(var(--H) * 0.010) rgba(0, 0, 0, 0.25));
+}
+.fm-line + .fm-line { margin-top: -0.22em; }   /* stack: lines nearly touch */
+
+/* Tiers (font-size as a fraction of frame height, calibrated to the reference's measured widths) */
+.fm-standard { font-size: calc(var(--H) * 0.107); font-weight: 700; letter-spacing: -0.03em; }
+.fm-italic   { font-size: calc(var(--H) * 0.108); font-weight: 600; font-style: italic; letter-spacing: -0.035em; }
+.fm-emphasis { font-size: calc(var(--H) * 0.146); font-weight: 700; letter-spacing: -0.035em; }
+.fm-hero     { font-size: calc(var(--H) * 0.223); font-weight: 800; letter-spacing: -0.045em; }
+.fm-heromax  { font-size: calc(var(--H) * 0.196); font-weight: 900; letter-spacing: -0.04em; }
+.is-stack .fm-hero { font-size: calc(var(--H) * 0.25); }   /* stacked hero is ~12% bigger than a solo hero */
+.fm-small    { font-size: calc(var(--H) * 0.107); font-weight: 700; letter-spacing: -0.03em; }
+
+/* Persistent watermark: bottom centre */
+.fm-watermark {
+  position: absolute; left: 0; right: 0;
+  top: calc(var(--H) * 0.935);
+  text-align: center;
+  font-family: "Montserrat", "Gotham", "Inter", sans-serif;
+  font-weight: 400;
+  font-size: calc(var(--H) * 0.029);
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* End card: same wordmark, centred, larger */
+.fm-endcard {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: #000;
+  font-family: "Montserrat", "Gotham", "Inter", sans-serif;
+  font-weight: 400; font-size: calc(var(--H) * 0.074); letter-spacing: 0.035em;
+  color: #fff;
+}
+
+/* Letterbox open: two black bars that slide from the centre line to off-frame, linear, 24 frames */
+.fm-bar { position: absolute; left: 0; right: 0; height: 50%; background: #000; }
+.fm-bar.top { top: 0; } .fm-bar.bot { bottom: 0; }

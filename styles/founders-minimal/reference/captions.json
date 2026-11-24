@@ -1,0 +1,418 @@
+{
+ "source": "Founders Houze reel, 'Who cares if you get embarrassed', 1276x718, 30 fps, 20.47 s (614 frames)",
+ "fps": 30,
+ "shot_cuts_frames": [
+  284,
+  366,
+  400,
+  464,
+  554
+ ],
+ "intro": {
+  "type": "letterbox_open",
+  "from_frame": 0,
+  "to_frame": 24,
+  "curve": "linear",
+  "note": "video revealed from a 0-height centre strip to full frame; caption already on screen at frame 0"
+ },
+ "captions": [
+  {
+   "id": 1,
+   "in": 0,
+   "out": 13,
+   "text": "If you're",
+   "tier": "standard",
+   "words": [
+    0,
+    1
+   ],
+   "spoken": "If you're",
+   "word_start": 0.0,
+   "word_end": 0.44,
+   "lead_s": 0.0,
+   "tail_s": -0.01
+  },
+  {
+   "id": 2,
+   "in": 13,
+   "out": 28,
+   "text": "listening,",
+   "tier": "hero",
+   "words": [
+    2,
+    2
+   ],
+   "spoken": "listening,",
+   "word_start": 0.44,
+   "word_end": 0.86,
+   "lead_s": -0.01,
+   "tail_s": 0.07
+  },
+  {
+   "id": 3,
+   "in": 28,
+   "out": 48,
+   "text": "you're focusing,",
+   "tier": "standard",
+   "words": [
+    3,
+    4
+   ],
+   "spoken": "you're focusing,",
+   "word_start": 1.14,
+   "word_end": 1.5,
+   "lead_s": -0.21,
+   "tail_s": 0.1
+  },
+  {
+   "id": 4,
+   "in": 48,
+   "out": 62,
+   "text": "you step out",
+   "tier": "standard",
+   "words": [
+    5,
+    7
+   ],
+   "spoken": "you step out",
+   "word_start": 1.82,
+   "word_end": 2.14,
+   "lead_s": -0.22,
+   "tail_s": -0.07
+  },
+  {
+   "id": 5,
+   "in": 62,
+   "out": 81,
+   "text": "your comfort zone,",
+   "tier": "standard",
+   "edit": "spoken 'of' dropped",
+   "words": [
+    8,
+    11
+   ],
+   "spoken": "of your comfort zone,",
+   "word_start": 2.14,
+   "word_end": 2.7,
+   "lead_s": -0.07,
+   "tail_s": 0.0
+  },
+  {
+   "id": 6,
+   "in": 81,
+   "out": 129,
+   "text": "you can achieve",
+   "tier": "standard",
+   "words": [
+    12,
+    14
+   ],
+   "spoken": "you can achieve",
+   "word_start": 2.86,
+   "word_end": 3.28,
+   "lead_s": -0.16,
+   "tail_s": 1.02
+  },
+  {
+   "id": 7,
+   "in": 129,
+   "out": 159,
+   "text": "anything in life.",
+   "tier": "italic",
+   "words": [
+    15,
+    17
+   ],
+   "spoken": "anything in life.",
+   "word_start": 3.28,
+   "word_end": 5.08,
+   "lead_s": 1.02,
+   "tail_s": 0.22
+  },
+  {
+   "id": 8,
+   "in": 159,
+   "out": 192,
+   "text": "I was nothing",
+   "tier": "standard",
+   "words": [
+    18,
+    20
+   ],
+   "spoken": "I was nothing",
+   "word_start": 5.3,
+   "word_end": 6.32,
+   "lead_s": 0.0,
+   "tail_s": 0.08
+  },
+  {
+   "id": 9,
+   "in": 192,
+   "out": 209,
+   "text": "about three",
+   "tier": "standard",
+   "words": [
+    21,
+    22
+   ],
+   "spoken": "about three",
+   "word_start": 6.32,
+   "word_end": 6.92,
+   "lead_s": 0.08,
+   "tail_s": 0.05
+  },
+  {
+   "id": 10,
+   "in": 209,
+   "out": 228,
+   "text": "years ago.",
+   "tier": "standard",
+   "words": [
+    23,
+    24
+   ],
+   "spoken": "years ago.",
+   "word_start": 6.92,
+   "word_end": 7.38,
+   "lead_s": 0.05,
+   "tail_s": 0.22
+  },
+  {
+   "id": 11,
+   "in": 228,
+   "out": 272,
+   "text": "I'm here now",
+   "tier": "standard",
+   "words": [
+    25,
+    27
+   ],
+   "spoken": "I'm here now.",
+   "word_start": 7.74,
+   "word_end": 9.08,
+   "lead_s": -0.14,
+   "tail_s": -0.01
+  },
+  {
+   "id": 12,
+   "in": 272,
+   "out": 314,
+   "text": "so I think",
+   "tier": "standard",
+   "note": "carries across the cut at f284",
+   "words": [
+    28,
+    30
+   ],
+   "spoken": "So, I think",
+   "word_start": 9.32,
+   "word_end": 10.14,
+   "lead_s": -0.25,
+   "tail_s": 0.33
+  },
+  {
+   "id": 13,
+   "in": 314,
+   "out": 325,
+   "text": "if you're",
+   "tier": "standard",
+   "note": "lands on a blue patch of the sky texture",
+   "words": [
+    31,
+    32
+   ],
+   "spoken": "if you're",
+   "word_start": 10.14,
+   "word_end": 10.78,
+   "lead_s": 0.33,
+   "tail_s": 0.05
+  },
+  {
+   "id": 14,
+   "in": 325,
+   "out": 337,
+   "text": "if you're / listening,",
+   "tier": "stack",
+   "note": "line 1 stays, hero line 2 is added underneath (build)",
+   "words": [
+    33,
+    33
+   ],
+   "spoken": "listening,",
+   "word_start": 10.78,
+   "word_end": 11.02,
+   "lead_s": 0.05,
+   "tail_s": 0.21
+  },
+  {
+   "id": 15,
+   "in": 337,
+   "out": 386,
+   "text": "you're focusing,",
+   "tier": "italic",
+   "note": "carries across the cut at f366",
+   "words": [
+    34,
+    35
+   ],
+   "spoken": "you're focusing,",
+   "word_start": 11.24,
+   "word_end": 11.84,
+   "lead_s": -0.01,
+   "tail_s": 1.03
+  },
+  {
+   "id": 16,
+   "in": 386,
+   "out": 400,
+   "text": "you just step",
+   "tier": "standard",
+   "words": [
+    36,
+    38
+   ],
+   "spoken": "you just step",
+   "word_start": 12.62,
+   "word_end": 13.34,
+   "lead_s": 0.25,
+   "tail_s": -0.01
+  },
+  {
+   "id": 17,
+   "in": 400,
+   "out": 418,
+   "text": "out your comfort zone",
+   "tier": "standard",
+   "edit": "spoken 'of' dropped; caption change lands on the cut at f400",
+   "words": [
+    39,
+    43
+   ],
+   "spoken": "out of your comfort zone",
+   "word_start": 13.34,
+   "word_end": 14.0,
+   "lead_s": -0.01,
+   "tail_s": -0.07
+  },
+  {
+   "id": 18,
+   "in": 418,
+   "out": 431,
+   "text": "a little bit.",
+   "tier": "standard",
+   "words": [
+    44,
+    46
+   ],
+   "spoken": "a little bit.",
+   "word_start": 14.0,
+   "word_end": 14.44,
+   "lead_s": -0.07,
+   "tail_s": -0.07
+  },
+  {
+   "id": 19,
+   "in": 431,
+   "out": 448,
+   "text": "Who cares",
+   "tier": "standard",
+   "words": [
+    47,
+    48
+   ],
+   "spoken": "Who cares",
+   "word_start": 14.5,
+   "word_end": 14.9,
+   "lead_s": -0.13,
+   "tail_s": 0.03
+  },
+  {
+   "id": 20,
+   "in": 448,
+   "out": 462,
+   "text": "if you're getting",
+   "tier": "standard",
+   "words": [
+    49,
+    51
+   ],
+   "spoken": "if you're getting",
+   "word_start": 14.9,
+   "word_end": 15.3,
+   "lead_s": 0.03,
+   "tail_s": 0.1
+  },
+  {
+   "id": 21,
+   "in": 462,
+   "out": 479,
+   "text": "embarrassed?",
+   "tier": "emphasis",
+   "exit": {
+    "type": "fade",
+    "from": 472,
+    "to": 479
+   },
+   "edit": "', you know?' cut and turned into '?'",
+   "words": [
+    52,
+    54
+   ],
+   "spoken": "embarrassed, you know?",
+   "word_start": 15.3,
+   "word_end": 15.94,
+   "lead_s": 0.1,
+   "tail_s": 0.03
+  },
+  {
+   "id": 22,
+   "in": 479,
+   "out": 509,
+   "text": null,
+   "tier": "breath",
+   "note": "1.0 s of clean footage before the final line"
+  },
+  {
+   "id": 23,
+   "in": 509,
+   "out": 530,
+   "text": "Anything can be",
+   "tier": "standard",
+   "words": [
+    55,
+    57
+   ],
+   "spoken": "Anything can be",
+   "word_start": 16.86,
+   "word_end": 17.68,
+   "lead_s": 0.11,
+   "tail_s": -0.01
+  },
+  {
+   "id": 24,
+   "in": 530,
+   "out": 553,
+   "text": "impossible",
+   "tier": "hero_max",
+   "words": [
+    58,
+    58
+   ],
+   "spoken": "impossible.",
+   "word_start": 17.68,
+   "word_end": 18.08,
+   "lead_s": -0.01,
+   "tail_s": 0.35
+  }
+ ],
+ "end_card": {
+  "in": 554,
+  "hold_until": 600,
+  "fade_out": [
+   600,
+   613
+  ],
+  "text": "FOUNDERS HOUZE",
+  "entry": "hard cut to black"
+ }
+}

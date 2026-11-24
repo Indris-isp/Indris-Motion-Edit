@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Founders Minimal caption preview</title>
+<link rel="stylesheet" href="caption-style.css">
+<style>
+  html, body { margin: 0; background: #111; }
+  .fm-stage { width: var(--W); height: var(--H); }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .matte { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+</style>
+</head>
+<body>
+<div class="fm-stage" id="stage"></div>
+<script>
+// Cloud-sky texture used as the caption fill (procedural; swap for a real sky photo if you have one).
+function skyTexture(seed) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'>
+    <filter id='c' x='0' y='0' width='100%' height='100%'>
+      <feTurbulence type='fractalNoise' baseFrequency='0.0032 0.0055' numOctaves='5' seed='${seed}'/>
+      <!-- mostly cloud-white; only the low-noise ~20% of the area turns ice/sky blue (#78b8e6) -->
+      <feColorMatrix type='matrix' values='
+        1.59 0 0 0 0.285
+        0.84 0 0 0 0.622
+        0.30 0 0 0 0.865
+        0 0 0 0 1'/>
+    </filter>
+    <rect width='100%' height='100%' filter='url(#c)'/>
+  </svg>`;
+  return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+}
+
+// Scene description comes from the URL hash as JSON:
+// { W, H, bg, matte, lines: [{text, tier}], texX, texY, seed, watermark, endcard, bar }
+const p = JSON.parse(decodeURIComponent(location.hash.slice(1) || "{}"));
+const W = p.W || 1920, H = p.H || 1080;
+const st = document.getElementById("stage");
+st.style.setProperty("--W", W + "px");
+st.style.setProperty("--H", H + "px");
+st.style.setProperty("--sky-tex", skyTexture(p.seed ?? 7));
+st.style.setProperty("--tex-x", (p.texX ?? 0) + "px");
+st.style.setProperty("--tex-y", (p.texY ?? 0) + "px");
+
+if (p.bg) st.insertAdjacentHTML("beforeend", `<img class="bg" src="${p.bg}">`);
+if (p.lines && p.lines.length) {
+  const tierClass = { standard: "fm-standard", italic: "fm-italic", emphasis: "fm-emphasis",
+                      hero: "fm-hero", hero_max: "fm-heromax", small: "fm-small" };
+  const html = p.lines.map(l => `<span class="fm-line ${tierClass[l.tier]}">${l.text}</span>`).join("");
+  st.insertAdjacentHTML("beforeend", `<div class="fm-cap${p.lines.length > 1 ? " is-stack" : ""}" style="opacity:${p.capOpacity ?? 1}">${html}</div>`);
+}
+// Subject matte goes ABOVE the captions so the speaker's neck/tie/mic cut through the letters.
+if (p.matte) st.insertAdjacentHTML("beforeend", `<img class="matte" src="${p.matte}" style="opacity:${1 - (p.ghost ?? 0.22)}">`);
+if (p.watermark !== false) st.insertAdjacentHTML("beforeend", `<div class="fm-watermark">${p.watermark || "FOUNDERS HOUZE"}</div>`);
+if (p.endcard) st.insertAdjacentHTML("beforeend", `<div class="fm-endcard" style="opacity:${p.endOpacity ?? 1}">${p.endcard}</div>`);
+if (p.bar != null) {           // 0 = closed, 1 = fully open
+  const h = (1 - p.bar) * 50;
+  st.insertAdjacentHTML("beforeend", `<div class="fm-bar top" style="height:${h}%"></div><div class="fm-bar bot" style="height:${h}%"></div>`);
+}
+window.measure = () => [...document.querySelectorAll(".fm-line")].map(e => {
+  const r = e.getBoundingClientRect(); return { text: e.textContent, w: Math.round(r.width), h: Math.round(r.height), top: Math.round(r.top), bottom: Math.round(r.bottom) };
+});
+window.ready = document.fonts.ready.then(() => true);
+</script>
+</body>
+</html>
