@@ -198,8 +198,9 @@ shot('componentHero', { hero: 2.8, len: 3.6, bg: 'light', tin: 'zoom', tout: 'wh
     s.h = typed(c, 'abs head', { left: lv(120, 80), top: lv(360, 250), fontSize: fs + 'px' }, [{ t: h[0] }, { t: h[1] ? '\n' + h[1] : '', cls: sc.accent === false ? '' : 'acc' }], false);
     if (sc.accent === false && s.h.el.lastElementChild) s.h.el.lastElementChild.style.color = 'var(--mut)';
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '2400px' });
-    s.comp = renderComponent(s.wrap, sc.component, { x: lv(760, 80), y: lv(120, 560), w: lv(1040, 920) });
-    s.comp.el.style.transformOrigin = '50% 100%';
+    const z = sc.zoom || lv(1.45, 1.2);   // components are drawn at UI size; the hero shows one big
+    s.comp = renderComponent(s.wrap, sc.component, { x: lv(740, 60) / z, y: lv(240, 560) / z, w: lv(1080, 960) / z });
+    s.comp.el.style.zoom = z; s.comp.el.style.transformOrigin = '50% 100%';
   },
   update(t, s, c) {
     S(c, { s: L(1, 1.04, t / 3.6) });
@@ -354,4 +355,142 @@ shot('flood', { hero: 3.0, len: 4.0, bg: 'light', marker: 'cta', tin: 'zoom',
     blurIn(s.logo, t, 1.1, 1.5, { blur: 20, s0: 1.1 }); blurIn(s.tag, t, 1.35, 1.75, { y: 24 });
     s.bl.forEach((e, i) => { const a = 1.7 + i * .15, k = P(t, a, a + .35); S(e, { y: (1 - eo(k)) * 40, o: k * 2, s: L(.9, 1, bo(k)) }); });
     blurIn(s.url, t, 2.1, 2.4, { y: 12, blur: 10 });
+  } });
+
+/* ===== viewfinder: the problem seen through a camera that can't focus (photo/video brands) =====
+ * params: photo (atmosphere image), headline: [a, b], items: [..messages popping in the frame], readout: '1/250  f/2.8  ISO 1600' */
+shot('viewfinder', { hero: 2.4, len: 3.0, bg: 'dark', tin: 'fade', tout: 'zoom',
+  sfx: [[0.05, 'swell'], [0.4, 'pops4'], [1.1, 'pops4'], [1.6, 'tick'], [2.85, 'whoosh']],
+  build(c, s, sc) {
+    s.ph = D(c, 'abs', { left: -40, top: -40, width: W + 80, height: H + 80, background: `url('${sc.photo}') center 30%/cover` });
+    s.dim = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: 'radial-gradient(ellipse at 50% 45%,rgba(0,0,0,.25),rgba(0,0,0,.78))' });
+    const ix = lv(110, 70), iy = lv(80, 200), bl = 90;
+    s.br = [[ix, iy, 'tl'], [W - ix, iy, 'tr'], [ix, H - iy, 'bl'], [W - ix, H - iy, 'br']].map(([x, y, k]) => D(c, 'abs', { left: x - (k[1] === 'r' ? bl : 0), top: y - (k[0] === 'b' ? bl : 0), width: bl, height: bl,
+      borderTop: k[0] === 't' ? '5px solid #fff' : 'none', borderBottom: k[0] === 'b' ? '5px solid #fff' : 'none', borderLeft: k[1] === 'l' ? '5px solid #fff' : 'none', borderRight: k[1] === 'r' ? '5px solid #fff' : 'none', opacity: .9 }));
+    s.rec = D(c, 'abs', { left: ix + 30, top: iy + 26, font: '700 26px var(--font-body)', color: '#fff', letterSpacing: '.12em' }, '<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:#ff3b30;margin-right:12px;vertical-align:-2px"></span>REC');
+    s.ro = D(c, 'abs', { left: ix + 30, top: H - iy - 60, font: '600 26px var(--font-body)', color: 'rgba(255,255,255,.85)', letterSpacing: '.14em', whiteSpace: 'nowrap' }, kesc(sc.readout || '1/250   f/2.8   ISO 1600'));
+    s.af = D(c, 'ctr', { left: CX, top: CY - lv(40, 120), width: 150, height: 110, border: '4px solid #ff453a', borderRadius: '6px' });
+    s.afl = D(c, 'abs', { right: ix + 30, top: iy + 26, font: '800 26px var(--font-body)', color: '#ff453a', letterSpacing: '.12em' }, 'AF ✕');
+    const spots = lv([[300, 200], [1180, 250], [260, 640], [1240, 600], [700, 120], [1300, 800]], [[110, 380], [520, 520], [90, 1080], [500, 1240], [140, 760], [560, 880]]);
+    s.msgs = (sc.items || []).slice(0, 6).map((m, i) => D(c, 'abs', { left: spots[i][0], top: spots[i][1], padding: '16px 24px', borderRadius: '22px 22px 22px 6px', background: 'rgba(255,255,255,.94)', color: 'var(--ink)', font: `600 ${lv(26, 30)}px var(--font-body)`, whiteSpace: 'nowrap', boxShadow: '0 20px 40px -14px rgba(0,0,0,.6)' }, kesc(m)));
+    const h = sc.headline || ['', ''];
+    s.h = D(c, 'ctr head', { left: CX, top: lv(H - 250, H - 420), fontSize: fitFs(lv(104, 96), h, W * .86) + 'px', color: '#fff', textAlign: 'center', whiteSpace: 'pre', textShadow: '0 4px 40px rgba(0,0,0,.6)' }, `${kesc(h[0])}\n<span style="color:var(--hi)">${kesc(h[1] || '')}</span>`);
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.04, 1, eo(P(t, 0, 3))) });
+    const hunt = 5 + 4 * Math.abs(Math.sin(t * 3.1)) + 3 * Math.abs(Math.sin(t * 7.3));   // focus keeps hunting
+    s.ph.style.filter = `blur(${hunt.toFixed(1)}px) saturate(.75)`;
+    S(s.ph, { s: L(1.08, 1.02, eo(P(t, 0, 3))) });
+    s.br.forEach((b, i) => { const k = eo(P(t, .05 + i * .04, .45 + i * .04)); S(b, { s: L(1.3, 1, k), o: k * .9 }); });
+    S(s.rec, { o: P(t, .2, .4) * (Math.floor(t * 2.2) % 2 ? .35 : 1) }); S(s.ro, { o: P(t, .3, .5) * .85 }); S(s.afl, { o: P(t, .5, .7) * (Math.floor(t * 3) % 2 ? .4 : 1) });
+    S(s.af, { x: Math.sin(t * 2.3) * lv(90, 60) + Math.sin(t * 5.1) * 30, y: Math.cos(t * 1.9) * 50, s: 1 + .12 * Math.sin(t * 6), o: P(t, .3, .5) });
+    s.msgs.forEach((m, i) => { const a = .4 + i * .22, q = P(t, a, a + .3); S(m, { s: L(.5, 1, bo(q)), o: C(q * 3), y: Math.sin(t * 2 + i) * 6, b: i % 3 === 2 ? 2.5 : 0 }); });
+    blurIn(s.h, t, 1.5, 1.95, { y: 20, blur: 18 });
+  } });
+
+/* ===== tape: the cause as an object: separate tools held together with duct tape; one strip gives way =====
+ * params: headline: [a, b], tools: [[glyph, label, color], ..up to 7], links: [[i, j], ..], peel: index of the link that fails */
+shot('tape', { hero: 2.4, len: 3.2, bg: 'dark', tin: 'zoom', tout: 'fade',
+  sfx: [[0.1, 'pops6'], [0.9, 'stamp'], [1.15, 'stamp'], [1.4, 'stamp'], [1.65, 'stamp'], [2.3, 'down'], [3.05, 'whoosh']],
+  build(c, s, sc) {
+    const tools = sc.tools || [], pos = lv([[560, 420], [880, 340], [1210, 410], [1440, 600], [1110, 690], [760, 720], [470, 650]], [[230, 760], [560, 700], [850, 820], [800, 1120], [500, 1240], [210, 1110], [520, 960]]);
+    s.glow = D(c, 'ctr', { left: CX, top: lv(560, 960), width: lv(1300, 1000), height: lv(700, 900), borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(var(--acc2RGB),.45),transparent)', filter: 'blur(30px)' });
+    s.tiles = tools.slice(0, 7).map((tl, i) => { const [x, y] = pos[i];
+      const e = D(c, 'ctr', { left: x, top: y, width: lv(200, 190), padding: '26px 0 20px', borderRadius: '26px', background: 'rgba(255,255,255,.96)', textAlign: 'center', boxShadow: '0 30px 60px -20px rgba(0,0,0,.7)', zIndex: 2 },
+        `<span class="kglyph" style="margin:0 auto 14px;width:72px;height:72px;border-radius:20px;font-size:34px;background:${tl[2] || 'var(--acc)'}">${kesc(tl[0])}</span><div style="font:700 24px var(--font);color:var(--ink);letter-spacing:-.01em">${kesc(tl[1])}</div>`);
+      return { e, x, y, r: (hash(i + 4) - .5) * 14, d: .05 + i * .07 }; });
+    s.tapes = (sc.links || []).map(([a, b], k) => { const A = pos[a], Bp = pos[b], mx = (A[0] + Bp[0]) / 2, my = (A[1] + Bp[1]) / 2, ang = Math.atan2(Bp[1] - A[1], Bp[0] - A[0]) * 180 / Math.PI;
+      const len = Math.hypot(Bp[0] - A[0], Bp[1] - A[1]) * .55 + 60;
+      const e = D(c, 'ctr', { left: mx, top: my, width: len, height: 54, zIndex: 3, background: 'linear-gradient(180deg,#d9cfbd,#c8b9a7 55%,#b9a993)', opacity: .95,
+        clipPath: 'polygon(0 6%,3% 0,6% 10%,9% 2%,91% 0,94% 9%,97% 1%,100% 8%,100% 92%,97% 100%,94% 90%,91% 99%,9% 100%,6% 91%,3% 99%,0 93%)', boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.08)' },
+        '<div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 3px,transparent 3px 9px)"></div>');
+      return { e, ang, d: .9 + k * .25, peel: k === sc.peel }; });
+    const h = sc.headline || ['', ''];
+    s.h = D(c, 'ctr head', { left: CX, top: lv(150, 340), fontSize: fitFs(lv(100, 96), [h.join(' ')], W * .9) + 'px', color: '#fff', textAlign: 'center', whiteSpace: V ? 'pre' : 'nowrap' }, `${kesc(h[0])}${V ? '\n' : ' '}<span style="color:var(--hi)">${kesc(h[1] || '')}</span>`);
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.05, t / 3.2) });
+    blurIn(s.h, t, 0, .5, { y: -18 }); S(s.glow, { o: .6 + .2 * Math.sin(t * 2) });
+    s.tiles.forEach((tl, i) => { const k = P(t, tl.d, tl.d + .4), fall = i === 6 ? eio(P(t, 2.25, 2.9)) : 0;
+      S(tl.e, { s: L(.6, 1, bo(k)), o: C(k * 3), r: tl.r + fall * 24, y: Math.sin(t * 1.6 + i) * 5 + fall * 260 }); });
+    s.tapes.forEach(tp => { const k = P(t, tp.d, tp.d + .18), pl = tp.peel ? eio(P(t, 2.15, 2.8)) : 0;
+      S(tp.e, { r: tp.ang + pl * 38, s: L(1.25, 1, eo(k)), o: C(k * 4) * (1 - pl * .7), y: pl * 160, x: pl * 40 }); });
+  } });
+
+/* ===== aperture: the turn. A camera iris closes on the mess and opens on the brand mark (dark → light) =====
+ * params: blades (default 8), word (wordmark under the mark) */
+shot('aperture', { hero: 1.9, len: 2.6, bg: 'dark', marker: 'turn', tin: 'fade', flashOut: false,
+  sfx: [[0.0, 'swell'], [0.75, 'click'], [0.8, 'boom'], [1.2, 'shimmer'], [2.4, 'hit']],
+  build(c, s, sc) {
+    s.inA = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: sc.photo ? `radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.15),rgba(0,0,0,.75)),url('${sc.photo}') center 30%/cover` : 'radial-gradient(ellipse at 50% 50%,rgba(var(--acc2RGB),.5),var(--dark) 70%)', filter: sc.photo ? 'blur(6px) saturate(.7)' : 'none' });
+    s.inB = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: 'linear-gradient(180deg,var(--bg),var(--bg2))' });
+    s.mark = D(c, 'ctr', { left: CX, top: CY - lv(40, 60), width: lv(230, 230), color: 'var(--ink)' }, BR.markSvg || markHTML(220));
+    s.word = D(c, 'ctr head', { left: CX, top: CY + lv(170, 190), fontSize: lv(96, 100) + 'px', color: 'var(--ink)', whiteSpace: 'nowrap' }, kesc(sc.word || B.product));
+    s.n = sc.blades || 8;
+    s.svg = D(c, 'abs', { left: 0, top: 0, width: W, height: H }, `<svg width="${W}" height="${H}"><defs><linearGradient id="apg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc2)"/><stop offset="1" style="stop-color:var(--acc3)"/></linearGradient></defs>${Array.from({ length: s.n }, () => '<polygon fill="url(#apg)" stroke="rgba(255,255,255,.18)" stroke-width="2"/>').join('')}</svg>`);
+    s.bl = [...s.svg.querySelectorAll('polygon')];
+  },
+  update(t, s, c) {
+    // radius of the opening: open → closed at .8 (click) → reopens wide by 2.3
+    const R0 = Math.hypot(W, H) * .6, r = t < .8 ? L(R0, 0, eio(P(t, 0, .8))) : L(0, R0, eio(P(t, .95, 2.3)) ** 1.3);
+    const rot = t < .8 ? L(0, 50, eio(P(t, 0, .8))) : L(50, 110, eio(P(t, .95, 2.3)));
+    s.bl.forEach((p, i) => { const th = (i * 360 / s.n + rot) * Math.PI / 180, u = [Math.cos(th), Math.sin(th)], d = [-Math.sin(th), Math.cos(th)], F = 4000;
+      const A = [CX + u[0] * r, CY + u[1] * r], Bq = [A[0] + d[0] * F, A[1] + d[1] * F], Cq = [Bq[0] + u[0] * F, Bq[1] + u[1] * F], Dq = [A[0] - d[0] * r * .9 + u[0] * F, A[1] - d[1] * r * .9 + u[1] * F];
+      p.setAttribute('points', [A, Bq, Cq, Dq].map(q => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' ')); });
+    const after = t >= .8; s.inA.style.display = after ? 'none' : 'block'; s.inB.style.display = after ? 'block' : 'none';
+    const m = P(t, 1.0, 1.5); S(s.mark, { s: L(.6, 1, bo(m)) * (1 + .03 * Math.sin(t * 5) * P(t, 1.5, 2.6)), o: after ? C(m * 3) : 0 });
+    blurIn(s.word, t, 1.45, 1.9, { y: 16, blur: 12 }); if (!after) S(s.word, { o: 0 });
+  } });
+
+/* ===== photoRing: the gallery as an object: the job's photos curve into a slowly turning 3D ring; a rebuilt
+ * component rises in front and the viewfinder brackets lock onto it (green AF).
+ * params: headline: [a, b], photos: [..urls], component (kit key), af: 'AF ✓' */
+shot('photoRing', { hero: 2.4, len: 3.2, bg: 'light', tin: 'zoom', tout: 'whip',
+  sfx: [[0.1, 'swoop'], [0.3, 'pops6'], [1.1, 'whoosh_s'], [1.7, 'click'], [1.75, 'pop'], [3.05, 'whoosh']],
+  build(c, s, sc) {
+    const h = sc.headline || ['', ''];
+    s.h = D(c, 'ctr head', { left: CX, top: lv(130, 300), fontSize: fitFs(lv(100, 104), V ? h : [h.join(' ')], W * .9) + 'px', textAlign: 'center', whiteSpace: V ? 'pre' : 'nowrap' }, `${kesc(h[0])}${V ? '\n' : ' '}<span style="color:var(--acc)">${kesc(h[1] || '')}</span>`);
+    s.stage3 = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1800px', perspectiveOrigin: `50% ${lv(30, 40)}%` });
+    s.ring = D(s.stage3, 'abs', { left: CX, top: lv(470, 860), width: 0, height: 0, transformStyle: 'preserve-3d' });
+    const ph = sc.photos || [], n = Math.max(12, ph.length), R = lv(700, 520), cw = lv(200, 190), chh = lv(270, 250);
+    s.cards = Array.from({ length: n }, (_, i) => D(s.ring, 'abs', { left: -cw / 2, top: -chh / 2, width: cw, height: chh, borderRadius: '16px', background: `url('${ph[i % ph.length]}') center 25%/cover`,
+      transform: `rotateY(${i * 360 / n}deg) translateZ(${R}px)`, boxShadow: '0 30px 60px -20px rgba(0,0,0,.4)', backfaceVisibility: 'hidden' }));
+    s.comp = sc.component ? renderComponent(c, sc.component, { x: CX - lv(300, 380), y: lv(690, 1300), w: lv(600, 760) }) : null;
+    if (s.comp) s.comp.el.style.zIndex = 5;
+    const bx = lv(CX - 340, CX - 420), by = lv(660, 1270), bw = lv(680, 840), bh = lv(330, 380), bl = 70;
+    s.af = [[bx, by, 'tl'], [bx + bw, by, 'tr'], [bx, by + bh, 'bl'], [bx + bw, by + bh, 'br']].map(([x, y, k]) => { const e = D(c, 'abs', { left: x - (k[1] === 'r' ? bl : 0), top: y - (k[0] === 'b' ? bl : 0), width: bl, height: bl, zIndex: 6,
+      borderTop: k[0] === 't' ? '6px solid #30c26a' : 'none', borderBottom: k[0] === 'b' ? '6px solid #30c26a' : 'none', borderLeft: k[1] === 'l' ? '6px solid #30c26a' : 'none', borderRight: k[1] === 'r' ? '6px solid #30c26a' : 'none' }); e._k = k; return e; });
+    s.afl = D(c, 'abs', { left: bx + bw - 60, top: by - 54, zIndex: 6, font: '800 26px var(--font-body)', color: '#30c26a', letterSpacing: '.12em' }, kesc(sc.af || 'AF ✓'));
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.2) });
+    blurIn(s.h, t, 0, .45, { y: -16 });
+    const k = eo(P(t, 0, .9)); s.ring.style.transform = `translateY(${((1 - k) * 300).toFixed(1)}px) rotateX(-8deg) rotateY(${(t * 34 + (1 - k) * 90).toFixed(2)}deg) scale(${L(.7, 1, k).toFixed(3)})`;
+    s.cards.forEach((e, i) => e.style.opacity = C(P(t, .1 + i * .04, .35 + i * .04) * 2).toFixed(3));
+    if (s.comp) { const q = P(t, .9, 1.3); S(s.comp.el, { y: (1 - eo(q)) * 120, o: C(q * 3), s: L(.92, 1, eo(q)) }); revealParts(s.comp, t, 1.0); animateComponent(s.comp, t, 1.0); }
+    const lk = eo(P(t, 1.5, 1.8)); s.af.forEach(e => { const dx = e._k[1] === 'l' ? -1 : 1, dy = e._k[0] === 't' ? -1 : 1; S(e, { x: dx * (1 - lk) * 90, y: dy * (1 - lk) * 70, o: C(P(t, 1.45, 1.6) * 3) }); });
+    S(s.afl, { o: P(t, 1.75, 1.9), s: L(.6, 1, bo(P(t, 1.75, 2.0))) });
+  } });
+
+/* ===== redline: a claim gets checked. One word in a big sentence is struck in red, a stamp lands, and the
+ * word is replaced by the true one (the fix as a single edit).
+ * params: before, wrong, after, right, stamp, note */
+shot('redline', { hero: 2.7, len: 3.4, bg: 'light', tin: 'fade', tout: 'whip',
+  sfx: [[0.1, 'type8'], [1.0, 'swoop'], [1.3, 'stamp'], [2.0, 'whoosh_s'], [2.3, 'pop'], [3.25, 'whoosh']],
+  build(c, s, sc) {
+    const fs = fitFs(lv(104, 92), [`${sc.before || ''} ${sc.wrong || ''} ${sc.after || ''}`], lv(W * .86, W * 1.7));
+    s.line = D(c, 'ctr head', { left: CX, top: lv(CY - 40, CY - 60), fontSize: fs + 'px', textAlign: 'center', whiteSpace: V ? 'normal' : 'nowrap', width: lv('auto', W * .86 + 'px') },
+      `${kesc(sc.before || '')} <span class="rl-w" style="position:relative;display:inline-grid"><span class="rl-a" style="grid-area:1/1">${kesc(sc.wrong || '')}<i style="position:absolute;left:-2%;top:52%;height:.09em;width:104%;background:#e11d48;border-radius:.05em;transform-origin:0 50%;transform:scaleX(0)"></i></span><span class="rl-b" style="grid-area:1/1;color:var(--acc);opacity:0;white-space:nowrap">${kesc(sc.right || '')}</span></span> ${kesc(sc.after || '')}`);
+    s.wa = s.line.querySelector('.rl-a'); s.wb = s.line.querySelector('.rl-b'); s.st = s.line.querySelector('.rl-a i');
+    s.stamp = D(c, 'ctr', { left: CX + lv(260, 180), top: lv(CY - 190, CY - 300), padding: '14px 26px', border: '5px solid #e11d48', borderRadius: '14px', color: '#e11d48', font: `800 ${lv(34, 36)}px var(--font)`, letterSpacing: '.08em', whiteSpace: 'nowrap', transform: 'rotate(-8deg)' }, kesc(sc.stamp || 'NOT TRUE'));
+    s.note = sc.note ? D(c, 'ctr', { left: CX, top: lv(CY + 150, CY + 260), padding: '16px 28px', borderRadius: '999px', background: 'var(--tint)', color: 'var(--acc)', font: `700 ${lv(30, 32)}px var(--font-body)`, whiteSpace: 'nowrap' }, '✓ ' + kesc(sc.note)) : null;
+  },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.4) });
+    blurIn(s.line, t, 0, .5, { y: 20, blur: 20 });
+    s.st.style.transform = `scaleX(${eio(P(t, 1.0, 1.3)).toFixed(3)})`;
+    const q = P(t, 1.3, 1.55); S(s.stamp, { s: L(1.8, 1, eo(q)), o: C(q * 3) * (1 - P(t, 2.0, 2.2)), r: -8 });
+    const sw = eo(P(t, 2.0, 2.45)); s.wa.style.opacity = (1 - sw).toFixed(3); s.wa.style.filter = `blur(${(sw * 12).toFixed(1)}px)`;
+    s.wb.style.opacity = sw.toFixed(3); s.wb.style.filter = `blur(${((1 - sw) * 12).toFixed(1)}px)`;
+    if (s.note) { const k = P(t, 2.35, 2.65); S(s.note, { s: L(.6, 1, bo(k)), o: C(k * 3) }); }
   } });

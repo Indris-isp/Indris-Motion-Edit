@@ -198,8 +198,9 @@ shot('componentHero', { hero: 2.8, len: 3.6, bg: 'light', tin: 'zoom', tout: 'wh
     s.h = typed(c, 'abs head', { left: lv(120, 80), top: lv(360, 250), fontSize: fs + 'px' }, [{ t: h[0] }, { t: h[1] ? '\n' + h[1] : '', cls: sc.accent === false ? '' : 'acc' }], false);
     if (sc.accent === false && s.h.el.lastElementChild) s.h.el.lastElementChild.style.color = 'var(--mut)';
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '2400px' });
-    s.comp = renderComponent(s.wrap, sc.component, { x: lv(760, 80), y: lv(120, 560), w: lv(1040, 920) });
-    s.comp.el.style.transformOrigin = '50% 100%';
+    const z = sc.zoom || lv(1.45, 1.2);   // components are drawn at UI size; the hero shows one big
+    s.comp = renderComponent(s.wrap, sc.component, { x: lv(740, 60) / z, y: lv(240, 560) / z, w: lv(1080, 960) / z });
+    s.comp.el.style.zoom = z; s.comp.el.style.transformOrigin = '50% 100%';
   },
   update(t, s, c) {
     S(c, { s: L(1, 1.04, t / 3.6) });

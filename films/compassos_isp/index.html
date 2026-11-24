@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Launch film</title>
+<style>
+@font-face{font-family:Inter;src:url(fonts/Inter-400.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(fonts/Inter-800.ttf);font-weight:800}
+/* palette is derived from BRIEF.brand.accent by applyTheme() in engine.js */
+:root{--acc:#2F6BFF;--accRGB:47,107,255;--acc2:#5B8CFF;--acc2RGB:91,140,255;--acc3:#1F4FD6;--acc4:#CFE0FF;--tint:#EEF3FF;--blobRGB:157,187,255;
+  --night1:#0E2A6B;--night2:#06112E;--ink:#0B0D12;--mut:#8A90A0;--red:#FF4D4F;--font:Inter}
+*{box-sizing:border-box}
+html,body{margin:0;background:#111;overflow:hidden}
+#wrap{position:absolute;left:0;top:0;transform-origin:0 0}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#fff;font-family:var(--font-body);color:var(--ink);-webkit-font-smoothing:antialiased}
+.k-light,.k-custom{color:var(--ink)}.k-dark,.k-accent{color:var(--onDark)}
+.grain{position:absolute;inset:0;z-index:400;pointer-events:none;opacity:.06;background-image:radial-gradient(#000 .6px,transparent .7px);background-size:5px 5px}.k-dark .grain,.k-accent .grain{opacity:.09;background-image:radial-gradient(#fff .6px,transparent .7px)}
+.tex-grain .blob,.tex-none .blob{display:none}
+.scene{position:absolute;inset:0;overflow:hidden;display:none;will-change:transform,filter}
+.cam{position:absolute;inset:0;transform-origin:var(--camOrigin,960px 540px)}
+.abs{position:absolute}
+.ctr{position:absolute;transform:translate(-50%,-50%)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,rgba(var(--blobRGB),1) 0%,rgba(var(--blobRGB),0) 70%)}
+.rays{position:absolute;left:0;right:0;bottom:0;filter:blur(18px);
+  background:repeating-linear-gradient(90deg,rgba(var(--accRGB),0) 0 40px,rgba(var(--accRGB),.55) 40px 70px,rgba(var(--accRGB),.1) 70px 120px,rgba(var(--acc2RGB),.7) 120px 140px);
+  -webkit-mask-image:linear-gradient(0deg,#000 0%,rgba(0,0,0,.6) 40%,transparent 100%)}
+.head{font-family:var(--font);font-weight:var(--head-weight);letter-spacing:var(--head-track);line-height:1.02;white-space:pre}
+.label{font-family:var(--font);font-size:22px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;font-family:var(--font);font-weight:var(--bt-weight)}
+.b1{background:var(--b1-bg);color:var(--b1-color);border:var(--b1-border);border-radius:var(--b1-radius);box-shadow:0 14px 30px -12px rgba(var(--accRGB),.55)}
+.b2{background:var(--b2-bg);color:var(--b2-color);border:var(--b2-border);border-radius:var(--b2-radius)}
+.acc{color:var(--acc)}
+.card{background:var(--surface);color:var(--ink);border-radius:var(--radius);box-shadow:0 30px 80px -20px rgba(30,50,110,.28),0 4px 14px rgba(30,50,110,.08)}
+.card-glass .card{background:rgba(255,255,255,.66);backdrop-filter:blur(24px);box-shadow:0 0 0 1.5px rgba(255,255,255,.85),0 40px 90px -30px rgba(23,40,120,.45)}
+.card-outline .card{box-shadow:0 0 0 2px var(--ink)}
+.glass{border-radius:calc(var(--radius) + 10px);background:rgba(255,255,255,.62);backdrop-filter:blur(24px);box-shadow:0 0 0 1.5px rgba(255,255,255,.8),0 40px 90px -30px rgba(23,40,120,.45)}
+.spark{display:inline-flex;align-items:center;gap:.28em;font-family:var(--font);font-weight:600;white-space:nowrap}.spark i{width:.5em;height:.5em;display:inline-block;background:currentColor;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:#fff;font-weight:500;font-size:20px;white-space:nowrap;box-shadow:0 12px 30px -8px rgba(30,50,110,.25)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;border:3px solid #fff;flex:none;box-shadow:0 8px 20px -6px rgba(0,0,0,.3)}
+.badge{background:var(--red);color:#fff;font-weight:700;border-radius:999px;padding:4px 12px;font-size:18px}
+.icon{width:120px;height:120px;border-radius:30px;background:linear-gradient(160deg,var(--acc2),var(--acc) 60%,var(--acc3));flex:none;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -6px 14px rgba(0,0,0,.18),0 24px 50px -12px rgba(var(--accRGB),.6);display:flex;align-items:center;justify-content:center}
+.icon i{width:45%;height:45%;border-radius:50%;border:solid var(--ink);border-width:calc(var(--s,120px)*.11);background:#fff;display:block}
+.glyph{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:30px;flex:none;box-shadow:0 14px 30px -10px rgba(0,0,0,.35)}
+.row{display:flex;align-items:center;gap:14px}
+.ln{height:12px;border-radius:6px;background:#E7EBF3}
+.tag{font-size:14px;font-weight:600;padding:5px 10px;border-radius:8px;white-space:nowrap}
+.ch{display:inline-block;white-space:pre}
+.cur{display:inline-block;width:.07em;height:.9em;background:var(--acc);border-radius:3px;vertical-align:-.08em;margin-left:.04em}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---- UI kit (kit.js): their components rebuilt in their tokens ---- */
+.kitc{background:var(--surface);color:var(--ink);border-radius:var(--radius);padding:28px 32px;font-family:var(--font-body);box-shadow:0 40px 90px -30px rgba(10,20,50,.45),0 0 0 1px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:18px}
+.kitc.kd{background:color-mix(in srgb,var(--dark) 88%,#fff);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 90px -30px rgba(0,0,0,.7)}
+.klab{font-family:var(--font);font-size:17px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.kttl{font-family:var(--font);font-size:28px;font-weight:700;letter-spacing:-.01em}.ksub{font-size:22px;color:var(--mut);margin-top:2px}
+.krow{display:flex;align-items:center;gap:18px}.krowb{display:flex;align-items:baseline;gap:16px;justify-content:space-between}
+.kbig{font-family:var(--font);font-weight:var(--head-weight);font-size:84px;letter-spacing:-.04em;line-height:1}.kdelta{font-weight:700;font-size:26px}
+.ktag{font-size:16px;font-weight:700;padding:6px 12px;border-radius:8px;white-space:nowrap}
+.kring{width:62px;height:62px;border-radius:50%;border:5px solid;display:flex;align-items:center;justify-content:center;flex:none;position:relative}
+.kdb{width:28px;height:4px;background:currentColor;border-radius:2px;position:relative;display:block}.kdb:before,.kdb:after{content:'';position:absolute;top:-9px;width:7px;height:22px;border-radius:3px;background:currentColor}.kdb:before{left:-2px}.kdb:after{right:-2px}
+.ktagdot{position:absolute;right:-8px;bottom:-8px;width:24px;height:24px;border-radius:50%;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.kglyph{width:48px;height:48px;border-radius:14px;color:#fff;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center;flex:none}
+.kbars{display:flex;align-items:flex-end;gap:14px;height:220px}.kbar{flex:1;border-radius:10px 10px 4px 4px;transform-origin:50% 100%}
+.kxl,.klegend{display:flex;justify-content:space-around;font-size:18px;color:var(--mut);gap:14px}.klegend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px}
+.kbar-top{display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid var(--line);font-size:20px;font-weight:600;color:var(--mut)}
+.kcover{height:230px;margin:6px 28px 0;border-radius:calc(var(--radius) - 6px)}.kedtitle{padding:0 28px;font-family:var(--font);font-weight:var(--head-weight);font-size:64px;letter-spacing:-.04em;line-height:1.05;min-height:68px}
+.kbody{padding:0 28px}.ktoggle{margin:4px 28px 26px auto}.kdarkpill{display:flex;gap:16px;align-items:center;background:var(--ink);color:#fff;border-radius:14px;padding:14px 20px;font-weight:600;font-size:22px;width:max-content}
+.ksw{width:62px;height:34px;border-radius:999px;background:#cbd2dc;position:relative;display:inline-block;flex:none;transition:none}.ksw i{position:absolute;left:4px;top:4px;width:26px;height:26px;border-radius:50%;background:#fff}.ksw.on{background:var(--hi)}.ksw.on i{left:32px;background:var(--ink)}
+.kemail b{font-size:22px}.kdot{width:34px;height:34px;border-radius:50%;flex:none}
+.ktrack{position:relative;height:10px;border-radius:5px;background:var(--line);margin:18px 0 8px}.kfill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--b1-bg)}.kknob{position:absolute;top:-15px;width:40px;height:40px;margin-left:-20px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3),0 0 0 4px var(--acc)}
+.kmsg{display:inline-block;padding:14px 20px;border-radius:20px;background:var(--tint);font-size:22px;max-width:80%}.kme{justify-content:flex-end}.kmsg.me{background:var(--acc);color:#fff}
+.klbrow{display:flex;gap:16px;align-items:flex-end}.klb{flex:1;background:var(--hi);color:#fff;border-radius:12px;padding:30px 16px 16px;text-align:center;position:relative}.klb.first{padding-top:44px}.klb b{display:block;font-family:var(--font);font-size:56px;letter-spacing:-.03em}.klb small{font-size:18px;opacity:.9}
+.kmedal{position:absolute;left:50%;top:-22px;margin-left:-22px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#1e212e;box-shadow:0 6px 14px rgba(0,0,0,.3)}.m1{background:#ffc53d}.m2{background:#c0c7d1}.m3{background:#cd7f32}
+.ktr{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:12px;font-size:20px;padding:12px 0;border-bottom:1px solid var(--line)}.kth{font-weight:700;color:var(--mut);font-size:16px;text-transform:uppercase;letter-spacing:.08em}
+.kfield{border:1.5px solid var(--line);border-radius:10px;padding:16px 18px;font-size:20px;color:var(--mut)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:500}
+#ui{position:fixed;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;background:rgba(0,0,0,.75);color:#fff;font:13px Inter,sans-serif}
+#ui input{flex:1}
+body.render #ui{display:none}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage"><div id="flash"></div></div></div>
+<svg width="0" height="0" style="position:absolute"><defs id="fdefs"></defs></svg>
+<div id="ui"><button id="play">Play</button><a id="fmt" style="color:#9cf"></a><input id="scrub" type="range" min="0" value="0"><span id="tc">0.00s</span><span>(preview only, no audio; the render is frame-exact)</span></div>
+<script src="brief.js"></script>
+<script src="timeline.js"></script>
+<script src="styles.js"></script>
+<script src="engine.js"></script>
+<script src="kit.js"></script>
+<script src="shots.js"></script>
+<script src="shots_brand.js"></script>
+<script src="shots_creative.js"></script>
+<script>
+boot();
+/* preview: fit to window, play/scrub. Rendering adds ?render=1 and drives renderAt() itself. */
+const R = new URLSearchParams(location.search).has('render');
+if (R) document.body.classList.add('render');
+const fl = document.getElementById('fmt'); fl.textContent = V ? 'switch to 16:9' : 'switch to 9:16'; fl.href = '?fmt=' + (V ? '16:9' : '9:16');
+const wrap = document.getElementById('wrap');
+function fit() { const s = R ? 1 : Math.min(innerWidth / W, (innerHeight - 48) / H); wrap.style.transform = `scale(${s})`; }
+addEventListener('resize', fit); fit();
+if (!R) {
+  const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
+  let playing = false, t0 = 0, cur = 0;
+  const wait = setInterval(() => { if (!window.READY) return; clearInterval(wait); scrub.max = window.TOTAL - 1; }, 50);
+  scrub.oninput = () => { cur = scrub.value / FPS; window.renderAt(cur); tc.textContent = cur.toFixed(2) + 's'; };
+  btn.onclick = () => { playing = !playing; btn.textContent = playing ? 'Pause' : 'Play'; t0 = performance.now() - cur * 1000; };
+  (function loop() { if (playing && window.READY) { cur = ((performance.now() - t0) / 1000) % window.DUR; window.renderAt(cur); scrub.value = Math.floor(cur * FPS); tc.textContent = cur.toFixed(2) + 's'; } requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
