@@ -213,6 +213,7 @@ function buildTimeline() {
     sc.cam = D(sc.root, 'cam'); sc.st = {};
     if (STYLE.texture === 'grain') D(sc.root, 'grain');
     sc.build(sc.cam, sc.st, sc);
+    if (['dissolve', 'mask', 'iris', 'slide'].includes(sc.tin) && sc.under == null) sc.under = .6;
     scenes.push(sc); a += dur;
   });
   window.DUR = a; window.TOTAL = Math.round(a * FPS);
@@ -228,6 +229,12 @@ function applyTr(sc, lt) {
     if (I === 'zoom') { o.s = L(.82, 1, p); o.bx = o.by = q * 24; }
     if (I === 'fade') { o.o = C(lt / .2); o.bx = o.by = q * 30; o.s = L(1.06, 1, p); }
   }
+  /* clean transitions (no motion blur): the previous shot stays underneath while this one is revealed */
+  sc.root.style.clipPath = 'none';
+  if (I === 'dissolve' && lt < .35) { const p = eio(lt / .35); o.o = p; o.s = L(1.025, 1, p); }
+  if (I === 'mask' && lt < .5) { const p = eio(lt / .5); sc.root.style.clipPath = `inset(${((1 - p) * 100).toFixed(2)}% 0 0 0)`; o.y = (1 - p) * 60; }
+  if (I === 'iris' && lt < .55) { const p = eio(lt / .55); sc.root.style.clipPath = `circle(${(p * 120).toFixed(2)}% at 50% 50%)`; o.s = L(1.06, 1, p); }
+  if (I === 'slide' && lt < .5) { const p = eio(lt / .5); sc.root.style.clipPath = `inset(0 0 0 ${((1 - p) * 100).toFixed(2)}%)`; o.x = (1 - p) * 90; }
   if (O && lt > d - to) {
     const p = ei(P(lt, d - to, d));
     if (O === 'whip') { o.x += -p * W * .42; o.bx += p * 70; }

@@ -202,13 +202,15 @@ shot('componentHero', { hero: 2.8, len: 3.6, bg: 'light', tin: 'zoom', tout: 'wh
     s.comp = renderComponent(s.wrap, sc.component, { x: lv(740, 60) / z, y: lv(240, 560) / z, w: lv(1080, 960) / z });
     s.comp.el.style.zoom = z; s.comp.el.style.transformOrigin = '50% 100%';
   },
-  update(t, s, c) {
+  update(t, s, c, sc) {
     S(c, { s: L(1, 1.04, t / 3.6) });
     typeP(s.h, P(t, .1, .7), t, false);
     const r = eo(P(t, .2, 1.0)), ry = tt => L(500, 0, eo(P(tt, .2, 1.0)));
     s.comp.el.style.transform = `translateY(${ry(t).toFixed(1)}px) rotateX(${L(28, 0, r).toFixed(2)}deg) rotateY(${L(lv(-14, 0), lv(-4, 0), r).toFixed(2)}deg)`;
     s.comp.el.style.opacity = C(P(t, .2, .35) * 3).toFixed(3);
     revealParts(s.comp, t, .6, .08); animateComponent(s.comp, t, .6);
+    if (sc.titleSlide && s.comp.el._title) { typeP(s.comp.el._title, 1, 99, false); const tt = s.comp.el.querySelector('.kedtitle'); tt.style.overflow = 'hidden'; const k = eo(P(t, .8, 1.35)); s.comp.el._title.el.style.transform = `translateY(${((1 - k) * 110).toFixed(1)}%)`; s.comp.el._title.el.style.display = 'block'; }
+    if (sc.slideHead) { s.h.el.style.overflow = 'hidden'; typeP(s.h, 1, 99, false); const k = eo(P(t, .05, .6)); s.h.el.style.clipPath = `inset(0 0 ${((1 - k) * 100).toFixed(1)}% 0)`; S(s.h.el, { y: (1 - k) * 60 }); }
   } });
 
 /* ===== podium: ranked entries (a leaderboard) become 3D podium blocks with medals and count-ups ===== */
@@ -470,4 +472,163 @@ shot('photoRing', { hero: 2.4, len: 3.2, bg: 'light', tin: 'zoom', tout: 'whip',
     if (s.comp) { const q = P(t, .9, 1.3); S(s.comp.el, { y: (1 - eo(q)) * 120, o: C(q * 3), s: L(.92, 1, eo(q)) }); revealParts(s.comp, t, 1.0); animateComponent(s.comp, t, 1.0); }
     const lk = eo(P(t, 1.5, 1.8)); s.af.forEach(e => { const dx = e._k[1] === 'l' ? -1 : 1, dy = e._k[0] === 't' ? -1 : 1; S(e, { x: dx * (1 - lk) * 90, y: dy * (1 - lk) * 70, o: C(P(t, 1.45, 1.6) * 3) }); });
     S(s.afl, { o: P(t, 1.75, 1.9), s: L(.6, 1, bo(P(t, 1.75, 2.0))) });
+  } });
+
+/* ================= SeySpace v2 moves (review fixes) ================= */
+/* lines that slide up out of a mask, one after another (premium type reveal) */
+function maskLines(parent, cls, style, lines, accent = [1], accCol = 'var(--acc)') {
+  const e = D(parent, cls, Object.assign({ whiteSpace: 'nowrap' }, style));
+  const spans = lines.map((l, i) => { const w = D(e, '', { overflow: 'hidden', paddingBottom: '.08em', marginBottom: '-.08em' }); const s = D(w, '', { display: 'block', color: accent.includes(i) ? accCol : '' }, kesc(l)); return s; });
+  return { el: e, spans };
+}
+function maskP(m, t, t0, gap = .12, dur = .55) { m.spans.forEach((s, i) => { const k = eo(P(t, t0 + i * gap, t0 + i * gap + dur)); s.style.transform = `translateY(${((1 - k) * 105).toFixed(1)}%)`; }); }
+
+/* ===== clockHook: the evening races past; notifications pile up ===== */
+shot('clockHook', { hero: 1.7, len: 2.4, bg: 'dark',
+  sfx: [],
+  build(c, s, sc) {
+    s.glow = D(c, 'abs', { left: -200, width: W + 400, bottom: -520, height: 820, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(var(--acc2RGB),.75),transparent)', filter: 'blur(20px)' });
+    s.clock = D(c, 'abs head', { left: 150, top: 280, fontSize: '260px', color: '#fff', whiteSpace: 'nowrap' }, '<span class="num" style="font-variant-numeric:tabular-nums">6:00</span><span style="font-size:.3em;color:var(--hi);margin-left:.15em">pm</span>');
+    s.time = s.clock.firstChild; s.pm = s.clock.lastChild;
+    s.lab = D(c, 'abs', { left: 160, top: 600, font: '700 28px var(--font-body)', color: 'rgba(255,255,255,.7)', letterSpacing: '.22em' }, kesc(sc.label || 'THE SHOOT ENDED AT SIX'));
+    const N = sc.notes || [];
+    s.notes = N.map((n, i) => D(c, 'abs', { left: 1080, top: 150 + i * 118, width: 680, padding: '20px 24px', borderRadius: '20px', background: 'rgba(255,255,255,.1)', backdropFilter: 'blur(14px)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.14)', color: '#fff', display: 'flex', gap: '16px', alignItems: 'center' },
+      `<span style="width:44px;height:44px;border-radius:12px;background:${['#E8B4A0', '#9CC5B0', '#C9B8E8', '#E8D49C', '#A0C4E8', '#E8A0B8'][i % 6]};flex:none"></span><div style="min-width:0"><div style="font:700 20px var(--font-body);opacity:.65">${kesc(n[0])}</div><div style="font:600 26px var(--font-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${kesc(n[1])}</div></div>`));
+    s.badge = D(c, 'abs', { left: 1720, top: 112, minWidth: '64px', height: '64px', padding: '0 14px', borderRadius: '32px', background: '#ff3b30', color: '#fff', font: '800 32px var(--font)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 30px -6px rgba(255,59,48,.7)' }, '0');
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.04, 1, eo(P(t, 0, 2.4))) });
+    const m = Math.round(L(18 * 60, 23 * 60 + 48, eo(P(t, 0, 1.0)))), h = Math.floor(m / 60) - 12, mm = m % 60;
+    s.time.textContent = `${h}:${String(mm).padStart(2, '0')}`;
+    S(s.clock, { o: C(t * 8) });
+    const lk = eo(P(t, .95, 1.35)); S(s.lab, { o: lk, y: (1 - lk) * 14 });
+    S(s.glow, { o: .55 + .25 * Math.sin(t * 3) });
+    let n = 0; s.notes.forEach((e, i) => { const a = .15 + i * .16, k = P(t, a, a + .3); if (k > 0) n++; S(e, { x: (1 - eo(k)) * 120, o: C(k * 3), s: L(.96, 1, eo(k)) }); });
+    s.badge.textContent = String(Math.min(23, Math.round(L(0, 23, eo(P(t, .15, 1.4))))));
+    const bq = P(t, .15, .35); S(s.badge, { s: L(.4, 1, bo(bq)) * (1 + .08 * Math.max(0, Math.sin(t * 14)) * (1 - P(t, 1.2, 1.4))), o: C(bq * 3) });
+  } });
+
+/* ===== linked: the cause as an object. Seven tools as glass tiles, joined by thin lit lines; one link fails ===== */
+shot('linked', { hero: 2.5, len: 3.2, bg: 'dark',
+  sfx: [],
+  build(c, s, sc) {
+    const tools = sc.tools || [], pos = [[560, 470], [860, 380], [1180, 420], [1400, 600], [1150, 780], [820, 800], [520, 690]];
+    s.glow = D(c, 'ctr', { left: CX, top: 600, width: 1500, height: 800, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(var(--acc2RGB),.38),transparent)', filter: 'blur(30px)' });
+    const links = sc.links || [];
+    s.svg = D(c, 'abs', { left: 0, top: 0, width: W, height: H }, `<svg width="${W}" height="${H}"><defs><linearGradient id="lkg" x1="0" x2="1"><stop offset="0" stop-color="#E4EBD8" stop-opacity=".15"/><stop offset=".5" stop-color="#E4EBD8" stop-opacity=".9"/><stop offset="1" stop-color="#E4EBD8" stop-opacity=".15"/></linearGradient></defs>${links.map(([a, b]) => `<path d="M${pos[a][0]} ${pos[a][1]} Q ${(pos[a][0] + pos[b][0]) / 2} ${(pos[a][1] + pos[b][1]) / 2 - 40} ${pos[b][0]} ${pos[b][1]}" fill="none" stroke="url(#lkg)" stroke-width="2.5" pathLength="1" stroke-dasharray="0 1"/>`).join('')}${links.map(() => '<circle r="6" fill="#fff" opacity="0"/>').join('')}</svg>`);
+    s.paths = [...s.svg.querySelectorAll('path')]; s.dots = [...s.svg.querySelectorAll('circle')]; s.fail = sc.fail;
+    s.tiles = tools.map((tl, i) => { const [x, y] = pos[i];
+      const e = D(c, 'ctr', { left: x, top: y, width: 176, padding: '22px 0 18px', borderRadius: '24px', background: 'linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05))', backdropFilter: 'blur(16px)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.18),0 30px 60px -24px rgba(0,0,0,.8)', textAlign: 'center', color: '#fff' },
+        `<div style="font:500 40px var(--font-body);line-height:1;margin-bottom:12px;opacity:.95">${kesc(tl[0])}</div><div style="font:600 21px var(--font);letter-spacing:-.01em;opacity:.85">${kesc(tl[1])}</div>`);
+      return { e, d: .05 + i * .06 }; });
+    s.h = maskLines(c, 'abs head', { left: 150, top: 110, fontSize: '92px', color: '#fff' }, sc.headline || [], [1], 'var(--hi)');
+    s.err = D(c, 'ctr', { left: 0, top: 0, padding: '8px 14px', borderRadius: '999px', background: '#ff453a', color: '#fff', font: '700 20px var(--font-body)', whiteSpace: 'nowrap' }, kesc(sc.error || 'Sync failed'));
+  },
+  measure(s) { const p = s.paths[s.fail]; if (!p) return; const pt = p.getPointAtLength(p.getTotalLength() / 2); s.ex = pt.x - 60; s.ey = pt.y - 95; },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.04, t / 3.2) });
+    maskP(s.h, t, .05);
+    s.tiles.forEach((tl, i) => { const k = eo(P(t, tl.d, tl.d + .5)); const off = i === s.fail + 1 ? eio(P(t, 2.0, 2.8)) : 0; S(tl.e, { o: C(k * 2) * (1 - off * .6), s: L(.9, 1, k), y: Math.sin(t * 1.4 + i) * 4 + off * 30 }); });
+    s.paths.forEach((p, i) => { const k = eio(P(t, .45 + i * .1, .85 + i * .1)); const broke = i === s.fail && t > 1.9;
+      p.setAttribute('stroke-dasharray', broke ? '.42 .16 .42 1' : `${k.toFixed(3)} 1`); p.style.stroke = broke ? '#ff453a' : ''; p.style.opacity = broke ? (Math.floor(t * 12) % 2 ? .35 : 1) : 1; });
+    s.dots.forEach((d, i) => { const p = s.paths[i], ph = ((t * .9 + i * .23) % 1); if (t < 1.0 || (i === s.fail && t > 1.9)) { d.setAttribute('opacity', 0); return; }
+      const pt = p.getPointAtLength(p.getTotalLength() * ph); d.setAttribute('cx', pt.x); d.setAttribute('cy', pt.y); d.setAttribute('opacity', (.9 * Math.sin(ph * Math.PI)).toFixed(2)); });
+    if (s.ex != null) { const q = P(t, 2.0, 2.25); S(s.err, { x: s.ex, y: s.ey, s: L(.6, 1, bo(q)), o: C(q * 3) }); }
+  } });
+
+/* ===== note3d: a real sticky note on a desk, in perspective, writing itself ===== */
+shot('note3d', { hero: 2.4, len: 3.0, bg: '#2a2622',
+  sfx: [],
+  build(c, s, sc) {
+    s.desk = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: 'radial-gradient(ellipse at 50% 40%,#5a4c3e 0%,#3a3129 55%,#211c17 100%)' });
+    D(c, 'abs', { left: 0, top: 0, width: W, height: H, opacity: .22, background: 'repeating-linear-gradient(93deg,rgba(255,255,255,.05) 0 2px,transparent 2px 9px),repeating-linear-gradient(88deg,rgba(0,0,0,.25) 0 1px,transparent 1px 23px)' });
+    s.scene3 = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1600px', perspectiveOrigin: '50% 20%' });
+    s.shadow = D(s.scene3, 'abs', { left: 640, top: 250, width: 720, height: 640, background: 'rgba(0,0,0,.55)', filter: 'blur(36px)', transform: 'rotateX(46deg) rotateZ(-7deg) translateY(70px) translateX(30px)' });
+    s.note = D(s.scene3, 'abs', { left: 620, top: 160, width: 700, height: 700, transformOrigin: '50% 100%', borderRadius: '4px',
+      background: 'linear-gradient(180deg,#fff3a0 0%,#fbe783 58%,#f2d65e 100%)', boxShadow: 'inset 0 -40px 60px -30px rgba(160,120,0,.35),inset 0 1px 0 rgba(255,255,255,.6)' });
+    D(s.note, 'abs', { left: 0, top: 0, width: '100%', height: 90, background: 'linear-gradient(180deg,rgba(0,0,0,.08),transparent)' });   // adhesive strip
+    D(s.note, 'abs', { left: 0, top: 0, width: '100%', height: '100%', opacity: .35, mixBlendMode: 'multiply', background: 'repeating-radial-gradient(circle at 30% 20%,rgba(120,90,0,.08) 0 1px,transparent 1px 3px)' });   // paper grain
+    D(s.note, 'abs', { right: 0, bottom: 0, width: 120, height: 120, background: 'linear-gradient(135deg,#f6dd6a 0%,#e9c94a 48%,rgba(0,0,0,0) 50%)', boxShadow: '-6px -6px 14px rgba(0,0,0,.12)', borderTopLeftRadius: '6px' });   // curled corner
+    s.items = (sc.items || []).map((it, i) => { const e = D(s.note, 'abs', { left: 70, top: 120 + i * 120, font: `600 ${it.size || 54}px var(--font)`, color: it.red ? '#c8202f' : '#1c2a55', letterSpacing: '-.01em', transform: `rotate(${i % 2 ? .8 : -.8}deg)`, whiteSpace: 'nowrap' });
+      const T = typed(e, '', {}, [{ t: it.t }], false); let line = null, ring = null;
+      if (it.strike) line = D(e, 'abs', { left: '-2%', top: '50%', width: '104%', height: '5px', borderRadius: '3px', background: '#1c2a55', transformOrigin: '0 50%' });
+      if (it.circle) ring = D(e, 'abs', { left: '-6%', top: '-22%', width: '112%', height: '144%' }, `<svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="overflow:visible"><ellipse cx="50" cy="50" rx="50" ry="50" fill="none" stroke="#c8202f" stroke-width="3.5" vector-effect="non-scaling-stroke" pathLength="1" stroke-dasharray="0 1"/></svg>`).querySelector('ellipse');
+      return { T, line, ring, d: .3 + i * .38 }; });
+    const cap = sc.caption || ['', ''];
+    s.cap = maskLines(c, 'abs head', { left: 150, top: 760, fontSize: '84px', color: '#fff' }, cap, [1], 'var(--hi)');
+  },
+  update(t, s, c) {
+    const k = eo(P(t, 0, .8));
+    s.note.style.transform = `rotateX(${L(58, 40, k).toFixed(2)}deg) rotateZ(${L(-10, -7, k).toFixed(2)}deg) translateY(${L(80, 0, k).toFixed(1)}px)`;
+    s.note.style.opacity = C(t * 5).toFixed(3); s.shadow.style.opacity = C(t * 5).toFixed(3);
+    S(c, { s: L(1.0, 1.07, eio(P(t, 0, 3))) });
+    s.items.forEach(it => { typeP(it.T, P(t, it.d, it.d + .35), t, false); if (it.line) it.line.style.transform = `scaleX(${eio(P(t, it.d + .38, it.d + .58)).toFixed(3)})`; if (it.ring) it.ring.setAttribute('stroke-dasharray', `${eio(P(t, it.d + .38, it.d + .7)).toFixed(3)} 1`); });
+    maskP(s.cap, t, 1.8);
+  } });
+
+/* ===== focusLogo: a lens racks focus; soft bokeh gathers into the SeySpace mark, which snaps sharp ===== */
+shot('focusLogo', { hero: 2.0, len: 2.6, bg: 'light', marker: 'turn',
+  sfx: [],
+  build(c, s, sc) {
+    s.cv = document.createElement('canvas'); s.cv.width = W; s.cv.height = H; s.cv.className = 'abs'; s.cv.style.left = 0; s.cv.style.top = 0; c.appendChild(s.cv);
+    s.mark = D(c, 'ctr', { left: CX, top: CY - 60, width: 230, color: 'var(--ink)' }, BR.markSvg || markHTML(220));
+    s.af = [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([dx, dy]) => D(c, 'abs', { left: CX + dx * 190 - (dx > 0 ? 54 : 0), top: CY - 60 + dy * 170 - (dy > 0 ? 54 : 0), width: 54, height: 54,
+      borderTop: dy < 0 ? '4px solid var(--acc)' : 'none', borderBottom: dy > 0 ? '4px solid var(--acc)' : 'none', borderLeft: dx < 0 ? '4px solid var(--acc)' : 'none', borderRight: dx > 0 ? '4px solid var(--acc)' : 'none' }));
+    s.af.forEach((e, i) => { e._d = [[-1, -1], [1, -1], [-1, 1], [1, 1]][i]; });
+    s.word = maskLines(c, 'ctr head', { left: CX, top: CY + 190, fontSize: '108px', textAlign: 'center' }, [sc.word || B.product], []);
+    s.tag = D(c, 'ctr', { left: CX, top: CY + 290, font: '600 26px var(--font-body)', color: 'var(--mut)', letterSpacing: '.18em', whiteSpace: 'nowrap' }, kesc(sc.tag || ''));
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.06, 1, eo(P(t, 0, 2.6))) });
+    const x = s.cv.getContext('2d'); x.clearRect(0, 0, W, H);
+    const g = eio(P(t, 0, 1.0));
+    for (let i = 0; i < 46; i++) { const sx = hash(i) * W, sy = hash(i + 9) * H, r0 = 40 + hash(i + 3) * 110;
+      const X = L(sx, CX + (hash(i + 5) - .5) * 160, g), Y = L(sy, CY - 60 + (hash(i + 7) - .5) * 140, g), r = L(r0, 10, g);
+      x.globalAlpha = (.18 + hash(i + 2) * .22) * (1 - P(t, .9, 1.2)); x.fillStyle = ['#1B3B32', '#485949', '#C8B9A7', '#E4EBD8'][i % 4];
+      x.beginPath(); x.arc(X, Y, r, 0, 7); x.fill(); }
+    x.globalAlpha = 1;
+    const f = P(t, .7, 1.25); S(s.mark, { o: C(f * 2.5), b: (1 - eo(f)) * 26, s: L(1.18, 1, eo(f)) });
+    const a = eo(P(t, 1.15, 1.45)); s.af.forEach(e => S(e, { x: e._d[0] * (1 - a) * 80, y: e._d[1] * (1 - a) * 70, o: C(P(t, 1.1, 1.2) * 4) * (1 - P(t, 2.0, 2.3)) }));
+    maskP(s.word, t, 1.35); blurIn(s.tag, t, 1.7, 2.0, { y: 10, blur: 6 });
+  } });
+
+/* ===== splitHero: headline left, product card right, both on one centre line (clean grid) ===== */
+shot('splitHero', { hero: 2.4, len: 3.0, bg: 'light',
+  sfx: [],
+  build(c, s, sc) {
+    s.h = maskLines(c, 'abs head', { left: 150, top: 0, fontSize: (sc.size || 124) + 'px' }, sc.headline || []);
+    const z = sc.zoom || 1.45, w = 860;
+    s.comp = renderComponent(c, sc.component, { x: 980 / z, y: 0, w: w / z }); s.comp.el.style.zoom = z;
+  },
+  measure(s) { const hh = s.h.el.offsetHeight, ch = s.comp.el.offsetHeight * (parseFloat(s.comp.el.style.zoom) || 1); s.h.el.style.top = (CY - hh / 2) + 'px'; s.comp.el.style.top = ((CY - ch / 2) / (parseFloat(s.comp.el.style.zoom) || 1)) + 'px'; },
+  update(t, s, c) {
+    S(c, { s: L(1, 1.03, t / 3) });
+    maskP(s.h, t, .05, .14);
+    const k = eo(P(t, .25, .8)); s.comp.el.style.clipPath = `inset(${((1 - k) * 100).toFixed(1)}% 0 0 0 round var(--radius))`; S(s.comp.el, { y: (1 - k) * 40 / (parseFloat(s.comp.el.style.zoom) || 1), o: 1 });
+    revealParts(s.comp, t, .5, .1); animateComponent(s.comp, t, .5);
+  } });
+
+/* ===== keep: the proof as a receipt. 0% on the left, the sale on the right, aligned on one box ===== */
+shot('keep', { hero: 2.6, len: 3.2, bg: 'dark',
+  sfx: [],
+  build(c, s, sc) {
+    const top = 300, hgt = 480;
+    s.glow = D(c, 'abs', { left: -200, width: W + 400, bottom: -560, height: 860, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(var(--acc2RGB),.6),transparent)', filter: 'blur(20px)' });
+    s.big = maskLines(c, 'abs head', { left: 170, top: top - 40, fontSize: '300px', color: '#fff', lineHeight: 1 }, [sc.value || '0%'], []);
+    s.cap = maskLines(c, 'abs', { left: 180, top: top + 300, font: '600 40px/1.25 var(--font-body)', color: 'rgba(255,255,255,.8)' }, sc.caption || [], [1]);
+    s.cap.spans.forEach((e, i) => { if (i) e.style.color = 'var(--hi)'; });
+    const rows = sc.rows || [];
+    s.card = D(c, 'abs', { left: 1010, top, width: 740, height: hgt, borderRadius: '28px', background: 'rgba(255,255,255,.96)', color: 'var(--ink)', padding: '44px 48px', boxShadow: '0 50px 100px -40px rgba(0,0,0,.8)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' });
+    D(s.card, '', { font: '700 20px var(--font-body)', letterSpacing: '.16em', color: 'var(--mut)' }, kesc(sc.label || 'ORDER · THE ELEGANCE COLLECTION'));
+    s.rows = rows.map((r, i) => { const last = i === rows.length - 1;
+      const e = D(s.card, '', { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: last ? '26px' : '0', borderTop: last ? '2px solid var(--line)' : 'none', font: `${last ? 800 : 600} ${last ? 44 : 32}px var(--font)`, letterSpacing: '-.02em' },
+        `<span>${kesc(r[0])}</span><span class="num" style="color:${last ? 'var(--acc)' : r[2] || 'inherit'}">${kesc(r[1])}</span>`);
+      return { e, n: e.querySelector('.num'), st: parseStat(r[1]), d: .7 + i * .22 }; });
+  },
+  update(t, s, c) {
+    S(c, { s: L(1.03, 1, eo(P(t, 0, 3.2))) });
+    S(s.glow, { o: .55 + .2 * Math.sin(t * 2.4) });
+    maskP(s.big, t, .1, 0, .7); maskP(s.cap, t, .5);
+    const k = eo(P(t, .35, .9)); s.card.style.clipPath = `inset(${((1 - k) * 100).toFixed(1)}% 0 0 0 round 28px)`;
+    s.rows.forEach(r => { const q = P(t, r.d, r.d + .35); S(r.e, { o: C(q * 3), y: (1 - eo(q)) * 16 }); r.n.textContent = fmtStat(r.st, eo(P(t, r.d, r.d + .7))); });
   } });
