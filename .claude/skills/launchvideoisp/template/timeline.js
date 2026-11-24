@@ -8,7 +8,7 @@
  * Moves: creative (kinetic scribbles crowd dial funnel strokesLogo inline componentHero podium chartSet fan
  *        dotNumber statLine flood), Ref C (monitorWords splitWords frameCard uiBuild), turns (turn turnInk
  *        turnGlow logoReveal) and classic moves. 4th element = the move's params. See references/creative-moves.md.
- * Pacing rules: 1.5-2.8 s per shot, CTA 2.5-3.5 s, total 22-35 s. A shot whose last move ends
+ * Story: Problem -> Cause -> Solution -> Proof -> CTA. Pacing: 2-4 s per shot, CTA 3-4 s, total 30-40 s. A shot whose last move ends
  * more than 0.6 s before its cut will feel stuck: raise speed or lower seconds.
  */
 window.TIMELINE = {

@@ -69,3 +69,13 @@ This style was studied from two premium SaaS launch films, frame by frame at 4 f
 
 **Pacing:** a beat every ~0.4 s (audio hits are evenly spaced at 0.42 s, about 143 BPM). Almost no hard cuts: everything is continuous transforms.
 **Palette:** deep navy → electric blue → violet for dark scenes, lavender/ice for light scenes, white glass cards, product UI always real.
+
+## R4–R8: added to the taste profile (see `taste.md`)
+
+| Ref | Film | What it shows |
+|---|---|---|
+| R4 | Claude ad, warm dark, 14 s | Illustrated night sky (moon, clouds) as the "before" moment → logo asterisk spins in, wordmark types → real prompt box types a request, model menu opens → answer streams as glowing code → single words fade in one at a time ("Writing", "analysis", "coding", "research") → logo pulses |
+| R5 | Claude ad, bold red, 12 s | Red light rings orbit the logo → light trails sweep → greeting + prompt "Why is Claude actually so good?" → answer text glows in → product-name word swaps in place (Claude **Code / Build / Learn**) |
+| R6 | Claude ad, minimal, 9 s | A single line grows into the logo mark → prompt typed, cursor clicks send → answer appears → logo returns with a playful misspelled wordmark; very glowy, soft focus |
+| R7 | NeuraFlow (fictional AI brand), 7 s | Glass cards on a deep-blue stage curve into a 3D ring → morph into a 4-point star that becomes the logo → end card on a glowing planet-horizon arc |
+| R8 | "árhasi" AI-agent launch, vertical, 78 s (After Effects screen recording) | Black + hot red/magenta: glowing "AI" orb with particles → search bar → grid of glass tiles lit by a moving red light → node diagram "Actions" → serif wordmark reveal → UI panels tilting in 3D ("Click and Deploy", "Plug and Play") → fan of dashboards ("Ready, Set and Share") |

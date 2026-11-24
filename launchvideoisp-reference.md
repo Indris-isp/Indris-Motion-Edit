@@ -32,24 +32,39 @@
 
 ## How the workflow runs
 
-### SaaS launch video — creative, on-brand
+### launchvideoisp: creative, original, on-brand, on-taste
 
-The film must look like **the client made it** and feel **creative**: one concept, each scene a visual idea. Their website gives the *design language* (fonts, colours, radius, buttons, what their UI looks like, their real words). It is **raw material, not footage**. Never paste website screenshots into a mockup; rebuild the UI and reimagine it.
+Every film combines three things and copies none of them:
 
-| Input | Gives | Lands in |
+| Input | Gives | Never |
 |---|---|---|
-| Their website / brand guide | fonts, colours by role, radius, button style, logo, real copy, what each UI component looks like | `brand/` → `brief.js → brand`, `kit` |
-| The user's reference film(s) | motion language: pacing, transitions, scene types | `STYLE` + the creative moves you pick |
-| The concept (you write it) | one central idea that makes every scene a picture | the scene list in `timeline.js` |
+| **The user's taste** (`references/taste.md`, from all saved references) + any extra references the user attaches for this client | the look and feel: mode (light & airy / dark & glowing), colour discipline, type, motion, pacing | copy a reference's scenes, layouts, wording or brand |
+| **The client's website / brand guide** | ingredients: fonts, colours, logo, radius, button style, real wording, what the product does and how its UI works | recreate their pages or paste screenshots as scene subjects |
+| **The story** | **Problem → Cause → Solution → Proof → CTA**, one concept, 30–40 s | features listed on backgrounds |
 
-**Never:** a screenshot as a scene's subject, the mock skeleton, the Loopin demo copy, the same scene list for two clients, invented numbers or logos.
+Claude **invents** the scenes for each client. Existing moves (`creative-moves.md`) are a toolbox, not a menu: adapt or write new ones so the film fits this brand and this concept. Two clients never get the same scene list.
+
+#### The story (mandatory)
+
+| Beat | Seconds | Job |
+|---|---|---|
+| **Problem** | 6–9 | The pain, shown as a picture in a real moment (who, when, what they see) |
+| **Cause** | 5–8 | *Why* it really happens: the root cause made visible (scattered tools, a manual step, a gatekeeper, missing data). Make it concrete and specific to this product's market |
+| **Solution** | 10–14 | The product removes *that exact cause*: the turn / logo reveal, then 2–3 beats, each one real interaction with their (rebuilt) UI |
+| **Proof** | 3–5 | Real numbers, customers or ratings from their site only |
+| **CTA** | 3–4 | Logo returns, their tagline, their real button labels, URL |
+
+Total **30–40 s** by default (override only if the user asks).
+
+#### Per-client references
+If the user attaches references for this client, run `scripts/analyze_reference.py` on each, Read the sheets, and write a short "taste adjustments for this film" note (e.g. "darker, more red glow, serif type"). It adjusts `taste.md` for this film only. To change the permanent taste, the user must say so; then append the breakdown to `reference-analysis.md` and update `taste.md`.
 
 #### What's here
 - `scripts/capture_brand.cjs` → `brand/` (kit sheet, tokens, fonts, logo, copy, UI screenshots **for reference**). `make_brief.py` → starting `brief.js`. `new_project.py --url/--brand --style`.
 - `template/kit.js` — the **UI kit**: `renderComponent(spec)` rebuilds lists, stat tiles, charts, editors, emails, sliders, toggles, chat, toasts, leaderboards, tables, forms, buttons in brand tokens, with built-in life (typing, counting, toggling, bars growing).
 - `template/shots_creative.js` — **creative moves**: `kinetic`, `scribbles`, `crowd`, `dial`, `funnel`, `strokesLogo`, `inline`, `componentHero`, `podium`, `chartSet`, `fan`, `dotNumber`, `statLine`, `flood`. `shots_brand.js` adds Ref C moves (`monitorWords`, `splitWords`, `frameCard`, `uiBuild`: all take rebuilt components) and turns (`turnInk`, `turnGlow`, `logoReveal`). `shots.js` holds the classic moves (`hook`, `chaos`, `pain`, `turn`, `circle`, `fanout`, `dashboard`, `social`, `reel`, `colorize`, `morph`, `rackfocus`, `dive`, `cta`).
 - `template/styles.js` — Airy Light (Ref A), Cinematic Device (Ref B), Midnight Gradient (Ref C), Editorial Contrast.
-- `references/` — **`concepts.md`**, **`creative-moves.md`**, **`ui-kit.md`**, `brand-capture.md`, `styles.md`, `story-formula.md`, `style-bible.md`, `transitions.md`, `sound-design.md`, `reference-analysis.md`, `shot-library.md`.
+- `references/` — **`taste.md`** (read first, every film), **`concepts.md`**, **`creative-moves.md`**, **`ui-kit.md`**, `brand-capture.md`, `styles.md`, `story-formula.md`, `style-bible.md`, `transitions.md`, `sound-design.md`, `reference-analysis.md`, `shot-library.md`.
 
 Requirements: node + playwright (Chromium), python3 + numpy + Pillow, ffmpeg, network access to the client's site.
 
@@ -61,14 +76,17 @@ Never render a full video (`./build.sh`), render test or example films, or run r
 1. **Inputs**: website URL (+ brand guide / Figma / product screenshots if they have them), reference film(s), what the product solves, 3 features, real proof numbers, CTA, formats.
 2. **Capture**: `python3 scripts/new_project.py <proj> --url https://client.com --style <style>`. Read `brand/kit.png` + `brand/captured.md`; fix colour roles, fonts, buttons, logo (`references/brand-capture.md`). Add `brand.markSvg` (their logo mark as inline SVG with `fill="currentColor"`) if you can get it from the logo file.
 3. **UI inventory → kit** (`references/ui-kit.md`): Read their product screenshots and list the 4–8 components that ARE the product (e.g. a workout card, a leaderboard, an editor, a members tile). Describe each in `brief.js → kit` as a kit spec, simplified (3–5 rows, big type, their icon shapes and colours, their real labels). Preview with a board; it must look like *their* UI, cleaner.
-4. **Concept** (`references/concepts.md`): one sentence that turns their problem into a picture ("The whiteboard comes alive", "Own your audience"). Then a scene list where every beat is a **visual idea** taken from `references/creative-moves.md`, never the same move twice in a row, ~8–11 scenes, 18–30 s. Use their real lines and numbers.
-5. **Gate 1**: show the concept + scene list (move, seconds, words, which component, what the viewer sees) → wait for approval.
+4. **Concept** (`references/concepts.md`, `taste.md`): one sentence that turns their problem and its cause into a picture. Then a scene list following **Problem → Cause → Solution → Proof → CTA**, every beat an original **visual idea** (invent it; `creative-moves.md` is a toolbox), ~11–15 scenes, **30–40 s**, in the taste's mode (light, dark or both). Use their real lines and numbers.
+5. **Gate 1**: show the concept, the taste mode chosen, and the scene list grouped by beat (Problem / Cause / Solution / Proof / CTA: move, seconds, words, component, what the viewer sees) → wait for approval.
 6. **Build**: write the rows in `timeline.js` as `[move, seconds, speed, { params }]` and `STYLE`. Write new moves in `shots_creative.js` when the concept needs one (`creative-moves.md` → "Writing a move").
 7. **Gate 2**: `node render.cjs --board` (+ `--format 9:16`). Read them: brand fidelity, creativity checklist (below), no overflow. Show the boards next to `brand/kit.png` → wait for approval.
 8. **Render + QA** (only after the user says to render; see the cost rule): `NAME=<client> FORMAT=both ./build.sh`; Read `out/qa_sheet*.png`: something new every half-second, readable text, clean cuts.
 9. **Deliver**: MP4s + one line per scene; say what is a placeholder; music is synthesized unless `assets/music.*` is given.
 
 #### Creativity checklist (every board)
+- [ ] Follows Problem → Cause → Solution → Proof → CTA; the Cause beat shows *why*, and the Solution answers that cause.
+- [ ] Matches `taste.md` (mode, one hero colour, logo as a character, minimal type, one real interaction, smooth motion) and copies no reference scene.
+- [ ] 30–40 s.
 - [ ] One concept you can say in a sentence; scenes 2–4 visualise the problem *as a picture* (illustration, crowd, dial, funnel…), not a headline on a background.
 - [ ] No website screenshot is a scene's subject. Product UI appears only as rebuilt kit components, and they *do* something (type, count, toggle, rise, fan out, become a podium / set).
 - [ ] At least 3 different kinds of move (type, illustration/diagram, component, particles/numbers, transition move). No move twice in a row.
@@ -77,7 +95,7 @@ Never render a full video (`./build.sh`), render test or example films, or run r
 - [ ] Two different clients never get the same scene list.
 
 #### Pacing
-Cut every 1.5–3 s, a visual event every 0.4–0.8 s, CTA 2.6–3.2 s; `speed` 1.15–1.4 trims holds. "Feels slow" → raise speed / cut seconds.
+30–40 s total; beats of 2–4 s with continuous motion (morphs, camera moves, focus pulls) rather than fast cutting; a visual event every ~0.5 s; CTA 3–4 s; `speed` 1.1–1.3 trims holds. "Feels slow" → raise speed / cut seconds.
 
 #### Formats
 `FORMAT=16:9|9:16|both ./build.sh`; `--format 9:16` for boards/stills; `?fmt=9:16&style=…` in the preview. Every move has a portrait layout. `shotsVertical` in `timeline.js` for a shorter vertical cut.
@@ -99,11 +117,43 @@ Use a client's brand only for that client (or with permission); copy techniques 
 
 ---
 
+## `references/taste.md`
+
+### Taste profile (the user's taste: apply to every film)
+
+Learned from 8 reference films (breakdowns in `reference-analysis.md`: Refs A, B, C and R4–R8). These are **qualities to aim for, never scenes to copy**. Add new references at the bottom of `reference-analysis.md` and update this file when the user's taste changes.
+
+#### Two modes, both on-taste
+- **Light & airy** (Refs A, B, C light scenes): white / pale tint backgrounds, soft brand-colour blooms, white or glass cards, crisp type, calm confidence.
+- **Dark & glowing** (R4–R8, Ref C dark scenes): near-black backgrounds, one brand colour glowing through (blooms, light rays, light trails, horizon arcs), soft focus.
+- Choose per brand and per beat. Problem / cause beats often go darker and the solution goes lighter, or the reverse. Both modes in one film is good; contrast between them carries the story.
+
+#### The qualities
+1. **One hero colour per film**, from the brand; everything else neutral (ink, white, greys).
+2. **The logo is a character:** it is *built* from something (a line, strokes, rings, cards, light), it breathes or pulses, and it returns at the end.
+3. **Minimal, elegant type:** one word or one short line at a time; fades, types or focus-pulls in; words can swap in place ("Product **Code** / **Build** / **Learn**"). The brand font; a serif is welcome if the brand has one.
+4. **The product shown through one real interaction,** not a tour: type a real question / action, press, watch the result appear. UI simplified, clean and softly lit.
+5. **UI turned into objects:** cards curving into a ring, tiles lit by moving light, panels tilting in 3D, a fan of screens, node diagrams, glass surfaces.
+6. **Smooth and continuous:** camera moves, morphs and focus pulls instead of hard cuts; soft blur on entry and exit. Energy comes from motion, not from cutting fast.
+7. **Premium detail:** particles, light sweeps, subtle grain or haze, depth of field, a cursor or hand for clicks, soft glow on text over dark.
+8. **Sound:** a calm-to-building bed, soft hits on reveals, gentle UI ticks; never busy.
+
+#### Length and pacing
+- **Default 30–40 s** (CTA included). Each beat holds 2–4 s; a visual event every ~0.5 s; continuous motion so it never feels stuck.
+
+#### Never
+- Copy a reference film's scene, layout, wording or brand.
+- Recreate the client's website pages or paste screenshots as scene subjects.
+- Reuse a previous client's scene list.
+- Cheap effects: hard glitch, rainbow gradients, bouncy cartoon easing, stock-template look.
+
+---
+
 ## `references/concepts.md`
 
 ### Concepts: one idea per film
 
-A concept is one sentence that turns the product's problem into a **picture**, carried from the first scene to the logo. Without one, a launch film is a list of features on backgrounds. With one, every scene has a reason to look the way it does.
+A concept is one sentence that turns the product's problem *and its cause* into a **picture**, carried from the first scene to the logo. Without one, a launch film is a list of features on backgrounds. With one, every scene has a reason to look the way it does.
 
 #### Finding it
 
@@ -117,7 +167,8 @@ A concept is one sentence that turns the product's problem into a **picture**, c
 | Arc | What the concept does | Typical moves |
 |---|---|---|
 | Hook | The moment, as big type or a single object | `kinetic`, `dial` |
-| Problem ×2 | The object at its worst | `scribbles`, `crowd`, `funnel`, `chaos` |
+| Problem ×2 | The object at its worst |
+| Cause ×1–2 | What breaks the object (the root cause, made visible) | invent; e.g. `funnel`, `dial`, node diagrams, scattered cards | `scribbles`, `crowd`, `funnel`, `chaos` |
 | Turn | The object transforms into the brand | `strokesLogo`, `turnInk`, `turnGlow` |
 | Solution ×3–4 | Each feature is a new picture of the fixed object | `inline`, `componentHero`, `podium`, `chartSet`, `fan`, Ref C moves |
 | Proof | The scale of the fix | `dotNumber`, `statLine` |
@@ -140,6 +191,9 @@ Editorial style, Inter 800, black, white and yellow.
 The two films share no scenes except the CTA idea. That is the goal.
 
 #### Quality bar
+
+- Is there a Cause beat that explains *why*, and does each Solution beat answer it?
+- Does it match `taste.md` without copying any reference scene?
 
 - Could a viewer describe the film in one sentence? If not, there's no concept.
 - Is every problem scene a *picture*, not just a sentence? If not, use `scribbles`, `crowd`, `dial` or `funnel`.
@@ -402,22 +456,18 @@ Shots ask for a scene **kind** (`bg: 'light' | 'dark' | 'accent'`), so the same 
 
 The film sells a *relief*. The viewer has to feel the problem in the first 6–8 seconds, before they see the product. Write the script in this order. Every beat is one idea and one shot.
 
-#### The arc (about 26 s; scale to 22–35 s)
+#### The arc: Problem → Cause → Solution → Proof → CTA (30–40 s)
 
-| # | Beat | Job | Shot | Seconds |
-|---|---|---|---|---|
-| 1 | **Hook** | A real, specific moment the viewer has lived | `hook` | 1.5–1.8 |
-| 2 | **Chaos** | Show the mess the problem creates | `chaos` | 1.8–2.2 |
-| 3 | **Pain** | Turn the mess into one number | `pain` | 2.0–2.4 |
-| 4 | **Turn** | Darkness, then light: the product is coming | `turn` | 1.8–2.2 |
-| 5 | **Reveal** | Name + icon | `brand` | 1.5–1.8 |
-| 6–8 | **Benefits ×3** | Each one is a headline + UI proof that kills one part of the pain | `laptop`, `circle`, `fanout`, or the signature shots `colorize`, `morph`, `rackfocus`, `dive` | 2.4–2.8 each |
-| 9 | **Proof** | Outcome numbers | `dashboard` | 2.2–2.6 |
-| 10 | **Social proof** | Others trust it | `social` | 1.7–2.0 |
-| 11 | **Ease** | It's fast to start (removes the last objection) | `reel` | 1.5–1.8 |
-| 12 | **CTA** | Name, tagline, buttons, URL | `cta` | 2.6–3.2 |
+| # | Beat | Job | Seconds |
+|---|---|---|---|
+| 1–3 | **Problem** | A real, specific moment; the pain made visible as a picture, at scale | 6–9 |
+| 4–5 | **Cause** | Why it happens: the root cause as a concrete picture (scattered tools, manual copying, a gatekeeper, no single source of truth, guesswork). Specific to this market | 5–8 |
+| 6 | **Turn** | The cause's object transforms into the brand: the logo is built, then breathes | 2–3 |
+| 7–9 | **Solution** | Each beat removes part of the cause with one real interaction on their (rebuilt) UI | 8–11 |
+| 10 | **Proof** | Real numbers / customers / rating only | 3–5 |
+| 11 | **CTA** | Logo returns, tagline, their buttons, URL | 3–4 |
 
-Shorter cuts (15–20 s, e.g. for social): hook → pain → turn → brand → 2 benefits → cta. Longer cuts add benefits, never longer holds.
+The Cause beat is what makes the solution feel inevitable: the viewer should be able to say "oh, *that's* why". Every Solution beat must point back at the cause.
 
 #### Copy rules
 
@@ -773,5 +823,15 @@ This style was studied from two premium SaaS launch films, frame by frame at 4 f
 
 **Pacing:** a beat every ~0.4 s (audio hits are evenly spaced at 0.42 s, about 143 BPM). Almost no hard cuts: everything is continuous transforms.
 **Palette:** deep navy → electric blue → violet for dark scenes, lavender/ice for light scenes, white glass cards, product UI always real.
+
+#### R4–R8: added to the taste profile (see `taste.md`)
+
+| Ref | Film | What it shows |
+|---|---|---|
+| R4 | Claude ad, warm dark, 14 s | Illustrated night sky (moon, clouds) as the "before" moment → logo asterisk spins in, wordmark types → real prompt box types a request, model menu opens → answer streams as glowing code → single words fade in one at a time ("Writing", "analysis", "coding", "research") → logo pulses |
+| R5 | Claude ad, bold red, 12 s | Red light rings orbit the logo → light trails sweep → greeting + prompt "Why is Claude actually so good?" → answer text glows in → product-name word swaps in place (Claude **Code / Build / Learn**) |
+| R6 | Claude ad, minimal, 9 s | A single line grows into the logo mark → prompt typed, cursor clicks send → answer appears → logo returns with a playful misspelled wordmark; very glowy, soft focus |
+| R7 | NeuraFlow (fictional AI brand), 7 s | Glass cards on a deep-blue stage curve into a 3D ring → morph into a 4-point star that becomes the logo → end card on a glowing planet-horizon arc |
+| R8 | "árhasi" AI-agent launch, vertical, 78 s (After Effects screen recording) | Black + hot red/magenta: glowing "AI" orb with particles → search bar → grid of glass tiles lit by a moving red light → node diagram "Actions" → serif wordmark reveal → UI panels tilting in 3D ("Click and Deploy", "Plug and Play") → fan of dashboards ("Ready, Set and Share") |
 
 ---

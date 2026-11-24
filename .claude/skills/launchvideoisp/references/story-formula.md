@@ -2,22 +2,18 @@
 
 The film sells a *relief*. The viewer has to feel the problem in the first 6–8 seconds, before they see the product. Write the script in this order. Every beat is one idea and one shot.
 
-## The arc (about 26 s; scale to 22–35 s)
+## The arc: Problem → Cause → Solution → Proof → CTA (30–40 s)
 
-| # | Beat | Job | Shot | Seconds |
-|---|---|---|---|---|
-| 1 | **Hook** | A real, specific moment the viewer has lived | `hook` | 1.5–1.8 |
-| 2 | **Chaos** | Show the mess the problem creates | `chaos` | 1.8–2.2 |
-| 3 | **Pain** | Turn the mess into one number | `pain` | 2.0–2.4 |
-| 4 | **Turn** | Darkness, then light: the product is coming | `turn` | 1.8–2.2 |
-| 5 | **Reveal** | Name + icon | `brand` | 1.5–1.8 |
-| 6–8 | **Benefits ×3** | Each one is a headline + UI proof that kills one part of the pain | `laptop`, `circle`, `fanout`, or the signature shots `colorize`, `morph`, `rackfocus`, `dive` | 2.4–2.8 each |
-| 9 | **Proof** | Outcome numbers | `dashboard` | 2.2–2.6 |
-| 10 | **Social proof** | Others trust it | `social` | 1.7–2.0 |
-| 11 | **Ease** | It's fast to start (removes the last objection) | `reel` | 1.5–1.8 |
-| 12 | **CTA** | Name, tagline, buttons, URL | `cta` | 2.6–3.2 |
+| # | Beat | Job | Seconds |
+|---|---|---|---|
+| 1–3 | **Problem** | A real, specific moment; the pain made visible as a picture, at scale | 6–9 |
+| 4–5 | **Cause** | Why it happens: the root cause as a concrete picture (scattered tools, manual copying, a gatekeeper, no single source of truth, guesswork). Specific to this market | 5–8 |
+| 6 | **Turn** | The cause's object transforms into the brand: the logo is built, then breathes | 2–3 |
+| 7–9 | **Solution** | Each beat removes part of the cause with one real interaction on their (rebuilt) UI | 8–11 |
+| 10 | **Proof** | Real numbers / customers / rating only | 3–5 |
+| 11 | **CTA** | Logo returns, tagline, their buttons, URL | 3–4 |
 
-Shorter cuts (15–20 s, e.g. for social): hook → pain → turn → brand → 2 benefits → cta. Longer cuts add benefits, never longer holds.
+The Cause beat is what makes the solution feel inevitable: the viewer should be able to say "oh, *that's* why". Every Solution beat must point back at the cause.
 
 ## Copy rules
 
