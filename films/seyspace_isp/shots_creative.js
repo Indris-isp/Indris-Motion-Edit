@@ -267,16 +267,17 @@ shot('fan', { hero: 2.6, len: 3.4, bg: 'dark', tin: 'zoom', tout: 'fade',
     const h = sc.headline || ['', ''];
     s.h = D(c, 'ctr head', { left: CX, top: lv(140, 300), fontSize: fitFs(lv(100, 96), [h.join(' ')], W * .9) + 'px', textAlign: 'center', whiteSpace: V ? 'pre' : 'nowrap' }, `${kesc(h[0])}${V ? '\n' : ' '}<span style="color:var(--hi)">${kesc(h[1] || '')}</span>`);
     const n = sc.count || 7, base = kitSpec(sc.card || { type: 'email', from: B.product, subject: 'New issue' });
-    s.cards = []; for (let i = 0; i < n; i++) { const sp = Object.assign({}, base, sc.subjects ? { subject: sc.subjects[i % sc.subjects.length] } : {}, i % 2 && base.type === 'email' ? { dot: 'var(--hi)' } : {});
-      const k = renderComponent(c, sp, { x: CX - 210, y: lv(400, 760), w: 420 }); k.el.style.gap = '10px'; k.el.style.padding = '22px 24px';
+    s.cards = []; for (let i = 0; i < n; i++) { const sp = Object.assign({}, base, sc.subjects ? { subject: sc.subjects[i % sc.subjects.length] } : {}, i % 2 && base.type === 'email' ? { dot: 'var(--hi)' } : {}, base.type === 'html' && base.items ? { html: base.items[i % base.items.length] } : {});
+      const cw = base.w || 420; const k = renderComponent(c, sp, { x: CX - cw / 2, y: lv(400, 760), w: cw }); if (base.type !== 'html') { k.el.style.gap = '10px'; k.el.style.padding = '22px 24px'; }
       s.cards.push({ k, i: i - (n - 1) / 2, d: .45 + Math.abs(i - (n - 1) / 2) * .06 }); }
-    s.stat = sc.stat ? renderComponent(c, sc.stat, { x: CX - lv(230, 260), y: lv(760, 1360), w: lv(460, 520) }) : null;
+    s.spread = sc.spread; s.rot = sc.rot; s.drop = sc.drop;
+    s.stat = sc.stat ? renderComponent(c, sc.stat, { x: CX - lv(310, 260), y: lv(780, 1360), w: lv(620, 520) }) : null;
   },
   update(t, s, c) {
     S(c, { s: L(1, 1.04, t / 3.4) });
     blurIn(s.h, t, 0, .45, { y: -16 });
     s.cards.forEach(({ k, i, d }) => { const p = eio(P(t, d, d + .7));
-      S(k.el, { x: i * lv(230, 120) * p, y: lv(Math.abs(i) * 40, Math.abs(i) * 60) * p + (1 - eo(P(t, d - .1, d + .3))) * 200, r: i * lv(14, 9) * p, o: C(P(t, d - .1, d + .1) * 5) }); });
+      S(k.el, { x: i * (s.spread || lv(230, 120)) * p, y: lv(Math.abs(i) * (s.drop || 40), Math.abs(i) * 60) * p + (1 - eo(P(t, d - .1, d + .3))) * 200, r: i * (s.rot || lv(14, 9)) * p, o: C(P(t, d - .1, d + .1) * 5) }); });
     if (s.stat) { const q = P(t, 1.3, 1.6); S(s.stat.el, { y: (1 - eo(q)) * 80, o: q * 3 }); animateComponent(s.stat, t, 1.3); }
   } });
 
@@ -457,9 +458,9 @@ shot('photoRing', { hero: 2.4, len: 3.2, bg: 'light', tin: 'zoom', tout: 'whip',
     const ph = sc.photos || [], n = Math.max(12, ph.length), R = lv(700, 520), cw = lv(200, 190), chh = lv(270, 250);
     s.cards = Array.from({ length: n }, (_, i) => D(s.ring, 'abs', { left: -cw / 2, top: -chh / 2, width: cw, height: chh, borderRadius: '16px', background: `url('${ph[i % ph.length]}') center 25%/cover`,
       transform: `rotateY(${i * 360 / n}deg) translateZ(${R}px)`, boxShadow: '0 30px 60px -20px rgba(0,0,0,.4)', backfaceVisibility: 'hidden' }));
-    s.comp = sc.component ? renderComponent(c, sc.component, { x: CX - lv(300, 380), y: lv(690, 1300), w: lv(600, 760) }) : null;
+    s.comp = sc.component ? renderComponent(c, sc.component, { x: CX - lv(300, 380), y: lv(540, 1300), w: lv(600, 760) }) : null;
     if (s.comp) s.comp.el.style.zIndex = 5;
-    const bx = lv(CX - 340, CX - 420), by = lv(660, 1270), bw = lv(680, 840), bh = lv(330, 380), bl = 70;
+    const bx = lv(CX - 340, CX - 420), by = lv(510, 1270), bw = lv(680, 840), bh = lv(500, 380), bl = 70;
     s.af = [[bx, by, 'tl'], [bx + bw, by, 'tr'], [bx, by + bh, 'bl'], [bx + bw, by + bh, 'br']].map(([x, y, k]) => { const e = D(c, 'abs', { left: x - (k[1] === 'r' ? bl : 0), top: y - (k[0] === 'b' ? bl : 0), width: bl, height: bl, zIndex: 6,
       borderTop: k[0] === 't' ? '6px solid #30c26a' : 'none', borderBottom: k[0] === 'b' ? '6px solid #30c26a' : 'none', borderLeft: k[1] === 'l' ? '6px solid #30c26a' : 'none', borderRight: k[1] === 'r' ? '6px solid #30c26a' : 'none' }); e._k = k; return e; });
     s.afl = D(c, 'abs', { left: bx + bw - 60, top: by - 54, zIndex: 6, font: '800 26px var(--font-body)', color: '#30c26a', letterSpacing: '.12em' }, kesc(sc.af || 'AF ✓'));

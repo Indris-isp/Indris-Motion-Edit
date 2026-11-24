@@ -18,10 +18,10 @@ window.TIMELINE = {
       items: [{ t: 'send contract v3', strike: true }, { t: 'chase deposit' }, { t: 'upload gallery ??', red: true, circle: true }, { t: 'reply to 14 emails' }] })],
     /* SOLUTION */
     ['focusLogo', 2.4, 1.08, X('iris', { tag: 'ONE STUDIO. ONE PLACE.' })],
-    ['splitHero', 2.6, 1.15, X('mask', { headline: ['Book it.', 'Get paid.'], component: 'booking' })],
-    ['componentHero', 2.8, 1.25, X('dissolve', { headline: ['Contracts,', 'signed.'], component: 'contract', titleSlide: true, slideHead: true, zoom: 1.15 })],
+    ['splitHero', 2.6, 1.15, X('mask', { headline: ['Book it.', 'Get paid.'], component: 'booking', zoom: 1.3 })],
+    ['componentHero', 2.8, 1.25, X('dissolve', { headline: ['Contracts,', 'signed.'], component: 'contract', slideHead: true, zoom: 1.3 })],
     ['photoRing', 3.0, 1.05, X('mask', { headline: ['Deliver galleries', 'clients love.'], photos: PHOTOS, component: 'download' })],
-    ['fan', 2.8, 1.2, X(null, { headline: ['Turn galleries', 'into revenue.'], card: 'order', count: 7, stat: 'cart' })],
+    ['fan', 2.8, 1.2, X(null, { headline: ['Turn galleries', 'into revenue.'], card: 'order', count: 5, spread: 310, rot: 6, drop: 34, stat: 'cart' })],
     /* PROOF: their own claim, on a sample order from their cart */
     ['keep', 3.2, 1.0, X('dissolve', { value: '0%', caption: ['platform commission', 'on paid plans'],
       rows: [['Print sale', '$295.00'], ['SeySpace commission', '$0.00', '#1F6B3A'], ['You keep', '$295.00']] })],

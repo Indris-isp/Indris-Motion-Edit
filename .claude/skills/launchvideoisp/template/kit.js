@@ -104,6 +104,11 @@ function renderComponent(parent, specOrKey, o = {}) {
       (sp.fields || []).forEach(f => add(kesc(f), 'kfield'));
       if (sp.button) add(`<span class="btn b1" style="font-size:20px;padding:14px 24px">${kesc(sp.button)}</span>`, '');
       break;
+    case 'html':   /* a bespoke, high-fidelity component: sp.html is markup in brand tokens; [data-p] children stagger in,
+                      [data-count] count up, [data-draw] SVG paths draw, [data-fill] bars fill */
+      el.classList.add('khtml'); if (sp.pad != null) el.style.padding = sp.pad; el.innerHTML = sp.html;
+      el.querySelectorAll('[data-p]').forEach(e => parts.push(e));
+      break;
     case 'button':
       el.className = 'abs' + (o.ctr ? ' ctr' : ''); el.style.width = 'auto';
       el.innerHTML = btnHTML(sp.label, sp.kind || 1, sp.size || 1.3); parts.push(el.firstElementChild);
@@ -124,6 +129,10 @@ function animateComponent(c, t, t0) {
   if (el._knob) { const v = L(.15, el._val, eio(P(t, t0 + .5, t0 + 1.3))); el._knob.style.left = (v * 100) + '%'; el._fill.style.width = (v * 100) + '%'; }
   el.querySelectorAll('.kbar').forEach((b, i) => b.style.transform = `scaleY(${bo(P(t, t0 + .25 + i * .06, t0 + .6 + i * .06)).toFixed(3)})`);
   el.querySelectorAll('.kline').forEach(l => l.setAttribute('stroke-dasharray', `${eio(P(t, t0 + .2, t0 + 1.2)).toFixed(3)} 1`));
+  el.querySelectorAll('[data-count]').forEach(n => { const st = parseStat(n.dataset.count), d = +(n.dataset.at || 0); n.textContent = fmtStat(st, eo(P(t, t0 + d, t0 + d + .9))); });
+  el.querySelectorAll('[data-draw]').forEach(pth => { const d = +(pth.dataset.draw || 0); pth.setAttribute('stroke-dasharray', `${eio(P(t, t0 + d, t0 + d + .7)).toFixed(3)} 1`); });
+  el.querySelectorAll('[data-fill]').forEach(b => { const d = +(b.dataset.fill || 0); b.style.transform = `scaleX(${eio(P(t, t0 + d, t0 + d + .8)).toFixed(3)})`; });
+  el.querySelectorAll('[data-on]').forEach(b => b.classList.toggle('on', t > t0 + +(b.dataset.on || 0)));
   if (sp.type === 'stat') { const n = el.querySelector('.kbig'), st = parseStat(sp.value); n.textContent = fmtStat(st, eo(P(t, t0 + .1, t0 + 1.1))); }
   if (sp.type === 'leaderboard') el.querySelectorAll('.klb b').forEach((b, i) => { const st = parseStat(sp.entries[i].value); b.textContent = fmtStat(st, eo(P(t, t0 + .2 + i * .1, t0 + 1 + i * .1))); });
 }
