@@ -9,11 +9,11 @@ caps=[
  # b1 C  (note: middle of the screen, a little smaller)
  dict(t=0,lines=[L("Everything","hero")],capY=.50,scale=.85,beat="b1"),
  dict(t=T(1),lines=[L("I was searching for")],capY=.50,scale=.85,beat="b1"),
- dict(t=T(5),lines=[L("was searching for me,")],capY=.50,scale=.85,beat="b1"),
+ dict(t=T(5),lines=[L("was searching"),L("for me,")],two=True,capY=.50,scale=.85,beat="b1"),       # review: double line
  # b2 A
  dict(t=T(9),lines=[L("and I found my")],beat="b2"),
  dict(t=T(13),lines=[L("and I found my"),L("passion,","hero")],stack=True,beat="b2"),
- dict(t=T(14),lines=[],beat="b2"),                                   # "okay?" clean screen
+ dict(t=T(14),lines=[L("okay?")],beat="b2"),                         # review: add "okay?"
  # b3 B + note: double line for the question
  dict(t=T(15),lines=[L("How do you think"),L("I found it?")],two=True,beat="b3"),
  dict(t=T(22),lines=[L("Did I find it")],beat="b3"),
@@ -37,8 +37,8 @@ caps=[
  dict(t=T(55),lines=[L("and feeling.","italic")],beat="b7"),
  # b8 A: line cut from the video
  # b9 B + note: smaller, double line held longer
- dict(t=T(66),lines=[L("Clarity doesn't")],scale=.9,beat="b9"),
- dict(t=T(68),lines=[L("Clarity doesn't"),L("come before action.","italic")],two=True,scale=.9,beat="b9"),
+ dict(t=T(66),lines=[L("Clarity doesn't",weight=500)],scale=.9,capY=.45,beat="b9"),
+ dict(t=T(68),lines=[L("Clarity doesn't",weight=500),L("come before action.",weight=800)],two=True,scale=.9,capY=.45,beat="b9"),   # review: regular + bold, lower
  dict(t=T(71),lines=[L("Clarity comes through")],scale=.9,beat="b9"),
  dict(t=T(74),lines=[L("Clarity comes through"),L("action.","hero",size=.20)],stack=True,scale=.9,beat="b9"),
  # b10 B
@@ -52,10 +52,12 @@ caps=[
  dict(t=T(95),lines=[L("into the")],beat="b11"),
  dict(t=T(97),lines=[L("water.","heromax",italic=True)],beat="b11"),
 ]
+LOWER=.05
+for c in caps: c["capY"]=round(c.get("capY",.42)+LOWER,3)
 caps.sort(key=lambda c:c["t"])
 DUR=26400
 for k,c in enumerate(caps):
     c["out"]=caps[k+1]["t"] if k+1<len(caps) else DUR
     c["id"]=f"c{k:02d}"
-json.dump({"duration":DUR,"fps":50,"letterbox_ms":800,"captions":caps},open(OUT,"w"),indent=1)
+json.dump({"duration":DUR,"fps":50,"letterbox_ms":0,"captions":caps},open(OUT,"w"),indent=1)
 for c in caps: print(c["id"],c["t"],c["out"],c["out"]-c["t"]," / ".join(l["text"] for l in c["lines"]) or "(clean)")

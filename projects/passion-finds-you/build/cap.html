@@ -15,6 +15,7 @@ const cap=document.createElement('div');cap.className='fm-cap'+(c.stack?' is-sta
 if(c.capY) cap.style.setProperty('--cap-y',c.capY);
 for(const l of c.lines){const s=document.createElement('span');s.className='fm-line '+cls[l.tier];s.textContent=l.text;
  if(l.italic) s.style.fontStyle='italic';
+ if(l.weight) s.style.fontWeight=l.weight;
  if(l.size) s.style.fontSize=`calc(var(--U) * ${l.size})`;
  cap.appendChild(s)}
 st.appendChild(cap);

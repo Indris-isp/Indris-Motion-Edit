@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v1",
+ "version": "v2",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -31,10 +31,11 @@
    "id": "c02",
    "in": 1500,
    "out": 2420,
-   "text": "was searching for me,",
+   "text": "was searching / for me,",
    "beat": "b1",
    "beatName": "Hook",
    "tiers": [
+    "standard",
     "standard"
    ]
   },
@@ -65,10 +66,12 @@
    "id": "c05",
    "in": 3907,
    "out": 4400,
-   "text": "",
+   "text": "okay?",
    "beat": "b2",
    "beatName": "Passion",
-   "tiers": []
+   "tiers": [
+    "standard"
+   ]
   },
   {
    "id": "c06",
@@ -268,7 +271,7 @@
    "beatName": "Thesis",
    "tiers": [
     "standard",
-    "italic"
+    "standard"
    ]
   },
   {
