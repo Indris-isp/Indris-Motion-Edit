@@ -3,22 +3,22 @@
  * tilted screen in a glass frame, orbit rings, glowing ring reveal, product on a white table, light network).
  * Everything in SeySpace's own hue (forest green), mark, photos and product. */
 'use strict';
-const GW = 'radial-gradient(ellipse 90% 80% at 50% 30%,#2F6A57 0%,#1B4A3D 38%,#0F2C24 75%,#0A1F19 100%)';
+const GW = 'radial-gradient(ellipse 90% 80% at 50% 35%,#FFFFFF 0%,#FCFCFA 55%,#F2F4F1 100%)';   /* clean white world (was the green one) */
 const MARK = (fill = '#fff') => `<svg viewBox="0 0 295 294" width="100%" style="display:block;overflow:visible"><rect x="0" y="0" width="171" height="130" rx="16" fill="${fill}"/><rect x="124" y="162" width="171" height="132" rx="16" fill="${fill}"/></svg>`;
 const THIN = (px, w = 400) => `${w} ${px}px 'Plus Jakarta Sans',Inter,sans-serif`;
 (function () { const st = document.createElement('style'); st.textContent = `
   @font-face{font-family:'Plus Jakarta Sans';src:url(fonts/PlusJakartaSans-300.ttf);font-weight:300}
   @font-face{font-family:'Plus Jakarta Sans';src:url(fonts/PlusJakartaSans-400.ttf);font-weight:400}
   @font-face{font-family:'Plus Jakarta Sans';src:url(fonts/PlusJakartaSans-500.ttf);font-weight:500}
-  .glass{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.05));border:1.5px solid rgba(255,255,255,.28);border-radius:26px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 0 40px rgba(180,255,220,.06),0 40px 90px -30px rgba(0,0,0,.6);backdrop-filter:blur(18px);color:#fff}
-  .gl-line{height:10px;border-radius:5px;background:linear-gradient(90deg,rgba(190,240,215,.85),rgba(190,240,215,.25))}
-  .gpill{display:inline-flex;align-items:center;justify-content:center;height:84px;padding:0 64px;border-radius:22px;border:2px solid rgba(200,255,230,.55);
-    background:linear-gradient(180deg,rgba(120,210,170,.28),rgba(40,120,90,.18));box-shadow:0 0 40px rgba(140,240,190,.35),inset 0 0 24px rgba(200,255,230,.25);color:#fff;font:400 40px 'Plus Jakarta Sans';letter-spacing:.02em;white-space:nowrap}`; document.head.appendChild(st); })();
+  .glass{background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(250,251,249,.78));border:1px solid #E3E8E3;border-radius:26px;
+    box-shadow:inset 0 1px 0 #fff,0 40px 90px -36px rgba(27,59,50,.28),0 8px 24px -12px rgba(27,59,50,.12);backdrop-filter:blur(18px);color:#111611}
+  .gl-line{height:10px;border-radius:5px;background:linear-gradient(90deg,rgba(27,59,50,.22),rgba(27,59,50,.06))}
+  .gpill{display:inline-flex;align-items:center;justify-content:center;height:84px;padding:0 64px;border-radius:22px;border:1.5px solid rgba(27,59,50,.35);
+    background:#fff;box-shadow:0 20px 50px -20px rgba(27,59,50,.35),0 0 0 6px rgba(27,59,50,.04);color:#1B3B32;font:400 40px 'Plus Jakarta Sans';letter-spacing:.02em;white-space:nowrap}`; document.head.appendChild(st); })();
 
 /* letters that build one by one out of a soft blur (the reference's type) */
 function letters(parent, text, style) {
-  const e = D(parent, 'ctr', Object.assign({ whiteSpace: 'pre', color: '#fff', font: THIN(64) }, style));
+  const e = D(parent, 'ctr', Object.assign({ whiteSpace: 'pre', color: '#111611', font: THIN(64) }, style));
   const ch = [...text].map(c => { const s = document.createElement('span'); s.textContent = c; s.style.display = 'inline-block'; s.style.whiteSpace = 'pre'; e.appendChild(s); return s; });
   return { el: e, ch };
 }
@@ -27,15 +27,15 @@ function lettersP(o, t, t0, per = .045, dur = .45, out = null) {
     if (out) { const q = P(t, out, out + .45); a *= 1 - q; b += q * 10; }
     s.style.opacity = a.toFixed(3); s.style.filter = b > .2 ? `blur(${b.toFixed(1)}px)` : 'none'; s.style.transform = `translateX(${((1 - k) * 18).toFixed(1)}px)`; });
 }
-const glowDot = (c) => D(c, 'abs', { left: 0, top: 0, width: 44, height: 44, marginLeft: '-22px', marginTop: '-22px', borderRadius: '50%', background: 'radial-gradient(circle,#fff 0%,rgba(210,255,235,.9) 30%,rgba(150,240,200,0) 70%)', zIndex: 20 });
+const glowDot = (c) => D(c, 'abs', { left: 0, top: 0, width: 44, height: 44, marginLeft: '-22px', marginTop: '-22px', borderRadius: '50%', background: 'radial-gradient(circle,#1B3B32 0%,rgba(27,59,50,.55) 30%,rgba(27,59,50,0) 70%)', zIndex: 20 });
 
 /* 1 ===== logoBloom: the SeySpace mark grows out of the dark in 3D, glowing; then it shrinks to a spark that opens the green world */
-shot('logoBloom', { len: 4.2, hero: 2.0, bg: '#040806', marker: 'turn',
+shot('logoBloom', { len: 4.2, hero: 2.0, bg: '#FFFFFF', marker: 'turn',
   build(c, s) {
     s.world = D(c, 'abs', { left: 0, top: 0, width: W, height: H, background: GW });
-    s.halo = D(c, 'ctr', { left: CX, top: CY, width: 900, height: 900, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(110,220,170,.45),transparent)' });
+    s.halo = D(c, 'ctr', { left: CX, top: CY, width: 900, height: 900, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(27,59,50,.10),transparent)' });
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1400px' });
-    s.mark = D(s.wrap, 'ctr', { left: CX, top: CY, width: 360, filter: 'drop-shadow(0 0 30px rgba(140,240,190,.7)) drop-shadow(0 0 90px rgba(90,200,150,.5))' }, `<svg viewBox="0 0 295 294" width="100%" style="display:block;overflow:visible"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FE3BC"/><stop offset=".55" stop-color="#3E9C78"/><stop offset="1" stop-color="#1B5A45"/></linearGradient></defs><rect x="0" y="0" width="171" height="130" rx="16" fill="url(#mg)"/><rect x="124" y="162" width="171" height="132" rx="16" fill="url(#mg)"/></svg>`);
+    s.mark = D(s.wrap, 'ctr', { left: CX, top: CY, width: 360, filter: 'drop-shadow(0 30px 40px rgba(27,59,50,.3))' }, `<svg viewBox="0 0 295 294" width="100%" style="display:block;overflow:visible"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4C8A72"/><stop offset=".55" stop-color="#1B3B32"/><stop offset="1" stop-color="#0F241E"/></linearGradient></defs><rect x="0" y="0" width="171" height="130" rx="16" fill="url(#mg)"/><rect x="124" y="162" width="171" height="132" rx="16" fill="url(#mg)"/></svg>`);
     s.word = letters(c, 'SeySpace', { left: CX, top: CY + 260, font: THIN(84, 500), letterSpacing: '-.02em' });
     s.spark = glowDot(c); s.spark.style.width = s.spark.style.height = '90px'; s.spark.style.marginLeft = s.spark.style.marginTop = '-45px';
   },
@@ -43,7 +43,7 @@ shot('logoBloom', { len: 4.2, hero: 2.0, bg: '#040806', marker: 'turn',
     const k = eo(P(t, 0, 1.4));
     s.mark.style.transform = `translate(-50%,-50%) rotateY(${L(70, 0, k).toFixed(2)}deg) rotateZ(${L(-30, 0, k).toFixed(2)}deg) scale(${(L(.15, 1, k) * L(1, 1.06, P(t, 1.4, 2.6)) * (1 - eio(P(t, 2.6, 3.3)) * .96)).toFixed(4)})`;
     s.mark.style.opacity = C(P(t, 0, .3) * 3) * (1 - P(t, 3.2, 3.35));
-    s.mark.style.filter = `blur(${((1 - k) * 22).toFixed(1)}px) drop-shadow(0 0 30px rgba(140,240,190,.7)) drop-shadow(0 0 90px rgba(90,200,150,.5))`;
+    s.mark.style.filter = `blur(${((1 - k) * 22).toFixed(1)}px) drop-shadow(0 30px 40px rgba(27,59,50,.3))`;
     S(s.halo, { o: eo(P(t, .2, 1.4)) * (1 - P(t, 2.6, 3.2)) * (.8 + .2 * Math.sin(t * 3)), s: L(.5, 1.1, eo(P(t, 0, 2))) });
     lettersP(s.word, t, .9, .06, .5, 2.4);
     // the spark travels right and the world opens from it
@@ -75,10 +75,10 @@ shot('glassCards', { len: 5.4, hero: 3.6, bg: GW,
     s.pill = D(c, 'ctr', { left: CX, top: CY - 380, transform: 'translate(-50%,-50%) scale(.7)' }, `<span class="gpill">${kesc(sc.pill || '')}</span>`);
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1800px', transformOrigin: '50% 60%', transform: 'scale(1.15)' });
     s.a = D(s.wrap, 'abs glass', { left: 470, top: 330, width: 470, height: 470, padding: '34px 34px' },
-      `<div style="display:flex;justify-content:space-between;align-items:center;font:${THIN(22, 500)};opacity:.9"><span>Booking #2710</span><span style="display:flex;align-items:center;gap:8px;font:600 22px 'Plus Jakarta Sans'"><span style="width:22px;height:22px">${MARK('#fff')}</span>SeySpace</span></div>
+      `<div style="display:flex;justify-content:space-between;align-items:center;font:${THIN(22, 500)};opacity:.9"><span>Booking #2710</span><span style="display:flex;align-items:center;gap:8px;font:600 22px 'Plus Jakarta Sans'"><span style="width:22px;height:22px">${MARK('#111611')}</span>SeySpace</span></div>
        <div style="margin-top:26px;font:${THIN(28, 500)}">The Elegance Collection</div><div style="margin-top:6px;font:${THIN(22, 300)};opacity:.8">Sat 27 Oct · 4:00 PM · Wedding</div>
        <div class="gl-line" style="width:86%;margin-top:30px"></div><div class="gl-line" style="width:64%;margin-top:14px"></div><div class="gl-line" style="width:74%;margin-top:14px"></div>
-       <div class="bk" style="position:absolute;left:34px;right:34px;bottom:34px;height:64px;border-radius:16px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:${THIN(22, 500)}"><span class="lb">Confirm booking</span><span>$2,450</span></div>`);
+       <div class="bk" style="position:absolute;left:34px;right:34px;bottom:34px;height:64px;border-radius:16px;background:#F3F6F3;border:1px solid #E1E7E1;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:${THIN(22, 500)}"><span class="lb">Confirm booking</span><span>$2,450</span></div>`);
     s.b = D(s.wrap, 'abs glass', { left: 1010, top: 360, width: 440, height: 440, padding: '30px' },
       `<div style="display:flex;justify-content:space-between;font:${THIN(20, 500)};opacity:.9"><span>Gallery</span><span>6 photos</span></div>
        <div class="gl-line" style="width:70%;margin-top:250px"></div><div class="gl-line" style="width:48%;margin-top:14px"></div>
@@ -94,7 +94,7 @@ shot('glassCards', { len: 5.4, hero: 3.6, bg: GW,
     s.photo.style.transform = `translate(${((1 - kp) * 60).toFixed(1)}px,${((1 - kp) * 40).toFixed(1)}px) rotate(${L(8, 4, kp).toFixed(2)}deg) rotateY(${L(0, -16, tilt).toFixed(2)}deg)`; s.photo.style.opacity = C(kp * 2);
     const bp = centerOf(s.bk), dk = eio(P(t, 1.8, 2.6));
     S(s.dot, { x: L(CX + 300, bp.x - 60, dk), y: L(CY + 360, bp.y, dk), o: P(t, 1.7, 1.9) * (1 - P(t, 3.4, 3.7)), s: t > 2.7 && t < 2.95 ? 1.5 : 1 });
-    const done = t > 2.8; s.lb.textContent = done ? 'Booked ✓' : 'Confirm booking'; s.bk.style.background = done ? 'rgba(160,240,200,.35)' : 'rgba(255,255,255,.14)';
+    const done = t > 2.8; s.lb.textContent = done ? 'Booked ✓' : 'Confirm booking'; s.bk.style.background = done ? '#1B3B32' : '#F3F6F3'; s.bk.style.color = done ? '#fff' : '#111611';
     s.wrap.style.filter = tilt > .5 ? `blur(${((tilt - .5) * 10).toFixed(1)}px)` : 'none';
   } });
 
@@ -119,11 +119,11 @@ shot('tiltScreen', { len: 5.4, hero: 3.4, bg: GW,
 /* 5 ===== orbit: the mark in a glowing ring, its products orbiting on thin rings */
 shot('orbit', { len: 6.0, hero: 3.6, bg: GW,
   build(c, s, sc) {
-    s.rings = [300, 440, 600].map(r => D(c, 'ctr', { left: CX, top: CY, width: r * 2, height: r * 2, borderRadius: '50%', border: '1.5px solid rgba(200,255,230,.22)' }));
-    s.core = D(c, 'ctr', { left: CX, top: CY, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%,#3E8C6E,#1B4A3D 70%)', border: '3px solid rgba(200,255,230,.7)', boxShadow: '0 0 60px rgba(140,240,190,.55),inset 0 0 40px rgba(200,255,230,.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-      `<div style="width:110px">${MARK('#fff')}</div>`);
-    s.word = letters(c, sc.text || '', { left: CX, top: CY + 230, font: THIN(52, 400), color: 'rgba(220,255,240,.95)' });
-    s.items = (sc.items || []).map((n, i) => ({ e: D(c, 'ctr', { left: 0, top: 0, height: 70, padding: '0 26px', borderRadius: '35px', background: 'linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.06))', border: '1.5px solid rgba(255,255,255,.35)', color: '#fff', font: THIN(24, 500), display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', boxShadow: '0 0 30px rgba(140,240,190,.25)' }, kesc(n)),
+    s.rings = [300, 440, 600].map(r => D(c, 'ctr', { left: CX, top: CY, width: r * 2, height: r * 2, borderRadius: '50%', border: '1.5px solid rgba(27,59,50,.14)' }));
+    s.core = D(c, 'ctr', { left: CX, top: CY, width: 260, height: 260, borderRadius: '50%', background: '#fff', border: '2px solid rgba(27,59,50,.25)', boxShadow: '0 30px 70px -24px rgba(27,59,50,.35),0 0 0 14px rgba(27,59,50,.04)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+      `<div style="width:110px">${MARK('#111611')}</div>`);
+    s.word = letters(c, sc.text || '', { left: CX, top: CY + 230, font: THIN(52, 400), color: '#111611' });
+    s.items = (sc.items || []).map((n, i) => ({ e: D(c, 'ctr', { left: 0, top: 0, height: 70, padding: '0 26px', borderRadius: '35px', background: '#fff', border: '1px solid #E1E7E1', color: '#111611', font: THIN(24, 500), display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', boxShadow: '0 16px 34px -16px rgba(27,59,50,.35)' }, kesc(n)),
       r: [440, 600, 440, 600, 440, 600][i % 6], a: i * Math.PI / 3 + .3, sp: .14, d: .9 + i * .14 }));
   },
   update(t, s, c) {
@@ -137,28 +137,28 @@ shot('orbit', { len: 6.0, hero: 3.6, bg: GW,
 /* 6 ===== ringWord: a big glowing ring fills the frame; the next idea builds inside it */
 shot('ringWord', { len: 3.4, hero: 2.4, bg: GW,
   build(c, s, sc) {
-    s.ring = D(c, 'ctr', { left: CX, top: CY, width: 760, height: 760, borderRadius: '50%', background: 'radial-gradient(circle at 50% 40%,#2F7A60,#1B4A3D 72%)', border: '6px solid rgba(210,255,235,.85)', boxShadow: '0 0 90px rgba(140,240,190,.6),inset 0 0 60px rgba(200,255,230,.3)' });
-    s.halo = D(c, 'ctr', { left: CX, top: CY, width: 1100, height: 1100, borderRadius: '50%', border: '1.5px solid rgba(200,255,230,.25)' });
+    s.ring = D(c, 'ctr', { left: CX, top: CY, width: 760, height: 760, borderRadius: '50%', background: 'radial-gradient(circle at 50% 40%,#FFFFFF,#F1F5F2 72%)', border: '3px solid rgba(27,59,50,.55)', boxShadow: '0 50px 100px -40px rgba(27,59,50,.35),inset 0 0 60px rgba(27,59,50,.05)' });
+    s.halo = D(c, 'ctr', { left: CX, top: CY, width: 1100, height: 1100, borderRadius: '50%', border: '1.5px solid rgba(27,59,50,.14)' });
     s.word = letters(c, sc.text || '', { left: CX, top: CY, font: THIN(64, 400) });
   },
   update(t, s, c) {
     const k = eo(P(t, 0, 1.0)); S(s.ring, { s: L(.35, 1, k) * (1 + .015 * Math.sin(t * 4)), o: C(k * 2) }); S(s.halo, { s: L(.5, 1.05, eo(P(t, .2, 1.4))), o: .9 * eo(P(t, .2, 1)) });
-    s.ring.style.borderColor = `rgba(210,255,235,${(.6 + .3 * Math.sin(t * 3)).toFixed(2)})`;
+    s.ring.style.borderColor = `rgba(27,59,50,${(.45 + .15 * Math.sin(t * 3)).toFixed(2)})`;
     lettersP(s.word, t, .8, .055);
   } });
 
 /* 7 ===== printStage: the product as an object: the client's framed print on a white table, glass order cards floating over it */
 shot('printStage', { len: 5.4, hero: 3.6, bg: GW,
   build(c, s, sc) {
-    s.ring = D(c, 'ctr', { left: CX, top: 380, width: 760, height: 760, borderRadius: '50%', background: 'radial-gradient(circle at 50% 40%,#2F7A60,#1B4A3D 72%)', border: '6px solid rgba(210,255,235,.8)', boxShadow: '0 0 90px rgba(140,240,190,.55)' });
-    s.table = D(c, 'abs', { left: -100, top: 760, width: W + 200, height: 420, background: 'linear-gradient(180deg,#F4F6F3 0%,#DDE4DF 55%,#BCC8C1 100%)', boxShadow: '0 -2px 0 rgba(255,255,255,.9)' });
+    s.ring = D(c, 'ctr', { left: CX, top: 380, width: 760, height: 760, borderRadius: '50%', background: 'radial-gradient(circle at 50% 40%,#FFFFFF,#EEF3EF 72%)', border: '3px solid rgba(27,59,50,.45)', boxShadow: '0 50px 100px -40px rgba(27,59,50,.3)' });
+    s.table = D(c, 'abs', { left: -100, top: 760, width: W + 200, height: 420, background: 'linear-gradient(180deg,#EEF1EC 0%,#E2E7E1 55%,#D2D9D2 100%)', boxShadow: '0 -1px 0 #fff' });
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1600px' });
     s.frame = D(s.wrap, 'abs', { left: CX - 230, top: 250, width: 460, height: 560, background: '#fbfaf7', padding: '34px', boxShadow: '0 0 0 14px #1d1d1b,0 60px 80px -20px rgba(0,0,0,.55)', transformOrigin: '50% 100%' }, `<div style="width:100%;height:100%;background:url('assets/g4.jpg') center/cover"></div>`);
     s.shadow = D(c, 'ctr', { left: CX + 40, top: 815, width: 560, height: 60, borderRadius: '50%', background: 'rgba(0,0,0,.35)', filter: 'blur(18px)' });
     const cards = sc.cards || [];
     s.cards = cards.map((cd, i) => D(s.wrap, 'abs glass', { left: [240, 1300, 1290][i], top: [300, 270, 560][i], width: 380, padding: '24px 26px' },
-      `<div style="display:flex;justify-content:space-between;font:${THIN(20, 500)};opacity:.85"><span>${kesc(cd[0])}</span><span style="width:20px;height:20px">${MARK('#fff')}</span></div><div style="margin-top:14px;font:${THIN(26, 500)}">${kesc(cd[1])}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px"><span style="font:${THIN(20, 300)};opacity:.85">${kesc(cd[2])}</span><span style="height:40px;padding:0 16px;border-radius:12px;background:rgba(160,240,200,.3);border:1.5px solid rgba(220,255,240,.5);display:flex;align-items:center;font:${THIN(20, 500)}">${kesc(cd[3])}</span></div>`));
-    s.word = letters(c, sc.text || '', { left: CX, top: 950, font: THIN(52, 400), color: '#1B3B32' });
+      `<div style="display:flex;justify-content:space-between;font:${THIN(20, 500)};opacity:.85"><span>${kesc(cd[0])}</span><span style="width:20px;height:20px">${MARK('#111611')}</span></div><div style="margin-top:14px;font:${THIN(26, 500)}">${kesc(cd[1])}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px"><span style="font:${THIN(20, 300)};opacity:.85">${kesc(cd[2])}</span><span style="height:40px;padding:0 16px;border-radius:12px;background:#1B3B32;color:#fff;display:flex;align-items:center;font:${THIN(20, 500)}">${kesc(cd[3])}</span></div>`));
+    s.word = letters(c, sc.text || '', { left: CX, top: 950, font: THIN(52, 400), color: '#111611' });
   },
   update(t, s, c) {
     S(c, { s: L(1.04, 1, eo(P(t, 0, 5.4))) });
@@ -184,9 +184,9 @@ shot('network', { len: 5.0, hero: 3.2, bg: GW,
     S(c, { s: L(1, 1.05, t / 5) });
     const x = s.cv.getContext('2d'); x.clearRect(0, 0, W, H);
     const pos = s.pts.map(([px, py], i) => { const k = eio(P(t, hash(i) * .6, .9 + hash(i) * .6)); return [L(px + (hash(i + 4) - .5) * 900, px, k), L(py + (hash(i + 8) - .5) * 700, py, k), k]; });
-    x.lineWidth = 1.2; s.links.forEach(([i, j], n) => { const a = Math.min(pos[i][2], pos[j][2]) * eo(P(t, 1.0, 2.0)); if (a <= 0) return; x.strokeStyle = `rgba(170,240,205,${(a * .45).toFixed(3)})`; x.beginPath(); x.moveTo(pos[i][0], pos[i][1]); x.lineTo(pos[j][0], pos[j][1]); x.stroke(); });
-    pos.forEach(([px, py, k], i) => { const g = x.createRadialGradient(px, py, 0, px, py, 14); g.addColorStop(0, `rgba(235,255,245,${k})`); g.addColorStop(1, 'rgba(150,240,200,0)'); x.fillStyle = g; x.beginPath(); x.arc(px, py, 14, 0, 7); x.fill();
-      const tw = .5 + .5 * Math.sin(t * 4 + i); x.fillStyle = `rgba(255,255,255,${(k * (.6 + .4 * tw)).toFixed(3)})`; x.beginPath(); x.arc(px, py, 3.2, 0, 7); x.fill(); });
+    x.lineWidth = 1.2; s.links.forEach(([i, j], n) => { const a = Math.min(pos[i][2], pos[j][2]) * eo(P(t, 1.0, 2.0)); if (a <= 0) return; x.strokeStyle = `rgba(27,59,50,${(a * .28).toFixed(3)})`; x.beginPath(); x.moveTo(pos[i][0], pos[i][1]); x.lineTo(pos[j][0], pos[j][1]); x.stroke(); });
+    pos.forEach(([px, py, k], i) => { const g = x.createRadialGradient(px, py, 0, px, py, 14); g.addColorStop(0, `rgba(27,59,50,${(k * .35).toFixed(3)})`); g.addColorStop(1, 'rgba(27,59,50,0)'); x.fillStyle = g; x.beginPath(); x.arc(px, py, 14, 0, 7); x.fill();
+      const tw = .5 + .5 * Math.sin(t * 4 + i); x.fillStyle = `rgba(27,59,50,${(k * (.7 + .3 * tw)).toFixed(3)})`; x.beginPath(); x.arc(px, py, 3.2, 0, 7); x.fill(); });
     lettersP(s.w1, t, 1.2, .06); lettersP(s.w2, t, 1.55, .06);
   } });
 
@@ -194,7 +194,7 @@ shot('network', { len: 5.0, hero: 3.2, bg: GW,
 shot('finalScreen', { len: 5.2, hero: 3.4, bg: GW,
   build(c, s, sc) {
     s.title = letters(c, sc.title || '', { left: CX, top: 120, font: THIN(56, 400) });
-    s.frame = D(c, 'abs glass', { left: CX - 620, top: 210, width: 1240, height: 790, padding: '16px', borderRadius: '30px', boxShadow: '0 0 0 1px rgba(255,255,255,.2),0 0 80px rgba(140,240,190,.35)' });
+    s.frame = D(c, 'abs glass', { left: CX - 620, top: 210, width: 1240, height: 790, padding: '16px', borderRadius: '30px', boxShadow: '0 60px 120px -50px rgba(27,59,50,.4),0 0 0 1px #E3E8E3' });
     s.comp = renderComponent(s.frame, sc.component, { x: 16, y: 16, w: 1208 }); s.comp.el.style.position = 'absolute'; s.comp.el.style.height = '758px'; s.comp.el.style.overflow = 'hidden'; s.comp.el.style.borderRadius = '18px'; s.comp.el.style.boxShadow = 'none';
   },
   update(t, s, c) {
@@ -207,15 +207,15 @@ shot('finalScreen', { len: 5.2, hero: 3.4, bg: GW,
 /* 10 ===== endMark: mark, wordmark, line, URL */
 shot('endMark', { len: 3.6, hero: 2.6, bg: GW, marker: 'cta',
   build(c, s, sc) {
-    s.halo = D(c, 'ctr', { left: CX, top: CY - 70, width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(140,240,190,.35),transparent)' });
-    s.mark = D(c, 'ctr', { left: CX, top: CY - 110, width: 170, filter: 'drop-shadow(0 0 30px rgba(160,240,200,.6))' }, MARK('#fff'));
+    s.halo = D(c, 'ctr', { left: CX, top: CY - 70, width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(27,59,50,.07),transparent)' });
+    s.mark = D(c, 'ctr', { left: CX, top: CY - 110, width: 170, filter: 'drop-shadow(0 20px 30px rgba(27,59,50,.25))' }, MARK('#111611'));
     s.word = letters(c, 'SeySpace', { left: CX, top: CY + 60, font: THIN(96, 500), letterSpacing: '-.03em' });
-    s.line = letters(c, sc.line || '', { left: CX, top: CY + 160, font: THIN(36, 300), color: 'rgba(220,255,240,.9)' });
-    s.url = letters(c, B.url || '', { left: CX, top: CY + 300, font: THIN(26, 400), color: 'rgba(220,255,240,.7)', letterSpacing: '.12em' });
+    s.line = letters(c, sc.line || '', { left: CX, top: CY + 160, font: THIN(36, 300), color: '#5F655E' });
+    s.url = letters(c, B.url || '', { left: CX, top: CY + 300, font: THIN(26, 400), color: '#7A7F78', letterSpacing: '.12em' });
   },
   update(t, s, c) {
     S(c, { s: L(1.04, 1, eo(P(t, 0, 3.6))) });
-    const k = eo(P(t, 0, .9)); s.mark.style.opacity = C(k * 2); s.mark.style.transform = `translate(-50%,-50%) scale(${L(.6, 1, k).toFixed(3)}) rotate(${L(-20, 0, k).toFixed(2)}deg)`; s.mark.style.filter = `blur(${((1 - k) * 16).toFixed(1)}px) drop-shadow(0 0 30px rgba(160,240,200,.6))`;
+    const k = eo(P(t, 0, .9)); s.mark.style.opacity = C(k * 2); s.mark.style.transform = `translate(-50%,-50%) scale(${L(.6, 1, k).toFixed(3)}) rotate(${L(-20, 0, k).toFixed(2)}deg)`; s.mark.style.filter = `blur(${((1 - k) * 16).toFixed(1)}px) drop-shadow(0 20px 30px rgba(27,59,50,.25))`;
     S(s.halo, { o: k * (.8 + .2 * Math.sin(t * 3)) });
     lettersP(s.word, t, .5, .06); lettersP(s.line, t, 1.1, .03); lettersP(s.url, t, 1.7, .03);
   } });
