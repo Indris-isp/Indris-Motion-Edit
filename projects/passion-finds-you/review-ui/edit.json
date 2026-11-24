@@ -1,0 +1,386 @@
+{
+ "title": "Passion Finds You",
+ "version": "v1",
+ "fps": 50,
+ "frames": 1320,
+ "duration": 26400,
+ "captions": [
+  {
+   "id": "c00",
+   "in": 0,
+   "out": 440,
+   "text": "Everything",
+   "beat": "b1",
+   "beatName": "Hook",
+   "tiers": [
+    "hero"
+   ]
+  },
+  {
+   "id": "c01",
+   "in": 440,
+   "out": 1500,
+   "text": "I was searching for",
+   "beat": "b1",
+   "beatName": "Hook",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c02",
+   "in": 1500,
+   "out": 2420,
+   "text": "was searching for me,",
+   "beat": "b1",
+   "beatName": "Hook",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c03",
+   "in": 2420,
+   "out": 3460,
+   "text": "and I found my",
+   "beat": "b2",
+   "beatName": "Passion",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c04",
+   "in": 3460,
+   "out": 3907,
+   "text": "and I found my / passion,",
+   "beat": "b2",
+   "beatName": "Passion",
+   "tiers": [
+    "standard",
+    "hero"
+   ]
+  },
+  {
+   "id": "c05",
+   "in": 3907,
+   "out": 4400,
+   "text": "",
+   "beat": "b2",
+   "beatName": "Passion",
+   "tiers": []
+  },
+  {
+   "id": "c06",
+   "in": 4400,
+   "out": 6366,
+   "text": "How do you think / I found it?",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "standard",
+    "standard"
+   ]
+  },
+  {
+   "id": "c07",
+   "in": 6366,
+   "out": 7080,
+   "text": "Did I find it",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c08",
+   "in": 7080,
+   "out": 8080,
+   "text": "by sitting still",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c09",
+   "in": 8080,
+   "out": 8680,
+   "text": "and thinking",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c10",
+   "in": 8680,
+   "out": 9440,
+   "text": "what my passion",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c11",
+   "in": 9440,
+   "out": 9982,
+   "text": "could be?",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c12",
+   "in": 9982,
+   "out": 10200,
+   "text": "No.",
+   "beat": "b4",
+   "beatName": "No.",
+   "tiers": [
+    "emphasis"
+   ]
+  },
+  {
+   "id": "c13",
+   "in": 10200,
+   "out": 10965,
+   "text": "I found it",
+   "beat": "b5",
+   "beatName": "Moving",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c14",
+   "in": 10965,
+   "out": 11680,
+   "text": "because I had been",
+   "beat": "b5",
+   "beatName": "Moving",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c15",
+   "in": 11680,
+   "out": 12040,
+   "text": "because I had been / moving",
+   "beat": "b5",
+   "beatName": "Moving",
+   "tiers": [
+    "standard",
+    "hero"
+   ]
+  },
+  {
+   "id": "c16",
+   "in": 12040,
+   "out": 12573,
+   "text": "all along,",
+   "beat": "b5",
+   "beatName": "Moving",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c17",
+   "in": 12573,
+   "out": 13380,
+   "text": "doing something,",
+   "beat": "b6",
+   "beatName": "Doing something",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c18",
+   "in": 13380,
+   "out": 14647,
+   "text": "doing something I love,",
+   "beat": "b6",
+   "beatName": "Doing something",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c19",
+   "in": 14647,
+   "out": 15220,
+   "text": "watching,",
+   "beat": "b7",
+   "beatName": "The list",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c20",
+   "in": 15220,
+   "out": 15840,
+   "text": "observing,",
+   "beat": "b7",
+   "beatName": "The list",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c21",
+   "in": 15840,
+   "out": 16551,
+   "text": "and feeling.",
+   "beat": "b7",
+   "beatName": "The list",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c22",
+   "in": 16551,
+   "out": 17532,
+   "text": "Clarity doesn't",
+   "beat": "b9",
+   "beatName": "Thesis",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c23",
+   "in": 17532,
+   "out": 18682,
+   "text": "Clarity doesn't / come before action.",
+   "beat": "b9",
+   "beatName": "Thesis",
+   "tiers": [
+    "standard",
+    "italic"
+   ]
+  },
+  {
+   "id": "c24",
+   "in": 18682,
+   "out": 19780,
+   "text": "Clarity comes through",
+   "beat": "b9",
+   "beatName": "Thesis",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c25",
+   "in": 19780,
+   "out": 20299,
+   "text": "Clarity comes through / action.",
+   "beat": "b9",
+   "beatName": "Thesis",
+   "tiers": [
+    "standard",
+    "hero"
+   ]
+  },
+  {
+   "id": "c26",
+   "in": 20299,
+   "out": 21030,
+   "text": "Standing here,",
+   "beat": "b10",
+   "beatName": "Swim",
+   "tiers": [
+    "italic"
+   ]
+  },
+  {
+   "id": "c27",
+   "in": 21030,
+   "out": 21584,
+   "text": "I can learn",
+   "beat": "b10",
+   "beatName": "Swim",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c28",
+   "in": 21584,
+   "out": 22720,
+   "text": "how many times",
+   "beat": "b10",
+   "beatName": "Swim",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c29",
+   "in": 22720,
+   "out": 23441,
+   "text": "how to swim,",
+   "beat": "b10",
+   "beatName": "Swim",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c30",
+   "in": 23441,
+   "out": 24160,
+   "text": "but I can only",
+   "beat": "b10",
+   "beatName": "Swim",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c31",
+   "in": 24160,
+   "out": 25200,
+   "text": "swim if I jump",
+   "beat": "b11",
+   "beatName": "Payoff",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c32",
+   "in": 25200,
+   "out": 25760,
+   "text": "into the",
+   "beat": "b11",
+   "beatName": "Payoff",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c33",
+   "in": 25760,
+   "out": 26400,
+   "text": "water.",
+   "beat": "b11",
+   "beatName": "Payoff",
+   "tiers": [
+    "heromax"
+   ]
+  }
+ ]
+}
