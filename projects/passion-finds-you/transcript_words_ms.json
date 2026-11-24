@@ -1,0 +1,884 @@
+[
+ {
+  "i": 0,
+  "word": "Everything",
+  "src_start_ms": 614,
+  "src_end_ms": 1020,
+  "cut_start_ms": 34,
+  "cut_end_ms": 440,
+  "dur_ms": 406
+ },
+ {
+  "i": 1,
+  "word": "I",
+  "src_start_ms": 1020,
+  "src_end_ms": 1220,
+  "cut_start_ms": 440,
+  "cut_end_ms": 640,
+  "dur_ms": 200
+ },
+ {
+  "i": 2,
+  "word": "was",
+  "src_start_ms": 1220,
+  "src_end_ms": 1440,
+  "cut_start_ms": 640,
+  "cut_end_ms": 820,
+  "dur_ms": 220
+ },
+ {
+  "i": 3,
+  "word": "searching",
+  "src_start_ms": 1461,
+  "src_end_ms": 1740,
+  "cut_start_ms": 841,
+  "cut_end_ms": 1120,
+  "dur_ms": 279
+ },
+ {
+  "i": 4,
+  "word": "for",
+  "src_start_ms": 1740,
+  "src_end_ms": 2114,
+  "cut_start_ms": 1120,
+  "cut_end_ms": 1494,
+  "dur_ms": 374
+ },
+ {
+  "i": 5,
+  "word": "was",
+  "src_start_ms": 2120,
+  "src_end_ms": 2626,
+  "cut_start_ms": 1500,
+  "cut_end_ms": 1626,
+  "dur_ms": 506
+ },
+ {
+  "i": 6,
+  "word": "searching",
+  "src_start_ms": 2710,
+  "src_end_ms": 2980,
+  "cut_start_ms": 1710,
+  "cut_end_ms": 1980,
+  "dur_ms": 270
+ },
+ {
+  "i": 7,
+  "word": "for",
+  "src_start_ms": 2980,
+  "src_end_ms": 3220,
+  "cut_start_ms": 1980,
+  "cut_end_ms": 2220,
+  "dur_ms": 240
+ },
+ {
+  "i": 8,
+  "word": "me,",
+  "src_start_ms": 3220,
+  "src_end_ms": 3387,
+  "cut_start_ms": 2220,
+  "cut_end_ms": 2387,
+  "dur_ms": 167
+ },
+ {
+  "i": 9,
+  "word": "and",
+  "src_start_ms": 3440,
+  "src_end_ms": 4500,
+  "cut_start_ms": 2420,
+  "cut_end_ms": 2740,
+  "dur_ms": 1060
+ },
+ {
+  "i": 10,
+  "word": "I",
+  "src_start_ms": 4500,
+  "src_end_ms": 5300,
+  "cut_start_ms": 2740,
+  "cut_end_ms": 3000,
+  "dur_ms": 800
+ },
+ {
+  "i": 11,
+  "word": "found",
+  "src_start_ms": 5300,
+  "src_end_ms": 5580,
+  "cut_start_ms": 3000,
+  "cut_end_ms": 3280,
+  "dur_ms": 280
+ },
+ {
+  "i": 12,
+  "word": "my",
+  "src_start_ms": 5580,
+  "src_end_ms": 5732,
+  "cut_start_ms": 3280,
+  "cut_end_ms": 3432,
+  "dur_ms": 152
+ },
+ {
+  "i": 13,
+  "word": "passion,",
+  "src_start_ms": 5760,
+  "src_end_ms": 6207,
+  "cut_start_ms": 3460,
+  "cut_end_ms": 3907,
+  "dur_ms": 447
+ },
+ {
+  "i": 14,
+  "word": "okay?",
+  "src_start_ms": 6207,
+  "src_end_ms": 6972,
+  "cut_start_ms": 3907,
+  "cut_end_ms": 4332,
+  "dur_ms": 765
+ },
+ {
+  "i": 15,
+  "word": "How",
+  "src_start_ms": 7780,
+  "src_end_ms": 8580,
+  "cut_start_ms": 4400,
+  "cut_end_ms": 5200,
+  "dur_ms": 800
+ },
+ {
+  "i": 16,
+  "word": "do",
+  "src_start_ms": 8580,
+  "src_end_ms": 8720,
+  "cut_start_ms": 5200,
+  "cut_end_ms": 5340,
+  "dur_ms": 140
+ },
+ {
+  "i": 17,
+  "word": "you",
+  "src_start_ms": 8720,
+  "src_end_ms": 8800,
+  "cut_start_ms": 5340,
+  "cut_end_ms": 5420,
+  "dur_ms": 80
+ },
+ {
+  "i": 18,
+  "word": "think",
+  "src_start_ms": 8892,
+  "src_end_ms": 9060,
+  "cut_start_ms": 5512,
+  "cut_end_ms": 5680,
+  "dur_ms": 168
+ },
+ {
+  "i": 19,
+  "word": "I",
+  "src_start_ms": 9060,
+  "src_end_ms": 9240,
+  "cut_start_ms": 5680,
+  "cut_end_ms": 5860,
+  "dur_ms": 180
+ },
+ {
+  "i": 20,
+  "word": "found",
+  "src_start_ms": 9240,
+  "src_end_ms": 9520,
+  "cut_start_ms": 5860,
+  "cut_end_ms": 6140,
+  "dur_ms": 280
+ },
+ {
+  "i": 21,
+  "word": "it?",
+  "src_start_ms": 9520,
+  "src_end_ms": 10086,
+  "cut_start_ms": 6140,
+  "cut_end_ms": 6366,
+  "dur_ms": 566
+ },
+ {
+  "i": 22,
+  "word": "Did",
+  "src_start_ms": 10086,
+  "src_end_ms": 10200,
+  "cut_start_ms": 6366,
+  "cut_end_ms": 6480,
+  "dur_ms": 114
+ },
+ {
+  "i": 23,
+  "word": "I",
+  "src_start_ms": 10200,
+  "src_end_ms": 10340,
+  "cut_start_ms": 6480,
+  "cut_end_ms": 6620,
+  "dur_ms": 140
+ },
+ {
+  "i": 24,
+  "word": "found",
+  "src_start_ms": 10340,
+  "src_end_ms": 10600,
+  "cut_start_ms": 6620,
+  "cut_end_ms": 6880,
+  "dur_ms": 260
+ },
+ {
+  "i": 25,
+  "word": "it",
+  "src_start_ms": 10600,
+  "src_end_ms": 10800,
+  "cut_start_ms": 6880,
+  "cut_end_ms": 7080,
+  "dur_ms": 200
+ },
+ {
+  "i": 26,
+  "word": "by",
+  "src_start_ms": 10800,
+  "src_end_ms": 11020,
+  "cut_start_ms": 7080,
+  "cut_end_ms": 7300,
+  "dur_ms": 220
+ },
+ {
+  "i": 27,
+  "word": "sitting",
+  "src_start_ms": 11020,
+  "src_end_ms": 11540,
+  "cut_start_ms": 7300,
+  "cut_end_ms": 7700,
+  "dur_ms": 520
+ },
+ {
+  "i": 28,
+  "word": "still",
+  "src_start_ms": 11540,
+  "src_end_ms": 11920,
+  "cut_start_ms": 7700,
+  "cut_end_ms": 8080,
+  "dur_ms": 380
+ },
+ {
+  "i": 29,
+  "word": "and",
+  "src_start_ms": 11920,
+  "src_end_ms": 12175,
+  "cut_start_ms": 8080,
+  "cut_end_ms": 8335,
+  "dur_ms": 255
+ },
+ {
+  "i": 30,
+  "word": "thinking",
+  "src_start_ms": 12274,
+  "src_end_ms": 12520,
+  "cut_start_ms": 8434,
+  "cut_end_ms": 8680,
+  "dur_ms": 246
+ },
+ {
+  "i": 31,
+  "word": "what",
+  "src_start_ms": 12520,
+  "src_end_ms": 12760,
+  "cut_start_ms": 8680,
+  "cut_end_ms": 8920,
+  "dur_ms": 240
+ },
+ {
+  "i": 32,
+  "word": "my",
+  "src_start_ms": 12760,
+  "src_end_ms": 12980,
+  "cut_start_ms": 8920,
+  "cut_end_ms": 9140,
+  "dur_ms": 220
+ },
+ {
+  "i": 33,
+  "word": "passion",
+  "src_start_ms": 13003,
+  "src_end_ms": 13280,
+  "cut_start_ms": 9163,
+  "cut_end_ms": 9440,
+  "dur_ms": 277
+ },
+ {
+  "i": 34,
+  "word": "could",
+  "src_start_ms": 13280,
+  "src_end_ms": 13520,
+  "cut_start_ms": 9440,
+  "cut_end_ms": 9680,
+  "dur_ms": 240
+ },
+ {
+  "i": 35,
+  "word": "be?",
+  "src_start_ms": 13520,
+  "src_end_ms": 13744,
+  "cut_start_ms": 9680,
+  "cut_end_ms": 9904,
+  "dur_ms": 224
+ },
+ {
+  "i": 36,
+  "word": "No.",
+  "src_start_ms": 14182,
+  "src_end_ms": 14400,
+  "cut_start_ms": 9982,
+  "cut_end_ms": 10200,
+  "dur_ms": 218
+ },
+ {
+  "i": 37,
+  "word": "I",
+  "src_start_ms": 14400,
+  "src_end_ms": 15000,
+  "cut_start_ms": 10200,
+  "cut_end_ms": 10400,
+  "dur_ms": 600
+ },
+ {
+  "i": 38,
+  "word": "found",
+  "src_start_ms": 15000,
+  "src_end_ms": 15320,
+  "cut_start_ms": 10400,
+  "cut_end_ms": 10720,
+  "dur_ms": 320
+ },
+ {
+  "i": 39,
+  "word": "it",
+  "src_start_ms": 15320,
+  "src_end_ms": 15471,
+  "cut_start_ms": 10720,
+  "cut_end_ms": 10871,
+  "dur_ms": 151
+ },
+ {
+  "i": 40,
+  "word": "because",
+  "src_start_ms": 15685,
+  "src_end_ms": 15900,
+  "cut_start_ms": 10965,
+  "cut_end_ms": 11180,
+  "dur_ms": 215
+ },
+ {
+  "i": 41,
+  "word": "I",
+  "src_start_ms": 15900,
+  "src_end_ms": 16060,
+  "cut_start_ms": 11180,
+  "cut_end_ms": 11340,
+  "dur_ms": 160
+ },
+ {
+  "i": 42,
+  "word": "had",
+  "src_start_ms": 16060,
+  "src_end_ms": 16220,
+  "cut_start_ms": 11340,
+  "cut_end_ms": 11500,
+  "dur_ms": 160
+ },
+ {
+  "i": 43,
+  "word": "been",
+  "src_start_ms": 16220,
+  "src_end_ms": 16400,
+  "cut_start_ms": 11500,
+  "cut_end_ms": 11680,
+  "dur_ms": 180
+ },
+ {
+  "i": 44,
+  "word": "moving",
+  "src_start_ms": 16400,
+  "src_end_ms": 16760,
+  "cut_start_ms": 11680,
+  "cut_end_ms": 12040,
+  "dur_ms": 360
+ },
+ {
+  "i": 45,
+  "word": "all",
+  "src_start_ms": 16760,
+  "src_end_ms": 17000,
+  "cut_start_ms": 12040,
+  "cut_end_ms": 12280,
+  "dur_ms": 240
+ },
+ {
+  "i": 46,
+  "word": "along,",
+  "src_start_ms": 17000,
+  "src_end_ms": 17513,
+  "cut_start_ms": 12280,
+  "cut_end_ms": 12573,
+  "dur_ms": 513
+ },
+ {
+  "i": 47,
+  "word": "doing",
+  "src_start_ms": 17513,
+  "src_end_ms": 17800,
+  "cut_start_ms": 12573,
+  "cut_end_ms": 12860,
+  "dur_ms": 287
+ },
+ {
+  "i": 48,
+  "word": "something,",
+  "src_start_ms": 17800,
+  "src_end_ms": 18410,
+  "cut_start_ms": 12860,
+  "cut_end_ms": 13380,
+  "dur_ms": 610
+ },
+ {
+  "i": 49,
+  "word": "doing",
+  "src_start_ms": 18410,
+  "src_end_ms": 18720,
+  "cut_start_ms": 13380,
+  "cut_end_ms": 13660,
+  "dur_ms": 310
+ },
+ {
+  "i": 50,
+  "word": "something",
+  "src_start_ms": 18720,
+  "src_end_ms": 19100,
+  "cut_start_ms": 13660,
+  "cut_end_ms": 14040,
+  "dur_ms": 380
+ },
+ {
+  "i": 51,
+  "word": "I",
+  "src_start_ms": 19100,
+  "src_end_ms": 19400,
+  "cut_start_ms": 14040,
+  "cut_end_ms": 14340,
+  "dur_ms": 300
+ },
+ {
+  "i": 52,
+  "word": "love,",
+  "src_start_ms": 19400,
+  "src_end_ms": 19655,
+  "cut_start_ms": 14340,
+  "cut_end_ms": 14595,
+  "dur_ms": 255
+ },
+ {
+  "i": 53,
+  "word": "watching,",
+  "src_start_ms": 20227,
+  "src_end_ms": 20840,
+  "cut_start_ms": 14647,
+  "cut_end_ms": 15220,
+  "dur_ms": 613
+ },
+ {
+  "i": 54,
+  "word": "observing,",
+  "src_start_ms": 20840,
+  "src_end_ms": 21600,
+  "cut_start_ms": 15220,
+  "cut_end_ms": 15840,
+  "dur_ms": 760
+ },
+ {
+  "i": 55,
+  "word": "and",
+  "src_start_ms": 21600,
+  "src_end_ms": 21940,
+  "cut_start_ms": 15840,
+  "cut_end_ms": 16100,
+  "dur_ms": 340
+ },
+ {
+  "i": 56,
+  "word": "feeling.",
+  "src_start_ms": 21940,
+  "src_end_ms": 22616,
+  "cut_start_ms": 16100,
+  "cut_end_ms": 16500,
+  "dur_ms": 676
+ },
+ {
+  "i": 57,
+  "word": "And",
+  "src_start_ms": 23266,
+  "src_end_ms": 23460,
+  "cut_start_ms": 16526,
+  "cut_end_ms": 16720,
+  "dur_ms": 194
+ },
+ {
+  "i": 58,
+  "word": "I",
+  "src_start_ms": 23460,
+  "src_end_ms": 23700,
+  "cut_start_ms": 16720,
+  "cut_end_ms": 16960,
+  "dur_ms": 240
+ },
+ {
+  "i": 59,
+  "word": "just",
+  "src_start_ms": 23700,
+  "src_end_ms": 23900,
+  "cut_start_ms": 16960,
+  "cut_end_ms": 17160,
+  "dur_ms": 200
+ },
+ {
+  "i": 60,
+  "word": "want",
+  "src_start_ms": 23900,
+  "src_end_ms": 24160,
+  "cut_start_ms": 17160,
+  "cut_end_ms": 17420,
+  "dur_ms": 260
+ },
+ {
+  "i": 61,
+  "word": "you",
+  "src_start_ms": 24160,
+  "src_end_ms": 24320,
+  "cut_start_ms": 17420,
+  "cut_end_ms": 17580,
+  "dur_ms": 160
+ },
+ {
+  "i": 62,
+  "word": "to",
+  "src_start_ms": 24320,
+  "src_end_ms": 24520,
+  "cut_start_ms": 17580,
+  "cut_end_ms": 17780,
+  "dur_ms": 200
+ },
+ {
+  "i": 63,
+  "word": "understand",
+  "src_start_ms": 24520,
+  "src_end_ms": 24920,
+  "cut_start_ms": 17780,
+  "cut_end_ms": 18180,
+  "dur_ms": 400
+ },
+ {
+  "i": 64,
+  "word": "this",
+  "src_start_ms": 24920,
+  "src_end_ms": 25172,
+  "cut_start_ms": 18180,
+  "cut_end_ms": 18432,
+  "dur_ms": 252
+ },
+ {
+  "i": 65,
+  "word": "thing.",
+  "src_start_ms": 25200,
+  "src_end_ms": 25375,
+  "cut_start_ms": 18460,
+  "cut_end_ms": 18575,
+  "dur_ms": 175
+ },
+ {
+  "i": 66,
+  "word": "Clarity",
+  "src_start_ms": 26011,
+  "src_end_ms": 26440,
+  "cut_start_ms": 18631,
+  "cut_end_ms": 19060,
+  "dur_ms": 429
+ },
+ {
+  "i": 67,
+  "word": "doesn't",
+  "src_start_ms": 26440,
+  "src_end_ms": 26909,
+  "cut_start_ms": 19060,
+  "cut_end_ms": 19529,
+  "dur_ms": 469
+ },
+ {
+  "i": 68,
+  "word": "come",
+  "src_start_ms": 26992,
+  "src_end_ms": 27180,
+  "cut_start_ms": 19612,
+  "cut_end_ms": 19800,
+  "dur_ms": 188
+ },
+ {
+  "i": 69,
+  "word": "before",
+  "src_start_ms": 27180,
+  "src_end_ms": 27540,
+  "cut_start_ms": 19800,
+  "cut_end_ms": 20160,
+  "dur_ms": 360
+ },
+ {
+  "i": 70,
+  "word": "action.",
+  "src_start_ms": 27540,
+  "src_end_ms": 28142,
+  "cut_start_ms": 20160,
+  "cut_end_ms": 20762,
+  "dur_ms": 602
+ },
+ {
+  "i": 71,
+  "word": "Clarity",
+  "src_start_ms": 28142,
+  "src_end_ms": 28940,
+  "cut_start_ms": 20762,
+  "cut_end_ms": 21260,
+  "dur_ms": 798
+ },
+ {
+  "i": 72,
+  "word": "comes",
+  "src_start_ms": 28940,
+  "src_end_ms": 29340,
+  "cut_start_ms": 21260,
+  "cut_end_ms": 21600,
+  "dur_ms": 400
+ },
+ {
+  "i": 73,
+  "word": "through",
+  "src_start_ms": 29340,
+  "src_end_ms": 29700,
+  "cut_start_ms": 21600,
+  "cut_end_ms": 21860,
+  "dur_ms": 360
+ },
+ {
+  "i": 74,
+  "word": "action.",
+  "src_start_ms": 29700,
+  "src_end_ms": 30151,
+  "cut_start_ms": 21860,
+  "cut_end_ms": 22311,
+  "dur_ms": 451
+ },
+ {
+  "i": 75,
+  "word": "Standing",
+  "src_start_ms": 30859,
+  "src_end_ms": 31120,
+  "cut_start_ms": 22379,
+  "cut_end_ms": 22640,
+  "dur_ms": 261
+ },
+ {
+  "i": 76,
+  "word": "here,",
+  "src_start_ms": 31120,
+  "src_end_ms": 31590,
+  "cut_start_ms": 22640,
+  "cut_end_ms": 23110,
+  "dur_ms": 470
+ },
+ {
+  "i": 77,
+  "word": "I",
+  "src_start_ms": 31590,
+  "src_end_ms": 31711,
+  "cut_start_ms": 23110,
+  "cut_end_ms": 23231,
+  "dur_ms": 121
+ },
+ {
+  "i": 78,
+  "word": "can",
+  "src_start_ms": 31740,
+  "src_end_ms": 31900,
+  "cut_start_ms": 23260,
+  "cut_end_ms": 23420,
+  "dur_ms": 160
+ },
+ {
+  "i": 79,
+  "word": "learn",
+  "src_start_ms": 31900,
+  "src_end_ms": 32113,
+  "cut_start_ms": 23420,
+  "cut_end_ms": 23633,
+  "dur_ms": 213
+ },
+ {
+  "i": 80,
+  "word": "how",
+  "src_start_ms": 32384,
+  "src_end_ms": 32720,
+  "cut_start_ms": 23664,
+  "cut_end_ms": 24000,
+  "dur_ms": 336
+ },
+ {
+  "i": 81,
+  "word": "much",
+  "src_start_ms": 32720,
+  "src_end_ms": 32980,
+  "cut_start_ms": 24000,
+  "cut_end_ms": 24260,
+  "dur_ms": 260
+ },
+ {
+  "i": 82,
+  "word": "ever",
+  "src_start_ms": 32980,
+  "src_end_ms": 33156,
+  "cut_start_ms": 24260,
+  "cut_end_ms": 24436,
+  "dur_ms": 176
+ },
+ {
+  "i": 83,
+  "word": "times",
+  "src_start_ms": 33160,
+  "src_end_ms": 33520,
+  "cut_start_ms": 24440,
+  "cut_end_ms": 24800,
+  "dur_ms": 360
+ },
+ {
+  "i": 84,
+  "word": "how",
+  "src_start_ms": 33520,
+  "src_end_ms": 33940,
+  "cut_start_ms": 24800,
+  "cut_end_ms": 25080,
+  "dur_ms": 420
+ },
+ {
+  "i": 85,
+  "word": "to",
+  "src_start_ms": 33940,
+  "src_end_ms": 34120,
+  "cut_start_ms": 25080,
+  "cut_end_ms": 25260,
+  "dur_ms": 180
+ },
+ {
+  "i": 86,
+  "word": "swim,",
+  "src_start_ms": 34120,
+  "src_end_ms": 34381,
+  "cut_start_ms": 25260,
+  "cut_end_ms": 25521,
+  "dur_ms": 261
+ },
+ {
+  "i": 87,
+  "word": "but",
+  "src_start_ms": 34381,
+  "src_end_ms": 34900,
+  "cut_start_ms": 25521,
+  "cut_end_ms": 25700,
+  "dur_ms": 519
+ },
+ {
+  "i": 88,
+  "word": "I",
+  "src_start_ms": 34900,
+  "src_end_ms": 35000,
+  "cut_start_ms": 25700,
+  "cut_end_ms": 25800,
+  "dur_ms": 100
+ },
+ {
+  "i": 89,
+  "word": "can",
+  "src_start_ms": 35000,
+  "src_end_ms": 35160,
+  "cut_start_ms": 25800,
+  "cut_end_ms": 25960,
+  "dur_ms": 160
+ },
+ {
+  "i": 90,
+  "word": "only",
+  "src_start_ms": 35160,
+  "src_end_ms": 35440,
+  "cut_start_ms": 25960,
+  "cut_end_ms": 26240,
+  "dur_ms": 280
+ },
+ {
+  "i": 91,
+  "word": "swim",
+  "src_start_ms": 35440,
+  "src_end_ms": 35760,
+  "cut_start_ms": 26240,
+  "cut_end_ms": 26560,
+  "dur_ms": 320
+ },
+ {
+  "i": 92,
+  "word": "if",
+  "src_start_ms": 35760,
+  "src_end_ms": 36160,
+  "cut_start_ms": 26560,
+  "cut_end_ms": 26840,
+  "dur_ms": 400
+ },
+ {
+  "i": 93,
+  "word": "I",
+  "src_start_ms": 36160,
+  "src_end_ms": 36400,
+  "cut_start_ms": 26840,
+  "cut_end_ms": 27080,
+  "dur_ms": 240
+ },
+ {
+  "i": 94,
+  "word": "jump",
+  "src_start_ms": 36400,
+  "src_end_ms": 36600,
+  "cut_start_ms": 27080,
+  "cut_end_ms": 27280,
+  "dur_ms": 200
+ },
+ {
+  "i": 95,
+  "word": "into",
+  "src_start_ms": 36600,
+  "src_end_ms": 36960,
+  "cut_start_ms": 27280,
+  "cut_end_ms": 27640,
+  "dur_ms": 360
+ },
+ {
+  "i": 96,
+  "word": "the",
+  "src_start_ms": 36960,
+  "src_end_ms": 37160,
+  "cut_start_ms": 27640,
+  "cut_end_ms": 27840,
+  "dur_ms": 200
+ },
+ {
+  "i": 97,
+  "word": "water.",
+  "src_start_ms": 37160,
+  "src_end_ms": 37414,
+  "cut_start_ms": 27840,
+  "cut_end_ms": 28094,
+  "dur_ms": 254
+ }
+]
