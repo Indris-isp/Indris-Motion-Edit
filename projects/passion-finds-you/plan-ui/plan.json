@@ -1,0 +1,1023 @@
+{
+ "duration": 28140,
+ "fps": 50,
+ "beats": [
+  {
+   "id": "b1",
+   "name": "Hook",
+   "start": 0,
+   "end": 2420,
+   "script": "Everything I was searching for was searching for me,",
+   "bg": "Wide stage shot, then cuts to the white slide at 2.42 s",
+   "rec": "A",
+   "seen": "The reference opens on black with its first caption already on screen while the letterbox bars part. It never opens on a hero: the first big word comes on the second caption.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Letterbox open, plain lines",
+     "cats": "Letterbox \u00b7 Standard",
+     "desc": "Bars part from a centre strip over 24 frames. Three standard lines: \"Everything I was\" / \"searching for\" / \"was searching for me,\".",
+     "ref": "ref_letterbox",
+     "refLabel": "Ref f6 \u00b7 letterbox open, caption already on",
+     "caps": [
+      {
+       "t": 0,
+       "text": "Everything I was",
+       "tier": "standard"
+      },
+      {
+       "t": 841,
+       "text": "searching for",
+       "tier": "standard"
+      },
+      {
+       "t": 1500,
+       "text": "was searching for me,",
+       "tier": "standard"
+      }
+     ],
+     "letterbox": true
+    },
+    {
+     "key": "B",
+     "title": "Stack the twist: ME,",
+     "cats": "Letterbox \u00b7 Stack",
+     "desc": "Same opening, but the last line builds: \"was searching for\" stays and ME, cuts in underneath on the word.",
+     "ref": "ref_stack",
+     "refLabel": "Ref f325 \u00b7 stack \"if you're / listening,\"",
+     "caps": [
+      {
+       "t": 0,
+       "text": "Everything I was",
+       "tier": "standard"
+      },
+      {
+       "t": 841,
+       "text": "searching for",
+       "tier": "standard"
+      },
+      {
+       "t": 1500,
+       "text": "was searching for",
+       "tier": "standard"
+      },
+      {
+       "t": 2220,
+       "text": "me,",
+       "tier": "hero",
+       "stack": true
+      }
+     ],
+     "letterbox": true
+    },
+    {
+     "key": "C",
+     "title": "Hero opener: EVERYTHING",
+     "cats": "Letterbox \u00b7 Hero",
+     "desc": "EVERYTHING alone as the first frame, then two standard lines. Louder, but breaks the reference's quiet opening.",
+     "ref": "ref_hero",
+     "refLabel": "Ref f13 \u00b7 hero \"listening,\"",
+     "caps": [
+      {
+       "t": 0,
+       "text": "Everything",
+       "tier": "hero"
+      },
+      {
+       "t": 440,
+       "text": "I was searching for",
+       "tier": "standard"
+      },
+      {
+       "t": 1500,
+       "text": "was searching for me,",
+       "tier": "standard"
+      }
+     ],
+     "letterbox": true
+    }
+   ]
+  },
+  {
+   "id": "b2",
+   "name": "Passion",
+   "start": 2420,
+   "end": 4400,
+   "script": "and I found my passion, okay?",
+   "bg": "White slide (bright)",
+   "rec": "A",
+   "seen": "The reference's two-line build: the lead-in stays and the hero cuts in underneath on its first syllable. Filler right after a hero is left uncaptioned.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Stack build: PASSION,",
+     "cats": "Stack \u00b7 No caption",
+     "desc": "\"and I found my\" stays; PASSION, cuts in underneath. \"okay?\" plays with a clean screen.",
+     "ref": "ref_stack",
+     "refLabel": "Ref f325 \u00b7 stack \"if you're / listening,\"",
+     "caps": [
+      {
+       "t": 2420,
+       "text": "and I found my",
+       "tier": "standard"
+      },
+      {
+       "t": 3460,
+       "text": "passion,",
+       "tier": "hero",
+       "stack": true
+      },
+      {
+       "t": 3907,
+       "text": "",
+       "tier": "none"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Hero alone: PASSION,",
+     "cats": "Standard \u00b7 Hero",
+     "desc": "\"and I found my\" on its own, then PASSION, alone on screen. \"okay?\" uncaptioned.",
+     "ref": "ref_hero",
+     "refLabel": "Ref f13 \u00b7 hero \"listening,\"",
+     "caps": [
+      {
+       "t": 2420,
+       "text": "and I found my",
+       "tier": "standard"
+      },
+      {
+       "t": 3460,
+       "text": "passion,",
+       "tier": "hero"
+      },
+      {
+       "t": 3907,
+       "text": "",
+       "tier": "none"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Stack + italic aside",
+     "cats": "Stack \u00b7 Italic",
+     "desc": "Same stack, then \"okay?\" as a small italic aside instead of a clean screen.",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 2420,
+       "text": "and I found my",
+       "tier": "standard"
+      },
+      {
+       "t": 3460,
+       "text": "passion,",
+       "tier": "hero",
+       "stack": true
+      },
+      {
+       "t": 3907,
+       "text": "okay?",
+       "tier": "italic"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b3",
+   "name": "The question",
+   "start": 4400,
+   "end": 9982,
+   "script": "How do you think I found it? Did I find it by sitting still and thinking what my passion could be?",
+   "bg": "White slide (bright)",
+   "rec": "A",
+   "seen": "Runs of standard lines change about every 0.5 s and hold through pauses. Captions keep the speech's punctuation, question marks included.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Plain standard lines",
+     "cats": "Standard",
+     "desc": "Seven standard lines, about 0.5\u20131 s each. \"Did I find it\" fixes \"found\" on screen only.",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 4400,
+       "text": "How do you think",
+       "tier": "standard"
+      },
+      {
+       "t": 5680,
+       "text": "I found it?",
+       "tier": "standard"
+      },
+      {
+       "t": 6366,
+       "text": "Did I find it",
+       "tier": "standard"
+      },
+      {
+       "t": 7080,
+       "text": "by sitting still",
+       "tier": "standard"
+      },
+      {
+       "t": 8080,
+       "text": "and thinking",
+       "tier": "standard"
+      },
+      {
+       "t": 8680,
+       "text": "what my passion",
+       "tier": "standard"
+      },
+      {
+       "t": 9440,
+       "text": "could be?",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Italic inner thought",
+     "cats": "Standard \u00b7 Italic",
+     "desc": "The question itself is standard; \"by sitting still \u2026 could be?\" turns italic, like thinking aloud.",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 4400,
+       "text": "How do you think",
+       "tier": "standard"
+      },
+      {
+       "t": 5680,
+       "text": "I found it?",
+       "tier": "standard"
+      },
+      {
+       "t": 6366,
+       "text": "Did I find it",
+       "tier": "standard"
+      },
+      {
+       "t": 7080,
+       "text": "by sitting still",
+       "tier": "italic"
+      },
+      {
+       "t": 8080,
+       "text": "and thinking",
+       "tier": "italic"
+      },
+      {
+       "t": 8680,
+       "text": "what my passion",
+       "tier": "italic"
+      },
+      {
+       "t": 9440,
+       "text": "could be?",
+       "tier": "italic"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Fewer, longer lines",
+     "cats": "Standard",
+     "desc": "Four captions instead of seven: calmer, but each holds 1.3\u20131.6 s.",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 4400,
+       "text": "How do you think I found it?",
+       "tier": "standard"
+      },
+      {
+       "t": 6366,
+       "text": "Did I find it",
+       "tier": "standard"
+      },
+      {
+       "t": 7080,
+       "text": "by sitting still and thinking",
+       "tier": "standard"
+      },
+      {
+       "t": 8680,
+       "text": "what my passion could be?",
+       "tier": "standard"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b4",
+   "name": "No.",
+   "start": 9982,
+   "end": 10200,
+   "script": "No.",
+   "bg": "Cut to the dark wall at 9.94 s",
+   "rec": "A",
+   "seen": "The reference has one emphasis line: 1.36\u00d7 standard, on the emotional peak. It is the only caption that fades out, followed by a 1 s breath.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Emphasis NO., hard cut",
+     "cats": "Emphasis",
+     "desc": "Emphasis size, 0.22 s, hard cut straight into the answer.",
+     "ref": "ref_emphasis",
+     "refLabel": "Ref f462 \u00b7 \"embarrassed?\"",
+     "caps": [
+      {
+       "t": 9982,
+       "text": "No.",
+       "tier": "emphasis"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Emphasis + fade + breath",
+     "cats": "Emphasis \u00b7 Fade",
+     "desc": "Emphasis, 8-frame fade, then 0.5 s of silence put back into the cut so it lands.",
+     "ref": "ref_fade",
+     "refLabel": "Ref f472\u2013479 \u00b7 the one fade, then a 1 s breath",
+     "caps": [
+      {
+       "t": 9982,
+       "text": "No.",
+       "tier": "emphasis",
+       "fade": true
+      }
+     ],
+     "note": "Adds 0.5 s to the video."
+    },
+    {
+     "key": "C",
+     "title": "Hero NO.",
+     "cats": "Hero",
+     "desc": "NO. at hero size. Strongest, but spends a hero on a one-word answer.",
+     "ref": "ref_heromax",
+     "refLabel": "Ref f530 \u00b7 hero max \"impossible\"",
+     "caps": [
+      {
+       "t": 9982,
+       "text": "No.",
+       "tier": "hero"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b5",
+   "name": "Moving",
+   "start": 10200,
+   "end": 12573,
+   "script": "I found it because I had been moving all along,",
+   "bg": "Dark wall (the sky fill reads best here)",
+   "rec": "A",
+   "seen": "A hero is the keyword of an idea, alone on its line, about every 7\u201310 s.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Lead-in, then MOVING",
+     "cats": "Standard \u00b7 Hero",
+     "desc": "\"I found it\" / \"because I had been\" / MOVING alone / \"all along,\".",
+     "ref": "ref_hero",
+     "refLabel": "Ref f13 \u00b7 hero \"listening,\"",
+     "caps": [
+      {
+       "t": 10200,
+       "text": "I found it",
+       "tier": "standard"
+      },
+      {
+       "t": 10965,
+       "text": "because I had been",
+       "tier": "standard"
+      },
+      {
+       "t": 11680,
+       "text": "moving",
+       "tier": "hero"
+      },
+      {
+       "t": 12040,
+       "text": "all along,",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Stack: MOVING under its lead-in",
+     "cats": "Stack",
+     "desc": "\"because I had been\" stays and MOVING cuts in underneath.",
+     "ref": "ref_stack",
+     "refLabel": "Ref f325 \u00b7 stack \"if you're / listening,\"",
+     "caps": [
+      {
+       "t": 10200,
+       "text": "I found it",
+       "tier": "standard"
+      },
+      {
+       "t": 10965,
+       "text": "because I had been",
+       "tier": "standard"
+      },
+      {
+       "t": 11680,
+       "text": "moving",
+       "tier": "hero",
+       "stack": true
+      },
+      {
+       "t": 12040,
+       "text": "all along,",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "No hero here",
+     "cats": "Standard",
+     "desc": "Three standard lines; saves the hero budget for ACTION and JUMP.",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 10200,
+       "text": "I found it",
+       "tier": "standard"
+      },
+      {
+       "t": 10965,
+       "text": "because I had been",
+       "tier": "standard"
+      },
+      {
+       "t": 11680,
+       "text": "moving all along,",
+       "tier": "standard"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b6",
+   "name": "Doing something",
+   "start": 12573,
+   "end": 14647,
+   "script": "doing something, doing something I love,",
+   "bg": "Dark wall, angle change at 12.54 s",
+   "rec": "A",
+   "seen": "The reference sets a repeated line in italic the second time (\"you're focusing,\"), so the repeat reads softer.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Plain, then italic repeat",
+     "cats": "Standard \u00b7 Italic",
+     "desc": "\"doing something,\" standard; \"doing something I love,\" italic.",
+     "ref": "ref_italic2",
+     "refLabel": "Ref f337 \u00b7 italic repeat \"you're focusing,\"",
+     "caps": [
+      {
+       "t": 12573,
+       "text": "doing something,",
+       "tier": "standard"
+      },
+      {
+       "t": 13380,
+       "text": "doing something I love,",
+       "tier": "italic"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Both standard",
+     "cats": "Standard",
+     "desc": "Two standard lines.",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 12573,
+       "text": "doing something,",
+       "tier": "standard"
+      },
+      {
+       "t": 13380,
+       "text": "doing something I love,",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Split the repeat",
+     "cats": "Standard \u00b7 Italic",
+     "desc": "\"doing something,\" / \"doing something\" / italic \"I love,\" on its own beat.",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 12573,
+       "text": "doing something,",
+       "tier": "standard"
+      },
+      {
+       "t": 13380,
+       "text": "doing something",
+       "tier": "standard"
+      },
+      {
+       "t": 14040,
+       "text": "I love,",
+       "tier": "italic"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b7",
+   "name": "The list",
+   "start": 14647,
+   "end": 16526,
+   "script": "watching, observing, and feeling.",
+   "bg": "Dark wall, angle change at 14.62 s",
+   "rec": "A",
+   "seen": "Each caption cuts in on its word and holds until the next. The end of a thought goes italic (\"anything in life.\").",
+   "opts": [
+    {
+     "key": "A",
+     "title": "One word per beat, italic close",
+     "cats": "Standard \u00b7 Italic",
+     "desc": "\"watching,\" / \"observing,\" / italic \"and feeling.\".",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 14647,
+       "text": "watching,",
+       "tier": "standard"
+      },
+      {
+       "t": 15220,
+       "text": "observing,",
+       "tier": "standard"
+      },
+      {
+       "t": 15840,
+       "text": "and feeling.",
+       "tier": "italic"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "All italic",
+     "cats": "Italic",
+     "desc": "The whole list in italic: softer, more reflective.",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 14647,
+       "text": "watching,",
+       "tier": "italic"
+      },
+      {
+       "t": 15220,
+       "text": "observing,",
+       "tier": "italic"
+      },
+      {
+       "t": 15840,
+       "text": "and feeling.",
+       "tier": "italic"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Hero FEELING.",
+     "cats": "Standard \u00b7 Hero",
+     "desc": "\"watching,\" / \"observing,\" / \"and\" / FEELING. as a hero.",
+     "ref": "ref_hero",
+     "refLabel": "Ref f13 \u00b7 hero \"listening,\"",
+     "caps": [
+      {
+       "t": 14647,
+       "text": "watching,",
+       "tier": "standard"
+      },
+      {
+       "t": 15220,
+       "text": "observing,",
+       "tier": "standard"
+      },
+      {
+       "t": 15840,
+       "text": "and",
+       "tier": "standard"
+      },
+      {
+       "t": 16100,
+       "text": "feeling.",
+       "tier": "hero"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b8",
+   "name": "Transition line",
+   "start": 16526,
+   "end": 18631,
+   "script": "And I just want you to understand this thing.",
+   "bg": "Cut to the red Clarity slide at 16.50 s",
+   "rec": "A",
+   "seen": "The reference cuts filler and lets one uncaptioned moment breathe before its payoff.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Cut this line from the video",
+     "cats": "Cut",
+     "desc": "Removes 2.1 s. The list goes straight into \"Clarity doesn't come before action.\" Video becomes about 26.0 s.",
+     "ref": "ref_breath",
+     "refLabel": "Ref f479\u2013508 \u00b7 no caption, clean footage",
+     "caps": [],
+     "cut": true
+    },
+    {
+     "key": "B",
+     "title": "Keep, three standard lines",
+     "cats": "Standard",
+     "desc": "\"And I just want you\" / \"to understand\" / \"this thing.\".",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 16526,
+       "text": "And I just want you",
+       "tier": "standard"
+      },
+      {
+       "t": 17780,
+       "text": "to understand",
+       "tier": "standard"
+      },
+      {
+       "t": 18180,
+       "text": "this thing.",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Keep, no captions",
+     "cats": "No caption",
+     "desc": "Keep the audio but leave the screen clean as the breath before the thesis.",
+     "ref": "ref_breath",
+     "refLabel": "Ref f479\u2013508 \u00b7 no caption, clean footage",
+     "caps": [
+      {
+       "t": 16526,
+       "text": "",
+       "tier": "none"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b9",
+   "name": "Thesis",
+   "start": 18631,
+   "end": 22379,
+   "script": "Clarity doesn't come before action. Clarity comes through action.",
+   "bg": "Red slide with its own \"Clarity\u2026\" script text behind her",
+   "rec": "A",
+   "seen": "The setup word stays small so the second one hits: in the reference \"listening,\" is a hero only in the build, never in passing.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Setup, then stack ACTION.",
+     "cats": "Standard \u00b7 Stack",
+     "desc": "\"Clarity doesn't\" / \"come before action.\" / \"Clarity comes through\" + ACTION. cut in underneath.",
+     "ref": "ref_stack",
+     "refLabel": "Ref f325 \u00b7 stack \"if you're / listening,\"",
+     "caps": [
+      {
+       "t": 18631,
+       "text": "Clarity doesn't",
+       "tier": "standard"
+      },
+      {
+       "t": 19612,
+       "text": "come before action.",
+       "tier": "standard"
+      },
+      {
+       "t": 20762,
+       "text": "Clarity comes through",
+       "tier": "standard"
+      },
+      {
+       "t": 21860,
+       "text": "action.",
+       "tier": "hero",
+       "stack": true
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Italic 'before', stacked 'through'",
+     "cats": "Italic \u00b7 Stack",
+     "desc": "The wrong way in italic, the right way as the stack.",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 18631,
+       "text": "Clarity doesn't",
+       "tier": "standard"
+      },
+      {
+       "t": 19612,
+       "text": "come before action.",
+       "tier": "italic"
+      },
+      {
+       "t": 20762,
+       "text": "Clarity comes through",
+       "tier": "standard"
+      },
+      {
+       "t": 21860,
+       "text": "action.",
+       "tier": "hero",
+       "stack": true
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Emphasis thesis",
+     "cats": "Standard \u00b7 Emphasis",
+     "desc": "\"Clarity comes\" then \"through action.\" at emphasis size; no hero.",
+     "ref": "ref_emphasis",
+     "refLabel": "Ref f462 \u00b7 \"embarrassed?\"",
+     "caps": [
+      {
+       "t": 18631,
+       "text": "Clarity doesn't",
+       "tier": "standard"
+      },
+      {
+       "t": 19612,
+       "text": "come before action.",
+       "tier": "standard"
+      },
+      {
+       "t": 20762,
+       "text": "Clarity comes",
+       "tier": "standard"
+      },
+      {
+       "t": 21600,
+       "text": "through action.",
+       "tier": "emphasis"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b10",
+   "name": "Swim",
+   "start": 22379,
+   "end": 26240,
+   "script": "Standing here, I can learn how much ever times how to swim, but I can only",
+   "bg": "Red slide",
+   "rec": "A",
+   "seen": "Runs of standard lines between heroes keep the rhythm calm so the payoff lands.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "Plain standard lines",
+     "cats": "Standard",
+     "desc": "Five standard lines. \"how many times\" fixes \"how much ever times\" on screen only.",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 22379,
+       "text": "Standing here,",
+       "tier": "standard"
+      },
+      {
+       "t": 23110,
+       "text": "I can learn",
+       "tier": "standard"
+      },
+      {
+       "t": 23664,
+       "text": "how many times",
+       "tier": "standard"
+      },
+      {
+       "t": 24800,
+       "text": "how to swim,",
+       "tier": "standard"
+      },
+      {
+       "t": 25521,
+       "text": "but I can only",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "B",
+     "title": "Italic scene-setter",
+     "cats": "Italic \u00b7 Standard",
+     "desc": "\"Standing here,\" in italic, the rest standard.",
+     "ref": "ref_italic",
+     "refLabel": "Ref f140 \u00b7 \"anything in life.\"",
+     "caps": [
+      {
+       "t": 22379,
+       "text": "Standing here,",
+       "tier": "italic"
+      },
+      {
+       "t": 23110,
+       "text": "I can learn",
+       "tier": "standard"
+      },
+      {
+       "t": 23664,
+       "text": "how many times",
+       "tier": "standard"
+      },
+      {
+       "t": 24800,
+       "text": "how to swim,",
+       "tier": "standard"
+      },
+      {
+       "t": 25521,
+       "text": "but I can only",
+       "tier": "standard"
+      }
+     ]
+    },
+    {
+     "key": "C",
+     "title": "Verbatim wording",
+     "cats": "Standard",
+     "desc": "Same as A but keeps \"how much ever times\" exactly as spoken.",
+     "ref": "ref_standard",
+     "refLabel": "Ref f100 \u00b7 \"you can achieve\"",
+     "caps": [
+      {
+       "t": 22379,
+       "text": "Standing here,",
+       "tier": "standard"
+      },
+      {
+       "t": 23110,
+       "text": "I can learn",
+       "tier": "standard"
+      },
+      {
+       "t": 23664,
+       "text": "how much ever times",
+       "tier": "standard"
+      },
+      {
+       "t": 24800,
+       "text": "how to swim,",
+       "tier": "standard"
+      },
+      {
+       "t": 25521,
+       "text": "but I can only",
+       "tier": "standard"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b11",
+   "name": "Payoff + end card",
+   "start": 26240,
+   "end": 28140,
+   "script": "swim if I jump into the water.",
+   "bg": "Red slide, then hard cut to the black end card",
+   "rec": "A",
+   "seen": "The reference's heaviest word comes last (\"impossible\"), then a hard cut to a black end card that holds 1.5 s and fades over 14 frames.",
+   "opts": [
+    {
+     "key": "A",
+     "title": "JUMP hero max, italic close",
+     "cats": "Standard \u00b7 Hero max \u00b7 Italic",
+     "desc": "\"swim if I\" / JUMP in Black weight / italic \"into the water.\" / end card.",
+     "ref": "ref_heromax",
+     "refLabel": "Ref f530 \u00b7 hero max \"impossible\"",
+     "caps": [
+      {
+       "t": 26240,
+       "text": "swim if I",
+       "tier": "standard"
+      },
+      {
+       "t": 27080,
+       "text": "jump",
+       "tier": "heromax"
+      },
+      {
+       "t": 27280,
+       "text": "into the water.",
+       "tier": "italic"
+      }
+     ],
+     "endcard": true
+    },
+    {
+     "key": "B",
+     "title": "Reference order: WATER. last",
+     "cats": "Standard \u00b7 Hero max",
+     "desc": "\"swim if I jump\" / \"into the\" / WATER. in Black weight as the last caption / end card.",
+     "ref": "ref_heromax",
+     "refLabel": "Ref f530 \u00b7 hero max \"impossible\"",
+     "caps": [
+      {
+       "t": 26240,
+       "text": "swim if I jump",
+       "tier": "standard"
+      },
+      {
+       "t": 27280,
+       "text": "into the",
+       "tier": "standard"
+      },
+      {
+       "t": 27840,
+       "text": "water.",
+       "tier": "heromax"
+      }
+     ],
+     "endcard": true
+    },
+    {
+     "key": "C",
+     "title": "Stack: swim if I / JUMP",
+     "cats": "Stack \u00b7 Italic",
+     "desc": "\"swim if I\" stays and JUMP cuts in underneath; italic close / end card.",
+     "ref": "ref_stack",
+     "refLabel": "Ref f325 \u00b7 stack \"if you're / listening,\"",
+     "caps": [
+      {
+       "t": 26240,
+       "text": "swim if I",
+       "tier": "standard"
+      },
+      {
+       "t": 27080,
+       "text": "jump",
+       "tier": "heromax",
+       "stack": true
+      },
+      {
+       "t": 27280,
+       "text": "into the water.",
+       "tier": "italic"
+      }
+     ],
+     "endcard": true
+    }
+   ]
+  }
+ ]
+}
