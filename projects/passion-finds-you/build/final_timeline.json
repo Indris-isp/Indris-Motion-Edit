@@ -1,0 +1,447 @@
+{
+ "duration": 26400,
+ "fps": 50,
+ "letterbox_ms": 800,
+ "captions": [
+  {
+   "t": 0,
+   "lines": [
+    {
+     "text": "Everything",
+     "tier": "hero"
+    }
+   ],
+   "capY": 0.5,
+   "scale": 0.85,
+   "beat": "b1",
+   "out": 440,
+   "id": "c00"
+  },
+  {
+   "t": 440,
+   "lines": [
+    {
+     "text": "I was searching for",
+     "tier": "standard"
+    }
+   ],
+   "capY": 0.5,
+   "scale": 0.85,
+   "beat": "b1",
+   "out": 1500,
+   "id": "c01"
+  },
+  {
+   "t": 1500,
+   "lines": [
+    {
+     "text": "was searching for me,",
+     "tier": "standard"
+    }
+   ],
+   "capY": 0.5,
+   "scale": 0.85,
+   "beat": "b1",
+   "out": 2420,
+   "id": "c02"
+  },
+  {
+   "t": 2420,
+   "lines": [
+    {
+     "text": "and I found my",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b2",
+   "out": 3460,
+   "id": "c03"
+  },
+  {
+   "t": 3460,
+   "lines": [
+    {
+     "text": "and I found my",
+     "tier": "standard"
+    },
+    {
+     "text": "passion,",
+     "tier": "hero"
+    }
+   ],
+   "stack": true,
+   "beat": "b2",
+   "out": 3907,
+   "id": "c04"
+  },
+  {
+   "t": 3907,
+   "lines": [],
+   "beat": "b2",
+   "out": 4400,
+   "id": "c05"
+  },
+  {
+   "t": 4400,
+   "lines": [
+    {
+     "text": "How do you think",
+     "tier": "standard"
+    },
+    {
+     "text": "I found it?",
+     "tier": "standard"
+    }
+   ],
+   "two": true,
+   "beat": "b3",
+   "out": 6366,
+   "id": "c06"
+  },
+  {
+   "t": 6366,
+   "lines": [
+    {
+     "text": "Did I find it",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b3",
+   "out": 7080,
+   "id": "c07"
+  },
+  {
+   "t": 7080,
+   "lines": [
+    {
+     "text": "by sitting still",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b3",
+   "out": 8080,
+   "id": "c08"
+  },
+  {
+   "t": 8080,
+   "lines": [
+    {
+     "text": "and thinking",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b3",
+   "out": 8680,
+   "id": "c09"
+  },
+  {
+   "t": 8680,
+   "lines": [
+    {
+     "text": "what my passion",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b3",
+   "out": 9440,
+   "id": "c10"
+  },
+  {
+   "t": 9440,
+   "lines": [
+    {
+     "text": "could be?",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b3",
+   "out": 9982,
+   "id": "c11"
+  },
+  {
+   "t": 9982,
+   "lines": [
+    {
+     "text": "No.",
+     "tier": "emphasis"
+    }
+   ],
+   "beat": "b4",
+   "out": 10200,
+   "id": "c12"
+  },
+  {
+   "t": 10200,
+   "lines": [
+    {
+     "text": "I found it",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b5",
+   "out": 10965,
+   "id": "c13"
+  },
+  {
+   "t": 10965,
+   "lines": [
+    {
+     "text": "because I had been",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b5",
+   "out": 11680,
+   "id": "c14"
+  },
+  {
+   "t": 11680,
+   "lines": [
+    {
+     "text": "because I had been",
+     "tier": "standard"
+    },
+    {
+     "text": "moving",
+     "tier": "hero"
+    }
+   ],
+   "stack": true,
+   "beat": "b5",
+   "out": 12040,
+   "id": "c15"
+  },
+  {
+   "t": 12040,
+   "lines": [
+    {
+     "text": "all along,",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b5",
+   "out": 12573,
+   "id": "c16"
+  },
+  {
+   "t": 12573,
+   "lines": [
+    {
+     "text": "doing something,",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b6",
+   "out": 13380,
+   "id": "c17"
+  },
+  {
+   "t": 13380,
+   "lines": [
+    {
+     "text": "doing something I love,",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b6",
+   "out": 14647,
+   "id": "c18"
+  },
+  {
+   "t": 14647,
+   "lines": [
+    {
+     "text": "watching,",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b7",
+   "out": 15220,
+   "id": "c19"
+  },
+  {
+   "t": 15220,
+   "lines": [
+    {
+     "text": "observing,",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b7",
+   "out": 15840,
+   "id": "c20"
+  },
+  {
+   "t": 15840,
+   "lines": [
+    {
+     "text": "and feeling.",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b7",
+   "out": 16551,
+   "id": "c21"
+  },
+  {
+   "t": 16551,
+   "lines": [
+    {
+     "text": "Clarity doesn't",
+     "tier": "standard"
+    }
+   ],
+   "scale": 0.9,
+   "beat": "b9",
+   "out": 17532,
+   "id": "c22"
+  },
+  {
+   "t": 17532,
+   "lines": [
+    {
+     "text": "Clarity doesn't",
+     "tier": "standard"
+    },
+    {
+     "text": "come before action.",
+     "tier": "italic"
+    }
+   ],
+   "two": true,
+   "scale": 0.9,
+   "beat": "b9",
+   "out": 18682,
+   "id": "c23"
+  },
+  {
+   "t": 18682,
+   "lines": [
+    {
+     "text": "Clarity comes through",
+     "tier": "standard"
+    }
+   ],
+   "scale": 0.9,
+   "beat": "b9",
+   "out": 19780,
+   "id": "c24"
+  },
+  {
+   "t": 19780,
+   "lines": [
+    {
+     "text": "Clarity comes through",
+     "tier": "standard"
+    },
+    {
+     "text": "action.",
+     "tier": "hero",
+     "size": 0.2
+    }
+   ],
+   "stack": true,
+   "scale": 0.9,
+   "beat": "b9",
+   "out": 20299,
+   "id": "c25"
+  },
+  {
+   "t": 20299,
+   "lines": [
+    {
+     "text": "Standing here,",
+     "tier": "italic"
+    }
+   ],
+   "beat": "b10",
+   "out": 21030,
+   "id": "c26"
+  },
+  {
+   "t": 21030,
+   "lines": [
+    {
+     "text": "I can learn",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b10",
+   "out": 21584,
+   "id": "c27"
+  },
+  {
+   "t": 21584,
+   "lines": [
+    {
+     "text": "how many times",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b10",
+   "out": 22720,
+   "id": "c28"
+  },
+  {
+   "t": 22720,
+   "lines": [
+    {
+     "text": "how to swim,",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b10",
+   "out": 23441,
+   "id": "c29"
+  },
+  {
+   "t": 23441,
+   "lines": [
+    {
+     "text": "but I can only",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b10",
+   "out": 24160,
+   "id": "c30"
+  },
+  {
+   "t": 24160,
+   "lines": [
+    {
+     "text": "swim if I jump",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b11",
+   "out": 25200,
+   "id": "c31"
+  },
+  {
+   "t": 25200,
+   "lines": [
+    {
+     "text": "into the",
+     "tier": "standard"
+    }
+   ],
+   "beat": "b11",
+   "out": 25760,
+   "id": "c32"
+  },
+  {
+   "t": 25760,
+   "lines": [
+    {
+     "text": "water.",
+     "tier": "heromax",
+     "italic": true
+    }
+   ],
+   "beat": "b11",
+   "out": 26400,
+   "id": "c33"
+  }
+ ]
+}
