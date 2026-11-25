@@ -1,0 +1,1020 @@
+{
+ "url": "https://www.veryfi.com/",
+ "title": "Veryfi : Trust but Veryfi",
+ "description": "Veryfi is AI APIs that reads documents (OCR APIs) and knows when they're lying (Fraud Detection). Extract Data. Catch Fraud. One API. Trust but Veryfi.",
+ "ogImage": "https://www.veryfi.com/wp-content/uploads/on-device-ocr-veryfi-lunch-capture.jpg",
+ "themeColor": null,
+ "favicon": "https://www.veryfi.com/wp-content/uploads/cropped-veryfi-site-icon-white-bg-32x32.png",
+ "colors": {
+  "backgrounds": [
+   [
+    "#171c3a",
+    8895557.284667969
+   ],
+   [
+    "#e9ece4",
+    2828794.0110132843
+   ],
+   [
+    "#ffffff",
+    147403.53991159797
+   ],
+   [
+    "#efe8db",
+    138540.9375
+   ],
+   [
+    "#cdb684",
+    118904.83880996704
+   ],
+   [
+    "#0f132a",
+    101176.875
+   ],
+   [
+    "#f7f4ec",
+    79875.046875
+   ],
+   [
+    "#f7f1e1",
+    56574.977376401424
+   ],
+   [
+    "#173835",
+    55935.6630859375
+   ],
+   [
+    "#fffdf6",
+    54444.51345807314
+   ]
+  ],
+  "text": [
+   [
+    "#f6f3ea",
+    2778
+   ],
+   [
+    "#171c3a",
+    2495
+   ],
+   [
+    "#e9ece4",
+    2346
+   ],
+   [
+    "#ffffff",
+    707
+   ],
+   [
+    "#00d181",
+    480
+   ],
+   [
+    "#48ffd3",
+    452
+   ],
+   [
+    "#b9bdb1",
+    449
+   ],
+   [
+    "#9ba6e8",
+    403
+   ]
+  ],
+  "buttons": [],
+  "accents": [
+   "#171c3a",
+   "#00d181",
+   "#48ffd3",
+   "#cdb684",
+   "#173835"
+  ],
+  "gradients": [
+   "radial-gradient(40% 62% at 70% 48%, rgba(233, 236, 228, 0.1) 0%, rgba(233, 236, 228, 0.03) 45%, rgba(0, 0, 0, 0) 70%), radial-gradient(50% 60% at 0% 100%, rgba(231, 60, 78, 0.22) 0%, rgba(0, 0, 0, 0) 60%), radial-gradient(40% 40% at 100% 0%, rgba(231, 60, 78, ",
+   "linear-gradient(rgb(26, 34, 56) 0%, rgb(18, 25, 44) 100%)",
+   "radial-gradient(70% 50% at 8% 0%, rgba(255, 214, 120, 0.08) 0%, rgba(0, 0, 0, 0) 55%), radial-gradient(40% 40% at 92% 100%, rgba(45, 181, 210, 0.08) 0%, rgba(0, 0, 0, 0) 60%), linear-gradient(rgb(26, 34, 56) 0%, rgb(18, 25, 44) 42%, rgb(11, 16, 32) 100%)",
+   "linear-gradient(rgb(26, 34, 56) 0%, rgb(18, 25, 44) 42%, rgb(11, 16, 32) 100%)",
+   "linear-gradient(rgba(13, 10, 24, 0.92), rgba(13, 10, 24, 0.92)), linear-gradient(160deg, rgba(255, 179, 92, 0.85), rgba(255, 94, 126, 0.45) 40%, rgba(167, 123, 255, 0.35) 75%, rgba(255, 255, 255, 0.06))",
+   "linear-gradient(rgb(110, 118, 134) 0%, rgb(44, 51, 66) 6%, rgb(20, 24, 32) 12%, rgb(12, 15, 22) 50%, rgb(22, 27, 36) 100%)"
+  ]
+ },
+ "fonts": [
+  {
+   "family": "DINPro",
+   "weights": [
+    "400",
+    "500",
+    "600",
+    "700",
+    "650"
+   ],
+   "largestSize": 18,
+   "sample": "AI that reads documents and knows when they're lying.",
+   "tracking": "normal",
+   "transform": "none"
+  },
+  {
+   "family": "Iowan Old Style",
+   "weights": [
+    "400"
+   ],
+   "largestSize": 16.5,
+   "sample": "Veryfi’s technology has helped us be much more precise in re",
+   "tracking": "normal",
+   "transform": "none"
+  },
+  {
+   "family": "SourceCodePro",
+   "weights": [
+    "400",
+    "700",
+    "500",
+    "600"
+   ],
+   "largestSize": 23.0188,
+   "sample": "54.64",
+   "tracking": "-0.460376px",
+   "transform": "none"
+  },
+  {
+   "family": "NBInternationalPro",
+   "weights": [
+    "400",
+    "500",
+    "700",
+    "600"
+   ],
+   "largestSize": 65,
+   "sample": "Bring any document. Veryfi takes it from there.",
+   "tracking": "-2.275px",
+   "transform": "none"
+  },
+  {
+   "family": "ui-monospace",
+   "weights": [
+    "400",
+    "500",
+    "700"
+   ],
+   "largestSize": 12,
+   "sample": "See all customer stories",
+   "tracking": "1.44px",
+   "transform": "uppercase"
+  }
+ ],
+ "fontFaces": [
+  {
+   "family": "swiper-icons",
+   "weight": "400",
+   "style": "normal",
+   "src": "data:application/font-woff;charset=utf-8;base64, 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"
+  },
+  {
+   "family": "DINPro",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/DINPro.woff2"
+  },
+  {
+   "family": "DINPro",
+   "weight": "500",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/DINPro-Medium.woff2"
+  },
+  {
+   "family": "DINPro",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/DINPro-Light.woff2"
+  },
+  {
+   "family": "NBInternationalPro",
+   "weight": "400",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/NBInternationalPro-Regular.woff2"
+  },
+  {
+   "family": "NBInternationalPro",
+   "weight": "500",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/NBInternationalPro-Medium.woff2"
+  },
+  {
+   "family": "NBInternationalPro",
+   "weight": "300",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/NBInternationalPro-Light.woff2"
+  },
+  {
+   "family": "SourceCodePro",
+   "weight": "500",
+   "style": "normal",
+   "src": "https://www.veryfi.com/wp-content/themes/veryfi_2.0/assets/fonts/SourceCodePro-Medium.woff2"
+  }
+ ],
+ "radius": [
+  [
+   "999px",
+   18
+  ],
+  [
+   "50px",
+   16
+  ],
+  [
+   "8px",
+   14
+  ],
+  [
+   "14px",
+   14
+  ],
+  [
+   "1.00808px",
+   14
+  ],
+  [
+   "2.35219px",
+   13
+  ]
+ ],
+ "shadows": [
+  "rgba(23, 28, 58, 0.1) 0px 8px 22px 0px, rgba(23, 28, 58, 0.08) 0px 0px 0px 1px",
+  "rgba(0, 0, 0, 0.5) 0px 10.6241px 21.2481px 0px",
+  "rgba(233, 236, 228, 0.16) 0px 0px 0px 1px inset",
+  "rgba(0, 0, 0, 0.35) 0px 6px 16px 0px, rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset"
+ ],
+ "buttons": [
+  {
+   "text": "Accounts Payable",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 88,
+   "w": 61,
+   "h": 37
+  },
+  {
+   "text": "Back-Office Digitization",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 182,
+   "w": 78,
+   "h": 37
+  },
+  {
+   "text": "Expense Management",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 239,
+   "w": 87,
+   "h": 37
+  },
+  {
+   "text": "Fraud Detection",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 296,
+   "w": 64,
+   "h": 37
+  },
+  {
+   "text": "Loyalty Programs",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 390,
+   "w": 66,
+   "h": 37
+  },
+  {
+   "text": "Other Industries",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 367,
+   "w": 68,
+   "h": 37
+  },
+  {
+   "text": "No-Code Complete Solutions",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "700 14px",
+   "y": 70,
+   "w": 66,
+   "h": 56
+  },
+  {
+   "text": "Embedded - Build Loyalty Programs",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 130,
+   "w": 81,
+   "h": 77
+  },
+  {
+   "text": "Practice Management App",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 227,
+   "w": 87,
+   "h": 57
+  },
+  {
+   "text": "Receipts OCR & Expenses App",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 304,
+   "w": 64,
+   "h": 77
+  },
+  {
+   "text": "WhatsApp ChatBot",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 401,
+   "w": 67,
+   "h": 37
+  },
+  {
+   "text": "Ingest (Capture SDKs)",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "700 14px",
+   "y": 70,
+   "w": 103,
+   "h": 35
+  },
+  {
+   "text": "Browser Extensions (Add-Ons)",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 263,
+   "w": 73,
+   "h": 57
+  },
+  {
+   "text": "WhatsApp Instant App",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 417,
+   "w": 67,
+   "h": 57
+  },
+  {
+   "text": "Understand (AI APIs)",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "700 14px",
+   "y": 70,
+   "w": 101,
+   "h": 35
+  },
+  {
+   "text": "Bank Statements",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 146,
+   "w": 77,
+   "h": 37
+  },
+  {
+   "text": "Insurance Cards",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 260,
+   "w": 67,
+   "h": 37
+  },
+  {
+   "text": "Medication Labels",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 317,
+   "w": 73,
+   "h": 37
+  },
+  {
+   "text": "... full APIs list ...",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 388,
+   "w": 100,
+   "h": 37
+  },
+  {
+   "text": "Document to Markdown",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 445,
+   "w": 85,
+   "h": 37
+  },
+  {
+   "text": "Chat with your Data",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 88,
+   "w": 65,
+   "h": 37
+  },
+  {
+   "text": "Document Classification",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 145,
+   "w": 91,
+   "h": 37
+  },
+  {
+   "text": "Fraud Detection",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 202,
+   "w": 64,
+   "h": 37
+  },
+  {
+   "text": "Image Forensics",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 299,
+   "w": 65,
+   "h": 37
+  },
+  {
+   "text": "PDF Forensics",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 356,
+   "w": 65,
+   "h": 37
+  },
+  {
+   "text": "Product Intelligence",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 259,
+   "w": 79,
+   "h": 37
+  },
+  {
+   "text": "Workflow Automation",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 316,
+   "w": 77,
+   "h": 37
+  },
+  {
+   "text": "OpenClaw Veryfi Skill",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 162,
+   "w": 72,
+   "h": 37
+  },
+  {
+   "text": "Download Lens Apps",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 162,
+   "w": 66,
+   "h": 57
+  },
+  {
+   "text": "Schedule a Demo",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 333,
+   "w": 62,
+   "h": 37
+  },
+  {
+   "text": "Partner with Veryfi",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 199,
+   "w": 70,
+   "h": 37
+  },
+  {
+   "text": "Worldwide Coverage",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 293,
+   "w": 70,
+   "h": 37
+  },
+  {
+   "text": "1. Trusted by Customers Worldwide",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 88,
+   "w": 73,
+   "h": 77
+  },
+  {
+   "text": "2. In-House Foundation AI Models",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 185,
+   "w": 75,
+   "h": 77
+  },
+  {
+   "text": "3. Privacy, Security + SOC2 Type2",
+   "bg": null,
+   "image": null,
+   "color": "#e9ece4",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 282,
+   "w": 68,
+   "h": 77
+  },
+  {
+   "text": "Get Started for Free",
+   "bg": null,
+   "image": "linear-gradient(298.79deg, rgb(45, 181, 210) -23.47%, rgb(0, 250, 108) 92.01%, rgb(45, 181, 210) 214.83%)",
+   "color": "#171c3a",
+   "radius": "50px",
+   "border": null,
+   "font": "500 16px",
+   "y": 32,
+   "w": 175,
+   "h": 48
+  },
+  {
+   "text": "Start Free Trial",
+   "bg": null,
+   "image": "linear-gradient(298.79deg, rgb(45, 181, 210) -23.47%, rgb(0, 250, 108) 92.01%, rgb(45, 181, 210) 214.83%)",
+   "color": "#171c3a",
+   "radius": "50px",
+   "border": null,
+   "font": "500 16px",
+   "y": 394,
+   "w": 141,
+   "h": 48
+  },
+  {
+   "text": "See It Work First",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "50px",
+   "border": null,
+   "font": "500 16px",
+   "y": 394,
+   "w": 152,
+   "h": 48
+  },
+  {
+   "text": "TRY IT FREE",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "999px",
+   "border": "1px solid #ffffff",
+   "font": "500 14px",
+   "y": 2348,
+   "w": 130,
+   "h": 44
+  },
+  {
+   "text": "AI PDF FORENSICS",
+   "bg": null,
+   "image": null,
+   "color": "#ffc56d",
+   "radius": "0px",
+   "border": null,
+   "font": "600 12px",
+   "y": 2532,
+   "w": 164,
+   "h": 42
+  }
+ ],
+ "copy": {
+  "h1": [
+   "Extract Data from Documents. Catch Fraud. One API. Extract Data from Documents. Catch Fraud. One API."
+  ],
+  "h2": [
+   "Why Veryfi Why Veryfi",
+   "Bring any document. Veryfi takes it from there.",
+   "Global Bank-Grade Security & Compliance"
+  ],
+  "h3": [
+   "Fraud Detection",
+   "Lens",
+   "Document to Markdown",
+   "Extraction APIs",
+   "SOC 2 Type II",
+   "HIPAA Compliance",
+   "99.995% Uptime SLA",
+   "Deployment Flexibility",
+   "GDPR",
+   "Audit Trail"
+  ],
+  "nav": [
+   "SOLUTIONS",
+   "By Use Case",
+   "Accounts Payable",
+   "BillPay",
+   "Back-Office Digitization",
+   "Expense Management",
+   "Fraud Detection",
+   "KYC & KYB",
+   "Loyalty Programs",
+   "Remote Deposit Capture (RDC)",
+   "More...",
+   "By Industry",
+   "Accountants",
+   "Banking"
+  ],
+  "eyebrow": [
+   "BUILT INTO EVERY RESPONSE",
+   "Every document gets a verdict.",
+   "MOBILE CAPTURE SDK",
+   "Scan anything. Even offline.",
+   "NEW",
+   "Parse any document. LLM-ready.",
+   "Paper in. JSON out.",
+   "Python"
+  ],
+  "stats": [
+   {
+    "value": "13%",
+    "context": "Toronto, ON 09 Mar 2026 · 9:42 AM EGGS BENNY 24.00 COFFEE 6.50 OJ 9.00 SUBTOTAL 39.50 HST 13% 5.14 TOTAL 54.64 FLAGGED IMG_4471.JPG Software Photoshop 25.1 Modified 11 Mar 2026 1 2 3 4 5 54.64 DIGIT RETY"
+   },
+   {
+    "value": "2%",
+    "context": "leaves the original content stream in the file, and an AI model that scores the statement 2% likely to be AI-generated but 96% likely to be edited at the ending balance. Veryfi Fraud Detection reads eve"
+   },
+   {
+    "value": "96%",
+    "context": "m in the file, and an AI model that scores the statement 2% likely to be AI-generated but 96% likely to be edited at the ending balance. Veryfi Fraud Detection reads every layer, not just the pixels, and"
+   },
+   {
+    "value": "106 ×",
+    "context": "1224×1584 Security pattern · /FlateDecode /Resources /XObject · 2 images /Thumb · 9 0 obj 106 × 137 px · written 2026-11-01 A preview image of page 1, saved with the file. Editors rarely redraw it. rev 1 p"
+   },
+   {
+    "value": "99.995%",
+    "context": ". HIPAA HIPAA Compliance HIPAA · BAA We sign BAAs. PHI handled under HIPAA safeguards. 99.995% Uptime SLA SLA · SAMPLED Dedicated NVIDIA DGX — not shared cloud GPUs. Deployment Flexibility REGION · READ"
+   }
+  ]
+ },
+ "logo": {
+  "svg": "<svg viewBox=\"0 0 95 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M87.1167 0H82.0966C80.9604 0 79.8929 0.443092 79.089 1.24536L77.0917 3.24263C76.2945 4.03986 75.8464 5.12242 75.8464 6.25029V6.90318H72.7497C72.5651 6.90318 72.4141 7.05423 72.4141 7.23886V9.73964C72.4141 9.92426 72.5651 10.0753 72.7497 10.0753H75.8464V24.746C75.8464 24.9307 75.9957 25.0817 76.182 25.0817H79.3961C79.5807 25.0817 79.7318 24.9307 79.7318 24.746V10.0736H87.1167C87.3013 10.0736 87.4524 9.92259 87.4524 9.73796V7.23718C87.4524 7.05255 87.3013 6.9015 87.1167 6.9015H79.7335C79.7536 6.17644 80.0457 5.43292 80.4904 4.98815L81.1819 4.29665C81.6703 3.80825 82.3316 3.53467 83.0197 3.53467H87.1167C87.3013 3.53467 87.4524 3.38362 87.4524 3.19899V0.335676C87.4524 0.151054 87.3013 0 87.1167 0Z\" fill=\"currentColor\"></path>\n<path d=\"M94.201 6.90234H90.9919C90.8065 6.90234 90.6562 7.05263 90.6562 7.23802V24.7452C90.6562 24.9306 90.8065 25.0809 90.9919 25.0809H94.201C94.3864 25.0809 94.5367 24.9306 94.5367 24.7452V7.23802C94.5367 7.05263 94.3864 6.90234 94.201 6.90234Z\" fill=\"currentColor\"></path>\n<path d=\"M50.2679 6.89844H44.2425C43.1146 6.89844 42.0321 7.34656 41.2348 8.1438L39.2375 10.1411C38.4336 10.945 37.9922 12.0125 37.9922 13.1487V24.743C37.9922 24.9276 38.1432 25.0787 38.3279 25.0787L41.5369 25.0619C41.7216 25.0619 41.8709 24.9108 41.8709 24.7262V13.8788C41.8726 13.189 42.1462 12.5277 42.6346 12.041L43.3261 11.3495C43.8145 10.8611 44.4758 10.5875 45.1639 10.5875H50.2662C50.4508 10.5875 50.6019 10.4365 50.6019 10.2518V7.23579C50.6019 7.05117 50.4508 6.90012 50.2662 6.90012L50.2679 6.89844Z\" fill=\"currentColor\"></path>\n<path d=\"M90.9902 3.53635H94.1876C94.3722 3.53635 94.5232 3.38529 94.5232 3.20067V0.335676C94.5232 0.151054 94.3722 0 94.1876 0H90.9919C90.8073 0 90.6562 0.149376 90.6562 0.333998C90.6562 1.09263 90.6562 2.47561 90.6562 3.20067C90.6562 3.38529 90.8073 3.53635 90.9919 3.53635H90.9902Z\" fill=\"currentColor\"></path>\n<path d=\"M66.2162 6.89789C66.0718 6.89789 65.9426 6.9902 65.8973 7.12783L61.3506 20.9443L56.8491 7.12783C56.8038 6.9902 56.6746 6.89621 56.5302 6.89621H52.9905C52.8059 6.89621 52.6767 7.07747 52.7354 7.25203L58.6819 24.7122L59.2593 26.4644C59.0931 26.7632 58.8632 27.0284 58.5812 27.3422C58.5175 27.4127 58.4587 27.4799 58.4016 27.5453C57.8478 28.1798 57.596 28.4684 55.8186 28.4684H52.2135C52.0305 28.4701 51.8828 28.6178 51.8828 28.8008C51.8828 29.5392 51.8828 30.939 51.8828 31.6657C51.8828 31.8504 52.0322 31.9981 52.2168 31.9981H57.1747C58.9135 31.9964 59.6822 31.3905 61.2801 29.791C61.3321 29.744 62.7084 28.4802 63.2857 26.8035L63.9453 24.8834L69.9758 7.25035C70.0362 7.0758 69.9069 6.89453 69.7223 6.89453C68.8747 6.89453 66.8389 6.89453 66.2128 6.89453L66.2162 6.89789Z\" fill=\"currentColor\"></path>\n<path d=\"M26.7771 6.54688C24.0548 6.54688 21.8896 7.41963 20.3439 9.13829C18.9491 10.6908 18.3281 12.8056 18.3281 15.9911V18.7688C18.3281 20.0293 18.7444 21.1102 19.5315 21.899L21.3928 23.7603C22.2236 24.5911 23.3482 25.0561 24.523 25.0561H33.9169C34.1015 25.0561 34.2526 24.905 34.2526 24.7204V21.8638C34.2526 21.6792 34.1015 21.5281 33.9169 21.5281H25.7231C25.0198 21.5281 24.3602 21.2763 23.8701 20.8215L23.0863 20.036C22.4804 19.4301 22.1179 18.6933 22.1179 18.0673V17.6091C22.1179 17.5067 22.2169 17.4496 22.2857 17.4496L34.5564 17.4597C34.8719 17.4597 35.127 17.2046 35.127 16.8891V15.3819C35.127 12.7921 34.4322 10.7495 33.0022 9.13997C31.391 7.34578 29.4709 6.54688 26.7804 6.54688H26.7771ZM23.2458 11.6659C24.0195 10.6841 25.374 10.0748 26.7771 10.0748C28.2507 10.0748 29.5649 10.6186 30.2933 11.53C30.9177 12.3104 31.2785 13.1966 31.3423 14.1013C31.349 14.1969 31.2701 14.2775 31.1744 14.2775H22.3042C22.2018 14.2775 22.1263 14.1869 22.138 14.0862C22.2287 13.3292 22.6332 12.4413 23.2458 11.6643V11.6659Z\" fill=\"currentColor\"></path>\n<path d=\"M8.96375 21.5529H9.11144C9.17858 21.5529 9.24572 21.5076 9.27089 21.4187L13.6884 7.139C13.732 6.99801 13.8613 6.90234 14.009 6.90234H17.4832C17.6645 6.90234 17.7937 7.07857 17.74 7.25145L12.2164 24.71C12.151 24.9399 11.9714 25.0792 11.7398 25.0792H6.01315C5.78154 25.0792 5.60195 24.9399 5.53649 24.71L0.0129433 7.25313C-0.0424432 7.08025 0.0867921 6.90402 0.269736 6.90402H3.74398C3.89168 6.90402 4.02092 6.99969 4.06455 7.14067L8.48205 21.4203C8.50723 21.5093 8.57436 21.5546 8.6415 21.5546H8.96543L8.96375 21.5529Z\" fill=\"currentColor\"></path>\n</svg>",
+  "box": [
+   42,
+   40,
+   95,
+   32
+  ],
+  "file": "logo.svg"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "image",
+   "w": 1440,
+   "h": 518,
+   "y": -2,
+   "alt": "",
+   "file": "ui/image_00.png"
+  },
+  {
+   "i": 1,
+   "kind": "image",
+   "w": 1440,
+   "h": 900,
+   "y": 1618,
+   "alt": "",
+   "file": "ui/image_01.png"
+  },
+  {
+   "i": 2,
+   "kind": "image",
+   "w": 1440,
+   "h": 900,
+   "y": 9211,
+   "alt": "",
+   "file": "ui/image_02.png"
+  },
+  {
+   "i": 3,
+   "kind": "image",
+   "w": 392,
+   "h": 392,
+   "y": 9465,
+   "alt": "AI Document Tools Are a Prompt Injection Target",
+   "file": "ui/image_03.png"
+  },
+  {
+   "i": 4,
+   "kind": "image",
+   "w": 392,
+   "h": 392,
+   "y": 9465,
+   "alt": "Best AP Automation Software: Which One Fits Your Business in 2026?",
+   "file": "ui/image_04.png"
+  },
+  {
+   "i": 5,
+   "kind": "image",
+   "w": 1440,
+   "h": 1679,
+   "y": 10508,
+   "alt": "",
+   "file": "ui/image_05.png"
+  },
+  {
+   "i": 6,
+   "kind": "card",
+   "w": 268,
+   "h": 566,
+   "y": 3641,
+   "alt": "BLUE BOTTLE TOTAL 13.72 INVOICE #4471 DUE 1,248.00 BART SIMPSON ⑆021000021⑆ 031923284 9:41",
+   "file": "ui/card_06.png"
+  },
+  {
+   "i": 7,
+   "kind": "card",
+   "w": 252,
+   "h": 550,
+   "y": 3649,
+   "alt": "BLUE BOTTLE TOTAL 13.72 INVOICE #4471 DUE 1,248.00 BART SIMPSON ⑆021000021⑆ 031923284 9:41",
+   "file": "ui/card_07.png"
+  },
+  {
+   "i": 8,
+   "kind": "card",
+   "w": 428,
+   "h": 460,
+   "y": 3678,
+   "alt": "POST /api/v8/partner/parse 200 Acme Supply Co. LOGO Item Qty Amount Thermal paper 12 54.00",
+   "file": "ui/card_08.png"
+  },
+  {
+   "i": 9,
+   "kind": "card",
+   "w": 360,
+   "h": 281,
+   "y": 4247,
+   "alt": "POST /api/v8/partner/documents 200 { \"vendor\": { \"name\": \"Whole Foods Market\" }, \"date\": \"",
+   "file": "ui/card_09.png"
+  },
+  {
+   "i": 12,
+   "kind": "card",
+   "w": 503,
+   "h": 196,
+   "y": 5104,
+   "alt": "Easy to Use RESTful APIs from veryfi import Client my_client = Client (). config_receipt (",
+   "file": "ui/card_12.png"
+  },
+  {
+   "i": 13,
+   "kind": "card",
+   "w": 503,
+   "h": 220,
+   "y": 5324,
+   "alt": "Mobile Capture Framework $ node server.js && veryfi listen > Ready! Waiting for requests..",
+   "file": "ui/card_13.png"
+  },
+  {
+   "i": 14,
+   "kind": "card",
+   "w": 307,
+   "h": 198,
+   "y": 6461,
+   "alt": "SEE ALL CUSTOMER STORIES",
+   "file": "ui/card_14.png"
+  },
+  {
+   "i": 15,
+   "kind": "card",
+   "w": 303,
+   "h": 439,
+   "y": 6782,
+   "alt": "Veryfi’s technology has helped us be much more precise in recognizing purchases of our pro",
+   "file": "ui/card_15.png"
+  },
+  {
+   "i": 16,
+   "kind": "card",
+   "w": 303,
+   "h": 439,
+   "y": 6782,
+   "alt": "A strategic partnership with a company like Veryfi and its extraction technology has expon",
+   "file": "ui/card_16.png"
+  },
+  {
+   "i": 17,
+   "kind": "card",
+   "w": 303,
+   "h": 439,
+   "y": 6782,
+   "alt": "Trust sits at the heart of every ShopBack experience. Our mission is to make every purchas",
+   "file": "ui/card_17.png"
+  },
+  {
+   "i": 18,
+   "kind": "card",
+   "w": 303,
+   "h": 400,
+   "y": 7332,
+   "alt": "Our cashback rebate solution requires speed as part of the product. A shopper who uploads ",
+   "file": "ui/card_18.png"
+  },
+  {
+   "i": 19,
+   "kind": "card",
+   "w": 303,
+   "h": 400,
+   "y": 7332,
+   "alt": "Veryfi is so fast and reliable, it means we can validate competition entries almost on the",
+   "file": "ui/card_19.png"
+  },
+  {
+   "i": 20,
+   "kind": "card",
+   "w": 303,
+   "h": 400,
+   "y": 7332,
+   "alt": "Using Veryfi’s technology allowed us to increase the number of participating users, as wel",
+   "file": "ui/card_20.png"
+  },
+  {
+   "i": 21,
+   "kind": "card",
+   "w": 303,
+   "h": 337,
+   "y": 7843,
+   "alt": "The big advantage for you guys, is you link with Gmail or Outlook. Other suppliers we have",
+   "file": "ui/card_21.png"
+  },
+  {
+   "i": 22,
+   "kind": "card",
+   "w": 303,
+   "h": 337,
+   "y": 7843,
+   "alt": "Without Veryfi, we cannot ever imagine achieving the level of user acquisition and retenti",
+   "file": "ui/card_22.png"
+  },
+  {
+   "i": 23,
+   "kind": "card",
+   "w": 303,
+   "h": 337,
+   "y": 7843,
+   "alt": "Together with Veryfi’s technology and ours, we made something truly amazing. READ STORY AB",
+   "file": "ui/card_23.png"
+  },
+  {
+   "i": 24,
+   "kind": "card",
+   "w": 327,
+   "h": 261,
+   "y": 8674,
+   "alt": "Certified seal",
+   "file": "ui/card_24.png"
+  }
+ ],
+ "fontFiles": []
+}

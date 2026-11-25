@@ -1,0 +1,829 @@
+{
+ "url": "https://docsalot.dev/",
+ "title": "Fast, AI-Readable Docs-as-Code Platform | DocsAlot",
+ "description": "Publish beautiful, fast, Git-backed documentation for people and AI agents, with clean Markdown, llms.txt, skills, and hosted MCP included.",
+ "ogImage": "https://docsalot.dev/docsalot-docs.png",
+ "themeColor": null,
+ "favicon": "https://docsalot.dev/icon.svg?23e9896df1363fda",
+ "colors": {
+  "backgrounds": [
+   [
+    "#ffffff",
+    11396148.025634766
+   ],
+   [
+    "#f3f5f9",
+    1035028.125
+   ],
+   [
+    "#f5f7fb",
+    214374.75
+   ],
+   [
+    "#0d1117",
+    128757.234375
+   ],
+   [
+    "#111110",
+    8819.78125
+   ],
+   [
+    "#0f172a",
+    776.1881762742996
+   ],
+   [
+    "#da552f",
+    324
+   ],
+   [
+    "#ff5f56",
+    121
+   ],
+   [
+    "#ffbd2e",
+    121
+   ],
+   [
+    "#27c93f",
+    121
+   ]
+  ],
+  "text": [
+   [
+    "#263248",
+    5212
+   ],
+   [
+    "#657286",
+    4923
+   ],
+   [
+    "#0f172a",
+    1629
+   ],
+   [
+    "#f8fbff",
+    165
+   ],
+   [
+    "#f2f5fa",
+    117
+   ],
+   [
+    "#ffffff",
+    72
+   ],
+   [
+    "#8994a5",
+    62
+   ],
+   [
+    "#88adfa",
+    28
+   ]
+  ],
+  "buttons": [
+   [
+    "#ffffff",
+    1
+   ]
+  ],
+  "accents": [
+   "#263248",
+   "#0f172a",
+   "#88adfa",
+   "#da552f",
+   "#ff5f56",
+   "#ffbd2e",
+   "#27c93f"
+  ],
+  "gradients": [
+   "radial-gradient(circle at 12% 0px, oklab(0.44 -0.0295202 -0.167417 / 0.09) 0px, oklab(0.44 -0.0295202 -0.167417 / 0.09) 24%, rgba(0, 0, 0, 0) 48%), linear-gradient(oklab(0.999509 0.0000346047 -0.0000941944), rgb(255, 255, 255))",
+   "repeating-linear-gradient(315deg, rgb(234, 237, 241) 0px, rgb(234, 237, 241) 1px, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 50%)",
+   "radial-gradient(circle, rgba(15, 23, 42, 0.07) 0px, rgba(0, 0, 0, 0) 32%), radial-gradient(circle, rgba(15, 23, 42, 0.043) 0px, rgba(0, 0, 0, 0) 48%), radial-gradient(oklab(0.843963 -0.00712877 -0.0383283) 1px, rgba(0, 0, 0, 0) 1px)",
+   "radial-gradient(circle at 82% 14%, oklab(0.44 -0.0295202 -0.167417 / 0.09), rgba(0, 0, 0, 0) 34%), linear-gradient(oklab(0.981567 -0.000371029 -0.0043226), oklab(0.985931 -0.000272362 -0.00329407))",
+   "radial-gradient(circle at 70% 0px, oklab(0.44 -0.0295202 -0.167417 / 0.1), rgba(0, 0, 0, 0) 36%), none",
+   "radial-gradient(oklab(0.944954 -0.00153092 -0.00605607 / 0.85) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(oklab(0.989811 -0.000184657 -0.00237982), rgb(255, 255, 255))"
+  ]
+ },
+ "fonts": [
+  {
+   "family": "Geist",
+   "weights": [
+    "400",
+    "500",
+    "600",
+    "700"
+   ],
+   "largestSize": 48,
+   "sample": "Beautiful docs. Fast pages.Clean context for agents.",
+   "tracking": "-1.44px",
+   "transform": "none"
+  },
+  {
+   "family": "JetBrains Mono",
+   "weights": [
+    "400",
+    "500",
+    "700"
+   ],
+   "largestSize": 14,
+   "sample": "Custom Enterprise",
+   "tracking": "1.68px",
+   "transform": "uppercase"
+  }
+ ],
+ "fontFaces": [],
+ "radius": [
+  [
+   "10px",
+   32
+  ],
+  [
+   "3px",
+   21
+  ],
+  [
+   "20px",
+   7
+  ],
+  [
+   "999px",
+   4
+  ],
+  [
+   "7px",
+   2
+  ],
+  [
+   "6px",
+   2
+  ]
+ ],
+ "shadows": [
+  "rgba(15, 23, 42, 0.44) 0px 18px 42px -34px",
+  "oklab(0.44 -0.0295202 -0.167417 / 0.12) 0px 0px 0px 4px",
+  "rgb(255, 255, 255) 0px 0px 0px 4px",
+  "rgba(17, 17, 16, 0.3) 0px 24px 48px -34px"
+ ],
+ "buttons": [
+  {
+   "text": "SKIP TO MAIN CONTENT",
+   "bg": "#ffffff",
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #0f172a",
+   "font": "400 11.5px",
+   "y": -53,
+   "w": 177,
+   "h": 40
+  },
+  {
+   "text": "Create your docs →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 12.5px",
+   "y": 10,
+   "w": 142,
+   "h": 33
+  },
+  {
+   "text": "Create your docs →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 12.5px",
+   "y": 35,
+   "w": 142,
+   "h": 33
+  },
+  {
+   "text": "Create your docs →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 386,
+   "w": 157,
+   "h": 42
+  },
+  {
+   "text": "Visit customer docs ↗",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 385,
+   "w": 173,
+   "h": 44
+  },
+  {
+   "text": "C",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "O",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "A",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "E",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "O",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "Ara",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "A",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "H",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "Ara",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "0px",
+   "border": null,
+   "font": "400 14px",
+   "y": 1583,
+   "w": 176,
+   "h": 58
+  },
+  {
+   "text": "Follow onboarding ->",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 1949,
+   "w": 166,
+   "h": 42
+  },
+  {
+   "text": "Read CLI docs",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 1949,
+   "w": 120,
+   "h": 42
+  },
+  {
+   "text": "Explore the leaderboard →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 4096,
+   "w": 199,
+   "h": 42
+  },
+  {
+   "text": "Score one docs site",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 4096,
+   "w": 152,
+   "h": 42
+  },
+  {
+   "text": "Start with Startup",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 5534,
+   "w": 254,
+   "h": 42
+  },
+  {
+   "text": "Start with Team →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 5534,
+   "w": 253,
+   "h": 42
+  },
+  {
+   "text": "Discuss Business",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 5534,
+   "w": 253,
+   "h": 42
+  },
+  {
+   "text": "Discuss Scale",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 5534,
+   "w": 253,
+   "h": 42
+  },
+  {
+   "text": "Discuss your requirements →",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 6443,
+   "w": 356,
+   "h": 42
+  },
+  {
+   "text": "Connect your docs →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 8029,
+   "w": 167,
+   "h": 42
+  },
+  {
+   "text": "Run an AI audit",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 8029,
+   "w": 124,
+   "h": 42
+  },
+  {
+   "text": "Read docs →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 8394,
+   "w": 118,
+   "h": 42
+  },
+  {
+   "text": "Request audit",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 8394,
+   "w": 118,
+   "h": 42
+  },
+  {
+   "text": "Request AI audit →",
+   "bg": null,
+   "image": null,
+   "color": "#f8fbff",
+   "radius": "3px",
+   "border": "1px solid currentColor",
+   "font": "500 13px",
+   "y": 9244,
+   "w": 161,
+   "h": 46
+  },
+  {
+   "text": "Book a demo",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 9244,
+   "w": 121,
+   "h": 46
+  },
+  {
+   "text": "Create your docs",
+   "bg": null,
+   "image": null,
+   "color": "#0f172a",
+   "radius": "3px",
+   "border": "1px solid #eaedf1",
+   "font": "500 13px",
+   "y": 9244,
+   "w": 144,
+   "h": 46
+  },
+  {
+   "text": "Docs benchmark",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9548,
+   "w": 100,
+   "h": 31
+  },
+  {
+   "text": "Changelog",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9610,
+   "w": 64,
+   "h": 31
+  },
+  {
+   "text": "Terms of Service",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9641,
+   "w": 98,
+   "h": 31
+  },
+  {
+   "text": "Privacy Policy",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9672,
+   "w": 82,
+   "h": 31
+  },
+  {
+   "text": "Community",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9518,
+   "w": 68,
+   "h": 31
+  },
+  {
+   "text": "Help Center",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9579,
+   "w": 71,
+   "h": 31
+  },
+  {
+   "text": "docsalot-cli",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9641,
+   "w": 69,
+   "h": 31
+  },
+  {
+   "text": "Components we support",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9672,
+   "w": 145,
+   "h": 31
+  },
+  {
+   "text": "DocsAlot affiliate programme",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9702,
+   "w": 172,
+   "h": 31
+  },
+  {
+   "text": "Changelog",
+   "bg": null,
+   "image": null,
+   "color": "#263248",
+   "radius": "0px",
+   "border": null,
+   "font": "400 13px",
+   "y": 9733,
+   "w": 64,
+   "h": 31
+  }
+ ],
+ "copy": {
+  "h1": [
+   "Beautiful docs. Fast pages. Clean context for agents."
+  ],
+  "h2": [
+   "DOCUMENTATIONS WE LOVE",
+   "Start with your repo. Let your agent do the setup.",
+   "Integrates with the docs stack agents already inspect.",
+   "Built for polished docs and AI-visible answers.",
+   "Publish the surfaces humans and agents already look for.",
+   "Simple pricing for docs that maintain themselves.",
+   "See how DocsAlot would work with your documentation.",
+   "Keep docs current across the places your team already works.",
+   "Frequently asked questions",
+   "Your docs are already being read by agents. Make sure they read the right version."
+  ],
+  "h3": [
+   "Good-looking docs. Technically credible.",
+   "Every answer. Every source. Auditable.",
+   "From scattered docs to cited answers.",
+   "Good-looking docs",
+   "Agent-readable exports",
+   "Audit-ready proof",
+   "Hosted Docs",
+   "API Reference",
+   "llms.txt",
+   "skill.md",
+   "Hosted MCP",
+   "AI Visibility Audit",
+   "Startup",
+   "Team",
+   "Business",
+   "Scale",
+   "Your requirements. A scoped agreement."
+  ],
+  "nav": [
+   "Pricing",
+   "AI Audit",
+   "Blog",
+   "Tools",
+   "SIGN IN",
+   "Create your docs →",
+   "Pricing",
+   "AI Audit",
+   "Blog",
+   "Tools",
+   "SIGN IN",
+   "Create your docs →"
+  ],
+  "eyebrow": [
+   "QUALITY ANALYZED",
+   "MOST TEAMS",
+   "CUSTOM ENTERPRISE"
+  ],
+  "stats": []
+ },
+ "logo": {
+  "src": "https://docsalot.dev/docsalot-logo.svg",
+  "box": [
+   147,
+   11,
+   138,
+   29
+  ],
+  "file": "logo.png",
+  "note": "screenshot crop: check it"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "image",
+   "w": 1020,
+   "h": 898,
+   "y": 568,
+   "alt": "DocsAlot hosted documentation page preview",
+   "file": "ui/image_00.png"
+  },
+  {
+   "i": 1,
+   "kind": "card",
+   "w": 536,
+   "h": 261,
+   "y": 1743,
+   "alt": "Agent prompt CLI Web editor Copy prompt PASTE INTO YOUR CODING AGENT Install docsalot-cli,",
+   "file": "ui/card_01.png"
+  },
+  {
+   "i": 2,
+   "kind": "card",
+   "w": 522,
+   "h": 247,
+   "y": 1750,
+   "alt": "Agent prompt CLI Web editor Copy prompt PASTE INTO YOUR CODING AGENT Install docsalot-cli,",
+   "file": "ui/card_02.png"
+  },
+  {
+   "i": 3,
+   "kind": "card",
+   "w": 282,
+   "h": 197,
+   "y": 2447,
+   "alt": "Source Type Status GitHub docs MDX SYNCED Help center HTML MAPPED API reference OPENAPI PA",
+   "file": "ui/card_03.png"
+  },
+  {
+   "i": 4,
+   "kind": "card",
+   "w": 390,
+   "h": 216,
+   "y": 3116,
+   "alt": "DocsAlot QUALITY ANALYZED ✓ Structure Stable navigation ✓ Examples Runnable and current ✓ ",
+   "file": "ui/card_04.png"
+  },
+  {
+   "i": 5,
+   "kind": "card",
+   "w": 359,
+   "h": 232,
+   "y": 4437,
+   "alt": "HUMAN Hosted Docs A polished docs site for quickstarts, guides, API references, and suppor",
+   "file": "ui/card_05.png"
+  },
+  {
+   "i": 6,
+   "kind": "card",
+   "w": 359,
+   "h": 232,
+   "y": 4437,
+   "alt": "DEVELOPER API Reference OpenAPI, auth, SDK notes, runnable snippets, and examples packaged",
+   "file": "ui/card_06.png"
+  },
+  {
+   "i": 7,
+   "kind": "card",
+   "w": 359,
+   "h": 232,
+   "y": 4437,
+   "alt": "AGENT MAP llms.txt A compact routing file that tells ChatGPT, Claude, Cursor, and other ag",
+   "file": "ui/card_07.png"
+  },
+  {
+   "i": 8,
+   "kind": "card",
+   "w": 359,
+   "h": 232,
+   "y": 4709,
+   "alt": "AGENT SKILL skill.md A packaged operating guide agents can load with tasks, examples, prod",
+   "file": "ui/card_08.png"
+  },
+  {
+   "i": 9,
+   "kind": "card",
+   "w": 359,
+   "h": 232,
+   "y": 4709,
+   "alt": "TOOLING Hosted MCP Search, page fetch, and runnable example tools exposed without your tea",
+   "file": "ui/card_09.png"
+  },
+  {
+   "i": 10,
+   "kind": "card",
+   "w": 359,
+   "h": 232,
+   "y": 4709,
+   "alt": "PROOF AI Visibility Audit See which docs agents can cite, where answers drift, and what to",
+   "file": "ui/card_10.png"
+  },
+  {
+   "i": 11,
+   "kind": "card",
+   "w": 581,
+   "h": 322,
+   "y": 7776,
+   "alt": "DocsAlot source integrations",
+   "file": "ui/card_11.png"
+  }
+ ],
+ "fontFiles": []
+}

@@ -1,0 +1,854 @@
+{
+ "url": "https://supacheap.eu/en/",
+ "title": "Delete your data from the internet | Supacheap.eu",
+ "description": "Delete your data from the internet. Safely from 500+ data broker networks. GDPR compliant & with a money-back guarantee. Try it now!",
+ "ogImage": null,
+ "themeColor": "#1d4ed8",
+ "favicon": "https://supacheap.eu/static/images/favicon.svg?v=1783340699",
+ "colors": {
+  "backgrounds": [
+   [
+    "#0f172a",
+    1629720
+   ],
+   [
+    "#111827",
+    406885
+   ],
+   [
+    "#1e293b",
+    397074.11083984375
+   ],
+   [
+    "#1f2937",
+    53896.52734375
+   ],
+   [
+    "#f59e0b",
+    41883.224609375
+   ],
+   [
+    "#064e3b",
+    17027.0927734375
+   ],
+   [
+    "#fef08a",
+    15525.439453125
+   ],
+   [
+    "#3730a3",
+    7091.734375
+   ],
+   [
+    "#10b981",
+    100
+   ]
+  ],
+  "text": [
+   [
+    "#f3f4f6",
+    4350
+   ],
+   [
+    "#cbd5e1",
+    1233
+   ],
+   [
+    "#ffffff",
+    1040
+   ],
+   [
+    "#d1d5db",
+    620
+   ],
+   [
+    "#f1f5f9",
+    529
+   ],
+   [
+    "#f59e0b",
+    395
+   ],
+   [
+    "#9ca3af",
+    386
+   ],
+   [
+    "#e5e7eb",
+    289
+   ]
+  ],
+  "buttons": [
+   [
+    "#3730a3",
+    1
+   ],
+   [
+    "#064e3b",
+    1
+   ],
+   [
+    "#fef08a",
+    1
+   ]
+  ],
+  "accents": [
+   "#3730a3",
+   "#064e3b",
+   "#fef08a",
+   "#f59e0b",
+   "#0f172a",
+   "#111827",
+   "#1e293b",
+   "#1f2937"
+  ],
+  "gradients": [
+   "linear-gradient(135deg, rgb(199, 210, 254) 0%, rgb(216, 180, 254) 100%)",
+   "linear-gradient(135deg, rgb(30, 64, 175) 0%, rgb(6, 95, 70) 100%)",
+   "linear-gradient(135deg, rgb(67, 56, 202) 0%, rgb(91, 33, 182) 100%)"
+  ]
+ },
+ "fonts": [
+  {
+   "family": "Inter",
+   "weights": [
+    "400",
+    "700",
+    "600",
+    "900",
+    "800"
+   ],
+   "largestSize": 72,
+   "sample": "The most affordable way to delete data from the internet",
+   "tracking": "normal",
+   "transform": "none"
+  },
+  {
+   "family": "sans-serif",
+   "weights": [
+    "400",
+    "500",
+    "700"
+   ],
+   "largestSize": 14.4,
+   "sample": "4.9 / 5 Customer Satisfaction",
+   "tracking": "normal",
+   "transform": "none"
+  },
+  {
+   "family": "-apple-system",
+   "weights": [
+    "500"
+   ],
+   "largestSize": 13.6,
+   "sample": "Data records deleted by customers today",
+   "tracking": "0.68px",
+   "transform": "uppercase"
+  },
+  {
+   "family": "Arial",
+   "weights": [
+    "700"
+   ],
+   "largestSize": 17.6,
+   "sample": "Initialize Terminal",
+   "tracking": "0.5px",
+   "transform": "uppercase"
+  },
+  {
+   "family": "monospace",
+   "weights": [
+    "700"
+   ],
+   "largestSize": 40,
+   "sample": "36,885",
+   "tracking": "normal",
+   "transform": "none"
+  }
+ ],
+ "fontFaces": [],
+ "radius": [
+  [
+   "4px",
+   32
+  ],
+  [
+   "8px",
+   22
+  ],
+  [
+   "6px",
+   5
+  ],
+  [
+   "12px",
+   5
+  ],
+  [
+   "16px",
+   4
+  ],
+  [
+   "0px 8px 8px 0px",
+   2
+  ]
+ ],
+ "shadows": [
+  "rgba(0, 0, 0, 0.2) 0px 2px 6px 0px",
+  "rgba(0, 0, 0, 0.5) 0px 10px 30px 0px",
+  "rgba(0, 86, 179, 0.455) 0px 4px 20.0923px 0px",
+  "rgba(0, 0, 0, 0.3) 0px 30px 60px -12px"
+ ],
+ "buttons": [
+  {
+   "text": "Skip to main content",
+   "bg": "#3730a3",
+   "image": null,
+   "color": "#ffffff",
+   "radius": "4px",
+   "border": null,
+   "font": "400 16px",
+   "y": -40,
+   "w": 171,
+   "h": 42
+  },
+  {
+   "text": "Supacheap.eu",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "0px",
+   "border": null,
+   "font": "700 20px",
+   "y": 42,
+   "w": 178,
+   "h": 32
+  },
+  {
+   "text": "Home",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 12,
+   "w": 67,
+   "h": 44
+  },
+  {
+   "text": "About Us",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 12,
+   "w": 91,
+   "h": 44
+  },
+  {
+   "text": "Analysis check",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 12,
+   "w": 134,
+   "h": 44
+  },
+  {
+   "text": "Prices",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 12,
+   "w": 70,
+   "h": 44
+  },
+  {
+   "text": "Free test",
+   "bg": null,
+   "image": null,
+   "color": "#4ade80",
+   "radius": "8px",
+   "border": null,
+   "font": "700 15.2px",
+   "y": 12,
+   "w": 89,
+   "h": 44
+  },
+  {
+   "text": "Features",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 12,
+   "w": 87,
+   "h": 44
+  },
+  {
+   "text": "Security",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 12,
+   "w": 85,
+   "h": 44
+  },
+  {
+   "text": "Support",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 60,
+   "w": 82,
+   "h": 44
+  },
+  {
+   "text": "Fiat donation",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 60,
+   "w": 118,
+   "h": 44
+  },
+  {
+   "text": "Crypto donation",
+   "bg": null,
+   "image": null,
+   "color": "#cbd5e1",
+   "radius": "8px",
+   "border": null,
+   "font": "500 15.2px",
+   "y": 60,
+   "w": 141,
+   "h": 44
+  },
+  {
+   "text": "🇬🇧 EN",
+   "bg": null,
+   "image": null,
+   "color": "#ffffff",
+   "radius": "8px",
+   "border": "1px solid currentColor",
+   "font": "400 15.2px",
+   "y": 40,
+   "w": 90,
+   "h": 37
+  },
+  {
+   "text": "Try for free: top 5 brokers free",
+   "bg": "#064e3b",
+   "image": null,
+   "color": "#4ade80",
+   "radius": "12px",
+   "border": "2px solid #4ade80",
+   "font": "800 16.8px",
+   "y": 595,
+   "w": 302,
+   "h": 56
+  },
+  {
+   "text": "ERASE TRACKS NOW",
+   "bg": null,
+   "image": "linear-gradient(135deg, rgb(67, 56, 202) 0%, rgb(91, 33, 182) 100%)",
+   "color": "#ffffff",
+   "radius": "12px",
+   "border": null,
+   "font": "700 17.6px",
+   "y": 4497,
+   "w": 306,
+   "h": 79
+  },
+  {
+   "text": "Start the Digital Privacy Check",
+   "bg": "#fef08a",
+   "image": null,
+   "color": "#0f172a",
+   "radius": "6px",
+   "border": "2px solid #eab308",
+   "font": "700 16px",
+   "y": 4679,
+   "w": 290,
+   "h": 54
+  },
+  {
+   "text": "INITIALIZE TERMINAL",
+   "bg": null,
+   "image": "linear-gradient(135deg, rgb(67, 56, 202) 0%, rgb(91, 33, 182) 100%)",
+   "color": "#ffffff",
+   "radius": "12px",
+   "border": null,
+   "font": "700 17.6px",
+   "y": 5132,
+   "w": 265,
+   "h": 61
+  },
+  {
+   "text": "Security Team",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 5911,
+   "w": 85,
+   "h": 44
+  },
+  {
+   "text": "Vulnerability Log",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 5963,
+   "w": 99,
+   "h": 44
+  },
+  {
+   "text": "Incident Management",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6015,
+   "w": 128,
+   "h": 44
+  },
+  {
+   "text": "Infrastructure",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6067,
+   "w": 80,
+   "h": 44
+  },
+  {
+   "text": "API Documentation",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 5911,
+   "w": 113,
+   "h": 44
+  },
+  {
+   "text": "Developer Guides",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 5963,
+   "w": 105,
+   "h": 44
+  },
+  {
+   "text": "Postman Collections",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6015,
+   "w": 121,
+   "h": 44
+  },
+  {
+   "text": "OpenAPI 3.1",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6067,
+   "w": 70,
+   "h": 44
+  },
+  {
+   "text": "Data Erasure",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 5911,
+   "w": 76,
+   "h": 44
+  },
+  {
+   "text": "Data Broker Catalog ( 544 )",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 5963,
+   "w": 155,
+   "h": 44
+  },
+  {
+   "text": "Privacy Monitoring",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6015,
+   "w": 111,
+   "h": 44
+  },
+  {
+   "text": "GDPR Compliance",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6067,
+   "w": 108,
+   "h": 44
+  },
+  {
+   "text": "API Integration",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6119,
+   "w": 87,
+   "h": 44
+  },
+  {
+   "text": "Quickstart",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6015,
+   "w": 61,
+   "h": 44
+  },
+  {
+   "text": "Port Troubleshooting",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6236,
+   "w": 124,
+   "h": 44
+  },
+  {
+   "text": "API Sandbox",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6288,
+   "w": 75,
+   "h": 44
+  },
+  {
+   "text": "Encryption",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6340,
+   "w": 64,
+   "h": 44
+  },
+  {
+   "text": "Community",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6392,
+   "w": 68,
+   "h": 44
+  },
+  {
+   "text": "API Debug Tool 1",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6236,
+   "w": 100,
+   "h": 44
+  },
+  {
+   "text": "API Debug Tool 2",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6288,
+   "w": 102,
+   "h": 44
+  },
+  {
+   "text": "API Debug Tool 3",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6340,
+   "w": 102,
+   "h": 44
+  },
+  {
+   "text": "API Debug Tool 4",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6392,
+   "w": 103,
+   "h": 44
+  },
+  {
+   "text": "Webhooks",
+   "bg": null,
+   "image": null,
+   "color": "#f1f5f9",
+   "radius": "4px",
+   "border": null,
+   "font": "400 12.5px",
+   "y": 6392,
+   "w": 62,
+   "h": 44
+  }
+ ],
+ "copy": {
+  "h1": [
+   "The most affordable way to delete data from the internet"
+  ],
+  "h2": [
+   "B2C vs. B2B: Why is there a price difference for data deletion?",
+   "API KEYS"
+  ],
+  "h3": [
+   "1. What does B2C (Business-to-Consumer) mean?",
+   "2. What does B2B (Business-to-Business) mean?",
+   "3. Why is the stated B2B price higher?",
+   "🔄 The Core Feature: Monthly Rotation",
+   "⚖️ Legal Safety and GDPR Compliance",
+   "Can I purchase the B2B product as a private individual?",
+   "544 Data Brokers",
+   "GDPR Compliant",
+   "AI Automation",
+   "Maximum Security",
+   "SUPACHEAP.EU"
+  ],
+  "nav": [
+   "Home",
+   "About Us",
+   "Analysis check",
+   "Prices",
+   "Free test",
+   "Features",
+   "Security",
+   "FAQ",
+   "Support",
+   "Fiat donation",
+   "Crypto donation"
+  ],
+  "eyebrow": [
+   "SSL Encrypted",
+   "Hosted in Germany"
+  ],
+  "stats": [
+   {
+    "value": "100%",
+    "context": "rokers free 544 Data Brokers in check: Delete your data safely and completely worldwide. 100% GDPR compliant: Irreversible, complete with law-firm-level enforcement power – convenient on the go with your"
+   },
+   {
+    "value": "2B",
+    "context": "ols via REST API. This is how you fulfill your digital duty of care. Go to API → B2C vs. B2B: Why is there a price difference for data deletion? We have received many questions regarding our plans. At"
+   }
+  ]
+ },
+ "logo": {
+  "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path></svg>",
+  "box": [
+   36,
+   46,
+   24,
+   24
+  ],
+  "file": "logo.svg"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "card",
+   "w": 760,
+   "h": 348,
+   "y": 1306,
+   "alt": "1. What does B2C (Business-to-Consumer) mean? This plan is designed for you as a private i",
+   "file": "ui/card_00.png"
+  },
+  {
+   "i": 1,
+   "kind": "card",
+   "w": 760,
+   "h": 535,
+   "y": 1693,
+   "alt": "🚨 DIGITAL PANIC BUTTON Acute Emergency? Instant Protection for Individuals There are situ",
+   "file": "ui/card_01.png"
+  },
+  {
+   "i": 2,
+   "kind": "card",
+   "w": 760,
+   "h": 541,
+   "y": 2264,
+   "alt": "2. What does B2B (Business-to-Business) mean? This is a contract concluded between two com",
+   "file": "ui/card_02.png"
+  },
+  {
+   "i": 3,
+   "kind": "card",
+   "w": 760,
+   "h": 415,
+   "y": 2844,
+   "alt": "3. Why is the stated B2B price higher? Companies utilize this service to fulfill their cor",
+   "file": "ui/card_03.png"
+  },
+  {
+   "i": 4,
+   "kind": "card",
+   "w": 760,
+   "h": 230,
+   "y": 3299,
+   "alt": "🔄 The Core Feature: Monthly Rotation The internet never sleeps, and data brokers often ad",
+   "file": "ui/card_04.png"
+  },
+  {
+   "i": 5,
+   "kind": "card",
+   "w": 760,
+   "h": 296,
+   "y": 3569,
+   "alt": "⚖️ Legal Safety and GDPR Compliance We handle compliance upfront for both B2C and B2B plan",
+   "file": "ui/card_05.png"
+  },
+  {
+   "i": 6,
+   "kind": "card",
+   "w": 760,
+   "h": 271,
+   "y": 3905,
+   "alt": "Can I purchase the B2B product as a private individual? Yes, absolutely. We designed our p",
+   "file": "ui/card_06.png"
+  },
+  {
+   "i": 7,
+   "kind": "card",
+   "w": 422,
+   "h": 128,
+   "y": 4329,
+   "alt": "DATA RECORDS DELETED BY CUSTOMERS TODAY 36,885",
+   "file": "ui/card_07.png"
+  },
+  {
+   "i": 8,
+   "kind": "card",
+   "w": 310,
+   "h": 307,
+   "y": 5265,
+   "alt": "544 Data Brokers Rigorous deletion of your private data from all databases of over 544 dat",
+   "file": "ui/card_08.png"
+  },
+  {
+   "i": 9,
+   "kind": "card",
+   "w": 310,
+   "h": 307,
+   "y": 5265,
+   "alt": "GDPR Compliant Enforce your right to be forgotten with real financial leverage. If data br",
+   "file": "ui/card_09.png"
+  },
+  {
+   "i": 10,
+   "kind": "card",
+   "w": 310,
+   "h": 307,
+   "y": 5265,
+   "alt": "AI Automation Fully automated removal processes powered by our unique algorithm. No manual",
+   "file": "ui/card_10.png"
+  },
+  {
+   "i": 11,
+   "kind": "card",
+   "w": 310,
+   "h": 307,
+   "y": 5265,
+   "alt": "Maximum Security Encrypted transport, signed proof and hosting in Germany – 100% risk-free",
+   "file": "ui/card_11.png"
+  }
+ ],
+ "fontFiles": []
+}

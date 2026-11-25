@@ -1,0 +1,523 @@
+{
+ "url": "https://www.clocknext.com/",
+ "title": "Usage-based billing for AI agents | Clocknext",
+ "description": "Bill AI agents with credits, outcomes, and units in one plan. Change pricing without a deploy and see margin per customer, per agent, and per model.",
+ "ogImage": "https://cdn.prod.website-files.com/6a88381a8915da42648893b4/6ad1ab3ef8dc882b7f1d4e14_og-home.png",
+ "themeColor": null,
+ "favicon": "https://cdn.prod.website-files.com/6a88381a8915da42648893b4/6acb17564eddd072e9ff4ca3_Clocknext%20favicon.png",
+ "colors": {
+  "backgrounds": [
+   [
+    "#f2efe7",
+    9041872.5
+   ],
+   [
+    "#fbf9f2",
+    2091610.7808091044
+   ],
+   [
+    "#16150f",
+    1265425.1875
+   ],
+   [
+    "#f8f5ee",
+    172588.4228515625
+   ],
+   [
+    "#ffbd00",
+    10597.983154296875
+   ],
+   [
+    "#6b62b8",
+    8495.375
+   ],
+   [
+    "#3e7fa6",
+    6017.875
+   ],
+   [
+    "#5e8c4f",
+    4388.5
+   ],
+   [
+    "#c05b3e",
+    3741.3125
+   ],
+   [
+    "#efebe0",
+    1880
+   ]
+  ],
+  "text": [
+   [
+    "#5c594c",
+    3130
+   ],
+   [
+    "#16150f",
+    1272
+   ],
+   [
+    "#8a8371",
+    870
+   ],
+   [
+    "#d9d2c0",
+    157
+   ],
+   [
+    "#4a4738",
+    140
+   ],
+   [
+    "#c6c0af",
+    125
+   ],
+   [
+    "#f2efe7",
+    121
+   ],
+   [
+    "#a8a392",
+    72
+   ]
+  ],
+  "buttons": [
+   [
+    "#16150f",
+    3
+   ],
+   [
+    "#ffbd00",
+    1
+   ]
+  ],
+  "accents": [
+   "#ffbd00",
+   "#6b62b8",
+   "#3e7fa6",
+   "#5e8c4f",
+   "#c05b3e"
+  ],
+  "gradients": [
+   "linear-gradient(rgba(251, 249, 242, 0) 0%, rgba(251, 249, 242, 0.9) 60%, rgb(251, 249, 242) 100%)"
+  ]
+ },
+ "fonts": [
+  {
+   "family": "Inter",
+   "weights": [
+    "400",
+    "500",
+    "600"
+   ],
+   "largestSize": 26,
+   "sample": "$2,122.00",
+   "tracking": "-0.52px",
+   "transform": "none"
+  },
+  {
+   "family": "Petrona",
+   "weights": [
+    "400"
+   ],
+   "largestSize": 78,
+   "sample": "AI billing is complex.Let's make it simple again.",
+   "tracking": "-1.872px",
+   "transform": "none"
+  }
+ ],
+ "fontFaces": [
+  {
+   "family": "webflow-icons",
+   "weight": "normal",
+   "style": "normal",
+   "src": "data:application/x-font-ttf;charset=utf-8;base64,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"
+  }
+ ],
+ "radius": [
+  [
+   "5px",
+   16
+  ],
+  [
+   "6px",
+   7
+  ],
+  [
+   "14px",
+   6
+  ],
+  [
+   "99px",
+   6
+  ],
+  [
+   "16px",
+   3
+  ],
+  [
+   "8px 8px 0px 0px",
+   2
+  ]
+ ],
+ "shadows": [
+  "rgb(255, 189, 0) 0px -4px 0px 0px inset",
+  "rgba(0, 0, 0, 0.35) 0px 30px 60px 0px",
+  "rgba(22, 21, 15, 0.06) 0px 18px 40px 0px",
+  "rgba(22, 21, 15, 0.14) 0px 0px 0px 0.5px inset"
+ ],
+ "buttons": [
+  {
+   "text": "Get started",
+   "bg": null,
+   "image": null,
+   "color": "#16150f",
+   "radius": "5px",
+   "border": "1px solid #d9d2c0",
+   "font": "400 14px",
+   "y": 76,
+   "w": 120,
+   "h": 46
+  },
+  {
+   "text": "Book a demo",
+   "bg": "#16150f",
+   "image": null,
+   "color": "#f2efe7",
+   "radius": "5px",
+   "border": "1px solid currentColor",
+   "font": "400 14px",
+   "y": 76,
+   "w": 133,
+   "h": 46
+  },
+  {
+   "text": "Book a demo",
+   "bg": "#16150f",
+   "image": null,
+   "color": "#f2efe7",
+   "radius": "5px",
+   "border": "1px solid currentColor",
+   "font": "400 14px",
+   "y": 565,
+   "w": 133,
+   "h": 46
+  },
+  {
+   "text": "Get started for free",
+   "bg": null,
+   "image": null,
+   "color": "#16150f",
+   "radius": "5px",
+   "border": "1px solid #d9d2c0",
+   "font": "400 14px",
+   "y": 565,
+   "w": 173,
+   "h": 46
+  },
+  {
+   "text": "Book a demo",
+   "bg": "#ffbd00",
+   "image": null,
+   "color": "#412402",
+   "radius": "5px",
+   "border": "1px solid currentColor",
+   "font": "400 14px",
+   "y": 3150,
+   "w": 133,
+   "h": 46
+  },
+  {
+   "text": "Book a demo",
+   "bg": "#16150f",
+   "image": null,
+   "color": "#f2efe7",
+   "radius": "5px",
+   "border": "1px solid currentColor",
+   "font": "400 14px",
+   "y": 6826,
+   "w": 133,
+   "h": 46
+  }
+ ],
+ "copy": {
+  "h1": [
+   "AI billing is complex. Let's make it simple again."
+  ],
+  "h2": [
+   "Every token is easy to count. Turning it into revenue isn't.",
+   "Create your perfect pricing package",
+   "Go live with your bespoke AI pricing in hours",
+   "Prepaid, postpaid, or both at once.",
+   "Take complete control over your margins",
+   "Built for every team involved in monetization",
+   "Ready to get started?"
+  ],
+  "h3": [
+   "Build the pricing package",
+   "Deploy changes instantly",
+   "Optimize at every level",
+   "Credits",
+   "Outcomes",
+   "Units",
+   "Composites",
+   "Prepaid",
+   "Hybrid",
+   "Postpaid",
+   "Top-ups",
+   "Catch losses immediately",
+   "Reprice without a deploy",
+   "Product",
+   "Engineering",
+   "Revenue"
+  ],
+  "nav": [],
+  "eyebrow": [
+   "MONETIZATION INFRASTRUCTURE FOR AI AGENTS",
+   "MONETIZATION INFRASTRUCTURE FOR AI AGENTS"
+  ],
+  "stats": [
+   {
+    "value": "74.9%",
+    "context": "TERING REVENUE $182,835 PROVIDER COST $81,375 GPT 6.1 Sol Opus 5.5 Sonnet 5.5 Acme Inc. · 74.9% Fable 5.1 Sonnet 5.5 GPT 6.1 Sol Dunder Mifflin · 66.9% Opus 5.5 Fable 5.1 Sonnet 5.5 Skynet Inc. · 8.2% MARG"
+   },
+   {
+    "value": "66.9%",
+    "context": "l Opus 5.5 Sonnet 5.5 Acme Inc. · 74.9% Fable 5.1 Sonnet 5.5 GPT 6.1 Sol Dunder Mifflin · 66.9% Opus 5.5 Fable 5.1 Sonnet 5.5 Skynet Inc. · 8.2% MARGIN PROVIDER COST Trusted and loved by AI-native teams g"
+   },
+   {
+    "value": "8.2%",
+    "context": "Sonnet 5.5 GPT 6.1 Sol Dunder Mifflin · 66.9% Opus 5.5 Fable 5.1 Sonnet 5.5 Skynet Inc. · 8.2% MARGIN PROVIDER COST Trusted and loved by AI-native teams globally Every token is easy to count. Turning it"
+   },
+   {
+    "value": "$100K",
+    "context": "plans, connect signals, and test a pricing change, all in an afternoon's work. Free up to $100K USD in billed revenue. Book a demo Get started for free Prepaid, postpaid, or both at once. Set up tailor-m"
+   },
+   {
+    "value": "18.2%",
+    "context": "dits Credit 41,580 / 50,000 Documents processed Unit 862 / 1,000 Revenue $84,250 +18.2% on prior period Provider cost $21,180 +9.1% Margin $63,070 +21.4% Gross margin 74.9% +4.1pt Overvie"
+   },
+   {
+    "value": "9.1%",
+    "context": "ed Unit 862 / 1,000 Revenue $84,250 +18.2% on prior period Provider cost $21,180 +9.1% Margin $63,070 +21.4% Gross margin 74.9% +4.1pt Overview Signals Usage logs Invoices Payments Pri"
+   },
+   {
+    "value": "21.4%",
+    "context": "evenue $84,250 +18.2% on prior period Provider cost $21,180 +9.1% Margin $63,070 +21.4% Gross margin 74.9% +4.1pt Overview Signals Usage logs Invoices Payments Pricing Manage Revenue tre"
+   },
+   {
+    "value": "$20k",
+    "context": "ignals Usage logs Invoices Payments Pricing Manage Revenue trend Billed per month $20k $10k $0 Apr Sep Revenue vs provider cost Margin is the amber band $20k $10k $0 Apr Sep Revenue by month"
+   },
+   {
+    "value": "$10k",
+    "context": "s Usage logs Invoices Payments Pricing Manage Revenue trend Billed per month $20k $10k $0 Apr Sep Revenue vs provider cost Margin is the amber band $20k $10k $0 Apr Sep Revenue by month Bille"
+   },
+   {
+    "value": "15.5%",
+    "context": "EVENUE PROVIDER COST MARGIN GROSS MARGIN MOM June $13,400 $3,370 $10,030 74.9% +15.5% July $15,200 $3,820 $11,380 74.9% +13.4% August $16,900 $4,250 $12,650 74.9% +11.2% September $"
+   },
+   {
+    "value": "13.4%",
+    "context": "M June $13,400 $3,370 $10,030 74.9% +15.5% July $15,200 $3,820 $11,380 74.9% +13.4% August $16,900 $4,250 $12,650 74.9% +11.2% September $17,350 $4,370 $12,980 74.8% +2.7% Catch lo"
+   },
+   {
+    "value": "11.2%",
+    "context": "July $15,200 $3,820 $11,380 74.9% +13.4% August $16,900 $4,250 $12,650 74.9% +11.2% September $17,350 $4,370 $12,980 74.8% +2.7% Catch losses immediately A model switch in June shouldn'"
+   },
+   {
+    "value": "74.8%",
+    "context": "4% August $16,900 $4,250 $12,650 74.9% +11.2% September $17,350 $4,370 $12,980 74.8% +2.7% Catch losses immediately A model switch in June shouldn't surface in September. Cost is tracked as i"
+   },
+   {
+    "value": "2.7%",
+    "context": "st $16,900 $4,250 $12,650 74.9% +11.2% September $17,350 $4,370 $12,980 74.8% +2.7% Catch losses immediately A model switch in June shouldn't surface in September. Cost is tracked as it happe"
+   },
+   {
+    "value": "90%",
+    "context": ". BILLING OPS 8 hours Saved every week on reconciliation and invoicing. GROSS MARGIN 90% Increase after pricing moved onto Clocknext. Explore margin control → Built for every team involved in mone"
+   },
+   {
+    "value": "80%",
+    "context": "e signal Map signals to pricing Signals today 18,240 Customers by revenue and margin Live 80% 40% 0% $0 $25K $50K $75K $100K Revenue this quarter Target margin 40% Orbit Northwind $84.2K, 75% margin Read"
+   }
+  ]
+ },
+ "logo": {
+  "src": "https://cdn.prod.website-files.com/6a88381a8915da42648893b4/6aa166ef7de58bfec4c91bd1_clocknext-lockup-dark-amber.png",
+  "box": [
+   162,
+   81,
+   186,
+   38
+  ],
+  "file": "logo.png",
+  "note": "screenshot crop: check it"
+ },
+ "ui": [
+  {
+   "i": 0,
+   "kind": "image",
+   "w": 1440,
+   "h": 446,
+   "y": 6549,
+   "alt": "",
+   "file": "ui/image_00.png"
+  },
+  {
+   "i": 3,
+   "kind": "card",
+   "w": 359,
+   "h": 481,
+   "y": 1507,
+   "alt": "Add to plan Credits Outcomes Units Composite Voice call Composite Tokens Credits Resolutio",
+   "file": "ui/card_03.png"
+  },
+  {
+   "i": 4,
+   "kind": "card",
+   "w": 325,
+   "h": 223,
+   "y": 1524,
+   "alt": "Add to plan Credits Outcomes Units Composite Voice call Composite Tokens Credits Resolutio",
+   "file": "ui/card_04.png"
+  },
+  {
+   "i": 5,
+   "kind": "card",
+   "w": 359,
+   "h": 481,
+   "y": 1507,
+   "alt": "Pro plan Draft Price per credit $0.008 $0.010 Publish to all customers Live, no deploy 02 ",
+   "file": "ui/card_05.png"
+  },
+  {
+   "i": 6,
+   "kind": "card",
+   "w": 325,
+   "h": 223,
+   "y": 1524,
+   "alt": "Pro plan Draft Price per credit $0.008 $0.010 Publish to all customers Live, no deploy",
+   "file": "ui/card_06.png"
+  },
+  {
+   "i": 7,
+   "kind": "card",
+   "w": 359,
+   "h": 481,
+   "y": 1507,
+   "alt": "Margin by customer Live Acme Inc. 74.9% Dunder Mifflin 66.9% Skynet Inc. 8.2% Skynet Inc. ",
+   "file": "ui/card_07.png"
+  },
+  {
+   "i": 8,
+   "kind": "card",
+   "w": 325,
+   "h": 223,
+   "y": 1524,
+   "alt": "Margin by customer Live Acme Inc. 74.9% Dunder Mifflin 66.9% Skynet Inc. 8.2% Skynet Inc. ",
+   "file": "ui/card_08.png"
+  },
+  {
+   "i": 9,
+   "kind": "card",
+   "w": 279,
+   "h": 176,
+   "y": 2574,
+   "alt": "Composites Combine primitives for multi-action agents and bill them as one line.",
+   "file": "ui/card_09.png"
+  },
+  {
+   "i": 10,
+   "kind": "card",
+   "w": 530,
+   "h": 545,
+   "y": 3502,
+   "alt": "Plans › Pay As You Go ACTIVE Collected $46,000 46 invoices Open balance $2,000 2 open invo",
+   "file": "ui/card_10.png"
+  },
+  {
+   "i": 11,
+   "kind": "card",
+   "w": 496,
+   "h": 114,
+   "y": 3582,
+   "alt": "Collected $46,000 46 invoices Open balance $2,000 2 open invoices",
+   "file": "ui/card_11.png"
+  },
+  {
+   "i": 12,
+   "kind": "card",
+   "w": 496,
+   "h": 318,
+   "y": 3764,
+   "alt": "INV-0006 Acme Inc. Postpaid overage $412.00 INV-0005 Acme Inc. Credit top-up $320.00 INV-0",
+   "file": "ui/card_12.png"
+  },
+  {
+   "i": 13,
+   "kind": "card",
+   "w": 814,
+   "h": 123,
+   "y": 4454,
+   "alt": "Revenue $84,250 +18.2% on prior period Provider cost $21,180 +9.1% Margin $63,070 +21.4% G",
+   "file": "ui/card_13.png"
+  },
+  {
+   "i": 14,
+   "kind": "card",
+   "w": 401,
+   "h": 211,
+   "y": 4645,
+   "alt": "Revenue trend Billed per month $20k $10k $0 Apr Sep",
+   "file": "ui/card_14.png"
+  },
+  {
+   "i": 15,
+   "kind": "card",
+   "w": 401,
+   "h": 211,
+   "y": 4645,
+   "alt": "Revenue vs provider cost Margin is the amber band $20k $10k $0 Apr Sep",
+   "file": "ui/card_15.png"
+  },
+  {
+   "i": 16,
+   "kind": "card",
+   "w": 814,
+   "h": 321,
+   "y": 4856,
+   "alt": "Revenue by month Billed per calendar month, with provider cost attributed to the signal MO",
+   "file": "ui/card_16.png"
+  },
+  {
+   "i": 17,
+   "kind": "card",
+   "w": 423,
+   "h": 291,
+   "y": 6003,
+   "alt": "Starter plan Draft Live Flat fee $99 / mo $129 / mo Credits 50,000 / mo Outcomes $12 each ",
+   "file": "ui/card_17.png"
+  },
+  {
+   "i": 18,
+   "kind": "card",
+   "w": 416,
+   "h": 294,
+   "y": 6062,
+   "alt": "Setup 3 of 3 Install the SDK Send a usage signal Map signals to pricing Signals today 18,2",
+   "file": "ui/card_18.png"
+  },
+  {
+   "i": 19,
+   "kind": "card",
+   "w": 412,
+   "h": 287,
+   "y": 6151,
+   "alt": "Customers by revenue and margin Live 80% 40% 0% $0 $25K $50K $75K $100K Revenue this quart",
+   "file": "ui/card_19.png"
+  }
+ ],
+ "fontFiles": []
+}
