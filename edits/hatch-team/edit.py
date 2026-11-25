@@ -5,6 +5,7 @@
     python3 edit.py --plan              -> out/plan.json (timeline, word times, scene cues) + prints the EDL
     node scenes.cjs                     -> out/scenes/<name>/f00000.png ... (designed scenes / overlays)
     python3 edit.py                     -> out/hatch_team_premium_1080x1920.mp4
+    python3 edit.py --rough             -> out/hatch_team_ROUGH_CUT_v2.mp4 (plain cut + review strip, for approval)
     python3 edit.py --still 2.0,14.5    -> out/still_*.png (output-time stills)
     parallel: python3 edit.py --range 0:456 & ... (one per core), then python3 edit.py --mux
 
@@ -31,12 +32,12 @@ RED = (255, 84, 70)
 
 # ---------------------------------------------------------------- 1. the cut (word-index ranges)
 SEGMENTS = [
-    (0, 6),       # Real estate teams in their purest form,      [cut: "in my experience,"]
-    (10, 15),     # exist because the leader has ego.
-    (123, 130),   # for a real estate team to function well,      [cut: "I think that"]
+    (0, 15),      # Real estate teams in their purest form, in my experience, exist because the leader has ego.
+                  #   ("in my experience" stays: it's connected speech with no gap, any cut there clips a word)
+    (122, 130),   # So, for a real estate team to function well,  [cut: "I think that"] ("so" can't be split from "for")
     (134, 142),   # that ego has to be transformed into a blueprint.
     (226, 248),   # I have a buddy named Matt Miali and he runs this incredible team out of Connecticut, makes great money, high per agent productivity.
-    (272, 293),   # What's the secret to your success? And he's like, Eric, this is going to be the most boring conversation that you've had.
+    (271, 293),   # Hey, what's the secret to your success? And he's like, Eric, this is going to be the most boring conversation that you've had.
     (296, 302),   # Number one, everybody agrees to show up.
     (317, 343),   # And if somebody is not there, every 25 people on the team text that person to say, hey, are you alive? Are you still in real estate?
     (354, 356),   # That's a blueprint,
@@ -50,6 +51,73 @@ SEGMENTS = [
 MAX_GAP, KEEP_GAP = 0.40, 0.16     # pauses longer than MAX_GAP shrink to ~KEEP_GAP (split into two cuts)
 PRE, POST = 0.07, 0.14             # pad before the first / after the last word of a cut
 HOLD = {142: .60, 461: .42}        # extra beat after these words (into the natural pause) so a scene can land
+# Hand-checked edges where the speech is connected (no silence to snap to). Each was chosen by rendering
+# candidates and re-transcribing them (see verify_cut.py): the earliest / latest point that reads correctly.
+EDGE_OUT = {248: 86.13,        # "productivity": the soft "-ty" runs to 86.12; earlier reads as "product"
+            465: 145.16,       # "suggestion": "It's a," starts at 145.20 (not 145.46); later reads as "suggestion that"
+            472: 146.89}       # "this": the "s" runs into "And"; earlier reads as "do that"
+EDGE_IN = {468: 145.665}       # "you": onset at 145.70, right after the "a," stumble
+TAIL = 0.45                        # end: hold the last frame this long (silent) so the fade never touches a word
+
+
+# Whisper's word edges are only good to ~0.1-0.2 s, which clipped words ("form" -> "forms", "well" -> "wet",
+# "productivity" -> "product") and let syllables leak in ("so for"). Every cut edge is therefore snapped to the
+# real audio: the quietest point between the kept word and its dropped neighbour on a 5 ms energy envelope.
+HOP = 0.005
+
+
+def _envelope():
+    cache = os.path.join(OUT_DIR, 'envelope.npy')
+    if os.path.exists(cache): return np.load(cache)
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', SRC, '-ac', '1', '-ar', '16000', '-f', 'f32le', '-'],
+                         capture_output=True, check=True).stdout
+    a = np.frombuffer(raw, np.float32)
+    win, hop = int(.02 * 16000), int(HOP * 16000)
+    n = (len(a) - win) // hop
+    env = np.array([np.sqrt(np.mean(a[i * hop:i * hop + win] ** 2)) for i in range(n)])
+    env = (20 * np.log10(env + 1e-9)).astype(np.float32)
+    os.makedirs(OUT_DIR, exist_ok=True); np.save(cache, env)
+    return env
+
+
+ENV = _envelope()
+QUIET = 7.0        # dB above the window minimum that still counts as "between words"
+
+
+def _db(t): return float(ENV[min(len(ENV) - 1, max(0, int(t / HOP)))])
+
+
+def snap_in(i):
+    """Last quiet point before word i's onset (searching back to the previous word's body)."""
+    w, p = WORDS[i], WORDS[i - 1] if i > 0 else None
+    lo = max(0.0, (p['s'] + p['e']) / 2 if p else 0.0, w['s'] - 0.9)
+    hi = w['s'] + 0.08
+    k0, k1 = int(lo / HOP), int(hi / HOP)
+    seg = ENV[k0:k1]
+    if len(seg) == 0: return w['s'] - PRE
+    thr = seg.min() + QUIET
+    quiet = np.where(seg < thr)[0]
+    k = quiet[-1] if len(quiet) else int(np.argmin(seg))
+    return max(lo, (k0 + k) * HOP - 0.015)
+
+
+def snap_out(i):
+    """First quiet point after word i's tail (searching up to the next word's body)."""
+    w, n = WORDS[i], WORDS[i + 1] if i + 1 < len(WORDS) else None
+    lo = w['e'] - 0.08
+    hi = min((n['s'] + n['e']) / 2 if n else 1e9, w['e'] + 0.9)
+    k0, k1 = int(lo / HOP), int(hi / HOP)
+    seg = ENV[k0:k1]
+    if len(seg) == 0: return w['e'] + POST
+    thr = seg.min() + QUIET
+    quiet = np.where(seg < thr)[0]
+    k = quiet[0] if len(quiet) else int(np.argmin(seg))
+    return min(hi, (k0 + k) * HOP + 0.035)
+
+
+def next_onset(i):
+    """Where the word after i actually starts (for holds that run into the pause)."""
+    return snap_in(i + 1) + 0.015 if i + 1 < len(WORDS) else 1e9
 
 
 def build_cuts():
@@ -63,11 +131,8 @@ def build_cuts():
         cuts.append((run[0], b))
     out = []
     for i0, i1 in cuts:
-        prev_e = WORDS[i0 - 1]['e'] if i0 > 0 else 0
-        next_s = WORDS[i1 + 1]['s'] if i1 + 1 < len(WORDS) else 1e9
-        s = max(WORDS[i0]['s'] - PRE, (prev_e + WORDS[i0]['s']) / 2, WORDS[i0]['s'] - KEEP_GAP / 2)
-        e = min(WORDS[i1]['e'] + POST, (WORDS[i1]['e'] + next_s) / 2, WORDS[i1]['e'] + KEEP_GAP / 2 + .04)
-        if i1 in HOLD: e = min(WORDS[i1]['e'] + POST + HOLD[i1], next_s - .1)
+        s, e = EDGE_IN.get(i0) or snap_in(i0), EDGE_OUT.get(i1) or snap_out(i1)
+        if i1 in HOLD: e = min(e + HOLD[i1], next_onset(i1) - .08)
         out.append((s, e, i0, i1))
     return out
 
@@ -78,8 +143,17 @@ _t, TL = 0, []
 for s, e, i0, i1 in CUTS:
     n = int(round((e - s) * FPS))
     TL.append(dict(src_in=s, n=n, o0=_t, i0=i0, i1=i1)); _t += n
-N_FRAMES = _t
+SPEECH_FRAMES = _t
+N_FRAMES = _t + int(round(TAIL * FPS))          # + frozen tail
 DUR = N_FRAMES / FPS
+
+
+def src_to_out(t):
+    """source time -> output time (or the start of the next cut if t was cut out)"""
+    for c in TL:
+        if c['src_in'] <= t < c['src_in'] + c['n'] / FPS: return (c['o0'] + (t - c['src_in']) * FPS) / FPS
+        if t < c['src_in']: return c['o0'] / FPS
+    return SPEECH_FRAMES / FPS
 
 
 def src_time(k):
@@ -118,11 +192,11 @@ SAFE_Y0, SAFE_Y1, SAFE_X0, SAFE_X1 = 18, 1062, 30, 1890
 SHOTS = [
     (0, 'WIDE', .03),                # Real estate teams in their purest form, exist because  (rack-focus opener)
     (12, 'CU', .05),                 # the leader has EGO
-    (123, 'MCU', .03),               # for a real estate team to function well
+    (122, 'MCU', .03),               # so, for a real estate team to function well
     (134, 'scene:blueprint', 0),     # that ego has to be transformed into a BLUEPRINT
     (226, 'MCU', .03),               # I have a buddy named Matt Miali and he
     (235, 'WIDE', .04),              # runs this incredible team out of Connecticut, great money, productivity (+tags in headroom)
-    (272, 'CU', .04),                # what's the secret to your success?
+    (271, 'CU', .04),                # hey, what's the secret to your success?
     (278, 'MCU', .03),               # and he's like, Erik,
     (288, 'ECU', .03),               # most BORING ... (grade drains; the cut after 'boring' flips to CU)
     (296, 'WIDE', .04),              # number one, everybody agrees to SHOW UP (+#1 in the wide shot's headroom)
@@ -318,16 +392,17 @@ DISPLAY = {'Eric,': 'Erik,', 'Miali': 'Miali', '25': '25', 'X': 'X'}
 CHUNKS = [
     (0, 2, {1, 2}, set()),            # real / ESTATE TEAMS
     (3, 6, {5, 6}, set()),            # in their / PUREST FORM
+    (7, 9, set(), set()),             # in my experience,
     (10, 11, {10}, set()),            # EXIST / because
     (12, 15, {15}, set()),            # the leader has / EGO
-    (123, 127, {125, 126, 127}, set()),   # for a / REAL ESTATE TEAM
+    (122, 127, {125, 126, 127}, set()),   # so, for a / REAL ESTATE TEAM
     (128, 130, {129}, set()),         # to / FUNCTION / well
     (226, 231, {231}, set()),         # i have a buddy named / MATT
     (233, 238, {237}, set()),         # and he runs this / INCREDIBLE / team
     (239, 241, {241}, set()),         # out of / CONNECTICUT
     (242, 244, {243, 244}, set()),    # makes / GREAT MONEY
     (245, 248, {248}, set()),         # high per agent / PRODUCTIVITY
-    (272, 277, {274}, set()),         # what's the / SECRET / to your success?
+    (271, 277, {274}, set()),         # hey, what's the / SECRET / to your success?
     (278, 281, {281}, set()),         # and he's like, / ERIK,
     (282, 288, set(), set()),         # this is going to be the most
     (289, 293, {289}, set()),         # BORING / conversation that you've had
@@ -474,7 +549,7 @@ def draw_captions(fr, t):
 # plays over a rack-focus opener: the same room, heavily blurred (clean footage from BG_SRC on), with the
 # title banner + captions; once the logo is gone the real footage pulls focus just before "the leader has ego".
 LOGO_END_SRC, BG_SRC = 5.05, 60.0
-OPENER_END = (TL[1]['o0'] + (LOGO_END_SRC - TL[1]['src_in']) * FPS) / FPS
+OPENER_END = src_to_out(LOGO_END_SRC)
 FOCUS_T, OPENER_BLUR = .45, 26.0
 
 
@@ -561,6 +636,54 @@ def render_frame(src, k, bg_src):
     return out
 
 
+# ---------------------------------------------------------------- rough cut (for approval of the cut only)
+ROUGH = os.path.join(OUT_DIR, 'hatch_team_ROUGH_CUT_v2.mp4')
+RW, RH = 720, 1280
+
+
+def _wrap(text, fnt, width):
+    lines, cur = [], ''
+    for w in text.split():
+        t = (cur + ' ' + w).strip()
+        if fnt.getlength(t) > width and cur: lines.append(cur); cur = w
+        else: cur = t
+    return lines + ([cur] if cur else [])
+
+
+def tc(t): return f"{int(t // 60)}:{t % 60:05.2f}"
+
+
+def render_rough(src, k):
+    """Plain speaker cut: virtual angle + caption removal + exposure lift, and a review strip."""
+    t = k / FPS
+    st, j = src_time(k)
+    shot = shot_at(k)
+    view = shot['view']
+    scene = next((x['name'] for x in scenes_at(k) if x['kind'] == 'scene'), None)
+    if view.startswith('scene:'):                         # designed scene in the final; show the speaker here
+        view = 'MCU'
+        shot = dict(shot, view='MCU', drift=0, follow=False)
+    f = remove_captions(src.get(int(round(st * FPS))))
+    img = LIFT[reframe(f, crop_box(view, k, st, shot))]
+    im = Image.fromarray(img).resize((RW, RH), Image.BILINEAR).convert('RGBA')
+    d = ImageDraw.Draw(im)
+    small, big = font('Inter-600.ttf', 22), font('Inter-500.ttf', 30)
+    d.rectangle((0, 0, RW, 96), fill=(0, 0, 0, 170))
+    d.text((18, 14), 'ROUGH CUT v2  ·  for approval', font=small, fill=(255, 255, 255))
+    d.text((RW - 18, 14), f'cut {j + 1:02d}/{len(TL)}   {tc(t)}', font=small, fill=(255, 255, 255), anchor='ra')
+    info = f'src {tc(st)}  ·  {view}' + ('  ·  follow pan' if shot.get('follow') else '')
+    if k >= SPEECH_FRAMES: info = f'src {tc(st)}  ·  end hold (frozen frame)'
+    d.text((18, 52), info, font=small, fill=(247, 186, 104))
+    if scene: d.text((RW - 18, 52), f'[ final: {scene} scene ]', font=small, fill=(140, 200, 255), anchor='ra')
+    elif t < OPENER_END: d.text((RW - 18, 52), '[ final: blurred opener ]', font=small, fill=(140, 200, 255), anchor='ra')
+    c = TL[j]
+    lines = _wrap(' '.join(WORDS[i]['w'] for i in range(c['i0'], c['i1'] + 1)), big, RW - 60)
+    y0 = RH - 40 - 42 * len(lines)
+    d.rectangle((0, y0 - 18, RW, RH), fill=(0, 0, 0, 160))
+    for n, ln in enumerate(lines): d.text((RW // 2, y0 + 42 * n), ln, font=big, fill=(255, 255, 255), anchor='ma')
+    return np.asarray(im.convert('RGB'))
+
+
 def build_audio(path):
     """Concatenate the cuts sample-exactly (8 ms raised-cosine joins), then EQ / comp / -14 LUFS / end fade."""
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', SRC, '-t', str(TL[-1]['src_in'] + TL[-1]['n'] / FPS + 1),
@@ -572,8 +695,10 @@ def build_audio(path):
         s0 = int(round(c['src_in'] * 48000)); n = int(round(c['n'] / FPS * 48000))
         seg = a[s0:s0 + n].copy()
         seg[:xf] *= ramp; seg[-xf:] *= ramp[::-1]
+        if c is TL[-1]:                                   # last word: a softer 25 ms tail
+            xl = int(.025 * 48000); seg[-xl:] *= np.linspace(1, 0, xl, dtype=np.float32)[:, None]
         parts.append(seg)
-    pcm = np.concatenate(parts)
+    pcm = np.concatenate(parts + [np.zeros((int(round(TAIL * 48000)), 2), np.float32)])
     tmp = path + '.raw.wav'
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ac', '2', '-ar', '48000', '-i', '-', tmp],
                    input=pcm.tobytes(), check=True)
@@ -581,7 +706,7 @@ def build_audio(path):
                     'highpass=f=70,equalizer=f=220:t=q:w=1:g=-1.5,equalizer=f=3200:t=q:w=1.2:g=2.5,'
                     'acompressor=threshold=-21dB:ratio=2.6:attack=6:release=110:makeup=2,'
                     'loudnorm=I=-14:TP=-1.5:LRA=8,alimiter=limit=0.87:level=0,'
-                    f'afade=t=out:st={DUR - FADE_OUT_T:.3f}:d={FADE_OUT_T}', '-ar', '48000', path], check=True)
+                    f'afade=t=out:st={SPEECH_FRAMES / FPS:.3f}:d=0.05', '-ar', '48000', path], check=True)
     os.remove(tmp)
 
 
@@ -609,6 +734,17 @@ def main():
         for k in want:
             Image.fromarray(render_frame(src, k, bg)).save(os.path.join(OUT_DIR, f'still_{k / FPS:05.2f}.png'))
         return
+    if '--rough' in sys.argv:
+        audio = os.path.join(OUT_DIR, 'audio.wav'); build_audio(audio)
+        enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{RW}x{RH}',
+                                '-framerate', f'{FPS_NUM}/{FPS_DEN}', '-i', '-', '-i', audio, '-c:v', 'libx264',
+                                '-preset', 'veryfast', '-crf', '23', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
+                                '-shortest', '-movflags', '+faststart', ROUGH], stdin=subprocess.PIPE)
+        src = Source()
+        for k in range(N_FRAMES):
+            enc.stdin.write(render_rough(src, k).tobytes())
+            if k % 150 == 0: print(f'{k / FPS:5.1f}s', flush=True)
+        enc.stdin.close(); enc.wait(); print('wrote', ROUGH); return
     if '--mux' in sys.argv:            # join the --range parts + the audio into the final file
         parts = sorted(f for f in os.listdir(OUT_DIR) if f.startswith('part_') and f.endswith('.mp4'))
         lst = os.path.join(OUT_DIR, 'parts.txt')

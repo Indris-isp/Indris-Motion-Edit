@@ -7,3 +7,5 @@ out/*.log
 out/still_*
 out/scene_*.png
 out/plan.json
+out/envelope.npy
+out/master_*
