@@ -10,3 +10,7 @@ out/plan.json
 out/envelope.npy
 out/master_*
 __pycache__/
+out/mockA/
+out/mockB/
+out/hatch_team_rough_preview.mp4
+out/*.log

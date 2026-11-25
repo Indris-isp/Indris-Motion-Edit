@@ -27,8 +27,10 @@ FPS = FPS_NUM / FPS_DEN
 SW, SH = 1920, 1080
 WORDS = json.load(open(os.path.join(HERE, 'words.json')))
 FACE = json.load(open(os.path.join(HERE, 'analysis/face_track.json')))   # per-source-frame [cx, eye_y] (smoothed)
-AMBER = (247, 186, 104)    # the one accent colour (ties to the REL orange in the source)
-RED = (255, 84, 70)
+# Palette D (chosen in the palette picker): brand orange + warm neutrals
+AMBER = (240, 91, 51)      # #F05B33 accent: the REL brand orange from the footage
+RED = (215, 38, 61)        # #D7263D negative words
+TEXT = (247, 242, 236)     # #F7F2EC warm white captions
 
 # ---------------------------------------------------------------- 1. the cut (word-index ranges)
 SEGMENTS = [
@@ -133,7 +135,7 @@ def build_cuts():
     for i0, i1 in cuts:
         s, e = EDGE_IN.get(i0) or snap_in(i0), EDGE_OUT.get(i1) or snap_out(i1)
         if i1 in HOLD: e = min(e + HOLD[i1], next_onset(i1) - .08)
-        out.append((s, e, i0, i1))
+        out.append((float(s), float(e), i0, i1))
     return out
 
 
@@ -416,6 +418,11 @@ CHUNKS = [
     (462, 465, {463}, {463}),         # it's / NOT / a suggestion
     (468, 472, {472}, set()),         # you have to do / THIS
 ]
+PLAIN = '--plain' in sys.argv            # option-B mockups: speaker + captions only, no designed scenes/overlays
+if PLAIN:
+    CHUNKS = sorted(CHUNKS + [(134, 138, {135}, set()), (139, 142, {142}, set()), (323, 331, {324}, set()),
+                              (332, 337, {337}, set()), (338, 343, {343}, set()), (369, 374, {372}, set()),
+                              (389, 398, {398}, set()), (458, 461, {461}, set())])
 LETTER_WORDS = {15, 289, 410}         # only these assemble letter by letter: ego, boring, repeat
 
 
@@ -458,7 +465,7 @@ def layout_chunk(i0, i1, keys, reds):
             cur = []
             for w in run:
                 f = font(SWEAR_FONT if w['red'] else RUN_FONT, RUN_SIZE)
-                w['spr'] = sprite(w['txt'], f, RED if w['red'] else (255, 255, 255)); w['space'] = f.getlength(' ')
+                w['spr'] = sprite(w['txt'], f, RED if w['red'] else TEXT); w['space'] = f.getlength(' ')
                 width = sum(x['spr']['adv'] + x['space'] for x in cur) + w['spr']['adv']
                 if cur and width > MAX_LINE: lines.append((cur, int(RUN_SIZE * 1.3))); cur = []
                 cur.append(w)
@@ -534,7 +541,7 @@ def draw_captions(fr, t):
         e = smooth((t - (t_off - EXIT_T)) / EXIT_T)
         sc = 1 + BLOCK_GROW * life + EXIT_GROW * e
         if e > 0:
-            strip = strip.filter(ImageFilter.GaussianBlur(EXIT_BLUR * e))
+            strip = strip.filter(ImageFilter.GaussianBlur(float(EXIT_BLUR * e)))
             strip.putalpha(strip.getchannel('A').point(lambda v: int(v * (1 - e))))
         cy = c['cy'] - STRIP_Y0
         sw, sh = int(W * sc), int(STRIP_H * sc)
@@ -609,23 +616,25 @@ def render_frame(src, k, bg_src):
     shot = shot_at(k)
     full = None
     for s in scenes_at(k):
-        if s['kind'] == 'scene': full = s
+        if s['kind'] == 'scene' and not PLAIN: full = s
+    if PLAIN and shot['view'].startswith('scene:'):
+        shot = dict(shot, view='MCU', drift=0, follow=False)
     if full is not None:
         rgba = scene_frame(full['name'], k - full['f0'])
         img = grade(rgba[..., :3], k, t, lift=False, film=False)
     else:
-        if t < OPENER_END:
+        if t < OPENER_END and not PLAIN:
             f = remove_captions(bg_src.get(int(round((BG_SRC + t) * FPS))))
         else:
             f = remove_captions(src.get(int(round(st * FPS))))
         v = reframe(f, crop_box(shot['view'], k, st, shot))
-        b = opener_blur(t)
+        b = 0 if PLAIN else opener_blur(t)
         if b > .3:
             v = cv2.GaussianBlur(v, (0, 0), b)
             v = (v.astype(np.float32) * (1 - .35 * b / OPENER_BLUR)).astype(np.uint8)
         img = grade(v, k, t)
     fr = Image.fromarray(img).convert('RGBA')
-    for s in scenes_at(k):
+    for s in ([] if PLAIN else scenes_at(k)):
         if s['kind'] == 'overlay':
             o = scene_frame(s['name'], k - s['f0'])
             if o is not None: fr.alpha_composite(Image.fromarray(o))
@@ -653,7 +662,7 @@ def _wrap(text, fnt, width):
 def tc(t): return f"{int(t // 60)}:{t % 60:05.2f}"
 
 
-def render_rough(src, k):
+def render_rough(src, k, strip=True):
     """Plain speaker cut: virtual angle + caption removal + exposure lift, and a review strip."""
     t = k / FPS
     st, j = src_time(k)
@@ -666,6 +675,7 @@ def render_rough(src, k):
     f = remove_captions(src.get(int(round(st * FPS))))
     img = LIFT[reframe(f, crop_box(view, k, st, shot))]
     im = Image.fromarray(img).resize((RW, RH), Image.BILINEAR).convert('RGBA')
+    if not strip: return np.asarray(im.convert('RGB'))
     d = ImageDraw.Draw(im)
     small, big = font('Inter-600.ttf', 22), font('Inter-500.ttf', 30)
     d.rectangle((0, 0, RW, 96), fill=(0, 0, 0, 170))
@@ -734,15 +744,18 @@ def main():
         for k in want:
             Image.fromarray(render_frame(src, k, bg)).save(os.path.join(OUT_DIR, f'still_{k / FPS:05.2f}.png'))
         return
-    if '--rough' in sys.argv:
+    global RW, RH, ROUGH
+    clean = '--rough-clean' in sys.argv
+    if clean: RW, RH, ROUGH = 540, 960, os.path.join(OUT_DIR, 'hatch_team_rough_preview.mp4')
+    if '--rough' in sys.argv or clean:
         audio = os.path.join(OUT_DIR, 'audio.wav'); build_audio(audio)
         enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{RW}x{RH}',
                                 '-framerate', f'{FPS_NUM}/{FPS_DEN}', '-i', '-', '-i', audio, '-c:v', 'libx264',
-                                '-preset', 'veryfast', '-crf', '23', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
+                                '-preset', 'veryfast', '-crf', '25', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
                                 '-shortest', '-movflags', '+faststart', ROUGH], stdin=subprocess.PIPE)
         src = Source()
         for k in range(N_FRAMES):
-            enc.stdin.write(render_rough(src, k).tobytes())
+            enc.stdin.write(render_rough(src, k, strip=not clean).tobytes())
             if k % 150 == 0: print(f'{k / FPS:5.1f}s', flush=True)
         enc.stdin.close(); enc.wait(); print('wrote', ROUGH); return
     if '--mux' in sys.argv:            # join the --range parts + the audio into the final file

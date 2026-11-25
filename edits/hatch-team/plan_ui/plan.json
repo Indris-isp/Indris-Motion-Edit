@@ -1,0 +1,1017 @@
+{
+ "title": "Hatch Coaching \u00b7 real estate team clip",
+ "duration": 50.517,
+ "version": "rough cut v2",
+ "palette": {
+  "name": "D \u00b7 Brand orange, warm neutrals",
+  "accent": "#F05B33",
+  "negative": "#D7263D",
+  "lines": "#8C7F74",
+  "text": "#F7F2EC",
+  "ground": "#171310",
+  "surface": "#25201B",
+  "base": "#0E0C0B"
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "name": "Hook",
+   "start": 0.0,
+   "script": "Real estate teams in their purest form, in my experience, exist because the leader has ego.",
+   "words": [
+    {
+     "w": "Real",
+     "t": 0.0
+    },
+    {
+     "w": "estate",
+     "t": 0.42
+    },
+    {
+     "w": "teams",
+     "t": 0.7
+    },
+    {
+     "w": "in",
+     "t": 1.2
+    },
+    {
+     "w": "their",
+     "t": 1.56
+    },
+    {
+     "w": "purest",
+     "t": 1.76
+    },
+    {
+     "w": "form,",
+     "t": 2.52
+    },
+    {
+     "w": "in",
+     "t": 2.92
+    },
+    {
+     "w": "my",
+     "t": 3.04
+    },
+    {
+     "w": "experience,",
+     "t": 3.16
+    },
+    {
+     "w": "exist",
+     "t": 4.08
+    },
+    {
+     "w": "because",
+     "t": 4.88
+    },
+    {
+     "w": "the",
+     "t": 6.2
+    },
+    {
+     "w": "leader",
+     "t": 6.6
+    },
+    {
+     "w": "has",
+     "t": 6.86
+    },
+    {
+     "w": "ego.",
+     "t": 7.16
+    }
+   ],
+   "mock": 2.2,
+   "A": {
+    "title": "Rack-focus opener + title banner",
+    "desc": "The stream logo covers his face for 5 s, so the hook plays over the room, blurred, with the banner \"Why do real estate teams actually exist?\". Focus pulls onto him at \"exist because\", then a close-up punch-in on \"the leader has EGO\" (his real lean-in)."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "No banner: the blur still has to cover the logo, then the same punch-in on \"ego\". Quieter open."
+   },
+   "end": 8.041,
+   "shots": [
+    {
+     "t0": 0.0,
+     "t1": 6.11,
+     "view": "WIDE",
+     "follow": false
+    },
+    {
+     "t0": 6.11,
+     "t1": 8.04,
+     "view": "CU",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b2",
+   "name": "Bridge",
+   "start": 8.041,
+   "script": "so for a real estate team to function well,",
+   "words": [
+    {
+     "w": "so",
+     "t": 8.116
+    },
+    {
+     "w": "for",
+     "t": 8.276
+    },
+    {
+     "w": "a",
+     "t": 8.516
+    },
+    {
+     "w": "real",
+     "t": 8.636
+    },
+    {
+     "w": "estate",
+     "t": 8.756
+    },
+    {
+     "w": "team",
+     "t": 8.956
+    },
+    {
+     "w": "to",
+     "t": 9.216
+    },
+    {
+     "w": "function",
+     "t": 9.336
+    },
+    {
+     "w": "well,",
+     "t": 9.616
+    }
+   ],
+   "mock": 9.4,
+   "A": {
+    "title": "Medium close-up + captions",
+    "desc": "Chest-up shot. \"function\" is the keyword."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Same shot, same captions."
+   },
+   "end": 10.41,
+   "shots": [
+    {
+     "t0": 8.04,
+     "t1": 10.41,
+     "view": "MCU",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b3",
+   "name": "Ego \u2192 blueprint",
+   "start": 10.41,
+   "script": "that ego has to be transformed into a blueprint.",
+   "words": [
+    {
+     "w": "that",
+     "t": 10.54
+    },
+    {
+     "w": "ego",
+     "t": 10.78
+    },
+    {
+     "w": "has",
+     "t": 11.18
+    },
+    {
+     "w": "to",
+     "t": 12.32
+    },
+    {
+     "w": "be",
+     "t": 12.56
+    },
+    {
+     "w": "transformed",
+     "t": 12.68
+    },
+    {
+     "w": "into",
+     "t": 13.08
+    },
+    {
+     "w": "a",
+     "t": 13.46
+    },
+    {
+     "w": "blueprint.",
+     "t": 13.66
+    }
+   ],
+   "mock": 14.3,
+   "A": {
+    "title": "Designed scene: EGO breaks into a blueprint",
+    "desc": "Full-screen scene: giant EGO, it shatters on \"transformed\", the word \"blueprint\" assembles letter by letter and a team org chart draws on (leader \u2192 three agents)."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Stay on the speaker with captions; \"blueprint\" lands as the keyword."
+   },
+   "end": 15.015,
+   "shots": [
+    {
+     "t0": 10.41,
+     "t1": 15.02,
+     "view": "scene \u00b7 blueprint",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b4",
+   "name": "Proof: Matt's team",
+   "start": 15.015,
+   "script": "I have a buddy named Matt Miali(?) and he runs this incredible team out of Connecticut, makes great money, high per agent productivity.",
+   "words": [
+    {
+     "w": "I",
+     "t": 14.975
+    },
+    {
+     "w": "have",
+     "t": 15.095
+    },
+    {
+     "w": "a",
+     "t": 15.175
+    },
+    {
+     "w": "buddy",
+     "t": 15.235
+    },
+    {
+     "w": "named",
+     "t": 15.355
+    },
+    {
+     "w": "Matt",
+     "t": 15.495
+    },
+    {
+     "w": "Miali(?)",
+     "t": 15.675
+    },
+    {
+     "w": "and",
+     "t": 15.935
+    },
+    {
+     "w": "he",
+     "t": 16.175
+    },
+    {
+     "w": "runs",
+     "t": 16.355
+    },
+    {
+     "w": "this",
+     "t": 16.575
+    },
+    {
+     "w": "incredible",
+     "t": 16.735
+    },
+    {
+     "w": "team",
+     "t": 17.075
+    },
+    {
+     "w": "out",
+     "t": 17.395
+    },
+    {
+     "w": "of",
+     "t": 17.515
+    },
+    {
+     "w": "Connecticut,",
+     "t": 17.575
+    },
+    {
+     "w": "makes",
+     "t": 17.995
+    },
+    {
+     "w": "great",
+     "t": 18.535
+    },
+    {
+     "w": "money,",
+     "t": 19.115
+    },
+    {
+     "w": "high",
+     "t": 19.595
+    },
+    {
+     "w": "per",
+     "t": 19.895
+    },
+    {
+     "w": "agent",
+     "t": 20.355
+    },
+    {
+     "w": "productivity.",
+     "t": 20.615
+    }
+   ],
+   "mock": 19.6,
+   "A": {
+    "title": "Wide shot + three tags",
+    "desc": "\"I have a buddy named Matt\" on a medium shot, then wide: Connecticut / Great money / High per-agent productivity tags stack in the headroom on each word."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Wide shot with captions only."
+   },
+   "end": 21.121,
+   "shots": [
+    {
+     "t0": 15.02,
+     "t1": 16.25,
+     "view": "MCU",
+     "follow": false
+    },
+    {
+     "t0": 16.25,
+     "t1": 21.12,
+     "view": "WIDE",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b5",
+   "name": "Open loop",
+   "start": 21.121,
+   "script": "Hey, what's the secret to your success? And he's like, Erik, this is going to be",
+   "words": [
+    {
+     "w": "Hey,",
+     "t": 21.136
+    },
+    {
+     "w": "what's",
+     "t": 21.276
+    },
+    {
+     "w": "the",
+     "t": 21.576
+    },
+    {
+     "w": "secret",
+     "t": 21.676
+    },
+    {
+     "w": "to",
+     "t": 21.976
+    },
+    {
+     "w": "your",
+     "t": 22.136
+    },
+    {
+     "w": "success?",
+     "t": 22.236
+    },
+    {
+     "w": "And",
+     "t": 22.756
+    },
+    {
+     "w": "he's",
+     "t": 22.776
+    },
+    {
+     "w": "like,",
+     "t": 22.896
+    },
+    {
+     "w": "Erik,",
+     "t": 23.096
+    },
+    {
+     "w": "this",
+     "t": 23.336
+    },
+    {
+     "w": "is",
+     "t": 23.456
+    },
+    {
+     "w": "going",
+     "t": 23.556
+    },
+    {
+     "w": "to",
+     "t": 23.636
+    },
+    {
+     "w": "be",
+     "t": 23.716
+    }
+   ],
+   "mock": 22.0,
+   "A": {
+    "title": "Close-up question, cut on \"Erik\"",
+    "desc": "Close-up on \"Hey, what's the SECRET to your success?\", then medium on \"And he's like, Erik, this is going to be\"."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "One medium shot, captions only."
+   },
+   "end": 23.724,
+   "shots": [
+    {
+     "t0": 21.12,
+     "t1": 22.66,
+     "view": "CU",
+     "follow": false
+    },
+    {
+     "t0": 22.66,
+     "t1": 23.72,
+     "view": "MCU",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b6",
+   "name": "The most boring",
+   "start": 23.724,
+   "script": "the most boring conversation that you've had.",
+   "words": [
+    {
+     "w": "the",
+     "t": 23.816
+    },
+    {
+     "w": "most",
+     "t": 23.916
+    },
+    {
+     "w": "boring",
+     "t": 23.996
+    },
+    {
+     "w": "conversation",
+     "t": 25.523
+    },
+    {
+     "w": "that",
+     "t": 25.863
+    },
+    {
+     "w": "you've",
+     "t": 26.203
+    },
+    {
+     "w": "had.",
+     "t": 26.403
+    }
+   ],
+   "mock": 25.6,
+   "A": {
+    "title": "Tight punch-in, colour drains to grey",
+    "desc": "Extreme close-up on \"the most BORING\", the picture fades to near-grey for the line, then back to colour on \"conversation that you've had\"."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Same punch-in, no colour change."
+   },
+   "end": 26.894,
+   "shots": [
+    {
+     "t0": 23.72,
+     "t1": 23.82,
+     "view": "MCU",
+     "follow": false
+    },
+    {
+     "t0": 23.82,
+     "t1": 24.86,
+     "view": "ECU",
+     "follow": false
+    },
+    {
+     "t0": 24.86,
+     "t1": 26.89,
+     "view": "CU",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b7",
+   "name": "Rule #1: show up",
+   "start": 26.894,
+   "script": "number one, everybody agrees to show up. And if somebody is not there,",
+   "words": [
+    {
+     "w": "number",
+     "t": 26.844
+    },
+    {
+     "w": "one,",
+     "t": 27.244
+    },
+    {
+     "w": "everybody",
+     "t": 27.524
+    },
+    {
+     "w": "agrees",
+     "t": 27.704
+    },
+    {
+     "w": "to",
+     "t": 28.104
+    },
+    {
+     "w": "show",
+     "t": 28.284
+    },
+    {
+     "w": "up.",
+     "t": 28.504
+    },
+    {
+     "w": "And",
+     "t": 28.735
+    },
+    {
+     "w": "if",
+     "t": 28.775
+    },
+    {
+     "w": "somebody",
+     "t": 28.875
+    },
+    {
+     "w": "is",
+     "t": 29.135
+    },
+    {
+     "w": "not",
+     "t": 29.255
+    },
+    {
+     "w": "there,",
+     "t": 29.395
+    }
+   ],
+   "mock": 27.9,
+   "A": {
+    "title": "Wide + \"RULE #1\" in the headroom",
+    "desc": "Wide shot with a big \"#1\" above his head for \"Number one, everybody agrees to SHOW UP\", then a close-up on \"And if somebody is NOT there\" (\"not\" in crimson)."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Wide shot then close-up, captions only."
+   },
+   "end": 29.663,
+   "shots": [
+    {
+     "t0": 26.89,
+     "t1": 28.8,
+     "view": "WIDE",
+     "follow": false
+    },
+    {
+     "t0": 28.8,
+     "t1": 29.66,
+     "view": "CU",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b8",
+   "name": "25 texts",
+   "start": 29.663,
+   "script": "every 25 people on the team text that person to say, Hey, are you alive? Are you still in real estate?",
+   "words": [
+    {
+     "w": "every",
+     "t": 29.775
+    },
+    {
+     "w": "25",
+     "t": 30.015
+    },
+    {
+     "w": "people",
+     "t": 30.495
+    },
+    {
+     "w": "on",
+     "t": 30.875
+    },
+    {
+     "w": "the",
+     "t": 30.995
+    },
+    {
+     "w": "team",
+     "t": 31.075
+    },
+    {
+     "w": "text",
+     "t": 31.435
+    },
+    {
+     "w": "that",
+     "t": 31.975
+    },
+    {
+     "w": "person",
+     "t": 32.135
+    },
+    {
+     "w": "to",
+     "t": 32.395
+    },
+    {
+     "w": "say,",
+     "t": 32.515
+    },
+    {
+     "w": "Hey,",
+     "t": 32.795
+    },
+    {
+     "w": "are",
+     "t": 32.975
+    },
+    {
+     "w": "you",
+     "t": 33.115
+    },
+    {
+     "w": "alive?",
+     "t": 33.295
+    },
+    {
+     "w": "Are",
+     "t": 33.675
+    },
+    {
+     "w": "you",
+     "t": 33.775
+    },
+    {
+     "w": "still",
+     "t": 33.835
+    },
+    {
+     "w": "in",
+     "t": 34.035
+    },
+    {
+     "w": "real",
+     "t": 34.155
+    },
+    {
+     "w": "estate?",
+     "t": 34.295
+    }
+   ],
+   "mock": 33.5,
+   "A": {
+    "title": "Designed scene: the phone fills up",
+    "desc": "\"miss one meeting and 25 texts\": the counter runs 0 \u2192 25 as he says it, teammates' texts stack up in a group chat, and \"Hey, are you alive?\" / \"Are you still in real estate?\" land as highlighted bubbles on his words."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Stay on the speaker; captions carry the quotes."
+   },
+   "end": 34.768,
+   "shots": [
+    {
+     "t0": 29.66,
+     "t1": 34.77,
+     "view": "scene \u00b7 texts",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b9",
+   "name": "That's a blueprint",
+   "start": 34.768,
+   "script": "That's a blueprint, And then everybody has",
+   "words": [
+    {
+     "w": "That's",
+     "t": 34.708
+    },
+    {
+     "w": "a",
+     "t": 35.048
+    },
+    {
+     "w": "blueprint,",
+     "t": 35.108
+    },
+    {
+     "w": "And",
+     "t": 35.949
+    },
+    {
+     "w": "then",
+     "t": 36.309
+    },
+    {
+     "w": "everybody",
+     "t": 36.629
+    },
+    {
+     "w": "has",
+     "t": 37.209
+    }
+   ],
+   "mock": 36.6,
+   "A": {
+    "title": "Medium, then wide",
+    "desc": "\"That's a BLUEPRINT\" on a medium shot, then wide for \"And then EVERYBODY has\"."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Same shots, captions only."
+   },
+   "end": 37.738,
+   "shots": [
+    {
+     "t0": 34.77,
+     "t1": 35.67,
+     "view": "MCU",
+     "follow": false
+    },
+    {
+     "t0": 35.67,
+     "t1": 37.74,
+     "view": "WIDE",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b10",
+   "name": "Rules 2 and 3",
+   "start": 37.738,
+   "script": "X number of conversations per week, And then they're going to add friends to their database.",
+   "words": [
+    {
+     "w": "X",
+     "t": 37.849
+    },
+    {
+     "w": "number",
+     "t": 38.369
+    },
+    {
+     "w": "of",
+     "t": 38.589
+    },
+    {
+     "w": "conversations",
+     "t": 38.809
+    },
+    {
+     "w": "per",
+     "t": 39.189
+    },
+    {
+     "w": "week,",
+     "t": 39.669
+    },
+    {
+     "w": "And",
+     "t": 40.158
+    },
+    {
+     "w": "then",
+     "t": 40.518
+    },
+    {
+     "w": "they're",
+     "t": 40.618
+    },
+    {
+     "w": "going",
+     "t": 40.738
+    },
+    {
+     "w": "to",
+     "t": 40.818
+    },
+    {
+     "w": "add",
+     "t": 40.918
+    },
+    {
+     "w": "friends",
+     "t": 41.098
+    },
+    {
+     "w": "to",
+     "t": 41.378
+    },
+    {
+     "w": "their",
+     "t": 41.558
+    },
+    {
+     "w": "database.",
+     "t": 41.678
+    }
+   ],
+   "mock": 41.6,
+   "A": {
+    "title": "Designed scene: \"The blueprint\" checklist",
+    "desc": "Board titled \"Matt's team \u00b7 The blueprint\". Rule 1 is already ticked; \"X conversations every week\" slides in and ticks on \"week\"; \"Add friends to the database\" slides in and ticks on \"database\"."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Stay on the speaker with captions."
+   },
+   "end": 42.409,
+   "shots": [
+    {
+     "t0": 37.74,
+     "t1": 42.41,
+     "view": "scene \u00b7 board",
+     "follow": false
+    }
+   ]
+  },
+  {
+   "id": "b11",
+   "name": "On repeat",
+   "start": 42.409,
+   "script": "They're just doing simple things on repeat.",
+   "words": [
+    {
+     "w": "They're",
+     "t": 42.349
+    },
+    {
+     "w": "just",
+     "t": 42.709
+    },
+    {
+     "w": "doing",
+     "t": 42.909
+    },
+    {
+     "w": "simple",
+     "t": 43.189
+    },
+    {
+     "w": "things",
+     "t": 43.909
+    },
+    {
+     "w": "on",
+     "t": 44.409
+    },
+    {
+     "w": "repeat.",
+     "t": 45.509
+    }
+   ],
+   "mock": 45.0,
+   "A": {
+    "title": "Close-up that pans with his head turn",
+    "desc": "Medium on \"They're just doing\", close-up on \"simple things ON REPEAT\". He turns his head here, so the camera pans with him; \"repeat\" assembles letter by letter."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Locked close-up, captions only."
+   },
+   "end": 46.246,
+   "shots": [
+    {
+     "t0": 42.41,
+     "t1": 43.08,
+     "view": "MCU",
+     "follow": false
+    },
+    {
+     "t0": 43.08,
+     "t1": 46.25,
+     "view": "CU",
+     "follow": true
+    }
+   ]
+  },
+  {
+   "id": "b12",
+   "name": "Close",
+   "start": 46.246,
+   "script": "This is the blueprint. It's not a suggestion. you have to do this.",
+   "words": [
+    {
+     "w": "This",
+     "t": 46.186
+    },
+    {
+     "w": "is",
+     "t": 46.326
+    },
+    {
+     "w": "the",
+     "t": 46.446
+    },
+    {
+     "w": "blueprint.",
+     "t": 46.586
+    },
+    {
+     "w": "It's",
+     "t": 47.709
+    },
+    {
+     "w": "not",
+     "t": 48.069
+    },
+    {
+     "w": "a",
+     "t": 48.249
+    },
+    {
+     "w": "suggestion.",
+     "t": 48.369
+    },
+    {
+     "w": "you",
+     "t": 49.024
+    },
+    {
+     "w": "have",
+     "t": 49.204
+    },
+    {
+     "w": "to",
+     "t": 49.444
+    },
+    {
+     "w": "do",
+     "t": 49.584
+    },
+    {
+     "w": "this.",
+     "t": 49.744
+    }
+   ],
+   "mock": 47.2,
+   "A": {
+    "title": "Callback stamp, then the final line",
+    "desc": "\"This is THE BLUEPRINT.\" stamps over the finished checklist, then extreme close-up on \"It's NOT a suggestion\" and close-up on \"You have to do THIS.\" Ends on a short held frame and fade."
+   },
+   "B": {
+    "title": "Speaker + captions only",
+    "desc": "Speaker only for the whole close."
+   },
+   "end": 50.517,
+   "shots": [
+    {
+     "t0": 46.25,
+     "t1": 47.71,
+     "view": "scene \u00b7 final",
+     "follow": false
+    },
+    {
+     "t0": 47.71,
+     "t1": 48.85,
+     "view": "ECU",
+     "follow": false
+    },
+    {
+     "t0": 48.85,
+     "t1": 50.52,
+     "view": "CU",
+     "follow": false
+    }
+   ]
+  }
+ ]
+}

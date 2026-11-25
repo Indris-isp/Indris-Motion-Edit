@@ -59,7 +59,7 @@ S.blueprint = () => {
   const svg = sv('svg', world, { width: 1080, height: 1920, style: 'position:absolute;left:0;top:0;overflow:visible' });
   const defs = sv('defs', svg); const gl = sv('filter', defs, { id: 'gl', x: '-50%', y: '-50%', width: '200%', height: '200%' });
   sv('feGaussianBlur', gl, { stdDeviation: 5, result: 'b' }); const mg = sv('feMerge', gl); sv('feMergeNode', mg, { in: 'b' }); sv('feMergeNode', mg, { in: 'SourceGraphic' });
-  const st = { fill: 'none', stroke: '#F7BA68', 'stroke-width': 3.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, filter: 'url(#gl)' };
+  const st = { fill: 'none', stroke: '#8C7F74', 'stroke-width': 3.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, filter: 'url(#gl)' };
   const paths = [
     'M410 1000 H670 V1110 H410 Z',                                   // leader box
     'M540 1110 V1190', 'M250 1190 H830', 'M250 1190 V1260', 'M540 1190 V1260', 'M830 1190 V1260',
@@ -165,16 +165,16 @@ function buildBoard(world, opts = {}) {
   const head = el('div', world, 'abs', { left: 0, width: '1080px', top: '330px', textAlign: 'center' });
   const lab = el('div', head, 'label', { fontSize: '30px' }, 'MATT’S TEAM');
   const ttl = el('div', head, '', { fontSize: '96px', fontWeight: 800, letterSpacing: '-.04em', marginTop: '10px' }, 'The <span class="serif amber" style="font-size:118px;letter-spacing:-.01em">blueprint</span>');
-  const rule = el('div', world, 'abs', { left: '240px', width: '600px', top: '560px', height: '2px', background: 'linear-gradient(90deg,transparent,rgba(247,186,104,.7),transparent)' });
+  const rule = el('div', world, 'abs', { left: '240px', width: '600px', top: '560px', height: '2px', background: 'linear-gradient(90deg,transparent,rgba(140,127,116,.85),transparent)' });
   const data = [['1', 'Show up.', 'Every meeting. Everyone.'], ['2', 'X conversations', 'every single week'], ['3', 'Add friends', 'to the database']];
   const rows = data.map(([n, a, b], i) => {
     const r = el('div', world, 'row', { top: px(650 + i * 240) });
     el('div', r, 'num', {}, n);
     const tx = el('div', r, ''); el('div', tx, 't', {}, a); el('div', tx, 's', {}, b);
     const s = sv('svg', el('div', r, 'chk'), { width: 74, height: 74, viewBox: '0 0 74 74' });
-    const ring = sv('circle', s, { cx: 37, cy: 37, r: 33, fill: 'none', stroke: '#F7BA68', 'stroke-width': 3.5, pathLength: 1, opacity: .9 });
-    const tick = sv('path', s, { d: 'M22 38 L33 49 L53 27', fill: 'none', stroke: '#F7BA68', 'stroke-width': 6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1,
-      style: 'filter:drop-shadow(0 0 6px rgba(255,154,60,.8))' });
+    const ring = sv('circle', s, { cx: 37, cy: 37, r: 33, fill: 'none', stroke: '#F05B33', 'stroke-width': 3.5, pathLength: 1, opacity: .9 });
+    const tick = sv('path', s, { d: 'M22 38 L33 49 L53 27', fill: 'none', stroke: '#F05B33', 'stroke-width': 6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1,
+      style: 'filter:drop-shadow(0 0 6px rgba(240,91,51,.8))' });
     return { r, ring, tick };
   });
   return { head, rule, rows };
@@ -185,8 +185,8 @@ function setRow(R, pin, chk, active) {
   R.r.style.transform = `translateX(${((1 - q) * -80).toFixed(1)}px) scale(${lerp(.94, 1, OS(pin)).toFixed(4)})`;
   const b = (1 - q) * 12; R.r.style.filter = b > .3 ? `blur(${b.toFixed(1)}px)` : '';
   dash(R.ring, chk); dash(R.tick, P(chk, .4, 1));
-  R.r.style.boxShadow = `inset 0 0 0 1.5px rgba(247,186,104,${(.22 + .45 * active).toFixed(3)}), 0 0 ${(60 * active).toFixed(0)}px rgba(255,154,60,${(.22 * active).toFixed(3)})`;
-  R.r.style.background = `rgba(255,255,255,${(.035 + .04 * active).toFixed(3)})`;
+  R.r.style.boxShadow = `inset 0 0 0 1.5px rgba(240,91,51,${(.22 + .45 * active).toFixed(3)}), 0 0 ${(60 * active).toFixed(0)}px rgba(240,91,51,${(.22 * active).toFixed(3)})`;
+  R.r.style.background = `rgba(37,32,27,${(.82 + .15 * active).toFixed(3)})`;
 }
 S.board = () => {
   stage.classList.add('bp');
