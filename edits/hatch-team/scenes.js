@@ -231,6 +231,94 @@ S.final = () => {
   };
 };
 
+/* ===================== WARM WORLD (client plan, beats 3 and 5): orange gradient, editorial left type,
+   drifting line-art elements at the edges (reference: golden gradient + objects bleeding off-frame) ===================== */
+function warmWorld() {
+  stage.classList.add('og');
+  const world = el('div', stage, 'abs', { inset: 0, transformOrigin: '50% 50%' });
+  const streaks = [0, 1, 2].map(i => el('div', world, 'streak', { left: px(-300 + i * 420), top: '-300px', width: '260px', height: '2600px' }));
+  return { world, streaks };
+}
+const ART = {   // simple line illustrations (stroke only) for the drifting elements
+  house: '<svg viewBox="0 0 200 180" width="100%" height="100%"><path d="M20 90 L100 20 L180 90 M40 74 V170 H160 V74 M84 170 V118 H116 V170 M56 104 H76 V124 H56 Z M124 104 H144 V124 H124 Z M140 40 V18 H158 V56"/></svg>',
+  roll: '<svg viewBox="0 0 240 140" width="100%" height="100%"><path d="M30 30 H200 A20 20 0 0 1 200 70 H30 A20 20 0 0 1 30 30 Z M30 30 A20 20 0 0 0 30 70 M50 70 V120 H220 V70 M70 88 H120 M70 102 H150 M160 82 H200 V110 H160 Z"/></svg>',
+  compass: '<svg viewBox="0 0 160 200" width="100%" height="100%"><path d="M80 14 A12 12 0 1 1 79.9 14 M74 36 L30 186 M86 36 L130 186 M46 132 Q80 150 114 132 M30 186 L26 196 M130 186 L132 196"/></svg>',
+  ruler: '<svg viewBox="0 0 260 60" width="100%" height="100%"><path d="M6 10 H254 V50 H6 Z M26 10 V26 M46 10 V20 M66 10 V26 M86 10 V20 M106 10 V30 M126 10 V20 M146 10 V26 M166 10 V20 M186 10 V26 M206 10 V20 M226 10 V30"/></svg>',
+};
+function drifters(world, list) {
+  return list.map(([k, x, y, w, rot, dx, dy, dr, op]) => {
+    const d = el('div', world, 'art', { left: px(x), top: px(y), width: px(w), height: px(w * .8), opacity: op });
+    d.innerHTML = ART[k]; d._m = [x, y, rot, dx, dy, dr]; return d;
+  });
+}
+function drift(els, t, inP) {
+  els.forEach((d, i) => {
+    const [x, y, r, dx, dy, dr] = d._m, p = EO(clamp(inP - i * .08));
+    d.style.transform = `translate(${(dx * t + (1 - p) * (x < 540 ? -160 : 160)).toFixed(1)}px,${(dy * t + 6 * Math.sin(t * 1.3 + i)).toFixed(1)}px) rotate(${(r + dr * t).toFixed(2)}deg)`;
+  });
+}
+
+S.reel = () => {          // beat 3: "that ego has to be transformed into a ... blueprint"
+  const { world, streaks } = warmWorld();
+  const arts = drifters(world, [['house', 720, 170, 330, 8, -6, 4, 1.2, .55], ['roll', 640, 1390, 400, -10, -9, -5, -1.5, .5],
+    ['compass', -40, 1330, 220, 18, 7, -4, 2, .45], ['ruler', -60, 210, 330, -14, 10, 3, -1, .4]]);
+  const runA = el('div', world, 'run', { top: '470px' }, 'that ego has to be');
+  const runB = el('div', world, 'run', { top: '540px' }, 'transformed into a');
+  const win = el('div', world, 'reelwin', { top: '620px' });
+  const strip = el('div', win, 'reelstrip');
+  const WORDS = ['title', 'following', 'brand', 'a crowd', 'vision', 'a boss', 'help', 'system', 'a plan', 'habit', 'a team', 'blueprint.'];
+  const ROW = 210;
+  const LIST = [...WORDS].reverse();                     // top -> bottom: "blueprint." ... "title"; the strip slides DOWN
+  const rows = LIST.map((w, i) => { const r = el('div', strip, 'reelword' + (i === 0 ? ' bp' : ''), { top: px(i * ROW) }); r.textContent = w; return r; });
+  const ul = el('div', world, 'uline', { top: '925px' });
+  const tE = CU.ego ?? .2, tT = CU.transformed, tB = CU.blueprint;
+  const N = WORDS.length - 1;
+  return t => {
+    world.style.transform = camera(t, 1.0, 1.05);
+    streaks.forEach((s, i) => s.style.transform = `translateX(${(t * (40 + i * 18)).toFixed(1)}px) rotate(18deg)`);
+    drift(arts, t, t / .7);
+    blurIn(runA, (t - tE + .25) / .25, 24, 10);
+    blurIn(runB, (t - tT) / .22, 24, 10);
+    /* a long run of options: slow start, fast middle, soft landing on "blueprint." exactly on the word */
+    const p = clamp((t - (tE + .05)) / (tB - (tE + .05)));
+    const q = p < .45 ? .22 * EE(p / .45) : .22 + .78 * (1 - Math.pow(1 - (p - .45) / .55, 3));
+    const pos = q * N;                                    // how many words have passed
+    strip.style.transform = `translateY(${(-(N - pos) * ROW).toFixed(1)}px)`;
+    const speed = p > 0 && p < 1 ? Math.min(1, (p < .45 ? .4 : 1.8 * (1 - (p - .45) / .55))) : 0;
+    rows.forEach((r, i) => {
+      const d = Math.abs(i - (N - pos));
+      r.style.opacity = (clamp(1 - d * .5) * .85 + (d < .5 ? .15 : 0)) * clamp((t - tE + .1) / .2);
+      const blur = speed * 7 * clamp(d * 1.5 + .4);
+      r.style.filter = blur > .3 ? `blur(${blur.toFixed(1)}px)` : '';
+      r.classList.toggle('land', i === 0 && p >= .999);
+    });
+    ul.style.transform = `scaleX(${E(t, tB + .05, tB + .4)})`;
+    stage.style.opacity = 1;
+  };
+};
+
+S.secret = () => {        // beat 5 background + question type (Erik's cut-out is composited in edit.py)
+  const { world, streaks } = warmWorld();
+  const arts = drifters(world, [['ruler', -80, 1460, 300, 12, 8, -3, 1, .35], ['house', -60, 160, 230, -8, 6, 3, -1, .35]]);
+  const box = el('div', world, 'abs', { left: '78px', top: '640px', width: '520px' });
+  const a = el('div', box, 'qrun', {}, 'Hey, what’s the');
+  const b = el('div', box, 'qkey', {}, 'secret');
+  const c = el('div', box, 'qrun', { marginTop: '6px' }, 'to your success?');
+  const { hey: tH, secret: tS, to: tTo } = CU;
+  return t => {
+    world.style.transform = camera(t, 1.0, 1.05);
+    streaks.forEach((s, i) => s.style.transform = `translateX(${(t * (40 + i * 18)).toFixed(1)}px) rotate(18deg)`);
+    drift(arts, t, t / .6);
+    blurIn(a, (t - tH + .06) / .2, 24, 10);
+    const p = P(t, tS - .06, tS + .22);
+    b.style.opacity = clamp(p * 1.6);
+    b.style.transform = `translateY(${((1 - EO(p)) * 36).toFixed(1)}px) scale(${lerp(.86, 1, OS(p)).toFixed(4)})`;
+    const bl = (1 - EO(p)) * 14; b.style.filter = bl > .3 ? `blur(${bl.toFixed(1)}px)` : '';
+    blurIn(c, (t - tTo + .06) / .2, 24, 10);
+    stage.style.opacity = 1;
+  };
+};
+
 /* ===================== OVERLAYS (transparent, on top of the speaker) ===================== */
 S.title = () => {           // A8 title banner for the first beat
   const box = el('div', stage, 'abs glass', { left: '90px', width: '900px', top: '262px', borderRadius: '40px', padding: '30px 0 34px', textAlign: 'center' });

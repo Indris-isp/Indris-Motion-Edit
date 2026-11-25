@@ -195,10 +195,10 @@ SHOTS = [
     (0, 'WIDE', .03),                # Real estate teams in their purest form, exist because  (rack-focus opener)
     (12, 'CU', .05),                 # the leader has EGO
     (122, 'MCU', .03),               # so, for a real estate team to function well
-    (134, 'scene:blueprint', 0),     # that ego has to be transformed into a BLUEPRINT
+    (134, 'scene:reel', 0),          # that ego has to be transformed into a ... BLUEPRINT (client plan b3: orange reel)
     (226, 'MCU', .03),               # I have a buddy named Matt Miali and he
     (235, 'WIDE', .04),              # runs this incredible team out of Connecticut, great money, productivity (+tags in headroom)
-    (271, 'CU', .04),                # hey, what's the secret to your success?
+    (271, 'scene:secret', 0),        # hey, what's the SECRET to your success? (client plan b5: Erik cut-out right, question left)
     (278, 'MCU', .03),               # and he's like, Erik,
     (288, 'ECU', .03),               # most BORING ... (grade drains; the cut after 'boring' flips to CU)
     (296, 'WIDE', .04),              # number one, everybody agrees to SHOW UP (+#1 in the wide shot's headroom)
@@ -404,7 +404,6 @@ CHUNKS = [
     (239, 241, {241}, set()),         # out of / CONNECTICUT
     (242, 244, {243, 244}, set()),    # makes / GREAT MONEY
     (245, 248, {248}, set()),         # high per agent / PRODUCTIVITY
-    (271, 277, {274}, set()),         # hey, what's the / SECRET / to your success?
     (278, 281, {281}, set()),         # and he's like, / ERIK,
     (282, 288, set(), set()),         # this is going to be the most
     (289, 293, {289}, set()),         # BORING / conversation that you've had
@@ -577,7 +576,8 @@ def scene_plan():
     def cues(t0, **kw): return {k: round(out_time(*v) - t0 if isinstance(v, tuple) else out_time(v) - t0, 3) for k, v in kw.items()}
     sc = []
     for name, kw in [
-        ('blueprint', dict(ego=135, transformed=139, blueprint=142)),
+        ('reel', dict(ego=135, transformed=139, blueprint=142)),
+        ('secret', dict(hey=271, secret=274, to=275)),
         ('texts', dict(every=323, n25=324, text=329, alive=337, still=338, estate=343)),
         ('board', dict(x=369, week=374, add=394, database=398)),
         ('final', dict(this=458, blueprint=461)),
@@ -586,8 +586,6 @@ def scene_plan():
         sc.append(dict(name=name, kind='scene', f0=f0, f1=f1, cues=cues(f0 / FPS, **kw)))
     ov = [
         ('title', 0, int(round((OPENER_END + .3) * FPS)), dict()),
-        ('tags', int(round(out_time(239) * FPS)) - 6, int(round((out_time(248, 'e') + .5) * FPS)),
-         dict(ct=241, money=243, prod=245)),
         ('rule1', int(round(out_time(296) * FPS)) - 4, int(round((out_time(302, 'e') + .25) * FPS)), dict(show=301)),
     ]
     for name, f0, f1, kw in ov:
@@ -597,6 +595,52 @@ def scene_plan():
 
 SCENES = scene_plan()
 _scene_cache = {}
+
+
+MODNET = os.path.join(HERE, 'models', 'modnet.onnx')
+_matte = None
+
+
+def matte(rgb):
+    """Person alpha (0..1) for an RGB crop, MODNet (Apache-2.0) via onnxruntime."""
+    global _matte
+    if _matte is None:
+        import onnxruntime as ort
+        _matte = ort.InferenceSession(MODNET, providers=['CPUExecutionProvider'])
+    h, w = rgb.shape[:2]; H_ = 512; W_ = int(round(w * H_ / h / 32) * 32)
+    x = cv2.resize(rgb, (W_, H_), interpolation=cv2.INTER_AREA).astype(np.float32) / 255
+    a = _matte.run(None, {'input': ((x - .5) / .5).transpose(2, 0, 1)[None]})[0][0, 0]
+    return cv2.resize(a, (w, h), interpolation=cv2.INTER_LINEAR)
+
+
+CUT_SRC = (18, 1062, 520, 1500)          # source region the cut-out is taken from (y0, y1, x0, x1)
+CUT_SCALE, CUT_FACE_X = 1.85, 735        # scale into the frame; where his face centre lands (right side)
+
+
+def composite_cutout(bg, f, st, k):
+    """Erik, cut out of his own footage, on the right of the scene; bottom edge on the frame bottom."""
+    y0, y1, x0, x1 = CUT_SRC
+    crop = f[y0:y1, x0:x1]
+    a = matte(crop)
+    sh, sw = int((y1 - y0) * CUT_SCALE), int((x1 - x0) * CUT_SCALE)
+    crop = cv2.resize(crop, (sw, sh), interpolation=cv2.INTER_LANCZOS4)
+    a = cv2.resize(a, (sw, sh), interpolation=cv2.INTER_LINEAR)
+    cx, _ = face_at(st)
+    ox = int(CUT_FACE_X - (cx - x0) * CUT_SCALE); oy = H - sh
+    # visible window of the cut-out inside the frame
+    fx0, fx1 = max(0, ox), min(W, ox + sw); fy0, fy1 = max(0, oy), min(H, oy + sh)
+    cs = crop[fy0 - oy:fy1 - oy, fx0 - ox:fx1 - ox].astype(np.float32)
+    al = a[fy0 - oy:fy1 - oy, fx0 - ox:fx1 - ox, None]
+    out = bg.astype(np.float32)
+    # soft contact shadow to seat him in the scene
+    shadow = cv2.GaussianBlur((a * 255).astype(np.uint8), (0, 0), 28).astype(np.float32) / 255
+    shf = np.zeros((H, W), np.float32)
+    sx0, sx1 = max(0, ox - 30), min(W, ox - 30 + sw); sy0, sy1 = max(0, oy + 20), min(H, oy + 20 + sh)
+    shf[sy0:sy1, sx0:sx1] = shadow[sy0 - (oy + 20):sy1 - (oy + 20), sx0 - (ox - 30):sx1 - (ox - 30)]
+    out *= (1 - .35 * shf[..., None])
+    region = out[fy0:fy1, fx0:fx1]
+    out[fy0:fy1, fx0:fx1] = cs * al + region * (1 - al)
+    return np.clip(out, 0, 255).astype(np.uint8)
 
 
 def scene_frame(name, idx):
@@ -621,7 +665,11 @@ def render_frame(src, k, bg_src):
         shot = dict(shot, view='MCU', drift=0, follow=False)
     if full is not None:
         rgba = scene_frame(full['name'], k - full['f0'])
-        img = grade(rgba[..., :3], k, t, lift=False, film=False)
+        bgimg = rgba[..., :3]
+        if full['name'] == 'secret':
+            f = remove_captions(src.get(int(round(st * FPS))))
+            bgimg = composite_cutout(bgimg, LIFT[f], st, k)
+        img = grade(bgimg, k, t, lift=False, film=False)
     else:
         if t < OPENER_END and not PLAIN:
             f = remove_captions(bg_src.get(int(round((BG_SRC + t) * FPS))))
