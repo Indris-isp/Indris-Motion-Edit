@@ -38,25 +38,30 @@ def src_to_out(t): return t if t < CUT[0] else t - (CUT[1] - CUT[0])
 
 
 # ---------------------------------------------------------------- shot list
-# (start, layout, [(t, zoom), ...], crop centre or None). Zoom keys are eased; hard cut at each start.
-# 'framed' zoom is relative to the full 4:3 frame shown inside the Polaroid card.
+# (start, layout, [(t, zoom), ...], b-roll name or None). Zoom keys are eased; hard cut at each start.
+# 'full' = the speaker reframed to 9:16; 'broll' = a full-screen stock clip from src/broll/ (constant push-in).
 SHOTS = [
-    (0.00,  'full',   [(0.00, 1.34), (0.55, 1.14), (CUT[0], 1.17)], None),        # you enjoy the real world (settle-in open)
-    (CUT[1], 'full',  [(CUT[1], 1.00), (5.21, 1.07)], None),                      # [jump cut] it's nice out here, feels good
-    (5.21,  'framed', [(5.21, 1.00), (6.40, 1.05)], None),                        # DROP: beautiful scenes   (whole scene)
-    (6.40,  'framed', [(6.40, 1.85), (7.27, 1.95)], (250, 195)),                  # fresh air       (tree + sky)
-    (7.27,  'framed', [(7.27, 2.45), (8.79, 2.60)], (800, 150)),                  # birds chirping  (canopy)
-    (8.79,  'full',   [(8.79, 1.28), (10.4, 1.36)], None),                        # makes you feel alive
-    (10.58, 'full',   [(10.58, 1.02), (12.04, 1.18)], None),                      # too many people are inside f*cking
-    (12.04, 'full',   [(12.04, 1.46), (12.3, 1.40), (13.17, 1.42)], None),        # GTA  (punch + shake + RGB split)
-    (13.17, 'full',   [(13.17, 1.10), (14.62, 1.16)], None),                      # living a fake reality
-    (14.62, 'full',   [(14.62, 1.24), (16.84, 1.32)], None),                      # instead of actually living their life
-    (16.84, 'full',   [(16.84, 1.00), (18.67, 1.20), (SRC_FRAMES / FPS, 1.34)], None),  # ...put on this earth to live -> end card
+    (0.00,  'full',  [(0.00, 1.34), (0.55, 1.14), (CUT[0], 1.17)], None),       # you enjoy the real world (settle-in open)
+    (CUT[1], 'full', [(CUT[1], 1.00), (4.17, 1.06)], None),                     # [jump cut] it's nice out here
+    (4.17,  'broll', [(4.17, 1.00), (5.21, 1.05)], 'sunrays'),                  # feels good
+    (5.21,  'broll', [(5.21, 1.00), (6.40, 1.06)], 'canyon'),                   # DROP: beautiful scenes
+    (6.40,  'broll', [(6.40, 1.00), (7.27, 1.05)], 'breath'),                   # fresh air
+    (7.27,  'broll', [(7.27, 1.00), (8.79, 1.07)], 'bird'),                     # birds chirping
+    (8.79,  'full',  [(8.79, 1.28), (10.4, 1.36)], None),                       # makes you feel alive
+    (10.58, 'broll', [(10.58, 1.00), (12.04, 1.08)], 'gamer'),                  # too many people are inside f*cking
+    (12.04, 'full',  [(12.04, 1.46), (12.3, 1.40), (13.17, 1.42)], None),       # GTA  (punch + shake + RGB split)
+    (13.17, 'broll', [(13.17, 1.00), (14.62, 1.07)], 'vr'),                     # living a fake reality
+    (14.62, 'full',  [(14.62, 1.20), (16.0, 1.27)], None),                      # instead of actually living
+    (16.0,  'broll', [(16.0, 1.00), (16.84, 1.05)], 'friends'),                 # their life
+    (16.84, 'full',  [(16.84, 1.00), (17.52, 1.05)], None),                     # that they've been put on
+    (17.52, 'broll', [(17.52, 1.00), (17.96, 1.04)], 'earth'),                  # this earth
+    (17.96, 'full',  [(17.96, 1.16), (18.67, 1.22), (SRC_FRAMES / FPS, 1.34)], None),  # to live -> end card
 ]
-FRAMED_IN = 5.21
 HITS = [  # (source time, flash, rgb_split_px, shake_px)
     (CUT[1], 0.05, 0, 0), (5.21, 0.20, 0, 0), (8.79, 0.06, 0, 0), (12.04, 0.30, 18, 7), (13.63, 0.0, 9, 2), (19.23, 0.10, 0, 0),
 ]
+BROLL_GAIN = {'sunrays': 0.72}   # per-clip exposure trim for stock that runs hot
+A_ROLL_LIFT = 0.78     # gamma on the speaker footage only (the source is underexposed); stock is already bright
 COLD_IN, COLD_OUT = (10.5, 10.9), (14.65, 15.75)
 
 
@@ -67,13 +72,13 @@ def ease_out(u): u = min(1, max(0, u)); return 1 - (1 - u) ** 3
 def shot_at(t):
     s = [x for x in SHOTS if x[0] <= t][-1]
     keys = s[2]
-    if t <= keys[0][0]: return s[1], keys[0][1], s[3]
+    if t <= keys[0][0]: return s[1], keys[0][1], s[3], s[0]
     for (t0, z0), (t1, z1) in zip(keys, keys[1:]):
         if t <= t1:
             u = (t - t0) / (t1 - t0)
             e = ease_out(u) if t0 == s[0] and z0 > z1 and t1 - t0 < 1 else smooth(u)
-            return s[1], z0 + (z1 - z0) * e, s[3]
-    return s[1], keys[-1][1], s[3]
+            return s[1], z0 + (z1 - z0) * e, s[3], s[0]
+    return s[1], keys[-1][1], s[3], s[0]
 
 
 # ---------------------------------------------------------------- source + caption removal
@@ -130,37 +135,30 @@ def full_layout(img, z, t):
         ImageFilter.UnsharpMask(radius=2.2, percent=55, threshold=2))
 
 
-# Polaroid card (design-system §5 "white Polaroid border for picture-in-frame")
-CARD_W, CARD_H, BORDER, CARD_CY, TILT = 920, 690, 20, 850, -1.6
-PW, PH = CARD_W + 2 * BORDER, CARD_H + 2 * BORDER
-_pol_mask = Image.new('L', (PW, PH), 0); ImageDraw.Draw(_pol_mask).rounded_rectangle((0, 0, PW - 1, PH - 1), 10, fill=255)
-_img_mask = Image.new('L', (CARD_W, CARD_H), 0); ImageDraw.Draw(_img_mask).rounded_rectangle((0, 0, CARD_W - 1, CARD_H - 1), 4, fill=255)
-_shadow = Image.new('L', (W, H), 0)
-_sr = _pol_mask.rotate(TILT, Image.BICUBIC, expand=True)
-_shadow.paste(_sr, ((W - _sr.width) // 2 + 14, CARD_CY - _sr.height // 2 + 30), _sr)
-_shadow = _shadow.filter(ImageFilter.GaussianBlur(34)).point(lambda v: int(v * 0.85))
+class BRoll:
+    """Sequential reader for a 1080x1920 / 24 fps stock segment in src/broll/ (see CREDITS.md there)."""
+    def __init__(self, name):
+        self.p = subprocess.Popen(['ffmpeg', '-v', 'error', '-i', os.path.join(HERE, f'src/broll/{name}.mp4'),
+                                   '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], stdout=subprocess.PIPE,
+                                  stderr=subprocess.DEVNULL)
+        self.k, self.img = -1, None
+
+    def frame(self, k):
+        while self.k < k:
+            b = self.p.stdout.read(W * H * 3)
+            if len(b) < W * H * 3: break               # clip shorter than the shot: hold its last frame
+            self.img = Image.fromarray(np.frombuffer(b, np.uint8).reshape(H, W, 3)); self.k += 1
+        return self.img
 
 
-def framed_layout(img, z, t, centre):
-    bw = SH * 9 / 16 * 1.25
-    bg = img.resize((108, 192), Image.BILINEAR, box=(CX - bw / 2, 0, CX + bw / 2, SH))
-    bg = bg.filter(ImageFilter.GaussianBlur(5)).resize((W, H), Image.BILINEAR)
-    bg = Image.fromarray((np.asarray(bg, np.float32) * 0.40).astype(np.uint8))
-    bg.paste(Image.new('RGB', (W, H), 0), (0, 0), _shadow)
-    ccx, ccy = centre or (CX - 35, SH / 2)
-    cw, ch = SW / z, SH / z
-    x0 = min(max(ccx - cw / 2, 0), SW - cw); y0 = min(max(ccy - ch / 2, 0), SH - ch)
-    photo = img.resize((CARD_W, CARD_H), Image.LANCZOS, box=(x0, y0, x0 + cw, y0 + ch)).filter(
-        ImageFilter.UnsharpMask(radius=1.6, percent=50, threshold=2))
-    pol = Image.new('RGBA', (PW, PH), (0, 0, 0, 0))
-    pol.paste(Image.new('RGBA', (PW, PH), (246, 242, 234, 255)), (0, 0), _pol_mask)
-    pol.paste(photo, (BORDER, BORDER), _img_mask)
-    u = (t - FRAMED_IN) / 0.42                            # entrance: drops in from 125 % and settles
-    s = 1.25 - 0.25 * ease_out(u)
-    pol = pol.rotate(TILT * (0.3 + 0.7 * ease_out(u)), Image.BICUBIC, expand=True)
-    if s != 1: pol = pol.resize((int(pol.width * s), int(pol.height * s)), Image.BICUBIC)
-    bg = bg.convert('RGBA'); bg.alpha_composite(pol, ((W - pol.width) // 2, CARD_CY - pol.height // 2))
-    return bg.convert('RGB')
+_broll = {}
+def broll_layout(name, start, z, t):
+    if name not in _broll: _broll[name] = BRoll(name)
+    img = _broll[name].frame(int(round((t - start) * FPS)))
+    cw, ch = W / z, H / z
+    img = img.resize((W, H), Image.BICUBIC, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+    g = BROLL_GAIN.get(name)
+    return img if g is None else Image.fromarray((np.asarray(img, np.float32) * g).astype(np.uint8))
 
 
 # ---------------------------------------------------------------- grade / film look
@@ -173,10 +171,12 @@ def curves(c, fade, r_hl, r_sh, g_sh, b_hl, b_sh):
 
 
 WARM = (curves(0.30, 0.035, 0.040, -0.015, 0.008, -0.045, 0.040), 1.08)   # teal shadows, golden highlights
-COLD = (curves(0.42, 0.050, -0.035, -0.030, 0.018, 0.030, 0.065), 0.50)   # crushed, desaturated, steel blue
+COLD = (curves(0.34, 0.045, -0.035, -0.030, 0.018, 0.030, 0.065), 0.50)   # crushed, desaturated, steel blue
 LUMA = np.array([0.2126, 0.7152, 0.0722], np.float32)
 yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-VIGNETTE = (1 - 0.42 * (((xx - W / 2) / (W * 0.62)) ** 2 + ((yy - H * 0.46) / (H * 0.62)) ** 2) ** 1.3).clip(0.35, 1)[..., None]
+VIGNETTE = (1 - 0.26 * (((xx - W / 2) / (W * 0.62)) ** 2 + ((yy - H * 0.46) / (H * 0.62)) ** 2) ** 1.3).clip(0.55, 1)[..., None]
+_y = np.linspace(0, 1, H, dtype=np.float32)[:, None, None]
+SCRIM = 1 - 0.38 * np.clip((_y - 0.50) / 0.25, 0, 1) ** 1.5 * np.clip((0.98 - _y) / 0.12, 0.35, 1)   # caption legibility
 rng = np.random.default_rng(7)
 GRAIN = []
 for _ in range(10):
@@ -192,11 +192,15 @@ def coldness(t):
     return 1 - smooth((t - COLD_OUT[0]) / (COLD_OUT[1] - COLD_OUT[0]))
 
 
-def grade(img, t, oi):
+LIFT = ((np.arange(256) / 255.0) ** A_ROLL_LIFT * 255).round().astype(np.uint8)
+
+
+def grade(img, t, oi, lift):
     k = coldness(t)
     lut = WARM[0] * (1 - k) + COLD[0] * k
     sat = WARM[1] * (1 - k) + COLD[1] * k
     a = np.asarray(img)
+    if lift: a = LIFT[a]
     f = np.stack([lut[0][a[..., 0]], lut[1][a[..., 1]], lut[2][a[..., 2]]], -1)
     Y = (f @ LUMA)[..., None]
     f = Y + (f - Y) * sat
@@ -204,7 +208,7 @@ def grade(img, t, oi):
     glow = Image.fromarray((hi * 255).astype(np.uint8)).resize((W // 8, H // 8), Image.BILINEAR)
     glow = np.asarray(glow.filter(ImageFilter.GaussianBlur(6)).resize((W, H), Image.BILINEAR), np.float32) / 255
     f = f + glow * np.array([0.42, 0.28, 0.17], np.float32) * (1 - 0.5 * k)
-    f = f * VIGNETTE + hit_env(t, 0, 0.07)
+    f = f * VIGNETTE * SCRIM + hit_env(t, 0, 0.07)
     lum = (f @ LUMA)[..., None]
     f = f + GRAIN[oi % len(GRAIN)] * (0.055 * (1.1 - lum) + 0.012)     # film grain, stronger in shadows
     o = (f.clip(0, 1) * 255).astype(np.uint8)
@@ -370,7 +374,7 @@ def end_card(frame, t):
     u = t - LAST_VALID / FPS
     blur = 14 * smooth(u / 0.7)
     f = frame.filter(ImageFilter.GaussianBlur(blur)) if blur > 0.3 else frame
-    f = Image.fromarray((np.asarray(f, np.float32) * (1 - 0.45 * smooth(u / 0.7))).astype(np.uint8)).convert('RGBA')
+    f = Image.fromarray((np.asarray(f, np.float32) * (1 - 0.32 * smooth(u / 0.7))).astype(np.uint8)).convert('RGBA')
     for tt, im, y, rise in ((END_T1, END_SMALL, 760, 14), (END_T2, END_TITLE, 790, 30)):
         if t < tt: continue
         e = ease_out((t - tt) / 0.6); a = min(1, (t - tt) / 0.35)
@@ -389,9 +393,9 @@ def end_card(frame, t):
 
 def render_frame(src_img, fi, oi):
     t = fi / FPS
-    layout, z, centre = shot_at(t)
-    img = framed_layout(src_img, z, t, centre) if layout == 'framed' else full_layout(src_img, z, t)
-    img = grade(img, t, oi)
+    layout, z, clip, start = shot_at(t)
+    img = broll_layout(clip, start, z, t) if layout == 'broll' else full_layout(src_img, z, t)
+    img = grade(img, t, oi, lift=layout != 'broll')
     img = end_card(img, t)
     img = draw_captions(img, t)
     if t > FADE_OUT[0]:
