@@ -23,7 +23,7 @@ Then tell Claude: *"Read edits/hatch-team/HANDOFF.md and continue the Hatch clip
 | Designed scenes / overlays | `scenes.html`, `scenes.js`, rendered by `scenes.cjs` |
 | Cut check (edge levels + re-transcription) | `verify_cut.py` |
 | Rough cut v2 (approved cut base, review strip) | `out/hatch_team_ROUGH_CUT_v2.mp4` |
-| v1 full render (superseded) | `out/hatch_team_premium_1080x1920.mp4` |
+| v2 preview (the client plan, every beat built) | `out/hatch_team_v2_preview_1080x1920.mp4` (v1 render is in git history) |
 | Palette board | `palette/palette_board.png` |
 | Palette picker (artifact) | https://claude.ai/artifact/6SMwnQtX3ePU4EXTDx1Dr5 (source `palette/picker.html`) |
 | Plan page (artifact) | https://claude.ai/artifact/FTBbLgVEqhk1YnyMaJEV5W (source `plan_ui/`, data from `plan_ui/build.py`) |
