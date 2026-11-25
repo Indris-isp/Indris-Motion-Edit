@@ -309,10 +309,12 @@ def layout_chunk(i0, i1, keys, reds):
 CHUNK_LAYOUT = [(a, b, layout_chunk(a, b, k, r)) for a, b, k, r in CHUNKS]
 
 # Caption animation, matched to the reference edit:
-#  - every word fades in from a heavy blur to sharp, in place (no pop, no slide);
-#  - keywords assemble letter by letter in random order, each letter blurring in;
+#  - every word rises in: it starts ~30 px low and blurred, then slides up, fades in and sharpens;
+#  - three keywords (LETTER_WORDS) instead assemble letter by letter in random order;
 #  - the whole caption block slowly grows 100 -> 103 % while on screen, then blurs, fades and grows out.
 WORD_IN, WORD_BLUR = 6 / FPS, 12          # word reveal time, starting blur radius (px)
+WORD_RISE = (30, 40)                      # rise-in distance (px): run-in words, keywords
+LETTER_WORDS = {11, 20, 46}               # only these keywords assemble letter by letter: beautiful, alive, live
 LETTER_IN, LETTER_BLUR, LETTER_SPREAD = 5 / FPS, 14, 0.40
 BLOCK_GROW, EXIT_T, EXIT_BLUR, EXIT_GROW = 0.03, 4 / FPS, 9, 0.035
 STRIP_Y0, STRIP_H = CAP_Y - 560, 720      # caption layer band (covers up to three lines)
@@ -332,7 +334,7 @@ def _letters(w):
 
 for _a, _b, _words in CHUNK_LAYOUT:
     for _w in _words:
-        if _w['key']: _w['letters'] = _letters(_w)
+        if _w['i'] in LETTER_WORDS: _w['letters'] = _letters(_w)
     _top = min(w['y'] - w['spr']['asc'] for w in _words)
     _words[0]['block_cy'] = (_top + CAP_Y) / 2
 
@@ -355,14 +357,15 @@ def draw_captions(frame, t):
             ts = WORDS[w['i']][0] - LEAD
             if t < ts: continue
             spr = w['spr']; x0 = w['x'] - spr['ox']; y0 = w['y'] - spr['by']
-            if w['key']:
+            if 'letters' in w:
                 for ls, dx, delay in w['letters']:
                     u = (t - ts - delay) / LETTER_IN
                     if u <= 0: continue
                     _put(strip, ls['img'], x0 + dx, y0, min(1, u * 1.5), LETTER_BLUR * (1 - ease_out(u)))
             else:
                 u = (t - ts) / WORD_IN
-                _put(strip, spr['img'], x0, y0, min(1, u * 1.6), WORD_BLUR * (1 - ease_out(u)))
+                rise = WORD_RISE[1] if w['key'] else WORD_RISE[0]          # blur + fade + rise in
+                _put(strip, spr['img'], x0, y0 + rise * (1 - ease_out(u)), min(1, u * 1.6), WORD_BLUR * (1 - ease_out(u)))
         life = smooth((t - t_on) / max(0.3, t_off - t_on))
         e = smooth((t - (t_off - EXIT_T)) / EXIT_T)                       # exit progress
         sc = 1 + BLOCK_GROW * life + EXIT_GROW * e
