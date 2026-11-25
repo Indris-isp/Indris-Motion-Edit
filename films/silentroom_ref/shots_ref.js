@@ -39,7 +39,7 @@ shot('logoBloom', { len: 4.2, hero: 2.0, bg: '#FFFFFF', marker: 'turn',
     s.halo = D(c, 'ctr', { left: CX, top: CY, width: 900, height: 900, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(var(--Argb),.10),transparent)' });
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1400px' });
     s.mark = D(s.wrap, 'ctr', { left: CX, top: CY, width: REF.bigW || 360, color: 'var(--A)', filter: 'drop-shadow(0 30px 40px rgba(var(--Argb),.3))' }, REF.markBig || REF.mark || '');
-    s.word = letters(c, B.product, { left: CX, top: CY + 260, font: THIN(84, 500), letterSpacing: '-.02em' });
+    s.word = letters(c, REF.noWord ? '' : B.product, { left: CX, top: CY + 260, font: THIN(84, 500), letterSpacing: '-.02em' });
     s.spark = glowDot(c); s.spark.style.width = s.spark.style.height = '90px'; s.spark.style.marginLeft = s.spark.style.marginTop = '-45px';
   },
   update(t, s, c) {
@@ -75,10 +75,10 @@ shot('lineToPill', { len: 5.0, hero: 1.9, bg: GW,
 /* 3 ===== glassCards: under the pill, two frosted cards: a booking and the job's photo popping out of its card; a light taps "Confirm" */
 shot('glassCards', { len: 5.4, hero: 3.6, bg: GW,
   build(c, s, sc) {
-    s.pill = D(c, 'ctr', { left: CX, top: CY - 380, transform: 'translate(-50%,-50%) scale(.7)' }, `<span class="gpill">${kesc(sc.pill || '')}</span>`);
+    s.pill = D(c, 'ctr', { left: CX, top: CY - 300 }, `<span class="gpill">${kesc(sc.pill || '')}</span>`);
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '1800px', transformOrigin: '50% 60%', transform: 'scale(1.15)' });
-    s.a = D(s.wrap, 'abs glass', { left: 470, top: 330, width: 470, height: 470, padding: '34px 34px' }, sc.cardA || '');
-    s.b = D(s.wrap, 'abs glass', { left: 1010, top: 360, width: 440, height: 440, padding: '30px' }, sc.cardB || '');
+    s.a = D(s.wrap, 'abs glass', { left: 470, top: 380, width: 470, height: 380, padding: '34px 34px' }, sc.cardA || '');
+    s.b = D(s.wrap, 'abs glass', { left: 1010, top: 380, width: 440, height: 380, padding: '30px' }, sc.cardB || '');
     s.photo = D(s.wrap, 'abs', Object.assign({ left: 1150, top: 190, width: 330, height: 420, borderRadius: '18px', boxShadow: '0 40px 80px -24px rgba(0,0,0,.45)', overflow: 'hidden' }, sc.photoBox || {}), sc.photo || ''); if (!sc.photo) s.photo.style.display = 'none';
     s.dot = glowDot(c); s.lb = s.a.querySelector('.lb'); s.bk = s.a.querySelector('.bk');
   },
@@ -100,7 +100,7 @@ shot('tiltScreen', { len: 5.4, hero: 3.4, bg: GW,
   build(c, s, sc) {
     s.wrap = D(c, 'abs', { left: 0, top: 0, width: W, height: H, perspective: '2200px' });
     s.frame = D(s.wrap, 'abs glass', { left: 130, top: 190, width: 1060, height: 700, padding: '16px', borderRadius: '30px' });
-    s.comp = renderComponent(s.frame, sc.component, { x: 16, y: 16, w: 1028 }); s.comp.el.style.position = 'absolute'; s.comp.el.style.height = '668px'; s.comp.el.style.overflow = 'hidden'; s.comp.el.style.borderRadius = '18px'; s.comp.el.style.boxShadow = 'none';
+    const Z1 = 1.45; s.comp = renderComponent(s.frame, sc.component, { x: 16 / Z1, y: 16 / Z1, w: 1028 / Z1 }); s.comp.el.style.zoom = Z1; s.comp.el.style.position = 'absolute'; s.comp.el.style.height = (668 / Z1) + 'px'; s.comp.el.style.overflow = 'hidden'; s.comp.el.style.borderRadius = '18px'; s.comp.el.style.boxShadow = 'none';
     s.w1 = letters(c, (sc.words || [])[0] || '', { left: 1420, top: CY - 50, font: THIN(64, 400), transform: 'translate(0,-50%)' });
     s.w2 = letters(c, (sc.words || [])[1] || '', { left: 1420, top: CY + 40, font: THIN(64, 400), transform: 'translate(0,-50%)' });
     s.w1.el.className = s.w2.el.className = 'abs';
@@ -119,7 +119,7 @@ shot('orbit', { len: 6.0, hero: 3.6, bg: GW,
     s.rings = [300, 440, 600].map(r => D(c, 'ctr', { left: CX, top: CY, width: r * 2, height: r * 2, borderRadius: '50%', border: '1.5px solid rgba(var(--Argb),.14)' }));
     s.core = D(c, 'ctr', { left: CX, top: CY, width: 260, height: 260, borderRadius: '50%', background: '#fff', border: '2px solid rgba(var(--Argb),.25)', boxShadow: '0 30px 70px -24px rgba(var(--Argb),.35),0 0 0 14px rgba(var(--Argb),.04)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
       `<div style="width:110px">${BMARK()}</div>`);
-    s.word = letters(c, sc.text || '', { left: CX, top: CY + 230, font: THIN(52, 400), color: '#111611' });
+    s.word = letters(c, sc.text || '', { left: CX, top: CY + 410, font: THIN(52, 400), color: '#111611' });
     s.items = (sc.items || []).map((n, i) => ({ e: D(c, 'ctr', { left: 0, top: 0, height: 70, padding: '0 26px', borderRadius: '35px', background: '#fff', border: '1px solid #E1E7E1', color: '#111611', font: THIN(24, 500), display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', boxShadow: '0 16px 34px -16px rgba(var(--Argb),.35)' }, kesc(n)),
       r: [440, 600, 440, 600, 440, 600][i % 6], a: i * Math.PI / 3 + .3, sp: .14, d: .9 + i * .14 }));
   },
@@ -170,12 +170,21 @@ shot('printStage', { len: 5.4, hero: 3.6, bg: GW,
 shot('network', { len: 5.0, hero: 3.2, bg: GW,
   build(c, s, sc) {
     s.cv = document.createElement('canvas'); s.cv.width = W; s.cv.height = H; s.cv.className = 'abs'; s.cv.style.left = 0; s.cv.style.top = 0; c.appendChild(s.cv);
-    const pts = []; const box = (x0, y0, w, h) => { for (let i = 0; i < 46; i++) pts.push([x0 + hash(i * 3 + x0) * w, y0 + hash(i * 7 + y0) * h]); };
-    box(260, 230, 420, 320); box(560, 600, 420, 320); s.pts = pts;
-    s.links = []; pts.forEach((p, i) => pts.forEach((q, j) => { if (j > i && Math.hypot(p[0] - q[0], p[1] - q[1]) < 110) s.links.push([i, j]); }));
+    s.pts = []; s.links = [];
+    const src = REF.netSrc || (REF.mark && REF.mark.trim().startsWith('<svg') ? 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(REF.mark.replace(/currentColor/g, '#000').replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"')) : ((REF.mark || '').match(/src="([^"]+)"/) || [])[1]);
+    s.img = document.createElement('img'); s.img.src = src || ''; s.img.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0'; c.appendChild(s.img);
     s.w1 = letters(c, (sc.words || [])[0] || '', { left: 1230, top: CY - 50, font: THIN(64, 400), transform: 'translate(0,-50%)' });
     s.w2 = letters(c, (sc.words || [])[1] || '', { left: 1230, top: CY + 40, font: THIN(64, 400), transform: 'translate(0,-50%)' });
     s.w1.el.className = s.w2.el.className = 'abs';
+  },
+  measure(s) { // sample the brand mark into ~90 points inside a 560px box left of centre
+    const o = document.createElement('canvas'), N = 560; o.width = o.height = N; const x = o.getContext('2d');
+    const ch = REF.netText || String(B.product || '?')[0]; x.fillStyle = '#000'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = `800 520px ${REF.font}`; x.fillText(ch, N / 2, N / 2 + 20);
+    let d; try { d = x.getImageData(0, 0, N, N).data; } catch (e) { d = null; }
+    const cand = []; if (d) for (let y = 0; y < N; y += 11) for (let X = 0; X < N; X += 11) if (d[(y * N + X) * 4 + 3] > 120) cand.push([X, y]);
+    const pick = cand.filter((_, i) => hash(i + 1) < Math.min(1, 150 / Math.max(cand.length, 1)));
+    s.pts = (pick.length > 12 ? pick : Array.from({ length: 80 }, (_, i) => [N / 2 + Math.cos(i) * 220 * hash(i), N / 2 + Math.sin(i) * 220 * hash(i + 3)])).map(([px, py]) => [260 + px, 260 + py]);
+    s.links = []; s.pts.forEach((p, i) => s.pts.forEach((q, j) => { if (j > i && Math.hypot(p[0] - q[0], p[1] - q[1]) < 46) s.links.push([i, j]); }));
   },
   update(t, s, c) {
     S(c, { s: L(1, 1.05, t / 5) });
@@ -192,7 +201,7 @@ shot('finalScreen', { len: 5.2, hero: 3.4, bg: GW,
   build(c, s, sc) {
     s.title = letters(c, sc.title || '', { left: CX, top: 120, font: THIN(56, 400) });
     s.frame = D(c, 'abs glass', { left: CX - 620, top: 210, width: 1240, height: 790, padding: '16px', borderRadius: '30px', boxShadow: '0 60px 120px -50px rgba(var(--Argb),.4),0 0 0 1px #E3E8E3' });
-    s.comp = renderComponent(s.frame, sc.component, { x: 16, y: 16, w: 1208 }); s.comp.el.style.position = 'absolute'; s.comp.el.style.height = '758px'; s.comp.el.style.overflow = 'hidden'; s.comp.el.style.borderRadius = '18px'; s.comp.el.style.boxShadow = 'none';
+    const Z2 = 1.5; s.comp = renderComponent(s.frame, sc.component, { x: 16 / Z2, y: 16 / Z2, w: 1208 / Z2 }); s.comp.el.style.zoom = Z2; s.comp.el.style.position = 'absolute'; s.comp.el.style.height = (758 / Z2) + 'px'; s.comp.el.style.overflow = 'hidden'; s.comp.el.style.borderRadius = '18px'; s.comp.el.style.boxShadow = 'none';
   },
   update(t, s, c) {
     S(c, { s: L(1.06, 1, eo(P(t, 0, 5.2))) });
@@ -206,7 +215,8 @@ shot('endMark', { len: 3.6, hero: 2.6, bg: GW, marker: 'cta',
   build(c, s, sc) {
     s.halo = D(c, 'ctr', { left: CX, top: CY - 70, width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(closest-side,rgba(var(--Argb),.07),transparent)' });
     s.mark = D(c, 'ctr', { left: CX, top: CY - 110, width: 170, filter: 'drop-shadow(0 20px 30px rgba(var(--Argb),.25))' }, BMARK());
-    s.word = letters(c, B.product, { left: CX, top: CY + 60, font: THIN(96, 500), letterSpacing: '-.03em' });
+    if (REF.endLogo) { s.mark.innerHTML = REF.endLogo; s.mark.style.width = (REF.endW || 420) + 'px'; s.mark.style.top = (CY - 40) + 'px'; }
+    s.word = letters(c, REF.endLogo ? '' : B.product, { left: CX, top: CY + 60, font: THIN(96, 500), letterSpacing: '-.03em' });
     s.line = letters(c, sc.line || '', { left: CX, top: CY + 160, font: THIN(36, 300), color: '#5F655E' });
     s.url = letters(c, B.url || '', { left: CX, top: CY + 300, font: THIN(26, 400), color: '#7A7F78', letterSpacing: '.12em' });
   },

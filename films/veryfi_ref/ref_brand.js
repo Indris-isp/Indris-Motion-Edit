@@ -1,5 +1,5 @@
 /* Veryfi Thinking Mode in the reference style: navy on clean white (the approved system has no black), green chips. */
-window.REF = { color: '#171C3A', font: 'var(--font)', mark: '<svg viewBox="0 0 40 40" width="100%" style="display:block"><rect width="40" height="40" rx="10" fill="#171C3A"/><path d="M11 13l9 15 9-15" fill="none" stroke="#00D181" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>', markBig: '<img src="assets/wordmark_navy.svg" style="width:100%;display:block">', bigW: 560 };
+window.REF = { color: '#171C3A', font: 'var(--font)', mark: '<svg viewBox="0 0 40 40" width="100%" style="display:block"><rect width="40" height="40" rx="10" fill="#171C3A"/><path d="M11 13l9 15 9-15" fill="none" stroke="#00D181" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>', markBig: '<img src="assets/wordmark_navy.svg" style="width:100%;display:block">', bigW: 560, noWord: true, endLogo: '<img src="assets/wordmark_navy.svg" style="width:100%;display:block">', endW: 420, netText: 'v' };
 (function () {
   const K = window.BRIEF.kit, R = window.RUI, M = '<img src="assets/wordmark_navy.svg" style="width:100%;display:block;margin-top:6px">';
   K.screen1 = R.app({ name: '', mark: M, nav: ['Documents', 'Receipts', 'Invoices', 'Bank statements', 'API keys'], active: 'Invoices', eyebrow: 'Document · invoice-4471.pdf', title: 'Acme Supply Co.', chip: 'Extracted',
@@ -12,7 +12,7 @@ window.REF = { color: '#171C3A', font: 'var(--font)', mark: '<svg viewBox="0 0 4
     right: { title: 'Platform', rows: [['Uptime SLA', 'ok', '99.995%'], ['SOC 2 Type II', 'ok', 'Yes'], ['HIPAA · BAA', 'ok', 'Yes']] } });
   window.REFT = {
     line: 'Extract data from documents. Catch fraud. One API.', pill: 'Thinking Mode',
-    a: R.cardHead('invoice-4471.pdf', '') + R.title('Acme Supply Co.', 'Sample invoice · Total $108.00') + R.lines(3) + R.btn('Extracted total', '180.00'), done: 'Corrected 108.00 ✓',
+    a: R.cardHead('invoice-4471.pdf', '') + R.title('Acme Supply Co.', 'Sample invoice · Total $108.00') + R.lines(3) + R.btn('Extracted total: 180.00', ''), done: 'Corrected total: 108.00 ✓',
     b: R.cardHead('Request', '') + `<pre style="margin:30px 0 0;font:500 19px/1.6 'IBM Plex Mono',monospace;color:#171C3A;white-space:pre">{\n  "file_url": "…/invoice-4471.pdf",\n  <b style="color:#00A866">"thinking": "light"</b>\n}</pre>` + R.foot('One parameter'),
     tilt: ['Every', 'Document'], orbit: 'One API', orbitItems: ['Receipts', 'Invoices', 'Bank Statements', 'Checks', 'W-2s', 'Insurance Cards'],
     ring: 'A Second Look',

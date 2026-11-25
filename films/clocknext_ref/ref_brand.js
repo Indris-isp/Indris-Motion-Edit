@@ -12,7 +12,7 @@ window.REF = { color: '#3D6FE0', font: 'var(--font)', mark: '<svg viewBox="0 0 2
     right: { title: 'Billing', rows: [['Prepaid', 'ok', 'On'], ['Postpaid', 'ok', 'On'], ['Top-ups', 'pend', 'Optional']] } });
   window.REFT = {
     line: 'AI billing is complex. Let’s make it simple again.', pill: 'One Invoice',
-    a: R.cardHead('run_4821', 'clocknext') + R.title('Voice call · completed', 'Acme Inc. · support-agent') + R.lines(3) + R.btn('Provider cost', '$0.11'), done: 'Charged $0.45 ✓',
+    a: R.cardHead('run_4821', 'clocknext') + R.title('Voice call · completed', 'Acme Inc. · support-agent') + R.lines(3) + R.btn('Provider cost: $0.11', ''), done: 'Charged to customer: $0.45 ✓',
     b: R.cardHead('Voice call', 'Composite') + `<div style="margin-top:40px;font:500 56px var(--rf);letter-spacing:-.03em">$0.45</div><div style="margin-top:6px;font:300 20px var(--rf);opacity:.8">per call · one line item</div>` + R.lines(2) + R.foot('Tokens · Resolution · Minutes'),
     tilt: ['Every Token', 'Metered'], orbit: 'Price Any Way', orbitItems: ['Credits', 'Outcomes', 'Units', 'Composites', 'Prepaid', 'Postpaid'],
     ring: 'See What You Keep',
