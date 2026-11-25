@@ -40,8 +40,12 @@ while i < LIMIT:
             comp = region * (1 - a) + np.abs(region - col) * a    # 2a. difference blend (0:02-0:10)
         else:
             comp = region * (1 - a) + a                           # 2b. plain white text, normal blend
-        m = matte(i)[y0:y1, x0:x1] * (1 - GHOST)                  # 3. speaker in front of the text
-        out = bg.copy(); out[y0:y1, x0:x1] = comp * (1 - m) + region * m
+        out = bg.copy()
+        if c.get("blend") == "difference":                        # 3. 0:02-0:10 only: speaker in front of the text
+            m = matte(i)[y0:y1, x0:x1] * (1 - GHOST)
+            out[y0:y1, x0:x1] = comp * (1 - m) + region * m
+        else:                                                     # elsewhere: normal composite, text fully on top
+            out[y0:y1, x0:x1] = comp
     enc.stdin.write((out * 255 + 0.5).clip(0, 255).astype(np.uint8).tobytes())
     i += 1
     if i % 200 == 0: print(i, flush=True)
