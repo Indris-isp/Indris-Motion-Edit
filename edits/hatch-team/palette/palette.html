@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Hatch Palette</title>
+<style>
+@font-face{font-family:Inter;src:url(../../../video/fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(../../../video/fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(../../../video/fonts/Inter-800.ttf);font-weight:800}
+@font-face{font-family:IS;src:url(../../../video/fonts/InstrumentSerif-Italic.ttf)}
+body{margin:0;background:#0E0C0B;color:#F7F2EC;font-family:Inter;width:1800px}
+.wrap{padding:48px 56px}
+h1{font-size:34px;font-weight:800;margin:0 0 6px;letter-spacing:-.02em} .sub{color:#9A928B;font-size:18px;margin-bottom:30px}
+.top{display:grid;grid-template-columns:960px 1fr;gap:40px;align-items:start}
+.src img{width:960px;border-radius:14px;display:block}
+.cap{color:#9A928B;font-size:15px;margin-top:10px}
+.found{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.f{border-radius:12px;overflow:hidden;background:#1A1715}
+.f .c{height:70px} .f .t{padding:10px 12px;font-size:14px} .f b{display:block;font-size:15px;margin-bottom:2px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px}
+.opt{border-radius:18px;padding:26px;background:#171412;box-shadow:inset 0 0 0 1px #2c2724}
+.opt.rec{box-shadow:inset 0 0 0 2px #F2643A}
+.opt h2{margin:0 0 4px;font-size:24px;letter-spacing:-.01em} .opt .why{color:#A89F97;font-size:16px;line-height:1.45;margin-bottom:18px}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;padding:5px 10px;border-radius:999px;background:#F2643A;color:#0E0C0B;margin-left:10px;vertical-align:middle}
+.sw{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
+.s{border-radius:10px;overflow:hidden;background:#0E0C0B;box-shadow:inset 0 0 0 1px #2c2724}
+.s .c{height:84px} .s .t{padding:8px 10px;font-size:12.5px;line-height:1.35} .s b{display:block;font-size:13px}
+.mock{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.m{height:330px;border-radius:14px;position:relative;overflow:hidden;background-size:cover;background-position:center}
+.m .ct{position:absolute;left:0;right:0;bottom:42px;text-align:center}
+.run{font-size:30px;font-weight:500;color:#fff;text-shadow:0 3px 10px rgba(0,0,0,.7)}
+.key{font-family:IS;font-size:76px;line-height:.95}
+.scene{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px}
+.grid{position:absolute;inset:0;opacity:.9}
+</style></head><body><div class="wrap">
+<h1>Colour palette: Hatch "real estate team" clip</h1>
+<div class="sub">Sampled from 12 frames of the clip (k-means in Lab over the vertical-crop area), plus the in-frame brand and practical lights.</div>
+<div class="top">
+ <div class="src"><img src="frame_16x9.jpg"><div class="cap">Source at 1:40. Warm grey brick and wall, a black shirt, warm skin, the REL brand orange (top right) and the blue practical light (right).</div></div>
+ <div><div style="font-weight:700;margin-bottom:12px">Measured in the footage</div><div class="found">
+  <div class="f"><div class="c" style="background:#0C0D0F"></div><div class="t"><b>#0C0D0F</b>Shirt / shadows · 10%</div></div>
+  <div class="f"><div class="c" style="background:#605C59"></div><div class="t"><b>#605C59</b>Brick / wall · 18%</div></div>
+  <div class="f"><div class="c" style="background:#787471"></div><div class="t"><b>#787471</b>Light brick · 10%</div></div>
+  <div class="f"><div class="c" style="background:#B98976"></div><div class="t"><b>#B98976</b>Skin mid · 13%</div></div>
+  <div class="f"><div class="c" style="background:#CDA7A2"></div><div class="t"><b>#CDA7A2</b>Skin highlight · 11%</div></div>
+  <div class="f"><div class="c" style="background:#9C6753"></div><div class="t"><b>#9C6753</b>Skin shadow / beard · 9%</div></div>
+  <div class="f"><div class="c" style="background:#F05B33"></div><div class="t"><b>#F05B33</b>REL brand orange (logo, his captions)</div></div>
+  <div class="f"><div class="c" style="background:#2174BC"></div><div class="t"><b>#2174BC</b>Blue practical light / neon</div></div>
+  <div class="f"><div class="c" style="background:#332B2B"></div><div class="t"><b>#332B2B</b>Warm deep shadow · 10%</div></div>
+ </div></div>
+</div>
+<div class="opts">
+ <div class="opt rec"><h2>A · Signal orange + blueprint blue <span class="tag">RECOMMENDED</span></h2>
+  <div class="why">The accent is his own brand orange, so the edit feels like Real Estate Live. Blue is the room's second light and its complement: it keeps the warm skin tones reading warm, and it makes the "blueprint" scenes literally blueprint-blue. Orange marks the one important word; blue stays in the background and diagrams.</div>
+  <div class="sw">
+   <div class="s"><div class="c" style="background:#0E0C0B"></div><div class="t"><b>#0E0C0B</b>Ink / base</div></div>
+   <div class="s"><div class="c" style="background:#2A2523"></div><div class="t"><b>#2A2523</b>Surface / cards</div></div>
+   <div class="s"><div class="c" style="background:#F7F2EC"></div><div class="t"><b>#F7F2EC</b>Text (warm white)</div></div>
+   <div class="s"><div class="c" style="background:#FF6B3D"></div><div class="t"><b>#FF6B3D</b>Accent: keywords</div></div>
+   <div class="s"><div class="c" style="background:#2F7FD6"></div><div class="t"><b>#2F7FD6</b>Blueprint lines</div></div>
+   <div class="s"><div class="c" style="background:#0D1B2E"></div><div class="t"><b>#0D1B2E</b>Blueprint ground</div></div>
+  </div>
+  <div class="mock">
+   <div class="m" style="background-image:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55)),url(frame_crop.jpg)"><div class="ct"><div class="run">the leader has</div><div class="key" style="color:#FF6B3D;text-shadow:0 0 22px rgba(255,107,61,.55)">ego</div></div></div>
+   <div class="m scene" style="background:radial-gradient(ellipse at 50% 40%,#16304F,#0D1B2E 60%,#070E19)">
+     <svg class="grid" viewBox="0 0 400 330"><defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#2F7FD6" stroke-opacity=".25" stroke-width=".6"/></pattern></defs><rect width="400" height="330" fill="url(#g)"/>
+     <path d="M150 190h100v40H150z M200 230v20 M110 250h180 M110 250v15 M200 250v15 M290 250v15 M80 265h60v30H80z M170 265h60v30h-60z M260 265h60v30h-60z" fill="none" stroke="#2F7FD6" stroke-width="2"/></svg>
+     <div style="position:relative;font-size:22px;font-weight:500;color:#F7F2EC;margin-top:-70px">transformed into a</div>
+     <div class="key" style="position:relative;color:#FF6B3D;text-shadow:0 0 22px rgba(255,107,61,.5)">blueprint</div></div>
+  </div>
+  <div style="margin-top:14px;color:#A89F97;font-size:15px">Negative words ("not") switch to crimson <b style="color:#FF3B4E">#FF3B4E</b>, so they stay distinct from the orange accent.</div>
+ </div>
+ <div class="opt"><h2>B · Warm amber on charcoal (v1)</h2>
+  <div class="why">The palette used in the first render. It's soft, premium and tonal: amber sits next to the skin and the warm wall, so it never fights the footage. But it's less distinctive. It's not his brand colour, and with no cool counterpart the whole frame stays one temperature.</div>
+  <div class="sw">
+   <div class="s"><div class="c" style="background:#0B0E12"></div><div class="t"><b>#0B0E12</b>Ink / base</div></div>
+   <div class="s"><div class="c" style="background:#1A1715"></div><div class="t"><b>#1A1715</b>Surface</div></div>
+   <div class="s"><div class="c" style="background:#FFFFFF"></div><div class="t"><b>#FFFFFF</b>Text</div></div>
+   <div class="s"><div class="c" style="background:#F7BA68"></div><div class="t"><b>#F7BA68</b>Accent: keywords</div></div>
+   <div class="s"><div class="c" style="background:#F7BA68;opacity:.35"></div><div class="t"><b>#F7BA68 · 35%</b>Grid lines</div></div>
+   <div class="s"><div class="c" style="background:#14202C"></div><div class="t"><b>#14202C</b>Scene ground</div></div>
+  </div>
+  <div class="mock">
+   <div class="m" style="background-image:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55)),url(frame_crop.jpg)"><div class="ct"><div class="run">the leader has</div><div class="key" style="color:#F7BA68;text-shadow:0 0 22px rgba(255,154,60,.5)">ego</div></div></div>
+   <div class="m scene" style="background:radial-gradient(ellipse at 50% 40%,#14202C,#0B121A 60%,#06090D)">
+     <svg class="grid" viewBox="0 0 400 330"><defs><pattern id="g2" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#F7BA68" stroke-opacity=".18" stroke-width=".6"/></pattern></defs><rect width="400" height="330" fill="url(#g2)"/>
+     <path d="M150 190h100v40H150z M200 230v20 M110 250h180 M110 250v15 M200 250v15 M290 250v15 M80 265h60v30H80z M170 265h60v30h-60z M260 265h60v30h-60z" fill="none" stroke="#F7BA68" stroke-width="2"/></svg>
+     <div style="position:relative;font-size:22px;font-weight:500;color:#fff;margin-top:-70px">transformed into a</div>
+     <div class="key" style="position:relative;color:#F7BA68;text-shadow:0 0 22px rgba(255,154,60,.5)">blueprint</div></div>
+  </div>
+ </div>
+</div></div></body></html>

@@ -1,0 +1,370 @@
+<title>Hatch Clip Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: an edit-planning desk. Beat rail across the top; per beat, your inputs on the left (transcript, options,
+   description, references) and a sticky 9:16 player on the right. Accent = the clip's chosen brand orange. */
+:root{
+  --bg:#F4F1EE; --panel:#FFFFFF; --panel-2:#F8F6F3; --line:#E3DDD6; --line-2:#CFC7BE;
+  --ink:#1B1714; --ink-2:#5B524A; --ink-3:#8A8178;
+  --accent:#C8441F; --accent-ink:#FFFFFF; --accent-soft:#FBE7DF; --accent-line:#EBA58C;
+  --ok:#2E8A57; --ok-soft:#E1F2E7; --neg:#B81F33;
+  --shadow:0 1px 2px rgba(30,20,10,.05),0 10px 28px rgba(30,20,10,.07);
+  --f-ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-serif:"Instrument Serif",Georgia,serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F0D0C; --panel:#181513; --panel-2:#1F1B18; --line:#2D2824; --line-2:#3C3631;
+  --ink:#F2EDE8; --ink-2:#B9AFA6; --ink-3:#857B72;
+  --accent:#F05B33; --accent-ink:#140B07; --accent-soft:#3A1E14; --accent-line:#8F3F27;
+  --ok:#56C48A; --ok-soft:#14301F; --neg:#FF5A6E;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F0D0C; --panel:#181513; --panel-2:#1F1B18; --line:#2D2824; --line-2:#3C3631;
+  --ink:#F2EDE8; --ink-2:#B9AFA6; --ink-3:#857B72;
+  --accent:#F05B33; --accent-ink:#140B07; --accent-soft:#3A1E14; --accent-line:#8F3F27;
+  --ok:#56C48A; --ok-soft:#14301F; --neg:#FF5A6E;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--f-ui);font-variant-numeric:tabular-nums;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.muted{color:var(--ink-3)}
+.btn{border:1px solid var(--line-2);background:var(--panel);border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--accent-line)}
+.btn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.ghost{background:transparent;border:1px solid var(--line);color:var(--ink-2)}
+
+/* header + whole-video decisions */
+.top{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;padding:16px 20px}
+.top h1{margin:0;font-size:20px;letter-spacing:-.02em}
+.top h1 span{font-weight:500;color:var(--ink-3);font-size:15px}
+.stats{display:flex;gap:12px;align-items:center;flex-wrap:wrap;color:var(--ink-2);font-size:13px}
+.bar{height:6px;width:110px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.globals{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;padding:16px 20px}
+@media (max-width:820px){.globals{grid-template-columns:1fr}}
+.g{display:flex;flex-direction:column;gap:8px;min-width:0}
+.g .lab{font-weight:600;font-size:13px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.pal{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pal .sw{display:flex;border-radius:7px;overflow:hidden;height:22px;box-shadow:inset 0 0 0 1px rgba(127,127,127,.25)}
+.pal .sw i{width:22px}
+.g textarea{min-height:44px}
+
+/* beat rail */
+.rail{display:flex;gap:8px;overflow-x:auto;padding:10px;scrollbar-width:thin}
+.bt{flex:none;width:118px;border:1px solid var(--line);border-radius:12px;background:var(--panel-2);padding:6px;cursor:pointer;display:flex;flex-direction:column;gap:5px;text-align:left}
+.bt:hover{border-color:var(--accent-line)}
+.bt[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.bt img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;display:block;background:#000;max-height:150px}
+.bt .n{font-size:11px;color:var(--ink-3)}
+.bt .t{font-size:12.5px;font-weight:600;line-height:1.25}
+.bt .st{display:flex;gap:4px;flex-wrap:wrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--line-2);display:inline-block}
+.dot.done{background:var(--ok)}
+
+/* beat desk */
+.desk{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
+@media (max-width:980px){.desk{grid-template-columns:1fr}.right{order:-1}}
+.left{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.bhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.bhead h2{margin:0;font-size:22px;letter-spacing:-.02em}
+.bhead h2 small{font-size:14px;font-weight:500;color:var(--ink-3);margin-left:6px}
+.nav{display:flex;gap:6px}
+.words{font-size:20px;line-height:1.55;font-weight:500;letter-spacing:-.01em;text-wrap:pretty}
+.w{all:unset;cursor:pointer;border-radius:5px;padding:0 1px;transition:background .12s,color .12s}
+.w:hover{background:var(--accent-soft)}
+.w.now{background:var(--accent);color:var(--accent-ink)}
+.w:focus-visible{outline:2px solid var(--accent)}
+.shots{display:flex;gap:6px;flex-wrap:wrap}
+.shot{font:500 12px var(--f-mono);padding:3px 8px;border-radius:7px;border:1px solid var(--line);color:var(--ink-2);cursor:pointer;background:var(--panel-2)}
+.shot.now{border-color:var(--accent);color:var(--accent)}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:1180px){.opts{grid-template-columns:1fr}}
+.opt{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:12px;min-width:0;background:var(--panel)}
+.opt.sel{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.opt img,.opt .ph{width:96px;aspect-ratio:9/16;object-fit:cover;border-radius:9px;flex:none;background:#000;align-self:flex-start}
+.opt .ph{display:flex;align-items:center;justify-content:center;background:var(--panel-2);border:1.5px dashed var(--line-2);color:var(--ink-3);font-size:12px;text-align:center;padding:6px}
+.opt .ph img{width:100%;height:100%;border-radius:7px}
+.opt .body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.opt h3{margin:0;font-size:14.5px;line-height:1.3}
+.opt p{margin:0;font-size:12.5px;color:var(--ink-2)}
+.opt .acts{margin-top:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding-top:4px}
+textarea{width:100%;min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel-2);line-height:1.5}
+.drop{border:1.5px dashed var(--line-2);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--panel-2)}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.ref{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#000;aspect-ratio:3/4}
+.ref img{width:100%;height:100%;object-fit:cover;display:block}
+.ref .x{position:absolute;top:6px;right:6px;border:0;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;width:26px;height:26px;cursor:pointer;font-size:15px;line-height:1}
+.ref .cap{position:absolute;left:0;right:0;bottom:0;padding:4px 6px;font-size:11px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.7));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status{font-size:12.5px;color:var(--ink-3)}
+.status.err{color:var(--neg)}
+
+/* player */
+.right{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.player{padding:14px;display:flex;flex-direction:column;gap:10px}
+.screen{position:relative;width:100%;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#000;max-height:72vh;margin:0 auto}
+.screen video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.screen .tag{position:absolute;left:10px;top:10px;font:600 11.5px var(--f-ui);background:rgba(0,0,0,.62);color:#fff;padding:3px 8px;border-radius:7px}
+.ctrl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tc{font:500 12.5px var(--f-mono);color:var(--ink-2);margin-left:auto}
+.scrub{width:100%;accent-color:var(--accent)}
+.lbl{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-2)}
+.pnote{font-size:12px;color:var(--ink-3);margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="panel top">
+    <h1>Hatch real estate team clip <span>· plan, beat by beat</span></h1>
+    <div class="stats"><span id="count">12 beats</span><span class="bar" aria-hidden="true"><i id="prog"></i></span><span id="decided">0 of 12 described</span><span id="save" class="muted" aria-live="polite">Connecting…</span></div>
+  </header>
+
+  <section class="panel globals" aria-label="Whole video">
+    <div class="g">
+      <div class="lab">Rough cut v2: the edit, the words and the camera angles</div>
+      <div class="seg" role="group" aria-label="Rough cut decision">
+        <button class="btn" data-rough="approved" type="button">Approve the cut</button>
+        <button class="btn" data-rough="changes" type="button">Needs changes</button>
+      </div>
+      <textarea id="roughNote" aria-label="Notes on the rough cut" placeholder="Anything to change in the cut itself: a word to keep or drop, a cut that sounds wrong, pacing…"></textarea>
+    </div>
+    <div class="g">
+      <div class="lab">Colour palette</div>
+      <div class="pal"><span class="sw" id="palSw"></span><span id="palName"></span><span class="chip ok">Chosen</span></div>
+      <p class="pnote">Every mockup on this page uses it. Change it in the palette picker and I'll re-render.</p>
+    </div>
+  </section>
+
+  <nav class="panel rail" id="rail" aria-label="Beats"></nav>
+
+  <div class="desk">
+    <div class="left" id="left"></div>
+    <aside class="right">
+      <div class="panel player">
+        <div class="screen"><video id="vid" playsinline preload="auto" src="preview.mp4"></video><span class="tag" id="shotTag">—</span></div>
+        <input class="scrub" id="scrub" type="range" min="0" max="1000" value="0" aria-label="Position in the video">
+        <div class="ctrl">
+          <button class="btn on" id="playBeat" type="button">Play beat</button>
+          <button class="btn" id="replay" type="button">Replay</button>
+          <button class="btn ghost" id="playAll" type="button">Whole video</button>
+          <span class="tc" id="tc">0:00.0</span>
+        </div>
+        <label class="lbl"><input type="checkbox" id="loop" checked> Loop this beat</label>
+        <p class="pnote">This is the rough cut: the cut and the camera angles only. Captions, scenes and colour come in the final render, as shown in the option mockups.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+'use strict';
+let PLAN = null, cur = 0, db = null, assets = null, mode = 'local';
+const state = { beats: {}, global: { rough: null, roughNote: '' } };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = s => `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, '0')}`;
+const bs = id => state.beats[id] || (state.beats[id] = { pick: null, note: '', refs: [] });
+const described = b => { const s = state.beats[b.id]; return !!(s && (s.pick || (s.note && s.note.trim()) || (s.refs && s.refs.length))); };
+
+/* ---------- saving: shared store when available, this browser otherwise ---------- */
+const setSave = (t, err) => { const e = $('#save'); e.textContent = t; e.className = err ? 'status err' : 'muted'; };
+function loadLocal() { try { const v = JSON.parse(localStorage.getItem('hatch-plan') || 'null'); if (v) { Object.assign(state.beats, v.beats || {}); Object.assign(state.global, v.global || {}); } } catch (e) {} }
+function saveLocal() { try { localStorage.setItem('hatch-plan', JSON.stringify(state)); } catch (e) {} }
+const queues = {};
+function writeDoc(path, data) {
+  saveLocal();
+  if (mode !== 'db') { setSave('Saved in this browser'); return; }
+  const q = queues[path] || (queues[path] = { busy: false, next: null });
+  q.next = data; if (q.busy) return;
+  const run = async () => {
+    q.busy = true; const d = q.next; q.next = null; setSave('Saving…');
+    try { await db.doc(path).set(d); setSave('Saved'); }
+    catch (e) { setSave(e && e.code === 'unauthenticated' ? 'Sign in to save' : 'Couldn’t save. Check your access or connection.', true); }
+    q.busy = false; if (q.next) run();
+  };
+  run();
+}
+const saveBeat = id => { const s = bs(id); writeDoc(`beats/${id}`, { pick: s.pick || null, note: s.note || '', refs: s.refs || [], updatedAt: Date.now() }); };
+const saveGlobal = () => writeDoc('settings/global', { rough: state.global.rough || null, roughNote: state.global.roughNote || '', updatedAt: Date.now() });
+
+async function connect() {
+  loadLocal(); renderAll();
+  try { db = await claude.use('db'); } catch (e) { db = null; }
+  try { assets = await claude.use('assets'); } catch (e) { assets = null; }
+  renderLeft(true);
+  if (!db) { setSave('Saved in this browser only'); return; }
+  mode = 'db'; setSave('Loading…');
+  const timer = setTimeout(() => setSave('Still loading your saved notes…'), 10000);
+  db.collection('beats').onSnapshot(snap => {
+    clearTimeout(timer);
+    for (const d of snap.docs) {
+      const v = d.data() || {};
+      state.beats[d.id] = { pick: typeof v.pick === 'string' ? v.pick : null, note: typeof v.note === 'string' ? v.note : '',
+        refs: Array.isArray(v.refs) ? v.refs.filter(r => r && typeof r.id === 'string').map(r => ({ id: r.id, name: typeof r.name === 'string' ? r.name : '' })) : [] };
+    }
+    setSave('Saved'); renderRail(); progress(); renderLeft(true);
+  }, () => { clearTimeout(timer); setSave('Couldn’t load saved notes.', true); });
+  db.doc('settings/global').onSnapshot(snap => {
+    if (snap.exists) { const v = snap.data() || {}; state.global.rough = typeof v.rough === 'string' ? v.rough : null; if (document.activeElement !== $('#roughNote')) state.global.roughNote = typeof v.roughNote === 'string' ? v.roughNote : ''; }
+    renderGlobal();
+  }, () => {});
+}
+
+/* ---------- render ---------- */
+function progress() { const n = PLAN.beats.filter(described).length; $('#decided').textContent = `${n} of ${PLAN.beats.length} described`; $('#prog').style.width = (n / PLAN.beats.length * 100) + '%'; }
+function renderGlobal() {
+  document.querySelectorAll('[data-rough]').forEach(b => { const on = state.global.rough === b.dataset.rough; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  const n = $('#roughNote'); if (document.activeElement !== n) n.value = state.global.roughNote || '';
+  const p = PLAN.palette, sw = $('#palSw'); sw.textContent = '';
+  for (const k of ['accent', 'negative', 'lines', 'text', 'surface', 'ground']) { const i = document.createElement('i'); i.style.background = p[k]; sw.appendChild(i); }
+  $('#palName').textContent = p.name;
+}
+function renderRail() {
+  $('#rail').innerHTML = PLAN.beats.map((b, i) => {
+    const s = state.beats[b.id] || {};
+    return `<button class="bt" type="button" data-beat="${i}" aria-current="${i === cur}">
+      <img src="thumbs/${b.id}${s.pick === 'B' ? 'B' : 'A'}.jpg" alt="" loading="lazy" width="106" height="150">
+      <span class="n">${i + 1} · ${fmt(b.start)}</span><span class="t">${esc(b.name)}</span>
+      <span class="st"><span class="dot ${described(b) ? 'done' : ''}" aria-hidden="true"></span><span class="muted" style="font-size:11px">${s.pick ? 'Option ' + s.pick : described(b) ? 'Noted' : 'Open'}</span></span></button>`;
+  }).join('');
+}
+function renderLeft(keepFocus) {
+  const b = PLAN.beats[cur], s = bs(b.id);
+  const focused = document.activeElement && document.activeElement.id === 'note' ? $('#note').value : null;
+  if (keepFocus && focused !== null) { renderOptsOnly(); renderRefs(); return; }
+  const shots = b.shots.map(x => `<button class="shot" type="button" data-seek="${x.t0}" data-t0="${x.t0}" data-t1="${x.t1}">${fmt(x.t0)} ${esc(x.view)}${x.follow ? ' · pan' : ''}</button>`).join('');
+  $('#left').innerHTML = `
+    <section class="panel card">
+      <div class="bhead"><h2>${cur + 1} · ${esc(b.name)}<small>${fmt(b.start)} – ${fmt(b.end)}</small></h2>
+        <div class="nav"><button class="btn" type="button" data-step="-1" ${cur === 0 ? 'disabled' : ''} aria-label="Previous beat">←</button><button class="btn" type="button" data-step="1" ${cur === PLAN.beats.length - 1 ? 'disabled' : ''} aria-label="Next beat">→</button></div></div>
+      <div class="eyebrow">Transcript · tap a word to jump there</div>
+      <div class="words" id="words">${b.words.map((w, i) => `<button class="w" type="button" data-seek="${w.t}" data-wi="${i}">${esc(w.w)}</button>`).join(' ')}</div>
+      <div class="eyebrow">Camera angles in this beat</div><div class="shots">${shots}</div>
+    </section>
+    <section class="panel card">
+      <div class="eyebrow">Choose a design</div>
+      <div class="opts" id="opts"></div>
+    </section>
+    <section class="panel card">
+      <label class="eyebrow" for="note">Describe what you want for this beat</label>
+      <textarea id="note" placeholder="For example: keep it on his face, no graphic. Put &quot;25 TEXTS&quot; big in white. Use a real phone like the reference. Slower zoom…"></textarea>
+      <div class="eyebrow">Reference images</div>
+      <div class="drop" id="drop">
+        <div class="row"><input type="file" id="file" accept="image/*" multiple hidden>
+          <button class="btn" type="button" id="pick">Add images</button>
+          <span class="muted" style="font-size:12.5px">or drop them here, or paste a screenshot.</span>
+          <span class="status" id="upStatus" role="status"></span></div>
+        <div class="refs" id="refs"></div>
+      </div>
+    </section>`;
+  $('#note').value = s.note || '';
+  renderOptsOnly(); renderRefs(); syncPlayhead();
+}
+function renderOptsOnly() {
+  const b = PLAN.beats[cur], s = bs(b.id);
+  const card = (k, img, title, desc, rec) => `<article class="opt ${s.pick === k ? 'sel' : ''}">${img}
+    <div class="body"><h3>${k} · ${esc(title)}</h3><p>${esc(desc)}</p>
+    <div class="acts">${rec ? '<span class="chip">Recommended</span>' : ''}<button class="btn ${s.pick === k ? 'on' : ''}" type="button" data-pick="${k}" aria-pressed="${s.pick === k}">${s.pick === k ? 'Selected' : 'Use this'}</button></div></div></article>`;
+  const firstRef = (s.refs || [])[0];
+  $('#opts').innerHTML =
+    card('A', `<img src="thumbs/${b.id}A.jpg" alt="Mockup of option A" width="96" height="171">`, b.A.title, b.A.desc, true) +
+    card('B', `<img src="thumbs/${b.id}B.jpg" alt="Mockup of option B" width="96" height="171">`, b.B.title, b.B.desc, false) +
+    card('C', `<div class="ph">${firstRef ? `<img src="/_blob/${encodeURIComponent(firstRef.id)}" alt="">` : 'Your idea'}</div>`, 'My own idea', 'Describe it in the box below and add reference images. I’ll mock it up from your notes.', false);
+}
+function renderRefs() {
+  const b = PLAN.beats[cur], s = bs(b.id), box = $('#refs');
+  if (!box) return;
+  box.innerHTML = (s.refs || []).map((r, i) => `<figure class="ref" style="margin:0"><img src="/_blob/${encodeURIComponent(r.id)}" alt="${esc(r.name || 'Reference image')}"><span class="cap">${esc(r.name || '')}</span><button class="x" type="button" data-unref="${i}" aria-label="Remove ${esc(r.name || 'this image')}">×</button></figure>`).join('');
+  $('#pick').disabled = !assets;
+  if (!assets) $('#upStatus').textContent = 'Image upload isn’t available in this view; describe the reference in the box above instead.';
+}
+function renderAll() { renderGlobal(); renderRail(); progress(); renderLeft(); }
+
+/* ---------- uploads ---------- */
+async function addFiles(files) {
+  const imgs = [...files].filter(f => f.type.startsWith('image/'));
+  if (!imgs.length) return;
+  if (!assets) { $('#upStatus').textContent = 'Image upload isn’t available in this view.'; return; }
+  const b = PLAN.beats[cur], s = bs(b.id), st = $('#upStatus');
+  for (const f of imgs) {
+    st.className = 'status'; st.textContent = `Uploading ${f.name}…`;
+    try { const r = await assets.upload(f); s.refs = [...(s.refs || []), { id: r.id, name: f.name.slice(0, 80) }]; saveBeat(b.id); renderRefs(); renderOptsOnly(); renderRail(); progress(); st.textContent = 'Added.'; }
+    catch (e) { st.className = 'status err'; st.textContent = e && e.code === 'too_large' ? `${f.name} is over 20 MB.` : e && e.code === 'not_granted' ? 'Uploading needs edit access to this page.' : `Couldn’t upload ${f.name}.`; }
+  }
+}
+
+/* ---------- player ---------- */
+const v = $('#vid');
+let playMode = 'beat';
+function beatOf(t) { let i = PLAN.beats.findIndex(b => t >= b.start && t < b.end); return i < 0 ? PLAN.beats.length - 1 : i; }
+function syncPlayhead() {
+  const t = v.currentTime || 0, b = PLAN.beats[cur];
+  $('#tc').textContent = `${fmt(t)} / ${fmt(PLAN.duration)}`;
+  if (document.activeElement !== $('#scrub')) $('#scrub').value = Math.round(t / PLAN.duration * 1000);
+  document.querySelectorAll('.w').forEach(w => { const i = +w.dataset.wi, a = b.words[i].t, z = i + 1 < b.words.length ? b.words[i + 1].t : b.end; w.classList.toggle('now', t >= a - .02 && t < z - .02); });
+  let tag = '';
+  for (const x of PLAN.beats.flatMap(bb => bb.shots)) if (t >= x.t0 && t < x.t1) tag = x.view + (x.follow ? ' · pan' : '');
+  $('#shotTag').textContent = tag || '—';
+  document.querySelectorAll('.shot').forEach(s => s.classList.toggle('now', t >= +s.dataset.t0 && t < +s.dataset.t1));
+}
+let raf = 0;
+function tick() {
+  const b = PLAN.beats[cur];
+  if (playMode === 'beat' && v.currentTime >= b.end - .03) { if ($('#loop').checked) v.currentTime = b.start; else { v.pause(); v.currentTime = Math.max(b.start, b.end - .05); } }
+  if (playMode === 'all') { const i = beatOf(v.currentTime); if (i !== cur) { cur = i; renderRail(); renderLeft(); } }
+  syncPlayhead(); raf = requestAnimationFrame(tick);
+}
+v.addEventListener('play', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); });
+v.addEventListener('pause', () => { cancelAnimationFrame(raf); syncPlayhead(); });
+v.addEventListener('seeked', syncPlayhead);
+v.addEventListener('loadedmetadata', () => { v.currentTime = PLAN.beats[cur].start; });
+$('#playBeat').onclick = () => { playMode = 'beat'; const b = PLAN.beats[cur]; if (v.paused) { if (v.currentTime < b.start - .05 || v.currentTime >= b.end - .05) v.currentTime = b.start; v.play().catch(() => {}); } else v.pause(); };
+$('#replay').onclick = () => { playMode = 'beat'; v.currentTime = PLAN.beats[cur].start; v.play().catch(() => {}); };
+$('#playAll').onclick = () => { playMode = 'all'; v.currentTime = 0; cur = 0; renderRail(); renderLeft(); v.play().catch(() => {}); };
+v.addEventListener('play', () => $('#playBeat').textContent = 'Pause');
+v.addEventListener('pause', () => $('#playBeat').textContent = 'Play beat');
+$('#scrub').addEventListener('input', e => { v.currentTime = e.target.value / 1000 * PLAN.duration; const i = beatOf(v.currentTime); if (i !== cur) { cur = i; renderRail(); renderLeft(); } syncPlayhead(); });
+
+/* ---------- events ---------- */
+function go(i) { cur = Math.max(0, Math.min(PLAN.beats.length - 1, i)); playMode = 'beat'; v.pause(); v.currentTime = PLAN.beats[cur].start; renderRail(); renderLeft(); try { history.replaceState(null, '', '#' + PLAN.beats[cur].id); } catch (e) {} }
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-beat]'); if (t) return go(+t.dataset.beat);
+  const st = e.target.closest('[data-step]'); if (st) return go(cur + +st.dataset.step);
+  const sk = e.target.closest('[data-seek]'); if (sk) { playMode = 'beat'; v.currentTime = +sk.dataset.seek; v.play().catch(() => {}); return; }
+  const pk = e.target.closest('[data-pick]'); if (pk) { const s = bs(PLAN.beats[cur].id); s.pick = s.pick === pk.dataset.pick ? null : pk.dataset.pick; saveBeat(PLAN.beats[cur].id); renderOptsOnly(); renderRail(); progress(); if (pk.dataset.pick === 'C' && s.pick === 'C') $('#note').focus(); return; }
+  const ro = e.target.closest('[data-rough]'); if (ro) { state.global.rough = state.global.rough === ro.dataset.rough ? null : ro.dataset.rough; saveGlobal(); renderGlobal(); return; }
+  const un = e.target.closest('[data-unref]'); if (un) { const s = bs(PLAN.beats[cur].id); const [r] = s.refs.splice(+un.dataset.unref, 1); saveBeat(PLAN.beats[cur].id); renderRefs(); renderOptsOnly(); renderRail(); progress(); if (r && assets) assets.delete(r.id).catch(() => {}); return; }
+  if (e.target.id === 'pick') $('#file').click();
+});
+document.addEventListener('change', e => { if (e.target.id === 'file') { addFiles(e.target.files); e.target.value = ''; } });
+let timer = 0;
+document.addEventListener('input', e => {
+  if (e.target.id === 'note') { const id = PLAN.beats[cur].id; bs(id).note = e.target.value.slice(0, 4000); clearTimeout(timer); setSave('Typing…'); timer = setTimeout(() => { saveBeat(id); renderRail(); progress(); }, 700); }
+  if (e.target.id === 'roughNote') { state.global.roughNote = e.target.value.slice(0, 4000); clearTimeout(timer); setSave('Typing…'); timer = setTimeout(saveGlobal, 700); }
+});
+document.addEventListener('dragover', e => { const d = e.target.closest && e.target.closest('#drop'); if (d) { e.preventDefault(); d.classList.add('over'); } });
+document.addEventListener('dragleave', e => { const d = e.target.closest && e.target.closest('#drop'); if (d) d.classList.remove('over'); });
+document.addEventListener('drop', e => { const d = e.target.closest && e.target.closest('#drop'); if (d) { e.preventDefault(); d.classList.remove('over'); addFiles(e.dataTransfer.files); } });
+document.addEventListener('paste', e => { const fs = [...(e.clipboardData?.files || [])]; if (fs.length && fs.some(f => f.type.startsWith('image/'))) { e.preventDefault(); addFiles(fs); } });
+document.addEventListener('keydown', e => { if (e.target.matches('textarea,input')) return; if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); });
+
+fetch('plan.json').then(r => r.json()).then(p => {
+  PLAN = p; $('#count').textContent = `${p.beats.length} beats · ${p.duration.toFixed(1)} s`;
+  const h = location.hash.slice(1), i = p.beats.findIndex(b => b.id === h); if (i >= 0) cur = i;
+  connect();
+}).catch(() => { $('#left').innerHTML = '<div class="panel card">The plan data didn’t load. Reload the page to try again.</div>'; });
+</script>
