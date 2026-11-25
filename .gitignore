@@ -6,3 +6,4 @@ video/out/video_silent.mp4
 node_modules/
 edits/*/out/audio.wav
 edits/*/out/still_*.png
+__pycache__/
