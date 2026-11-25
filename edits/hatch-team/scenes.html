@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hatch Clip Scenes</title>
+<style>
+@font-face{font-family:Inter;src:url(../../video/fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:Inter;src:url(../../video/fonts/Inter-600.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(../../video/fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:Inter;src:url(../../video/fonts/Inter-800.ttf);font-weight:800}
+@font-face{font-family:'Instrument Serif';src:url(../../video/fonts/InstrumentSerif-Italic.ttf);font-style:italic}
+
+/* one accent per video: amber (ties to the REL orange in the footage) */
+:root{--amber:#F7BA68;--amber2:#FF9A3C;--ink:#0B0E12;--white:#FFFFFF}
+html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:Inter,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+.abs{position:absolute}
+.ctr{position:absolute;transform:translate(-50%,-50%)}
+.serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.amber{color:var(--amber);text-shadow:0 0 18px rgba(255,154,60,.55),0 0 44px rgba(255,154,60,.35)}
+.ch{display:inline-block}
+
+/* blueprint world (scenes: blueprint, board, final) */
+.bp{background:radial-gradient(ellipse 80% 55% at 50% 42%,#14202C 0%,#0B121A 55%,#06090D 100%)}
+.grid{position:absolute;inset:-200px;background-image:
+   linear-gradient(rgba(247,186,104,.13) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(247,186,104,.13) 1.5px,transparent 1.5px),
+   linear-gradient(rgba(247,186,104,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(247,186,104,.05) 1px,transparent 1px);
+   background-size:180px 180px,180px 180px,36px 36px,36px 36px;background-position:-1px -1px}
+.label{font-weight:700;font-size:24px;letter-spacing:.28em;color:rgba(247,186,104,.78)}
+
+/* warm dark world (texts) */
+.warm{background:radial-gradient(ellipse 75% 50% at 50% 38%,#2A1A10 0%,#140C08 55%,#080504 100%)}
+.phone{position:absolute;width:600px;height:1010px;border-radius:84px;background:linear-gradient(145deg,#3a3a3c,#0c0c0d 30%,#1b1b1d 70%,#050505);
+  box-shadow:0 60px 120px rgba(0,0,0,.6),0 0 0 2px rgba(255,255,255,.06),0 0 90px rgba(255,154,60,.12)}
+.screen{position:absolute;left:16px;top:16px;right:16px;bottom:16px;border-radius:70px;background:linear-gradient(180deg,#141416,#0d0d0f);overflow:hidden}
+.hdr{position:absolute;left:0;right:0;top:0;height:170px;background:rgba(30,30,32,.92);border-bottom:1px solid rgba(255,255,255,.06)}
+.av{position:absolute;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;color:#fff}
+.bub{position:absolute;left:96px;max-width:400px;padding:18px 26px;border-radius:34px;background:#2B2B2E;font-size:33px;font-weight:500;line-height:1.2;white-space:nowrap}
+.bub.big{background:linear-gradient(180deg,#3a2a1c,#2c2018);box-shadow:0 0 0 2px rgba(247,186,104,.55),0 0 40px rgba(255,154,60,.35);font-size:38px;font-weight:600}
+.badge{position:absolute;min-width:58px;height:58px;border-radius:29px;padding:0 14px;box-sizing:border-box;background:linear-gradient(180deg,#FF6A55,#E0301E);
+  font-weight:700;font-size:32px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(224,48,30,.5)}
+
+/* board rows */
+.row{position:absolute;left:90px;width:900px;height:200px;border-radius:36px;background:rgba(255,255,255,.035);
+  box-shadow:inset 0 0 0 1.5px rgba(247,186,104,.22);display:flex;align-items:center;gap:34px;padding:0 40px;box-sizing:border-box}
+.row .num{font-family:'Instrument Serif',serif;font-style:italic;font-size:104px;color:var(--amber);width:110px;text-align:center;
+  text-shadow:0 0 18px rgba(255,154,60,.5)}
+.row .t{font-size:58px;font-weight:700;letter-spacing:-.025em;line-height:1.05}
+.row .s{font-size:34px;font-weight:500;color:rgba(255,255,255,.6);margin-top:8px}
+.row .chk{position:absolute;right:40px;top:50%;transform:translateY(-50%)}
+
+/* overlays */
+.glass{background:rgba(12,9,7,.58);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1.5px rgba(247,186,104,.30),0 20px 50px rgba(0,0,0,.35)}
+.pill{position:absolute;left:96px;height:96px;border-radius:48px;display:flex;align-items:center;gap:20px;padding:0 38px 0 16px;font-size:40px;font-weight:600;letter-spacing:-.015em;white-space:nowrap}
+.pill .ic{width:66px;height:66px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE0B0,#F7BA68 45%,#C9701C);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(255,154,60,.6)}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="scenes.js"></script>
+</body>
+</html>

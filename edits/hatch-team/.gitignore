@@ -1,0 +1,9 @@
+src/
+out/scenes/
+out/part_*
+out/parts.txt
+out/audio.wav*
+out/*.log
+out/still_*
+out/scene_*.png
+out/plan.json
