@@ -9,7 +9,8 @@ caps=[
  # b1 C  (note: middle of the screen, a little smaller)
  dict(t=0,lines=[L("Everything","hero")],capY=.50,scale=.85,beat="b1"),
  dict(t=T(1),lines=[L("I was searching for")],capY=.50,scale=.85,beat="b1"),
- dict(t=T(5),lines=[L("was searching"),L("for me,")],two=True,capY=.50,scale=.85,beat="b1"),       # review: double line
+ dict(t=T(5),lines=[L("was searching")],capY=.50,scale=.85,beat="b1"),
+ dict(t=T(7),lines=[L("was searching"),L("for me,")],two=True,capY=.50,scale=.85,beat="b1"),       # review 2: build, line 1 stays put
  # b2 A
  dict(t=T(9),lines=[L("and I found my")],beat="b2"),
  dict(t=T(13),lines=[L("and I found my"),L("passion,","hero")],stack=True,beat="b2"),

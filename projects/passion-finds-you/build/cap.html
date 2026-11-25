@@ -5,6 +5,7 @@ html,body{margin:0;background:transparent}
 .fm-cap{--cap-y:.42}
 .fm-line{filter:none!important}                       /* no drop shadow */
 .fm-cap.is-two .fm-line+.fm-line{margin-top:-.10em}  /* two equal lines: normal leading */
+.fm-cap,.fm-cap.is-stack{transform:none}             /* positioned in script: line 1 is the anchor */
 </style></head><body><div class="fm-stage" id="st"></div><script>
 function sky(seed){const s=`<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><filter id='c' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.0032 0.0055' numOctaves='5' seed='${seed}'/><feColorMatrix type='matrix' values='1.59 0 0 0 0.285 0.84 0 0 0 0.622 0.30 0 0 0 0.865 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(#c)'/></svg>`;return `url("data:image/svg+xml;utf8,${encodeURIComponent(s)}")`}
 const c=JSON.parse(decodeURIComponent(location.hash.slice(1)));const st=document.getElementById('st');
@@ -19,5 +20,13 @@ for(const l of c.lines){const s=document.createElement('span');s.className='fm-l
  if(l.size) s.style.fontSize=`calc(var(--U) * ${l.size})`;
  cap.appendChild(s)}
 st.appendChild(cap);
-window.ready=document.fonts.ready.then(()=>{for(const e of document.querySelectorAll('.fm-line')){const w=e.getBoundingClientRect().width;if(w>950)e.style.fontSize=(parseFloat(getComputedStyle(e).fontSize)*950/w)+'px'}return true});
+window.ready=document.fonts.ready.then(()=>{
+ for(const e of document.querySelectorAll('.fm-line')){const w=e.getBoundingClientRect().width;if(w>950)e.style.fontSize=(parseFloat(getComputedStyle(e).fontSize)*950/w)+'px'}
+ // anchor: put the first line's x-height centre on cap-y (same spot as when it is shown alone)
+ const first=cap.querySelector('.fm-line'); const fs=parseFloat(getComputedStyle(first).fontSize);
+ const y=parseFloat(getComputedStyle(cap).top); const r=first.getBoundingClientRect(), cr=cap.getBoundingClientRect();
+ const pad=0.06*fs, lineCentre=(r.top-cr.top)+pad+fs*0.5;           // centre of the 1em line box inside the padding
+ cap.style.top=(y-lineCentre)+'px';
+ window.anchor={line1Top:r.top-(cr.top-(y-lineCentre)) ,fs};
+ return true});
 </script></body></html>
