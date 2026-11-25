@@ -236,7 +236,7 @@ S.final = () => {
 function warmWorld() {
   stage.classList.add('og');
   const world = el('div', stage, 'abs', { inset: 0, transformOrigin: '50% 50%' });
-  const streaks = [0, 1, 2].map(i => el('div', world, 'streak', { left: px(-300 + i * 420), top: '-300px', width: '260px', height: '2600px' }));
+  const streaks = [0, 1].map(i => el('div', world, 'streak', { left: px(-200 + i * 620), top: '-400px', width: '520px', height: '2800px' }));
   return { world, streaks };
 }
 const ART = {   // simple line illustrations (stroke only) for the drifting elements
@@ -269,7 +269,7 @@ S.reel = () => {          // beat 3: "that ego has to be transformed into a ... 
   const WORDS = ['title', 'following', 'brand', 'a crowd', 'vision', 'a boss', 'help', 'system', 'a plan', 'habit', 'a team', 'blueprint.'];
   const ROW = 210;
   const LIST = [...WORDS].reverse();                     // top -> bottom: "blueprint." ... "title"; the strip slides DOWN
-  const rows = LIST.map((w, i) => { const r = el('div', strip, 'reelword' + (i === 0 ? ' bp' : ''), { top: px(i * ROW) }); r.textContent = w; return r; });
+  const rows = LIST.map((w, i) => { const r = el('div', strip, 'reelword', { top: px(i * ROW) }); r.textContent = w; return r; });
   const ul = el('div', world, 'uline', { top: '925px' });
   const tE = CU.ego ?? .2, tT = CU.transformed, tB = CU.blueprint;
   const N = WORDS.length - 1;
@@ -287,7 +287,7 @@ S.reel = () => {          // beat 3: "that ego has to be transformed into a ... 
     const speed = p > 0 && p < 1 ? Math.min(1, (p < .45 ? .4 : 1.8 * (1 - (p - .45) / .55))) : 0;
     rows.forEach((r, i) => {
       const d = Math.abs(i - (N - pos));
-      r.style.opacity = (clamp(1 - d * .5) * .85 + (d < .5 ? .15 : 0)) * clamp((t - tE + .1) / .2);
+      r.style.opacity = (clamp(1 - d * .5) * .85 + (d < .5 ? .15 : 0)) * clamp((t - tE + .1) / .2) * (i === 0 ? 1 : 1 - E(t, tB + .1, tB + .5));
       const blur = speed * 7 * clamp(d * 1.5 + .4);
       r.style.filter = blur > .3 ? `blur(${blur.toFixed(1)}px)` : '';
       r.classList.toggle('land', i === 0 && p >= .999);
@@ -300,10 +300,10 @@ S.reel = () => {          // beat 3: "that ego has to be transformed into a ... 
 S.secret = () => {        // beat 5 background + question type (Erik's cut-out is composited in edit.py)
   const { world, streaks } = warmWorld();
   const arts = drifters(world, [['ruler', -80, 1460, 300, 12, 8, -3, 1, .35], ['house', -60, 160, 230, -8, 6, 3, -1, .35]]);
-  const box = el('div', world, 'abs', { left: '78px', top: '640px', width: '520px' });
+  const box = el('div', world, 'abs', { left: '70px', top: '470px', width: '470px' });
   const a = el('div', box, 'qrun', {}, 'Hey, what’s the');
   const b = el('div', box, 'qkey', {}, 'secret');
-  const c = el('div', box, 'qrun', { marginTop: '6px' }, 'to your success?');
+  const c = el('div', box, 'qrun', { marginTop: '6px' }, 'to your<br>success?');
   const { hey: tH, secret: tS, to: tTo } = CU;
   return t => {
     world.style.transform = camera(t, 1.0, 1.05);

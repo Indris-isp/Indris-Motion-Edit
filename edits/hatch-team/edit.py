@@ -614,7 +614,7 @@ def matte(rgb):
 
 
 CUT_SRC = (18, 1062, 520, 1500)          # source region the cut-out is taken from (y0, y1, x0, x1)
-CUT_SCALE, CUT_FACE_X = 1.85, 735        # scale into the frame; where his face centre lands (right side)
+CUT_SCALE, CUT_FACE_X = 1.62, 790        # scale into the frame; where his face centre lands (right side)
 
 
 def composite_cutout(bg, f, st, k):
@@ -668,7 +668,7 @@ def render_frame(src, k, bg_src):
         bgimg = rgba[..., :3]
         if full['name'] == 'secret':
             f = remove_captions(src.get(int(round(st * FPS))))
-            bgimg = composite_cutout(bgimg, LIFT[f], st, k)
+            bgimg = composite_cutout(bgimg, LIFT[LIFT[f]], st, k)
         img = grade(bgimg, k, t, lift=False, film=False)
     else:
         if t < OPENER_END and not PLAIN:
