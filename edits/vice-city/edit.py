@@ -14,7 +14,7 @@ WARM -> COLD (GTA / fake reality) -> WARM, with halation, vignette, grain, flash
 hits -> end card over a blurred freeze in the black tail -> word-by-word captions (Inter Medium
 run-in words + giant gold Instrument Serif keyword, red for swear/negative words).
 """
-import json, math, os, subprocess, sys, wave
+import json, math, os, subprocess, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -25,13 +25,13 @@ FONTS = os.path.join(HERE, '../../video/fonts')
 W, H, FPS = 1080, 1920, 24
 SW, SH = 960, 720
 SRC_FRAMES = 549                  # 22.875 s
-LAST_VALID = 460                  # last non-black source frame (19.17 s); after it -> end card
+LAST_VALID = 460                  # last non-black source frame (19.17 s)
+END_F = LAST_VALID + 1            # the edit ends here, right after 'to live' (the black music tail is dropped)
 CUT_F = (37, 63)                  # source frames dropped: the 1.1 s pause after "real world"
 CUT = (CUT_F[0] / FPS, CUT_F[1] / FPS)
 CX = 515                          # subject's horizontal centre in the source
 GOLD = (243, 214, 160)
 RED = (255, 84, 70)
-INK = (20, 18, 16)
 
 
 def src_to_out(t): return t if t < CUT[0] else t - (CUT[1] - CUT[0])
@@ -55,10 +55,10 @@ SHOTS = [
     (16.0,  'broll', [(16.0, 1.00), (16.84, 1.05)], 'friends'),                 # their life
     (16.84, 'full',  [(16.84, 1.00), (17.52, 1.05)], None),                     # that they've been put on
     (17.52, 'broll', [(17.52, 1.00), (17.96, 1.04)], 'earth'),                  # this earth
-    (17.96, 'full',  [(17.96, 1.16), (18.67, 1.22), (SRC_FRAMES / FPS, 1.34)], None),  # to live -> end card
+    (17.96, 'full',  [(17.96, 1.16), (18.67, 1.22), (END_F / FPS, 1.26)], None),       # to live
 ]
 HITS = [  # (source time, flash, rgb_split_px, shake_px)
-    (CUT[1], 0.05, 0, 0), (5.21, 0.20, 0, 0), (8.79, 0.06, 0, 0), (12.04, 0.30, 18, 7), (13.63, 0.0, 9, 2), (19.23, 0.10, 0, 0),
+    (CUT[1], 0.05, 0, 0), (5.21, 0.20, 0, 0), (8.79, 0.06, 0, 0), (12.04, 0.30, 18, 7), (13.63, 0.0, 9, 2),
 ]
 BROLL_GAIN = {'sunrays': 0.72}   # per-clip exposure trim for stock that runs hot
 A_ROLL_LIFT = 0.78     # gamma on the speaker footage only (the source is underexposed); stock is already bright
@@ -228,7 +228,7 @@ def font(name, size):
 RUN_FONT, RUN_SIZE = 'Inter-500.ttf', 58          # run-in words: Inter Medium
 SWEAR_FONT = 'Inter-700.ttf'
 KEY_FONT, KEY_SIZE = 'InstrumentSerif-Italic.ttf', 150   # keyword: elegant serif (mode B)
-LEAD = 3 / FPS                                    # words pop 3 frames before they're spoken
+LEAD = 3 / FPS                                    # words start revealing 3 frames before they're spoken
 CAP_Y = 1400                                      # baseline of the bottom caption line (73 % height)
 MAX_LINE = 960
 WORDS = json.load(open(os.path.join(HERE, 'words.json')))
@@ -263,7 +263,7 @@ def sprite(text, fnt, color, glow=None):
         g = Image.new('RGBA', size, glow + (0,)); g.putalpha(m.filter(ImageFilter.GaussianBlur(16)).point(lambda v: int(v * 0.55)))
         im.alpha_composite(g)
     fill = Image.new('RGBA', size, color + (0,)); fill.putalpha(m); im.alpha_composite(fill)
-    return dict(img=im, ox=pad, by=pad + asc, adv=adv, asc=asc)
+    return dict(img=im, ox=pad, by=pad + asc, adv=adv, asc=asc, font=fnt, color=color, glow=glow)
 
 
 def layout_chunk(i0, i1, keys, reds):
@@ -308,15 +308,39 @@ def layout_chunk(i0, i1, keys, reds):
 
 CHUNK_LAYOUT = [(a, b, layout_chunk(a, b, k, r)) for a, b, k, r in CHUNKS]
 
+# Caption animation, matched to the reference edit:
+#  - every word fades in from a heavy blur to sharp, in place (no pop, no slide);
+#  - keywords assemble letter by letter in random order, each letter blurring in;
+#  - the whole caption block slowly grows 100 -> 103 % while on screen, then blurs, fades and grows out.
+WORD_IN, WORD_BLUR = 6 / FPS, 12          # word reveal time, starting blur radius (px)
+LETTER_IN, LETTER_BLUR, LETTER_SPREAD = 5 / FPS, 14, 0.40
+BLOCK_GROW, EXIT_T, EXIT_BLUR, EXIT_GROW = 0.03, 4 / FPS, 9, 0.035
+STRIP_Y0, STRIP_H = CAP_Y - 560, 720      # caption layer band (covers up to three lines)
 
-def place(fr, spr, cx_word, base_y, s, alpha):
-    img = spr['img']
-    if abs(s - 1) > 1e-3: img = img.resize((max(1, int(img.width * s)), max(1, int(img.height * s))), Image.BICUBIC)
-    if alpha < 1: img = img.copy(); img.putalpha(img.getchannel('A').point(lambda v: int(v * alpha)))
-    pivot_y = spr['by'] - spr['asc'] * 0.35                     # scale around the glyphs' optical centre
-    px = int(cx_word - (spr['ox'] + spr['adv'] / 2) * s)
-    py = int(base_y - spr['asc'] * 0.35 - pivot_y * s)
-    fr.alpha_composite(img, (px, py)) if px >= 0 and py >= 0 else fr.paste(img, (px, py), img)
+
+def _letters(w):
+    """Per-letter sprites (with the word's own colour/glow) and their random reveal offsets."""
+    spr = w['spr']; fnt = spr['font']; txt = w['txt']; out = []
+    idx = [j for j, c in enumerate(txt) if c != ' ']
+    order = np.random.default_rng(w['i'] * 7919).permutation(len(idx))
+    for k, j in enumerate(idx):
+        ls = sprite(txt[j], fnt, spr['color'], glow=spr['glow'])
+        delay = float(LETTER_SPREAD * order[k] / max(1, len(idx) - 1))
+        out.append((ls, fnt.getlength(txt[:j]), delay))
+    return out
+
+
+for _a, _b, _words in CHUNK_LAYOUT:
+    for _w in _words:
+        if _w['key']: _w['letters'] = _letters(_w)
+    _top = min(w['y'] - w['spr']['asc'] for w in _words)
+    _words[0]['block_cy'] = (_top + CAP_Y) / 2
+
+
+def _put(strip, img, x, y, alpha, blur):
+    if blur >= 0.5: img = img.filter(ImageFilter.GaussianBlur(float(blur)))
+    if alpha < 0.999: img = img.copy(); img.putalpha(img.getchannel('A').point(lambda v: int(v * alpha)))
+    strip.alpha_composite(img, (max(0, int(x)), int(y - STRIP_Y0)))
 
 
 def draw_captions(frame, t):
@@ -326,69 +350,34 @@ def draw_captions(frame, t):
         t_off = WORDS[b][1] + 0.3
         if n + 1 < len(CHUNKS): t_off = min(t_off, WORDS[CHUNKS[n + 1][0]][0] - LEAD)
         if not (t_on <= t < t_off): continue
-        out_a = min(1, (t_off - t) / (2 / FPS))
+        strip = Image.new('RGBA', (W, STRIP_H), (0, 0, 0, 0))
         for w in words:
             ts = WORDS[w['i']][0] - LEAD
             if t < ts: continue
-            cx = w['x'] + w['spr']['adv'] / 2
-            if w['key']:      # keyword hit: 0 -> 112 -> 100 % over 9 frames, white -> accent + glow
-                u = (t - ts) / (9 / FPS)
-                s = 1.12 * ease_out(u / 0.6) if u < 0.6 else 1.12 - 0.12 * smooth((u - 0.6) / 0.4)
-                c = smooth((t - ts) / 0.25)
-                spr = w['spr'] if c >= 1 else dict(w['spr'], img=Image.blend(w['spr_white']['img'], w['spr']['img'], c))
-                place(fr, spr, cx, w['y'], max(s, 0.02), min(1, u / 0.3) * out_a)
-            else:             # word pop: 80 -> 100 %, fade in, small rise, 5 frames
-                u = ease_out((t - ts) / (5 / FPS))
-                place(fr, w['spr'], cx, w['y'] + 10 * (1 - u), 0.8 + 0.2 * u, u * out_a)
+            spr = w['spr']; x0 = w['x'] - spr['ox']; y0 = w['y'] - spr['by']
+            if w['key']:
+                for ls, dx, delay in w['letters']:
+                    u = (t - ts - delay) / LETTER_IN
+                    if u <= 0: continue
+                    _put(strip, ls['img'], x0 + dx, y0, min(1, u * 1.5), LETTER_BLUR * (1 - ease_out(u)))
+            else:
+                u = (t - ts) / WORD_IN
+                _put(strip, spr['img'], x0, y0, min(1, u * 1.6), WORD_BLUR * (1 - ease_out(u)))
+        life = smooth((t - t_on) / max(0.3, t_off - t_on))
+        e = smooth((t - (t_off - EXIT_T)) / EXIT_T)                       # exit progress
+        sc = 1 + BLOCK_GROW * life + EXIT_GROW * e
+        if e > 0:
+            strip = strip.filter(ImageFilter.GaussianBlur(EXIT_BLUR * e))
+            strip.putalpha(strip.getchannel('A').point(lambda v: int(v * (1 - e))))
+        cy = words[0]['block_cy'] - STRIP_Y0
+        sw, sh = int(W * sc), int(STRIP_H * sc)
+        strip = strip.resize((sw, sh), Image.BICUBIC)
+        ox, oy = int((sw - W) / 2), int(cy * sc - cy)
+        fr.alpha_composite(strip.crop((ox, oy, ox + W, oy + STRIP_H)), (0, STRIP_Y0))
     return fr.convert('RGB')
 
 
-# ---------------------------------------------------------------- end card + CTA
-END_T1, END_T2, CTA_T, FADE_OUT = 19.23, 19.71, 20.31, (22.3, SRC_FRAMES / FPS)
-
-
-def tracked(text, fnt, track, color):
-    w = sum(fnt.getlength(c) for c in text) + track * (len(text) - 1)
-    asc, desc = fnt.getmetrics(); im = Image.new('RGBA', (int(w) + 4, asc + desc + 4), 0); d = ImageDraw.Draw(im); x = 2
-    for c in text: d.text((x, 2), c, font=fnt, fill=color); x += fnt.getlength(c) + track
-    return im
-
-
-def pill(text, fnt, fg, bg):
-    asc, desc = fnt.getmetrics(); tw = fnt.getlength(text); ph = asc + desc + 36; pw = int(tw) + 76
-    im = Image.new('RGBA', (pw + 40, ph + 40), (0, 0, 0, 0))
-    sh = Image.new('L', im.size, 0); ImageDraw.Draw(sh).rounded_rectangle((20, 26, 20 + pw, 26 + ph), ph // 2, fill=150)
-    s = Image.new('RGBA', im.size, (0, 0, 0, 0)); s.putalpha(sh.filter(ImageFilter.GaussianBlur(12))); im.alpha_composite(s)
-    d = ImageDraw.Draw(im); d.rounded_rectangle((20, 20, 20 + pw, 20 + ph), ph // 2, fill=bg + (255,))
-    d.text((20 + pw / 2, 20 + ph / 2), text, font=fnt, fill=fg + (255,), anchor='mm')
-    return im
-
-
-END_SMALL = tracked('ON THIS EARTH', font('Inter-600.ttf', 34), 14, (255, 255, 255, 215))
-END_TITLE = sprite('to live.', font(KEY_FONT, 230), GOLD, glow=GOLD)['img']
-CTA = pill('Comment “LIVE” if you agree', font('Inter-600.ttf', 40), INK, GOLD)
-
-
-def end_card(frame, t):
-    if t < LAST_VALID / FPS: return frame
-    u = t - LAST_VALID / FPS
-    blur = 14 * smooth(u / 0.7)
-    f = frame.filter(ImageFilter.GaussianBlur(blur)) if blur > 0.3 else frame
-    f = Image.fromarray((np.asarray(f, np.float32) * (1 - 0.32 * smooth(u / 0.7))).astype(np.uint8)).convert('RGBA')
-    for tt, im, y, rise in ((END_T1, END_SMALL, 760, 14), (END_T2, END_TITLE, 790, 30)):
-        if t < tt: continue
-        e = ease_out((t - tt) / 0.6); a = min(1, (t - tt) / 0.35)
-        im2 = im.copy(); im2.putalpha(im.getchannel('A').point(lambda v: int(v * a)))
-        f.alpha_composite(im2, ((W - im.width) // 2, int(y + rise * (1 - e))))
-    if t >= END_T2 + 0.2:   # thin gold rule under the title
-        lw = int(220 * ease_out((t - END_T2 - 0.2) / 0.8))
-        if lw > 2: ImageDraw.Draw(f).rectangle(((W - lw) // 2, 1135, (W + lw) // 2, 1137), fill=GOLD + (200,))
-    if t >= CTA_T:          # comment-keyword CTA: pop with overshoot
-        u = (t - CTA_T) / (9 / FPS)
-        s = 1.08 * ease_out(u / 0.6) if u < 0.6 else 1.08 - 0.08 * smooth((u - 0.6) / 0.4)
-        im = CTA.resize((max(1, int(CTA.width * s)), max(1, int(CTA.height * s))), Image.BICUBIC)
-        f.alpha_composite(im, ((W - im.width) // 2, 1290 - im.height // 2))
-    return f.convert('RGB')
+FADE_OUT = (END_F / FPS - 0.45, END_F / FPS)    # short fade to black after 'to live'
 
 
 def render_frame(src_img, fi, oi):
@@ -396,7 +385,6 @@ def render_frame(src_img, fi, oi):
     layout, z, clip, start = shot_at(t)
     img = broll_layout(clip, start, z, t) if layout == 'broll' else full_layout(src_img, z, t)
     img = grade(img, t, oi, lift=layout != 'broll')
-    img = end_card(img, t)
     img = draw_captions(img, t)
     if t > FADE_OUT[0]:
         k = 1 - smooth((t - FADE_OUT[0]) / (FADE_OUT[1] - FADE_OUT[0]))
@@ -406,38 +394,17 @@ def render_frame(src_img, fi, oi):
 
 # ---------------------------------------------------------------- audio
 def build_audio(path):
-    sr = 48000; dur = src_to_out(SRC_FRAMES / FPS); n = int((dur + 0.3) * sr); sfx = np.zeros(n); r = np.random.default_rng(3)
-
-    def whoosh(at, length=0.55, gain=0.22):
-        m = int(length * sr); x = r.standard_normal(m)
-        env = np.sin(np.linspace(0, np.pi, m)) ** 2 * np.linspace(0.4, 1, m)
-        fc = np.geomspace(300, 4000, m); y = np.zeros(m); acc = 0.0      # rising low-pass sweep
-        for i in range(m):
-            a = 1 - math.exp(-2 * math.pi * fc[i] / sr); acc += a * (x[i] - acc); y[i] = acc
-        i0 = int((src_to_out(at) - length * 0.75) * sr); sfx[i0:i0 + m] += y / np.abs(y).max() * env * gain
-
-    def impact(at, gain=0.55):
-        m = int(0.9 * sr); tt = np.arange(m) / sr
-        body = np.sin(2 * np.pi * np.cumsum(38 + 70 * np.exp(-tt / 0.06)) / sr) * np.exp(-tt / 0.28)
-        click = r.standard_normal(m) * np.exp(-tt / 0.012) * 0.35
-        i0 = int(src_to_out(at) * sr); sfx[i0:i0 + m] += (body + click) * gain
-
-    whoosh(5.21); whoosh(12.04, 0.4, 0.16); whoosh(19.23, 0.7, 0.18); impact(12.04); impact(19.23, 0.3)
-    sfx_path = path + '.sfx.wav'
-    with wave.open(sfx_path, 'wb') as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
-        w.writeframes((np.clip(sfx, -1, 1) * 32767).astype('<i2').tobytes())
+    """The original voice + music only (no added SFX): jump-cut crossfade, light EQ/compression, -14 LUFS, end fade."""
+    dur = src_to_out(END_F / FPS)
     xf = 0.04   # jump cut: overlap both sides by xf/2 so the crossfade keeps A/V sync
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', SRC, '-i', sfx_path, '-filter_complex',
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', SRC, '-filter_complex',
                     f'[0:a]aresample=48000,asplit[x][y];[x]atrim=0:{CUT[0] + xf / 2},asetpts=PTS-STARTPTS[a1];'
                     f'[y]atrim={CUT[1] - xf / 2},asetpts=PTS-STARTPTS[a2];[a1][a2]acrossfade=d={xf}:c1=tri:c2=tri,'
                     'highpass=f=28,equalizer=f=3200:t=q:w=1.2:g=2,'
-                    'acompressor=threshold=-20dB:ratio=2.5:attack=8:release=120:makeup=2[v];'
-                    '[1:a]pan=stereo|c0=c0|c1=c0[s];'
-                    '[v][s]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=9,alimiter=limit=0.87:level=0,'
+                    'acompressor=threshold=-20dB:ratio=2.5:attack=8:release=120:makeup=2,'
+                    'loudnorm=I=-14:TP=-1.5:LRA=9,alimiter=limit=0.87:level=0,'
                     f'afade=t=out:st={src_to_out(FADE_OUT[0])}:d={FADE_OUT[1] - FADE_OUT[0]},atrim=0:{dur}',
                     '-ar', '48000', path], check=True)
-    os.remove(sfx_path)
 
 
 def frames():
@@ -445,6 +412,7 @@ def frames():
     last, oi = None, 0
     for fi, a in enumerate(source_frames()):
         if fi <= LAST_VALID: last = Image.fromarray(remove_captions(a))
+        if fi >= END_F: break
         if CUT_F[0] <= fi < CUT_F[1]: continue
         yield fi, oi, last; oi += 1
 
