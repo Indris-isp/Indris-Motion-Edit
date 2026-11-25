@@ -14,6 +14,7 @@
    "capY": 0.55,
    "scale": 0.85,
    "beat": "b1",
+   "blend": "white",
    "out": 440,
    "id": "c00"
   },
@@ -28,6 +29,7 @@
    "capY": 0.55,
    "scale": 0.85,
    "beat": "b1",
+   "blend": "white",
    "out": 1500,
    "id": "c01"
   },
@@ -47,6 +49,7 @@
    "capY": 0.55,
    "scale": 0.85,
    "beat": "b1",
+   "blend": "white",
    "out": 2420,
    "id": "c02"
   },
@@ -60,6 +63,7 @@
    ],
    "beat": "b2",
    "capY": 0.47,
+   "blend": "difference",
    "out": 3460,
    "id": "c03"
   },
@@ -78,6 +82,7 @@
    "stack": true,
    "beat": "b2",
    "capY": 0.47,
+   "blend": "difference",
    "out": 3907,
    "id": "c04"
   },
@@ -91,6 +96,7 @@
    ],
    "beat": "b2",
    "capY": 0.47,
+   "blend": "difference",
    "out": 4400,
    "id": "c05"
   },
@@ -109,6 +115,7 @@
    "two": true,
    "beat": "b3",
    "capY": 0.47,
+   "blend": "difference",
    "out": 6366,
    "id": "c06"
   },
@@ -122,6 +129,7 @@
    ],
    "beat": "b3",
    "capY": 0.47,
+   "blend": "difference",
    "out": 7080,
    "id": "c07"
   },
@@ -135,6 +143,7 @@
    ],
    "beat": "b3",
    "capY": 0.47,
+   "blend": "difference",
    "out": 8080,
    "id": "c08"
   },
@@ -148,6 +157,7 @@
    ],
    "beat": "b3",
    "capY": 0.47,
+   "blend": "difference",
    "out": 8680,
    "id": "c09"
   },
@@ -161,6 +171,7 @@
    ],
    "beat": "b3",
    "capY": 0.47,
+   "blend": "difference",
    "out": 9440,
    "id": "c10"
   },
@@ -174,6 +185,7 @@
    ],
    "beat": "b3",
    "capY": 0.47,
+   "blend": "difference",
    "out": 9982,
    "id": "c11"
   },
@@ -187,6 +199,7 @@
    ],
    "beat": "b4",
    "capY": 0.47,
+   "blend": "white",
    "out": 10200,
    "id": "c12"
   },
@@ -200,6 +213,7 @@
    ],
    "beat": "b5",
    "capY": 0.47,
+   "blend": "white",
    "out": 10965,
    "id": "c13"
   },
@@ -213,6 +227,7 @@
    ],
    "beat": "b5",
    "capY": 0.47,
+   "blend": "white",
    "out": 11680,
    "id": "c14"
   },
@@ -231,6 +246,7 @@
    "stack": true,
    "beat": "b5",
    "capY": 0.47,
+   "blend": "white",
    "out": 12040,
    "id": "c15"
   },
@@ -244,6 +260,7 @@
    ],
    "beat": "b5",
    "capY": 0.47,
+   "blend": "white",
    "out": 12573,
    "id": "c16"
   },
@@ -257,6 +274,7 @@
    ],
    "beat": "b6",
    "capY": 0.47,
+   "blend": "white",
    "out": 13380,
    "id": "c17"
   },
@@ -270,6 +288,7 @@
    ],
    "beat": "b6",
    "capY": 0.47,
+   "blend": "white",
    "out": 14647,
    "id": "c18"
   },
@@ -283,6 +302,7 @@
    ],
    "beat": "b7",
    "capY": 0.47,
+   "blend": "white",
    "out": 15220,
    "id": "c19"
   },
@@ -296,6 +316,7 @@
    ],
    "beat": "b7",
    "capY": 0.47,
+   "blend": "white",
    "out": 15840,
    "id": "c20"
   },
@@ -309,6 +330,7 @@
    ],
    "beat": "b7",
    "capY": 0.47,
+   "blend": "white",
    "out": 16551,
    "id": "c21"
   },
@@ -324,6 +346,7 @@
    "scale": 0.9,
    "capY": 0.5,
    "beat": "b9",
+   "blend": "white",
    "out": 17532,
    "id": "c22"
   },
@@ -345,6 +368,7 @@
    "scale": 0.9,
    "capY": 0.5,
    "beat": "b9",
+   "blend": "white",
    "out": 18682,
    "id": "c23"
   },
@@ -359,6 +383,7 @@
    "scale": 0.9,
    "beat": "b9",
    "capY": 0.47,
+   "blend": "white",
    "out": 19780,
    "id": "c24"
   },
@@ -379,6 +404,7 @@
    "scale": 0.9,
    "beat": "b9",
    "capY": 0.47,
+   "blend": "white",
    "out": 20299,
    "id": "c25"
   },
@@ -392,6 +418,7 @@
    ],
    "beat": "b10",
    "capY": 0.47,
+   "blend": "white",
    "out": 21030,
    "id": "c26"
   },
@@ -405,6 +432,7 @@
    ],
    "beat": "b10",
    "capY": 0.47,
+   "blend": "white",
    "out": 21584,
    "id": "c27"
   },
@@ -418,6 +446,7 @@
    ],
    "beat": "b10",
    "capY": 0.47,
+   "blend": "white",
    "out": 22720,
    "id": "c28"
   },
@@ -431,6 +460,7 @@
    ],
    "beat": "b10",
    "capY": 0.47,
+   "blend": "white",
    "out": 23441,
    "id": "c29"
   },
@@ -444,6 +474,7 @@
    ],
    "beat": "b10",
    "capY": 0.47,
+   "blend": "white",
    "out": 24160,
    "id": "c30"
   },
@@ -457,6 +488,7 @@
    ],
    "beat": "b11",
    "capY": 0.47,
+   "blend": "white",
    "out": 25200,
    "id": "c31"
   },
@@ -470,6 +502,7 @@
    ],
    "beat": "b11",
    "capY": 0.47,
+   "blend": "white",
    "out": 25760,
    "id": "c32"
   },
@@ -484,6 +517,7 @@
    ],
    "beat": "b11",
    "capY": 0.47,
+   "blend": "white",
    "out": 26400,
    "id": "c33"
   }

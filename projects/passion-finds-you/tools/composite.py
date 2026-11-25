@@ -36,7 +36,10 @@ while i < LIMIT:
     if c and c["lines"]:
         y0, y1, x0, x1, col, a = layer(c["id"])
         region = bg[y0:y1, x0:x1]
-        comp = region * (1 - a) + np.abs(region - col) * a        # 2. difference blend
+        if c.get("blend") == "difference":
+            comp = region * (1 - a) + np.abs(region - col) * a    # 2a. difference blend (0:02-0:10)
+        else:
+            comp = region * (1 - a) + a                           # 2b. plain white text, normal blend
         m = matte(i)[y0:y1, x0:x1] * (1 - GHOST)                  # 3. speaker in front of the text
         out = bg.copy(); out[y0:y1, x0:x1] = comp * (1 - m) + region * m
     enc.stdin.write((out * 255 + 0.5).clip(0, 255).astype(np.uint8).tobytes())

@@ -54,6 +54,9 @@ caps=[
 ]
 LOWER=.05
 for c in caps: c["capY"]=round(c.get("capY",.42)+LOWER,3)
+# Blend: difference only for captions that start inside 0:02-0:10 on the white slide (2.42-9.94 s); plain white elsewhere
+DIFF_FROM, DIFF_TO = 2000, 9940
+for c in caps: c["blend"]="difference" if DIFF_FROM <= c["t"] < DIFF_TO else "white"
 caps.sort(key=lambda c:c["t"])
 DUR=26400
 for k,c in enumerate(caps):
