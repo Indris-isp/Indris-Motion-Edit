@@ -27,6 +27,7 @@ Then tell Claude: *"Read edits/hatch-team/HANDOFF.md and continue the Hatch clip
 | Palette board | `palette/palette_board.png` |
 | Palette picker (artifact) | https://claude.ai/artifact/6SMwnQtX3ePU4EXTDx1Dr5 (source `palette/picker.html`) |
 | Plan page (artifact) | https://claude.ai/artifact/FTBbLgVEqhk1YnyMaJEV5W (source `plan_ui/`, data from `plan_ui/build.py`) |
+| Generated B-roll images (local AI, Apache-2.0 models) | `broll/*.jpg` |
 | Local AI image tools | `tools/gen.py`, `tools/gen_batch.py`, `tools/gen_jobs.json` (Segmind Vega + VegaRT, Apache-2.0) |
 
 ## Decisions so far
@@ -41,16 +42,16 @@ Then tell Claude: *"Read edits/hatch-team/HANDOFF.md and continue the Hatch clip
 
 | Beat | Pick | Client note | Status |
 |---|---|---|---|
-| 1 Hook | C | An image of a team in conversation; the caption sits **behind the subjects** (rotoscoped), with a light slide zoom | AI image being generated (`b1_team`); text-behind composite to build |
+| 1 Hook | C | An image of a team in conversation; the caption sits **behind the subjects** (rotoscoped), with a light slide zoom | **Built**: `still:b1_team` + `behind` overlay + MODNet matte |
 | 2 Bridge | B | Speaker + captions | Done |
 | 3 Ego → blueprint | C | Orange gradient; a long list of options slides downward and lands on "blueprint"; animated elements (ref: golden gradient + objects at the edges) | **Done**: `reel` scene |
 | 4 Proof | B | Speaker + captions (no tags) | Done |
 | 5 Open loop | C | Full image of the speaker on the right, the question on the left | **Done**: `secret` scene, Erik cut out of his own footage with MODNet |
 | 6 Most boring | A | Punch-in + colour drain | Done |
-| 7 Rule #1 | C | High-quality B-roll with people + caption (ref: people in a room, run-in + bold caps) | AI images `b7_meeting`, `b7_empty`; to build |
-| 8 25 texts | C | Several people on screen in different places, texting | AI images `b8_p1..4` (cut out); to build |
+| 7 Rule #1 | C | High-quality B-roll with people + caption (ref: people in a room, run-in + bold caps) | **Built**: `still:b7_meeting`, `still:b7_empty` |
+| 8 25 texts | C | Several people on screen in different places, texting | **Built**: `crowd` scene + `crowdfg` bubbles; three cut-outs (b8_p2..4); b8_p1 was dropped as unusable |
 | 9 That's a blueprint | A | Medium → wide | Done |
-| 10 Rules 2–3 | C | B-roll + captions | AI images `b10_call`, `b10_crm`; to build |
+| 10 Rules 2–3 | C | B-roll + captions | **Built**: `still:b10_call`, `still:b10_crm` |
 | 11 On repeat | B | Close-up with captions | Done |
 | 12 Close | A | Callback stamp + final line | Done |
 
@@ -58,9 +59,8 @@ The reference images the client uploaded are stored in the plan page's assets. T
 
 ## Next steps
 
-1. Build beats 1, 7, 8 and 10 from the generated images: matte the people (MODNet), add Ken Burns motion and captions.
-2. Render a preview of the full edit, check it, and show it to the client for approval.
-3. Then do the final render: `python3 edit.py` (or in parallel with `--range`, then `--mux`).
+1. The v2 preview of the full plan is rendered as `out/hatch_team_premium_1080x1920.mp4`. It goes to the client for approval through the plan page player.
+2. Apply the client's notes, then do the final render: `python3 edit.py`, or in parallel with `--range` then `--mux`.
 
 ## Environment notes
 

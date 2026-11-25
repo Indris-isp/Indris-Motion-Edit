@@ -192,21 +192,22 @@ SAFE_Y0, SAFE_Y1, SAFE_X0, SAFE_X1 = 18, 1062, 30, 1890
 # (cut on the stressed syllable, picture arrives as the ear does) or ('c', cut index) -> exactly on the cut.
 # drift = constant push-in over the shot (house rule: never leave a frame static).
 SHOTS = [
-    (0, 'WIDE', .03),                # Real estate teams in their purest form, exist because  (rack-focus opener)
+    (0, 'still:b1_team', 0),         # b1 (C): AI team image, hook words BEHIND the people, light slide zoom (covers the logo sting)
     (12, 'CU', .05),                 # the leader has EGO
     (122, 'MCU', .03),               # so, for a real estate team to function well
     (134, 'scene:reel', 0),          # that ego has to be transformed into a ... BLUEPRINT (client plan b3: orange reel)
     (226, 'MCU', .03),               # I have a buddy named Matt Miali and he
-    (235, 'WIDE', .04),              # runs this incredible team out of Connecticut, great money, productivity (+tags in headroom)
+    (235, 'WIDE', .04),              # runs this incredible team out of Connecticut, great money, productivity (b4: B, no tags)
     (271, 'scene:secret', 0),        # hey, what's the SECRET to your success? (client plan b5: Erik cut-out right, question left)
     (278, 'MCU', .03),               # and he's like, Erik,
     (288, 'ECU', .03),               # most BORING ... (grade drains; the cut after 'boring' flips to CU)
-    (296, 'WIDE', .04),              # number one, everybody agrees to SHOW UP (+#1 in the wide shot's headroom)
-    (317, 'CU', .03),                # and if somebody is not there,
-    (323, 'scene:texts', 0),         # every 25 people on the team text that person: are you alive? ...
+    (296, 'still:b7_meeting', 0),    # b7 (C): B-roll, a full team meeting: number one, everybody agrees to SHOW UP
+    (317, 'still:b7_empty', 0),      # b7 (C): B-roll, the empty chair: and if somebody is NOT there,
+    (323, 'scene:crowd', 0),         # b8 (C): people texting all over the screen, 25-text counter, the two quotes
     (354, 'MCU', .04),               # that's a blueprint
     (365, 'WIDE', .03),              # and then everybody has
-    (369, 'scene:board', 0),         # X number of conversations per week / add friends to their database
+    (369, 'still:b10_call', 0),      # b10 (C): B-roll, an agent on a client call: X number of CONVERSATIONS per week
+    (389, 'still:b10_crm', 0),       # b10 (C): B-roll, adding contacts: add friends to their DATABASE
     (404, 'MCU', .04),               # they're just doing
     (407, 'CU', .04),                # simple things ON REPEAT  (follow pan: he turns his head on 'repeat')
     (458, 'scene:final', 0),         # This is the blueprint.
@@ -237,7 +238,7 @@ def build_shots():
         f = c['o0']
         if any(abs(f - s) <= LEAD_F + 1 for s in starts): continue      # a designed cut is already there
         prev = [s for s in shots if s[0] < f][-1]
-        if prev[1].startswith('scene:'): continue                       # scenes hide their own cuts
+        if prev[1].startswith(('scene:', 'still:')): continue          # scenes and stills hide their own cuts
         shots.append((f, FLIP[prev[1]], prev[2])); shots.sort(); starts.add(f)
     return [dict(f0=f, f1=(shots[i + 1][0] if i + 1 < len(shots) else N_FRAMES), view=v, drift=d, follow=f in follow)
             for i, (f, v, d) in enumerate(shots)]
@@ -282,6 +283,48 @@ def crop_box(view, k, src_t, shot):
     x0 = min(max(cx - w / 2, SAFE_X0), SAFE_X1 - w)
     y0 = min(max(ey - a['eye'] * h, SAFE_Y0), SAFE_Y1 - h)
     return x0, y0, w, h
+
+
+# ---------------------------------------------------------------- 2b. B-roll stills (AI images made locally, tools/gen_batch.py)
+# name: (zoom start, zoom end, focus x start, focus x end, focus y)  -- focus = image point kept at frame centre
+STILLS = {
+    'b1_team':    (1.04, 1.13, .44, .56, .50),    # "light slide zoom": slow push while sliding right
+    'b7_meeting': (1.03, 1.10, .50, .50, .52),
+    'b7_empty':   (1.12, 1.03, .50, .50, .55),    # pull back from the empty seat
+    'b10_call':   (1.03, 1.10, .45, .55, .48),
+    'b10_crm':    (1.10, 1.02, .55, .45, .52),
+}
+# (image, centre x, centre y, height in px, pop-in fraction between "every" and "text")
+CROWD = [('b8_p2', 270, 1010, 900, 0.0), ('b8_p3', 820, 960, 880, .4), ('b8_p4', 560, 1720, 940, .8)]
+BROLL = os.path.join(HERE, 'broll')
+_ys = np.linspace(0, 1, H, dtype=np.float32)[:, None, None]
+STILL_SCRIM = 1 - .55 * np.clip((_ys - .48) / .30, 0, 1) ** 1.2
+_still_cache, _still_matte = {}, {}
+
+
+def still_img(name):
+    if name not in _still_cache:
+        _still_cache[name] = np.asarray(Image.open(os.path.join(BROLL, name + '.jpg')).convert('RGB'))
+    return _still_cache[name]
+
+
+def still_matte(name):
+    if name not in _still_matte:
+        _still_matte[name] = matte(still_img(name)).astype(np.float32)
+    return _still_matte[name]
+
+
+def kenburns(arr, shot, k, name, interp=cv2.INTER_LANCZOS4):
+    z0, z1, fx0, fx1, fy = STILLS[name]
+    p = smooth((k - shot['f0']) / max(1, shot['f1'] - shot['f0'] - 1)) * .7 + .3 * ((k - shot['f0']) / max(1, shot['f1'] - shot['f0'] - 1))
+    ih, iw = arr.shape[:2]
+    cover = max(W / iw, H / ih)
+    sc = cover * (z0 + (z1 - z0) * p)
+    fx = (fx0 + (fx1 - fx0) * p) * iw; fy_ = fy * ih
+    vw, vh = W / sc, H / sc                                # visible window in image px
+    x0 = min(max(fx - vw / 2, 0), iw - vw); y0 = min(max(fy_ - vh / 2, 0), ih - vh)
+    M = np.float32([[sc, 0, -x0 * sc], [0, sc, -y0 * sc]])
+    return cv2.warpAffine(arr, M, (W, H), flags=interp, borderMode=cv2.BORDER_REFLECT)
 
 
 # ---------------------------------------------------------------- 3. source frames + caption removal
@@ -392,10 +435,7 @@ DISPLAY = {'Eric,': 'Erik,', 'Miali': 'Miali', '25': '25', 'X': 'X'}
 # Chunks inside the designed scenes (blueprint / texts / board / final) are omitted: the scene typography
 # carries those words. 'Miali' (232) is never shown: the surname spelling is Whisper's guess.
 CHUNKS = [
-    (0, 2, {1, 2}, set()),            # real / ESTATE TEAMS
-    (3, 6, {5, 6}, set()),            # in their / PUREST FORM
-    (7, 9, set(), set()),             # in my experience,
-    (10, 11, {10}, set()),            # EXIST / because
+    # 0-11 (the hook) are set behind the people in the b1 image (overlay 'behind'), not as captions
     (12, 15, {15}, set()),            # the leader has / EGO
     (122, 127, {125, 126, 127}, set()),   # so, for a / REAL ESTATE TEAM
     (128, 130, {129}, set()),         # to / FUNCTION / well
@@ -412,6 +452,10 @@ CHUNKS = [
     (317, 322, {321}, {321}),         # and if somebody is / NOT / there
     (354, 356, {356}, set()),         # that's a / BLUEPRINT
     (365, 368, {367}, set()),         # and then / EVERYBODY / has
+    (369, 371, set(), set()),         # X number of            (b10 B-roll)
+    (372, 374, {372}, set()),         # CONVERSATIONS / per week
+    (389, 393, set(), set()),         # and then they're going to
+    (394, 398, {398}, set()),         # add friends to their / DATABASE
     (404, 406, set(), set()),         # they're just doing
     (407, 410, {409, 410}, set()),    # simple things / ON REPEAT
     (462, 465, {463}, {463}),         # it's / NOT / a suggestion
@@ -457,7 +501,7 @@ def layout_chunk(i0, i1, keys, reds):
             while font(KEY_FONT, size).getlength(' '.join(w['txt'] for w in run)) > MAX_LINE: size -= 6
             for w in run:
                 acc = RED if w['red'] else AMBER
-                w['spr'] = sprite(w['txt'], font(KEY_FONT, size), acc, glow=acc)
+                w['spr'] = sprite(w['txt'], font(KEY_FONT, size), acc, glow=(255, 120, 130) if w['red'] else acc)
                 w['space'] = font(KEY_FONT, size).getlength(' ') * 1.7
             lines.append((run, int(size * 0.92)))
         else:
@@ -578,18 +622,22 @@ def scene_plan():
     for name, kw in [
         ('reel', dict(ego=135, transformed=139, blueprint=142)),
         ('secret', dict(hey=271, secret=274, to=275)),
-        ('texts', dict(every=323, n25=324, text=329, alive=337, still=338, estate=343)),
-        ('board', dict(x=369, week=374, add=394, database=398)),
+        ('crowd', dict(every=323, n25=324, text=329, alive=337, still=338, estate=343)),
         ('final', dict(this=458, blueprint=461)),
     ]:
         f0, f1 = span('scene:' + name)
         sc.append(dict(name=name, kind='scene', f0=f0, f1=f1, cues=cues(f0 / FPS, **kw)))
     ov = [
-        ('title', 0, int(round((OPENER_END + .3) * FPS)), dict()),
-        ('rule1', int(round(out_time(296) * FPS)) - 4, int(round((out_time(302, 'e') + .25) * FPS)), dict(show=301)),
+        ('behind', 0, span('still:b1_team')[1], {f'w{i}': i for i in range(12)}),
+        ('crowdfg', *span('scene:crowd'), dict(every=323, n25=324, text=329, alive=337, still=338, estate=343)),
     ]
     for name, f0, f1, kw in ov:
-        sc.append(dict(name=name, kind='overlay', f0=f0, f1=f1, cues=cues(f0 / FPS, **kw)))
+        sc.append(dict(name=name, kind='behind' if name == 'behind' else 'overlay', f0=f0, f1=f1, cues=cues(f0 / FPS, **kw)))
+    cr = next(x for x in sc if x['name'] == 'crowd')
+    e, t = cr['cues']['every'], cr['cues']['text']
+    for x in sc:
+        if x['name'] == 'crowdfg':
+            x['cues'].update({f'p{i}': round(e - .1 + f * (t - e + .3), 3) for i, (*_, f) in enumerate(CROWD)})
     return sc
 
 
@@ -643,6 +691,50 @@ def composite_cutout(bg, f, st, k):
     return np.clip(out, 0, 255).astype(np.uint8)
 
 
+_crowd = {}
+
+
+def crowd_person(name):
+    if name not in _crowd:
+        rgb = np.asarray(Image.open(os.path.join(BROLL, name + '.jpg')).convert('RGB'))
+        a = matte(rgb)
+        a = np.clip((a - .08) / .84, 0, 1)                 # tighten the edge a little on the plain backdrop
+        ramp = np.clip((1 - np.linspace(0, 1, a.shape[0])) / .32, 0, 1) ** 1.4   # dissolve the bottom 32 % (no hard waist line)
+        a = a * ramp[:, None]
+        _crowd[name] = (rgb, a.astype(np.float32))
+    return _crowd[name]
+
+
+def crowd_times():
+    sc = next(x for x in SCENES if x['name'] == 'crowd')
+    e, t = sc['cues']['every'], sc['cues']['text']
+    return [e - .1 + f * (t - e + .3) for *_, f in CROWD]
+
+
+def composite_crowd(bg, k, f0):
+    out = bg.astype(np.float32)
+    tl = (k - f0) / FPS
+    for (name, cx, cy, hh, _), tp in zip(CROWD, crowd_times()):
+        u = (tl - tp) / .28
+        if u <= 0: continue
+        e = 1 - (1 - min(1, u)) ** 3
+        pop = 1 + .10 * np.sin(np.pi * min(1, u)) * (1 - min(1, u))   # small overshoot
+        rgb, a = crowd_person(name)
+        sc = hh / rgb.shape[0] * (.86 + .14 * e) * pop * (1 + .015 * tl)
+        w_, h_ = int(rgb.shape[1] * sc), int(rgb.shape[0] * sc)
+        im = cv2.resize(rgb, (w_, h_), interpolation=cv2.INTER_AREA).astype(np.float32)
+        al = cv2.resize(a, (w_, h_), interpolation=cv2.INTER_LINEAR)[..., None] * min(1, u * 1.6)
+        ox, oy = int(cx - w_ / 2), int(cy - h_ / 2 + (1 - e) * 60)
+        fx0, fx1, fy0, fy1 = max(0, ox), min(W, ox + w_), max(0, oy), min(H, oy + h_)
+        if fx1 <= fx0 or fy1 <= fy0: continue
+        # soft shadow, then the person
+        sh = cv2.GaussianBlur(al[..., 0], (0, 0), 22)[fy0 - oy:fy1 - oy, fx0 - ox:fx1 - ox, None]
+        out[fy0:fy1, fx0:fx1] *= (1 - .45 * sh)
+        aa = al[fy0 - oy:fy1 - oy, fx0 - ox:fx1 - ox]
+        out[fy0:fy1, fx0:fx1] = im[fy0 - oy:fy1 - oy, fx0 - ox:fx1 - ox] * aa + out[fy0:fy1, fx0:fx1] * (1 - aa)
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
 def scene_frame(name, idx):
     p = os.path.join(OUT_DIR, 'scenes', name, f'f{idx:05d}.png')
     if not os.path.exists(p): return None
@@ -663,13 +755,30 @@ def render_frame(src, k, bg_src):
         if s['kind'] == 'scene' and not PLAIN: full = s
     if PLAIN and shot['view'].startswith('scene:'):
         shot = dict(shot, view='MCU', drift=0, follow=False)
+    behind = None
     if full is not None:
         rgba = scene_frame(full['name'], k - full['f0'])
         bgimg = rgba[..., :3]
         if full['name'] == 'secret':
             f = remove_captions(src.get(int(round(st * FPS))))
             bgimg = composite_cutout(bgimg, LIFT[LIFT[f]], st, k)
+        if full['name'] == 'crowd':
+            bgimg = composite_crowd(bgimg, k, full['f0'])
         img = grade(bgimg, k, t, lift=False, film=False)
+    elif shot['view'].startswith('still:') and not PLAIN:
+        name = shot['view'][6:]
+        img = grade(kenburns(still_img(name), shot, k, name), k, t, lift=False)
+        if name != 'b1_team':                               # bright B-roll: a deeper scrim behind the captions
+            img = (img.astype(np.float32) * STILL_SCRIM).astype(np.uint8)
+        bh = next((x for x in scenes_at(k) if x['kind'] == 'behind'), None)
+        if bh is not None:                                  # words behind the people: image, text, then the people again
+            o = scene_frame(bh['name'], k - bh['f0'])
+            m = kenburns(still_matte(name), shot, k, name, cv2.INTER_LINEAR)[..., None]
+            if o is not None:
+                a = o[..., 3:4].astype(np.float32) / 255
+                base = img.astype(np.float32)
+                comp = o[..., :3].astype(np.float32) * a + base * (1 - a)
+                img = np.clip(base * m + comp * (1 - m), 0, 255).astype(np.uint8)
     else:
         if t < OPENER_END and not PLAIN:
             f = remove_captions(bg_src.get(int(round((BG_SRC + t) * FPS))))

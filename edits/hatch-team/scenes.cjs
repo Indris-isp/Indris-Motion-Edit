@@ -25,7 +25,7 @@ async function open(browser, s) {
     const s = plan.scenes.find(x => x.name === args[1]), t = +args[2];
     const page = await open(browser, s);
     await page.evaluate(t => window.renderAt(t), t);
-    await page.screenshot({ path: path.join(__dirname, 'out', `scene_${s.name}_${t.toFixed(2)}.png`), omitBackground: s.kind === 'overlay' });
+    await page.screenshot({ path: path.join(__dirname, 'out', `scene_${s.name}_${t.toFixed(2)}.png`), omitBackground: s.kind !== 'scene' });
     await browser.close(); return;
   }
   const only = args[0] ? args[0].split(',') : null;
@@ -38,7 +38,7 @@ async function open(browser, s) {
       while (next < n) {
         const f = next++;
         await page.evaluate(t => window.renderAt(t), f / FPS);
-        await page.screenshot({ path: path.join(dir, `f${String(f).padStart(5, '0')}.png`), omitBackground: s.kind === 'overlay' });
+        await page.screenshot({ path: path.join(dir, `f${String(f).padStart(5, '0')}.png`), omitBackground: s.kind !== 'scene' });
       }
     }));
     await Promise.all(pages.map(p => p.close()));

@@ -319,6 +319,76 @@ S.secret = () => {        // beat 5 background + question type (Erik's cut-out i
   };
 };
 
+/* ===================== BEHIND (b1, client plan): hook words set big behind the people in the team image ===================== */
+S.behind = () => {
+  const W8 = i => CU['w' + i];
+  // chunks: [first word, last word, lines: [[text, word index, style]]]
+  const CH = [
+    [0, 2, [['REAL ESTATE', 0, 'big'], ['TEAMS', 2, 'huge']]],
+    [3, 6, [['in their', 3, 'run'], ['PUREST', 5, 'big'], ['FORM', 6, 'huge']]],
+    [7, 9, [['in my experience,', 7, 'run']]],
+    [10, 11, [['EXIST', 10, 'huge'], ['because', 11, 'run']]],
+  ];
+  const blocks = CH.map(([a, b, lines]) => {
+    const box = el('div', stage, 'abs bh', { left: 0, width: '1080px', top: '300px', textAlign: 'center' });
+    const ls = lines.map(([txt, wi, st]) => { const l = el('div', box, 'bh-' + st); l.textContent = txt; l._t = W8(wi); return l; });
+    return { a, b, box, ls };
+  });
+  return t => {
+    blocks.forEach((blk, n) => {
+      const on = W8(blk.a) - .08, nxt = blocks[n + 1], off = nxt ? W8(nxt.a) - .08 : DUR + 1;
+      const vis = t >= on && t < off;
+      blk.box.style.visibility = vis ? 'visible' : 'hidden';
+      if (!vis) return;
+      const x = 1 - EE(P(t, off - .12, off));
+      blk.ls.forEach(l => {
+        const p = (t - l._t + .08) / .22, q = EO(clamp(p));
+        l.style.opacity = clamp(p * 1.6) * x;
+        l.style.transform = `translateY(${((1 - q) * 50).toFixed(1)}px) scale(${(1 + .03 * P(t, on, off)).toFixed(4)})`;
+        const b = (1 - q) * 14 + (1 - x) * 10; l.style.filter = b > .3 ? `blur(${b.toFixed(1)}px)` : '';
+      });
+    });
+  };
+};
+
+/* ===================== CROWD (b8, client plan): people texting all over the screen (cut-outs composited in edit.py) ===================== */
+S.crowd = () => {
+  stage.classList.add('warm');
+  const world = el('div', stage, 'abs', { inset: 0, transformOrigin: '50% 40%' });
+  el('div', world, 'ctr', { left: '540px', top: '1150px', width: '1400px', height: '1400px', borderRadius: '50%',
+    background: 'radial-gradient(closest-side,rgba(240,91,51,.22),rgba(240,91,51,0))' });
+  const top = el('div', world, 'abs', { left: 0, width: '1080px', top: '230px', textAlign: 'center' });
+  const miss = el('div', top, '', { fontSize: '50px', fontWeight: 500, color: 'rgba(247,242,236,.8)' }, 'miss one meeting and');
+  const row = el('div', top, '', { display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '24px', marginTop: '-6px' });
+  const num = el('div', row, 'amber', { fontSize: '230px', fontWeight: 800, letterSpacing: '-.05em', lineHeight: 1 }, '0');
+  el('div', row, 'serif', { fontSize: '120px', color: '#F7F2EC' }, 'texts');
+  const { every: tE, n25: tN, text: tT } = CU;
+  return t => {
+    world.style.transform = camera(t, 1.0, 1.04);
+    blurIn(miss, t / .22);
+    blurIn(row, (t - (tE - .1)) / .25, 30, 16);
+    num.textContent = String(Math.round(25 * EE(P(t, tN - .05, tT))));
+    stage.style.opacity = 1;
+  };
+};
+S.crowdfg = () => {
+  const B = (txt, x, y, cls, side) => { const b = el('div', stage, 'cb ' + (cls || ''), { left: px(x), top: px(y) }); b.textContent = txt; b._side = side; return b; };
+  const small = [B('you good?', 390, 640, '', 'l'), B('hello??', 640, 590, '', 'r'), B('where are you??', 620, 1290, '', 'r')];
+  const big = [B('Hey, are you alive?', 140, 1500, 'big', 'l'), B('Are you still in real estate?', 140, 1640, 'big', 'l')];
+  return t => {
+    small.forEach((b, i) => {
+      const tp = CU['p' + i] + .22, p = P(t, tp, tp + .2);
+      b.style.opacity = clamp(p * 2) * (1 - .55 * P(t, CU.alive - .2, CU.alive + .1));
+      b.style.transform = `scale(${lerp(.5, 1, OS(p)).toFixed(4)})`;
+    });
+    big.forEach((b, i) => {
+      const tp = (i ? CU.still : CU.alive) - .05, p = P(t, tp, tp + .22);
+      b.style.opacity = clamp(p * 2);
+      b.style.transform = `translateY(${((1 - EO(p)) * 30).toFixed(1)}px) scale(${lerp(.6, 1, OS(p)).toFixed(4)})`;
+    });
+  };
+};
+
 /* ===================== OVERLAYS (transparent, on top of the speaker) ===================== */
 S.title = () => {           // A8 title banner for the first beat
   const box = el('div', stage, 'abs glass', { left: '90px', width: '900px', top: '262px', borderRadius: '40px', padding: '30px 0 34px', textAlign: 'center' });
