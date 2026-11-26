@@ -2,7 +2,7 @@
 
 **Source:** the full 47:12 episode (Drive file `1yO6GsFf0sDL7B1vzwFWKxOwka8DyxnJD`, 1920×1080, 23.976 fps, three cameras). Only the 124 s excerpt this clip uses is kept in the repo: `src/excerpt_725-849.mp4` + `src/excerpt_audio.flac`, source 12:05–14:09.
 
-**Output:** `out/dad_interest_premium_1080x1920.mp4`, 1080×1920, 23.976 fps, 61.6 s, −14 LUFS.
+**Status: stills approval gate (skill §7b).** The stills boards `out/stills_board_1.jpg` to `out/stills_board_3.jpg` (made by `python3 make_board.py`, full-resolution frames in `out/stills/`) are waiting for the client's approval. The video has **not** been rendered yet. Once approved, `python3 edit.py` writes `out/dad_interest_premium_1080x1920.mp4` (1080×1920, 23.976 fps, 61.6 s, −14 LUFS).
 
 ```bash
 cd edits/dad-interest
@@ -55,10 +55,10 @@ There are 15 kept segments (`SEGMENTS`). Every join was checked by re-transcribi
 | 3 | 4.45 | 13:09.6 | Wow, I like that | HOST | **THAT** | Push 100→106% |
 | 4 | 6.15 | 12:07.2 | When I was 15 | GUEST wide | Giant gold **15** counts up | Flash on "15" |
 | 5 | 7.64 | 12:12.4 | my dad, he would give me | GUEST, 132% | **DAD** | Punch-in |
-| 6 | 9.23 | 12:15.1 | allowance / I wasn't into shopping / I would just buy books | Blurred plate of the guest + stacked tags (scene A5) | Gold **ALLOWANCE** pill, dark **SHOPPING** pill struck through in red, gold **BOOKS** pill | Pills pop one per word |
+| 6 | 9.23 | 12:15.1 | allowance / I wasn't into shopping / I would just buy books | Stacked tags on the walnut desk (scene A5) | Gold **ALLOWANCE** pill, dark **SHOPPING** pill struck through in red, gold **BOOKS** pill | Pills pop one per word |
 | 7 | 12.77 | 12:24.1 | therefore I saved most of my money | GUEST wide | **SAVED** | |
 | 8 | 14.99 | 12:26.3 | when my friends and my family | GUEST, 134% | **FRIENDS**, **FAMILY** | |
-| 9 | 18.11 | 12:29.4 | they ran out of money / in the middle of the month | Designed **calendar** card on the gold-bokeh ground | **OUT**, **MIDDLE** | Days 1–14 cross out in red, and a hand-drawn red circle lands on the **15th** on "middle" |
+| 9 | 18.11 | 12:29.4 | they ran out of money / in the middle of the month | **Calendar** lying on the walnut desk | **OUT**, **MIDDLE** | Days 1–14 cross out in red, and a hand-drawn red circle lands on the **15th** on "middle" |
 | 10 | 21.71 | 12:33.3 | they came to me for money | GUEST | **MONEY** | |
 | 11 | 23.89 | 12:35.5 | guess what I did? | GUEST, 144% | **DID?** | Punch-in |
 | 12 | 25.61 | 12:39.3 | Yeah, I gave it to them | GUEST wide | | |
@@ -87,7 +87,27 @@ There are 30 shots in 61.6 s, about 2.1 s per shot. No picture holds longer than
 
 - **Captions:** the same system as `edits/gambling` and `edits/vice-city`. Words are Inter Medium and rise in (they start low and blurred, then slide up, fade in and sharpen). One gold Instrument Serif Italic keyword per beat, red for "didn't / interest / come on". "Interest" (hook) and "entrepreneurship" (close) assemble letter by letter. Numbers that are shown as giant counters, and words that are shown as tags, are left out of the caption line.
 - **Title banner (A8):** "At 15, she charged her own dad *interest*" is on screen for the whole hook.
-- **Designed scenes:** these are all drawn in `edit.py`, with no stock footage or AI images. A paper texture sits on a warm charcoal ground with a gold glow and drifting bokeh. The **loan book** is the running visual motif: it appears four times and grows with the story (friends → dad's $20 + $5 → the $5 struck out → the "first business" stamp). The **calendar** crosses out days to the 15th. The **tags** are on a blurred plate of the guest.
+- **Designed scenes: one world for the money story.** Everything is drawn in `edit.py`, with no stock footage or AI images. The world is a lit walnut desk with a black-and-gold pen. It has a key light from the top left, tilt-shift depth of field, and contact plus cast shadows under the papers. Each page fills about 85% of the width. The **loan book** is the running visual motif: it appears four times and grows with the story (friends → dad's $20 + $5 → the $5 struck out → the "first business" stamp). The **calendar** crosses out days to the 15th. The **tags** (allowance / shopping struck / books) lie on the same desk.
 - **Grade:** a warm teal/gold film curve, halation, vignette, grain and a caption scrim. It turns cold on "he didn't give me back my interest / come on" and warms back for the payoff.
-- **Audio:** only the original dialogue. Light EQ and compression, −14 LUFS, and no music or SFX, to match the client's notes on the vice-city edit.
+- **Audio (current script):** only the original dialogue. Light EQ and compression, −14 LUFS.
+- **Planned SFX (client library only, `references/sound-design.md`; mixed after the stills are approved):**
+
+| Beat | Event | Library file |
+|---|---|---|
+| B1 | hook opens | 2900_movie-logo-intro-impact |
+| B1 / B17 | $20 count-up lands | 2364_hard-pop-click |
+| B2 | +$5 | 2299_short-bass-hit |
+| B3, B7, B14 | soft cuts back to a face | 1461_short-wind-swoosh |
+| B5, B11, B20 | punch-ins | 1462_quick-swoosh |
+| B4 | 15 lands | 3005_explainer-video-pops-whoosh-light-pop |
+| B6 | into the tags / each tag / the strike | 3060_sparkle-hybrid-transition / 2364_hard-pop-click ×3 / 1464_quick-swoosh-accent |
+| B9, B13, B24 | a page slides onto the desk | 2605_quick-air-woosh |
+| B9 | 15th circled | 1464_quick-swoosh-accent |
+| B13, B26 | ticks | 1120_modern-click-box-check |
+| B26 | $5 struck + grade turns cold | 2301_quick-bass-switch |
+| B27 | "come on" | 2299_short-bass-hit |
+| B28 | FIRST BUSINESS stamp | 2919_movie-trailer-whoosh-hit + 3144_undertone-bass-item |
+| B30 | ENTREPRENEURSHIP assembles | 2633_sweeping-sparkle-presentation-intro |
+
+The library has no door-knock, pen-writing or pencil-tick sounds, so the knocks (B16), the handwriting and the calendar cross-outs stay dry, with shakes only on the knocks. The music bed waits for a track from the client's BGM folder.
 - **No end card / CTA**, following the vice-city v4 feedback. To add one, append a "Comment 'INTEREST' for the full episode" card after the final word.

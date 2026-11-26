@@ -359,26 +359,77 @@ def wipe(spr_img, u):
     return out
 
 
-def paper_card(page, t_rel, z, ts, angle=-2.2, cy=700):
-    """Paper page (RGBA) floating over the ground: drop shadow, slow rotation drift, push-in z."""
-    fr = ground(t_rel + ts * 0.0)
-    sc = 0.80 * z
-    ang = angle + 0.6 * math.sin(t_rel * 0.7)
+def _desk():
+    """Walnut desk filling the frame: warped grain, a soft key light from the top left, tilt-shift depth of field."""
+    rng = np.random.default_rng(21)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    warp = np.asarray(Image.fromarray((rng.random((12, 7)) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
+    rings = 0.5 + 0.5 * np.sin(yy * 0.028 + warp * 4.5 + np.sin(xx * 0.0025) * 1.2)
+    streak = np.asarray(Image.fromarray((rng.random((H // 2, 14)) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
+    g = (0.55 * rings ** 2.2 + 0.45 * streak)[..., None]
+    col = np.array([46, 28, 17], np.float32) * (1 - g) + np.array([118, 76, 44], np.float32) * g
+    light = 1.18 - 0.62 * np.sqrt(((xx - W * 0.28) / W) ** 2 + ((yy - H * 0.22) / H) ** 2)
+    col = col * light[..., None]
+    img = Image.fromarray(col.clip(0, 255).astype(np.uint8))
+    soft = np.asarray(img.filter(ImageFilter.GaussianBlur(9)), np.float32)
+    k = np.clip((np.abs(yy - H * 0.36) - H * 0.30) / (H * 0.22), 0, 1)[..., None]
+    return Image.fromarray((np.asarray(img, np.float32) * (1 - k) + soft * k).astype(np.uint8))
+
+
+def _pen():
+    """A black lacquer pen with a gold clip and nib, lying on the desk (RGBA sprite, vertical)."""
+    w, h = 64, 800
+    x = np.linspace(-1, 1, w)[None, :, None]
+    shade = 0.35 + 0.65 * np.clip(1 - x ** 2, 0, 1) ** 0.6
+    spec = np.exp(-((x + 0.38) / 0.12) ** 2)
+    body = (np.array([22, 22, 26]) * shade + 230 * spec * 0.55) * np.ones((h, 1, 1))
+    gold = np.array([212, 170, 98]) * (0.5 + 0.6 * shade) + 255 * spec * 0.4
+    body[560:600] = gold[0]; body[60:72] = gold[0]
+    im = Image.fromarray(body.clip(0, 255).astype(np.uint8)).convert('RGBA')
+    m = Image.new('L', (w, h), 0); d = ImageDraw.Draw(m)
+    d.rounded_rectangle((2, 0, w - 3, 690), 30, fill=255)
+    d.polygon([(4, 680), (w - 5, 680), (w / 2 + 4, h - 6), (w / 2 - 4, h - 6)], fill=255)
+    im.putalpha(m)
+    nib = Image.new('RGBA', (w, h), (0, 0, 0, 0)); nd = ImageDraw.Draw(nib)
+    nd.polygon([(w / 2 - 16, 700), (w / 2 + 16, 700), (w / 2, h - 4)], fill=(216, 174, 102, 255))
+    im.alpha_composite(nib)
+    clip = Image.new('RGBA', (w, h), (0, 0, 0, 0)); cd = ImageDraw.Draw(clip)
+    cd.rounded_rectangle((w / 2 - 7, 40, w / 2 + 7, 330), 7, fill=(226, 186, 112, 255))
+    im.alpha_composite(clip)
+    return im
+
+
+DESK = _desk()
+PEN = _pen()
+PEN_SH = Image.new('RGBA', (PEN.size[0] + 80, PEN.size[1] + 80), (0, 0, 0, 0))
+PEN_SH.putalpha(Image.new('L', PEN_SH.size, 0)); PEN_SH.paste((0, 0, 0, 150), (40, 40), PEN.getchannel('A'))
+PEN_SH = PEN_SH.filter(ImageFilter.GaussianBlur(12))
+
+
+def desk_scene(page, t_rel, z, ts, angle=-1.6, cy=690, scale=1.03, pen=(1010, 1530, -148)):
+    """The money story's one world: a page lying on a walnut desk with a pen, contact shadows, slow push-in z."""
+    fr = DESK.copy().convert('RGBA')
     pw, ph = page.size
-    sh = Image.new('RGBA', (pw + 160, ph + 160), (0, 0, 0, 0))
-    m = Image.new('L', sh.size, 0); ImageDraw.Draw(m).rounded_rectangle((80, 110, 80 + pw, 110 + ph), 18, fill=200)
-    sh.putalpha(m.filter(ImageFilter.GaussianBlur(34)))
+    for blur, off, alpha in ((40, 34, 150), (8, 6, 190)):            # soft cast shadow + tight contact shadow
+        sh = Image.new('RGBA', (pw + 200, ph + 200), (0, 0, 0, 0))
+        m = Image.new('L', sh.size, 0); ImageDraw.Draw(m).rounded_rectangle((100, 100 + off, 100 + pw, 100 + ph + off), 14, fill=alpha)
+        sh.putalpha(m.filter(ImageFilter.GaussianBlur(blur)))
+        put(fr, sh, W / 2 - sh.size[0] / 2, cy - sh.size[1] / 2, scale=scale, angle=angle)
+    put(fr, page, W / 2 - pw / 2, cy - ph / 2, scale=scale, angle=angle)
+    px, py, pa = pen
+    put(fr, PEN_SH, px - PEN_SH.size[0] / 2 + 14, py - PEN_SH.size[1] / 2 + 22, angle=pa)
+    put(fr, PEN, px - PEN.size[0] / 2, py - PEN.size[1] / 2, angle=pa)
     dx, dy = shake(ts)
-    put(fr, sh, W / 2 - sh.size[0] / 2 + dx, cy - sh.size[1] / 2 + dy, scale=sc, angle=ang)
-    put(fr, page, W / 2 - pw / 2 + dx, cy - ph / 2 + dy, scale=sc, angle=ang)
-    return fr
+    cw, chh = W / z, H / z
+    x0 = W / 2 - cw / 2 + dx; y0 = cy - chh * (cy / H) + dy
+    return fr.convert('RGB').resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + chh))
 
 
 # ---- scene: the loan book (ledger), 4 stages
-LEDGER_W, LEDGER_H = 900, 980
+LEDGER_W, LEDGER_H = 900, 900
 LEDGER_PAPER = paper(LEDGER_W, LEDGER_H, 3)
 _d = ImageDraw.Draw(LEDGER_PAPER)
-for k in range(9):
+for k in range(8):
     yl = 250 + k * 92
     _d.line((40, yl, LEDGER_W - 40, yl), fill=(150, 170, 200, 150), width=2)
 _d.line((118, 40, 118, LEDGER_H - 40), fill=(220, 120, 120, 170), width=3)
@@ -466,12 +517,12 @@ def ledger_scene(stage, t_rel, z, ts):
         u = (ts - STAMP_T) / 0.16
         sc = 1.0 + 0.7 * (1 - ease_out(u))
         st = stamp_sprite()
-        put(page, st, LEDGER_W / 2 - st.size[0] / 2, 760 - st.size[1] / 2, alpha=min(1, u * 3 + 0.2), scale=sc, angle=-7)
-    return paper_card(page, t_rel, z, ts)
+        put(page, st, LEDGER_W / 2 - st.size[0] / 2, 768 - st.size[1] / 2, alpha=min(1, u * 3 + 0.2), scale=sc * 0.86, angle=-6)
+    return desk_scene(page, t_rel, z, ts)
 
 
 # ---- scene: calendar (they ran out of money / in the middle of the month)
-CAL_W, CAL_H = 860, 900
+CAL_W, CAL_H = 860, 860
 CAL_PAPER = paper(CAL_W, CAL_H, 7)
 _cm = card_mask(CAL_W, CAL_H, 26)[0]
 _d = ImageDraw.Draw(CAL_PAPER)
@@ -513,28 +564,33 @@ def calendar_scene(t_rel, z, ts):
         a1 = -110 + 380 * ease_out(u)
         for wdt, off in ((11, 0), (5, 3)):
             d.arc((cx - r - off, cy - r * 0.9, cx + r + off, cy + r * 0.9 + off), -110, a1, fill=INK_RED, width=wdt)
-    return paper_card(page, t_rel, z, ts, angle=1.8, cy=690)
+    return desk_scene(page, t_rel, z, ts, angle=1.4, cy=680, scale=1.06, pen=(1015, 1530, -146))
 
 
 # ---- scene: allowance -> shopping (struck) -> books, stacked tags on a blurred plate of the guest
-SPEND_TAGS = [('ALLOWANCE', True, 735.18, None, 640), ('SHOPPING', False, 738.58, 738.98, 860), ('BOOKS', True, 743.66, None, 1080)]
-_spend = [(pill(txt, 92, gold), t0, strike, y) for txt, gold, t0, strike, y in SPEND_TAGS]
+SPEND_TAGS = [('ALLOWANCE', True, 735.18, None, 520), ('SHOPPING', False, 738.58, 738.98, 790), ('BOOKS', True, 743.66, None, 1060)]
+_spend = [(pill(txt, 118, gold), t0, strike, y) for txt, gold, t0, strike, y in SPEND_TAGS]
 
 
 def spend_scene(t_rel, z, ts):
-    img = src_frame(ts)
-    fill_w = SH * 9 / 16
-    bg = blurred_fill(img, (ANGLES['GUEST']['cx'] - fill_w / 2 / z, 0, ANGLES['GUEST']['cx'] + fill_w / 2 / z, SH), 0.78).convert('RGBA')
+    """The tags lie on the same walnut desk as the loan book (one world for the money story)."""
+    fr = DESK.copy().convert('RGBA')
     for p, t0, strike, y in _spend:
         if ts < t0: continue
-        u = (ts - t0) / (7 / FPS)
-        put(bg, p['img'], (W - p['w']) / 2, y - p['h'] / 2 + 30 * (1 - ease_out(u)), min(1, u * 1.8), 8 * (1 - ease_out(u)), 0.6 + 0.4 * back_out(u))
+        u = (ts - t0) / (8 / FPS)
+        put(fr, p['img'], (W - p['w']) / 2, y - p['h'] / 2 + 30 * (1 - ease_out(u)), min(1, u * 1.8), 8 * (1 - ease_out(u)), 0.7 + 0.3 * back_out(u))
         if strike and ts > strike:
             v = ease_out((ts - strike) / 0.2)
-            d = ImageDraw.Draw(bg)
-            x0 = (W - p['pw']) / 2 - 24; x1 = x0 + (p['pw'] + 48) * v
-            d.line((x0, y + 4, x1, y - 4 * v), fill=RED, width=10)
-    return bg
+            d = ImageDraw.Draw(fr)
+            x0 = (W - p['pw']) / 2 - 30; x1 = x0 + (p['pw'] + 60) * v
+            d.line((x0, y + 6, x1, y - 6 * v), fill=RED, width=12)
+    px, py, pa = (1010, 1530, -148)
+    put(fr, PEN_SH, px - PEN_SH.size[0] / 2 + 14, py - PEN_SH.size[1] / 2 + 22, angle=pa)
+    put(fr, PEN, px - PEN.size[0] / 2, py - PEN.size[1] / 2, angle=pa)
+    dx, dy = shake(ts)
+    cw, chh = W / z, H / z
+    x0 = W / 2 - cw / 2 + dx; y0 = 690 - chh * (690 / H) + dy
+    return fr.convert('RGB').resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + chh))
 
 
 def picture(t):
@@ -542,9 +598,9 @@ def picture(t):
     ts = out_to_src(t)
     start, layout, param = s[0], s[1], s[2]
     t_rel = t - src_to_out(start)
-    if layout == 'ledger': return ledger_scene(param, t_rel, z, ts).convert('RGB')
-    if layout == 'calendar': return calendar_scene(t_rel, z, ts).convert('RGB')
-    if layout == 'spend': return spend_scene(t_rel, z, ts).convert('RGB')
+    if layout == 'ledger': return ledger_scene(param, t_rel, z, ts)
+    if layout == 'calendar': return calendar_scene(t_rel, z, ts)
+    if layout == 'spend': return spend_scene(t_rel, z, ts)
     if layout == 'card': return card_layout(src_frame(ts), param, z, t - src_to_out(SHOTS[0][0]), ts)
     if isinstance(param, dict):
         img = src_frame(min(max(ts, param['tmin']), param['tmax'])); angle = param['angle']
@@ -632,14 +688,14 @@ WORDS = build_words()
 
 # Caption chunks over WORDS, in order. Markers: *word keyword (gold serif), !word red keyword,
 # ^word letter-assembled keyword, ~word hidden (shown as a giant number or a tag instead). '|' separates chunks.
-CHUNKS = """i'm gonna give you ~$20 | but you gotta pay me back | with ~$5 ^interest |
+CHUNKS = """i'm gonna give you ~$20 | but you gotta pay me back with | ~$5 ^interest |
 wow i like *that | when i was ~15 | my *dad he would give me | ~allowance | i wasn't into ~shopping | i would just buy ~books |
 therefore i *saved most of my money | when my *friends and my *family | they ran *out of money | in the *middle of the month |
 they came to me for *money | guess what i *did? | yeah i gave it to them | but they had to pay *interest |
-i remember my dad | he *knocked on my room *door | he said *latoya | i need *$20 | i went in my *drawer |
+i remember my dad | he *knocked on my room *door | he said *latoya | i need ~$20 | i went in my *drawer |
 and i started *counting all my money | he said *wait | you still have all those *money? |
 so i gave him *$20 | the next time he got *paid | he's giving me allowance | i said *daddy remember | you owe me *$20 |
-and plus *$5 for *interest | and he gave me my allowance | and the *$20 | but he !didn't give me back | my !interest |
+and plus *$5 | for *interest | and he gave me my allowance | and the *$20 | but he !didn't give me back | my !interest |
 i'm like !come !on | so that was my *first | entrepreneurial *business | but i didn't know it was called | ^entrepreneurship"""
 DISPLAY = {'i': 'I', "i'm": "I'm", 'latoya': 'Latoya', 'entrepreneur': 'entrepreneurial', 'money?': 'money?', 'did?': 'did?'}
 SPEND_HIDE_CHUNKS = {'allowance', 'shopping', 'books'}
@@ -801,8 +857,8 @@ def draw_headline(fr, t):
 NUM_FONT = 'Inter-800.ttf'
 # giant numbers: (source on, source off, text template, count-up target or None, gold, centre y)
 NUMBERS = [
-    (784.84, 787.22, '${}', 20, False, 1150),      # I'm gonna give you $20
-    (787.22, 788.60, '+$5', None, True, 1150),      # ... with $5 interest
+    (784.84, 787.22, '${}', 20, False, 1110),      # I'm gonna give you $20
+    (787.22, 788.60, '+$5', None, True, 1110),      # ... with $5 interest
     (728.14, 728.66, '{}', 15, True, 1040),         # when I was 15
     (775.80, 776.30, '${}', 20, False, 1040),       # I need $20
 ]
