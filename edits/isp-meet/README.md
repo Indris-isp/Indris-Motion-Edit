@@ -25,7 +25,7 @@ One green tile (the ISP app icon) travels through scenes 2–6, as the reel's ti
 | `reference/` | The reel, frame grabs and contact sheets used to match the design. |
 | `render.cjs` | Renders stills (`--still 1,2.5`) or the full video to `out/isp_meet_screen_1920x1080.mp4`. |
 | `board.py` | Builds `out/stills_board.png`, with the reel next to the ISP stills for each scene. |
-| `audio.py` | A cue sheet of the client's library SFX. It still has the old design's cue times, so retime it once the stills are approved. |
+| `audio.py` | Cue sheet of the client's library SFX (whoosh peaks on the cuts, pops on reveals, 3 low hits). Needs the library WAVs in `audio/src/sfx/` (Drive IDs in `.claude/skills/premium-short-form/references/sound-design.md`). Add `audio/src/music.wav` for a full mix. |
 
 ## Rebuild
 

@@ -10,8 +10,9 @@ Needs numpy and ffmpeg.
 import glob, os, subprocess, wave
 import numpy as np
 
-SR, DUR = 48000, 19.0
-CUTS = [2.5, 5.0, 8.0, 10.0, 13.0, 15.5]          # must match SC in motion.js
+SR, DUR = 48000, 10.8
+CUTS = [1.8, 2.55, 3.75, 4.9, 7.15, 8.4]           # scene cuts in motion.js (SEG)
+SWITCH = [5.46, 6.02, 6.58]                        # platform colour switches in scene 5
 SFX_DIR = 'audio/src/sfx'
 N = int(DUR * SR)
 
@@ -40,41 +41,40 @@ def cue(name, t, db, align='start', maxlen=None, fade=.25):
     mix[i:i + n] += x[:n] * 10 ** (db / 20)
 
 # ---------------- cue sheet (dB relative to each file's own peak) ----------------
-# 1  Meet / ISP Agency
-cue('2900_movie-logo-intro-impact.wav', 0.00, -9, maxlen=2.4)                 # opening slam (low hit 1)
-cue('2633_sweeping-sparkle-presentation-intro.wav', 1.00, -16, maxlen=1.5)    # oval sweeps around the name
-# 2  brand logos
-cue('1462_quick-swoosh.wav', CUTS[0], -13, 'peak')
-for k, i in enumerate((0, 2, 4)):                                             # cards landing
-    cue('3005_explainer-video-pops-whoosh-light-pop.wav', 2.5 + .2 + i * .1 + .12, -20 + k)
-# 3  ISP centre + orbit
-cue('3060_sparkle-hybrid-transition.wav', CUTS[1], -13, 'peak')
-cue('2896_movie-intro-impact.wav', 5.02, -12, maxlen=2.0)                     # logo disc reveal (low hit 2)
-cue('2605_quick-air-woosh.wav', 5.55, -18, 'peak')                            # icons fly out
-cue('2354_message-pop-alert.wav', 5.62, -22)
-cue('2354_message-pop-alert.wav', 5.98, -24)
+# 1  Meet — letters pop in, then fly together
+cue('2364_hard-pop-click.wav', 0.62, -21)                                     # e
+cue('3005_explainer-video-pops-whoosh-light-pop.wav', 0.74, -21)              # e
+cue('2364_hard-pop-click.wav', 0.86, -23)                                     # t
+cue('2605_quick-air-woosh.wav', 1.24, -17, 'peak')                            # letters converge into "Meet"
+# 2  ISP logo — glitch cut, logo impact, tile pops out of the mark
+cue('2951_digital-glitch-break.wav', CUTS[0], -15, 'peak')
+cue('2900_movie-logo-intro-impact.wav', 1.82, -10, maxlen=1.9)                # logo reveal (low hit 1)
+cue('2354_message-pop-alert.wav', 2.44, -19)                                  # green tile appears
+# 3  orbit
+cue('3060_sparkle-hybrid-transition.wav', CUTS[1], -14, 'peak')
+cue('2605_quick-air-woosh.wav', 2.74, -20, 'peak')                            # platforms fly out
+cue('1464_quick-swoosh-accent.wav', 3.1, -21, 'peak')                         # step round
+cue('1461_short-wind-swoosh.wav', 3.42, -22, 'peak')                          # step round
 # 4  Let's make your video better
-cue('1461_short-wind-swoosh.wav', CUTS[2], -13, 'peak')
-cue('2919_movie-trailer-whoosh-hit.wav', 8.85, -11, 'peak', maxlen=2.0)       # "better." lands (low hit 3)
-cue('1464_quick-swoosh-accent.wav', 9.15, -20, 'peak')                        # underline
-# 5  platform pairs
-cue('2605_quick-air-woosh.wav', CUTS[3], -14, 'peak')
-cue('2364_hard-pop-click.wav', 10.17, -20)                                    # Instagram
-cue('2364_hard-pop-click.wav', 10.29, -22)                                    # YouTube
-cue('1464_quick-swoosh-accent.wav', 11.5, -15, 'peak')                        # swap
-cue('2364_hard-pop-click.wav', 11.73, -20)                                    # Facebook
-cue('2364_hard-pop-click.wav', 11.85, -22)                                    # TikTok
-# 6  all in one place
-cue('1462_quick-swoosh.wav', CUTS[4], -13, 'peak')
-cue('2605_quick-air-woosh.wav', 13.75, -19, 'peak')                           # icons fly into the box
-cue('2354_message-pop-alert.wav', 13.85, -21)
-cue('3005_explainer-video-pops-whoosh-light-pop.wav', 14.45, -18)             # "less pressure."
-# 7  video is ready
-cue('2633_sweeping-sparkle-presentation-intro.wav', CUTS[5] - .05, -15, maxlen=1.4)
-cue('2534_keyboard-key-presses.wav', 15.98, -24, maxlen=1.35, fade=.3)        # "Editing…"
-cue('1120_modern-click-box-check.wav', 17.40, -12)                            # check mark
-cue('2299_short-bass-hit.wav', 17.40, -13)                                    # done (low hit 4)
-cue('3005_explainer-video-pops-whoosh-light-pop.wav', 17.62, -20)             # "Video is ready."
+cue('1462_quick-swoosh.wav', CUTS[2], -14, 'peak')                            # flash to light
+for k, w in enumerate((3.8, 3.93, 4.05, 4.17)):
+    cue('1109_select-click.wav', w, -24 + (k % 2))                            # words
+cue('2364_hard-pop-click.wav', 4.31, -18)                                     # "better"
+# 5  platforms
+cue('2919_movie-trailer-whoosh-hit.wav', CUTS[3], -12, 'peak', maxlen=1.6)    # cut to colour (low hit 2)
+for k, w in enumerate(SWITCH):
+    cue('2301_quick-bass-switch.wav', w, -17)                                 # colour switch
+    cue('3005_explainer-video-pops-whoosh-light-pop.wav', w + .02, -21)       # new platform pops
+# 6  ISP Agency ✓ / All in one place, less pressure
+cue('1461_short-wind-swoosh.wav', CUTS[4], -14, 'peak')
+cue('1120_modern-click-box-check.wav', 7.2, -15)                              # ✓ tag
+cue('1109_select-click.wav', 7.24, -24)
+cue('1109_select-click.wav', 7.7, -24)
+# 7  Video is ready
+cue('2633_sweeping-sparkle-presentation-intro.wav', CUTS[5] - .04, -14, maxlen=1.6)
+cue('2299_short-bass-hit.wav', CUTS[5] + .02, -13)                            # ready (low hit 3)
+for k, w in enumerate((8.46, 8.56, 8.66, 8.78)):                              # confetti
+    cue(('3005_explainer-video-pops-whoosh-light-pop.wav', '2364_hard-pop-click.wav')[k % 2], w, -21 - k)
 
 # ---------------- optional music bed ----------------
 music = sorted(glob.glob('audio/src/music.*'))
