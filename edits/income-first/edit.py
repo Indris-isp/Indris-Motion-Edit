@@ -141,6 +141,7 @@ STACK = dict(top=(0, 640, 34), bottom=(640, 1280, 86))     # (x0, x1, crop top y
 HITS = [(3102.14, 0.10, 0, 0), (3108.20, 0.07, 0, 0), (3128.36, 0.16, 6, 6), (3138.18, 0.0, 9, 2),
         (3146.98, 0.06, 0, 0)]
 # grade turns cold through the "families suffer" beat and warms back for the conclusion
+FREEZE_AFTER = 3149.10
 COLD_IN, COLD_OUT, COLD_MAX = (3133.7, 3134.3), (3144.3, 3144.9), 0.6
 
 def smooth(u): u = min(1, max(0, u)); return u * u * (3 - 2 * u)
@@ -348,7 +349,7 @@ def picture(ts):
     if layout == 'card' and 'src' in param:
         img = broll_frame(param['src'], start, ts)
     else:
-        img = SRC.frame(int(round((ts - EX_V0) * FPS)))
+        img = SRC.frame(int(round((min(ts, FREEZE_AFTER) - EX_V0) * FPS)))   # hold the guest's last frame (episode cuts to the host at 3149.15)
     if layout == 'ticket': return ticket_layout(img, z, start, ts), False
     if layout == 'full': return full_layout(img, param, z, ts), True
     if layout == 'stack': return stack_layout(img, z, ts), True
