@@ -232,7 +232,7 @@
    }
   },
   {
-   "name": "money",
+   "name": "coins",
    "kind": "scene",
    "f0": 233,
    "f1": 316,
@@ -262,7 +262,37 @@
    }
   },
   {
-   "name": "puzzle",
+   "name": "coins_text",
+   "kind": "overlay",
+   "f0": 233,
+   "f1": 316,
+   "cues": {
+    "words": [
+     [
+      0.475,
+      "that"
+     ],
+     [
+      1.095,
+      "brings"
+     ],
+     [
+      1.555,
+      "you"
+     ],
+     [
+      1.835,
+      "income"
+     ],
+     [
+      2.395,
+      "first."
+     ]
+    ]
+   }
+  },
+  {
+   "name": "puzzle_v12",
    "kind": "scene",
    "f0": 316,
    "f1": 416,
@@ -388,7 +418,7 @@
    }
   },
   {
-   "name": "offer",
+   "name": "mat",
    "kind": "scene",
    "f0": 479,
    "f1": 598,
@@ -534,8 +564,8 @@
    }
   },
   {
-   "name": "lottery",
-   "kind": "overlay",
+   "name": "lottery3d",
+   "kind": "scene",
    "f0": 758,
    "f1": 825,
    "cues": {

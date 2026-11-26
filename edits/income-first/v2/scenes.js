@@ -429,9 +429,9 @@ const SCENES = {
 };
 
 let update = null;
-document.fonts.ready.then(() => {
+window.addEventListener('load', () => document.fonts.ready.then(() => {
   update = SCENES[NAME]();
   window.renderAt = t => update(t);
   update(0);
   window.READY = true;
-});
+}));

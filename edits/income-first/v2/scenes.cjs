@@ -14,6 +14,7 @@ const url = s => 'file://' + path.join(__dirname, 'scenes.html') +
 
 async function open(browser, s) {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
+  page.setDefaultTimeout(240000);
   page.on('pageerror', e => console.error('PAGE ERROR', s.name, e.message));
   await page.goto(url(s));
   await page.waitForFunction('window.READY === true', null, { timeout: 60000 });
@@ -21,7 +22,7 @@ async function open(browser, s) {
 }
 
 (async () => {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   if (args[0] === '--still') {
     const s = plan.scenes.find(x => x.name === args[1]), t = +args[2];
     const page = await open(browser, s);

@@ -17,6 +17,7 @@ Supporting files (read them when you need the detail):
 - `references/design-system.md`: the Figma board notes, the **scene-type catalogue** (A–E, 50+ IDs), measured colour palettes, fonts, textures, layout.
 - `references/animation-system.md`: text, object, camera and transition mechanics, with measured durations.
 - `references/script-timing-psychology.md`: measured pacing, where cuts land, hook types, story skeletons, host usage, the word → visual map, and why each choice works.
+- `references/sound-design.md`: measured SFX and music rules (a sound on 86% of cuts, whoosh peaks on the cut, low hits on big reveals, about 1.7 foley/pop transients per second, music bed level, mastering) and the SFX ids.
 - Raw data: `docs/references-data/` (word JSON, stats, palettes, contact sheets). Long-form write-ups: `docs/editing-style-breakdown.md` (v1), `docs/editing-pattern-v2-storytelling.md` (v2), `docs/pattern-v3/breakdown.md` (v3).
 
 ## The core idea (one sentence)

@@ -1,4 +1,4 @@
-"""v2 of "Find income first": the client's line-by-line plan (planning page), cut after "...to your families." (37.9 s),
+"""v2.1 of "Find income first": the client's line-by-line plan (planning page), cut after "...to your families." (37.9 s),
 palette A "Studio Cyan" (accent #5FD8F5, base #0F1113, text #F2EEE8, negative #FF5446).
 
     python3 build.py prep              B-roll crops (9:16, 23.976 fps), red-carpet person matte (MODNet), villa sky mask
@@ -37,16 +37,16 @@ BASE = [
     (5.17, 6.95, 'aroll', [(5.17, 1.00), (6.95, 1.05)]),         # l03 caption centre -> slides left
     (6.95, 8.19, 'aroll', [(6.95, 1.22), (8.19, 1.26)]),         # l03 punch-in on "play this game"
     (8.19, 9.70, 'aroll', [(8.19, 1.00), (9.70, 1.05)]),         # l04 "is find something"
-    (9.70, 13.19, 'scene', 'money'),                             # l04 3D money + metallic card
-    (13.19, 17.33, 'scene', 'puzzle'),                           # l05 puzzle joins on a curve, bulb lights
+    (9.70, 13.19, 'scene', 'coins'),                             # l04 3D phone + cyan coin rain (client's Pinterest ref)
+    (13.19, 17.33, 'scene', 'puzzle_v12'),                       # l05 V12 world: pieces drift together, bulb lights
     (17.33, 18.57, 'villa', 'villa'),                            # l06 house + "GET INTO REAL ESTATE"
     (18.57, 19.96, 'scene', 'crt'),                              # l07 CRT + sticky notes, new text
-    (19.96, 24.95, 'scene', 'offer'),                            # l08 offer letter; l09 "that brings the money in"
-    (24.95, 26.61, 'zoomout', [(24.95, 1.00), (26.61, 1.05)]),   # l09 zoom out to the A-roll + caption
+    (19.96, 24.95, 'scene', 'mat'),                              # l08-l09 V08 cutting mat, one sheet (no pan)
+    (24.95, 26.61, 'aroll', [(24.95, 1.00), (26.61, 1.05)]),     # l09 whip back to the A-roll + caption (the card zoom-out read as cheap)
     (26.61, 28.35, 'aroll', [(26.61, 1.00), (28.35, 1.04)]),     # l10 captions in the A-roll
     (28.35, 29.71, 'aroll', [(28.35, 1.18), (29.71, 1.21)]),
     (29.71, 31.61, 'aroll', [(29.71, 1.40), (31.61, 1.45)]),     #     STARVING ACTORS, tight
-    (31.61, 34.39, 'broll', 'counter'),                          # l11 buying in a store + lottery ticket
+    (31.61, 34.39, 'scene', 'lottery3d'),                        # l11 3D purchase: cash -> terminal -> ticket
     (34.39, 34.95, 'aroll', [(34.39, 1.25), (34.95, 1.27)]),     # l12 "YEAH." bold
     (34.95, 36.11, 'aroll', [(34.95, 1.00), (36.11, 1.04)]),     # l13 caption in the A-roll (boxed serif)
     (36.11, 36.69, 'aroll', [(36.11, 1.20), (36.69, 1.22)]),
@@ -55,15 +55,16 @@ BASE = [
 # scenes.cjs renders these (kind 'scene' = opaque, 'overlay' = transparent)
 SCENES = [('cap_q', 0.00, 1.36, 'overlay'), ('orbit', 1.36, 3.06, 'scene'), ('cap_clap', 3.06, 3.98, 'overlay'),
           ('acting_text', 3.98, 5.17, 'overlay'), ('cap_acting', 3.98, 5.17, 'overlay'), ('cap_advice', 5.17, 8.19, 'overlay'),
-          ('cap_find', 8.19, 9.70, 'overlay'), ('money', 9.70, 13.19, 'scene'), ('puzzle', 13.19, 17.33, 'scene'),
-          ('house_text', 17.33, 18.57, 'overlay'), ('crt', 18.57, 19.96, 'scene'), ('offer', 19.96, 24.95, 'scene'),
-          ('pursue', 24.95, 26.61, 'overlay'), ('cap_starving', 26.61, 31.61, 'overlay'), ('lottery', 31.61, 34.39, 'overlay'),
+          ('cap_find', 8.19, 9.70, 'overlay'), ('coins', 9.70, 13.19, 'scene'), ('coins_text', 9.70, 13.19, 'overlay'), ('puzzle_v12', 13.19, 17.33, 'scene'),
+          ('house_text', 17.33, 18.57, 'overlay'), ('crt', 18.57, 19.96, 'scene'), ('mat', 19.96, 24.95, 'scene'),
+          ('pursue', 24.95, 26.61, 'overlay'), ('cap_starving', 26.61, 31.61, 'overlay'), ('lottery3d', 31.61, 34.39, 'scene'),
           ('cap_yeah', 34.39, 34.95, 'overlay'), ('cap_dont', 34.95, 36.69, 'overlay'), ('family_text', 36.69, DUR, 'overlay')]
 SPECIAL = {'acting_text'}                    # composited behind the person, not as a plain overlay
 # B-roll crops: (Mixkit id, source offset s, 9:16 crop centre x in the 1280x720 source, grade)
 BROLL = {'clapper': ('46353', 14.0, 400, 'film'), 'red_carpet': ('23000', 5.0, 400, 'film'), 'villa': ('47286', 2.0, 1000, 'bw'),
-         'counter': ('15914', 0.4, 790, 'film'), 'family': ('33729', 1.0, 620, 'warm')}
-HITS = [9.70, 13.19, 17.33, 18.57, 19.96, 31.61, 36.69]       # short white flash into each designed beat
+         'family': ('33729', 1.0, 620, 'warm')}
+# whip transitions into each designed beat (directional motion smear across the cut, as in the V08 / V12 references)
+WHIPS = [(1.36, 'v'), (3.06, 'h'), (9.70, 'v'), (13.19, 'h'), (17.33, 'v'), (18.57, 'h'), (19.96, 'h'), (24.95, 'v'), (31.61, 'v'), (34.39, 'h'), (36.69, 'h')]
 ORBIT_FACE = (540, 1060, 150)                                 # circle centre / radius on the orbit card
 FACE = (540, 560)                                             # face centre in the raw cut (nose x is centred by the tracker)
 
@@ -200,6 +201,7 @@ class Compositor:
         sky = cv2.imread(os.path.join(HERE, 'out/villa_sky.png'), cv2.IMREAD_GRAYSCALE)
         self.sky = sky.astype(np.float32) / 255 if sky is not None else None
         self.offer_last = None
+        self.prev = None
         yy, xx = np.mgrid[0:H, 0:W]; self.yy, self.xx = yy, xx
 
     def frame(self, i):
@@ -222,7 +224,7 @@ class Compositor:
                 img = over(img, scene_rgba('house_text', lf), self.sky_z)
         elif kind == 'scene':
             img = scene_rgba(p, lf)[..., :3].copy()
-            if p == 'offer': self.offer_last = img
+            if p == 'mat': self.offer_last = img
         elif kind == 'orbit':
             img = scene_rgba('orbit', lf)[..., :3].copy()
             img = self.iris(img, grade(a, 'film'), t - t0)
@@ -236,11 +238,21 @@ class Compositor:
         f = img.astype(np.float32) / 255
         if kind in ('aroll', 'broll', 'roto', 'zoomout', 'villa'): f = f * SCRIM
         f = f * VIG
-        for h in HITS:
-            if 0 <= t - h < 0.25: f = f + 0.16 * np.exp(-(t - h) / 0.06)
         f = f + GRAIN[i % len(GRAIN)] * 0.035
         if t > SPEECH_END: f = f * (1 - smooth((t - SPEECH_END) / (DUR - SPEECH_END)))
-        return (f.clip(0, 1) * 255).astype(np.uint8)
+        out = (f.clip(0, 1) * 255).astype(np.uint8)
+        for wt, d in WHIPS:                              # 2 frames smeared before the cut, 3 after
+            k = i - fi(wt)
+            if -2 <= k <= 2:
+                L = [70, 120, 150, 90, 40][k + 2]
+                ker = np.zeros((L, L), np.float32)
+                if d == 'h': ker[L // 2, :] = 1.0 / L
+                else: ker[:, L // 2] = 1.0 / L
+                src = out if k >= 0 or self.prev is None else out
+                out = cv2.filter2D(src, -1, ker, borderType=cv2.BORDER_REFLECT)
+                if k == 0 and self.prev is not None: out = cv2.addWeighted(out, 0.55, cv2.filter2D(self.prev, -1, ker, borderType=cv2.BORDER_REFLECT), 0.45, 0)
+        self.prev = out
+        return out
 
     def villa(self, b, u):
         """B&W villa in the lower part of the frame under a drawn grey sky, slow push-in (sky mask follows the zoom)."""
@@ -286,9 +298,13 @@ class Compositor:
 
 
 def audio(path):
+    """Voice from the raw cut, then the music bed + SFX mix (audio/mix.py, cues from the reference analysis)."""
+    voice = path + '.voice.wav'
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', RAW, '-vn', '-af',
                     f'atrim=0:{SPEECH_END},afade=t=out:st={SPEECH_END - 0.06:.3f}:d=0.06,apad=whole_dur={N / FPS:.4f}',
-                    '-ar', '48000', path], check=True)
+                    '-ar', '48000', '-ac', '2', voice], check=True)
+    subprocess.run([sys.executable, os.path.join(HERE, 'audio/mix.py'), voice, path], check=True)
+    os.remove(voice)
 
 
 def compose():
