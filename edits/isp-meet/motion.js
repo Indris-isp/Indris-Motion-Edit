@@ -13,7 +13,7 @@
  */
 'use strict';
 const W = 1920, H = 1080, CX = 960, CY = 540, FPS = 30, FRAMES = 310, DUR = FRAMES / FPS;
-const SEG = { s1: [0, 1.8], s2: [1.78, 2.6], s3: [2.55, 3.8], s4: [3.7, 4.8], s5: [4.72, 7.42], s6: [7.37, 8.37], s7: [8.3, DUR + 1] };
+const SEG = { s1: [0, 1.85], s2: [1.77, 2.6], s3: [2.5, 3.8], s4: [3.7, 4.8], s5: [4.72, 7.4], s6: [7.34, 8.37], s7: [8.28, DUR + 1] };
 window.TIMING = { FPS, DUR, W, H, frames: FRAMES };
 const LOGO = 'logos/isp/isp_logo_black.svg';
 
@@ -149,8 +149,9 @@ const S1 = (() => {
         const at = i ? 1.17 : 1.07, p = P(t, at, at + .05);
         s.style.opacity = p; s.style.marginLeft = i ? px(lerp(26, 0, sp)) : '0px';
       });
-      dots.forEach(d => { const a = kf(d.keys, t, IO, .07); d.e.style.left = px(a.x); d.e.style.top = px(a.y); d.e.style.opacity = a.o; });
-      const gOn = inWin(t, 1.6, 1.634) || inWin(t, 1.7, 1.78);
+      word.style.transform = `translate(-50%,-50%) translateX(${(-130 * E(t, 1.69, 1.77)).toFixed(2)}px)`;
+      dots.forEach((d, i) => { const a = kf(d.keys, t, IO, .07); d.e.style.left = px(a.x); d.e.style.top = px(a.y); d.e.style.opacity = a.o * (i === 5 ? 1 - P(t, 1.745, 1.77) : 1); });
+      const gOn = inWin(t, 1.6, 1.634);
       put(ghost, CX - 58, CY, 1, gOn ? .5 : 0);
       const r = P(t, 1.62, 1.8); ring.style.opacity = r > 0 ? .9 * Math.sin(Math.PI * clamp(r * 1.2)) : 0;
       ring.style.transform = `translate(-50%,-50%) scale(${(.55 + .6 * r).toFixed(3)})`;
@@ -172,7 +173,8 @@ const S2 = (() => {
   const word = el('div', lock, 'nowrap', { font: '800 150px Inter', color: '#0E0E13', letterSpacing: '-0.045em', lineHeight: 1 });
   const chars = 'Agency'.split('').map(ch => { const s = el('span', word, 'word'); s.textContent = ch; return s; });
   const ghost = el('div', L, 'c nowrap', { font: '800 150px Inter', color: '#0E0E13', letterSpacing: '-0.045em', lineHeight: 1, opacity: 0 }); ghost.textContent = 'Agency';
-  const mos = mosaic(L, 96);
+  const ghost2 = el('div', L, 'c nowrap', { font: '800 150px Inter', color: '#0E0E13', letterSpacing: '-0.045em', lineHeight: 1, opacity: 0 }); ghost2.textContent = 'Agency';
+  const blocks = (window.LOGO_BLOCKS || []).map(([dx, dy], i) => ({ dx, dy, j: [hash(i * 3.7) - .5, hash(i * 5.1) - .5], e: el('div', L, 'abs', { width: '13px', height: '13px', background: '#0E0E13', opacity: 0 }) }));
   return {
     markPos: [CX - 300, CY],
     measure() { const tr = mark.style.transform; mark.style.transform = 'none'; const r = rectOf(mark); this.markPos = [r.x, r.y]; this.markW = r.w; mark.style.transform = tr; this.wordRect = rectOf(word); },
@@ -181,21 +183,30 @@ const S2 = (() => {
       rings.style.opacity = E(t, 1.85, 2.0);
       rings.style.transform = `translate(-50%,-50%) scale(${(1 + (t - 1.8) * .09).toFixed(4)})`;
       /* the dot line carries over as soft glows */
-      S1.dots.slice(0, 7).forEach((d, i) => { const k = d.keys[d.keys.length - 1]; put(glows[i], k[1], k[2], 1, (1 - P(t, 1.82, 1.95)) * (k[3] ? 1 : 0)); });
+      S1.dots.slice(0, 7).forEach((d, i) => { const k = d.keys[d.keys.length - 1]; put(glows[i], k[1], k[2], 1, (1 - E(t, 1.84, 1.94)) * (k[3] && i !== 5 ? 1 : 0)); });
       /* reveal: mark + letters left to right (1.80–1.95), blur clears */
       const mp = E(t, 1.78, 1.9, OUT);
       mark.style.opacity = P(t, 1.78, 1.82);
-      chars.forEach((c, i) => { const p = E(t, 1.79 + i * .025, 1.86 + i * .025, OUT); c.style.opacity = p; blur(c, (1 - p) * 9); });
+      chars.forEach((c, i) => { const p = E(t, 1.79 + i * .028, 1.86 + i * .028, OUT); c.style.opacity = p; blur(c, (1 - p) * 9); });
       blur(lock, 10 * (1 - P(t, 1.78, 1.9)));
       /* exit: glitch doubling, mark swells, word smears */
-      const gx = inWin(t, 2.44, 2.54);
-      put(ghost, this.wordRect.x + 14, this.wordRect.y, 1, gx ? .45 : 0);
-      const sw = E(t, 2.45, 2.56);
-      mark.style.transform = `scale(${(lerp(.9, 1, mp) * (1 + .55 * sw)).toFixed(4)})`;
-      word.style.opacity = 1 - P(t, 2.5, 2.57); blur(word, 6 * P(t, 2.45, 2.55));
-      if (t < 2.44) this.measure();
-      L.style.filter = `brightness(${(1 - .55 * E(t, 2.49, 2.57)).toFixed(3)})`;
-      L.style.opacity = E(t, 1.765, 1.795);
+      /* exit (2.43–2.56): the mark breaks into blocks that spread out, the word smears sideways */
+      const gx = inWin(t, 2.43, 2.54), sm = E(t, 2.43, 2.53);
+      put(ghost, this.wordRect.x + 18 * sm, this.wordRect.y, 1, gx ? .4 : 0);
+      put(ghost2, this.wordRect.x - 12 * sm, this.wordRect.y, 1, gx ? .3 : 0);
+      mark.style.transform = `scale(${lerp(.9, 1, mp).toFixed(4)})`;
+      const br = E(t, 2.43, 2.55), bOn = t >= 2.43;
+      mark.style.opacity = bOn ? 0 : P(t, 1.78, 1.82);
+      blocks.forEach(b => {
+        if (!bOn) { b.e.style.opacity = 0; return; }
+        const sc = 1 + .9 * br, x = this.markPos[0] + b.dx * sc + b.j[0] * 70 * br, y = this.markPos[1] + b.dy * sc + b.j[1] * 70 * br, z = 13 + 9 * br;
+        b.e.style.left = px(x - z / 2); b.e.style.top = px(y - z / 2); b.e.style.width = b.e.style.height = px(z);
+        b.e.style.opacity = (1 - E(t, 2.52, 2.56)).toFixed(3);
+      });
+      word.style.opacity = 1 - P(t, 2.52, 2.56); blur(word, 4 * sm);
+      if (t < 2.43) this.measure();
+      L.style.filter = `brightness(${(1 - .6 * E(t, 2.51, 2.56)).toFixed(3)})`;
+      L.style.opacity = E(t, 1.77, 1.82);
     },
   };
 })();
@@ -233,7 +244,7 @@ const S3 = (() => {
     update(t) {
       if (!show('s3', t, ...SEG.s3)) return;
       $('#s3').style.opacity = P(t, 2.535, 2.556);
-      const flash = E(t, 3.66, 3.75);
+      const flash = E(t, 3.7, 3.76);
       items.forEach(o => {
         const m = o.move ? E(t, ...o.move) : 0, a = C[o.cells[0]], b = C[o.cells[1] || o.cells[0]];
         const x = lerp(a[0], b[0], m) * G, y = lerp(a[1], b[1], m) * G;
@@ -254,7 +265,8 @@ const S3 = (() => {
    ===================================================================== */
 const S4 = (() => {
   const L = $('#s4');
-  const burst = el('div', L, 'c', { width: '760px', height: '760px', left: px(CX), top: px(CY), borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,255,255,1), rgba(255,255,255,.85) 40%, rgba(255,255,255,0))', filter: 'blur(18px)' });
+  const bloom = [[0, 0, 300], [0, -1, 210], [1, 0, 210], [0, 1, 210], [-1, 0, 210], [1, -1, 130], [1, 1, 130], [-1, 1, 130], [-1, -1, 130]].map(([gx, gy, z]) =>
+    ({ gx, gy, e: el('div', L, 'c', { width: px(z), height: px(z), left: px(CX + gx * 190), top: px(CY + gy * 190), borderRadius: '30%', background: '#fff', filter: 'blur(26px)' }) }));
   const ICON = 128, GAP = 36;
   const line = el('div', L, 'abs nowrap', { top: px(CY), font: '400 74px Inter', color: '#3A3E55', letterSpacing: '-.012em', transform: 'translateY(-50%)' });
   const words = [['Let’s ', 400, 3.76], ['make ', 400, 3.89], ['your ', 400, 3.99], ['video ', 400, 4.06], ['better', 700, 4.16]].map(([w, fw, at]) => {
@@ -269,9 +281,9 @@ const S4 = (() => {
     },
     update(t) {
       if (!show('s4', t, ...SEG.s4)) return;
-      $('#s4').style.opacity = E(t, 3.7, 3.78);
-      burst.style.opacity = 1 - E(t, 3.76, 3.95);
-      const ex = E(t, 4.7, 4.77);
+      $('#s4').style.opacity = E(t, 3.715, 3.775);
+      bloom.forEach(b => { b.e.style.opacity = (.95 * (1 - E(t, 3.78, 3.88))).toFixed(3); b.e.style.transform = `translate(-50%,-50%) scale(${(1 + .25 * E(t, 3.72, 3.9)).toFixed(3)})`; });
+      const ex = E(t, 4.7, 4.76);
       words.forEach(w => { const p = E(t, w.at, w.at + .04, OUT); w.s.style.opacity = p * (1 - ex); blur(w.s, (1 - p) * 6 + ex * 10); });
     },
   };
@@ -290,7 +302,6 @@ const S5 = (() => {
   const dots = [];
   for (const side of [-1, 1]) for (let i = 0; i < 5; i++) dots.push({ side, i, e: el('div', L, 'dot', { width: '25px', height: '25px', marginLeft: '-12.5px', marginTop: '-12.5px', top: px(CY) }) });
   const link = [0, 1, 2].map(() => el('div', L, 'dot', { width: '11px', height: '11px', background: '#fff', marginLeft: '-5.5px', marginTop: '-5.5px', top: px(CY) }));
-  const tile = tileEl(L, 'lime', 280);
   const circ = el('div', L, 'circ', { width: '280px', height: '280px', left: 0, top: 0 });
   const glyphs = LIST.map(([n]) => el('div', circ, 'c', { left: '50%', top: '50%' }, glyph(n, PLAT[n].fill, 150)));
   const labels = LIST.map(([n]) => { const e = el('div', L, 'c nowrap', { left: px(CX), top: px(CY + 246), font: '500 42px Inter', color: 'rgba(255,255,255,.9)', letterSpacing: '-.01em', opacity: 0 }); e.textContent = PLAT[n].name; return e; });
@@ -306,7 +317,7 @@ const S5 = (() => {
       if (!show('s5', t, ...SEG.s5)) return;
       /* entry: the whole screen dissolves in over the typed line, tile and circle fade in where they sit */
       L.style.opacity = E(t, 4.72, 4.78);
-      blur(tile, 10 * (1 - E(t, 4.72, 4.8))); blur(circ, 10 * (1 - E(t, 4.72, 4.8)));
+      blur(circ, 10 * (1 - E(t, 4.72, 4.8)));
       let k = 0; AT.forEach((a, i) => { if (t >= a) k = i; });
       /* background: blend of the two screens while a dissolve runs */
       let bg = LIST[0][1];
@@ -322,7 +333,7 @@ const S5 = (() => {
       /* "···" between the tiles builds up one dot at a time, then stays */
       const n = Math.min(3, 1 + Math.floor(Math.max(0, t - 4.83) / .13));
       link.forEach((d, i) => { d.style.left = px(CX - 22 + i * 22); d.style.opacity = t >= 4.8 && i < n ? .95 : 0; });
-      put(tile, this.TILE[0], this.TILE[1], 1); put(circ, this.CIRC[0], this.CIRC[1], 1);
+      put(circ, this.CIRC[0], this.CIRC[1], 1);
     },
   };
 })();
@@ -333,6 +344,7 @@ const S5 = (() => {
 const S6 = (() => {
   const L = $('#s6');
   const ICON = 150, GAP = 40;
+  const icon = tileEl(L, 'green', ICON);
   const block = el('div', L, 'abs', { top: px(CY - 50), transform: 'translateY(-50%)' });
   const pill = el('div', block, 'pill', {}, 'ISP Agency <svg width="20" height="20" viewBox="0 0 12 12"><path d="M2 6.3l2.5 2.4L10 3.3" fill="none" stroke="#474B60" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
   pill.style.marginBottom = '12px';
@@ -345,12 +357,13 @@ const S6 = (() => {
     ICON, pos: [CX, CY],
     measure() {
       const r = rectOf(block), left = CX - (ICON + GAP + r.w) / 2;
-      block.style.left = px(left + ICON + GAP); this.pos = [left + ICON / 2, CY - 50];
+      block.style.left = px(left + ICON + GAP); this.pos = [left + ICON / 2, CY - 50]; put(icon, ...this.pos, 1);
     },
     update(t) {
       if (!show('s6', t, ...SEG.s6)) return;
-      $('#s6').style.opacity = E(t, 7.37, 7.385);
-      pill.style.opacity = P(t, 7.38, 7.42);
+      $('#s6').style.opacity = E(t, 7.345, 7.39);
+      blur(icon.querySelector('img'), inWin(t, 7.39, 7.42) || inWin(t, 8.255, 8.285) ? 4 : 0);
+      pill.style.opacity = P(t, 7.36, 7.4);
       words.forEach(w => {
         const p = P(t, w.at, w.at + .04), dk = E(t, w.at + .03, w.at + .4);
         w.s.style.opacity = p;
@@ -382,9 +395,8 @@ const S7 = (() => {
   return {
     update(t) {
       if (!show('s7', t, ...SEG.s7)) return;
-      $('#s7').style.opacity = E(t, 8.3, 8.33);
-      const p = E(t, 8.3, 8.4, OUT);
-      grp.style.opacity = p; blur(grp, (1 - p) * 10);
+      $('#s7').style.opacity = E(t, 8.28, 8.335);
+      blur(grp, 5 * (1 - E(t, 8.29, 8.36)));
       conf.forEach(c => {
         const tau = t - c.on;
         if (tau <= 0 || t >= c.off) { c.e.style.opacity = 0; return; }
@@ -397,23 +409,39 @@ const S7 = (() => {
 })();
 
 /* =====================================================================
-   HERO TILE — the green ISP tile travelling 2 → 3 → 4 → 5 → 6
+   TRAVELLING TILES
+   hero  — the green ISP tile: pops in at the centre as the logo shatters (2.52), sits in the orbit, blooms away (3.72)
+   hero2 — the typed line's icon (appears in place at 3.73), turns lime (4.45), then grows and glides into the
+           big lime tile of the colour screens (4.70–4.77, the reel's move), and dissolves into scene 6 (7.35)
    ===================================================================== */
 const hero = tileEl($('#hero'), 'green', 200);
-const heroLime = el('div', hero, 'abs', { inset: 0, borderRadius: 'inherit', background: 'linear-gradient(160deg,#DCEB62 0%,#CEE04A 55%,#BFD43C 100%)', opacity: 0, zIndex: -1 });
-hero.querySelector('img').style.position = 'relative';
+function mkTile2() {
+  const t = el('div', $('#hero'), 'tile', { width: '128px', height: '128px', left: 0, top: 0, boxShadow: 'none', background: 'transparent' });
+  t.g = el('div', t, 'abs green', { inset: 0, borderRadius: 'inherit' });
+  t.l = el('div', t, 'abs lime', { inset: 0, borderRadius: 'inherit', opacity: 0 });
+  t.i = el('img', t, '', { position: 'relative' }); t.i.src = LOGO;
+  return t;
+}
+const hero2 = mkTile2();
 function updateHero(t) {
-  if (t < 2.49 || t >= 8.36) { hero.style.visibility = 'hidden'; return; }
-  hero.style.visibility = 'visible';
-  let x, y, s, o = 1, lime = 0;
-  const [mx, my] = S2.markPos, s4 = S4.icon, s6 = S6.pos;
-  if (t < 2.6) { const g = back(P(t, 2.49, 2.55)), m = E(t, 2.51, 2.56); x = lerp(mx + S2.markW * .45, CX, m); y = lerp(my, CY, m); s = lerp(150 * g, 200, m); o = P(t, 2.49, 2.51); }
-  else if (t < 3.73) { x = CX; y = CY; s = 200; }
-  else if (t < 4.79) { const p = E(t, 3.73, 3.8); x = lerp(CX, s4[0], p); y = CY; s = lerp(200, S4.ICON, p); lime = E(t, 4.46, 4.5); o = 1 - E(t, 4.72, 4.78); }
-  else if (t < 7.38) { hero.style.visibility = 'hidden'; return; }
-  else { x = s6[0]; y = s6[1]; s = S6.ICON; o = 1 - P(t, 8.29, 8.31); }
-  hero.style.width = hero.style.height = px(s); put(hero, x, y, 1, o);
-  heroLime.style.opacity = lime;
+  if (t >= 2.515 && t < 3.77) {
+    hero.style.visibility = 'visible';
+    const pop = back(P(t, 2.515, 2.575)), sh = -12 * E(t, 3.69, 3.73);
+    hero.style.width = hero.style.height = '200px';
+    put(hero, CX - 18 * (1 - E(t, 2.515, 2.56)) + sh, CY, .55 + .45 * pop, P(t, 2.515, 2.535) * (1 - E(t, 3.73, 3.77)));
+    hero.style.filter = t > 3.7 ? `brightness(${(1 + 1.2 * E(t, 3.7, 3.76)).toFixed(3)}) blur(${(10 * E(t, 3.72, 3.77)).toFixed(2)}px)` : '';
+  } else hero.style.visibility = 'hidden';
+  if (t >= 3.72 && t < 7.39) {
+    hero2.style.visibility = 'visible';
+    const s4 = S4.icon, m = E(t, 4.69, 4.75);
+    const x = lerp(s4[0], S5.TILE[0], m), sz = lerp(S4.ICON, 280, m);
+    hero2.style.width = hero2.style.height = px(sz);
+    put(hero2, x, CY, 1, P(t, 3.72, 3.74) * (1 - E(t, 7.345, 7.39)));
+    const bgOn = E(t, 3.77, 3.82);
+    hero2.g.style.opacity = bgOn * (1 - E(t, 4.43, 4.47)); hero2.l.style.opacity = E(t, 4.43, 4.47);
+    blur(hero2.i, inWin(t, 4.43, 4.467) ? 5 : 0);
+    hero2.style.boxShadow = bgOn > .5 ? '' : 'none';
+  } else hero2.style.visibility = 'hidden';
 }
 
 /* ---------- render ---------- */
