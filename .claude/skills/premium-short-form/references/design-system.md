@@ -2,6 +2,21 @@
 
 Built from the designer's Figma board and 15 reference videos (V01–V15, see `video-breakdowns.md`).
 
+## 0. Premium, clean and neat (client standard, 2026-11-26)
+The client rejected the first 3D scenes of the "income first" edit as "sloppy". Those were flat CSS shapes on empty backgrounds, washed-out colour, small type, a paper card that shrank away, and a white box standing in for a lottery terminal. The rebuilt v2.2 scenes passed. What changed:
+
+| Sloppy (avoid) | Premium (do) |
+|---|---|
+| Small subject floating in an empty gradient | Subject fills 60–85% of the width, and the set fills the frame (table, desk, counter) |
+| Flat shapes, flat light | Lit 3D or photo elements: soft key + fill, contact shadows, real materials (paper grain, clearcoat plastic, brushed metal, frosted glass) |
+| Everything equally sharp | Depth of field: a soft foreground or background, a sharp subject (64-tap CoC gather, `edits/income-first/v2/scenes3.js`) |
+| Washed out, greyed, blown highlights | Correct exposure. With three.js ACES use `toneMappingExposure` ≈ 0.55–0.65 and low hemisphere/env light, then sample pixels to confirm the palette colours survive |
+| A bare prop (an empty mat, a white box) | Props that tell the story and match the reference realism: keyboard, mouse, coffee, pen and sticky note on the V08 mat; terminal, scratch-card rack, neon and shelves at the counter |
+| Tiny run-ins, text crossing the edges | Run-ins ≥ 60 px, keyword 150–200 px, 64 px side margins, two lines at most |
+| Generic glow, floating cards, shrinking-card transitions, pans to a second card ("looks AI") | One world per idea, one camera move, a whip or hard cut back to the face |
+
+Before showing stills, check each designed beat at its entrance, keyword and end frames for crops, overlaps, empty corners, exposed set edges, legibility and washed-out colour.
+
 ## 1. What the Figma board says (designer's own notes)
 The board (`Z55tmJ5L4ZxoAcDlBNEVn0`, Page 1) has five labelled columns of reference screenshots taken from the videos. Four of them carry the designer's notes; the fifth, "References", holds all the screenshots. These notes are recorded from a read of the board on 2026-11-25. A re-read on 2026-11-26 was blocked by the Figma MCP Starter-plan call limit. If the board has new frames since then, re-read it and add them here.
 

@@ -2,6 +2,26 @@
 
 Timings are at 30 fps (f = frames). Values marked **measured** come from 10 fps frame strips of the references (`docs/references-data/sheets/anim_*.jpg`). The others are working defaults that match what the strips show. The animation ↔ script logic (when and why) is in `script-timing-psychology.md`.
 
+## 0. Smoothness (client standard, 2026-11-26)
+- **Ease everything:**
+  - camera: ease-in-out cubic;
+  - entrances: ease-out cubic, or a light back-overshoot (s ≈ 1.2) for keyword slams;
+  - linear only for slow constant drift (a 103–106% push across a beat).
+- **Durations:**
+  - text entrances 0.24–0.35 s (word-by-word fade + de-blur + 6–28 px rise, leading the word by 3 frames);
+  - object entrances 0.3–0.6 s;
+  - camera moves 0.6–1.0 s;
+  - let each landing settle for at least 0.4 s before the next move.
+- **Motion blur** scales with speed:
+  - CSS blur on fast entrances;
+  - a directional smear on whips (2 frames before the cut, 3 after, kernels about 70/120/150/90/40 px).
+- **One camera move at a time.** In-world continuity (tilt or glide to the next line) beats cutting to a new card. A pan from one card to another read as "AI" to the client.
+- **No jitter:**
+  - seeded randomness;
+  - deterministic physics (closed-form arcs, solved landing times);
+  - a dead-zone face-tracking camera (calm operator).
+- **Check:** 10 fps strips of every move before the final render, looking for pops, flicker, stalls and double moves.
+
 ## 1. Text animation
 | Animation | Spec | Reference (measured) |
 |---|---|---|

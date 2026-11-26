@@ -20,20 +20,46 @@ Measured on 2026-11-26 with `edits/income-first/v2/audio/sfx_analysis.py` over 1
 5. **Music:** an instrumental with a steady pulse that fits the topic (money or ambition: the Succession main title; tension: Black Vertigo). Place it so that a musical ending lands on the last frame, by working backwards from the track's final hit. Keep it about 15 dB under the voice in gaps and duck it 6 dB more under words.
 6. **Master** to −14 LUFS integrated, true peak −1 dBTP.
 
-## Sources
-- **SFX:** the Mixkit free sound effects (Mixkit Free License). Download from `https://assets.mixkit.co/active_storage/sfx/<id>/<id>-preview.mp3`. These ids work well:
-  - whooshes: 1492, 1490, 1481, 1468, 174, 166, 3115, 1464
-  - low hits: 772, 2919, 2180
-  - pops: 3005, 2364, 2356
-  - clicks: 1120, 2568, 1133
-  - coins: 1993, 2003, 1939, 3183
-  - paper: 1530, 2380, 2384, 2383
-  - slap: 2182
-  - printer: 1371
-  - keypad: 2841
-  - lock or snap: 2858
-  - bell: 931
-  - neon hum: 910
-- **Music:** the client's Drive folder "BGM / Premium bg song".
+## Sources (client rule: use only the client's library)
+The client heard the v2.2 mix, built from Mixkit MP3 previews that Claude picked, and called it sloppy. **Use only the client's SFX library**, the WAV masters in Drive folder **`1ogoXwqB9I2h5VPQdyBIO9XPVuKtQFC1J`** (link: https://drive.google.com/drive/folders/1ogoXwqB9I2h5VPQdyBIO9XPVuKtQFC1J). Don't use other libraries, previews or synthesized sounds. If a beat needs a sound the library lacks, leave it dry and say so, or ask the client for one.
 
-The worked example is `edits/income-first/v2/audio/mix.py`. It has the cue sheet, alignment, ducking and loudness steps.
+Download each file with `https://drive.usercontent.google.com/download?id=<ID>&export=download&confirm=t` (IDs are case-sensitive). Everything lives in the subfolder `2_free_soundalikes_mixkit/`.
+
+| Folder | File | Drive ID | Use it for |
+|---|---|---|---|
+| whoosh | 1461_short-wind-swoosh.wav | `10bXdjFNzMHGmQAizxdkIBqhjwX7Gr6Xj` | soft cuts back to the A-roll |
+| whoosh | 1462_quick-swoosh.wav | `1gXDW1-GTBn5BW4vxCZ4-90mqePszbL16` | whip cuts, punch-ins |
+| whoosh | 1464_quick-swoosh-accent.wav | `1SJRlSWDWt-Glorsi5LIe4awBLXzZXgm2` | caption or box sweeps, small accents |
+| whoosh | 2605_quick-air-woosh.wav | `1dNMeJq2qBMxwOXl4QSfYng7MqSonZ6a9` | objects flying in (phone, ticket, paper) |
+| swish | 2633_sweeping-sparkle-presentation-intro.wav | `1xORaF8n6rR_ffCf0uKrkXT64Bdlo03am` | entering a new idea world, a reveal with shine |
+| swish | 3060_sparkle-hybrid-transition.wav | `1glj8dP_92rITeQnWF37pa78SZHG2d3vE` | a premium transition into a designed scene (coins, a bulb lighting) |
+| hit | 2919_movie-trailer-whoosh-hit.wav | `1ro1l5YyX13VlaRSxnwhA7LKkz-sgqSFT` | the biggest reveal (giant keyword, roto text) |
+| hit | 2900_movie-logo-intro-impact.wav | `12utxaSqcI22MFierI8aPbmEnrA2Zb3J5` | the hook's opening slam |
+| hit | 2896_movie-intro-impact.wav | `1j22RpNRyepc_a7tljMHzspe8ySJfyQjz` | a big title or world reveal |
+| hit | 3005_explainer-video-pops-whoosh-light-pop.wav | `100K9zhC4hBiEvHBcIpWtXAQky29A-nrD` | light keyword pops |
+| boom | 563_drum-deep-impact.wav | `19VAYS8ji1qe05V0wsh7BnYKCCtUPpyIB` | a heavy emotional beat ("YEAH.", a hard truth) |
+| boom | 2299_short-bass-hit.wav | `1hbp0_VxxD23HX_mTfagcg4Pf6WQ3WgNP` | punch-ins, label slaps, keyword slams |
+| boom | 2301_quick-bass-switch.wav | `1_UrO8uXLqzMJkbxYteNCSAtYZwKcd_cm` | a switch of scene or mood |
+| boom | 3144_undertone-bass-item.wav | `1568PTBjqyzypw_7xo0fuPEWJtqyQX_3J` | a sub undertone under a reveal |
+| boom | 2295_pulsating-bass-transition.wav | `1nn0skbHIi-qoFVBr0BUp2pcw1gYRnEqz` | a riser or swell into the biggest reveal |
+| pop | 2354_message-pop-alert.wav | `1nQmRgH52XG_V_BO0V5tKIu6tb4Hddq5H` | UI pop-ups, notifications, chips |
+| pop | 2364_hard-pop-click.wav | `1aEq8Tf2pXzxoxEBJDXo1a67yN0QbKif5` | a keyword landing, a sticker on |
+| pop | 2365_electric-pop.wav | `1MMMaG1tJlgr3dbsmYJ-c9BwTco1RpEuO` | neon or screen elements, a bulb lighting |
+| click | 1109_select-click.wav | `1JiYSzfjLNHPQjFIAc97rKU3S6o2QblqI` | list items, selections |
+| click | 1120_modern-click-box-check.wav | `1i865db14kbUYiAAbIWQGuodE2biqOrS_` | ticks, "PAID ✓", confirmations |
+| click | 2585_on-or-off-light-switch-tap.wav | `1jEzwSuQmPqkRDWY6ydc-vkuIVXAvja9H` | a light or bulb switching on, a screen waking |
+| glitch | 1040_glitch-data-noise.wav | `1mYE5Lf40gjNHsLThlkNhaTYode8wynwf` | glitch transitions, data or tech scenes |
+| glitch | 2948_tech-device-glitch.wav | `1sHeGP0ZbiGIkFFv2fizlgtwtovPRKAZV` | a device or screen glitch |
+| glitch | 2951_digital-glitch-break.wav | `1KwfxQgZmvhiLFLPXt0xMJKwX_FeAcMtZ` | a glitch cut |
+| glitch | 3066_arcade-glitch-touch.wav | `12zpQ93zyihlV3Anlbp4hBVdVj7i9WIsw` | a light glitch accent |
+| typing | 1390_hard-typing.wav | `1M2ZPfEpDJCKOQI9N-PIHKhW8nvmlPPcW` | typed text, a terminal or CRT |
+| typing | 2534_keyboard-key-presses.wav | `1KkeKHyP8C82ZSeRZEZGs5gD1lQvPElwD` | keypad or keyboard presses (a payment terminal) |
+
+## How to place them
+- Download the library once into `audio/src/sfx/` (not in git) and keep the WAVs at full quality.
+- Align whoosh and swish peaks to the cut frame, and start hits, booms, pops and clicks on the frame of the event.
+- Choose by role from the table, and vary the whooshes so the same file never plays twice in a row.
+- Keep SFX under the voice: whooshes about 13–18 dB under the speech RMS, pops and clicks 16–20 dB under, booms and hits 12–15 dB under. A boom never masks a stressed word.
+- After mixing, listen at the cuts in context (render 1 s windows around each cue) before delivering.
+
+The worked example is `edits/income-first/v2/audio/mix.py` (cue sheet, peak alignment, ducking, loudness). Its v2.2 cues use Mixkit previews, so swap them for this library before reusing it.

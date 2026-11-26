@@ -17,11 +17,17 @@ Supporting files (read them when you need the detail):
 - `references/design-system.md`: the Figma board notes, the **scene-type catalogue** (A–E, 50+ IDs), measured colour palettes, fonts, textures, layout.
 - `references/animation-system.md`: text, object, camera and transition mechanics, with measured durations.
 - `references/script-timing-psychology.md`: measured pacing, where cuts land, hook types, story skeletons, host usage, the word → visual map, and why each choice works.
-- `references/sound-design.md`: measured SFX and music rules (a sound on 86% of cuts, whoosh peaks on the cut, low hits on big reveals, about 1.7 foley/pop transients per second, music bed level, mastering) and the SFX ids.
+- `references/sound-design.md`: measured SFX and music rules (a sound on 86% of cuts, whoosh peaks on the cut, low hits on big reveals, about 1.7 foley/pop transients per second, music bed level, mastering) and **the client's SFX library**, file by file.
 - Raw data: `docs/references-data/` (word JSON, stats, palettes, contact sheets). Long-form write-ups: `docs/editing-style-breakdown.md` (v1), `docs/editing-pattern-v2-storytelling.md` (v2), `docs/pattern-v3/breakdown.md` (v3).
 
 ## The core idea (one sentence)
 **Every spoken idea gets its own designed visual, cut on the phrase or the keyword, at 1–3 s per beat. The speaker's face carries emotion, opinion and the punchline; the visuals carry nouns, numbers and metaphors; the captions point to the one word that matters, in one accent colour taken from the footage.**
+
+## Client standards (non-negotiable, from the client's review of the "income first" edit, 2026-11-26)
+1. **Premium, clean and neat design.** Every frame must look finished: one clear subject, a full frame, real depth and materials, generous margins and nothing cluttered, cropped, washed out or empty. See §6 and the premium rules in `references/design-system.md` §0.
+2. **Smooth animation.** Every move is eased, motion-blurred when fast, and continuous. Nothing pops, jitters, snaps or stalls by accident. See §7 and `references/animation-system.md` §0.
+3. **Stills before video.** Before rendering any video (the first cut *and* every revision), send stills of every designed beat for approval, then **stop and wait**. See §7b.
+4. **SFX only from the client's library** (Drive folder `1ogoXwqB9I2h5VPQdyBIO9XPVuKtQFC1J`). Never use Claude's own picks, Mixkit previews or synthesized sounds; the client judged them sloppy. See `references/sound-design.md`.
 
 ## Workflow (follow in order)
 
@@ -102,6 +108,13 @@ Use `references/design-system.md`:
 - **One accent colour per video, taken from the footage** (wardrobe, practical lights, brand), plus red for negatives.
 - **Captions are always a Medium + Bold pair** (the Figma rule): Inter Medium for run-ins, Inter Bold or a display face (serif italic, gold script, glow extended, 3D extruded) for the one keyword.
 - Grain/paper textures, glass for UI, and text placed behind subjects for depth.
+- **Premium, clean, neat** (client standard 1). Check every scene against these before showing stills:
+  - **One focal subject** that fills 60–85% of the frame width. No dead empty areas, no exposed canvas or set edges, no stray props competing with the subject.
+  - **Depth:** a soft foreground or background, a sharp subject, soft contact shadows, and real materials (paper grain, glossy plastic, brushed metal, glass). Flat CSS boxes and clip-art shapes read as cheap.
+  - **Type:** run-ins are at least 60 px on a 1080-wide frame and the keyword is 150–200 px. Use no more than two sizes plus the keyword, keep 64 px side margins, and never let text touch or cross an edge.
+  - **Colour:** palette only (base, text, one accent, red for negatives). Nothing blown out or washed out. In three.js, ACES divides the exposure by 0.6, so use `toneMappingExposure` ≈ 0.55–0.65 and keep hemisphere/env light low.
+  - **No "AI look":** no glow on everything, no generic floating cards, no shrinking-card transitions, no random pans to a second card. Stay in one world per idea, as in the references.
+  - Props must support the line and match the references' realism (the V08 desk with keyboard, mouse and coffee; the V12 bulb and pieces).
 
 For each AI scene, write a separate prompt per element (subject, prop, background). Composite them in one frame and animate the layers separately. **Never animate one flat generated image** (the Figma rule).
 
@@ -111,6 +124,22 @@ Follow `references/animation-system.md`. The defaults:
 - **Numbers:** a count-up that lands on the spoken number (rolling 0.4–1.3 s, or typed 0.6 s).
 - **Objects:** do what the sentence says (pieces lock, bars rise, the chart draws, a bubble flashes red), plus a slow drift/parallax.
 - **Camera:** a constant push-in of 103–106% on every still; in-world tilts and pushes for continuing ideas; zoom-blur pushes on screen recordings.
+- **Smooth** (client standard 2):
+  - Every move is eased: ease-in-out cubic for the camera, ease-out cubic or a light back-overshoot for entrances. Use linear only for slow constant drift.
+  - Entrances take 0.25–0.6 s and camera moves 0.6–1.0 s. Let each landing settle for at least 0.4 s before the next move starts.
+  - Fast moves get motion blur scaled to their speed. A whip smears 2 frames before the cut and 3 after.
+  - Never run two competing camera moves at once, and never leave a frame fully static.
+  - Everything is deterministic: seeded randomness, no per-frame noise in positions, and face tracking through the dead-zone camera.
+  - Render at the delivery frame rate (23.976). Check 10 fps strips of every move for jumps, flicker and pops before the final render.
+
+### 7b. Stills approval gate (before any video render)
+1. Render **2–3 stills per designed beat** (entrance, keyword moment, end state) and one per A-roll caption style, at full resolution.
+2. Tile them into a labelled board: the beat number, timestamp, spoken words and scene ID under each still.
+3. Send the board with SendUserFile. List what each beat will do in motion, and the SFX planned for it.
+4. **Stop and wait for approval.** Do not render the full video until the user says to go ahead.
+5. If they give notes, change only those beats and send their new stills.
+
+This applies to revisions too. When a scene is redesigned, its stills go out first.
 
 ### 8. Deliver
 Output four things:
@@ -123,6 +152,8 @@ When footage is available, also render the raw cut with ffmpeg: hard cuts at the
 
 State clearly what still has to be done in an NLE/AE (captions, composites, motion), unless the user asked for a full render.
 
+**Sound** (full render): SFX from the client's library only, placed to the measured pattern in `references/sound-design.md`. Music from the client's BGM folder. Master to −14 LUFS.
+
 ## Quick checklist before handing off
 - [ ] The first word is on frame 0; a visual change or keyword hit lands by 2.4 s.
 - [ ] The hook number is spoken AND shown together (a count-up lands on the syllable).
@@ -134,3 +165,7 @@ State clearly what still has to be done in an NLE/AE (captions, composites, moti
 - [ ] Transitions appear only at topic changes; returns to the face are hard cuts.
 - [ ] The strongest line is last: thesis, callback, cliffhanger, host reaction or loopable hard stop (+ a comment-keyword CTA if promoting).
 - [ ] Safe zones respected (9:16): captions at 55–75% of frame height; nothing important in the top 12% or bottom 18%.
+- [ ] Premium and clean: one focal subject, full frame, real depth and materials, no crops, overlaps, washed-out tones or empty areas.
+- [ ] Smooth: every move eased; fast moves blurred; no pops, jitter or stalls (checked on 10 fps strips).
+- [ ] Stills were approved before the video render.
+- [ ] Every SFX comes from the client's library (no Mixkit previews, no own picks), and the music comes from the client's BGM folder.
