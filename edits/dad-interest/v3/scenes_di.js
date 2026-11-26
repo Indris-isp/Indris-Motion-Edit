@@ -142,7 +142,7 @@ Object.assign(SCENES, {
   // studio table: the $20 she lends slides across to dad, then the $5 interest drops on top. V12 type: grey run-ins + gold extruded keyword.
   deal() {
     const { st, sc, cam } = studioTable({ focus: 13, aperture: 50 });
-    const b20 = billMesh(20, sc), b5 = billMesh(5, sc);
+    const b20 = billMesh(20, sc), b5 = billMesh(5, sc); b20.scale.setScalar(0.8); b5.scale.setScalar(0.8);
     const coins = [];
     const coinM = new THREE.MeshStandardMaterial({ color: 0xd9b25a, metalness: 1, roughness: 0.32 });
     for (let i = 0; i < 5; i++) { const c = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.07, 48), coinM); c.castShadow = c.receiveShadow = true; sc.add(c); coins.push(c); }
@@ -157,12 +157,12 @@ Object.assign(SCENES, {
       cam.position.set(lerp(0.3, -0.15, t / DUR), lerp(8.6, 7.9, t / DUR), 5.0); cam.lookAt(0.15, 0, 0.75);
       st.dofU && (st.dofU.focus.value = cam.position.distanceTo(new THREE.Vector3(0.15, 0, 0.75)));
       const u = eo((t + 0.25) / 0.7);
-      b20.position.set(lerp(6.5, -0.2, u), 0.02 + 0.5 * (1 - u) * (1 - u), lerp(1.8, 0.9, u)); b20.rotation.set(0, lerp(-0.6, -0.08, u), 0);
+      b20.position.set(lerp(6.5, 0.1, u), 0.02 + 0.5 * (1 - u) * (1 - u), lerp(1.8, 0.9, u)); b20.rotation.set(0, lerp(-0.6, -0.08, u), 0);
       const v = eo((t - (t5 - 0.22)) / 0.36), bounce = 0.12 * Math.sin(Math.PI * clamp((t - t5 + 0.22 - 0.36) / 0.18));
-      b5.visible = v > 0; b5.position.set(lerp(-4.5, 0.25, v), 0.05 + 2.4 * (1 - v) * (1 - v) + Math.max(0, bounce), lerp(-2.2, 0.45, v)); b5.rotation.set(0, lerp(0.9, 0.22, v), 0);
+      b5.visible = v > 0; b5.position.set(lerp(-4.5, 0.35, v), 0.05 + 2.4 * (1 - v) * (1 - v) + Math.max(0, bounce), lerp(-2.2, 0.45, v)); b5.rotation.set(0, lerp(0.9, 0.22, v), 0);
       coins.forEach((c, i) => {
         const k = eo((t - (tI - 0.15) - i * 0.07) / 0.4);
-        c.visible = k > 0; c.position.set(0.72 + 0.08 * i * Math.cos(i), 0.04 + 0.075 * i + 3 * (1 - k) * (1 - k), 1.35 + 0.05 * Math.sin(i * 2)); c.rotation.set(0.15 * (1 - k), 0, 0.1 * (1 - k));
+        c.visible = k > 0; c.position.set(0.95 + 0.06 * i * Math.cos(i), 0.04 + 0.075 * i + 3 * (1 - k) * (1 - k), 1.35 + 0.05 * Math.sin(i * 2)); c.rotation.set(0.15 * (1 - k), 0, 0.1 * (1 - k));
       });
       st.render(sc, cam);
       r1(t); r2(t);
@@ -269,7 +269,7 @@ Object.assign(SCENES, {
       const s = eo((t - (tRan + 0.2)) / 0.4);
       sticky.visible = s > 0; sticky.position.set(lerp(-6, -1.25, s), 0.04, 3.05); sticky.rotation.set(0, lerp(-0.6, 0.18, s), 0);
       const p = eio(t / DUR);
-      cam.position.set(0.1, lerp(14.4, 12.6, p), lerp(0.35, 0.15, p)); cam.lookAt(0.1, 0, lerp(0.34, 0.14, p));
+      cam.position.set(0.1, lerp(15.6, 14.2, p), lerp(1.55, 1.35, p)); cam.lookAt(0.1, 0, lerp(1.54, 1.34, p));
       if (st.dofU) st.dofU.focus.value = cam.position.y;
       st.render(sc, cam);
     };
@@ -331,7 +331,7 @@ function ledgerScene(stage) {
     const shake = m3 > 0 && m3 < 0.5 ? 0.04 * Math.sin(m3 * 60) * (1 - m3 / 0.5) : 0;
     const p = eio(t / DUR);
     const z0 = stage === 2 ? 0.55 : stage === 4 ? 0.9 : 0.2;                // frame the line being written
-    cam.position.set(0.1 + shake, lerp(13.8, 12.4, p), z0 + 0.01 + shake); cam.lookAt(0.1, 0, z0);
+    cam.position.set(0.1 + shake, lerp(15.4, 14.2, p), z0 + 1.25 + shake); cam.lookAt(0.1, 0, z0 + 1.24);
     if (st.dofU) st.dofU.focus.value = cam.position.y;
     st.render(sc, cam);
   };
@@ -353,10 +353,10 @@ function rotoText(text, word, { size = 420, top = 250, count = null, letters = f
   };
 }
 Object.assign(SCENES, {
-  r20a: () => rotoText('$20', '20', { count: '$20' }),
-  r15: () => rotoText('15', '15', { size: 520, top: 200, count: '15' }),
-  r20b: () => rotoText('$20', '20'),
-  rent: () => rotoText('ENTREPRENEURSHIP', 'entrepreneurship', { size: 150, top: 330, letters: true }),
+  r20a: () => rotoText('$20', '20', { size: 360, top: 70, count: '$20' }),
+  r15: () => rotoText('15', '15', { size: 400, top: 60, count: '15' }),
+  r20b: () => rotoText('$20', '20', { size: 360, top: 70 }),
+  rent: () => rotoText('ENTREPRENEURSHIP', 'entrepreneurship', { size: 116, top: 250, letters: true }),
 
   // ------------------------------------------------------------------ house captions over the A-roll (whole timeline; python decides where they show)
   // Medium + Bold pair: Inter run-ins, gold serif-italic keyword (red for negatives), word-by-word rise-in, blur exit.
