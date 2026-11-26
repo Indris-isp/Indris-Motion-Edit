@@ -35,8 +35,14 @@ W, H = 1080, 1920
 FPS_N, FPS_D = 24000, 1001
 FPS = FPS_N / FPS_D
 SW, SH = 1920, 1080
-GOLD = (243, 214, 160)
+GOLD = (243, 214, 160)                # the one accent (palette A); DI_ACCENT=#rrggbb swaps it for the palette mock-ups
 GOLD_DEEP = (214, 160, 84)
+GOLD_HI = (255, 226, 172)
+if os.environ.get('DI_ACCENT'):
+    _h = os.environ['DI_ACCENT'].lstrip('#')
+    GOLD = tuple(int(_h[i:i + 2], 16) for i in (0, 2, 4))
+    GOLD_DEEP = tuple(int(c * 0.80) for c in GOLD)
+    GOLD_HI = tuple(min(255, int(c + (255 - c) * 0.35)) for c in GOLD)
 RED = (255, 84, 70)
 INK = (36, 32, 44)
 INK_GOLD = (168, 118, 40)
@@ -299,7 +305,7 @@ def pill(text, size=64, gold=True):
         glow = Image.new('L', im.size, 0); ImageDraw.Draw(glow).rounded_rectangle((pad, pad, pad + pw, pad + ph), ph // 2, fill=120)
         gl = Image.new('RGBA', im.size, GOLD + (0,)); gl.putalpha(glow.filter(ImageFilter.GaussianBlur(18))); im.alpha_composite(gl)
         grad = np.linspace(0, 1, ph)[:, None, None]
-        body = (np.array([255, 226, 172]) * (1 - grad) + np.array(GOLD_DEEP) * grad) * np.ones((ph, pw, 1))
+        body = (np.array(GOLD_HI) * (1 - grad) + np.array(GOLD_DEEP) * grad) * np.ones((ph, pw, 1))
         im.paste(Image.fromarray(body.astype(np.uint8)), (pad, pad), bm)
         ImageDraw.Draw(im).text((pad + pw / 2, pad + ph / 2 + 2), text, font=fnt, anchor='mm', fill=(26, 18, 10))
     else:
@@ -527,7 +533,7 @@ CAL_PAPER = paper(CAL_W, CAL_H, 7)
 _cm = card_mask(CAL_W, CAL_H, 26)[0]
 _d = ImageDraw.Draw(CAL_PAPER)
 _grad = np.linspace(0, 1, 160)[:, None, None]
-_band = (np.array([255, 226, 172]) * (1 - _grad) + np.array(GOLD_DEEP) * _grad) * np.ones((160, CAL_W, 1))
+_band = (np.array(GOLD_HI) * (1 - _grad) + np.array(GOLD_DEEP) * _grad) * np.ones((160, CAL_W, 1))
 CAL_PAPER.paste(Image.fromarray(_band.astype(np.uint8)), (0, 0))
 _d.text((CAL_W / 2, 64), 'THIS MONTH', font=font('Inter-800.ttf', 58), anchor='mm', fill=(30, 20, 10))
 _d.text((CAL_W / 2, 120), 'allowance day: the 1st', font=font('Inter-500.ttf', 30), anchor='mm', fill=(70, 48, 20))

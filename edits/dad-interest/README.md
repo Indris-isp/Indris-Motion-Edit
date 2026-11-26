@@ -2,6 +2,8 @@
 
 **Source:** the full 47:12 episode (Drive file `1yO6GsFf0sDL7B1vzwFWKxOwka8DyxnJD`, 1920×1080, 23.976 fps, three cameras). Only the 124 s excerpt this clip uses is kept in the repo: `src/excerpt_725-849.mp4` + `src/excerpt_audio.flac`, source 12:05–14:09.
 
+**Planning page (artifact):** https://claude.ai/artifact/9k7ohihvtaaCFs4rxnpKi8 (source `plan_page/`, media from `plan_page/build.py`). For each of the 30 beats the client keeps the proposal, picks an alternative, or writes their own idea with reference images, next to the transcript and the raw cut. Choices are saved in the page's database (`plan/b01`…`plan/b30`, `plan/general`, `settings/look`).
+
 **Status: stills approval gate (skill §7b).** The stills boards `out/stills_board_1.jpg` to `out/stills_board_3.jpg` (made by `python3 make_board.py`, full-resolution frames in `out/stills/`) are waiting for the client's approval. The video has **not** been rendered yet. Once approved, `python3 edit.py` writes `out/dad_interest_premium_1080x1920.mp4` (1080×1920, 23.976 fps, 61.6 s, −14 LUFS).
 
 ```bash

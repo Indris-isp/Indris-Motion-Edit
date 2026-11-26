@@ -1,0 +1,407 @@
+<title>Dad Interest Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an edit-suite worksheet. One row per beat: your choice + notes + references on the left, the transcript on the right; the raw cut sits in a player docked on the right edge. Single dark look, matched to the edit's walnut-and-gold world. */
+:root{
+  --bg:#120F0D; --panel:#1B1714; --panel-2:#241F1B; --line:#342C26; --fg:#F2ECE4; --muted:#A99D92; --faint:#76695F;
+  --accent:#F0CF93; --accent-ink:#2A1C0A; --wood:#5E3B22; --neg:#FF5446; --ok:#86D49A; --warm:#E8A15A;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r:12px; --pw:250px;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{background:var(--bg);color:var(--fg)}
+body{font-family:var(--body);font-size:15px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+@media (min-width:1240px){ body{padding-right:calc(var(--pw) + 48px + env(safe-area-inset-right,0px))} }
+.wrap{max-width:1180px;margin:0 auto}
+header.top{padding-block:28px 18px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(40px,6vw,64px);line-height:1;margin:6px 0 8px;text-wrap:balance}
+h1 b{font-weight:400;color:var(--accent)}
+.lede{color:var(--muted);max-width:64ch;margin:0}
+.side{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.status{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:6px 12px;border:1px solid var(--line);border-radius:999px;white-space:nowrap}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.status[data-s="saved"] i{background:var(--ok)} .status[data-s="saving"] i{background:var(--warm)} .status[data-s="error"] i{background:var(--neg)} .status[data-s="local"] i{background:var(--warm)}
+.progress{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.progress b{color:var(--fg);font-weight:600}
+h2{font-size:13px;font-family:var(--mono);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+section{padding-block:26px 6px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.sec-head p{margin:0;color:var(--faint);font-size:13px}
+/* palettes */
+.measured{display:flex;flex-wrap:wrap;gap:8px 16px;margin:0 0 16px;font-size:13px;color:var(--muted)}
+.measured span{display:inline-flex;align-items:center;gap:6px}
+.chip{width:14px;height:14px;border-radius:4px;display:inline-block;border:1px solid #ffffff22}
+.pals{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.pal{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pal[aria-checked="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.pal h3{margin:0;font-size:16px;font-weight:600}
+.pal p{margin:0;color:var(--muted);font-size:13px}
+.sw{display:flex;gap:6px}
+.sw div{flex:1;min-width:0}
+.sw b{display:block;height:30px;border-radius:8px;border:1px solid #ffffff1f}
+.sw span{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pal img{width:100%;max-width:100%;border-radius:8px;display:block;aspect-ratio:810/480;object-fit:cover;cursor:zoom-in}
+.pick{align-self:flex-start;font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer}
+.pal[aria-checked="true"] .pick{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* plan grid */
+.cols{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;padding-block:14px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.row.now .script{border-color:var(--accent)}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:12px;min-width:0;outline:none}
+.plan.drag{border-color:var(--accent);background:#F0CF9312}
+.plan:focus-within{border-color:#F0CF9388}
+.plan[data-pick] {border-left:3px solid var(--accent)}
+.prop{display:grid;grid-template-columns:84px minmax(0,1fr);gap:12px;align-items:start}
+.prop img{width:84px;max-width:100%;aspect-ratio:9/16;border-radius:6px;object-fit:cover;display:block;background:var(--panel-2);cursor:zoom-in}
+.prop h3{margin:0 0 4px;font-size:14px;font-weight:600;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.prop h3 small{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase}
+.prop p{margin:0;font-size:13px;color:var(--muted)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer;text-align:left;line-height:1.3}
+.opt:hover{border-color:#F0CF9377}
+.opt[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.opt.keep[aria-checked="true"]{background:var(--ok);border-color:var(--ok);color:#0D2414}
+textarea{width:100%;min-height:74px;resize:vertical;box-sizing:border-box;background:var(--panel-2);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;line-height:1.5}
+textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+textarea::placeholder{color:var(--faint)}
+.tray{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.thumb{position:relative;width:84px;height:84px;border-radius:8px;overflow:hidden;background:var(--panel-2);border:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.thumb .x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:#000000b3;color:#fff;font-size:15px;line-height:24px;cursor:pointer;padding:0}
+.thumb .confirm{position:absolute;inset:0;background:#120F0De6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:12px}
+.thumb .confirm div{display:flex;gap:6px}
+.thumb .confirm button{font:inherit;font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer}
+.thumb .confirm button.del{background:var(--neg);border-color:var(--neg);color:#fff}
+.thumb.loading::after{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin 0.8s linear infinite}
+.thumb.missing{display:grid;place-items:center;color:var(--faint);font-size:11px;text-align:center;padding:6px;box-sizing:border-box}
+@keyframes spin{to{transform:rotate(360deg)}}
+.add{display:inline-flex;align-items:center;gap:8px;height:84px;padding:0 14px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer;background:none;font-family:inherit;text-align:left;line-height:1.35}
+.add:hover,.add:focus-visible{border-color:var(--accent);color:var(--fg)}
+.add kbd{font-family:var(--mono);font-size:11px;padding:1px 5px;border:1px solid var(--line);border-radius:4px;color:var(--fg)}
+.note{font-size:12px;color:var(--faint)}
+.err{font-size:12px;color:var(--neg)}
+.err:empty{display:none}
+.script{background:transparent;border:1px solid var(--line);border-radius:var(--r);padding:12px;min-width:0;align-self:start}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px}
+.tc{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--fg)}
+.who{padding:1px 8px;border-radius:999px;border:1px solid var(--line)}
+.who.host{color:var(--warm);border-color:#E8A15A55}
+.who.scene{color:var(--accent);border-color:#F0CF9355}
+.line{font-size:18px;line-height:1.45;margin:0}
+.line .w{border-radius:3px;transition:background .12s,color .12s}
+.line .w.on{background:var(--accent);color:var(--accent-ink)}
+.play{font:inherit;font-size:12px;font-weight:600;color:var(--accent);background:none;border:1px solid #F0CF9355;border-radius:999px;padding:2px 10px;cursor:pointer}
+.play:hover,.play:focus-visible{background:#F0CF931a}
+.general .plan{border-left:1px solid var(--line)}
+.general .line{font-size:15px;color:var(--muted)}
+/* player: docked on the right edge (wide screens) or as a mini player (narrow) */
+.player{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 40px #0009;width:188px}
+.player h2{margin:2px 2px 8px}
+.player video{width:100%;aspect-ratio:9/16;border-radius:8px;display:block;background:#000}
+.player .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted)}
+.player button{font:inherit;font-size:12px;color:var(--fg);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;cursor:pointer}
+.player .cap{font-size:14px;line-height:1.4;margin-top:8px;min-height:40px;color:var(--fg)}
+.player .cap span.on{color:var(--accent)}
+.player.min video,.player.min .cap,.player.min h2{display:none}
+.player.min{width:auto}
+@media (min-width:1240px){
+  .player{top:calc(24px + env(safe-area-inset-top,0px));bottom:auto;width:var(--pw);padding:12px}
+  .player #pmin{display:none}
+}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:30;background:#000000e0;display:grid;place-items:center;padding:24px}
+.lb img{max-width:100%;max-height:100%;border-radius:8px}
+button:focus-visible,.pick:focus-visible,.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:760px){
+  .cols{display:none}
+  .row{grid-template-columns:1fr}
+  .row .script{order:-1}
+  .player{width:132px}
+  .line{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Talk About It · Toya Simone · 12:07–14:06 · cut 1:01.6</div>
+      <h1>At 15, she charged her dad <b>interest</b></h1>
+      <p class="lede">Choose what happens on every beat. Each row shows my proposal; keep it, pick an alternative, or describe your own and drop reference images in. The transcript is on the right, and the raw cut plays beside it. Everything saves on its own.</p>
+    </div>
+    <div class="side">
+      <div class="status" id="status" data-s="idle" role="status"><i></i><span>Connecting…</span></div>
+      <div class="progress" id="progress"></div>
+    </div>
+  </header>
+
+  <section aria-labelledby="look-h">
+    <div class="sec-head"><h2 id="look-h">Look: accent colour</h2><p>Measured from the footage. Pick one; it saves with the plan.</p></div>
+    <div class="measured" id="measured"></div>
+    <div class="pals" id="pals" role="radiogroup" aria-label="Accent colour"></div>
+  </section>
+
+  <section aria-labelledby="plan-h">
+    <div class="sec-head"><h2 id="plan-h">Beats</h2><p>Click a beat, then press <span class="tc">Ctrl/⌘ V</span> to paste a reference image into it.</p></div>
+    <div class="cols" aria-hidden="true"><h2>Your choice</h2><h2>Transcript</h2></div>
+    <div id="rows"></div>
+  </section>
+</div>
+
+<aside class="player" id="player" aria-label="Raw cut">
+  <h2>Raw cut</h2>
+  <video id="vid" src="raw-cut.mp4" playsinline controls preload="metadata"></video>
+  <div class="bar"><span class="tc" id="ptc">0:00.0</span><span id="pbeat"></span><button type="button" id="pmin">Hide</button></div>
+  <div class="cap" id="pcap" aria-live="off"></div>
+</aside>
+<div class="lb" id="lb" hidden><img id="lbimg" alt=""></div>
+<input type="file" id="file" accept="image/png,image/jpeg,image/gif,image/webp" multiple hidden>
+
+<script>
+const SCRIPT = [{"id": "b01", "t0": 0.0, "t1": 1.85, "src": 784.15, "scene": "Hook card", "angle": "card", "speaker": "Guest", "words": [[0.0, "I'm"], [0.23, "gonna"], [0.33, "give"], [0.53, "you"], [0.69, "$20"], [1.07, "but"]], "proposal": "Speaker in a rounded card under the title \"At 15, she charged her own dad interest\". Giant white $20 counts up and lands on \"20\".", "alts": ["Full-screen speaker + giant $20", "Title only, no number"]}, {"id": "b02", "t0": 1.85, "t1": 4.45, "src": 786.0, "scene": "Hook punch-in", "angle": "card", "speaker": "Guest", "words": [[1.85, "you"], [2.01, "gotta"], [2.23, "pay"], [2.43, "me"], [2.63, "back"], [2.85, "with"], [3.07, "$5"], [3.61, "interest"]], "proposal": "Punch-in inside the card. Gold \"+$5\" slams in on \"$5\"; INTEREST assembles letter by letter.", "alts": ["Cut to the loan book early", "Speaker only"]}, {"id": "b03", "t0": 4.45, "t1": 6.15, "src": 789.56, "scene": "Host reaction", "angle": "HOST", "speaker": "Host", "words": [[4.59, "Wow"], [5.07, "I"], [5.33, "like"], [5.53, "that"]], "proposal": "Host on camera: \"Wow, I like that\". Gold keyword THAT.", "alts": ["Audio only over the guest", "Cut it"]}, {"id": "b04", "t0": 6.15, "t1": 7.64, "src": 727.17, "scene": "Giant number", "angle": "GUEST", "speaker": "Guest", "words": [[6.15, "when"], [6.82, "I"], [6.9, "was"], [7.12, "15"]], "proposal": "Guest wide. Gold 15 counts up on \"15\".", "alts": ["Text behind her: \"AGE 15\"", "Speaker + captions"]}, {"id": "b05", "t0": 7.64, "t1": 9.23, "src": 732.36, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[7.64, "my"], [7.9, "dad"], [8.24, "he"], [8.46, "would"], [8.58, "give"], [8.8, "me"]], "proposal": "Guest MCU, keyword DAD.", "alts": ["Old-photo card of a dad and daughter (AI)", "Speaker + captions"]}, {"id": "b06", "t0": 9.23, "t1": 12.77, "src": 735.14, "scene": "Tags on the desk", "angle": "spend", "speaker": "Guest", "words": [[9.23, "allowance"], [10.01, "I"], [10.37, "wasn't"], [10.77, "into"], [11.09, "shopping"], [11.73, "I"], [11.89, "would"], [12.01, "just"], [12.17, "buy"], [12.39, "books"]], "proposal": "Walnut desk: gold ALLOWANCE tag, SHOPPING tag struck in red, gold BOOKS tag.", "alts": ["Stack of books + cash (3D/AI scene)", "Speaker + tags over her"]}, {"id": "b07", "t0": 12.77, "t1": 14.99, "src": 744.08, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[12.77, "therefore"], [13.49, "I"], [13.75, "saved"], [13.93, "most"], [14.25, "of"], [14.45, "my"], [14.63, "money"]], "proposal": "Guest wide, keyword SAVED.", "alts": ["Piggy bank / savings jar scene (AI)", "Count-up of savings"]}, {"id": "b08", "t0": 14.99, "t1": 18.11, "src": 746.3, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[14.99, "when"], [15.71, "my"], [16.31, "friends"], [16.85, "and"], [17.39, "my"], [17.73, "family"]], "proposal": "Guest MCU, keywords FRIENDS, FAMILY.", "alts": ["Group of friends B-roll (AI)", "Speaker + captions"]}, {"id": "b09", "t0": 18.11, "t1": 21.71, "src": 749.42, "scene": "Calendar on the desk", "angle": "calendar", "speaker": "Guest", "words": [[18.11, "they"], [18.83, "ran"], [19.55, "out"], [19.77, "of"], [20.01, "money"], [20.41, "in"], [20.93, "the"], [21.07, "middle"], [21.23, "of"], [21.41, "the"], [21.51, "month"]], "proposal": "Calendar: days 1 to 14 cross out in red, the 15th gets a hand-drawn red circle on \"middle\".", "alts": ["Empty wallet scene (AI)", "Speaker + captions"]}, {"id": "b10", "t0": 21.71, "t1": 23.89, "src": 753.28, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[21.71, "they"], [21.91, "came"], [22.15, "to"], [22.35, "me"], [22.79, "for"], [23.41, "money"]], "proposal": "Guest, keyword MONEY.", "alts": ["Hands reaching for cash (AI)", "Speaker + captions"]}, {"id": "b11", "t0": 23.89, "t1": 25.61, "src": 755.46, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[23.89, "guess"], [24.83, "what"], [25.03, "I"], [25.21, "did"]], "proposal": "Guest CU: \"guess what I DID?\"", "alts": ["Freeze-frame + question mark", "Speaker wide"]}, {"id": "b12", "t0": 25.61, "t1": 26.79, "src": 759.3, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[25.71, "Yeah"], [25.89, "I"], [26.09, "gave"], [26.31, "it"], [26.47, "to"], [26.59, "them"]], "proposal": "Guest wide: \"Yeah, I gave it to them\".", "alts": ["Speaker + captions only", "Straight to the loan book"]}, {"id": "b13", "t0": 26.79, "t1": 28.57, "src": 760.48, "scene": "Loan book 1", "angle": "ledger", "speaker": "Guest", "words": [[26.79, "but"], [26.97, "they"], [27.13, "had"], [27.29, "to"], [27.45, "pay"], [27.67, "interest"]], "proposal": "Loan book opens on the desk: \"Friends & family + interest\" writes on, gold tick.", "alts": ["Receipt printing \"+ interest\"", "Speaker + captions"]}, {"id": "b14", "t0": 28.57, "t1": 29.55, "src": 762.26, "scene": "Host laugh", "angle": "HOST", "speaker": "Host", "words": [], "proposal": "Host laughing (his own camera).", "alts": ["Keep on the guest", "Cut the laugh"]}, {"id": "b15", "t0": 29.55, "t1": 30.5, "src": 769.42, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[29.55, "I"], [29.91, "remember"], [30.19, "my"], [30.45, "dad"]], "proposal": "Guest wide: \"I remember my dad\".", "alts": ["Speaker + captions", "Old-photo card"]}, {"id": "b16", "t0": 30.5, "t1": 32.27, "src": 772.31, "scene": "Knock", "angle": "GUEST", "speaker": "Guest", "words": [[30.5, "he"], [31.17, "knocked"], [31.37, "on"], [31.55, "my"], [31.75, "room"], [31.99, "door"]], "proposal": "Guest punch-in; two shakes on \"knocked\" and \"door\".", "alts": ["Bedroom door scene (AI) with knock shakes", "Speaker + captions"]}, {"id": "b17", "t0": 32.27, "t1": 34.49, "src": 774.08, "scene": "Giant number", "angle": "GUEST", "speaker": "Guest", "words": [[32.27, "he"], [32.47, "said"], [32.75, "Latoya"], [33.47, "I"], [33.79, "need"], [33.99, "$20"]], "proposal": "Guest wide, giant white $20 on \"20\".", "alts": ["Text behind her: \"I NEED $20\"", "Speaker + captions"]}, {"id": "b18", "t0": 34.49, "t1": 36.78, "src": 776.97, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[34.76, "I"], [35.12, "went"], [35.44, "in"], [35.74, "my"], [36.0, "drawer"], [36.34, "and"], [36.6, "I"]], "proposal": "Guest MCU, keyword DRAWER.", "alts": ["Drawer opening with saved cash (AI)", "Speaker + captions"]}, {"id": "b19", "t0": 36.78, "t1": 38.52, "src": 779.26, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[36.78, "started"], [37.08, "counting"], [37.6, "all"], [38.0, "my"], [38.26, "money"]], "proposal": "Guest, keyword COUNTING.", "alts": ["Hands counting bills (AI) with a count-up", "Speaker + captions"]}, {"id": "b20", "t0": 38.52, "t1": 40.65, "src": 781.0, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[38.52, "he"], [38.74, "said"], [38.9, "wait"], [39.14, "you"], [39.54, "still"], [39.8, "have"], [40.06, "all"], [40.26, "those"], [40.48, "money"]], "proposal": "Guest CU: \"he said WAIT, you still have all those MONEY?\"", "alts": ["Split screen: dad / her", "Speaker wide"]}, {"id": "b21", "t0": 40.65, "t1": 41.81, "src": 791.58, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[40.81, "So"], [40.85, "I"], [41.01, "gave"], [41.21, "him"], [41.37, "$20"]], "proposal": "Guest: \"So I gave him $20\".", "alts": ["$20 bill sliding across the desk", "Speaker + captions"]}, {"id": "b22", "t0": 41.81, "t1": 43.75, "src": 792.74, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[41.81, "the"], [42.33, "next"], [42.61, "time"], [42.85, "he"], [43.03, "got"], [43.29, "paid"]], "proposal": "Guest wide, keyword PAID.", "alts": ["Payday calendar / pay stub", "Speaker + captions"]}, {"id": "b23", "t0": 43.75, "t1": 45.31, "src": 794.68, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[43.75, "he's"], [44.61, "giving"], [44.73, "me"], [44.99, "allowance"]], "proposal": "Guest MCU: \"he's giving me allowance\".", "alts": ["Speaker + captions", "Loan book early"]}, {"id": "b24", "t0": 45.31, "t1": 49.66, "src": 796.24, "scene": "Loan book 2", "angle": "ledger", "speaker": "Guest", "words": [[45.31, "I"], [45.63, "said"], [45.87, "daddy"], [46.21, "remember"], [46.55, "you"], [46.73, "owe"], [46.87, "me"], [47.01, "$20"], [47.41, "and"], [47.95, "plus"], [48.25, "$5"], [48.77, "for"], [49.07, "interest"]], "proposal": "Loan book: \"Dad  $20  + $5\" written on as she says each number.", "alts": ["Invoice / IOU note to \"Daddy\"", "Speaker + giant numbers"]}, {"id": "b25", "t0": 49.66, "t1": 52.58, "src": 801.12, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[49.66, "And"], [50.02, "he"], [50.84, "gave"], [51.14, "me"], [51.3, "my"], [51.5, "allowance"], [51.84, "and"], [52.1, "the"], [52.2, "$20"]], "proposal": "Guest wide: \"and he gave me my allowance and the $20\".", "alts": ["Speaker + captions", "Loan book: $20 tick"]}, {"id": "b26", "t0": 52.58, "t1": 54.48, "src": 804.04, "scene": "Loan book 3", "angle": "ledger", "speaker": "Guest", "words": [[52.58, "but"], [52.92, "he"], [53.06, "didn't"], [53.3, "give"], [53.46, "me"], [53.66, "back"], [53.84, "my"], [54.1, "interest"]], "proposal": "Loan book: $20 ticked, \"+ $5\" struck in red with an X; colour turns cold.", "alts": ["Speaker CU + red INTEREST", "Receipt torn up"]}, {"id": "b27", "t0": 54.48, "t1": 55.74, "src": 805.94, "scene": "Punch-in", "angle": "GUEST", "speaker": "Guest", "words": [[54.48, "I'm"], [54.88, "like"], [55.04, "come"], [55.28, "on"]], "proposal": "Guest CU: \"I'm like COME ON\" in red, shake.", "alts": ["Host reaction", "Speaker wide"]}, {"id": "b28", "t0": 55.74, "t1": 58.94, "src": 839.72, "scene": "Loan book 4", "angle": "ledger", "speaker": "Guest", "words": [[55.82, "so"], [56.02, "that"], [56.2, "was"], [56.38, "my"], [56.62, "first"], [57.06, "entrepreneur"], [57.76, "business"]], "proposal": "Gold FIRST BUSINESS · EST. AGE 15 stamp slams onto the loan book.", "alts": ["Business card with her name (AI)", "Speaker + giant FIRST BUSINESS"]}, {"id": "b29", "t0": 58.94, "t1": 60.5, "src": 842.92, "scene": "Speaker", "angle": "GUEST", "speaker": "Guest", "words": [[58.94, "but"], [59.26, "I"], [59.38, "didn't"], [59.74, "know"], [59.88, "it"], [60.06, "was"], [60.22, "called"]], "proposal": "Guest wide: \"but I didn't know it was called\".", "alts": ["Speaker + captions", "Dictionary definition card"]}, {"id": "b30", "t0": 60.5, "t1": 61.64, "src": 844.48, "scene": "Ending", "angle": "GUEST", "speaker": "Guest", "words": [[60.5, "entrepreneurship"]], "proposal": "Guest CU, ENTREPRENEURSHIP assembles letter by letter; 0.35 s fade.", "alts": ["Loop back to the hook", "Add CTA: Comment \"INTEREST\""]}];
+const PALS = {"measured": [["Jacket", "#D8D336"], ["Leopard", "#4B2B1D"], ["Curtain", "#72131B"], ["Host chair", "#0E214B"], ["Couch", "#4A4C4E"]], "negative": "#FF5446", "palettes": [{"id": "A", "name": "Gold & walnut", "why": "Recommended. Warm gold keywords and a walnut desk for the designed scenes. Money, heritage, premium. This is what the stills board shows.", "colors": {"Accent": "#F3D6A0", "Desk": "#5E3B22", "Text": "#F7F2EC"}}, {"id": "B", "name": "Jacket neon", "why": "The accent comes from her neon-yellow jacket, so the captions match her on screen. Louder and more energetic.", "colors": {"Accent": "#E6E24C", "Desk": "#5E3B22", "Text": "#F4F4EE"}}, {"id": "C", "name": "Leopard amber", "why": "A warmer amber from her leopard top. Softer than A and a little more playful.", "colors": {"Accent": "#E8A15A", "Desk": "#5E3B22", "Text": "#F6EEE6"}}]};
+const ROWS = [{id:"general", general:true}].concat(SCRIPT);
+const state = {};             // rowId -> {pick, text, images:[ids]}
+const dirty = new Set(), saving = new Map(), timers = {};
+let db = null, assets = null, activeRow = null, pendingSaves = 0, dbOk = false, look = null, assetsChecked = false;
+const $ = (s, el=document) => el.querySelector(s);
+const fmt = t => `${Math.floor(t/60)}:${(t%60).toFixed(1).padStart(4,"0")}`;
+const LOCAL = "dad-interest-plan-draft";
+const ANGLE = {card:"Guest in a card", GUEST:"Guest cam", HOST:"Host cam", spend:"Designed scene", calendar:"Designed scene", ledger:"Designed scene"};
+
+function setStatus(s, msg){ const el=$("#status"); el.dataset.s=s; el.querySelector("span").textContent=msg; }
+function localSave(){ try{ localStorage.setItem(LOCAL, JSON.stringify(state)); }catch(e){} }
+function localLoad(){ try{ return JSON.parse(localStorage.getItem(LOCAL)||"{}"); }catch(e){ return {}; } }
+function updateProgress(){
+  const n = SCRIPT.filter(r=>state[r.id] && state[r.id].pick).length;
+  const p=$("#progress"); p.textContent=""; const b=document.createElement("b"); b.textContent=`${n} of ${SCRIPT.length}`; p.append(b, " beats decided");
+}
+
+/* ---------- palettes ---------- */
+function renderPalettes(){
+  const m=$("#measured"); m.textContent="";
+  for(const [label,hex] of PALS.measured){ const s=document.createElement("span"); const c=document.createElement("i"); c.className="chip"; c.style.background=hex; s.append(c, `${label} ${hex}`); m.append(s); }
+  const box=$("#pals"); box.textContent="";
+  for(const p of PALS.palettes){
+    const card=document.createElement("div"); card.className="pal"; card.setAttribute("role","radio"); card.setAttribute("aria-checked", String(look===p.id));
+    const h=document.createElement("h3"); h.textContent=`${p.id} · ${p.name}`;
+    const d=document.createElement("p"); d.textContent=p.why;
+    const sw=document.createElement("div"); sw.className="sw";
+    for(const [role,hex] of Object.entries(p.colors).concat([["Negative",PALS.negative]])){ const c=document.createElement("div"); const b=document.createElement("b"); b.style.background=hex; const s=document.createElement("span"); s.textContent=`${role} ${hex}`; c.append(b,s); sw.append(c); }
+    const img=document.createElement("img"); img.src=`mock_${p.id}.jpg`; img.alt=`Palette ${p.name} on three frames of the edit`; img.loading="lazy"; img.onclick=()=>zoom(img.src);
+    const btn=document.createElement("button"); btn.type="button"; btn.className="pick"; btn.textContent= look===p.id ? "Selected" : "Use this colour";
+    btn.onclick=()=>chooseLook(p.id);
+    card.append(h,d,sw,img,btn); box.append(card);
+  }
+}
+async function chooseLook(id){
+  look=id; renderPalettes();
+  if(!db){ setStatus("local","Saved in this browser only"); try{localStorage.setItem(LOCAL+"-look",id)}catch(e){} return; }
+  try{ setStatus("saving","Saving…"); await db.doc("settings/look").set({palette:id}); setStatus("saved","All changes saved"); }
+  catch(e){ setStatus("error","Couldn't save the colour. Try again."); }
+}
+function zoom(src){ $("#lbimg").src=src; $("#lb").hidden=false; }
+
+/* ---------- rows ---------- */
+function pickOptions(r){ return [["keep","Keep my proposal"]].concat(r.alts.map((a,i)=>["alt"+(i+1),a])).concat([["own","My own idea (describe below)"]]); }
+function renderPick(r){
+  const box=$("#opts-"+r.id); if(!box) return; box.textContent="";
+  const cur=(state[r.id]&&state[r.id].pick)||"";
+  for(const [val,label] of pickOptions(r)){
+    const b=document.createElement("button"); b.type="button"; b.className="opt"+(val==="keep"?" keep":""); b.textContent=label;
+    b.setAttribute("role","radio"); b.setAttribute("aria-checked", String(cur===val));
+    b.onclick=()=>{ const st=ensure(r.id); st.pick = st.pick===val ? "" : val; renderPick(r); updateProgress(); queueSave(r.id,true); if(val==="own") $("#ta-"+r.id).focus(); };
+    box.append(b);
+  }
+  const plan=$("#plan-"+r.id); if(cur) plan.dataset.pick=cur; else delete plan.dataset.pick;
+}
+function renderRows(){
+  const box=$("#rows"); box.textContent="";
+  for(const r of ROWS){
+    const row=document.createElement("div"); row.className="row"+(r.general?" general":""); row.id="row-"+r.id;
+    const plan=document.createElement("div"); plan.className="plan"; plan.id="plan-"+r.id; plan.tabIndex=-1;
+    if(!r.general){
+      const prop=document.createElement("div"); prop.className="prop";
+      const img=document.createElement("img"); img.src=`thumbs/${r.id}.jpg`; img.alt=`Proposal for beat ${+r.id.slice(1)}`; img.loading="lazy"; img.onclick=()=>zoom(img.src);
+      const tx=document.createElement("div");
+      const h=document.createElement("h3"); const sm=document.createElement("small"); sm.textContent=`Beat ${+r.id.slice(1)}`; h.append(sm, r.scene);
+      const p=document.createElement("p"); p.textContent=r.proposal;
+      tx.append(h,p); prop.append(img,tx); plan.append(prop);
+      const opts=document.createElement("div"); opts.className="opts"; opts.id="opts-"+r.id; opts.setAttribute("role","radiogroup"); opts.setAttribute("aria-label",`Choice for beat ${+r.id.slice(1)}`);
+      plan.append(opts);
+    }
+    const ta=document.createElement("textarea"); ta.id="ta-"+r.id;
+    ta.setAttribute("aria-label", r.general ? "Notes for the whole video" : `Your notes for beat ${+r.id.slice(1)}`);
+    ta.placeholder = r.general ? "Notes for the whole video: overall feel, pacing, music, references…" : "Your notes: what you want instead, or what to change…";
+    ta.value=(state[r.id]&&state[r.id].text)||"";
+    ta.addEventListener("input",()=>{ ensure(r.id).text=ta.value; queueSave(r.id); });
+    const tray=document.createElement("div"); tray.className="tray"; tray.id="tray-"+r.id;
+    const msg=document.createElement("div"); msg.className="err"; msg.id="err-"+r.id;
+    plan.append(ta,tray,msg);
+    plan.addEventListener("focusin",()=>activeRow=r.id); plan.addEventListener("pointerdown",()=>activeRow=r.id);
+    plan.addEventListener("dragover",e=>{ if(!assets) return; e.preventDefault(); plan.classList.add("drag"); });
+    plan.addEventListener("dragleave",()=>plan.classList.remove("drag"));
+    plan.addEventListener("drop",e=>{ plan.classList.remove("drag"); if(!assets) return; e.preventDefault(); addFiles(r.id,[...e.dataTransfer.files]); });
+
+    const sc=document.createElement("div"); sc.className="script";
+    const meta=document.createElement("div"); meta.className="meta";
+    if(r.general){
+      const w=document.createElement("span"); w.className="who"; w.textContent="Whole video"; meta.append(w);
+      const p=document.createElement("p"); p.className="line"; p.textContent="Direction that applies to every beat: pacing, music, sound, references. The hook (her $20 + $5 line) plays first, then the host's reaction, then the story from the start.";
+      sc.append(meta,p);
+    } else {
+      const tc=document.createElement("span"); tc.className="tc"; tc.textContent=`${fmt(r.t0)}–${fmt(r.t1)}`;
+      const who=document.createElement("span"); who.className="who"+(r.speaker==="Host"?" host":""); who.textContent=r.speaker;
+      const ang=document.createElement("span"); const a=ANGLE[r.angle]||r.angle; ang.className= a==="Designed scene" ? "who scene" : ""; ang.textContent=a;
+      const play=document.createElement("button"); play.type="button"; play.className="play"; play.textContent="▶ Play"; play.setAttribute("aria-label",`Play beat ${+r.id.slice(1)} from ${fmt(r.t0)}`);
+      play.onclick=()=>playFrom(r.t0);
+      meta.append(tc,who,ang,play);
+      const p=document.createElement("p"); p.className="line";
+      if(!r.words.length){ p.textContent="(laughter)"; p.style.color="var(--muted)"; }
+      r.words.forEach(([t,w],i)=>{ const s=document.createElement("span"); s.className="w"; s.dataset.t=t; s.textContent=w; p.append(s); if(i<r.words.length-1) p.append(" "); });
+      sc.append(meta,p);
+    }
+    row.append(plan,sc); box.append(row);
+    if(!r.general) renderPick(r);
+    renderTray(r.id);
+  }
+  updateProgress();
+}
+function ensure(id){ return state[id] || (state[id]={pick:"",text:"",images:[]}); }
+function renderTray(id){
+  const tray=$("#tray-"+id); if(!tray) return; tray.textContent="";
+  for(const aid of (state[id]&&state[id].images)||[]) tray.append(thumb(id,aid));
+  if(assets){
+    const add=document.createElement("button"); add.type="button"; add.className="add";
+    const t=document.createElement("span"); t.innerHTML="Add reference<br><span class=\"note\">or paste <kbd>⌘V</kbd> / drop here</span>";
+    add.append(t); add.onclick=()=>{ activeRow=id; $("#file").click(); };
+    tray.append(add);
+  } else if(assetsChecked){
+    const n=document.createElement("span"); n.className="note"; n.textContent="Reference images can be added by people who can edit this page.";
+    tray.append(n);
+  }
+}
+function thumb(rowId, aid, loadingUrl){
+  const t=document.createElement("div"); t.className="thumb";
+  const img=document.createElement("img"); img.alt="Reference image"; img.src = loadingUrl || ("/_blob/"+aid);
+  img.onerror=()=>{ t.classList.add("missing"); t.textContent="Image unavailable"; };
+  img.onclick=()=>zoom(img.src);
+  t.append(img);
+  if(assets && aid){
+    const x=document.createElement("button"); x.type="button"; x.className="x"; x.textContent="×"; x.setAttribute("aria-label","Remove image");
+    x.onclick=()=>{
+      const c=document.createElement("div"); c.className="confirm"; const q=document.createElement("span"); q.textContent="Remove?";
+      const bb=document.createElement("div"); const yes=document.createElement("button"); yes.className="del"; yes.type="button"; yes.textContent="Remove";
+      const no=document.createElement("button"); no.type="button"; no.textContent="Keep"; no.onclick=()=>c.remove();
+      yes.onclick=()=>removeImage(rowId,aid); bb.append(yes,no); c.append(q,bb); t.append(c); no.focus();
+    };
+    t.append(x);
+  }
+  return t;
+}
+
+/* ---------- images ---------- */
+const ERR={too_large:"That image is over 20 MB. Use a smaller file.",unsupported_type:"Use a PNG, JPG, GIF or WebP image.",quota_or_state:"Image storage for this page is full.",rate_limited:"Too many uploads at once. Wait a moment and try again.",not_granted:"Only people who can edit this page can add images.",upstream_auth:"Sign in again to add images."};
+async function addFiles(id, files){
+  const imgs=files.filter(f=>/^image\/(png|jpeg|gif|webp)$/.test(f.type));
+  const err=$("#err-"+id); err.textContent= files.length && !imgs.length ? ERR.unsupported_type : "";
+  for(const f of imgs){
+    const tray=$("#tray-"+id); const ph=thumb(id,null,URL.createObjectURL(f)); ph.classList.add("loading"); tray.insertBefore(ph, tray.lastChild);
+    try{
+      const res=await assets.upload(f);
+      ensure(id).images.push(res.id); renderTray(id); queueSave(id, true);
+    }catch(e){ ph.remove(); err.textContent = ERR[e&&e.code] || "The image didn't upload. Try again."; }
+  }
+}
+async function removeImage(id, aid){
+  const st=ensure(id); st.images=st.images.filter(x=>x!==aid); renderTray(id); queueSave(id,true);
+  const used=Object.values(state).some(s=>(s.images||[]).includes(aid));
+  if(!used){ try{ await assets.delete(aid); }catch(e){} }
+}
+document.addEventListener("paste",e=>{
+  if(!assets) return;
+  const files=[...(e.clipboardData&&e.clipboardData.files||[])].filter(f=>f.type.startsWith("image/"));
+  if(!files.length) return;
+  const id = activeRow || "general";
+  e.preventDefault(); addFiles(id, files);
+  const row=$("#row-"+id); if(row && !row.contains(document.activeElement)) row.scrollIntoView({block:"center",behavior:"smooth"});
+});
+$("#file").addEventListener("change",e=>{ const files=[...e.target.files]; e.target.value=""; if(activeRow) addFiles(activeRow, files); });
+$("#lb").onclick=()=>{ $("#lb").hidden=true; };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("#lb").hidden=true; });
+
+/* ---------- saving ---------- */
+function queueSave(id, now){
+  dirty.add(id); localSave();
+  if(!db){ setStatus("local","Saved in this browser only"); return; }
+  setStatus("saving","Saving…");
+  clearTimeout(timers[id]); timers[id]=setTimeout(()=>flush(id), now?0:700);
+}
+async function flush(id){
+  if(saving.get(id)) { saving.set(id,"again"); return; }
+  saving.set(id,true); dirty.delete(id); pendingSaves++;
+  const s=ensure(id);
+  try{ await db.doc("plan/"+id).set({pick:s.pick||"", text:s.text, images:s.images.slice(), updatedAt:new Date().toISOString()}); $("#err-"+id).textContent=""; }
+  catch(e){ dirty.add(id); $("#err-"+id).textContent = e&&e.code==="quota_exceeded" ? "Storage for this page is full." : "This beat didn't save. Keep going and it will try again."; setStatus("error","Some changes aren't saved"); }
+  pendingSaves--;
+  const again=saving.get(id)==="again"; saving.delete(id);
+  if(again||dirty.has(id)) return flush(id);
+  if(!pendingSaves && !dirty.size) setStatus("saved","All changes saved");
+}
+window.addEventListener("beforeunload",e=>{ if(dirty.size||pendingSaves){ e.preventDefault(); } });
+
+/* ---------- player ---------- */
+const vid=$("#vid");
+function playFrom(t){ $("#player").classList.remove("min"); $("#pmin").textContent="Hide"; vid.currentTime=t+0.01; vid.play().catch(()=>{}); }
+$("#pmin").onclick=()=>{ const p=$("#player"); p.classList.toggle("min"); $("#pmin").textContent=p.classList.contains("min")?"Show raw cut":"Hide"; };
+let lastRow=null;
+vid.addEventListener("timeupdate",()=>{
+  const t=vid.currentTime; $("#ptc").textContent=fmt(t);
+  const r=SCRIPT.find(x=>t>=x.t0 && t<x.t1);
+  if(r!==lastRow){
+    document.querySelectorAll(".row.now").forEach(e=>e.classList.remove("now"));
+    $("#pbeat").textContent = r ? `Beat ${+r.id.slice(1)}` : "";
+    const cap=$("#pcap"); cap.textContent="";
+    if(r){ $("#row-"+r.id).classList.add("now"); r.words.forEach(([wt,w])=>{ const s=document.createElement("span"); s.dataset.t=wt; s.textContent=w+" "; cap.append(s); }); }
+    lastRow=r;
+  }
+  document.querySelectorAll(".w.on,#pcap span.on").forEach(e=>e.classList.remove("on"));
+  if(r && !vid.paused){
+    for(const sel of ["#row-"+r.id+" .w", "#pcap span"]){ let cur=null; for(const w of document.querySelectorAll(sel)){ if(+w.dataset.t<=t+0.05) cur=w; } if(cur) cur.classList.add("on"); }
+  }
+});
+
+/* ---------- boot ---------- */
+function applyRemote(id, data){
+  if(dirty.has(id) || saving.get(id)) return;
+  state[id]={pick: typeof data.pick==="string"?data.pick:"", text:String(data.text||""), images:Array.isArray(data.images)?data.images.filter(x=>typeof x==="string"&&/^[0-9a-f]{32}$/.test(x)):[]};
+  const ta=$("#ta-"+id); if(ta && document.activeElement!==ta) ta.value=state[id].text;
+  const r=SCRIPT.find(x=>x.id===id); if(r) renderPick(r);
+  renderTray(id); updateProgress();
+}
+async function boot(){
+  renderPalettes(); renderRows();
+  if(window.matchMedia && matchMedia('(max-width:1239px)').matches && matchMedia('(max-width:760px)').matches){ $("#player").classList.add("min"); $("#pmin").textContent="Show raw cut"; }
+  const draft=localLoad();
+  const claude=window.claude;
+  if(!claude || !claude.use){ Object.assign(state,draft); renderRows(); setStatus("local","Saved in this browser only"); return; }
+  const [d,a]=await Promise.all([claude.use("db").catch(()=>null), claude.use("assets").catch(()=>null)]);
+  db=d; assets=a; assetsChecked=true;
+  ROWS.forEach(r=>renderTray(r.id));
+  if(!db){ Object.assign(state,draft); renderRows(); setStatus("local","Saved in this browser only"); return; }
+  const timer=setTimeout(()=>{ if(!dbOk) setStatus("error","Can't reach saved choices yet"); },10000);
+  db.collection("plan").onSnapshot(snap=>{
+    if(!snap.metadata.fromCache){ dbOk=true; clearTimeout(timer); if(!dirty.size&&!pendingSaves) setStatus("saved","All changes saved"); }
+    for(const ch of snap.docChanges()){ if(ch.type!=="removed") applyRemote(ch.doc.id, ch.doc.data()||{}); }
+  }, e=>{ clearTimeout(timer); setStatus("error","Saved choices are unavailable right now"); });
+  db.doc("settings/look").onSnapshot(s=>{ const v=s.exists && s.data().palette; if(v && v!==look){ look=v; renderPalettes(); } }, ()=>{});
+}
+boot();
+</script>
