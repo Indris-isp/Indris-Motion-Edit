@@ -5,14 +5,7 @@ This rebuilds the screen animation from the reference reel (`reference/reference
 - **Timing:** every event is placed on the reel's frame, measured from 15 fps contact sheets (`reference/f15_sheet*.png`) and gridded full-res frames (`reference/grid_*.png`). This covers letter pops, echo frames, cuts, orbit steps, words, colour switches and confetti.
 - **Sizes:** measured from the reel. The phone shows about 2.8 screen px per phone px in scenes 1–5 and 3.0 in scenes 6–7 (`reference/track_screen.py` finds the screen).
 - **Smoothness:** each output frame blends 3 sub-frames (180° shutter, `render.cjs --sub 3`), giving the same natural motion blur the reel's camera recorded. Moves in scene 1 hold, then glide over the last 2–3 frames, as the reel's letters and dots do.
-- **Pacing (measured against the reel's frame-to-frame motion):** a slow continuous camera push and drift on the whole screen (`camera()` in `motion.js`), so nothing sits frozen. Transitions are spread over the reel's 4–5 frames with an even ramp (`RAMP`), and entrances have longer, softer ease-out tails.
-- **Transitions (seamless, as in the reel):**
-  - **Meet → logo:** "Meet" slides left into the wordmark's place and swallows the nearest dot. The screen brightens to lavender, the dots become glows, and the wordmark builds where "Meet" landed.
-  - **Logo → orbit:** the mark shatters into pixel blocks (`logo_blocks.js`) and the word smears sideways. The green tile pops in at the centre as the screen dims.
-  - **Orbit → text:** the cluster blooms into a white glow while the screen turns light, and the text's icon appears in place.
-  - **Text → colour screens:** the icon turns lime, then grows and glides into the big tile in 2 frames, while the circle fades in where it sits.
-  - **The last two cuts:** 1–2 frame crossfades, each with a one-frame icon glitch.
-- **Platform switches:** a soft ~3-frame dissolve of the whole screen (background, logo, label and circle tint), and the "···" builds up one dot at a time, matching the reel. The blocky look in the reel is only its video compression.
+- **Transitions:** one ISP tile glides through the whole film with long eased moves (0.6–0.9 s of travel per transition, about 1.3 s into the logo). The logo's blocks stream into the centre and become the tile. The tile glides to the typed line's icon, then grows into the big lime tile as the colour floods out of it. Platforms slide through the slot like a carousel (0.44 s per slide). The tile then glides to the "ISP Agency ✓" icon and lands as the pink "ready" tile. A slow camera push keeps the screen gently moving.
 - **Sound:** the reel's own soundtrack (`out/audio.wav`, extracted from `reference/reference.mp4`). Because the timing matches frame for frame, every click and whoosh lands on its event.
 
 | # | Reel segment | ISP version | Time |
