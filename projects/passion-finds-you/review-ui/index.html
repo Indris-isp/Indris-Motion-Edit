@@ -68,6 +68,16 @@ button,input,textarea,select{font:inherit;color:inherit}
 .head{position:absolute;top:0;bottom:0;width:2px;background:#fff;margin-left:-1px;z-index:3;pointer-events:none}
 .head::before{content:"";position:absolute;top:-6px;left:-5px;border:6px solid transparent;border-top-color:#fff}
 .legend{display:flex;gap:14px;color:var(--ink-3);font-size:11.5px;flex-wrap:wrap}
+.mixer{border:1px solid var(--line-2);background:var(--deck-2);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.mixer h3{margin:0;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.mixer h3 small{font-weight:500;color:var(--ink-3);font-size:11.5px}
+.fader{display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:center;gap:12px}
+.fader label{font-size:12.5px;color:var(--ink-2)}
+.fader input[type=range]{width:100%;accent-color:var(--accent)}
+.fader output{font-family:var(--f-tc);font-size:12.5px;text-align:right}
+.mixrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mixrow .post{margin-left:0}
+.mixnote{font-size:11.5px;color:var(--ink-3)}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 
 /* panel */
@@ -154,6 +164,12 @@ kbd{font:500 11px var(--f-tc);background:var(--deck-2);border:1px solid var(--li
       <div class="head" id="head"></div>
     </div>
     <div class="legend"><span><i style="background:var(--open)"></i>Open correction</span><span><i style="background:var(--done)"></i>Done</span><span><i style="background:#2e4a73"></i>Hero caption</span><span><kbd>Space</kbd> play · <kbd>←</kbd><kbd>→</kbd> frame · <kbd>Shift</kbd> 1 s · <kbd>C</kbd> comment</span></div>
+    <div class="mixer" id="mixer" aria-label="Sound mix">
+      <h3>Sound mix <small id="mixstate">Press play to hear the mix</small></h3>
+      <div class="fader"><label for="musicdb">Music</label><input type="range" id="musicdb" min="-24" max="12" step="0.5" value="0"><output id="musicout" for="musicdb">0.0 dB</output></div>
+      <div class="fader"><label for="voicedb">Voice</label><input type="range" id="voicedb" min="-12" max="6" step="0.5" value="0"><output id="voiceout" for="voicedb">0.0 dB</output></div>
+      <div class="mixrow"><button type="button" class="post" id="savemix">Save mix</button><button type="button" class="ibtn" id="resetmix">Reset</button><button type="button" class="ibtn" id="mutemusic" aria-pressed="false">Mute music</button><span class="mixnote" id="mixsaved">0 dB = the mix in the current render. Saved levels are used for the final render.</span></div>
+    </div>
   </section>
 
   <aside class="panel" aria-label="Corrections">
@@ -380,9 +396,73 @@ document.addEventListener("keydown", e => {
 });
 document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { filter = b.dataset.f; document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b)); renderList(); });
 
+
+/* ---------- sound mix: voice + music stems through Web Audio, synced to the video ---------- */
+const MIX = { musicDb: 0, voiceDb: 0, muted: false };
+let actx = null, bufs = null, gV = null, gM = null, srcs = [], startCtx = 0, startOff = 0, loading = null;
+const dbToGain = d => Math.pow(10, d / 20);
+function applyGains() { if (!gV) return; const t = actx.currentTime; gV.gain.setTargetAtTime(dbToGain(MIX.voiceDb), t, 0.02); gM.gain.setTargetAtTime(MIX.muted ? 0 : dbToGain(MIX.musicDb), t, 0.02); }
+function showMix() {
+  $("#musicdb").value = MIX.musicDb; $("#voicedb").value = MIX.voiceDb;
+  $("#musicout").textContent = (MIX.musicDb > 0 ? "+" : "") + MIX.musicDb.toFixed(1) + " dB";
+  $("#voiceout").textContent = (MIX.voiceDb > 0 ? "+" : "") + MIX.voiceDb.toFixed(1) + " dB";
+  $("#mutemusic").classList.toggle("on", MIX.muted); $("#mutemusic").setAttribute("aria-pressed", MIX.muted);
+}
+async function ensureAudio() {
+  if (bufs) return true;
+  if (loading) return loading;
+  loading = (async () => {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) throw new Error("no webaudio");
+      actx = new AC(); $("#mixstate").textContent = "Loading stems…";
+      const dec = async u => actx.decodeAudioData(await (await fetch(u)).arrayBuffer());
+      const [v, m] = await Promise.all([dec("voice.m4a"), dec("music.m4a")]);
+      bufs = { v, m }; gV = actx.createGain(); gM = actx.createGain(); gV.connect(actx.destination); gM.connect(actx.destination); applyGains();
+      vid.muted = true; $("#mixstate").textContent = "Live mix";
+      return true;
+    } catch (e) { $("#mixstate").textContent = "Live mixing isn't available here, so the video plays its rendered mix."; vid.muted = false; ["musicdb","voicedb","mutemusic"].forEach(id => $("#" + id).disabled = true); return false; }
+  })();
+  return loading;
+}
+function stopStems() { for (const s of srcs) { try { s.stop(); } catch (e) {} } srcs = []; }
+function startStems() {
+  if (!bufs) return; stopStems(); if (actx.state === "suspended") actx.resume();
+  const off = vid.currentTime, when = actx.currentTime + 0.03;
+  for (const [b, g] of [[bufs.v, gV], [bufs.m, gM]]) { const s = actx.createBufferSource(); s.buffer = b; s.playbackRate.value = vid.playbackRate; s.connect(g); if (off < b.duration) s.start(when, off); srcs.push(s); }
+  startCtx = when; startOff = off;
+}
+vid.addEventListener("play", async () => { if (await ensureAudio()) startStems(); });
+vid.addEventListener("pause", stopStems);
+vid.addEventListener("seeking", () => { if (!vid.paused) startStems(); });
+vid.addEventListener("ratechange", () => { if (!vid.paused) startStems(); });
+vid.addEventListener("ended", stopStems);
+setInterval(() => {   // drift guard
+  if (!bufs || vid.paused || !srcs.length) return;
+  const audioPos = startOff + (actx.currentTime - startCtx) * vid.playbackRate;
+  if (Math.abs(audioPos - vid.currentTime) > 0.06) startStems();
+}, 1000);
+$("#musicdb").addEventListener("input", e => { MIX.musicDb = +e.target.value; showMix(); applyGains(); $("#mixsaved").textContent = "Unsaved changes"; });
+$("#voicedb").addEventListener("input", e => { MIX.voiceDb = +e.target.value; showMix(); applyGains(); $("#mixsaved").textContent = "Unsaved changes"; });
+$("#mutemusic").onclick = () => { MIX.muted = !MIX.muted; showMix(); applyGains(); };
+$("#resetmix").onclick = () => { MIX.musicDb = 0; MIX.voiceDb = 0; MIX.muted = false; showMix(); applyGains(); $("#mixsaved").textContent = "Reset to the current render. Save to keep it."; };
+$("#savemix").onclick = async () => {
+  const data = { musicDb: MIX.musicDb, voiceDb: MIX.voiceDb, version: (EDIT && EDIT.version) || "", savedAt: Date.now(), authorId: me || null };
+  if (mode !== "db") { try { localStorage.setItem("pfy-mix", JSON.stringify(data)); } catch (e) {} $("#mixsaved").textContent = "Saved in this browser only"; return; }
+  $("#mixsaved").textContent = "Saving…";
+  try { await db.doc("settings/mix").set(data); $("#mixsaved").textContent = `Saved: music ${data.musicDb >= 0 ? "+" : ""}${data.musicDb} dB, voice ${data.voiceDb >= 0 ? "+" : ""}${data.voiceDb} dB. Ask Claude to render with it.`; }
+  catch (e) { $("#mixsaved").textContent = "Couldn't save. You may have view-only access."; }
+};
+async function loadMix() {
+  let d = null;
+  if (db) { try { const snap = await db.doc("settings/mix").get(); if (snap.exists) d = snap.data(); } catch (e) {} }
+  else { try { d = JSON.parse(localStorage.getItem("pfy-mix") || "null"); } catch (e) {} }
+  if (d && typeof d.musicDb === "number") { MIX.musicDb = d.musicDb; MIX.voiceDb = +d.voiceDb || 0; $("#mixsaved").textContent = `Loaded your saved mix (music ${d.musicDb >= 0 ? "+" : ""}${d.musicDb} dB, voice ${MIX.voiceDb >= 0 ? "+" : ""}${MIX.voiceDb} dB).`; }
+  showMix(); applyGains();
+}
+showMix();
 fetch("edit.json").then(r => r.json()).then(d => {
   EDIT = d; FPS = d.fps; FRAMES = d.frames;
   $("#ver").textContent = d.version; $("#dur").textContent = `${(d.duration / 1000).toFixed(1)} s · ${d.frames.toLocaleString()} frames`;
-  renderAll(); updateTime(); connect();
+  renderAll(); updateTime(); connect().then(loadMix);
 }).catch(() => { sync("The edit data didn't load. Reload the page."); connect(); });
 </script>

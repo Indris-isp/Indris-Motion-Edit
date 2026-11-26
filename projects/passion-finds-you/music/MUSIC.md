@@ -1,20 +1,17 @@
-# Background music (v7)
+# Background music (v8)
 
-**Track:** Hans Zimmer, "Flight" (Man of Steel), from the "Premium bg song" Drive folder.
-**Section:** 1:20.0–1:46.4 of the file, placed from 0:00 to 0:26.4.
+**Track:** Ludwig Göransson, "Can You Hear The Music" (Oppenheimer), from the "Premium bg song" Drive folder (your pick).
+**Section:** 0:10.0–0:36.4 of the file, placed from 0:00 to 0:26.4.
 
-## Why this one
-The reference reel's bed was measured from its music-only moments and from the sub-100 Hz band during speech:
-drumless (beat regularity 0.06–0.16), bass-heavy (53% of energy below 120 Hz), dark (spectral centre about 310 Hz),
-and it grows about 6 dB toward the payoff.
+The whole track is one long crescendo. 0:10–0:36 is the best voice bed: still sparse, a smooth 8 dB rise, no sudden hits
+(steepest 0.1 s step 2.8 dB), and already bass-weighted (51% of energy below 120 Hz).
 
-- No file in the folder is the reference's own track: fingerprinting all 112 files against its end card and breath gave no consistent match.
-- Ranked by profile, then by the best rising 26.4 s window, "Flight" 1:20–1:46 scored highest:
-  centre 305 Hz, 57% below 120 Hz, beat regularity 0.08, a steady 13 dB rise with no sudden hits.
-  Runner-up: the "Skyfall" score (46-72 s), lighter low end and much quieter.
+## Mix (default, 0 dB on the review page faders)
+- -3 dB at 2.5 kHz to leave room for the voice; no bass boost needed.
+- Bed about 18 dB under speech at the start, rising to about 12 dB under by "jump into the water" (75% of the track's own build kept).
+- Ducked 3 dB while she speaks (60 ms attack, 450 ms release). 0.25 s fade-in, 0.6 s fade-out.
+- Mix -15.8 LUFS, true peak -1.5 dBFS (peak-limited by the loudest syllables; stems stay linear so the faders stay exact).
 
-## Mix
-- Low shelf +12 dB at 120 Hz, -3 dB at 2.5 kHz (room for the voice).
-- Bed 10 dB under speech on average, ducked 3 dB while she talks (60 ms attack, 450 ms release).
-- The track's own 13 dB swell halved, so the bed rises about 6 dB toward "jump into the water".
-- 0.25 s fade-in, 0.5 s fade-out. Mastered to -14 LUFS, true peak -1.5 dBFS.
+## Adjusting the level
+The review page has Music and Voice faders that play live with the video. "Save mix" stores the levels in the page;
+the final render applies them as gains on `music_stem` and `voice_stem` (tools/stems.py output).
