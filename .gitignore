@@ -7,3 +7,6 @@ node_modules/
 edits/*/out/audio.wav
 edits/*/out/still_*.png
 __pycache__/
+edits/*/out/part_*.mp4
+edits/*/out/parts.txt
+edits/*/out/log_*.txt
