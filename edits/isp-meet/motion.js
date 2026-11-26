@@ -13,7 +13,7 @@
  */
 'use strict';
 const W = 1920, H = 1080, CX = 960, CY = 540, FPS = 30, FRAMES = 310, DUR = FRAMES / FPS;
-const SEG = { s1: [0, 1.8], s2: [1.78, 2.6], s3: [2.55, 3.8], s4: [3.7, 4.8], s5: [4.77, 7.42], s6: [7.37, 8.37], s7: [8.3, DUR + 1] };
+const SEG = { s1: [0, 1.8], s2: [1.78, 2.6], s3: [2.55, 3.8], s4: [3.7, 4.8], s5: [4.72, 7.42], s6: [7.37, 8.37], s7: [8.3, DUR + 1] };
 window.TIMING = { FPS, DUR, W, H, frames: FRAMES };
 const LOGO = 'logos/isp/isp_logo_black.svg';
 
@@ -31,12 +31,12 @@ const back = p => { if (p <= 0) return 0; if (p >= 1) return 1; const c1 = 1.7, 
 const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 const inWin = (t, a, b) => t >= a && t < b;
 const mix = (a, b, p) => { const h = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16)); const A = h(a), B = h(b); return '#' + A.map((v, i) => Math.round(lerp(v, B[i], p)).toString(16).padStart(2, '0')).join(''); };
-/* keyframes [[t, x, y, o], ...] eased between keys (OUT = quick move, soft landing, like the reel's jumps) */
-function kf(keys, t, f = OUT) {
+/* keyframes [[t, x, y, o], ...] eased in-out between keys */
+function kf(keys, t, f = IO, glide = 0) {
   if (t < keys[0][0]) return { x: keys[0][1], y: keys[0][2], o: 0 };
   for (let i = 0; i < keys.length - 1; i++) {
     const a = keys[i], b = keys[i + 1];
-    if (t <= b[0]) { const p = f(P(t, a[0], b[0])); return { x: lerp(a[1], b[1], p), y: lerp(a[2], b[2], p), o: lerp(a[3], b[3], p) }; }
+    if (t <= b[0]) { const p = f(P(t, glide ? Math.max(a[0], b[0] - glide) : a[0], b[0])); return { x: lerp(a[1], b[1], p), y: lerp(a[2], b[2], p), o: lerp(a[3], b[3], p) }; }
   }
   const z = keys[keys.length - 1]; return { x: z[1], y: z[2], o: z[3] };
 }
@@ -92,6 +92,7 @@ function glyph(name, fill, size) {
 function appIcon(parent, name, size) {
   const t = el('div', parent, 'tile', { width: px(size), height: px(size), background: PLAT[name].bg, left: 0, top: 0 },
     glyph(name, '#fff', Math.round(size * (name === 'youtube' ? .62 : .54))));
+  if (PLAT[name].bg === '#111') t.style.boxShadow = 'inset 0 0 0 2px rgba(255,255,255,.22), inset 0 2px 0 rgba(255,255,255,.25)';
   return t;
 }
 
@@ -103,9 +104,9 @@ const S1 = (() => {
   const FONT = '500 190px Inter', COL = '#D7DFF6';
   const letters = [
     { ch: 'M', keys: [[0, 442, 296, 1], [.67, 442, 296, 1], [.73, 440, 385, 1], [.8, 432, 430, 1], [.93, 428, 478, 1], [1.07, 520, 520, 1], [1.1, 560, 530, 0]], echo: [0, 34] },
-    { ch: 'e', keys: [[.69, 905, 300, 0], [.71, 905, 300, 1], [.8, 960, 262, 1], [.93, 994, 249, 1], [1.07, 905, 330, 1], [1.15, 905, 330, 1], [1.22, 930, 400, 0]], echo: [-40, 0], blue: true },
-    { ch: 'e', keys: [[.77, 560, 690, 0], [.79, 560, 690, 1], [.93, 618, 680, 1], [1.07, 842, 690, 1], [1.17, 842, 690, 1], [1.23, 880, 640, 0]], echo: [0, -36] },
-    { ch: 't', keys: [[.85, 1525, 655, 0], [.87, 1525, 655, 1], [.93, 1478, 646, 1], [1.07, 1270, 650, 1], [1.18, 1270, 650, 1], [1.25, 1200, 620, 0]], echo: [36, 0] },
+    { ch: 'e', keys: [[.69, 905, 300, 0], [.71, 905, 300, 1], [.8, 960, 262, 1], [.93, 994, 249, 1], [1.07, 905, 330, 1], [1.13, 905, 330, 1], [1.17, 905, 330, 0]], echo: [-40, 0], blue: true },
+    { ch: 'e', keys: [[.77, 560, 690, 0], [.79, 560, 690, 1], [.93, 618, 680, 1], [1.07, 842, 690, 1], [1.14, 842, 690, 1], [1.18, 842, 690, 0]], echo: [0, -36] },
+    { ch: 't', keys: [[.85, 1525, 655, 0], [.87, 1525, 655, 1], [.93, 1478, 646, 1], [1.07, 1270, 650, 1], [1.15, 1270, 650, 1], [1.24, 1270, 650, 0]], echo: [36, 0] },
   ];
   letters.forEach(l => {
     l.e = el('div', L, 'c nowrap', { font: FONT, color: COL }); l.e.textContent = l.ch;
@@ -138,7 +139,7 @@ const S1 = (() => {
       if (!show('s1', t, ...SEG.s1)) return;
       const echoOn = inWin(t, .867, .9) || inWin(t, 1.0, 1.034);   // the reel's two doubled frames
       letters.forEach(l => {
-        const a = kf(l.keys, t);
+        const a = kf(l.keys, t, IO, .1);
         put(l.e, a.x, a.y, 1, a.o);
         l.e.style.color = l.blue && t < .8 ? '#8DB8F2' : COL;
         if (echoOn && a.o > 0) put(l.g, a.x + l.echo[0], a.y + l.echo[1], 1, .55 * a.o); else l.g.style.opacity = 0;
@@ -148,7 +149,7 @@ const S1 = (() => {
         const at = i ? 1.17 : 1.07, p = P(t, at, at + .05);
         s.style.opacity = p; s.style.marginLeft = i ? px(lerp(26, 0, sp)) : '0px';
       });
-      dots.forEach(d => { const a = kf(d.keys, t); d.e.style.left = px(a.x); d.e.style.top = px(a.y); d.e.style.opacity = a.o; });
+      dots.forEach(d => { const a = kf(d.keys, t, IO, .07); d.e.style.left = px(a.x); d.e.style.top = px(a.y); d.e.style.opacity = a.o; });
       const gOn = inWin(t, 1.6, 1.634) || inWin(t, 1.7, 1.78);
       put(ghost, CX - 58, CY, 1, gOn ? .5 : 0);
       const r = P(t, 1.62, 1.8); ring.style.opacity = r > 0 ? .9 * Math.sin(Math.PI * clamp(r * 1.2)) : 0;
@@ -165,7 +166,7 @@ const S2 = (() => {
   const rings = el('div', L, 'c', { width: '1700px', height: '1700px', left: px(CX), top: px(CY), borderRadius: '50%',
     background: 'repeating-radial-gradient(circle, rgba(60,70,130,.10) 0 2px, transparent 2px 25px)',
     WebkitMaskImage: 'radial-gradient(circle, #000 0%, rgba(0,0,0,.65) 28%, transparent 60%)' });
-  const glows = S1.dots.slice(0, 7).map(() => el('div', L, 'c', { width: '64px', height: '64px', borderRadius: '50%', background: 'radial-gradient(circle,#fff 0%,rgba(225,235,255,.9) 35%,rgba(200,215,255,0) 70%)', opacity: 0 }));
+  const glows = S1.dots.slice(0, 7).map(() => el('div', L, 'c', { width: '110px', height: '110px', borderRadius: '50%', background: 'radial-gradient(circle,#fff 0%,rgba(230,238,255,.95) 30%,rgba(200,215,255,0) 70%)', opacity: 0 }));
   const lock = el('div', L, 'c nowrap', { left: px(CX), top: px(CY), display: 'flex', alignItems: 'center', gap: '30px' });
   const mark = el('img', lock, '', { height: '205px', display: 'block' }); mark.src = LOGO;
   const word = el('div', lock, 'nowrap', { font: '800 150px Inter', color: '#0E0E13', letterSpacing: '-0.045em', lineHeight: 1 });
@@ -180,7 +181,7 @@ const S2 = (() => {
       rings.style.opacity = E(t, 1.85, 2.0);
       rings.style.transform = `translate(-50%,-50%) scale(${(1 + (t - 1.8) * .09).toFixed(4)})`;
       /* the dot line carries over as soft glows */
-      S1.dots.slice(0, 7).forEach((d, i) => { const k = d.keys[d.keys.length - 1]; put(glows[i], k[1], k[2], 1.4, (1 - P(t, 1.8, 1.95)) * (k[3] ? 1 : 0)); });
+      S1.dots.slice(0, 7).forEach((d, i) => { const k = d.keys[d.keys.length - 1]; put(glows[i], k[1], k[2], 1, (1 - P(t, 1.82, 1.95)) * (k[3] ? 1 : 0)); });
       /* reveal: mark + letters left to right (1.80–1.95), blur clears */
       const mp = E(t, 1.78, 1.9, OUT);
       mark.style.opacity = P(t, 1.78, 1.82);
@@ -194,7 +195,7 @@ const S2 = (() => {
       word.style.opacity = 1 - P(t, 2.5, 2.57); blur(word, 6 * P(t, 2.45, 2.55));
       if (t < 2.44) this.measure();
       L.style.filter = `brightness(${(1 - .55 * E(t, 2.49, 2.57)).toFixed(3)})`;
-      mos(t, 1.783, 1.817, ['#9FB0EA', '#C4CDF3', '#AFBCEC', '#B3C0F0'], .22, .7);
+      L.style.opacity = E(t, 1.765, 1.795);
     },
   };
 })();
@@ -206,31 +207,43 @@ const S3 = (() => {
   const L = $('#s3');
   el('div', L, 'c', { width: '1300px', height: '1300px', left: px(CX), top: px(CY), borderRadius: '50%',
     background: 'repeating-radial-gradient(circle, rgba(255,255,255,.05) 0 2px, transparent 2px 24px)', WebkitMaskImage: 'radial-gradient(circle, #000 8%, transparent 55%)' });
-  const G = 190, CELLS = [[0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1]];
-  const order = ['instagram', 'x', 'youtube', 'linkedin', 'facebook', 'snapchat', 'tiktok', 'whatsapp'];
-  const wave = [1, 0, 1, 1, 1, 0, 0, 1];              // 0 = in the first frames, 1 = a beat later (as in the reel)
-  const items = order.map((n, j) => {
-    const icon = appIcon(L, n, 124); icon.style.borderRadius = n === 'facebook' || n === 'whatsapp' || n === 'x' ? '50%' : '28%';
-    const dsz = [40, 40, 64, 40, 40, 64, 40, 40][j];
-    const dot = el('div', L, 'abs', { width: px(dsz), height: px(dsz), marginLeft: px(-dsz / 2), marginTop: px(-dsz / 2), borderRadius: '50%', background: PLAT[n].dot });
-    const halo = el('div', L, 'c', { width: '260px', height: '260px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,.75), rgba(255,255,255,0) 65%)', opacity: 0 });
-    return { n, j, icon, dot, halo };
-  });
-  const STEPS = [[2.96, 3.04], [3.24, 3.32]];
+  const G = 190, C = { T: [0, -1], TR: [1, -1], R: [1, 0], BR: [1, 1], B: [0, 1], BL: [-1, 1], L: [-1, 0], TL: [-1, -1] };
+  const halo = () => el('div', L, 'c', { width: '260px', height: '260px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,.75), rgba(255,255,255,0) 65%)', opacity: 0 });
+  const icon = n => { const e = appIcon(L, n, 124); e.style.borderRadius = ['facebook', 'whatsapp', 'x', 'snapchat'].includes(n) ? '50%' : '28%'; return e; };
+  const dot = (col, sz) => el('div', L, 'abs', { width: px(sz), height: px(sz), marginLeft: px(-sz / 2), marginTop: px(-sz / 2), borderRadius: '50%', background: col });
+  /* As in the reel: items mostly hold their cells. Beat 1 (2.97): the left dot and the bottom-left icon swap.
+     Beat 2 (3.27): the four side icons dissolve into the next four platforms; the big corner dot shrinks. */
+  const B1 = [2.96, 3.03], B2 = [3.25, 3.32];
+  const items = [
+    { e: icon('instagram'), cells: ['T'], out: B2, wave: 0 },
+    { e: icon('youtube'), cells: ['R'], out: B2, wave: 1 },
+    { e: icon('facebook'), cells: ['B'], out: B2, wave: 1 },
+    { e: icon('tiktok'), cells: ['BL', 'L'], move: B1, out: B2, wave: 0 },
+    { e: dot('#B9E36A', 64), cells: ['L', 'BL'], move: B1, shrink: B1, wave: 1 },
+    { e: dot('#38C6E8', 64), cells: ['TR'], shrink: B2, wave: 1 },
+    { e: dot('#E6E6EA', 36), cells: ['TL'], wave: 0 },
+    { e: dot('#C9B3F5', 36), cells: ['BR'], wave: 0 },
+    { e: icon('x'), cells: ['T'], in: B2 },
+    { e: icon('linkedin'), cells: ['R'], in: B2 },
+    { e: icon('whatsapp'), cells: ['B'], in: B2 },
+    { e: icon('snapchat'), cells: ['L'], in: B2 },
+  ];
+  items.forEach(o => { o.h = halo(); });
   return {
     update(t) {
       if (!show('s3', t, ...SEG.s3)) return;
-      $('#s3').style.opacity = P(t, 2.55, 2.58);
-      const steps = STEPS.reduce((s, [a, b]) => s + E(t, a, b), 0);
+      $('#s3').style.opacity = P(t, 2.535, 2.556);
       const flash = E(t, 3.66, 3.75);
       items.forEach(o => {
-        const c = o.j + steps, i0 = Math.floor(c) % 8, i1 = (i0 + 1) % 8, f = c - Math.floor(c);
-        const x = lerp(CELLS[i0][0], CELLS[i1][0], f) * G, y = lerp(CELLS[i0][1], CELLS[i1][1], f) * G;
-        const m = c % 2, side = m <= 1 ? 1 - m : m - 1;
-        const a = wave[o.j] ? 2.63 + o.j * .008 : 2.57, pin = back(P(t, a, a + .1)), o0 = P(t, a, a + .05);
-        put(o.icon, CX + x, CY + y, pin * lerp(.35, 1, side), o0 * clamp(side * 1.6 - .2));
-        put(o.dot, CX + x, CY + y, 1, o0 * clamp(1.4 - side * 1.8)); o.dot.style.transform = `scale(${(pin * lerp(1, 2.2, side)).toFixed(3)})`;
-        put(o.halo, CX + x, CY + y, 1, .9 * Math.sin(Math.PI * flash));
+        const m = o.move ? E(t, ...o.move) : 0, a = C[o.cells[0]], b = C[o.cells[1] || o.cells[0]];
+        const x = lerp(a[0], b[0], m) * G, y = lerp(a[1], b[1], m) * G;
+        let sc = 1, op = 1;
+        if (o.wave != null) { const at = o.wave ? 2.63 : 2.57; sc = back(P(t, at, at + .1)); op = P(t, at, at + .05); }
+        if (o.in) { const p = E(t, ...o.in); sc = .7 + .3 * back(P(t, o.in[0], o.in[1] + .04)); op = p; }
+        if (o.out) op *= 1 - E(t, ...o.out);
+        if (o.shrink) sc *= 1 - .45 * E(t, ...o.shrink);
+        put(o.e, CX + x, CY + y, sc, op);
+        put(o.h, CX + x, CY + y, 1, op * .9 * Math.sin(Math.PI * flash));
       });
     },
   };
@@ -241,7 +254,7 @@ const S3 = (() => {
    ===================================================================== */
 const S4 = (() => {
   const L = $('#s4');
-  const burst = el('div', L, 'c', { width: '1500px', height: '1500px', left: px(CX), top: px(CY), borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,255,255,.95), rgba(255,255,255,0))' });
+  const burst = el('div', L, 'c', { width: '760px', height: '760px', left: px(CX), top: px(CY), borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,255,255,1), rgba(255,255,255,.85) 40%, rgba(255,255,255,0))', filter: 'blur(18px)' });
   const ICON = 128, GAP = 36;
   const line = el('div', L, 'abs nowrap', { top: px(CY), font: '400 74px Inter', color: '#3A3E55', letterSpacing: '-.012em', transform: 'translateY(-50%)' });
   const words = [['Let’s ', 400, 3.76], ['make ', 400, 3.89], ['your ', 400, 3.99], ['video ', 400, 4.06], ['better', 700, 4.16]].map(([w, fw, at]) => {
@@ -257,7 +270,7 @@ const S4 = (() => {
     update(t) {
       if (!show('s4', t, ...SEG.s4)) return;
       $('#s4').style.opacity = E(t, 3.7, 3.78);
-      burst.style.opacity = 1 - E(t, 3.74, 3.9);
+      burst.style.opacity = 1 - E(t, 3.76, 3.95);
       const ex = E(t, 4.7, 4.77);
       words.forEach(w => { const p = E(t, w.at, w.at + .04, OUT); w.s.style.opacity = p * (1 - ex); blur(w.s, (1 - p) * 6 + ex * 10); });
     },
@@ -271,30 +284,45 @@ const S5 = (() => {
   const L = $('#s5');
   const LIST = [['instagram', '#0B62F2'], ['youtube', '#BF95F0'], ['facebook', '#0B8E91'], ['tiktok', '#F26E45'], ['linkedin', '#879B5C'], ['x', '#0A8CFF']];
   const AT = [4.77, 5.2, 5.78, 6.27, 6.72, 7.07];
+  const XF = [.045, .05];
+  const CIRC_BG = ['#E4E8F2', '#ECE9F3', '#CDBDF3', '#ECE6EC', '#D3E4F5', '#D5E6FA'];   // the circle picks up a tint per screen, as in the reel                                   // dissolve: starts 1.5 frames before the beat, done 1.5 after
   const DOTC = ['#F2F2F6', '#A6E3A0', '#F0704B', '#E59ADF', '#9C8CF0', '#F2F2F6', '#7FB6F5', '#E4E33A'];
   const dots = [];
-  for (const side of [-1, 1]) for (let i = 0; i < 5; i++) dots.push({ side, i, e: el('div', L, 'dot', { width: '25px', height: '25px', background: DOTC[(i * 3 + (side > 0 ? 5 : 0)) % DOTC.length], marginLeft: '-12.5px', marginTop: '-12.5px', top: px(CY) }) });
+  for (const side of [-1, 1]) for (let i = 0; i < 5; i++) dots.push({ side, i, e: el('div', L, 'dot', { width: '25px', height: '25px', marginLeft: '-12.5px', marginTop: '-12.5px', top: px(CY) }) });
   const link = [0, 1, 2].map(() => el('div', L, 'dot', { width: '11px', height: '11px', background: '#fff', marginLeft: '-5.5px', marginTop: '-5.5px', top: px(CY) }));
+  const tile = tileEl(L, 'lime', 280);
   const circ = el('div', L, 'circ', { width: '280px', height: '280px', left: 0, top: 0 });
   const glyphs = LIST.map(([n]) => el('div', circ, 'c', { left: '50%', top: '50%' }, glyph(n, PLAT[n].fill, 150)));
-  const label = el('div', L, 'c nowrap', { left: px(CX), top: px(CY + 246), font: '500 42px Inter', color: 'rgba(255,255,255,.9)', letterSpacing: '-.01em' });
-  const mos = mosaic(L, 48);
+  const labels = LIST.map(([n]) => { const e = el('div', L, 'c nowrap', { left: px(CX), top: px(CY + 246), font: '500 42px Inter', color: 'rgba(255,255,255,.9)', letterSpacing: '-.01em', opacity: 0 }); e.textContent = PLAT[n].name; return e; });
+  /* weight of screen i at time t: 1 while it is on, cross-fading over XF around each beat */
+  const w = (i, t) => {
+    const on = i === 0 ? 1 : E(t, AT[i] - XF[0], AT[i] + XF[1]);
+    const off = i === AT.length - 1 ? 0 : E(t, AT[i + 1] - XF[0], AT[i + 1] + XF[1]);
+    return on * (1 - off);
+  };
   return {
     TILE: [CX - 224, CY], CIRC: [CX + 224, CY],
     update(t) {
       if (!show('s5', t, ...SEG.s5)) return;
+      /* entry: the whole screen dissolves in over the typed line, tile and circle fade in where they sit */
+      L.style.opacity = E(t, 4.72, 4.78);
+      blur(tile, 10 * (1 - E(t, 4.72, 4.8))); blur(circ, 10 * (1 - E(t, 4.72, 4.8)));
       let k = 0; AT.forEach((a, i) => { if (t >= a) k = i; });
-      L.style.background = LIST[k][1];
-      for (let i = 1; i < AT.length; i++) if (inWin(t, AT[i] - .034, AT[i])) L.style.background = mix(LIST[i - 1][1], LIST[i][1], .5);
-      dots.forEach(d => { d.e.style.left = px(CX + d.side * (535 + d.i * 215) - (t - 4.77) * 22); });
-      link.forEach((d, i) => { d.style.left = px(CX - 22 + i * 22); d.style.opacity = .5 + .5 * Math.max(0, Math.sin(t * 9 - i * 1.2)); });
-      const enter = back(P(t, 4.72, 4.86)), ks = AT[k], sw = k ? back(P(t, ks, ks + .1)) : 1;
-      put(circ, this.CIRC[0], this.CIRC[1], (.5 + .5 * enter) * (k ? .92 + .08 * sw : 1), P(t, 4.72, 4.77));
-      glyphs.forEach((g, i) => { g.style.opacity = i === k ? P(t, ks, ks + .05) || (k === 0 ? 1 : 0) : (i === k - 1 ? 1 - P(t, ks, ks + .05) : 0); g.style.transform = `translate(-50%,-50%) scale(${(i === k ? .8 + .2 * sw : 1).toFixed(3)})`; });
-      label.textContent = PLAT[LIST[k][0]].name; label.style.opacity = P(t, 4.8, 4.86);
-      /* the switch glitch: two frames of mosaic in the old and new colours */
-      for (let i = 1; i < AT.length; i++) if (inWin(t, AT[i] - .034, AT[i] + .034)) { mos(t, AT[i] - .034, AT[i] + .034, [mix(LIST[i - 1][1], LIST[i][1], .3), mix(LIST[i - 1][1], LIST[i][1], .7), LIST[i][1]], .55, .5); return; }
-      mos(t, 0, 0, ['#000']);
+      /* background: blend of the two screens while a dissolve runs */
+      let bg = LIST[0][1];
+      for (let i = 1; i < AT.length; i++) { const p = E(t, AT[i] - XF[0], AT[i] + XF[1]); if (p > 0) bg = mix(bg, LIST[i][1], p); }
+      L.style.background = bg;
+      glyphs.forEach((g, i) => { g.style.opacity = w(i, t).toFixed(3); });
+      let cb = CIRC_BG[0];
+      for (let i = 1; i < AT.length; i++) { const p = E(t, AT[i] - XF[0], AT[i] + XF[1]); if (p > 0) cb = mix(cb, CIRC_BG[i], p); }
+      circ.style.background = `radial-gradient(circle at 40% 35%, #FFFFFF 0%, ${cb} 75%)`;
+      labels.forEach((e, i) => { e.style.opacity = (w(i, t) * P(t, 4.8, 4.84)).toFixed(3); });
+      /* the dot rows sit still and change colour with each screen */
+      dots.forEach(d => { d.e.style.left = px(CX + d.side * (535 + d.i * 215)); d.e.style.background = DOTC[(d.i * 3 + (d.side > 0 ? 5 : 0) + k * 2) % DOTC.length]; d.e.style.opacity = P(t, 4.79, 4.81); });
+      /* "···" between the tiles builds up one dot at a time, then stays */
+      const n = Math.min(3, 1 + Math.floor(Math.max(0, t - 4.83) / .13));
+      link.forEach((d, i) => { d.style.left = px(CX - 22 + i * 22); d.style.opacity = t >= 4.8 && i < n ? .95 : 0; });
+      put(tile, this.TILE[0], this.TILE[1], 1); put(circ, this.CIRC[0], this.CIRC[1], 1);
     },
   };
 })();
@@ -379,11 +407,11 @@ function updateHero(t) {
   hero.style.visibility = 'visible';
   let x, y, s, o = 1, lime = 0;
   const [mx, my] = S2.markPos, s4 = S4.icon, s6 = S6.pos;
-  if (t < 2.6) { const g = back(P(t, 2.49, 2.55)), m = E(t, 2.53, 2.6); x = lerp(mx + S2.markW * .45, CX, m); y = lerp(my, CY, m); s = lerp(150 * g, 200, m); o = P(t, 2.49, 2.51); }
+  if (t < 2.6) { const g = back(P(t, 2.49, 2.55)), m = E(t, 2.51, 2.56); x = lerp(mx + S2.markW * .45, CX, m); y = lerp(my, CY, m); s = lerp(150 * g, 200, m); o = P(t, 2.49, 2.51); }
   else if (t < 3.73) { x = CX; y = CY; s = 200; }
-  else if (t < 4.7) { const p = E(t, 3.73, 3.8); x = lerp(CX, s4[0], p); y = CY; s = lerp(200, S4.ICON, p); lime = E(t, 4.46, 4.5); }
-  else if (t < 7.37) { const p = E(t, 4.7, 4.78); x = lerp(s4[0], S5.TILE[0], p); y = CY; s = lerp(S4.ICON, 280, p); lime = 1; }
-  else { const p = E(t, 7.37, 7.4); x = lerp(S5.TILE[0], s6[0], p); y = lerp(CY, s6[1], p); s = lerp(280, S6.ICON, p); lime = 1 - p; o = 1 - P(t, 8.29, 8.31); }
+  else if (t < 4.79) { const p = E(t, 3.73, 3.8); x = lerp(CX, s4[0], p); y = CY; s = lerp(200, S4.ICON, p); lime = E(t, 4.46, 4.5); o = 1 - E(t, 4.72, 4.78); }
+  else if (t < 7.38) { hero.style.visibility = 'hidden'; return; }
+  else { x = s6[0]; y = s6[1]; s = S6.ICON; o = 1 - P(t, 8.29, 8.31); }
   hero.style.width = hero.style.height = px(s); put(hero, x, y, 1, o);
   heroLime.style.opacity = lime;
 }

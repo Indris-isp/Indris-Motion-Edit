@@ -4,6 +4,8 @@ This rebuilds the screen animation from the reference reel (`reference/reference
 
 - **Timing:** every event is placed on the reel's frame, measured from 15 fps contact sheets (`reference/f15_sheet*.png`) and gridded full-res frames (`reference/grid_*.png`). This covers letter pops, echo frames, cuts, orbit steps, words, colour switches and confetti.
 - **Sizes:** measured from the reel. The phone shows about 2.8 screen px per phone px in scenes 1–5 and 3.0 in scenes 6–7 (`reference/track_screen.py` finds the screen).
+- **Smoothness:** each output frame blends 3 sub-frames (180° shutter, `render.cjs --sub 3`), giving the same natural motion blur the reel's camera recorded. Moves in scene 1 hold, then glide over the last 2–3 frames, as the reel's letters and dots do.
+- **Platform switches:** a soft ~3-frame dissolve of the whole screen (background, logo, label and circle tint), and the "···" builds up one dot at a time, matching the reel. The blocky look in the reel is only its video compression.
 - **Sound:** the reel's own soundtrack (`out/audio.wav`, extracted from `reference/reference.mp4`). Because the timing matches frame for frame, every click and whoosh lands on its event.
 
 | # | Reel segment | ISP version | Time |

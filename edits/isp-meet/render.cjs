@@ -36,20 +36,24 @@ async function openPage(browser) {
   const probe = await openPage(browser);
   const { FPS, frames: TOTAL } = await probe.evaluate(() => window.TIMING);
   await probe.close();
+  // Motion blur: SUB sub-frames per output frame, centred on the frame time, blended by ffmpeg (tmix).
+  const SUB = +get('--sub', 3), N = TOTAL * SUB;
   const pages = await Promise.all(Array.from({ length: WORKERS }, () => openPage(browser)));
   let next = 0, done = 0; const t0 = Date.now();
   await Promise.all(pages.map(async page => {
-    while (next < TOTAL) {
-      const f = next++;
-      await page.evaluate(t => window.renderAt(t), f / FPS);
-      await page.screenshot({ path: path.join(framesDir, `f${String(f).padStart(4, '0')}.png`) });
-      if (++done % 60 === 0) console.log(`${done}/${TOTAL} frames · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+    while (next < N) {
+      const f = next++, k = Math.floor(f / SUB), j = f % SUB;
+      const t = Math.max(0, (k + (j - (SUB - 1) / 2) / SUB * .5) / FPS);     // 180° shutter
+      await page.evaluate(t => window.renderAt(t), t);
+      await page.screenshot({ path: path.join(framesDir, `f${String(f).padStart(5, '0')}.png`) });
+      if (++done % 120 === 0) console.log(`${done}/${N} sub-frames · ${((Date.now() - t0) / 1000).toFixed(0)}s`);
     }
   }));
   await browser.close();
   const silent = path.join(outDir, 'video_silent.mp4');
-  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(framesDir, 'f%04d.png'),
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-tune', 'animation', silent], { stdio: 'inherit' });
+  const vf = SUB > 1 ? `tmix=frames=${SUB},select='eq(mod(n\\,${SUB})\\,${SUB - 1})',setpts=N/${FPS}/TB` : 'null';
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(FPS * SUB), '-i', path.join(framesDir, 'f%05d.png'),
+    '-vf', vf, '-r', String(FPS), '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-tune', 'animation', silent], { stdio: 'inherit' });
   const audio = path.join(outDir, 'audio.wav'), final = path.join(outDir, 'isp_meet_screen_1920x1080.mp4');
   if (fs.existsSync(audio)) {
     execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', silent, '-i', audio, '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', final], { stdio: 'inherit' });
