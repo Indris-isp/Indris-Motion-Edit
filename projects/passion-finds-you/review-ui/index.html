@@ -416,7 +416,7 @@ async function ensureAudio() {
       const AC = window.AudioContext || window.webkitAudioContext; if (!AC) throw new Error("no webaudio");
       actx = new AC(); $("#mixstate").textContent = "Loading stems…";
       const dec = async u => actx.decodeAudioData(await (await fetch(u)).arrayBuffer());
-      const [v, m] = await Promise.all([dec("voice.m4a"), dec("music.m4a")]);
+      const [v, m] = await Promise.all([dec("voice.wav"), dec("music.wav")]);
       bufs = { v, m }; gV = actx.createGain(); gM = actx.createGain(); gV.connect(actx.destination); gM.connect(actx.destination); applyGains();
       vid.muted = true; $("#mixstate").textContent = "Live mix";
       return true;
