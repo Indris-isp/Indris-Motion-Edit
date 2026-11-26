@@ -1,123 +1,98 @@
-"""Synthesizes the soundtrack: an upbeat 120 BPM music bed plus light SFX that hit the scene cuts.
-Everything is generated here (no samples, no licensing).  python3 audio.py  ->  out/audio.wav (48 kHz stereo)
-Needs numpy + scipy.  Set SFX = False for music only.  Swap in your own track by replacing out/audio.wav.
+"""Soundtrack: SFX from the client's library only (no synthesized or third-party sounds), placed from a cue sheet.
+Optional music: put the client-approved track at audio/src/music.(wav|mp3|m4a); it is placed so its ending lands
+on the last frame. Without it the mix is SFX only.
+
+  1. Download the library WAVs into audio/src/sfx/ (file names and Drive IDs:
+     .claude/skills/premium-short-form/references/sound-design.md)
+  2. python3 audio.py   ->  out/audio.wav (48 kHz stereo)
+Needs numpy and ffmpeg.
 """
-import wave
+import glob, os, subprocess, wave
 import numpy as np
-from scipy.signal import butter, sosfilt
 
-SFX = True
-SR, BPM, DUR = 48000, 120, 19.0
-BEAT = 60 / BPM
+SR, DUR = 48000, 19.0
 CUTS = [2.5, 5.0, 8.0, 10.0, 13.0, 15.5]          # must match SC in motion.js
+SFX_DIR = 'audio/src/sfx'
 N = int(DUR * SR)
-L = np.zeros(N); R = np.zeros(N)
-rng = np.random.default_rng(7)
 
-def put(x, t, gain=1.0, pan=0.0):
-    i = int(t * SR)
-    if i >= N: return
-    x = x[: N - i] * gain
-    L[i:i + len(x)] += x * np.sqrt((1 - pan) / 2) * 1.414
-    R[i:i + len(x)] += x * np.sqrt((1 + pan) / 2) * 1.414
+def load(path):
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'],
+                         capture_output=True, check=True).stdout
+    return np.frombuffer(raw, '<f4').reshape(-1, 2).astype(np.float64)
 
-def filt(x, kind, f):
-    return sosfilt(butter(2, f, kind, fs=SR, output='sos'), x)
+def peak_at(x):
+    """time (s) of the loudest moment, on a 10 ms smoothed envelope"""
+    e = np.convolve(np.abs(x).mean(1), np.ones(480) / 480, 'same')
+    return int(np.argmax(e))
 
-def env(n, a, d):
-    t = np.arange(n) / SR
-    return np.minimum(1, t / max(a, 1e-4)) * np.exp(-t / d)
+mix = np.zeros((N, 2))
+def cue(name, t, db, align='start', maxlen=None, fade=.25):
+    """align='start': the file starts on t (hits, pops, clicks); align='peak': its loudest moment lands on t (whooshes)."""
+    x = load(os.path.join(SFX_DIR, name))
+    x = x / (np.abs(x).max() + 1e-9)
+    if maxlen:
+        n = int(maxlen * SR)
+        if len(x) > n:
+            x = x[:n].copy(); f = int(fade * SR); x[-f:] *= np.linspace(1, 0, f)[:, None]
+    i = int(t * SR) - (peak_at(x) if align == 'peak' else 0)
+    if i < 0: x = x[-i:]; i = 0
+    n = min(len(x), N - i)
+    mix[i:i + n] += x[:n] * 10 ** (db / 20)
 
-hz = lambda m: 440 * 2 ** ((m - 69) / 12)
+# ---------------- cue sheet (dB relative to each file's own peak) ----------------
+# 1  Meet / ISP Agency
+cue('2900_movie-logo-intro-impact.wav', 0.00, -9, maxlen=2.4)                 # opening slam (low hit 1)
+cue('2633_sweeping-sparkle-presentation-intro.wav', 1.00, -16, maxlen=1.5)    # oval sweeps around the name
+# 2  brand logos
+cue('1462_quick-swoosh.wav', CUTS[0], -13, 'peak')
+for k, i in enumerate((0, 2, 4)):                                             # cards landing
+    cue('3005_explainer-video-pops-whoosh-light-pop.wav', 2.5 + .2 + i * .1 + .12, -20 + k)
+# 3  ISP centre + orbit
+cue('3060_sparkle-hybrid-transition.wav', CUTS[1], -13, 'peak')
+cue('2896_movie-intro-impact.wav', 5.02, -12, maxlen=2.0)                     # logo disc reveal (low hit 2)
+cue('2605_quick-air-woosh.wav', 5.55, -18, 'peak')                            # icons fly out
+cue('2354_message-pop-alert.wav', 5.62, -22)
+cue('2354_message-pop-alert.wav', 5.98, -24)
+# 4  Let's make your video better
+cue('1461_short-wind-swoosh.wav', CUTS[2], -13, 'peak')
+cue('2919_movie-trailer-whoosh-hit.wav', 8.85, -11, 'peak', maxlen=2.0)       # "better." lands (low hit 3)
+cue('1464_quick-swoosh-accent.wav', 9.15, -20, 'peak')                        # underline
+# 5  platform pairs
+cue('2605_quick-air-woosh.wav', CUTS[3], -14, 'peak')
+cue('2364_hard-pop-click.wav', 10.17, -20)                                    # Instagram
+cue('2364_hard-pop-click.wav', 10.29, -22)                                    # YouTube
+cue('1464_quick-swoosh-accent.wav', 11.5, -15, 'peak')                        # swap
+cue('2364_hard-pop-click.wav', 11.73, -20)                                    # Facebook
+cue('2364_hard-pop-click.wav', 11.85, -22)                                    # TikTok
+# 6  all in one place
+cue('1462_quick-swoosh.wav', CUTS[4], -13, 'peak')
+cue('2605_quick-air-woosh.wav', 13.75, -19, 'peak')                           # icons fly into the box
+cue('2354_message-pop-alert.wav', 13.85, -21)
+cue('3005_explainer-video-pops-whoosh-light-pop.wav', 14.45, -18)             # "less pressure."
+# 7  video is ready
+cue('2633_sweeping-sparkle-presentation-intro.wav', CUTS[5] - .05, -15, maxlen=1.4)
+cue('2534_keyboard-key-presses.wav', 15.98, -24, maxlen=1.35, fade=.3)        # "Editing…"
+cue('1120_modern-click-box-check.wav', 17.40, -12)                            # check mark
+cue('2299_short-bass-hit.wav', 17.40, -13)                                    # done (low hit 4)
+cue('3005_explainer-video-pops-whoosh-light-pop.wav', 17.62, -20)             # "Video is ready."
 
-def kick():
-    n = int(.45 * SR); t = np.arange(n) / SR
-    f = 45 + 95 * np.exp(-t / .045)
-    return np.sin(2 * np.pi * np.cumsum(f) / SR) * env(n, .002, .16) + .15 * filt(rng.standard_normal(n), 'highpass', 3000) * env(n, .001, .006)
+# ---------------- optional music bed ----------------
+music = sorted(glob.glob('audio/src/music.*'))
+if music:
+    m = load(music[0]); m = m / (np.abs(m).max() + 1e-9)
+    m = m[-N:] if len(m) >= N else np.pad(m, ((N - len(m), 0), (0, 0)))        # ending lands on the last frame
+    f = int(.4 * SR); m[:f] *= np.linspace(0, 1, f)[:, None]
+    mix += m * 10 ** (-6 / 20)
 
-def clap():
-    n = int(.3 * SR); x = filt(rng.standard_normal(n), 'bandpass', [900, 2500]) if False else filt(filt(rng.standard_normal(n), 'highpass', 900), 'lowpass', 3500)
-    e = env(n, .001, .09)
-    for k in (0.0, .011, .022): e += .6 * env(n, .001, .008) * (np.arange(n) >= k * SR)
-    return x * e * .5
-
-def hat(open_=False):
-    n = int((.18 if open_ else .05) * SR)
-    return filt(rng.standard_normal(n), 'highpass', 7000) * env(n, .001, .06 if open_ else .015)
-
-def saw(f, n, det=0.0):
-    t = np.arange(n) / SR; y = np.zeros(n)
-    for k in range(1, 14):
-        if f * k > 9000: break
-        y += np.sin(2 * np.pi * f * (1 + det) * k * t) / k
-    return y
-
-def pluck(f, dur=.35):
-    n = int(dur * SR); t = np.arange(n) / SR
-    y = np.sin(2 * np.pi * f * t) + .45 * np.sin(4 * np.pi * f * t) + .18 * np.sin(6 * np.pi * f * t)
-    return y * env(n, .003, .12)
-
-# chord progression, one chord per bar (4 beats): C  G  Am  F
-CHORDS = [[48, 55, 60, 64, 67], [43, 55, 59, 62, 67], [45, 57, 60, 64, 69], [41, 57, 60, 65, 69]]
-bar_len = 4 * BEAT
-nbars = int(np.ceil(DUR / bar_len))
-BREAK = (7.5, 8.0)   # tiny drop right before "Let's make your video better"
-
-for b in range(nbars):
-    ch = CHORDS[b % 4]; t0 = b * bar_len
-    n = int(bar_len * SR)
-    # pad: detuned saws, lowpassed, slow swell
-    pad = sum(saw(hz(m), n, d) for m in ch[1:] for d in (-.004, .004))
-    pad = filt(pad, 'lowpass', 1400) * np.minimum(1, np.arange(n) / (.25 * SR)) * np.minimum(1, (n - np.arange(n)) / (.05 * SR))
-    put(pad, t0, .035 * (.5 if b == 0 else 1), -.2); put(pad, t0 + .012, .03 * (.5 if b == 0 else 1), .3)
-    for s in range(8):                                   # 8th-note bass + arpeggio
-        ts = t0 + s * BEAT / 2
-        if ts >= DUR or (BREAK[0] <= ts < BREAK[1]): continue
-        if ts >= 1.0:
-            bn = int(BEAT / 2 * SR) - 200
-            bass = filt(saw(hz(ch[0] - 12 + (12 if s % 2 else 0)), bn), 'lowpass', 520) * env(bn, .004, .14)
-            put(bass, ts, .22)
-        arp = [ch[1], ch[2], ch[3], ch[4], ch[3], ch[2], ch[4] + 12 - 12, ch[2] + 12]
-        put(pluck(hz(arp[s] + 12)), ts, .09, -.35 if s % 2 else .35)
-
-for k in range(int(DUR / BEAT)):                          # drums
-    t = k * BEAT
-    if t < 1.0 or BREAK[0] <= t < BREAK[1] or t > DUR - .5: continue
-    put(kick(), t, .75)
-    if k % 2 == 1: put(clap(), t, .55, .05)
-    put(hat(k % 4 == 3), t + BEAT / 2, .16, .25)
-    put(hat(), t + BEAT / 4, .07, -.25); put(hat(), t + 3 * BEAT / 4, .07, -.25)
-put(kick(), DUR - .5, .8); put(clap(), DUR - .5, .4)          # final hit
-
-if SFX:
-    def whoosh(d=.45):
-        n = int(d * SR); x = rng.standard_normal(n); out = np.zeros(n); seg = 512
-        for i in range(0, n, seg):                       # rising band-pass sweep
-            p = i / n; f = 400 + 5000 * p ** 2
-            out[i:i + seg] = filt(x[i:i + seg], 'bandpass', [f * .7, min(f * 1.4, 20000)])[: len(out[i:i + seg])]
-        e = (np.arange(n) / n) ** 2.2; e[-int(.03 * SR):] *= np.linspace(1, 0, int(.03 * SR))
-        return out * e
-    def pop(f=900):
-        n = int(.12 * SR); t = np.arange(n) / SR
-        return np.sin(2 * np.pi * (f + 600 * np.exp(-t / .02)) * t) * env(n, .001, .035)
-    def ding():
-        n = int(1.6 * SR); t = np.arange(n) / SR
-        return sum(a * np.sin(2 * np.pi * hz(m) * t) for m, a in ((84, 1), (91, .5), (96, .3))) * env(n, .002, .45)
-    def riser(d):
-        n = int(d * SR); t = np.arange(n) / SR
-        return filt(rng.standard_normal(n), 'highpass', 2000) * (t / d) ** 3 * .6 + np.sin(2 * np.pi * np.cumsum(200 + 900 * (t / d) ** 2) / SR) * (t / d) ** 3 * .25
-    for c in CUTS: put(whoosh(), c - .42, .32, .1)
-    for i in range(6): put(pop(800 + 60 * i), 2.5 + .2 + i * .1 + .05, .12, (-.3, .3)[i % 2])     # brand cards
-    for i in range(4): put(pop(1000 + 80 * i), 5.0 + .3 + i * .09 + .05, .1, (-.4, .4)[i % 2])   # orbit chips
-    for i in range(4): put(pop(700 + 120 * i), 10.0 + .05 + (i % 2) * .12 + (1.59 if i > 1 else 0), .12)  # platform tiles
-    put(riser(1.0), 7.0, .22)
-    put(ding(), 15.5 + 1.9, .2)
-
-mix = np.stack([L, R], 1)
-mix[-int(.35 * SR):] *= np.linspace(1, 0, int(.35 * SR))[:, None]
-mix = np.tanh(mix / (np.abs(mix).max() + 1e-9) * 1.6) / np.tanh(1.6)
-mix *= 0.89 / np.abs(mix).max()
-with wave.open('out/audio.wav', 'wb') as w:
+f = int(.3 * SR); mix[-f:] *= np.linspace(1, 0, f)[:, None]
+os.makedirs('out', exist_ok=True)
+tmp = 'out/_premaster.wav'
+with wave.open(tmp, 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
-    w.writeframes((mix * 32767).astype('<i2').tobytes())
-print(f'wrote out/audio.wav ({DUR:.1f}s, SFX={"on" if SFX else "off"})')
+    w.writeframes((np.clip(mix * (.89 / (np.abs(mix).max() + 1e-9)), -1, 1) * 32767).astype('<i2').tobytes())
+if music:   # full mix: -14 LUFS, -1 dBTP
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp, '-af', 'loudnorm=I=-14:TP=-1:LRA=11', '-ar', str(SR), 'out/audio.wav'], check=True)
+else:       # SFX only: peak-normalise to -1 dBFS (pushing sparse SFX to -14 LUFS would over-compress them)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp, '-c', 'copy', 'out/audio.wav'], check=True)
+os.remove(tmp)
+print('wrote out/audio.wav', '(SFX + music)' if music else '(SFX only, no music track in audio/src/)')

@@ -1,6 +1,6 @@
 # Meet ISP Agency (7-scene promo)
 
-A 19-second vertical promo: 1080×1920 at 30 fps. It has a synthesized 120 BPM music bed, and every scene cut lands on a beat. It uses the same house style as `video/`: white gradient stage, orange accent, Inter with Instrument Serif italic, and the ISP oval mark.
+A 19-second vertical promo: 1080×1920 at 30 fps. The sound is SFX from the client's library only, on a cue sheet in `audio.py`. Add a music track to make it a full mix. It uses the same house style as `video/`: white gradient stage, orange accent, Inter with Instrument Serif italic, and the ISP oval mark.
 
 | # | Time | Scene |
 |---|---|---|
@@ -30,12 +30,13 @@ python3 audio.py
 node render.cjs
 ```
 
-`audio.py` needs `pip install numpy scipy`. `render.cjs` uses Playwright's Chromium and ffmpeg, and takes about 2 minutes. For quick stills, run `node render.cjs --still 1,6.5,17.8`. For a live preview with a scrubber, open `index.html` in a browser.
+`audio.py` needs numpy and ffmpeg. It reads the client's library WAVs from `audio/src/sfx/`, which is not in git. The file names and Drive IDs are in `.claude/skills/premium-short-form/references/sound-design.md`. `render.cjs` uses Playwright's Chromium and ffmpeg, and takes about 2 minutes. For quick stills, run `node render.cjs --still 1,6.5,17.8`. For a live preview with a scrubber, open `index.html` in a browser.
 
 ## Editing
 
 - **Timing:** `SC` at the top of `motion.js`. Keep `CUTS` in `audio.py` in sync so the whooshes still hit the cuts.
 - **Copy:** each scene's `build()` holds its text.
-- **Sound:** `SFX = False` in `audio.py` gives music only. To use your own track, replace `out/audio.wav` and run `node render.cjs` again.
+- **Sound:** the cue sheet is in `audio.py`. Whoosh peaks land on the cut frames. For music, put the approved track at `audio/src/music.wav` (or `.mp3`/`.m4a`). It is placed so its ending lands on the last frame, and the mix is mastered to −14 LUFS. Then run `audio.py` and `render.cjs` again.
+- **Approval board:** `out/stills_board.png` has 3 stills per scene.
 - **Logo:** `logo()` in `motion.js` is the vector recreation of the ISP mark. Replace it with the official SVG if you have one.
 - **Platform icons:** `icons.js` holds the glyph paths from Simple Icons v13 (CC0).
