@@ -39,7 +39,7 @@
     {
      "text": "was searching",
      "tier": "standard",
-     "weight": 500
+     "weight": 400
     }
    ],
    "capY": 0.55,
@@ -55,12 +55,12 @@
     {
      "text": "was searching",
      "tier": "standard",
-     "weight": 500
+     "weight": 400
     },
     {
      "text": "for me,",
      "tier": "standard",
-     "weight": 800
+     "weight": 900
     }
    ],
    "two": true,
@@ -123,7 +123,8 @@
    "lines": [
     {
      "text": "How do you think",
-     "tier": "standard"
+     "tier": "standard",
+     "weight": 400
     }
    ],
    "beat": "b3",
@@ -137,11 +138,13 @@
    "lines": [
     {
      "text": "How do you think",
-     "tier": "standard"
+     "tier": "standard",
+     "weight": 400
     },
     {
      "text": "I found it?",
-     "tier": "standard"
+     "tier": "standard",
+     "weight": 900
     }
    ],
    "two": true,
@@ -370,30 +373,30 @@
    "t": 16551,
    "lines": [
     {
-     "text": "Clarity doesn't",
+     "text": "Clarity doesn't come",
      "tier": "standard",
-     "weight": 500
+     "weight": 400
     }
    ],
    "scale": 0.9,
    "capY": 0.5,
    "beat": "b9",
    "blend": "white",
-   "out": 17532,
+   "out": 17720,
    "id": "c24"
   },
   {
-   "t": 17532,
+   "t": 17720,
    "lines": [
     {
-     "text": "Clarity doesn't",
+     "text": "Clarity doesn't come",
      "tier": "standard",
-     "weight": 500
+     "weight": 400
     },
     {
-     "text": "come before action.",
+     "text": "before action.",
      "tier": "standard",
-     "weight": 800
+     "weight": 900
     }
    ],
    "two": true,

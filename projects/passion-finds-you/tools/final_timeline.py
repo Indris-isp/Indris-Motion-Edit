@@ -9,15 +9,15 @@ caps=[
  # b1 C  (note: middle of the screen, a little smaller)
  dict(t=0,lines=[L("Everything","hero")],capY=.50,scale=.85,beat="b1"),
  dict(t=T(1),lines=[L("I was searching for")],capY=.50,scale=.85,beat="b1"),
- dict(t=T(5),lines=[L("was searching",weight=500)],capY=.50,scale=.85,beat="b1"),
- dict(t=T(7),lines=[L("was searching",weight=500),L("for me,",weight=800)],two=True,capY=.50,scale=.85,beat="b1"),   # review 3: regular + bold
+ dict(t=T(5),lines=[L("was searching",weight=400)],capY=.50,scale=.85,beat="b1"),
+ dict(t=T(7),lines=[L("was searching",weight=400),L("for me,",weight=900)],two=True,capY=.50,scale=.85,beat="b1"),   # review 3: regular + bold
  # b2 A
  dict(t=T(9),lines=[L("and I found my")],beat="b2"),
  dict(t=T(13),lines=[L("and I found my"),L("passion,","hero")],stack=True,beat="b2"),
  dict(t=T(14),lines=[L("okay?")],beat="b2"),                         # review: add "okay?"
  # b3 B + note: double line for the question
- dict(t=T(15),lines=[L("How do you think")],beat="b3"),
- dict(t=T(19),lines=[L("How do you think"),L("I found it?")],two=True,beat="b3"),                 # review 3: line by line
+ dict(t=T(15),lines=[L("How do you think",weight=400)],beat="b3"),
+ dict(t=T(19),lines=[L("How do you think",weight=400),L("I found it?",weight=900)],two=True,beat="b3"),   # review 4: I found it bold                 # review 3: line by line
  dict(t=T(22),lines=[L("Did I find it")],beat="b3"),
  dict(t=T(26),lines=[L("by sitting still","italic")],beat="b3"),
  dict(t=T(29),lines=[L("and thinking","italic")],beat="b3"),
@@ -39,8 +39,8 @@ caps=[
  dict(t=T(55),lines=[L("and feeling.","italic")],beat="b7"),
  # b8 A: line cut from the video
  # b9 B + note: smaller, double line held longer
- dict(t=T(66),lines=[L("Clarity doesn't",weight=500)],scale=.9,capY=.45,beat="b9"),
- dict(t=T(68),lines=[L("Clarity doesn't",weight=500),L("come before action.",weight=800)],two=True,scale=.9,capY=.45,beat="b9"),   # review: regular + bold, lower
+ dict(t=T(66),lines=[L("Clarity doesn't come",weight=400)],scale=.9,capY=.45,beat="b9"),
+ dict(t=T(69),lines=[L("Clarity doesn't come",weight=400),L("before action.",weight=900)],two=True,scale=.9,capY=.45,beat="b9"),   # review 4: re-paired, bold "before action."   # review: regular + bold, lower
  dict(t=T(71),lines=[L("Clarity comes through")],scale=.9,beat="b9"),
  dict(t=T(74),lines=[L("Clarity comes through"),L("action.","hero",size=.20)],stack=True,scale=.9,beat="b9"),
  # b10 B

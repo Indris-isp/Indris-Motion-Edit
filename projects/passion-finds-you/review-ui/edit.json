@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v9",
+ "version": "v10",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -276,8 +276,8 @@
   {
    "id": "c24",
    "in": 16551,
-   "out": 17532,
-   "text": "Clarity doesn't",
+   "out": 17720,
+   "text": "Clarity doesn't come",
    "beat": "b9",
    "beatName": "Thesis",
    "tiers": [
@@ -286,9 +286,9 @@
   },
   {
    "id": "c25",
-   "in": 17532,
+   "in": 17720,
    "out": 18682,
-   "text": "Clarity doesn't / come before action.",
+   "text": "Clarity doesn't come / before action.",
    "beat": "b9",
    "beatName": "Thesis",
    "tiers": [
