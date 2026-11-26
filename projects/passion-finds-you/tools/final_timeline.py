@@ -9,14 +9,15 @@ caps=[
  # b1 C  (note: middle of the screen, a little smaller)
  dict(t=0,lines=[L("Everything","hero")],capY=.50,scale=.85,beat="b1"),
  dict(t=T(1),lines=[L("I was searching for")],capY=.50,scale=.85,beat="b1"),
- dict(t=T(5),lines=[L("was searching")],capY=.50,scale=.85,beat="b1"),
- dict(t=T(7),lines=[L("was searching"),L("for me,")],two=True,capY=.50,scale=.85,beat="b1"),       # review 2: build, line 1 stays put
+ dict(t=T(5),lines=[L("was searching",weight=500)],capY=.50,scale=.85,beat="b1"),
+ dict(t=T(7),lines=[L("was searching",weight=500),L("for me,",weight=800)],two=True,capY=.50,scale=.85,beat="b1"),   # review 3: regular + bold
  # b2 A
  dict(t=T(9),lines=[L("and I found my")],beat="b2"),
  dict(t=T(13),lines=[L("and I found my"),L("passion,","hero")],stack=True,beat="b2"),
  dict(t=T(14),lines=[L("okay?")],beat="b2"),                         # review: add "okay?"
  # b3 B + note: double line for the question
- dict(t=T(15),lines=[L("How do you think"),L("I found it?")],two=True,beat="b3"),
+ dict(t=T(15),lines=[L("How do you think")],beat="b3"),
+ dict(t=T(19),lines=[L("How do you think"),L("I found it?")],two=True,beat="b3"),                 # review 3: line by line
  dict(t=T(22),lines=[L("Did I find it")],beat="b3"),
  dict(t=T(26),lines=[L("by sitting still","italic")],beat="b3"),
  dict(t=T(29),lines=[L("and thinking","italic")],beat="b3"),
@@ -45,7 +46,7 @@ caps=[
  # b10 B
  dict(t=T(75),lines=[L("Standing here,","italic")],beat="b10"),
  dict(t=T(77),lines=[L("I can learn")],beat="b10"),
- dict(t=T(80),lines=[L("how many times")],beat="b10"),
+ dict(t=T(80),lines=[L("how much ever times")],beat="b10"),                 # review 3: verbatim
  dict(t=T(84),lines=[L("how to swim,")],beat="b10"),
  dict(t=T(87),lines=[L("but I can only")],beat="b10"),
  # b11 B + note

@@ -38,7 +38,8 @@
    "lines": [
     {
      "text": "was searching",
-     "tier": "standard"
+     "tier": "standard",
+     "weight": 500
     }
    ],
    "capY": 0.55,
@@ -53,11 +54,13 @@
    "lines": [
     {
      "text": "was searching",
-     "tier": "standard"
+     "tier": "standard",
+     "weight": 500
     },
     {
      "text": "for me,",
-     "tier": "standard"
+     "tier": "standard",
+     "weight": 800
     }
    ],
    "two": true,
@@ -121,6 +124,20 @@
     {
      "text": "How do you think",
      "tier": "standard"
+    }
+   ],
+   "beat": "b3",
+   "capY": 0.47,
+   "blend": "difference",
+   "out": 5680,
+   "id": "c07"
+  },
+  {
+   "t": 5680,
+   "lines": [
+    {
+     "text": "How do you think",
+     "tier": "standard"
     },
     {
      "text": "I found it?",
@@ -132,7 +149,7 @@
    "capY": 0.47,
    "blend": "difference",
    "out": 6366,
-   "id": "c07"
+   "id": "c08"
   },
   {
    "t": 6366,
@@ -146,7 +163,7 @@
    "capY": 0.47,
    "blend": "difference",
    "out": 7080,
-   "id": "c08"
+   "id": "c09"
   },
   {
    "t": 7080,
@@ -160,7 +177,7 @@
    "capY": 0.47,
    "blend": "difference",
    "out": 8080,
-   "id": "c09"
+   "id": "c10"
   },
   {
    "t": 8080,
@@ -174,7 +191,7 @@
    "capY": 0.47,
    "blend": "difference",
    "out": 8680,
-   "id": "c10"
+   "id": "c11"
   },
   {
    "t": 8680,
@@ -188,7 +205,7 @@
    "capY": 0.47,
    "blend": "difference",
    "out": 9440,
-   "id": "c11"
+   "id": "c12"
   },
   {
    "t": 9440,
@@ -202,7 +219,7 @@
    "capY": 0.47,
    "blend": "difference",
    "out": 9982,
-   "id": "c12"
+   "id": "c13"
   },
   {
    "t": 9982,
@@ -216,7 +233,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 10200,
-   "id": "c13"
+   "id": "c14"
   },
   {
    "t": 10200,
@@ -230,7 +247,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 10965,
-   "id": "c14"
+   "id": "c15"
   },
   {
    "t": 10965,
@@ -244,7 +261,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 11680,
-   "id": "c15"
+   "id": "c16"
   },
   {
    "t": 11680,
@@ -263,7 +280,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 12040,
-   "id": "c16"
+   "id": "c17"
   },
   {
    "t": 12040,
@@ -277,7 +294,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 12573,
-   "id": "c17"
+   "id": "c18"
   },
   {
    "t": 12573,
@@ -291,7 +308,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 13380,
-   "id": "c18"
+   "id": "c19"
   },
   {
    "t": 13380,
@@ -305,7 +322,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 14647,
-   "id": "c19"
+   "id": "c20"
   },
   {
    "t": 14647,
@@ -319,7 +336,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 15220,
-   "id": "c20"
+   "id": "c21"
   },
   {
    "t": 15220,
@@ -333,7 +350,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 15840,
-   "id": "c21"
+   "id": "c22"
   },
   {
    "t": 15840,
@@ -347,7 +364,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 16551,
-   "id": "c22"
+   "id": "c23"
   },
   {
    "t": 16551,
@@ -363,7 +380,7 @@
    "beat": "b9",
    "blend": "white",
    "out": 17532,
-   "id": "c23"
+   "id": "c24"
   },
   {
    "t": 17532,
@@ -385,7 +402,7 @@
    "beat": "b9",
    "blend": "white",
    "out": 18682,
-   "id": "c24"
+   "id": "c25"
   },
   {
    "t": 18682,
@@ -400,7 +417,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 19780,
-   "id": "c25"
+   "id": "c26"
   },
   {
    "t": 19780,
@@ -421,7 +438,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 20299,
-   "id": "c26"
+   "id": "c27"
   },
   {
    "t": 20299,
@@ -435,7 +452,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 21030,
-   "id": "c27"
+   "id": "c28"
   },
   {
    "t": 21030,
@@ -449,13 +466,13 @@
    "capY": 0.47,
    "blend": "white",
    "out": 21584,
-   "id": "c28"
+   "id": "c29"
   },
   {
    "t": 21584,
    "lines": [
     {
-     "text": "how many times",
+     "text": "how much ever times",
      "tier": "standard"
     }
    ],
@@ -463,7 +480,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 22720,
-   "id": "c29"
+   "id": "c30"
   },
   {
    "t": 22720,
@@ -477,7 +494,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 23441,
-   "id": "c30"
+   "id": "c31"
   },
   {
    "t": 23441,
@@ -491,7 +508,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 24160,
-   "id": "c31"
+   "id": "c32"
   },
   {
    "t": 24160,
@@ -505,7 +522,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 25200,
-   "id": "c32"
+   "id": "c33"
   },
   {
    "t": 25200,
@@ -519,7 +536,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 25760,
-   "id": "c33"
+   "id": "c34"
   },
   {
    "t": 25760,
@@ -534,7 +551,7 @@
    "capY": 0.47,
    "blend": "white",
    "out": 26400,
-   "id": "c34"
+   "id": "c35"
   }
  ]
 }

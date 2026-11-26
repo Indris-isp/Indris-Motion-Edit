@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v5",
+ "version": "v6",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -87,6 +87,17 @@
   {
    "id": "c07",
    "in": 4400,
+   "out": 5680,
+   "text": "How do you think",
+   "beat": "b3",
+   "beatName": "The question",
+   "tiers": [
+    "standard"
+   ]
+  },
+  {
+   "id": "c08",
+   "in": 5680,
    "out": 6366,
    "text": "How do you think / I found it?",
    "beat": "b3",
@@ -97,7 +108,7 @@
    ]
   },
   {
-   "id": "c08",
+   "id": "c09",
    "in": 6366,
    "out": 7080,
    "text": "Did I find it",
@@ -108,7 +119,7 @@
    ]
   },
   {
-   "id": "c09",
+   "id": "c10",
    "in": 7080,
    "out": 8080,
    "text": "by sitting still",
@@ -119,7 +130,7 @@
    ]
   },
   {
-   "id": "c10",
+   "id": "c11",
    "in": 8080,
    "out": 8680,
    "text": "and thinking",
@@ -130,7 +141,7 @@
    ]
   },
   {
-   "id": "c11",
+   "id": "c12",
    "in": 8680,
    "out": 9440,
    "text": "what my passion",
@@ -141,7 +152,7 @@
    ]
   },
   {
-   "id": "c12",
+   "id": "c13",
    "in": 9440,
    "out": 9982,
    "text": "could be?",
@@ -152,7 +163,7 @@
    ]
   },
   {
-   "id": "c13",
+   "id": "c14",
    "in": 9982,
    "out": 10200,
    "text": "No.",
@@ -163,7 +174,7 @@
    ]
   },
   {
-   "id": "c14",
+   "id": "c15",
    "in": 10200,
    "out": 10965,
    "text": "I found it",
@@ -174,7 +185,7 @@
    ]
   },
   {
-   "id": "c15",
+   "id": "c16",
    "in": 10965,
    "out": 11680,
    "text": "because I had been",
@@ -185,7 +196,7 @@
    ]
   },
   {
-   "id": "c16",
+   "id": "c17",
    "in": 11680,
    "out": 12040,
    "text": "because I had been / moving",
@@ -197,7 +208,7 @@
    ]
   },
   {
-   "id": "c17",
+   "id": "c18",
    "in": 12040,
    "out": 12573,
    "text": "all along,",
@@ -208,7 +219,7 @@
    ]
   },
   {
-   "id": "c18",
+   "id": "c19",
    "in": 12573,
    "out": 13380,
    "text": "doing something,",
@@ -219,7 +230,7 @@
    ]
   },
   {
-   "id": "c19",
+   "id": "c20",
    "in": 13380,
    "out": 14647,
    "text": "doing something I love,",
@@ -230,7 +241,7 @@
    ]
   },
   {
-   "id": "c20",
+   "id": "c21",
    "in": 14647,
    "out": 15220,
    "text": "watching,",
@@ -241,7 +252,7 @@
    ]
   },
   {
-   "id": "c21",
+   "id": "c22",
    "in": 15220,
    "out": 15840,
    "text": "observing,",
@@ -252,7 +263,7 @@
    ]
   },
   {
-   "id": "c22",
+   "id": "c23",
    "in": 15840,
    "out": 16551,
    "text": "and feeling.",
@@ -263,7 +274,7 @@
    ]
   },
   {
-   "id": "c23",
+   "id": "c24",
    "in": 16551,
    "out": 17532,
    "text": "Clarity doesn't",
@@ -274,7 +285,7 @@
    ]
   },
   {
-   "id": "c24",
+   "id": "c25",
    "in": 17532,
    "out": 18682,
    "text": "Clarity doesn't / come before action.",
@@ -286,7 +297,7 @@
    ]
   },
   {
-   "id": "c25",
+   "id": "c26",
    "in": 18682,
    "out": 19780,
    "text": "Clarity comes through",
@@ -297,7 +308,7 @@
    ]
   },
   {
-   "id": "c26",
+   "id": "c27",
    "in": 19780,
    "out": 20299,
    "text": "Clarity comes through / action.",
@@ -309,7 +320,7 @@
    ]
   },
   {
-   "id": "c27",
+   "id": "c28",
    "in": 20299,
    "out": 21030,
    "text": "Standing here,",
@@ -320,7 +331,7 @@
    ]
   },
   {
-   "id": "c28",
+   "id": "c29",
    "in": 21030,
    "out": 21584,
    "text": "I can learn",
@@ -331,10 +342,10 @@
    ]
   },
   {
-   "id": "c29",
+   "id": "c30",
    "in": 21584,
    "out": 22720,
-   "text": "how many times",
+   "text": "how much ever times",
    "beat": "b10",
    "beatName": "Swim",
    "tiers": [
@@ -342,7 +353,7 @@
    ]
   },
   {
-   "id": "c30",
+   "id": "c31",
    "in": 22720,
    "out": 23441,
    "text": "how to swim,",
@@ -353,7 +364,7 @@
    ]
   },
   {
-   "id": "c31",
+   "id": "c32",
    "in": 23441,
    "out": 24160,
    "text": "but I can only",
@@ -364,7 +375,7 @@
    ]
   },
   {
-   "id": "c32",
+   "id": "c33",
    "in": 24160,
    "out": 25200,
    "text": "swim if I jump",
@@ -375,7 +386,7 @@
    ]
   },
   {
-   "id": "c33",
+   "id": "c34",
    "in": 25200,
    "out": 25760,
    "text": "into the",
@@ -386,7 +397,7 @@
    ]
   },
   {
-   "id": "c34",
+   "id": "c35",
    "in": 25760,
    "out": 26400,
    "text": "water.",
