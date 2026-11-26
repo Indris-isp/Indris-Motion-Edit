@@ -1,0 +1,345 @@
+<title>Income First Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an edit-suite worksheet. Each script line is one row: your plan on the left, the words on the right; the raw cut plays in a docked mini player. */
+:root{
+  --bg:#0E1013; --panel:#15191E; --panel-2:#1B2026; --line:#272E36; --fg:#ECEFF2; --muted:#98A3AE; --faint:#66717C;
+  --accent:#5FD8F5; --accent-ink:#06222B; --warm:#E19D6A; --neg:#FF5446; --ok:#7BD88F;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r:12px;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{background:var(--bg);color:var(--fg)}
+body{font-family:var(--body);font-size:15px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+.wrap{max-width:1180px;margin:0 auto}
+header.top{padding-block:28px 18px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(40px,6vw,64px);line-height:1;margin:6px 0 8px;text-wrap:balance}
+h1 b{font-style:normal;font-weight:400;color:var(--accent)}
+.lede{color:var(--muted);max-width:62ch;margin:0}
+.status{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:6px 12px;border:1px solid var(--line);border-radius:999px;white-space:nowrap}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.status[data-s="saved"] i{background:var(--ok)} .status[data-s="saving"] i{background:var(--warm)} .status[data-s="error"] i{background:var(--neg)} .status[data-s="local"] i{background:var(--warm)}
+h2{font-size:13px;font-family:var(--mono);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+section{padding-block:26px 6px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.sec-head p{margin:0;color:var(--faint);font-size:13px}
+/* palettes */
+.measured{display:flex;flex-wrap:wrap;gap:8px 16px;margin:0 0 16px;font-size:13px;color:var(--muted)}
+.measured span{display:inline-flex;align-items:center;gap:6px}
+.chip{width:14px;height:14px;border-radius:4px;display:inline-block;border:1px solid #ffffff22}
+.pals{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.pal{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pal[aria-checked="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.pal h3{margin:0;font-size:16px;font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.pal h3 small{font-family:var(--mono);font-weight:400;color:var(--faint);font-size:12px}
+.pal p{margin:0;color:var(--muted);font-size:13px}
+.sw{display:flex;gap:6px}
+.sw div{flex:1;min-width:0}
+.sw b{display:block;height:34px;border-radius:8px;border:1px solid #ffffff1f}
+.sw span{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis}
+.pal img{width:100%;border-radius:8px;display:block;aspect-ratio:558/320;object-fit:cover}
+.pick{align-self:flex-start;font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer}
+.pal[aria-checked="true"] .pick{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* plan grid */
+.cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px;padding-block:14px;border-bottom:1px solid var(--line)}
+.row.now .script{border-color:var(--accent)}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0;outline:none}
+.plan.drag{border-color:var(--accent);background:#5FD8F512}
+.plan:focus-within{border-color:#5FD8F599}
+textarea{width:100%;min-height:92px;resize:vertical;box-sizing:border-box;background:var(--panel-2);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;line-height:1.5}
+textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+textarea::placeholder{color:var(--faint)}
+.tray{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.thumb{position:relative;width:96px;height:96px;border-radius:8px;overflow:hidden;background:var(--panel-2);border:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.thumb .x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:#000000b3;color:#fff;font-size:15px;line-height:24px;cursor:pointer;padding:0}
+.thumb .confirm{position:absolute;inset:0;background:#0E1013e6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:12px}
+.thumb .confirm div{display:flex;gap:6px}
+.thumb .confirm button{font:inherit;font-size:12px;padding:3px 8px;border-radius:6px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer}
+.thumb .confirm button.del{background:var(--neg);border-color:var(--neg);color:#fff}
+.thumb.loading::after{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin 0.8s linear infinite}
+.thumb.missing{display:grid;place-items:center;color:var(--faint);font-size:11px;text-align:center;padding:6px;box-sizing:border-box}
+@keyframes spin{to{transform:rotate(360deg)}}
+.add{display:inline-flex;align-items:center;gap:8px;height:96px;padding:0 14px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer;background:none;font-family:inherit;text-align:left;line-height:1.35}
+.add:hover,.add:focus-visible{border-color:var(--accent);color:var(--fg)}
+.add kbd{font-family:var(--mono);font-size:11px;padding:1px 5px;border:1px solid var(--line);border-radius:4px;color:var(--fg)}
+.note{font-size:12px;color:var(--faint)}
+.err{font-size:12px;color:var(--neg)}
+.script{background:transparent;border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start;min-width:0}
+.script .still{width:72px;aspect-ratio:9/16;border-radius:6px;object-fit:cover;display:block;background:var(--panel-2)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px}
+.tc{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--fg)}
+.who{padding:1px 8px;border-radius:999px;border:1px solid var(--line)}
+.who.int{color:var(--warm);border-color:#E19D6A55}
+.line{font-size:18px;line-height:1.45;margin:0}
+.line .w{border-radius:3px;transition:background .12s,color .12s}
+.line .w.on{background:var(--accent);color:var(--accent-ink)}
+.play{font:inherit;font-size:12px;font-weight:600;color:var(--accent);background:none;border:1px solid #5FD8F555;border-radius:999px;padding:2px 10px;cursor:pointer}
+.play:hover,.play:focus-visible{background:#5FD8F51a}
+.general .script{display:block}
+.general .line{font-size:15px;color:var(--muted)}
+/* docked player */
+.player{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 40px #0009;width:188px}
+.player video{width:100%;aspect-ratio:9/16;border-radius:8px;display:block;background:#000}
+.player .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted)}
+.player button{font:inherit;font-size:12px;color:var(--fg);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;cursor:pointer}
+.player.min video{display:none}
+.player.min{width:auto}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:30;background:#000000e0;display:grid;place-items:center;padding:24px}
+.lb img{max-width:100%;max-height:100%;border-radius:8px}
+button:focus-visible,.pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:760px){
+  .cols{display:none}
+  .row{grid-template-columns:1fr}
+  .row .script{order:-1}
+  .player{width:132px}
+  .line{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">How They Started · 51:24–52:29 · raw cut 0:50.8</div>
+      <h1>Find <b>income</b> first</h1>
+      <p class="lede">Plan the vertical edit line by line. Write what you want on the left, next to the words on the right. Paste, drop or add reference images on any line. Everything saves on its own.</p>
+    </div>
+    <div class="status" id="status" data-s="idle" role="status"><i></i><span>Connecting…</span></div>
+  </header>
+
+  <section aria-labelledby="look-h">
+    <div class="sec-head"><h2 id="look-h">Look: palette</h2><p>Accents measured from the footage. Pick one; your choice saves with the plan.</p></div>
+    <div class="measured" id="measured"></div>
+    <div class="pals" id="pals" role="radiogroup" aria-label="Palette"></div>
+  </section>
+
+  <section aria-labelledby="plan-h">
+    <div class="sec-head"><h2 id="plan-h">Plan</h2><p>Click a line, then press <span class="tc">Ctrl/⌘ V</span> to paste an image into it.</p></div>
+    <div class="cols" aria-hidden="true"><h2>Your plan</h2><h2>Script</h2></div>
+    <div id="rows"></div>
+  </section>
+</div>
+
+<aside class="player" id="player" aria-label="Raw cut">
+  <video id="vid" src="raw-cut.mp4" playsinline controls preload="metadata"></video>
+  <div class="bar"><span class="tc" id="ptc">0:00.0</span><button type="button" id="pmin">Hide</button></div>
+</aside>
+<div class="lb" id="lb" hidden><img id="lbimg" alt=""></div>
+<input type="file" id="file" accept="image/png,image/jpeg,image/gif,image/webp" multiple hidden>
+
+<script>
+const SCRIPT = [{"id":"l01","t0":0.01,"t1":3.06,"speaker":"Interviewer","angle":"Interviewer cam","text":"And what message would you give people who are watching this","words":[[0.06,"And"],[0.18,"what"],[0.58,"message"],[0.86,"would"],[1.08,"you"],[1.18,"give"],[1.36,"people"],[1.76,"who"],[2.22,"are"],[2.48,"watching"],[2.82,"this"]]},{"id":"l02","t0":3.01,"t1":5.17,"speaker":"Interviewer","angle":"Interviewer cam","text":"and who want to get into acting?","words":[[3.06,"and"],[3.2,"who"],[3.4,"want"],[3.98,"to"],[4.16,"get"],[4.3,"into"],[4.58,"acting?"]]},{"id":"l03","t0":5.12,"t1":8.19,"speaker":"Guest","angle":"Guest front","text":"So my advice to anybody who wants to play this game","words":[[5.17,"So"],[5.34,"my"],[5.57,"advice"],[5.91,"to"],[6.36,"anybody"],[6.95,"who"],[7.19,"wants"],[7.39,"to"],[7.53,"play"],[7.71,"this"],[7.91,"game"]]},{"id":"l04","t0":8.14,"t1":13.19,"speaker":"Guest","angle":"Guest front","text":"is find something that brings you income first.","words":[[8.19,"is"],[8.53,"find"],[9.15,"something"],[10.17,"that"],[10.79,"brings"],[11.25,"you"],[11.53,"income"],[12.09,"first."]]},{"id":"l05","t0":13.14,"t1":17.33,"speaker":"Guest","angle":"Guest side","text":"If you can find a way to have those checks rolling in","words":[[13.19,"If"],[13.37,"you"],[13.53,"can"],[13.89,"find"],[14.69,"a"],[14.89,"way"],[15.21,"to"],[15.71,"have"],[16.05,"those"],[16.27,"checks"],[16.63,"rolling"],[17.03,"in"]]},{"id":"l06","t0":17.28,"t1":18.57,"speaker":"Guest","angle":"Guest side","text":"you get into real estate,","words":[[17.33,"you"],[17.41,"get"],[17.55,"into"],[17.73,"real"],[17.97,"estate,"]]},{"id":"l07","t0":18.52,"t1":19.96,"speaker":"Guest","angle":"Guest side","text":"you get in the stock market,","words":[[18.57,"you"],[18.63,"get"],[18.77,"in"],[18.95,"the"],[19.25,"stock"],[19.57,"market,"]]},{"id":"l08","t0":19.91,"t1":22.38,"speaker":"Guest","angle":"Guest side","text":"you find a full-time job,","words":[[19.96,"you"],[20.02,"find"],[20.46,"a"],[21.32,"full-time"],[21.72,"job,"]]},{"id":"l09","t0":22.33,"t1":26.61,"speaker":"Guest","angle":"Guest side","text":"that brings the money in, then pursue this.","words":[[22.38,"that"],[22.7,"brings"],[23.32,"the"],[23.78,"money"],[24.0,"in,"],[24.74,"then"],[25.56,"pursue"],[25.98,"this."]]},{"id":"l10","t0":26.56,"t1":31.61,"speaker":"Guest","angle":"Guest front","text":"Because if you are going to be what I call one of those starving actors,","words":[[26.61,"Because"],[27.05,"if"],[27.51,"you"],[27.81,"are"],[27.97,"going"],[28.11,"to"],[28.23,"be"],[28.35,"what"],[28.53,"I"],[28.75,"call"],[29.03,"one"],[29.43,"of"],[29.53,"those"],[29.71,"starving"],[30.05,"actors,"]]},{"id":"l11","t0":31.56,"t1":34.39,"speaker":"Guest","angle":"Guest front","text":"I mean, you're better off buying a lottery ticket.","words":[[31.61,"I"],[32.43,"mean,"],[32.83,"you're"],[33.01,"better"],[33.13,"off"],[33.33,"buying"],[33.51,"a"],[33.65,"lottery"],[33.85,"ticket."]]},{"id":"l12","t0":34.34,"t1":34.95,"speaker":"Interviewer","angle":"Guest front","text":"Yeah.","words":[[34.39,"Yeah."]]},{"id":"l13","t0":34.9,"t1":36.69,"speaker":"Guest","angle":"Guest side","text":"So don't do that to yourselves.","words":[[34.95,"So"],[35.39,"don't"],[35.83,"do"],[35.95,"that"],[36.11,"to"],[36.25,"yourselves."]]},{"id":"l14","t0":36.64,"t1":37.92,"speaker":"Guest","angle":"Guest side","text":"Don't do that to your families.","words":[[36.69,"Don't"],[36.87,"do"],[36.99,"that"],[37.15,"to"],[37.27,"your"],[37.41,"families,"]]},{"id":"l15","t0":37.87,"t1":43.3,"speaker":"Guest","angle":"Guest front","text":"I've seen actors make their families suffer,","words":[[37.92,"I've"],[38.36,"seen"],[38.64,"actors"],[39.9,"make"],[40.58,"their"],[41.9,"families"],[42.18,"suffer,"]]},{"id":"l16","t0":43.25,"t1":45.01,"speaker":"Guest","angle":"Guest front","text":"pursuing their dream, we'll call it.","words":[[43.3,"pursuing"],[43.62,"their"],[43.89,"dream,"],[44.41,"we'll"],[44.51,"call"],[44.64,"it."]]},{"id":"l17","t0":44.96,"t1":46.09,"speaker":"Guest","angle":"Guest front","text":"No, don't do that.","words":[[45.01,"No,"],[45.36,"don't"],[45.53,"do"],[45.66,"that."]]},{"id":"l18","t0":46.04,"t1":50.84,"speaker":"Guest","angle":"Guest front","text":"This industry is not going to take care of you in that way.","words":[[46.09,"This"],[46.61,"industry"],[47.13,"is"],[47.32,"not"],[47.55,"going"],[47.84,"to"],[48.36,"take"],[49.26,"care"],[49.47,"of"],[49.63,"you"],[49.8,"in"],[50.11,"that"],[50.32,"way."]]}];
+const PALS = {"measured":{"cyan_backlight_core":"#62E4FE","cyan_backlight_kmeans":"#64D7F7","deep_blue_edge":"#4EA8E4","amber_plant_light":"#E19D6A","brick":"#C47057","shirt_shadow":"#0F100F","neutral_dark":"#232424"},"negative":"#FF5446","palettes":[{"id":"A","name":"Studio Cyan","why":"Recommended. The backlight's own cyan as the one accent, on near-black. Clean, modern, and matches the set exactly.","colors":{"Accent":"#5FD8F5","Base":"#0F1113","Text":"#F2EEE8"},"accent_on_base_contrast":11.4},{"id":"B","name":"Cyan + Amber","why":"Teal/orange contrast from both of the set's lights: cyan for keywords, amber for numbers and highlights. Warmer, more energetic.","colors":{"Accent":"#5FD8F5","Warm":"#E19D6A","Base":"#121416"},"accent_on_base_contrast":11.1},{"id":"C","name":"Deep Blue Editorial","why":"A calmer, deeper blue with soft cream. Premium editorial feel for serif keywords.","colors":{"Accent":"#4EA8E4","Base":"#161B22","Cream":"#EDE4D3"},"accent_on_base_contrast":6.6}]};
+const ROWS = [{id:"general", general:true}].concat(SCRIPT);
+const state = {};             // rowId -> {text, images:[ids]}
+const dirty = new Set(), saving = new Map(), timers = {};
+let db = null, assets = null, activeRow = null, pendingSaves = 0, dbOk = false, look = null;
+const $ = (s, el=document) => el.querySelector(s);
+const fmt = t => `${Math.floor(t/60)}:${(t%60).toFixed(1).padStart(4,"0")}`;
+const LOCAL = "income-first-plan-draft";
+
+function setStatus(s, msg){ const el=$("#status"); el.dataset.s=s; el.querySelector("span").textContent=msg; }
+function localSave(){ try{ localStorage.setItem(LOCAL, JSON.stringify(state)); }catch(e){} }
+function localLoad(){ try{ return JSON.parse(localStorage.getItem(LOCAL)||"{}"); }catch(e){ return {}; } }
+
+/* ---------- palettes ---------- */
+function renderPalettes(){
+  const m=$("#measured"); m.textContent="";
+  const names={cyan_backlight_core:"Cyan backlight",deep_blue_edge:"Deep blue edge",amber_plant_light:"Amber plant light",brick:"Brick wall",shirt_shadow:"Shadow"};
+  for(const [k,label] of Object.entries(names)){ const s=document.createElement("span"); const c=document.createElement("i"); c.className="chip"; c.style.background=PALS.measured[k]; s.append(c, `${label} ${PALS.measured[k]}`); m.append(s); }
+  const box=$("#pals"); box.textContent="";
+  for(const p of PALS.palettes){
+    const card=document.createElement("div"); card.className="pal"; card.setAttribute("role","radio"); card.setAttribute("aria-checked", String(look===p.id)); card.dataset.id=p.id;
+    const h=document.createElement("h3"); h.append(`${p.id} · ${p.name}`); const sm=document.createElement("small"); sm.textContent=`accent contrast ${p.accent_on_base_contrast}:1`; h.append(sm);
+    const d=document.createElement("p"); d.textContent=p.why;
+    const sw=document.createElement("div"); sw.className="sw";
+    for(const [role,hex] of Object.entries(p.colors).concat([["Negative",PALS.negative]])){ const c=document.createElement("div"); const b=document.createElement("b"); b.style.background=hex; const s=document.createElement("span"); s.textContent=`${role} ${hex}`; c.append(b,s); sw.append(c); }
+    const img=document.createElement("img"); img.src=`mock_${p.id}.jpg`; img.alt=`Palette ${p.name} on three frames of the clip`; img.loading="lazy";
+    const btn=document.createElement("button"); btn.type="button"; btn.className="pick"; btn.textContent= look===p.id ? "Selected" : "Use this palette";
+    btn.onclick=()=>chooseLook(p.id);
+    card.append(h,d,sw,img,btn); box.append(card);
+  }
+}
+async function chooseLook(id){
+  look=id; renderPalettes();
+  if(!db){ setStatus("local","Saved in this browser only"); try{localStorage.setItem(LOCAL+"-look",id)}catch(e){} return; }
+  try{ setStatus("saving","Saving…"); await db.doc("settings/look").set({palette:id}); setStatus("saved","All changes saved"); }
+  catch(e){ setStatus("error","Couldn't save the palette. Try again."); }
+}
+
+/* ---------- rows ---------- */
+function renderRows(){
+  const box=$("#rows"); box.textContent="";
+  for(const r of ROWS){
+    const row=document.createElement("div"); row.className="row"+(r.general?" general":""); row.id="row-"+r.id; row.dataset.id=r.id;
+    const plan=document.createElement("div"); plan.className="plan"; plan.tabIndex=-1;
+    const ta=document.createElement("textarea"); ta.id="ta-"+r.id;
+    ta.setAttribute("aria-label", r.general ? "Notes for the whole video" : `Your plan for line ${r.id.slice(1)}`);
+    ta.placeholder = r.general ? "Notes for the whole video: overall feel, pacing, music, references…" : "Your plan for this line: shot, text, visuals, motion, transitions…";
+    ta.value=(state[r.id]&&state[r.id].text)||"";
+    ta.addEventListener("input",()=>{ ensure(r.id).text=ta.value; queueSave(r.id); });
+    const tray=document.createElement("div"); tray.className="tray"; tray.id="tray-"+r.id;
+    const msg=document.createElement("div"); msg.className="err"; msg.id="err-"+r.id;
+    plan.append(ta,tray,msg);
+    plan.addEventListener("focusin",()=>activeRow=r.id); plan.addEventListener("pointerdown",()=>activeRow=r.id);
+    plan.addEventListener("dragover",e=>{ if(!assets) return; e.preventDefault(); plan.classList.add("drag"); });
+    plan.addEventListener("dragleave",()=>plan.classList.remove("drag"));
+    plan.addEventListener("drop",e=>{ plan.classList.remove("drag"); if(!assets) return; e.preventDefault(); addFiles(r.id,[...e.dataTransfer.files]); });
+
+    const sc=document.createElement("div"); sc.className="script";
+    if(r.general){
+      const meta=document.createElement("div"); meta.className="meta"; const w=document.createElement("span"); w.className="who"; w.textContent="Whole video"; meta.append(w);
+      const p=document.createElement("p"); p.className="line"; p.textContent="Overall direction and references that apply to every line. The interviewer asks the question (0:00–0:05); the guest answers and closes on the conclusion.";
+      sc.append(meta,p);
+    } else {
+      const img=document.createElement("img"); img.className="still"; img.src=`thumbs/${r.id}.jpg`; img.alt=`Raw cut frame at ${fmt(r.t0)}`; img.loading="lazy";
+      const right=document.createElement("div");
+      const meta=document.createElement("div"); meta.className="meta";
+      const tc=document.createElement("span"); tc.className="tc"; tc.textContent=`${fmt(r.t0)}–${fmt(r.t1)}`;
+      const off = r.speaker==="Interviewer" && r.angle!=="Interviewer cam";
+      const who=document.createElement("span"); who.className="who"+(r.speaker==="Interviewer"?" int":""); who.textContent= off ? "Interviewer, off camera" : r.speaker;
+      const ang=document.createElement("span"); ang.textContent=r.angle;
+      const play=document.createElement("button"); play.type="button"; play.className="play"; play.textContent="▶ Play"; play.setAttribute("aria-label",`Play from ${fmt(r.t0)}`);
+      play.onclick=()=>playFrom(r.t0);
+      meta.append(tc,who,ang,play);
+      const p=document.createElement("p"); p.className="line";
+      r.words.forEach(([t,w],i)=>{ const s=document.createElement("span"); s.className="w"; s.dataset.t=t; s.textContent=w; p.append(s); if(i<r.words.length-1) p.append(" "); });
+      right.append(meta,p); sc.append(img,right);
+    }
+    row.append(plan,sc); box.append(row);
+    renderTray(r.id);
+  }
+}
+function ensure(id){ return state[id] || (state[id]={text:"",images:[]}); }
+function renderTray(id){
+  const tray=$("#tray-"+id); if(!tray) return; tray.textContent="";
+  for(const aid of (state[id]&&state[id].images)||[]) tray.append(thumb(id,aid));
+  if(assets){
+    const add=document.createElement("button"); add.type="button"; add.className="add";
+    const t=document.createElement("span"); t.innerHTML="Add image<br><span class=\"note\">or paste <kbd>⌘V</kbd> / drop here</span>";
+    add.append(t); add.onclick=()=>{ activeRow=id; $("#file").click(); };
+    tray.append(add);
+  } else if(assetsChecked){
+    const n=document.createElement("span"); n.className="note"; n.textContent="Images can be added by people who can edit this page.";
+    tray.append(n);
+  }
+}
+function thumb(rowId, aid, loadingUrl){
+  const t=document.createElement("div"); t.className="thumb";
+  const img=document.createElement("img"); img.alt="Reference image"; img.src = loadingUrl || ("/_blob/"+aid);
+  img.onerror=()=>{ t.classList.add("missing"); t.textContent="Image unavailable"; };
+  img.onclick=()=>{ $("#lbimg").src=img.src; $("#lb").hidden=false; };
+  t.append(img);
+  if(assets && aid){
+    const x=document.createElement("button"); x.type="button"; x.className="x"; x.textContent="×"; x.setAttribute("aria-label","Remove image");
+    x.onclick=()=>{
+      const c=document.createElement("div"); c.className="confirm"; const q=document.createElement("span"); q.textContent="Remove?";
+      const bb=document.createElement("div"); const yes=document.createElement("button"); yes.className="del"; yes.type="button"; yes.textContent="Remove";
+      const no=document.createElement("button"); no.type="button"; no.textContent="Keep"; no.onclick=()=>c.remove();
+      yes.onclick=()=>removeImage(rowId,aid); bb.append(yes,no); c.append(q,bb); t.append(c); no.focus();
+    };
+    t.append(x);
+  }
+  return t;
+}
+
+/* ---------- images ---------- */
+let assetsChecked=false;
+const ERR={too_large:"That image is over 20 MB. Use a smaller file.",unsupported_type:"Use a PNG, JPG, GIF or WebP image.",quota_or_state:"Image storage for this page is full.",rate_limited:"Too many uploads at once. Wait a moment and try again.",not_granted:"Only people who can edit this page can add images.",upstream_auth:"Sign in again to add images."};
+async function addFiles(id, files){
+  const imgs=files.filter(f=>/^image\/(png|jpeg|gif|webp)$/.test(f.type));
+  const err=$("#err-"+id); err.textContent= files.length && !imgs.length ? ERR.unsupported_type : "";
+  for(const f of imgs){
+    const tray=$("#tray-"+id); const ph=thumb(id,null,URL.createObjectURL(f)); ph.classList.add("loading"); tray.insertBefore(ph, tray.lastChild);
+    try{
+      const res=await assets.upload(f);
+      ensure(id).images.push(res.id); renderTray(id); queueSave(id, true);
+    }catch(e){ ph.remove(); err.textContent = ERR[e&&e.code] || "The image didn't upload. Try again."; }
+  }
+}
+async function removeImage(id, aid){
+  const st=ensure(id); st.images=st.images.filter(x=>x!==aid); renderTray(id); queueSave(id,true);
+  const used=Object.values(state).some(s=>(s.images||[]).includes(aid));
+  if(!used){ try{ await assets.delete(aid); }catch(e){} }
+}
+document.addEventListener("paste",e=>{
+  if(!assets) return;
+  const files=[...(e.clipboardData&&e.clipboardData.files||[])].filter(f=>f.type.startsWith("image/"));
+  if(!files.length) return;
+  const id = activeRow || "general";
+  e.preventDefault(); addFiles(id, files);
+  const row=$("#row-"+id); if(row && !row.contains(document.activeElement)) row.scrollIntoView({block:"center",behavior:"smooth"});
+});
+$("#file").addEventListener("change",e=>{ const files=[...e.target.files]; e.target.value=""; if(activeRow) addFiles(activeRow, files); });
+$("#lb").onclick=()=>{ $("#lb").hidden=true; };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("#lb").hidden=true; });
+
+/* ---------- saving ---------- */
+function queueSave(id, now){
+  dirty.add(id); localSave();
+  if(!db){ setStatus("local","Saved in this browser only"); return; }
+  setStatus("saving","Saving…");
+  clearTimeout(timers[id]); timers[id]=setTimeout(()=>flush(id), now?0:700);
+}
+async function flush(id){
+  if(saving.get(id)) { saving.set(id,"again"); return; }
+  saving.set(id,true); dirty.delete(id); pendingSaves++;
+  const s=ensure(id);
+  try{ await db.doc("plan/"+id).set({text:s.text, images:s.images.slice(), updatedAt:new Date().toISOString()}); $("#err-"+id).textContent=""; }
+  catch(e){ dirty.add(id); $("#err-"+id).textContent = e&&e.code==="quota_exceeded" ? "Storage for this page is full." : "This line didn't save. Keep typing and it will try again."; setStatus("error","Some changes aren't saved"); }
+  pendingSaves--;
+  const again=saving.get(id)==="again"; saving.delete(id);
+  if(again||dirty.has(id)) return flush(id);
+  if(!pendingSaves && !dirty.size) setStatus("saved","All changes saved");
+}
+window.addEventListener("beforeunload",e=>{ if(dirty.size||pendingSaves){ e.preventDefault(); } });
+
+/* ---------- player ---------- */
+const vid=$("#vid");
+function playFrom(t){ $("#player").classList.remove("min"); $("#pmin").textContent="Hide"; vid.currentTime=t; vid.play().catch(()=>{}); }
+$("#pmin").onclick=()=>{ const p=$("#player"); p.classList.toggle("min"); $("#pmin").textContent=p.classList.contains("min")?"Show raw cut":"Hide"; };
+let lastRow=null;
+vid.addEventListener("timeupdate",()=>{
+  const t=vid.currentTime; $("#ptc").textContent=fmt(t);
+  const r=SCRIPT.find(x=>t>=x.t0 && t<x.t1+0.02);
+  if(r!==lastRow){ document.querySelectorAll(".row.now").forEach(e=>e.classList.remove("now")); if(r) $("#row-"+r.id).classList.add("now"); lastRow=r; }
+  document.querySelectorAll(".w.on").forEach(e=>e.classList.remove("on"));
+  if(r && !vid.paused){ const ws=[...$("#row-"+r.id).querySelectorAll(".w")]; let cur=null; for(const w of ws){ if(+w.dataset.t<=t+0.05) cur=w; } if(cur) cur.classList.add("on"); }
+});
+
+/* ---------- boot ---------- */
+function applyRemote(id, data){
+  if(dirty.has(id) || saving.get(id)) return;
+  state[id]={text:String(data.text||""), images:Array.isArray(data.images)?data.images.filter(x=>typeof x==="string"&&/^[0-9a-f]{32}$/.test(x)):[]};
+  const ta=$("#ta-"+id); if(ta && document.activeElement!==ta) ta.value=state[id].text;
+  renderTray(id);
+}
+async function boot(){
+  renderPalettes(); renderRows();
+  if(window.matchMedia && matchMedia('(max-width:760px)').matches){ $("#player").classList.add("min"); $("#pmin").textContent="Show raw cut"; }
+  const draft=localLoad();
+  const claude=window.claude;
+  if(!claude || !claude.use){ Object.assign(state,draft); renderRows(); setStatus("local","Saved in this browser only"); return; }
+  const [d,a]=await Promise.all([claude.use("db").catch(()=>null), claude.use("assets").catch(()=>null)]);
+  db=d; assets=a; assetsChecked=true;
+  ROWS.forEach(r=>renderTray(r.id));
+  if(!db){ Object.assign(state,draft); renderRows(); setStatus("local","Saved in this browser only"); return; }
+  const timer=setTimeout(()=>{ if(!dbOk) setStatus("error","Can't reach saved plans yet"); },10000);
+  db.collection("plan").onSnapshot(snap=>{
+    if(!snap.metadata.fromCache){ dbOk=true; clearTimeout(timer); if(!dirty.size&&!pendingSaves) setStatus("saved","All changes saved"); }
+    for(const ch of snap.docChanges()){ if(ch.type!=="removed") applyRemote(ch.doc.id, ch.doc.data()||{}); }
+  }, e=>{ clearTimeout(timer); setStatus("error","Saved plans are unavailable right now"); });
+  db.doc("settings/look").onSnapshot(s=>{ const v=s.exists && s.data().palette; if(v && v!==look){ look=v; renderPalettes(); } }, ()=>{});
+}
+boot();
+</script>

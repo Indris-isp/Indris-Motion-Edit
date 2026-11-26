@@ -1,0 +1,218 @@
+[
+ {
+  "start": 0.0,
+  "end": 3.2,
+  "text": "The UAE attracts thousands of international investors every month",
+  "words": [
+   {
+    "w": "The",
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "w": "UAE",
+    "s": 0.18,
+    "e": 0.46
+   },
+   {
+    "w": "attracts",
+    "s": 0.46,
+    "e": 0.9
+   },
+   {
+    "w": "thousands",
+    "s": 0.9,
+    "e": 1.34
+   },
+   {
+    "w": "of",
+    "s": 1.34,
+    "e": 1.64
+   },
+   {
+    "w": "international",
+    "s": 1.64,
+    "e": 2.1
+   },
+   {
+    "w": "investors",
+    "s": 2.1,
+    "e": 2.62
+   },
+   {
+    "w": "every",
+    "s": 2.62,
+    "e": 2.94
+   },
+   {
+    "w": "month",
+    "s": 2.94,
+    "e": 3.2
+   }
+  ]
+ },
+ {
+  "start": 3.2,
+  "end": 7.98,
+  "text": "and while the opportunity is exceptional, the process must be structured, especially for buyers abroad.",
+  "words": [
+   {
+    "w": "and",
+    "s": 3.2,
+    "e": 3.42
+   },
+   {
+    "w": "while",
+    "s": 3.42,
+    "e": 3.68
+   },
+   {
+    "w": "the",
+    "s": 3.68,
+    "e": 3.88
+   },
+   {
+    "w": "opportunity",
+    "s": 3.88,
+    "e": 4.32
+   },
+   {
+    "w": "is",
+    "s": 4.32,
+    "e": 4.58
+   },
+   {
+    "w": "exceptional,",
+    "s": 4.58,
+    "e": 5.1
+   },
+   {
+    "w": "the",
+    "s": 5.26,
+    "e": 5.36
+   },
+   {
+    "w": "process",
+    "s": 5.36,
+    "e": 5.72
+   },
+   {
+    "w": "must",
+    "s": 5.72,
+    "e": 5.96
+   },
+   {
+    "w": "be",
+    "s": 5.96,
+    "e": 6.14
+   },
+   {
+    "w": "structured,",
+    "s": 6.14,
+    "e": 6.6
+   },
+   {
+    "w": "especially",
+    "s": 6.76,
+    "e": 7.1
+   },
+   {
+    "w": "for",
+    "s": 7.1,
+    "e": 7.32
+   },
+   {
+    "w": "buyers",
+    "s": 7.32,
+    "e": 7.6
+   },
+   {
+    "w": "abroad.",
+    "s": 7.6,
+    "e": 7.98
+   }
+  ]
+ },
+ {
+  "start": 8.12,
+  "end": 15.18,
+  "text": "A successful remote purchase requires clear documentation, verified reports, transparent market data and reliable oversight.",
+  "words": [
+   {
+    "w": "A",
+    "s": 8.12,
+    "e": 8.18
+   },
+   {
+    "w": "successful",
+    "s": 8.18,
+    "e": 8.64
+   },
+   {
+    "w": "remote",
+    "s": 8.64,
+    "e": 9.0
+   },
+   {
+    "w": "purchase",
+    "s": 9.0,
+    "e": 9.42
+   },
+   {
+    "w": "requires",
+    "s": 9.42,
+    "e": 9.9
+   },
+   {
+    "w": "clear",
+    "s": 9.9,
+    "e": 10.36
+   },
+   {
+    "w": "documentation,",
+    "s": 10.36,
+    "e": 11.06
+   },
+   {
+    "w": "verified",
+    "s": 11.42,
+    "e": 11.74
+   },
+   {
+    "w": "reports,",
+    "s": 11.74,
+    "e": 12.24
+   },
+   {
+    "w": "transparent",
+    "s": 12.44,
+    "e": 12.96
+   },
+   {
+    "w": "market",
+    "s": 12.96,
+    "e": 13.32
+   },
+   {
+    "w": "data",
+    "s": 13.32,
+    "e": 13.76
+   },
+   {
+    "w": "and",
+    "s": 13.76,
+    "e": 14.16
+   },
+   {
+    "w": "reliable",
+    "s": 14.16,
+    "e": 14.66
+   },
+   {
+    "w": "oversight.",
+    "s": 14.66,
+    "e": 15.18
+   }
+  ]
+ }
+]

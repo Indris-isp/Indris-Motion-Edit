@@ -1,0 +1,1461 @@
+# Full episode transcript (medium.en)
+
+How They Started, 58:12. One line per Whisper segment. Word timings are in `transcript_full_medium.json`.
+
+- **0:00.0** Been shot at multiple times, had to shoot a bank robber,
+- **0:03.1** vehicle pursuits, crashes, fighting, chasing.
+- **0:06.0** I mean, it's crazy what people do.
+- **0:07.8** What made you go,
+- **0:09.5** I'm gonna take the leap and do Hollywood?
+- **0:11.8** I never once thought of, I want to be an actor.
+- **0:15.1** First day on set, I fell in love with it.
+- **0:17.0** And I said, I want to do this.
+- **0:18.6** Eight years and over a hundred IMDB credits.
+- **0:22.2** What do you think you owe that to?
+- **0:23.4** Nobody's gonna know what you can do
+- **0:24.9** unless you show them what you can do.
+- **0:26.8** What are some of your favorite experiences
+- **0:28.9** you've done on set?
+- **0:30.3** The stunt burn I did for my buddy Colton Deeds.
+- **0:33.3** Oh my God.
+- **0:34.5** Like the feeling of being totally lit on fire.
+- **0:37.5** They light you on fire.
+- **0:38.9** What are you thinking?
+- **0:44.5** Hey everyone, welcome back to How They Started.
+- **0:47.3** My name's Brandon and let's get into it.
+- **0:50.0** Today's guest is an actor, stunt performer, producer,
+- **0:52.7** and has spent 33 years in the military,
+- **0:56.2** in the air force, law enforcement,
+- **0:57.9** along with the army.
+- **0:59.5** Despite never imagining he'd become an actor,
+- **1:01.4** he's now earned over a hundred IMDB credits,
+- **1:04.7** and counting, working on productions like Fallout,
+- **1:07.5** Euphoria, General Hospital, Better Call Saul,
+- **1:10.6** and VHS Halloween, just to name a few.
+- **1:13.5** He's also taken his career behind the camera
+- **1:15.4** as a producer on his feature film, Her Monster.
+- **1:18.7** Please welcome to the show, Sean Berube.
+- **1:21.4** Sean, thank you so much for being here.
+- **1:23.2** Thanks for having me guys.
+- **1:24.5** Absolutely.
+- **1:25.1** First and foremost, thank you for your service.
+- **1:28.3** 33 years, impressive.
+- **1:30.1** I gotta say, you have a pretty extraordinary life
+- **1:32.2** of being in the military for 33 years and counting,
+- **1:35.6** in the air force currently.
+- **1:37.4** Now you're focusing a lot on Hollywood.
+- **1:40.2** Out of all those years, your life, everything,
+- **1:42.7** what have you learned the most from those experiences?
+- **1:45.5** Most I learned was you get what you put into this life.
+- **1:49.6** Actually, the cool thing about being a police officer,
+- **1:52.0** especially like a street cop for a city,
+- **1:55.0** is because you're roaming around,
+- **1:57.1** there's not much like supervision.
+- **1:59.4** So you have to have the initiative to find work,
+- **2:04.5** get involved in things, take calls for service,
+- **2:07.3** stuff like that.
+- **2:07.9** So I think being a self-initiator of work
+- **2:11.6** has helped me through the police now going
+- **2:13.9** to filmmaking and stuff like that,
+- **2:16.5** because a lot of that is finding work yourself.
+- **2:19.4** Yeah.
+- **2:20.3** And basically, you'll get out of it
+- **2:23.5** what you put into it.
+- **2:24.4** Now, how did you get into the military?
+- **2:27.5** Like, is that something you always wanted to do,
+- **2:29.3** or how did that come about?
+- **2:30.8** Yeah, I know.
+- **2:31.6** I was born and raised in Massachusetts.
+- **2:34.4** I went to a vocational high school to be an electrician.
+- **2:37.2** I was going through my years, I get to senior year,
+- **2:40.5** and an army recruiter came to our high school
+- **2:42.7** and was like, hey, you ever thought about joining the army?
+- **2:44.9** And I was like, no.
+- **2:46.5** And he sat and talked to me, did his job as a recruiter,
+- **2:49.3** made it sound like it was the most amazing thing ever.
+- **2:51.8** And I was like, all right, I wanna do that, it sounds fun.
+- **2:54.6** And as soon as I turned 18, I left for boot camp
+- **2:57.6** and became a military policeman.
+- **2:59.5** For you not wanting to join it at first,
+- **3:02.2** to then going to boot camp, what
+- **3:03.6** was that experience like for you, and what did you think?
+- **3:07.5** So I think for me, it wasn't very difficult,
+- **3:12.4** I guess we'll say.
+- **3:13.8** I've always been an athlete, so I played soccer, hockey,
+- **3:17.7** everything growing up, track and field.
+- **3:19.8** So leaving for the army, one of the hardest things
+- **3:22.0** for people is probably the physical fitness aspect.
+- **3:24.9** And for me, that was nothing.
+- **3:26.7** I mean, it looks like you're freaking jacked.
+- **3:29.9** Yeah, so drill sergeants kind of left me alone.
+- **3:33.2** They focus on the people that aren't doing so good,
+- **3:35.2** start screaming and yelling at them.
+- **3:37.9** But yeah, it was actually entertaining for me.
+- **3:41.7** I got to do things I never would have done,
+- **3:43.5** shoot these cool weapons, throw grenades,
+- **3:46.2** do things you would never do in a lifetime.
+- **3:48.6** I used to do something like that.
+- **3:49.7** So I look back on it, it was great.
+- **3:53.5** How long were you in the army for?
+- **3:54.9** I did six years active duty in the army.
+- **3:57.7** OK, so then you were in the army for that amount of time,
+- **4:00.8** and then you transitioned into law enforcement, PD.
+- **4:04.7** So I was military police in the army,
+- **4:07.1** so I was already law enforcement, which
+- **4:09.3** is a great starting position if you
+- **4:11.6** want to be in law enforcement, because you can actually
+- **4:13.2** start at 18.
+- **4:14.8** And civilian law enforcement, you have to be 21 and over.
+- **4:18.3** So this is a great way to build up experience
+- **4:22.1** and build your resume for becoming a civilian cop
+- **4:26.4** after you turn 21.
+- **4:28.3** So that's what I did.
+- **4:30.4** I did six years.
+- **4:32.2** It was funny, because I was actually going to stay in.
+- **4:35.2** The army, they sent me to Puerto Rico on my first
+- **4:37.6** assignment, a Caribbean island, wow, so rough.
+- **4:41.9** It was beautiful.
+- **4:43.6** And then I was like, just send me overseas, I'll stay in.
+- **4:46.7** I wanted to go to Korea, Europe, whatever.
+- **4:49.8** And I was like, eh, we're going to send you
+- **4:51.2** to Fort Riley, Kansas.
+- **4:52.3** I was like, Kansas?
+- **4:53.2** I didn't want to go to Kansas.
+- **4:54.6** So I got out, and I became a Tucson police officer.
+- **4:57.7** In the beginning, you said this is something
+- **4:59.5** you didn't want to do.
+- **5:00.6** You didn't see yourself being a part of the army.
+- **5:02.8** They sold you the dream, which
+- **5:03.9** I'm curious if they sold you on the dream of traveling.
+- **5:06.3** That's usually the one they go with.
+- **5:08.5** What do you think was that switch for you,
+- **5:10.4** that you were like, I'm actually really liking this?
+- **5:12.5** Yeah, so I think a lot of us,
+- **5:14.4** as we're teenagers, about to graduate high school,
+- **5:17.7** not sure what we want to do in our lives.
+- **5:19.6** I wasn't even sure I wanted to be in law enforcement.
+- **5:22.7** But my drill sergeant, oh, my drill sergeant, my recruiter
+- **5:24.9** in the army said, what job do you want?
+- **5:27.5** And I was like, make me a cop.
+- **5:30.5** And he's like, you want to be a cop?
+- **5:32.4** I'll make you a cop.
+- **5:33.6** So he made me a cop, and I went to training,
+- **5:37.1** started doing the job.
+- **5:39.0** And I was like, this is kind of fun.
+- **5:41.4** I enjoyed it.
+- **5:43.4** Now, let me tell you, law enforcement in the army,
+- **5:47.6** and then law enforcement on the civilian side,
+- **5:51.0** two different beasts, man.
+- **5:52.5** Oh, yeah, like, not a moment of violence in the army.
+- **5:58.2** Everybody is disciplined, comes on base, very well behaved.
+- **6:02.9** Oh, my god, as soon as I became a Tucson police officer,
+- **6:05.5** like my first month on the job,
+- **6:07.0** chasing this robbery suspect, takes a hostage gun to her head
+- **6:10.8** and requested like a helicopter and a bag of money.
+- **6:15.4** I was like, is this real?
+- **6:16.9** And I'll never forget.
+- **6:18.6** So I'm still in training, and they call it failed training
+- **6:22.0** officer program, FTO.
+- **6:23.7** So I'm riding with a seasoned officer,
+- **6:26.4** and we hear on the radio, robbery call.
+- **6:28.5** My sergeant at the time locates the suspect vehicle.
+- **6:31.9** He's in vehicle pursuit, chases it
+- **6:34.5** to a department store, Park Place Mall.
+- **6:37.4** That car crashes, sergeant gets out, shoots at him.
+- **6:40.5** He goes inside, comes out with the hostage.
+- **6:43.0** Now it's the sergeant, me, and my trainer.
+- **6:46.6** And I'll never forget, we're all like, pouring our guns,
+- **6:49.7** like, let it go, let it go.
+- **6:51.1** And I remember lining up a headshot,
+- **6:53.1** and I tell my trainer, I was like, I got a headshot.
+- **6:55.4** You want me to take it?
+- **6:56.3** He's like, no.
+- **6:59.0** And then, boom, the sergeant actually
+- **7:02.5** shot him and took him out.
+- **7:04.1** Oh, really?
+- **7:04.7** He had a pretty good shot on it?
+- **7:06.4** Wow.
+- **7:07.2** And I was like, wow.
+- **7:08.5** This is, like, first month on the job.
+- **7:11.5** And I'm like, this is what I'm getting.
+- **7:12.7** And it has been a roller coaster ever since.
+- **7:14.5** I've been involved in so many things.
+- **7:16.5** I've been shot at multiple times,
+- **7:18.3** had to shoot a bank robber, vehicle pursuits, crashes,
+- **7:22.4** pepper spraying people, tasing people, fighting, chasing.
+- **7:25.6** I mean, it's crazy what people do with their freedoms.
+- **7:28.5** So going from being an officer in the military
+- **7:30.4** to what made you want to be like, OK,
+- **7:32.3** let me try this in Tucson?
+- **7:34.6** So when I was nearing the six years,
+- **7:37.2** I had to re-enlist for the Army to stay in.
+- **7:41.0** I requested to stay in.
+- **7:42.4** And they were like, we're going to send you
+- **7:44.3** to Fort Riley, Kansas.
+- **7:45.2** And I was like, no, I'll stay in if you send me overseas.
+- **7:47.6** And they said, no.
+- **7:48.7** So I was like, well, I'm getting out.
+- **7:49.9** And I had two kids at the time.
+- **7:52.8** And they were living in Tucson.
+- **7:54.6** So I looked for a job in law enforcement in Tucson, Arizona.
+- **7:58.1** I applied for border patrol, federal prisons,
+- **8:00.5** and Tucson police.
+- **8:02.0** And Tucson police was the first one
+- **8:03.6** to take me in the rest of this history.
+- **8:05.6** Would you say this line of work is for everyone?
+- **8:10.3** No.
+- **8:11.4** Absolutely not.
+- **8:12.4** But I absolutely loved it.
+- **8:14.4** And it's crazy.
+- **8:15.9** It's interesting that you say that because I've
+- **8:19.0** seen people, and I've asked other people this.
+- **8:22.6** And I'm like, I don't get it.
+- **8:23.9** I've seen a lot of disturbing things, a lot of bad stuff.
+- **8:27.9** And I'm able to kind of just shrug it off.
+- **8:30.3** It didn't affect me.
+- **8:31.8** But then I saw other people.
+- **8:33.4** I totally messed them up.
+- **8:34.5** And they got PTSD, and it messed up their lives.
+- **8:38.3** So it's like, I don't know if there's any way
+- **8:42.1** to test somebody before they get into this line of work
+- **8:45.9** to be like, no, you don't get the mind for this kind
+- **8:49.2** of job, the mental capacity, I guess, to handle it.
+- **8:52.8** But luckily for me, being a physical guy
+- **8:56.3** and able to deal with it mentally and emotionally
+- **9:00.4** in a good way, I guess, helped.
+- **9:02.9** Yeah, I kid you not, anyone I've known
+- **9:06.0** who's been a police officer or anything like that
+- **9:08.3** always has some of the most bizarre stories
+- **9:11.3** of things they've seen, things they've experienced.
+- **9:14.3** And it always blows my mind.
+- **9:15.9** I'm like, truthfully for me, I'm like,
+- **9:17.9** I don't know if I'd be able to do that.
+- **9:20.0** And I'm glad you brought that up
+- **9:21.7** because we can throw it out in the universe right now
+- **9:25.2** is if there's a production company that wants
+- **9:27.8** to do a reenactment show of real life stories
+- **9:31.2** of police officers on the streets, I got stories for days.
+- **9:35.3** I bet you do.
+- **9:37.3** Yeah, we could rant on for hours of,
+- **9:41.7** you guys would probably just totally be entertained
+- **9:43.8** because I would tell you these stories
+- **9:45.1** and you're like, what?
+- **9:46.5** They did what?
+- **9:47.7** It's crazy what people do.
+- **9:49.3** Give us two more stories about Tucson Police working with.
+- **9:52.3** Yeah, so I'll do.
+- **9:53.5** He knows immediately.
+- **9:54.8** Oh yeah, so you can actually Google this one,
+- **9:57.4** the Sean Berube Tucson Police bank robber shootout
+- **9:59.6** in, what is it, 2007.
+- **10:03.1** We had Cinco de Mayo.
+- **10:05.0** It was a Saturday morning and we had somebody rob our bank
+- **10:07.8** but in Midtown, but we had these devices
+- **10:11.0** and certain cop cars called ProNet
+- **10:13.1** and it would help you track bait money.
+- **10:15.6** And I just happened to have one of those cars
+- **10:17.3** on the east side, so they sent me to Midtown to help.
+- **10:20.1** As I'm getting to Midtown, you hear officers screaming,
+- **10:22.7** we got this aspect vehicle they're chasing.
+- **10:24.7** He crashes, he gets out,
+- **10:25.9** he jumps on this bicycle that was just laying around.
+- **10:29.1** He's riding down the street on a bicycle,
+- **10:31.0** they're chasing him.
+- **10:32.0** He jumps into a yard with like a wall
+- **10:34.4** that's maybe like four feet tall
+- **10:35.8** and we're surrounding the house
+- **10:37.8** and this guy just pops over the wall, pop, pop, pop, pop.
+- **10:40.7** He just starts shooting at the cops, hits three of them.
+- **10:44.7** I'm on the west side where this is happening
+- **10:48.7** and after, he reloads, it's a revolver.
+- **10:53.2** Unloads, reloads, I mean just constant shooting.
+- **10:56.8** Then they say he's jumping the wall
+- **10:57.8** to the west right towards me.
+- **10:59.5** And I just remember like tunnel vision
+- **11:02.9** and I get on the trunk of my car as like a post
+- **11:05.8** and I see him come into my field of vision.
+- **11:08.6** I'm just like, hit a moving target sideways
+- **11:13.5** from 40 yards away, like SWAT team and stuff
+- **11:16.9** reenacted the shot because it was like a shot
+- **11:19.0** from a crazy shot to be able to do.
+- **11:21.8** And I'm not that great of a shot.
+- **11:23.8** I did my practice and stuff like that
+- **11:25.7** but I hit him and I was like, I got him.
+- **11:29.3** Then we run in, we take him into custody
+- **11:31.2** and he lives in prison the rest of his life.
+- **11:33.6** He got multiple life sentences.
+- **11:35.9** Luckily the cops that got shot all survived.
+- **11:39.6** Okay, good.
+- **11:41.0** But yeah, that's one crazy story
+- **11:42.7** and then we'll get a couple fun ones.
+- **11:45.8** So a new officer, it is funny
+- **11:47.6** because he was in the army for 20 plus years
+- **11:50.1** and he was a tank commander
+- **11:52.7** and he joins the Tucson police later on life.
+- **11:55.5** And he goes to a scene of a burglary
+- **11:57.9** and they use this huge rock
+- **11:59.7** to just throw through a glass door.
+- **12:02.6** And he's like, hey, what do I do with this rock
+- **12:04.7** that they use to smash the window?
+- **12:06.4** And I was like, well, you got to put it in evidence.
+- **12:08.6** I was joking with him.
+- **12:09.9** But so he lives this heavy rock,
+- **12:12.2** throws it in the trunk of his cop car,
+- **12:14.2** drives the police station
+- **12:15.4** and he's like trying to pull it out of the trunk
+- **12:17.8** to bring it into the station to put it into evidence.
+- **12:20.1** And some other cops are like, what are you doing?
+- **12:22.2** He's like, oh, I called the Ruby
+- **12:23.3** and he said I had to put this into evidence.
+- **12:25.8** I think he was messing with you, man.
+- **12:27.7** And he calls me up and he's like,
+- **12:28.8** were you messing with me?
+- **12:29.9** Yeah, I was like, yeah.
+- **12:32.6** So we just messed with people like that.
+- **12:35.6** So I want to know from all of this experience,
+- **12:39.3** what made you go, you know,
+- **12:42.1** I'm going to take the leap and do Hollywood.
+- **12:44.4** I'm going to go do some acting, some stunt performing
+- **12:47.4** and talk to me about that experience.
+- **12:50.0** So actually I never once up to this point
+- **12:53.9** thought of I want to be an actor.
+- **12:55.9** I want to be, you know, doing this kind of stuff.
+- **12:58.3** And then 2018, I was at a Tucson police buddy's house
+- **13:01.8** for a 4th of July.
+- **13:03.8** And he had a friend there, Danny Ray
+- **13:07.0** and Danny Ray does Western wardrobe.
+- **13:09.2** And I was like, what does that mean?
+- **13:10.1** He's like, well, I end up on a lot of sets of movies,
+- **13:13.0** music videos, stuff like that.
+- **13:14.5** And I dress people up to look like the certain era
+- **13:17.7** of a Western and give them their weapons
+- **13:19.5** and time pieces and stuff like that.
+- **13:21.9** I said, oh, that's cool.
+- **13:23.2** And he's like, well, we're doing a independent horror film
+- **13:25.7** with a Western element.
+- **13:27.5** Why don't you come audition?
+- **13:28.5** I was like, nah.
+- **13:29.5** And he talked me into it.
+- **13:31.1** And it was funny because the day I went to audition,
+- **13:34.4** they had me read for this short role of a sheriff
+- **13:38.4** because of like the law enforcement background typecast.
+- **13:41.0** And I read for it and they called me up a couple of weeks
+- **13:43.9** later and they said,
+- **13:44.6** hey, we're not going to give you the sheriff role.
+- **13:46.4** And I figured, but we want to give you a lead role.
+- **13:49.2** We think you'd be perfect for this character,
+- **13:51.0** for the lead.
+- **13:51.7** And I was like, what?
+- **13:53.5** And first day on set, I fell in love with it.
+- **13:56.0** And I said, I want to do this.
+- **13:57.6** And I hit the ground running,
+- **13:59.1** got involved in every acting class I could
+- **14:01.6** out there in Arizona, every indie film,
+- **14:04.3** student film, whatever.
+- **14:07.5** So, and that was it.
+- **14:08.8** And then I...
+- **14:10.3** Was this audition in Arizona?
+- **14:12.4** It was.
+- **14:13.3** Oh really?
+- **14:14.2** Yeah.
+- **14:14.5** Wow.
+- **14:15.8** So a buddy of mine, Austin Buchanan,
+- **14:17.9** now buddy, not at the time,
+- **14:19.2** but I met him at that one and I knew nothing.
+- **14:22.4** So he was like trying to explain to me that this is how
+- **14:24.3** you audition and this is how you slate
+- **14:26.0** and all that stuff.
+- **14:27.1** And yeah, I fell in love with it.
+- **14:30.0** And here I am, eight years later.
+- **14:32.4** You fell in love with it
+- **14:33.1** and then you also moved down here, correct?
+- **14:36.3** Yeah.
+- **14:36.5** So after a couple of years in Arizona of doing this,
+- **14:39.1** I was like, you know, if I'm going to pursue this,
+- **14:41.5** I probably need to move out to California
+- **14:44.5** so I can do it for the bigger stuff.
+- **14:48.4** And so me and the wife said, let's do it.
+- **14:50.5** So we retired from Tucson Police in 2020,
+- **14:53.7** moved out here and we're doing it.
+- **14:57.8** So 2020, during pandemic?
+- **15:00.6** Yeah, so bad timing, right?
+- **15:03.5** Yeah, shoot.
+- **15:05.7** So I definitely, looking back on it,
+- **15:09.3** I'm like, ooh, that was a bad timing
+- **15:10.7** because we had the pandemic and then we had the strikes
+- **15:14.4** and now we're dealing with this AI stuff
+- **15:16.4** and yeah, it's just been crazy.
+- **15:18.4** Something you posted, which was so interesting to me,
+- **15:20.2** you said, not once had I ever thought I'd be an actor
+- **15:22.8** in this lifetime.
+- **15:23.9** Now I have over a hundred IMDb credits.
+- **15:27.2** That is an interesting statement.
+- **15:28.8** I kind of want you to unfold that
+- **15:30.1** and what that feeling is like for you.
+- **15:32.2** You said you auditioned, you fell in love with it,
+- **15:35.3** but I mean, you hit the ground running.
+- **15:38.9** Like talk to me about what year was your first audition.
+- **15:42.7** So like we're now in like 2026
+- **15:44.3** and you have over a hundred IMDb credits.
+- **15:46.4** Like you were working.
+- **15:48.3** I was.
+- **15:49.6** 2018, about October was the audition
+- **15:53.6** for A Cry in the Night, a story about La Llorona.
+- **15:58.3** And yeah, after that, it was just everything, everything.
+- **16:03.1** I was searching Facebook, Instagram,
+- **16:06.6** finding every filmmaker in Arizona,
+- **16:08.3** joining every Arizona filmmaker page
+- **16:10.6** and finding every project and just, like I said,
+- **16:15.7** sacrificing sleep and just traveling.
+- **16:18.2** To look back on it now, it's crazy
+- **16:22.2** the things I was doing
+- **16:23.2** and how much travel I was doing for it.
+- **16:27.3** I bought a car, a Nissan Versa.
+- **16:29.7** I bought this tiny little car
+- **16:31.1** just for traveling, for the acting.
+- **16:33.4** Now it has 200,000 miles, still have it.
+- **16:36.4** And that thing is running like a champ.
+- **16:38.0** I was just talking to somebody about that today
+- **16:39.7** and I was like, I will drive that thing
+- **16:41.9** till the wheels fall off.
+- **16:43.5** That thing has done me wonders just going back and forth.
+- **16:47.4** Cause my first big gig, I remember,
+- **16:50.7** cause I was doing a lot of student film, indie film.
+- **16:54.1** 2019, I saw this notice on Facebook
+- **16:57.8** looking for athletic, muscular people
+- **17:00.9** for this project in Albuquerque, New Mexico.
+- **17:03.8** So I put in for it, got invited out,
+- **17:07.8** Netflix studios, come on the studio lot,
+- **17:12.0** get in this room and there's a bunch of me
+- **17:14.5** and a couple other muscular people, athletic people.
+- **17:18.8** And oh my God, it's for Army of the Dead
+- **17:20.8** with Zack Snyder.
+- **17:22.5** So this is how involved Zack Snyder is.
+- **17:26.0** Like this is just low level, right?
+- **17:29.0** Alpha zombie, special ability type role.
+- **17:32.2** He comes, meets every one of us,
+- **17:34.6** wants to see us perform this weird walk for the,
+- **17:38.4** he teaches us a zombie walk.
+- **17:40.1** And he personally, at that level
+- **17:43.7** is approving or disproving people.
+- **17:46.4** And he gave me, you know, he approved me
+- **17:48.9** and that was my big, like, I was in awe,
+- **17:53.8** like going from these little tiny independent films
+- **17:56.9** where you're getting fed like pizza, pizza,
+- **17:59.1** you know, Little Caesar's pizza.
+- **18:00.9** Now I'm on this multi million,
+- **18:02.7** a hundred million dollar plus production
+- **18:04.5** in Albuquerque, New Mexico.
+- **18:06.7** They got equipment for days, people for days,
+- **18:10.8** running around with food.
+- **18:12.1** Like I remember it was food time.
+- **18:13.8** They're like, what do you want to eat?
+- **18:14.7** And I was like, what do you got?
+- **18:15.8** And they're like, well, we got a salmon dinner,
+- **18:17.8** a prime rib dinner, a chicken dinner.
+- **18:19.9** I was like, take one of each jokingly.
+- **18:22.8** And they're like, okay, boom.
+- **18:24.3** I was like, oh my God.
+- **18:25.5** I was like, this is crazy.
+- **18:27.1** They must've been spending like a million dollars a day.
+- **18:29.3** So to go from, you know, working these little things
+- **18:32.9** to being on a huge production is just mind blowing.
+- **18:35.8** Yeah, no, absolutely.
+- **18:37.0** And I will say, so you're an actor,
+- **18:39.0** but I also see you do a lot of stunt work.
+- **18:42.3** I got to imagine stunts come kind of natural to you.
+- **18:47.1** Yeah, so I've always been an adrenaline junkie, athletic.
+- **18:52.1** So for me, when I came out to California
+- **18:55.2** is when I started meeting people in the stunt world
+- **18:57.7** and I started working with them,
+- **18:59.9** people like Tony Surfman, Daniel LoCicero, John Ting,
+- **19:04.0** multiple different stunt coordinators we'll call them,
+- **19:08.1** stunt teams.
+- **19:09.1** And we would just practice and do fights,
+- **19:12.2** you know, stage fighting, falls.
+- **19:14.2** I've done burns, get totally engulfed in flames.
+- **19:18.0** That one, that was a rush.
+- **19:20.4** I was like, this is so cool.
+- **19:22.0** As soon as I was done, I was like, I want to do it again.
+- **19:24.7** Wire work, stunt driving.
+- **19:27.5** Actually the good thing about the stunt driving
+- **19:29.2** is all through my military and law enforcement career
+- **19:32.2** I've done a lot of evasive driving,
+- **19:34.0** advanced driving techniques,
+- **19:35.3** learned how to do J-turns, 180s and 360s
+- **19:38.3** and slick track and ramming cars and stuff like that.
+- **19:41.3** So that actually kind of worked in my favor
+- **19:44.0** and now getting into filmmaking.
+- **19:46.1** Like this year I went up to Detroit,
+- **19:48.4** did some stunt driving, precision driving
+- **19:50.1** for a Cadillac commercial and stuff like that.
+- **19:52.3** Oh nice, okay.
+- **19:53.5** Now I do want to go back just a little bit.
+- **19:55.8** When you mentioned, so the Army was trying to recruit you
+- **19:58.6** and you were like, nah, not interested
+- **20:00.1** because you just finished saying you love adrenaline,
+- **20:02.8** you love the stunts, you love all this stuff.
+- **20:05.6** Talk to me again what you were trying to pursue then
+- **20:08.2** when you were going to school.
+- **20:10.3** Was it electrician or?
+- **20:11.9** Yeah, so I was in the electrical vocation high school.
+- **20:16.2** So that's one week of academics, one week of electrical
+- **20:18.8** and you just keep doing that
+- **20:20.1** for your entire high school career.
+- **20:22.0** And then when you graduate,
+- **20:24.2** you graduate as a journeyman apprentice
+- **20:26.3** so you can actually go do that for a job if you want.
+- **20:30.4** But would you say you were still
+- **20:31.6** like an adrenaline person and someone who likes stunts
+- **20:34.0** and appreciated all that at that age
+- **20:36.1** or you were just kind of like,
+- **20:36.9** I'm just going to become an electrician,
+- **20:38.4** work with some wires.
+- **20:39.3** Yeah, at that age I was doing the vocation
+- **20:42.9** but I was also an athlete.
+- **20:45.0** So I pretty much played soccer, hockey
+- **20:47.2** and track and field my entire childhood.
+- **20:50.6** So going back to the stunts,
+- **20:52.3** what are some of your favorite experiences
+- **20:54.6** you've done on set,
+- **20:56.0** either as a stunt performer or as an actor?
+- **20:58.2** Oh wow, on different levels.
+- **21:01.6** So as one of my favorite stunt driving things
+- **21:03.8** was I was on this movie
+- **21:06.6** and I had to ram a couple cars.
+- **21:09.6** So that was fun.
+- **21:10.6** And then I got to drive this 1968 Plymouth
+- **21:13.7** stick shift muscle car.
+- **21:15.8** And I was driving up and down these streets
+- **21:17.5** as a police chase.
+- **21:18.8** I even put on a wig to look like the actor.
+- **21:22.5** And yeah, we're just doing these police chases
+- **21:24.3** through the small town in Arizona
+- **21:25.7** and then doing all these donuts and stuff.
+- **21:27.8** So as far as stunt driving,
+- **21:29.7** that was probably one of my funnest ones.
+- **21:32.8** Stunned fighting, I've done a lot with Tony Surfman
+- **21:35.3** where you choreograph, it's almost like a dance.
+- **21:39.1** You choreograph how you're throwing the punches
+- **21:41.2** and kicks and the flips and the throws
+- **21:43.2** and you practice this and then you do it for camera
+- **21:47.2** and watching it come to life after
+- **21:50.8** where you had the sound design
+- **21:53.5** and maybe some VFX blood, stuff like that.
+- **21:56.2** And seeing that come to life is just such a cool feeling.
+- **21:59.1** And then as I kind of mentioned a second ago,
+- **22:02.3** the stun burn I did for my buddy Colton Deetz.
+- **22:06.8** Like the feeling of being totally lit on fire.
+- **22:11.1** And you can't breathe, right?
+- **22:12.1** You can't take in any air
+- **22:13.1** because of oxygen or something?
+- **22:14.9** Don't try this at home.
+- **22:15.8** I'm not teaching you how to do it.
+- **22:17.3** Get a professional, but they do teach you
+- **22:20.0** if you need to take a breath, you go forward
+- **22:22.0** so the flame is behind you, you get a breath.
+- **22:25.4** But if you're standing still or going backwards,
+- **22:27.9** do not take in breath because you're going to breathe
+- **22:29.6** in the flames and you're going to burn your esophagus
+- **22:32.1** and your lungs.
+- **22:34.0** Yeah.
+- **22:34.5** You got to be careful with that.
+- **22:35.6** So I want to know more about that experience
+- **22:37.9** because not everybody gets lit on fire, right?
+- **22:40.9** Especially, so they light you on fire.
+- **22:43.0** What are you thinking?
+- **22:45.6** The first time is always a rush.
+- **22:47.4** So my heart is racing and I'm like,
+- **22:49.3** oh my God, is this going to hurt?
+- **22:50.4** Am I going to die?
+- **22:52.6** But yeah, so the worst part actually
+- **22:55.8** is getting prepared for it.
+- **22:58.0** So to get prepared for it, they got this goop,
+- **23:01.1** super cold, ice cold goop, and they soak these clothes,
+- **23:05.3** fire-retardant clothes in it,
+- **23:06.7** and you got to put them on and it is so cold.
+- **23:09.5** You're like, whoa.
+- **23:11.1** And then you got to put their shirt on
+- **23:12.4** and you're like, oh my God.
+- **23:13.7** And then you put another layer on
+- **23:15.3** and then you put the actual wardrobe
+- **23:17.6** of what the character is wearing.
+- **23:19.3** And then any exposed skin or hair,
+- **23:21.8** which thankfully I don't have much,
+- **23:24.4** they goop you up.
+- **23:26.1** So you just hover it in this goop
+- **23:28.0** and then they put an accelerant on you
+- **23:31.3** in a certain pattern and then they count it down
+- **23:34.0** and they light you on fire and you just whoosh.
+- **23:37.7** It's like immediate.
+- **23:39.1** And yeah, you just start running around
+- **23:41.2** and it's cool because they do slow-mo
+- **23:44.0** and you're like, ah, screaming
+- **23:45.7** and the flames are everywhere and it was a rush.
+- **23:48.8** I want to do it again.
+- **23:49.9** Wow, that is insane.
+- **23:51.3** So with the military alone,
+- **23:52.8** it's obviously you got to be very disciplined.
+- **23:55.6** It's very demanding on the body
+- **23:57.3** and it's a hard thing to do.
+- **23:59.6** On the flip side, so is acting in Hollywood
+- **24:02.7** and then trying to make it big and create your own.
+- **24:05.3** They're still both very hard,
+- **24:07.9** but in different areas and capacities.
+- **24:11.8** What would you share some of the comparisons
+- **24:14.7** between the two and how you took your discipline
+- **24:16.5** from military into acting in Hollywood?
+- **24:20.6** Yeah, great, great question.
+- **24:22.7** So in the military, you learn discipline,
+- **24:25.9** you learn to what they call sit around and wait a lot.
+- **24:29.4** And I found on film sets, it's almost the exact same thing.
+- **24:36.0** You treat it a little better most of the time,
+- **24:38.4** depending on the set, I guess,
+- **24:40.3** but it's a lot of sit around waiting,
+- **24:43.1** being ready to go, being disciplined,
+- **24:45.6** being timely, being reliable.
+- **24:47.9** And these are all things you can take
+- **24:49.3** from the military or law enforcement
+- **24:51.3** and incorporate into your life as an actor or stuntman
+- **24:55.3** because you're on set a lot
+- **24:56.4** and you have to take a lot of direction.
+- **24:59.0** And one of the best things that productions like
+- **25:02.0** and directors like is people who can take direction,
+- **25:06.1** what they're asking you to do
+- **25:07.5** and follow that direction and perform.
+- **25:09.9** It'll save a lot of time
+- **25:11.1** and a lot of frustration on their part.
+- **25:13.1** So those definitely go hand in hand.
+- **25:15.8** And now you getting into acting
+- **25:17.6** and going through the audition process
+- **25:19.1** and obviously there's a lot of no's in between the yeses.
+- **25:23.3** What's that experience been like over the years?
+- **25:26.8** I wanna relate it to gambling.
+- **25:29.9** That constant search for that feeling of high.
+- **25:33.4** You're searching for that high
+- **25:34.7** because when you get a big win,
+- **25:37.0** when you nail and book that production, that role,
+- **25:41.6** it releases all these like endorphins
+- **25:43.3** and you're like, yeah!
+- **25:44.8** And then you do the job, it's over,
+- **25:46.5** and you're like, oh, now you're gonna chase it again.
+- **25:49.3** And you're just constantly chasing that high.
+- **25:52.5** And it's frustrating, it really is.
+- **25:54.8** And you have to be somebody who is consistent,
+- **26:00.7** determined, persistent
+- **26:02.4** because this is an industry that is full of rejection.
+- **26:06.9** And if you don't have thick skin, if you can't take it,
+- **26:10.1** this is not the industry for you
+- **26:12.1** because you're right that you're gonna get 99% no's.
+- **26:16.7** And then that 1% one is like the rush
+- **26:19.6** that everybody's searching for.
+- **26:21.0** Absolutely, I had on another guy who's an actor as well.
+- **26:23.9** And he's just, he's explaining like his story,
+- **26:26.2** his background a little bit, and he's like,
+- **26:27.9** I mean, minus he's like getting rejected
+- **26:29.7** from every audition under the sun.
+- **26:31.7** It's like, it sucks.
+- **26:32.9** Like there's so many people
+- **26:33.9** and there's a lot of very talented people,
+- **26:35.8** but again, it's a tough industry.
+- **26:37.7** And I just heard someone talk about it today
+- **26:39.5** that you can be the best actor,
+- **26:42.5** you could be the best whatever,
+- **26:44.5** and you can still not get the role.
+- **26:46.4** Maybe you're not the right look,
+- **26:47.5** not the height, the build, whatever the thing is.
+- **26:50.6** All the time.
+- **26:51.4** Yeah. Yep, 100%.
+- **26:53.4** I wanna talk about some of the projects
+- **26:55.6** you've been a part of.
+- **26:56.6** One of them being Fallout and the other one Euphoria.
+- **26:59.2** Fallout, you were this like warrior chant and something.
+- **27:02.0** It looked like a freaking cool role.
+- **27:03.4** Tell me about that.
+- **27:04.5** So that's one of my coolest roles to date
+- **27:06.8** because of the costume and everything.
+- **27:08.3** So they put a Mohawk on me and I play a Mohawk Legionnaire.
+- **27:12.5** And if you played the video game and you follow New Vegas
+- **27:16.8** and the Legionnaires, you'll understand that.
+- **27:19.7** And it was a special ability role with some stunts.
+- **27:23.6** And we got to do this cool fighting in the costumes
+- **27:26.6** and we just won an Emmy.
+- **27:28.5** And when I say we, the costume designers for the show.
+- **27:33.1** So that's how cool the costumes are
+- **27:35.4** that they won an Emmy.
+- **27:36.2** And Euphoria, I played a DEA agent.
+- **27:40.6** So another special ability stunt thing.
+- **27:45.3** We did this cool drive-in, this armored vehicle
+- **27:48.6** and you're off-roading and you're just bouncing
+- **27:50.5** around back there and you jump out
+- **27:52.3** and pointing guns and taking people down for that scene.
+- **27:56.7** And those roles, like I was talking
+- **27:59.4** about the Army of the Dead, these are shows
+- **28:02.7** that pretty much have unlimited budgets.
+- **28:04.5** So they are just spending so much money.
+- **28:08.0** But to see all these people come,
+- **28:10.9** the hundreds and hundreds of people come together
+- **28:13.9** to know that there's people organizing all this
+- **28:17.4** is mind-blowing.
+- **28:19.2** Have all these people come at the right time,
+- **28:21.4** the costumes, the props, the vehicles,
+- **28:23.6** the location, the act, everything.
+- **28:25.7** To see it all come together is so mind-blowing
+- **28:29.4** and so cool.
+- **28:30.5** I love being part of that.
+- **28:31.8** Yeah.
+- **28:32.8** You were also part of VHS Halloween,
+- **28:36.0** directed and written by Micheline Pitt, correct?
+- **28:40.5** You were the executioner?
+- **28:42.0** Yeah.
+- **28:42.5** Tell me about that.
+- **28:43.7** What a cool role.
+- **28:45.1** These are things that are like,
+- **28:47.3** so like you were talking about,
+- **28:48.8** you get hundreds of auditions
+- **28:50.8** and it's like spaghetti to the wall.
+- **28:53.2** You just throw it, whatever sticks, sticks.
+- **28:56.0** So I was actually working at March Air Force Base
+- **29:00.4** when I got the audition.
+- **29:02.4** So I read the role, I read the audition,
+- **29:05.1** it's for this executioner, the one big muscular,
+- **29:07.4** just crazy guy.
+- **29:09.0** So I just went outside, set up my camera
+- **29:12.7** and took out my shirt and just like flexed it.
+- **29:18.1** Ah!
+- **29:19.0** And I'm just screaming into this camera
+- **29:21.0** and I can just imagine anybody's driving by
+- **29:23.3** cause I'm just outside doing this.
+- **29:25.3** Anybody driving by is like,
+- **29:26.5** what the heck is going on over there?
+- **29:28.0** And you submit it
+- **29:29.3** and they loved it and I booked the role
+- **29:31.8** and that was a cool one because
+- **29:33.6** if you go look at the pictures,
+- **29:35.8** I got all this makeup and prosthetics put on me
+- **29:39.8** and it probably took a couple hours.
+- **29:42.6** Multiple people working on me,
+- **29:44.6** spray painting these veins and stuff on me,
+- **29:47.8** putting all these prosthetics on my face,
+- **29:49.9** contact lenses, full contact lenses
+- **29:52.5** and the role was pretty cool.
+- **29:54.8** They had this electric chair setup done
+- **29:57.8** and just to see the sets get designed and built up,
+- **30:02.0** you would never believe, like in a building like this,
+- **30:04.5** they just build these sets
+- **30:05.5** and it becomes this dungeon, this torture layer
+- **30:08.3** and it's just so cool.
+- **30:10.0** And to be part of the VHS series,
+- **30:12.5** cause this has been going on since like the 90s.
+- **30:15.1** Oh really, I didn't know that.
+- **30:16.9** So to be part of this series,
+- **30:19.1** a very popular one in the horror genre was pretty cool.
+- **30:23.3** Wow, that's amazing.
+- **30:24.8** What was, specifically the one you were a part of,
+- **30:27.5** what was the premise of it?
+- **30:28.9** You remember that?
+- **30:29.7** Yeah, so it's multiple episodes within one movie
+- **30:33.5** and ours is the final segment, we'll call it
+- **30:36.4** and it's basically a trick-or-treating
+- **30:39.7** and this family builds a little haunted house maze
+- **30:43.6** in their backyard every year
+- **30:45.2** and they just come upon this record
+- **30:49.8** that makes it come to life.
+- **30:52.0** So what they're thinking is just gonna be a normal,
+- **30:54.1** every day, some trick-or-treaters come,
+- **30:56.2** walk through the maze, get scared and leave,
+- **30:59.4** turns into the real thing.
+- **31:01.3** Now they're running for their life,
+- **31:03.8** trying to make it through this maze
+- **31:05.2** that's trying to kill them with all these ghouls
+- **31:07.1** and witches and the executioner.
+- **31:09.0** Yeah, that's amazing.
+- **31:10.7** So then would you also say you're a pretty big fan
+- **31:13.8** of like the Halloween genre?
+- **31:15.5** Oh, absolutely.
+- **31:15.9** I got to imagine because the next thing
+- **31:17.6** we're gonna discuss is,
+- **31:19.1** I wanna talk about your feature film.
+- **31:20.4** So it's titled Her Monster.
+- **31:22.8** What is it about and how did you come up with the idea?
+- **31:25.1** Yeah, so I wore the shirt just from there.
+- **31:28.3** Oh, I love it, I love it, very nice.
+- **31:32.6** So my wife and I were talking
+- **31:34.6** and because the industry is in a weird slump right now.
+- **31:39.7** If you don't know it, you can research it
+- **31:42.2** but it's like 40% of what it used to be
+- **31:45.5** as far as productions going and filming.
+- **31:48.7** So it's making it harder and harder to get work.
+- **31:51.9** So me and the wife are talking
+- **31:53.2** and I got the connections now,
+- **31:54.6** I got the people, I got the team.
+- **31:56.4** I was like, you know what?
+- **31:57.1** We should just make our own movie.
+- **31:59.1** So now it was like, what do we decide
+- **32:00.8** on what's one to do?
+- **32:02.5** Because you wanna do something
+- **32:04.6** that kind of has some community already built in.
+- **32:08.1** So back in 2021 in Arizona,
+- **32:10.9** my buddy Ted Tanaka did a short film called Her Monster
+- **32:14.4** and it was a concept.
+- **32:16.4** And he went off and put in film festivals,
+- **32:18.7** won a bunch of awards.
+- **32:20.5** And I was like, you know what?
+- **32:21.9** Let me see if this has any interest.
+- **32:24.2** So I posted just a little clip on my Instagram
+- **32:26.8** from Her Monster, the concept.
+- **32:29.3** And it went viral.
+- **32:30.4** It got over 3 million views.
+- **32:32.0** Oh wow.
+- **32:32.7** People, thousands of people like,
+- **32:34.2** oh my God, you gotta make this into a feature.
+- **32:36.0** We love the premise.
+- **32:37.0** So I said, well, that's the writing on the wall, right?
+- **32:39.5** So we talked to Ted Tanaka,
+- **32:41.5** had him write a feature film out of it
+- **32:44.1** and we took it and ran with it.
+- **32:47.2** And my buddy Colton Dietz,
+- **32:48.7** the guy I chose to direct my film.
+- **32:51.2** Great decision by the way
+- **32:52.5** because he has amazing vision.
+- **32:55.7** Yeah.
+- **32:56.9** I was just in a position in my life
+- **32:58.6** that had the team, I had the finances.
+- **33:00.9** I said, let's do it.
+- **33:02.2** That's amazing.
+- **33:02.8** And we did.
+- **33:03.4** It took us about a year
+- **33:06.0** and which ain't bad for any film from experience.
+- **33:11.2** And now I have the finished film
+- **33:12.9** and I put into a couple of film festivals,
+- **33:15.9** the Sundance, Slamdance and SXW.
+- **33:18.9** And I'm hoping that they take it
+- **33:21.3** and do the world premiere there.
+- **33:23.8** That's awesome.
+- **33:24.6** And then what's it about?
+- **33:26.6** So the movie is about a teenage girl
+- **33:28.9** and it has a Japanese folklore tale to it.
+- **33:33.1** So this Asian family,
+- **33:34.5** the bloodline is attached to this pendant
+- **33:37.1** which contains a monster
+- **33:38.6** and this monster protects the bloodline.
+- **33:42.1** So it starts off in the past,
+- **33:44.8** this big samurai battle, which I'm so proud of.
+- **33:47.2** Oh my God, this samurai battle we did,
+- **33:49.4** I couldn't believe who we got to be part of it
+- **33:53.9** and to watch it come to life
+- **33:55.7** and to have all these people come in
+- **33:58.3** and make it look like this huge battle.
+- **34:00.1** We actually got the samurai team
+- **34:01.3** that was in The Last Samurai.
+- **34:02.9** Oh, wow.
+- **34:04.0** Shogun.
+- **34:04.9** So they worked on those big shows like that.
+- **34:06.6** So they're a legit team.
+- **34:08.2** And yeah, they came out.
+- **34:09.5** And so it starts off with that.
+- **34:11.2** The lady in the opening hides the pendant
+- **34:13.8** because the power is too much.
+- **34:15.7** Fast forward to modern day teenage girl.
+- **34:19.4** Her dad died.
+- **34:20.7** She's abused by her stepdad, bullied at school.
+- **34:25.1** She's an introvert.
+- **34:26.3** She's a cutter.
+- **34:28.2** So she's dealing with a lot of mental stuff.
+- **34:30.8** Comes upon this pendant and the monster
+- **34:33.7** and it totally changes her life.
+- **34:35.7** Builds up her confidence.
+- **34:37.1** She becomes a stronger character.
+- **34:39.3** And so it's like, it's a monster story,
+- **34:42.7** coming of age, supernatural thriller
+- **34:45.3** with some horror elements in it.
+- **34:48.0** Because the monster definitely does some horrific things
+- **34:50.4** to some pretty mean people in her life.
+- **34:53.4** Yeah, dang, that is amazing.
+- **34:55.6** So I gotta ask, being an actor, a stunt performer,
+- **34:58.0** being in Hollywood, doing all these auditions,
+- **35:00.0** what's it feel like to be on the other end?
+- **35:02.0** And I know you, I think you did some acting
+- **35:03.3** in this film as well, the feature film you did,
+- **35:05.3** Her Monster, what's it feel like to cultivate
+- **35:07.8** and put together something of your own?
+- **35:10.3** Great question.
+- **35:11.5** And let me tell you, my entire life,
+- **35:14.3** I have never done anything that has been so exhausting,
+- **35:18.5** so challenging, so difficult.
+- **35:21.2** Like there's just so many things,
+- **35:23.5** so many moving pieces when you're filming a movie.
+- **35:26.7** There's just so many things you have to think about.
+- **35:28.4** The logistics and the actors and the props
+- **35:31.9** and the wardrobe and the makeup.
+- **35:34.2** To do it from start to finish
+- **35:37.5** is a great thing for anybody to do
+- **35:39.2** if they're interested in this world.
+- **35:41.2** Because when you're just an actor,
+- **35:43.5** you get hired, you show up, you do your piece,
+- **35:45.6** you leave, that's it.
+- **35:47.1** You let everybody else do the work.
+- **35:49.5** Well, when you're making your own movie,
+- **35:51.3** you're responsible for doing all that work.
+- **35:55.0** So it was a great experience,
+- **35:58.2** a very challenging one, like I said.
+- **36:00.2** And I couldn't be happier with the end result
+- **36:03.6** to see something from just a thought.
+- **36:08.5** And now I saw it on the big screen.
+- **36:10.4** I played it over at Regal for myself.
+- **36:13.4** And I got to see it and hear it on the big screen.
+- **36:16.2** Oh my God.
+- **36:18.0** It was the most amazing thing.
+- **36:20.3** Do we have a release date at all?
+- **36:22.2** So I have to wait to the film festivals.
+- **36:25.4** So I'll find out in December
+- **36:27.2** if I get accepted into those.
+- **36:28.9** Those will be the world premiere.
+- **36:30.9** If I don't get accepted into those,
+- **36:32.7** then I'll put into lower tier film festivals.
+- **36:35.1** But I'm also talking and shopping around right now
+- **36:38.5** with distribution companies.
+- **36:40.5** It's exciting.
+- **36:41.9** Yeah, so we'll see what happens
+- **36:43.2** and maybe a limited theatrical release or streaming.
+- **36:46.4** Was this also the movie you said Alyssa helped with
+- **36:49.5** as well, worked on?
+- **36:50.6** Yeah, so yeah, one of your people
+- **36:53.6** that were on the show, one of your guests, Alyssa,
+- **36:58.1** who's done amazing work on multiple productions,
+- **37:01.9** including Obsession, which was very popular this year.
+- **37:04.9** She actually did some of the special effects
+- **37:06.9** for my movie, which is pretty cool.
+- **37:08.9** That's awesome.
+- **37:10.4** The more and more people I meet,
+- **37:11.7** and I was sharing her with this
+- **37:12.9** with the special effects department too,
+- **37:14.7** I'm like, it seems like you guys are pretty close knit,
+- **37:18.2** especially special effects.
+- **37:19.5** And she's like, yeah, we kind of all,
+- **37:20.8** we'll reach out to each other for different things
+- **37:22.6** to put together something.
+- **37:23.7** Yeah, in the filmmaking world,
+- **37:25.1** it is a very small world.
+- **37:27.1** I end up on sets and I'm like, oh, hey, I know you.
+- **37:29.6** Oh, hey, I know you.
+- **37:30.6** And it's like that commercial I did up in Detroit this year,
+- **37:36.3** the actor who is the face of the commercial,
+- **37:39.6** I'm the driver, him and I worked years ago,
+- **37:44.4** five years ago on a production and he remembered me
+- **37:47.7** and he was like, yo, hey, Sean.
+- **37:49.9** And yeah, we remembered, we worked on a real,
+- **37:53.5** I think it was The Rail Murders of Atlanta,
+- **37:56.2** this reenactment crime show.
+- **37:58.0** And I was like, wow, small world, man.
+- **37:59.9** What are the odds that you and I worked five years ago
+- **38:02.3** in LA and now we're in Detroit together.
+- **38:04.2** Yeah, so cool.
+- **38:05.0** Absolutely.
+- **38:06.3** Now I always tell people, especially the guests I have on,
+- **38:09.0** I said, because you said it perfectly as far as
+- **38:11.2** with Hollywood, with booking roles,
+- **38:13.9** it's become a lot harder nowadays.
+- **38:15.8** And I tell people, I'm like, in this day and age,
+- **38:18.3** you gotta create your own thing.
+- **38:20.1** You just gotta go for it, believe in yourself,
+- **38:21.8** create it and exactly what you're doing,
+- **38:23.4** exactly what Alyssa's doing with her short as well.
+- **38:26.1** Exactly what you're doing.
+- **38:27.2** You know, creating your own opportunity.
+- **38:29.5** Absolutely, and so I just love seeing creative people
+- **38:32.6** get at it and making it happen.
+- **38:34.3** I do wanna know, during all these years,
+- **38:36.9** not only in the military, but then coming into Hollywood,
+- **38:39.9** did you ever face moments of wanting to quit
+- **38:42.9** or turn away from Hollywood?
+- **38:44.9** Because you get that rejection all the time
+- **38:46.9** and I feel like the military teaches a lot of discipline.
+- **38:49.8** Did you take that into pursuing the career in Hollywood?
+- **38:53.7** Yeah, absolutely.
+- **38:54.6** I would say my background in law enforcement military
+- **38:58.2** was really helpful in pursuing this.
+- **39:03.0** You gotta have stamina, you gotta have the endurance.
+- **39:06.2** I have driven through the night,
+- **39:08.5** I've worked off of two hours sleep,
+- **39:10.9** pulled over, did 15-minute power naps
+- **39:13.1** just to make it the drive back to work,
+- **39:15.7** especially when you're doing a full-time job.
+- **39:18.1** So I'm juggling life.
+- **39:20.2** I have seven-year-old twins who are also into acting.
+- **39:25.3** And so juggling, yeah, juggling the life,
+- **39:29.2** the family life, the military life
+- **39:31.2** and the filmmaking world is not for the weak.
+- **39:35.1** You gotta have the stamina, the endurance
+- **39:36.8** and the drive if you wanna do it
+- **39:39.0** as otherwise, yeah, you'll just tap out.
+- **39:41.5** Because you're still in, we were talking about it,
+- **39:43.2** you're still in the military.
+- **39:44.4** You're in the Air Force right now.
+- **39:46.1** Correct. Air Force Reserve.
+- **39:47.2** What's the difference between Air Force
+- **39:48.3** and Air Force Reserve?
+- **39:49.4** So you got active duty and all the military branches
+- **39:51.9** and then you have reserve world
+- **39:53.3** and all the military branch
+- **39:54.4** and then you got National Guard,
+- **39:56.0** which belongs to the state.
+- **39:57.8** As a reservist, you do one weekend a month,
+- **40:00.5** two weeks a year for training
+- **40:02.5** and you can get deployed and go help out where it's needed.
+- **40:05.6** Now, when you're a reservist,
+- **40:06.6** you can put in for these full-time positions,
+- **40:08.7** they call it, or AGR.
+- **40:10.3** And you basically are put on active duty orders.
+- **40:14.1** You're still reservists,
+- **40:15.3** but you put on active duty orders
+- **40:16.9** and your job is to hold the position on a certain base.
+- **40:23.2** And so it's like the perks of active duty
+- **40:25.6** without all the bad parts of active duty
+- **40:27.9** where they can, on a moment's notice,
+- **40:29.7** be like, hey, you and the family are shipping off to wherever
+- **40:32.3** because that's where we need you.
+- **40:34.1** You can't do that with the reserve,
+- **40:35.8** active duty people's help.
+- **40:37.8** So that's how that works.
+- **40:39.2** And what would you say with being able to balance it all,
+- **40:42.2** like you mentioned, like a family,
+- **40:44.0** an acting, producing career,
+- **40:45.3** now you have your own feature film
+- **40:46.9** along with still working in the military.
+- **40:49.5** How does one do that and balance it all?
+- **40:52.7** Yeah, well, you have to have a very supportive spouse.
+- **40:56.0** So whoever your spouse is has to be on board
+- **40:58.4** and agree and be okay with it because I am gone.
+- **41:03.0** It's crazy, but I am gone probably 80% of the time.
+- **41:06.4** I'm only home maybe 20% of the time.
+- **41:08.4** So you have to have a very understanding,
+- **41:10.3** supportive spouse, especially if you've got children.
+- **41:14.1** You gotta, you know, you have to do those things
+- **41:17.8** like FaceTime and all this stuff to spend time with them.
+- **41:20.8** That's the most important part
+- **41:21.7** because if you don't have the supportive spouse
+- **41:23.8** that understands what you're doing
+- **41:25.0** and wants to help you pursue that,
+- **41:28.1** it's gonna cause a lot of drama at home
+- **41:30.9** that you don't want.
+- **41:32.8** And I want it from both,
+- **41:34.0** from being in the military for 33 years
+- **41:36.5** along with being in the acting world,
+- **41:40.1** from both of them,
+- **41:41.0** what's been the most rewarding part of the job?
+- **41:45.0** So the most rewarding out of law enforcement,
+- **41:47.8** we'll call it, is just,
+- **41:49.7** I really enjoyed finding people who were,
+- **41:54.0** we'll call them evil.
+- **41:54.8** I really, really enjoyed finding people
+- **41:58.1** that were doing bad things to people
+- **42:00.7** and bringing justice to it.
+- **42:03.3** And in my heart, helping these people.
+- **42:06.5** It's a thankless job without a doubt.
+- **42:09.2** And after 2020 became even more so a thankless job.
+- **42:13.7** But I enjoyed the hunt, I guess we'll call it.
+- **42:18.8** And that was the most rewarding thing for me
+- **42:20.4** is finding these suspects
+- **42:22.4** and putting together enough evidence
+- **42:26.5** to make it stick in court.
+- **42:28.4** Now with filmmaking, the most rewarding thing for me
+- **42:33.5** is putting all this work
+- **42:36.5** and then seeing the final result.
+- **42:38.9** It is amazing taking something
+- **42:41.3** like you and I talking right now,
+- **42:43.4** and then when you edit it and put sound design
+- **42:45.6** and all this cool stuff in color,
+- **42:48.3** you just bring it to life,
+- **42:49.4** make it look cinematic,
+- **42:50.5** and it's like, how did we do that?
+- **42:52.2** Like what, this and then that,
+- **42:55.0** the end result is just mind blowing.
+- **42:56.9** That's for me the most rewarding thing.
+- **42:58.6** Like seeing my movie, Her Monster,
+- **42:60.0** on the big screen finally,
+- **43:01.2** after a year and a half of work
+- **43:05.0** from start to finish, pre-production,
+- **43:07.2** to see it on a big screen.
+- **43:09.0** What would you say your superpower is?
+- **43:11.0** My superpower would be not being afraid to ask
+- **43:15.6** because the worst thing that can happen
+- **43:17.3** is they say no.
+- **43:18.4** They say no.
+- **43:19.7** And I've gotten,
+- **43:20.9** I wouldn't say more yeses and nos,
+- **43:23.5** but more often than not,
+- **43:27.6** it has been mind blowing to me
+- **43:31.1** the things I would ask,
+- **43:33.2** and I actually got a yes.
+- **43:34.4** Yeah.
+- **43:34.9** Yeah, like anything, like,
+- **43:36.4** hey, you need somebody in front of your project,
+- **43:38.5** or hey, can I use this location
+- **43:40.9** to film a scene for my movie?
+- **43:43.0** A location that you're like,
+- **43:44.1** no way would they say yes,
+- **43:45.5** but what the heck, let me ask.
+- **43:46.8** And they say yes, and it's like, pretty cool.
+- **43:50.0** What would your son say your superpower is?
+- **43:54.5** That's a good one.
+- **43:56.3** My son would say probably my muscles.
+- **43:59.1** Your blasters.
+- **44:00.3** Yeah, my seven-year-old is so cute.
+- **44:04.2** So I have seven-year-old twins,
+- **44:05.7** born a girl, Liam and Hannah.
+- **44:08.4** And it's so cute because I'm so big into fitness.
+- **44:12.3** Yeah.
+- **44:13.2** And nutrition and eating right
+- **44:14.8** and protein and macronutrients
+- **44:16.4** and explaining this to kids.
+- **44:18.5** I wish I had parents that explained this to me growing up,
+- **44:21.4** because it probably would have made me
+- **44:22.6** even a better athlete,
+- **44:24.2** understanding nutrition.
+- **44:25.7** But now that I explain this to them,
+- **44:28.2** every time they eat protein,
+- **44:30.0** they're like, dad, look!
+- **44:31.8** And then my little seven-year-old son,
+- **44:34.3** his little army, like, look at the little pup!
+- **44:36.6** And then he gets so excited
+- **44:39.3** to show me his bicep muscle,
+- **44:41.1** because he ate protein.
+- **44:42.4** Yeah, that's amazing.
+- **44:44.0** Did you get that from military,
+- **44:45.7** or was that more after military?
+- **44:48.3** So actually, I've always been fit.
+- **44:51.3** Okay.
+- **44:52.3** But I'd never been as muscular as I am now.
+- **44:57.1** This actually came probably around 2010.
+- **45:00.3** And the reason this happened is my wife, Annie, love you,
+- **45:06.0** she came back pre-diabetic
+- **45:08.3** on one of her doctor's appointments.
+- **45:10.6** So we did this research,
+- **45:12.7** started learning about nutrition,
+- **45:14.5** and I was like, it was mind-blowing.
+- **45:16.0** I went to a nutritional science class in college
+- **45:18.6** and learned all this stuff,
+- **45:20.5** and we actually changed her diagnosis to normal,
+- **45:24.9** just out of changing our lifestyle,
+- **45:27.7** what we ate, our nutrition.
+- **45:29.4** And I did a lot of research,
+- **45:30.8** because I'm what they call an ectomorph.
+- **45:32.8** That means I can eat a lot and I stay skinny,
+- **45:35.6** I stay thin, which is a blessing.
+- **45:38.4** A lot of people love that.
+- **45:40.3** But I'm a hard gainer,
+- **45:42.0** so that means I have to up how much I eat.
+- **45:45.5** And you can't just go eat garbage to get the calories.
+- **45:48.5** So you want to eat like five to 6,000 calories a day,
+- **45:52.6** but healthy stuff,
+- **45:54.2** and understanding what you're putting in your body
+- **45:55.9** to feed your muscles, what it needs.
+- **45:59.5** So once I learned that, then I really bulked up,
+- **46:02.8** because I was probably about 165 my whole life as an adult.
+- **46:09.0** But now I weigh like 200.
+- **46:12.3** That's pure muscle right there.
+- **46:14.3** What would you say about how crucial it is,
+- **46:17.0** we should know this as humans,
+- **46:19.7** but how crucial it is to stay in shape,
+- **46:22.6** eat well, be healthy, to be able to do the things you do,
+- **46:26.2** such as the schedule you have, how busy you are,
+- **46:28.8** the military, kids, and acting.
+- **46:31.7** Yeah, so I actually just turned 51 yesterday.
+- **46:36.0** Would have never guessed that.
+- **46:37.8** I would have guessed like 43, 44.
+- **46:39.8** And I get that a lot.
+- **46:41.1** And it's not because of some special potion I have.
+- **46:44.6** It's I think because I live a healthier life,
+- **46:48.1** I barely drink alcoholic,
+- **46:50.7** of course I don't smoke or anything like that,
+- **46:52.4** but it's what you put in your body.
+- **46:54.5** You really are what you eat.
+- **46:56.1** And I think having the proper nutrition
+- **46:58.7** and constantly keeping exercise as part of my life
+- **47:03.5** has helped with that,
+- **47:04.8** because in this industry, anything in life,
+- **47:09.0** if you want to have the endurance,
+- **47:11.0** especially in this industry,
+- **47:13.9** you got to take care of yourself
+- **47:15.6** because industry is not going to take care of you.
+- **47:17.7** And I see a lot of people, unfortunately,
+- **47:20.4** they'll chug energy drinks
+- **47:22.1** to try to give them this fake energy
+- **47:24.4** to make it through the days.
+- **47:26.5** And for me, I'm not knocking the sponsorships,
+- **47:31.0** but for me, energy drinks are very healthy for you
+- **47:34.7** if you're consuming them multiple times a day.
+- **47:37.8** And I stay away from that stuff.
+- **47:39.6** And I think it's helped.
+- **47:41.0** You do coffee at all?
+- **47:42.2** I've never had a cup of coffee in my life.
+- **47:45.7** Wow, okay.
+- **47:47.0** So I'm not a big coffee drinker either.
+- **47:49.4** I try to sometimes if I maybe have
+- **47:52.8** like two, three hours of sleep, sometimes it happens.
+- **47:55.1** I'm like, okay, let me do it.
+- **47:56.2** The thing is I crash hard.
+- **47:58.5** So like it will give me an hour,
+- **48:00.8** like solid of like, wow, I'm alert.
+- **48:02.9** And then after that's done,
+- **48:05.5** I'm crashing, I wanna go to bed.
+- **48:07.4** It's kind of like fake energy.
+- **48:09.0** They just give you this rush, this bump,
+- **48:11.6** and then, but I found if,
+- **48:16.9** and this ain't a nutritional science class,
+- **48:19.0** but for me what's worked is smaller meals
+- **48:22.2** multiple times a day, five to six meals a day.
+- **48:25.1** And that's, again, healthy carbs, healthy fats,
+- **48:27.7** healthy protein, and some healthy snacks in between.
+- **48:32.1** And that has worked for me,
+- **48:34.1** and it gives you the energy you want
+- **48:35.5** throughout the day to keep it going
+- **48:36.7** because your body constantly has got that furnace going,
+- **48:39.3** providing your body the energy it needs.
+- **48:41.5** Yeah, no, absolutely.
+- **48:42.7** And I try to do that, but I'm so much like,
+- **48:46.6** whether it's editing or putting things together,
+- **48:48.9** I'll do like, I'll order a protein bowl,
+- **48:51.6** but door dash it, protein bowl, go eat,
+- **48:54.4** continue to work, continue to work.
+- **48:55.6** So it's hard to balance out the meals,
+- **48:57.1** but is it possible?
+- **48:57.9** Yeah, I mean, you're living the example
+- **48:60.0** that yeah, it's possible.
+- **49:01.0** You just got to structure it out.
+- **49:02.4** Yeah, 100%.
+- **49:03.6** And like you said, editing, I've been there.
+- **49:06.7** That's hours and hours sitting in front of the computer.
+- **49:10.5** Little tip to throw, I've got a stand-up desk now,
+- **49:13.6** so I'll make myself stand up.
+- **49:15.5** I got one.
+- **49:16.3** I would say 90% of my work is standing, is standing.
+- **49:20.0** And then I also bought a walking pad.
+- **49:23.1** Yeah, me too, all right.
+- **49:25.8** So you're on the right track.
+- **49:27.0** Yeah, yeah, so we're putting things together
+- **49:29.1** because I'm like, I got to get activity
+- **49:30.3** and somehow I can still walk.
+- **49:32.0** I'm going to be editing for hours,
+- **49:33.1** so I might as well walk at the same time,
+- **49:35.3** get the thing burning.
+- **49:36.8** Yeah, they say if sitting down for eight hours
+- **49:38.7** at a desk is horrible for you.
+- **49:44.2** Like it's clogging your arteries
+- **49:45.4** and cause a heart attack.
+- **49:46.8** You also get just tired just sitting there, right?
+- **49:49.9** So talking about your career,
+- **49:51.5** you've done this feature film,
+- **49:52.7** you've done a lot of things.
+- **49:53.9** What else is next for you?
+- **49:55.9** What else is in the near future?
+- **49:57.7** Yeah, so the thing about this industry
+- **50:00.0** is sometimes you really don't know what's next.
+- **50:03.0** You just have to take the opportunity to just come your way.
+- **50:06.7** I know Eminem, he put it in one of his raps,
+- **50:09.3** one of his songs, right?
+- **50:10.8** Oh, I thought you were saying you know Eminem.
+- **50:12.0** I'm like, oh nice.
+- **50:13.1** No, no.
+- **50:14.7** But it kind of resonates with me, you know.
+- **50:18.5** Given that opportunity, he had it with Dr. Dre.
+- **50:21.3** Was it the one shot, one opportunity?
+- **50:22.8** Yeah, one shot, one opportunity.
+- **50:24.2** And you just got to be ready for it.
+- **50:26.2** And that's honestly, it's probably the goal
+- **50:29.6** for everybody that's in this business
+- **50:31.3** is to hit that opportunity and take it and run with it.
+- **50:36.5** And I'm still waiting for that opportunity.
+- **50:38.1** Now I've had some great experiences,
+- **50:40.0** some great opportunities,
+- **50:41.4** but nothing that's really sent me to the moon yet.
+- **50:46.1** And like, obsession.
+- **50:47.8** Like the lead actors and the director of that, Curry.
+- **50:52.2** That was their opportunity, they took it.
+- **50:54.8** And now look at, she's in,
+- **50:56.3** Indy's in the next X-Men movie,
+- **50:58.5** like top of obsession.
+- **51:00.8** So we all need that opportunity.
+- **51:03.7** And you know, sometimes it comes to the people
+- **51:06.2** that really work their asses off.
+- **51:07.5** And sometimes other people just get lucky.
+- **51:09.5** And I hope I get lucky, we'll see what happens.
+- **51:12.2** But I enjoy what I'm doing.
+- **51:14.8** And that's important thing I'll say to everybody
+- **51:17.0** is just do what it is you enjoy.
+- **51:20.2** If you're not enjoying what you're doing,
+- **51:22.6** go find something else.
+- **51:24.3** And what message would you give people
+- **51:26.0** who are watching this and who want to get into acting,
+- **51:29.3** producing, putting together their own feature film?
+- **51:32.6** What kind of advice would you give them
+- **51:34.0** about getting into it?
+- **51:35.7** So my advice to anybody who wants to play this game
+- **51:38.7** is find something that brings you income first.
+- **51:44.5** If you can find a way to have those checks rolling in
+- **51:49.2** from whatever it is, you get into real estate,
+- **51:51.1** you get in the stock market, whatever it is,
+- **51:53.6** you find a full-time job, whatever,
+- **51:56.7** that brings the money in, then pursue this.
+- **52:01.1** Because if you are gonna be what I call
+- **52:03.6** one of those starving actors,
+- **52:06.6** I mean, you're better off buying a lottery ticket.
+- **52:09.1** Yeah. Yeah.
+- **52:10.2** So don't do that to yourselves.
+- **52:11.6** Don't do that to your families,
+- **52:12.8** especially if you've got families.
+- **52:14.2** I've seen actors like make their families suffer
+- **52:19.5** pursuing their dream, we'll call it.
+- **52:22.4** No, don't do that.
+- **52:24.0** Yeah.
+- **52:24.9** This industry is not going to take care of you in that way.
+- **52:29.5** 100%.
+- **52:30.0** And what would you say being in the industry,
+- **52:32.6** the amount of time you've been in it,
+- **52:35.0** some of the biggest lessons you've learned along the way?
+- **52:38.2** Some of the lessons I've learned is
+- **52:42.2** don't put all your eggs in one basket.
+- **52:44.5** Trust people, but verify.
+- **52:46.0** Mm.
+- **52:47.2** Yeah.
+- **52:48.0** Yup.
+- **52:48.9** There's a lot of talkers in this business.
+- **52:51.9** Oh, absolutely.
+- **52:53.5** And protect yourselves.
+- **52:57.3** There are predators, we'll call it,
+- **52:59.3** in multiple different ways.
+- **53:01.5** And just be careful what you get involved in
+- **53:06.2** and know and approve everything
+- **53:09.4** and verify everything before you move forward
+- **53:11.9** with anything you're gonna do.
+- **53:13.6** Completely agree.
+- **53:14.0** Trust but verify is a huge thing for me.
+- **53:16.1** Like, I do trust you, I think you're doing it,
+- **53:18.1** let me just verify.
+- **53:20.6** 100%.
+- **53:21.0** Have you ever done, so my dad.
+- **53:23.5** One other thing I'll throw out there
+- **53:25.3** is if it sounds too good to be true,
+- **53:27.7** it's a scam, people, it's a scam.
+- **53:31.2** Nobody's paying $5,000 a day
+- **53:33.2** for a no-name actor on a project.
+- **53:35.5** If you see that on Facebook or something, avoid it.
+- **53:39.2** Yeah, yeah, 100%.
+- **53:41.2** Now I will say, so my dad's an actor as well.
+- **53:44.3** He's been acting for some years,
+- **53:45.9** us growing up and all that stuff.
+- **53:47.3** He ended up finding his path
+- **53:49.4** doing a lot of voiceover work.
+- **53:51.7** Do you do voiceover at all?
+- **53:53.3** I do do voiceover.
+- **53:54.8** I wouldn't say I'm a huge voiceover actor.
+- **53:57.4** It is in my toolkit.
+- **53:59.6** And that's another thing I'll suggest to actors
+- **54:02.6** is always, always, always add to your toolkit.
+- **54:06.5** Now, yeah, I'm not the top voiceover actor,
+- **54:10.6** that's not my top thing to do,
+- **54:13.7** but I have dabbled in it, I have taken some courses,
+- **54:17.2** I've worked with coaches,
+- **54:18.7** I've done some jobs as a voiceover actor,
+- **54:22.1** and it's good to throw it in your toolkit.
+- **54:26.4** If you don't know how to ride a horse,
+- **54:29.3** if you get the time, go learn how to ride a horse,
+- **54:31.8** throw it in your toolkit.
+- **54:32.8** You'd be amazed how many jobs right now
+- **54:34.8** ask him for, do you have any skills in riding a horse?
+- **54:38.8** This is just, we could go on for days,
+- **54:40.4** but find different skills, find different things
+- **54:44.1** you can throw in your toolkit
+- **54:45.2** because you're going to be more apt to get jobs
+- **54:49.7** because of that skill.
+- **54:51.5** One thing I want to ask too,
+- **54:52.3** your first audition, that was 2017, 2018?
+- **54:55.7** 2018.
+- **54:56.5** 2018, so it's been about what, eight years?
+- **54:59.1** Eight years, talk about this real quick,
+- **55:01.3** eight years and over 100 IMDB credits.
+- **55:04.7** That is insane.
+- **55:07.3** Like the amount of work you put in there,
+- **55:09.4** what do you think you owe that to?
+- **55:11.7** The hard work, the discipline, I'm guessing?
+- **55:13.9** Yeah, 100% and persistence,
+- **55:16.9** not being afraid to send a message to somebody.
+- **55:23.2** Yeah, you can't, if you're going to be shy
+- **55:25.7** in this business, it's the wrong business for you.
+- **55:27.8** And I'm not coming across, you know,
+- **55:29.7** don't be like a pastor, annoying,
+- **55:33.7** like sending messages to productions and stuff like that.
+- **55:36.4** But, you know, join these different things
+- **55:40.6** that you can find the jobs.
+- **55:44.1** There's so many Facebook pages for actors
+- **55:47.2** in different states
+- **55:48.1** and there's different Instagram pages for that.
+- **55:50.9** There's casting sites.
+- **55:52.2** So there's multiple different ways, there's networking events.
+- **55:56.0** Go out there and look for it
+- **55:58.3** because nobody's going to come look for you
+- **56:00.8** sitting at home.
+- **56:02.1** So you got to go out there and find it.
+- **56:04.9** Nobody, it's just like I say with my movie,
+- **56:07.5** nobody knows my movie exists
+- **56:08.8** until I let them know it exists.
+- **56:11.4** 100%.
+- **56:11.6** And it's like, if you just throw it on the catalog
+- **56:14.9** on Amazon Prime, nobody's going to know it exists
+- **56:17.6** unless you go out there and let the world know it.
+- **56:21.5** Nobody's going to know you exist as an actor
+- **56:23.6** unless you go out there
+- **56:24.8** and nobody's going to know what you can do
+- **56:26.9** unless you show them what you can do.
+- **56:28.8** I couldn't agree more with that message
+- **56:31.3** because that's what I tell people,
+- **56:32.7** not only even with this show but with anything they do.
+- **56:35.7** I said, whether you're in sales,
+- **56:37.6** whether you do real estate, whether you run a podcast,
+- **56:41.0** whether you're an actor,
+- **56:43.0** it's not that you're not good
+- **56:44.8** or that everyone can always get better
+- **56:46.1** but it's like not enough people even know you exist.
+- **56:49.8** You know how many creators I still find
+- **56:51.7** who have like a million, two million
+- **56:53.2** but I find them and I'm like,
+- **56:54.7** oh, they're actually really funny
+- **56:55.5** or they're really talented or I like the way they do this
+- **56:57.4** but I never knew they even existed.
+- **56:59.4** And so it's like, find them, cool, follow immediately.
+- **57:01.2** I'm like, great, love them.
+- **57:02.2** So it's like people don't know that
+- **57:03.9** until you go out there and share that.
+- **57:05.6** So I love that, especially with a movie,
+- **57:07.7** trying to grow it and get more eyes on it.
+- **57:10.0** As we start to wrap up,
+- **57:11.6** any other closing message you have?
+- **57:15.7** Just thank you to you for doing this kind of stuff.
+- **57:21.7** It's people like you with platforms like this
+- **57:23.9** that help people like me spread the word out there
+- **57:27.1** and I appreciate that and that's what it's all about
+- **57:30.7** is building these connections with people
+- **57:33.3** and just being true about it.
+- **57:35.8** Don't be fake.
+- **57:37.1** Well, thank you so much for taking the time
+- **57:38.8** being on the show and that is your camera right there.
+- **57:42.3** Look into that camera.
+- **57:43.1** Tell people where they can find you.
+- **57:45.5** You can find me on Instagram.
+- **57:47.7** It's pretty easy.
+- **57:48.4** It's just my name, Sean Berube
+- **57:49.6** and if you wanna check out my movie,
+- **57:51.9** I have an Instagram page for that too.
+- **57:53.4** It's called Her Monster Movie on Instagram.
+- **57:55.8** That's the best way to find me.
+- **57:57.0** You can DM me and we'll go from there.
+- **57:59.3** Sounds good.
+- **58:00.3** Well, thank you so much again.
+- **58:01.7** That is gonna wrap up this episode.
+- **58:03.5** Thank you so much for tuning in.
+- **58:04.9** Make sure to subscribe.
+- **58:05.8** It really helps out the channel.
+- **58:06.9** Drop a like, drop a comment
+- **58:07.9** and we will see you on the next episode.
+- **58:11.5** Peace.
