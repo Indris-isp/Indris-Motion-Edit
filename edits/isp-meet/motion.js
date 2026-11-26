@@ -13,7 +13,7 @@
  */
 'use strict';
 const W = 1920, H = 1080, CX = 960, CY = 540, FPS = 30, FRAMES = 310, DUR = FRAMES / FPS;
-const SEG = { s1: [0, 1.85], s2: [1.77, 2.6], s3: [2.5, 3.8], s4: [3.7, 4.8], s5: [4.72, 7.4], s6: [7.34, 8.37], s7: [8.28, DUR + 1] };
+const SEG = { s1: [0, 1.88], s2: [1.76, 2.6], s3: [2.5, 3.86], s4: [3.7, 4.8], s5: [4.72, 7.4], s6: [7.34, 8.42], s7: [8.24, DUR + 1] };
 window.TIMING = { FPS, DUR, W, H, frames: FRAMES };
 const LOGO = 'logos/isp/isp_logo_black.svg';
 
@@ -25,7 +25,7 @@ function bez(x1, y1, x2, y2) {
   const B = (u, a, b) => 3 * a * u * (1 - u) * (1 - u) + 3 * b * u * u * (1 - u) + u * u * u;
   return p => { if (p <= 0) return 0; if (p >= 1) return 1; let lo = 0, hi = 1, u = p; for (let i = 0; i < 24; i++) { u = (lo + hi) / 2; if (B(u, x1, x2) < p) lo = u; else hi = u; } return B(u, y1, y2); };
 }
-const IO = bez(.65, 0, .35, 1), OUT = bez(.16, .84, .3, 1), INQ = bez(.6, 0, .9, .5);
+const IO = bez(.65, 0, .35, 1), OUT = bez(.16, .84, .3, 1), INQ = bez(.6, 0, .9, .5), RAMP = bez(.35, .1, .55, 1);
 const E = (t, a, b, f = IO) => f(P(t, a, b));
 const back = p => { if (p <= 0) return 0; if (p >= 1) return 1; const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * (p - 1) ** 3 + c1 * (p - 1) ** 2; };
 const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -139,7 +139,8 @@ const S1 = (() => {
       if (!show('s1', t, ...SEG.s1)) return;
       const echoOn = inWin(t, .867, .9) || inWin(t, 1.0, 1.034);   // the reel's two doubled frames
       letters.forEach(l => {
-        const a = kf(l.keys, t, IO, .1);
+        const a = kf(l.keys, t, IO, .1), li = letters.indexOf(l);
+        a.x += 5 * Math.sin(t * 1.7 + li * 1.3); a.y += 4 * Math.cos(t * 1.4 + li);
         put(l.e, a.x, a.y, 1, a.o);
         l.e.style.color = l.blue && t < .8 ? '#8DB8F2' : COL;
         if (echoOn && a.o > 0) put(l.g, a.x + l.echo[0], a.y + l.echo[1], 1, .55 * a.o); else l.g.style.opacity = 0;
@@ -150,7 +151,7 @@ const S1 = (() => {
         s.style.opacity = p; s.style.marginLeft = i ? px(lerp(26, 0, sp)) : '0px';
       });
       word.style.transform = `translate(-50%,-50%) translateX(${(-130 * E(t, 1.69, 1.77)).toFixed(2)}px)`;
-      dots.forEach((d, i) => { const a = kf(d.keys, t, IO, .07); d.e.style.left = px(a.x); d.e.style.top = px(a.y); d.e.style.opacity = a.o * (i === 5 ? 1 - P(t, 1.745, 1.77) : 1); });
+      dots.forEach((d, i) => { const a = kf(d.keys, t, IO, .07); a.x += 4 * Math.sin(t * 1.9 + i * 2.1); a.y += 4 * Math.cos(t * 1.6 + i * 1.7); d.e.style.left = px(a.x); d.e.style.top = px(a.y); d.e.style.opacity = a.o * (i === 5 ? 1 - P(t, 1.745, 1.77) : 1); });
       const gOn = inWin(t, 1.6, 1.634);
       put(ghost, CX - 58, CY, 1, gOn ? .5 : 0);
       const r = P(t, 1.62, 1.8); ring.style.opacity = r > 0 ? .9 * Math.sin(Math.PI * clamp(r * 1.2)) : 0;
@@ -183,12 +184,12 @@ const S2 = (() => {
       rings.style.opacity = E(t, 1.85, 2.0);
       rings.style.transform = `translate(-50%,-50%) scale(${(1 + (t - 1.8) * .09).toFixed(4)})`;
       /* the dot line carries over as soft glows */
-      S1.dots.slice(0, 7).forEach((d, i) => { const k = d.keys[d.keys.length - 1]; put(glows[i], k[1], k[2], 1, (1 - E(t, 1.84, 1.94)) * (k[3] && i !== 5 ? 1 : 0)); });
+      S1.dots.slice(0, 7).forEach((d, i) => { const k = d.keys[d.keys.length - 1]; put(glows[i], k[1], k[2], 1, (1 - E(t, 1.83, 1.98, OUT)) * (k[3] && i !== 5 ? 1 : 0)); });
       /* reveal: mark + letters left to right (1.80–1.95), blur clears */
       const mp = E(t, 1.78, 1.9, OUT);
       mark.style.opacity = P(t, 1.78, 1.82);
-      chars.forEach((c, i) => { const p = E(t, 1.79 + i * .028, 1.86 + i * .028, OUT); c.style.opacity = p; blur(c, (1 - p) * 9); });
-      blur(lock, 10 * (1 - P(t, 1.78, 1.9)));
+      chars.forEach((c, i) => { const p = E(t, 1.79 + i * .028, 1.92 + i * .028, OUT); c.style.opacity = p; blur(c, (1 - p) * 9); });
+      blur(lock, 10 * (1 - E(t, 1.78, 1.94, OUT)));
       /* exit: glitch doubling, mark swells, word smears */
       /* exit (2.43–2.56): the mark breaks into blocks that spread out, the word smears sideways */
       const gx = inWin(t, 2.43, 2.54), sm = E(t, 2.43, 2.53);
@@ -204,9 +205,8 @@ const S2 = (() => {
         b.e.style.opacity = (1 - E(t, 2.52, 2.56)).toFixed(3);
       });
       word.style.opacity = 1 - P(t, 2.52, 2.56); blur(word, 4 * sm);
-      if (t < 2.43) this.measure();
       L.style.filter = `brightness(${(1 - .6 * E(t, 2.51, 2.56)).toFixed(3)})`;
-      L.style.opacity = E(t, 1.77, 1.82);
+      L.style.opacity = E(t, 1.757, 1.87, RAMP);
     },
   };
 })();
@@ -249,8 +249,8 @@ const S3 = (() => {
         const m = o.move ? E(t, ...o.move) : 0, a = C[o.cells[0]], b = C[o.cells[1] || o.cells[0]];
         const x = lerp(a[0], b[0], m) * G, y = lerp(a[1], b[1], m) * G;
         let sc = 1, op = 1;
-        if (o.wave != null) { const at = o.wave ? 2.63 : 2.57; sc = back(P(t, at, at + .1)); op = P(t, at, at + .05); }
-        if (o.in) { const p = E(t, ...o.in); sc = .7 + .3 * back(P(t, o.in[0], o.in[1] + .04)); op = p; }
+        if (o.wave != null) { const at = o.wave ? 2.63 : 2.57; sc = back(P(t, at, at + .18)); op = E(t, at, at + .08); }
+        if (o.in) { const p = E(t, o.in[0], o.in[1] + .04); sc = .7 + .3 * back(P(t, o.in[0], o.in[1] + .1)); op = p; }
         if (o.out) op *= 1 - E(t, ...o.out);
         if (o.shrink) sc *= 1 - .45 * E(t, ...o.shrink);
         put(o.e, CX + x, CY + y, sc, op);
@@ -281,10 +281,10 @@ const S4 = (() => {
     },
     update(t) {
       if (!show('s4', t, ...SEG.s4)) return;
-      $('#s4').style.opacity = E(t, 3.715, 3.775);
-      bloom.forEach(b => { b.e.style.opacity = (.95 * (1 - E(t, 3.78, 3.88))).toFixed(3); b.e.style.transform = `translate(-50%,-50%) scale(${(1 + .25 * E(t, 3.72, 3.9)).toFixed(3)})`; });
+      $('#s4').style.opacity = E(t, 3.698, 3.842, RAMP);
+      bloom.forEach(b => { b.e.style.opacity = (.95 * (1 - E(t, 3.77, 3.91, OUT))).toFixed(3); b.e.style.transform = `translate(-50%,-50%) scale(${(1 + .25 * E(t, 3.72, 3.9)).toFixed(3)})`; });
       const ex = E(t, 4.7, 4.76);
-      words.forEach(w => { const p = E(t, w.at, w.at + .04, OUT); w.s.style.opacity = p * (1 - ex); blur(w.s, (1 - p) * 6 + ex * 10); });
+      words.forEach(w => { const p = E(t, w.at, w.at + .13, OUT); w.s.style.opacity = p * (1 - ex); w.s.style.transform = `translateY(${((1 - p) * 10).toFixed(2)}px)`; blur(w.s, (1 - p) * 6 + ex * 10); });
     },
   };
 })();
@@ -365,7 +365,7 @@ const S6 = (() => {
       blur(icon.querySelector('img'), inWin(t, 7.39, 7.42) || inWin(t, 8.255, 8.285) ? 4 : 0);
       pill.style.opacity = P(t, 7.36, 7.4);
       words.forEach(w => {
-        const p = P(t, w.at, w.at + .04), dk = E(t, w.at + .03, w.at + .4);
+        const p = E(t, w.at, w.at + .1, OUT), dk = E(t, w.at + .03, w.at + .45);
         w.s.style.opacity = p;
         w.s.style.color = `rgb(${lerp(168, 46, dk) | 0},${lerp(172, 50, dk) | 0},${lerp(192, 70, dk) | 0})`;
       });
@@ -395,13 +395,13 @@ const S7 = (() => {
   return {
     update(t) {
       if (!show('s7', t, ...SEG.s7)) return;
-      $('#s7').style.opacity = E(t, 8.28, 8.335);
-      blur(grp, 5 * (1 - E(t, 8.29, 8.36)));
+      $('#s7').style.opacity = E(t, 8.24, 8.4);
+      blur(grp, 6 * (1 - E(t, 8.26, 8.43, OUT)));
       conf.forEach(c => {
         const tau = t - c.on;
         if (tau <= 0 || t >= c.off) { c.e.style.opacity = 0; return; }
         c.e.style.left = px(c.x0 + c.vx * tau); c.e.style.top = px(c.y0 + c.vy * tau);
-        const sc = back(Math.min(1, tau / .1)) * (1 - E(t, c.off - .07, c.off));
+        const sc = back(Math.min(1, tau / .16)) * (1 - E(t, c.off - .1, c.off));
         c.e.style.opacity = 1; c.e.style.transform = `scale(${sc.toFixed(3)})`;
       });
     },
@@ -426,7 +426,7 @@ const hero2 = mkTile2();
 function updateHero(t) {
   if (t >= 2.515 && t < 3.77) {
     hero.style.visibility = 'visible';
-    const pop = back(P(t, 2.515, 2.575)), sh = -12 * E(t, 3.69, 3.73);
+    const pop = back(P(t, 2.515, 2.63)), sh = -12 * E(t, 3.69, 3.73);
     hero.style.width = hero.style.height = '200px';
     put(hero, CX - 18 * (1 - E(t, 2.515, 2.56)) + sh, CY, .55 + .45 * pop, P(t, 2.515, 2.535) * (1 - E(t, 3.73, 3.77)));
     hero.style.filter = t > 3.7 ? `brightness(${(1 + 1.2 * E(t, 3.7, 3.76)).toFixed(3)}) blur(${(10 * E(t, 3.72, 3.77)).toFixed(2)}px)` : '';
@@ -445,7 +445,12 @@ function updateHero(t) {
 }
 
 /* ---------- render ---------- */
-function renderAt(t) { S1.update(t); S2.update(t); S3.update(t); S4.update(t); S5.update(t); S6.update(t); S7.update(t); updateHero(t); }
+const CAM = () => $('#cam');
+function camera(t) {
+  const s = 1.014 + .055 * (t / DUR), x = 7 * Math.sin(t * .62) + 3 * Math.sin(t * 1.37 + 1), y = 5 * Math.sin(t * .81 + 2) + 2 * Math.sin(t * 1.9);
+  CAM().style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(5)})`;
+}
+function renderAt(t) { camera(t); S1.update(t); S2.update(t); S3.update(t); S4.update(t); S5.update(t); S6.update(t); S7.update(t); updateHero(t); }
 window.renderAt = renderAt;
 
 (async function init() {
