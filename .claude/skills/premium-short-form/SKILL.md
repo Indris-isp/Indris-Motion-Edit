@@ -1,6 +1,6 @@
 ---
 name: premium-short-form
-description: Re-create the "premium short-form" podcast / talking-head edit style (cinematic captions, AI-composited B-roll scenes, kinetic typography, 1–3s pacing, comment-keyword CTA). Use whenever the user asks to clip, edit, script, storyboard, or plan a reel/short/TikTok from a podcast or voice-over "in my style", "premium style", "pattern v1/v2", or references the Frame War / Pierre / Jack / Catherine / red-light reference edits. Produces a clip selection, a timed edit decision list (EDL), scene-by-scene design + animation specs, AI image prompts, and (when footage is available) ffmpeg-rendered cuts.
+description: Re-create the "premium short-form" podcast / talking-head edit style (cinematic captions, AI-composited B-roll scenes, kinetic typography, 1–3s pacing, comment-keyword CTA). Use whenever the user asks to clip, edit, script, storyboard, or plan a reel/short/TikTok from a podcast or voice-over "in my style", "premium style", "pattern v1/v2/v3", "idea worlds", or references the Frame War / Pierre / Jack / Catherine / red-light / problem-solving-brain reference edits. Produces a clip selection, a timed edit decision list (EDL), scene-by-scene design + animation specs, AI image prompts, and (when footage is available) ffmpeg-rendered cuts.
 ---
 
 # Premium Short-Form Edit
@@ -16,6 +16,7 @@ Supporting files (read them when you need the detail):
 - `references/video-breakdowns.md`: frame-by-frame/shot-by-shot tables per video.
 - `references/design-system.md`: colours, fonts, textures, layouts, and the Figma scene types.
 - `references/animation-system.md`: text/object/camera/transition logic, and how it maps to the script.
+- `docs/pattern-v3/breakdown.md` (repo root): **Pattern v3 "Idea Worlds"** (P1–P4, Nov 2026). Covers hook choice, story skeleton, face-vs-graphic rule, transition placement, interviewer handling, camera-angle logic. The shot table is in `docs/pattern-v3/shots.csv`.
 
 ## The core idea (one sentence)
 **Every spoken idea gets its own designed visual, cut on the word, at 1–3 s per beat. The speaker carries emotion, the visuals carry meaning, and the captions point to the one word that matters.**
@@ -56,6 +57,17 @@ Trim the ends to word boundaries (use word timestamps, plus a 0.2 s audio fade-o
 | **A: Hype podcast** (V01, V04) | Business/status stories, two cameras | cut every 1.0–1.3 s | ~30% (intro, hype, one question) | 25% B-roll |
 | **B: Visual storytelling** (V05, V06, V07, V02) | Education, science, advice | cut every 2–3 s | 0–5% (audio reactions only) | 40–50% designed visuals |
 | **C: Motion-graphic VO** (V08–V10, V03) | Quotes, VO, a single-camera intro | new scene per sentence (1.5–2.5 s) | none | 90–100% composited scenes |
+| **D: Idea worlds (pattern v3)** (P1–P4) | One idea/opinion, guest-only, multi-cam or solo | visual change every 2.2–2.7 s | none (one 0.3 s room cutaway at most) | 25–75% 3D "idea worlds" (more when there are fewer camera angles) |
+
+**Mode D rules (full detail in `docs/pattern-v3/breakdown.md`):**
+- Hook = one self-contained sentence on frame 0 that names the viewer's group; open on the face, first graphic at 0.5–1.9 s.
+- Skeleton: hook → widen ("I" → "people") → contrast word ("but"/"while") → list of 3–4 concrete items → punchline. Hard stop on the last word, with no CTA.
+- **Face = feelings, opinions, the punchline. Full-screen graphic = nouns, numbers, list items, processes.**
+- Each idea gets one 3D world (cream background + one accent colour). Follow-up sentences on the same idea stay in that world, and the camera moves to the new text while the previous line stays visible.
+- Cut only on a sentence start or a contrast word. Use stylised transitions into graphics and hard cuts back to the face. Hide audio joins with an angle change.
+- Never repeat an angle back-to-back. Tighten the shot size toward the punchline. After a long graphic run, re-enter with a 0.2–0.3 s room-wide shot.
+- Two speakers: cut to the new speaker on their first word, and cut back during the pause before the original speaker resumes. The second voice is for the emotional middle, never the opening or the close.
+- Remove every pause within a turn; keep a breath only at speaker handoffs.
 
 Default to **B** unless the user names another mode.
 
