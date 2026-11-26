@@ -1,6 +1,6 @@
 ---
 name: premium-short-form
-description: Re-create the "premium short-form" podcast / talking-head edit style (cinematic captions, AI-composited B-roll and 3D "idea world" scenes, kinetic typography, 1–3s pacing, comment-keyword CTA or loopable hard stop). Use whenever the user asks to clip, edit, script, storyboard, or plan a reel/short/TikTok from a podcast or voice-over "in my style", "premium style", "pattern v1/v2/v3", "idea worlds", "before/after" or "raw vs final" showcase, or references the Frame War / Pierre / Jack / Catherine / red-light / problem-solving-brain reference edits. Produces a clip selection, a timed edit decision list (EDL), scene-by-scene design + animation specs, AI image prompts, and (when footage is available) ffmpeg-rendered cuts.
+description: The client's "premium editing style" (premium short-form). Re-create the podcast / talking-head edit style (cinematic captions, AI-composited B-roll and 3D "idea world" scenes, kinetic typography, 1–3s pacing, comment-keyword CTA or loopable hard stop). Use whenever the user asks to clip, edit, script, storyboard, or plan a reel/short/TikTok from a podcast or voice-over "in my style", "premium editing style", "premium style", "pattern v1/v2/v3", "idea worlds", "before/after" or "raw vs final" showcase, or references the Frame War / Pierre / Jack / Catherine / red-light / problem-solving-brain reference edits. Produces a clip selection, a timed edit decision list (EDL), scene-by-scene design + animation specs, AI image prompts, and (when footage is available) ffmpeg-rendered cuts.
 ---
 
 # Premium Short-Form Edit
@@ -22,6 +22,22 @@ Supporting files (read them when you need the detail):
 
 ## The core idea (one sentence)
 **Every spoken idea gets its own designed visual, cut on the phrase or the keyword, at 1–3 s per beat. The speaker's face carries emotion, opinion and the punchline; the visuals carry nouns, numbers and metaphors; the captions point to the one word that matters, in one accent colour taken from the footage.**
+
+## Start here (do not improvise the style)
+This style was built over many client review rounds. A fresh session that only reads the rules and invents its own visuals produces what the client called "a generic AI copy". Always:
+1. **Look before you design.** Open the reference contact sheets in `docs/references-data/sheets/` (`sheet_V12_1.jpg` puzzle/bulb world, `sheet_V08_1.jpg` cutting mat, `sheet_V05_*`, `sheet_V06_*`, `sheet_V13_*`) and `docs/pattern-v3/sheets/`. Match their framing, density, type sizes and materials, not a generic motion-graphics look.
+2. **Reuse the production kit** in `edits/income-first/` instead of writing a new pipeline. It is the only pipeline the client has reviewed:
+   | Need | Reuse |
+   |---|---|
+   | Face-tracked 9:16 raw cut (smooth dead-zone camera, face centred, never out of bounds) | `edits/income-first/raw_cut.py` |
+   | Word timings, energy-snapped cuts | `edits/income-first/edit.py` (`src_to_out`, waveform snapping) |
+   | Beat plan → scenes → final video (A-roll grade, B-roll crops, roto text behind people, whips, grain, vignette) | `edits/income-first/v2/build.py` (`prep` / `plan` / `compose`) |
+   | Caption styles (run-in + keyword pair, word-by-word reveal, boxed serif, glow uppercase) | `edits/income-first/v2/scenes.js` (`line`, `reveal`, `chunkVis`, the `cap_*` scenes) |
+   | 3D idea worlds with depth of field, soft shadows, real materials | `edits/income-first/v2/scenes3.js` (`makeStudio`, `jigsaw`, `canvasTex`, the `puzzle_v12` / `mat` / `lottery3d` scenes) and `scenes2.js` (phone + coin rain) |
+   | Headless render of scenes (Playwright + three.js r149, vendored) | `edits/income-first/v2/scenes.cjs`, `vendor/three.min.js` |
+   | SFX + music mix, ducking, −14 LUFS | `edits/income-first/v2/audio/mix.py`, with cues swapped to the client's SFX library (see `references/sound-design.md`) |
+   Copy the v2 folder to `edits/<new-clip>/`, then replace the plan, words and scenes. Keep the helpers, the compositor and the look.
+3. **Show stills first** (§7b), then render.
 
 ## Client standards (non-negotiable, from the client's review of the "income first" edit, 2026-11-26)
 1. **Premium, clean and neat design.** Every frame must look finished: one clear subject, a full frame, real depth and materials, generous margins and nothing cluttered, cropped, washed out or empty. See §6 and the premium rules in `references/design-system.md` §0.
