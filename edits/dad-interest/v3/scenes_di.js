@@ -80,11 +80,11 @@ function matDesk() {
   const keys = new THREE.InstancedMesh(new THREE.BoxGeometry(0.34, 0.12, 0.34), new THREE.MeshStandardMaterial({ color: 0xfafaf8, roughness: 0.5 }), 75); const mm = new THREE.Matrix4(); let n = 0;
   for (let r = 0; r < 5; r++) for (let c = 0; c < 15; c++) { mm.makeTranslation(-2.95 + c * 0.42 + (r % 2) * 0.1, 0.33, -0.86 + r * 0.42); keys.setMatrixAt(n++, mm); }
   keys.castShadow = true; kb.add(keys);
-  add(new THREE.SphereGeometry(1, 40, 24).scale(0.58, 0.32, 0.92), white, [2.75, 0.05, 4.6], [0, -0.25, 0]);
+  add(new THREE.SphereGeometry(1, 40, 24).scale(0.58, 0.32, 0.92), white, [4.6, 0.05, 4.6], [0, -0.25, 0]);
   add(new THREE.CylinderGeometry(0.62, 0.55, 1.1, 48), white, [2.75, 0.55, -5.4]);
   add(new THREE.CylinderGeometry(0.54, 0.54, 0.02, 48), new THREE.MeshStandardMaterial({ color: 0x3a2516, roughness: 0.15 }), [2.75, 1.06, -5.4]);
   add(new THREE.TorusGeometry(0.34, 0.08, 16, 32, Math.PI), white, [3.37, 0.55, -5.4], [0, Math.PI / 2, -Math.PI / 2]);
-  const pen = new THREE.Group(); pen.position.set(2.75, 0.08, 1.4); pen.rotation.y = 0.55; sc.add(pen);
+  const pen = new THREE.Group(); pen.position.set(1.15, 0.08, 3.75); pen.rotation.y = 0.42; sc.add(pen);
   const penBody = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 2.8, 24), dark); penBody.rotation.z = Math.PI / 2; penBody.castShadow = true; pen.add(penBody);
   const tip = new THREE.Mesh(new THREE.ConeGeometry(0.075, 0.3, 24), new THREE.MeshStandardMaterial({ color: 0xc9cdd1, metalness: 1, roughness: 0.3 })); tip.rotation.z = Math.PI / 2; tip.position.x = 1.55; pen.add(tip);
   const clip = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.03, 0.05), new THREE.MeshStandardMaterial({ color: GOLD, roughness: 0.3, metalness: 0.6 })); clip.position.set(-0.9, 0.08, 0); pen.add(clip);
@@ -162,7 +162,7 @@ Object.assign(SCENES, {
       b5.visible = v > 0; b5.position.set(lerp(-4.5, 0.25, v), 0.05 + 2.4 * (1 - v) * (1 - v) + Math.max(0, bounce), lerp(-2.2, 0.45, v)); b5.rotation.set(0, lerp(0.9, 0.22, v), 0);
       coins.forEach((c, i) => {
         const k = eo((t - (tI - 0.15) - i * 0.07) / 0.4);
-        c.visible = k > 0; c.position.set(1.05 + 0.08 * i * Math.cos(i), 0.04 + 0.075 * i + 3 * (1 - k) * (1 - k), 1.35 + 0.05 * Math.sin(i * 2)); c.rotation.set(0.15 * (1 - k), 0, 0.1 * (1 - k));
+        c.visible = k > 0; c.position.set(0.72 + 0.08 * i * Math.cos(i), 0.04 + 0.075 * i + 3 * (1 - k) * (1 - k), 1.35 + 0.05 * Math.sin(i * 2)); c.rotation.set(0.15 * (1 - k), 0, 0.1 * (1 - k));
       });
       st.render(sc, cam);
       r1(t); r2(t);
@@ -204,7 +204,7 @@ Object.assign(SCENES, {
     const tS = tw('shopping'), tI2 = tw('i', 1), tB = tw('books'), tBuy = tw('buy');
     return t => {
       const pb = eio(t / DUR);
-      cam.position.set(lerp(1.6, 2.6, pb), lerp(8.6, 6.6, pb), lerp(9.4, 8.6, pb)); cam.lookAt(0.55, lerp(0.2, 1.0, pb), 1.0);
+      cam.position.set(lerp(0.9, 1.7, pb), lerp(8.6, 6.6, pb), lerp(9.4, 8.6, pb)); cam.lookAt(0.05, lerp(0.2, 1.0, pb), 1.0);
       st.dofU && (st.dofU.focus.value = cam.position.distanceTo(new THREE.Vector3(0, 1.0, 1.0)));
       bills.forEach((b, i) => {
         const u = eo((t + 0.2 - i * 0.12) / 0.55), out = eio((t - (tBuy - 0.1) - i * 0.05) / 0.5);
