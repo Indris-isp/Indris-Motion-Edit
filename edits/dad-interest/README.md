@@ -1,3 +1,29 @@
+# v3: rebuilt on the client-reviewed kit (current)
+
+The first build (`edit.py` visuals: PIL-drawn paper cards, a drawn desk, pills) read as "a generic AI copy". The skill's
+*Start here* rule says to reuse the reviewed production kit instead of inventing visuals, so v3 rebuilds the look on
+`edits/income-first/v2`. The clip, the 15-segment cut, the word timings and the caption grouping are unchanged (`edit.py`).
+
+| Step | Command (from `edits/dad-interest/v3`) | What it does |
+|---|---|---|
+| Raw cut | `python3 raw_cut.py` | Face-tracked 9:16 A-roll (YuNet + the kit's calm dead-zone camera), guest and host shots, `../out/dad_interest_RAW_1080x1920.mp4` |
+| Plan | `python3 build.py plan` | `out/plan.json` (scenes + word cues + caption chunks) and `audio/cues.json` (SFX cue sheet) |
+| Scenes | `node scenes.cjs` | Renders `scenes_di.js` (three.js r149 on the kit's `makeStudio`: depth of field, VSM shadows, physical materials) to PNG frames |
+| Compose | `python3 build.py compose` | A-roll grade, MODNet roto (text behind her), captions, whips, grain, vignette, sound mix → `../out/dad_interest_premium_1080x1920.mp4` |
+| Stills | `python3 build.py --still 2.0,10.5` | Single frames for the approval board |
+
+**Worlds (one per idea, as in the references):**
+- **Warm studio table** (V12 world): the $20 she lends slides across and the $5 interest drops on top with coins ("+$5 / interest", grey run-ins + gold extruded keyword); allowance bills → a stack of hardcover books drops in ("books").
+- **Desk from above** (V08 cutting mat, keyboard, coffee, pen): a November calendar whose days cross out in red pen until the 15th is circled; then the **loan book**, a ruled notepad that grows with the story in four visits: "Friends & family + interest" with a "+ interest" sticker → "Dad $20 + $5" in handwriting with a highlighter → $20 ticked, "+ $5" struck in red, red UNPAID sticker → gold "First business · EST. AGE 15" label slaps on.
+- **Text behind her** (V04 roto): $20 (hook, count-up), 15 (count-up), $20 ("I need $20"), ENTREPRENEURSHIP (last word, letters assemble).
+- **A-roll:** face-tracked, punch-ins 1.26–1.50, host reaction and host laugh, house captions (Inter 600 run-ins + gold Instrument Serif italic keyword, red for negatives).
+- **Transitions:** directional whips into every designed beat, hard cuts back to the face.
+- **Palette:** gold from her jacket `#F2C35B` (deep `#8A5F14`), base `#0F1113`, text `#F2EEE8`, negative `#FF5446`.
+
+**Sound:** voice + the *Succession* main title from the client's "Premium bg song" folder (final hit on the last frame, ducked under speech) + 59 cues from the client's SFX library only (`audio/cues.json`; whooshes on cuts, low hits on the big reveals, pops on keywords, paper and label foley). The library has no knock or pen sounds, so those stay dry. Not in git: `models/` (YuNet, MODNet from Hugging Face), `v3/audio/src/` (library WAVs and the BGM, re-download by Drive id) and `v3/out/scenes/`.
+
+---
+
 # "At 15, she charged her own dad interest": premium vertical clip from the Talk About It episode with Toya Simone
 
 **Source:** the full 47:12 episode (Drive file `1yO6GsFf0sDL7B1vzwFWKxOwka8DyxnJD`, 1920×1080, 23.976 fps, three cameras). Only the 124 s excerpt this clip uses is kept in the repo: `src/excerpt_725-849.mp4` + `src/excerpt_audio.flac`, source 12:05–14:09.

@@ -10,3 +10,8 @@ __pycache__/
 edits/*/out/part_*.mp4
 edits/*/out/parts.txt
 edits/*/out/log_*.txt
+edits/*/models/
+edits/*/v3/out/scenes/
+edits/*/v3/audio/src/
+edits/*/out/*_RAW_*.mp4
+edits/*/v3/out/
