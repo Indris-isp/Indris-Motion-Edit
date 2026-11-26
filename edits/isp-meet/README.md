@@ -1,42 +1,38 @@
-# Meet ISP Agency (7-scene promo)
+# Meet ISP Agency (the reel's design, ISP content)
 
-A 19-second vertical promo: 1080×1920 at 30 fps. The sound is SFX from the client's library only, on a cue sheet in `audio.py`. Add a music track to make it a full mix. It uses the same house style as `video/`: white gradient stage, orange accent, Inter with Instrument Serif italic, and the ISP oval mark.
+This rebuilds the screen animation from the reference reel (`reference/reference.mp4`), keeping its design, motion and timing and changing only the content to ISP's 7 scenes. The output is a 1920×1080 screen animation at 30 fps, 10.8 s long.
 
-| # | Time | Scene |
-|---|---|---|
-| 1 | 0.0–2.5 s | **Meet** / **ISP Agency**; an orange oval draws around the name |
-| 2 | 2.5–5.0 s | Brand logo wall: cards pop in under "Brands we've worked with" |
-| 3 | 5.0–8.0 s | ISP logo in the centre, with 10 platform icons flying out into two orbit rings |
-| 4 | 8.0–10.0 s | "Let's make your video *better.*" |
-| 5 | 10.0–13.0 s | Instagram & YouTube, then a swap to Facebook & TikTok (app-icon tiles) |
-| 6 | 13.0–15.5 s | Heading **ISP Agency**; the 4 icons fly into one box: "All in one place, *less pressure.*" |
-| 7 | 15.5–19.0 s | ISP logo, a video player with the progress bar filling to 100%, a check mark, then "Video is *ready.*" |
+| # | Reel segment | ISP version | Time |
+|---|---|---|---|
+| 1 | "M e e t" letters and coloured dots assemble | Meet | 0.0–1.8 s |
+| 2 | "Symphony" logo on lavender ripples | ISP logo + "Agency" | 1.8–2.55 s |
+| 3 | Green app tile with items orbiting on a 3×3 grid | ISP tile, with social platforms orbiting | 2.55–3.75 s |
+| 4 | "Let's **connect** your tools", typed | "Let's make your video **better**" | 3.75–4.9 s |
+| 5 | Colour screens: link tile ··· tool circle | ISP ··· Instagram / YouTube / Facebook / TikTok | 4.9–7.15 s |
+| 6 | "Tools Connected ✓ / Everything is connected." | "ISP Agency ✓ / All in one place, less pressure." | 7.15–8.4 s |
+| 7 | "Home screen is ready" + confetti | "Video is ready / ISP Agency" + confetti | 8.4–10.8 s |
 
-Output: `out/isp_meet_1080x1920.mp4`
+One green tile (the ISP app icon) travels through scenes 2–6, as the reel's tile does.
 
-## Your brand logos (scene 2)
+## Files
 
-1. Put the logo files in `logos/brands/`. Transparent PNGs or SVGs work best.
-2. List them in `brands.js`, for example `window.BRANDS = ['logos/brands/acme.png', ...]`. Up to 6 use a 2×3 grid; 7–9 use a 3-column grid.
-3. Re-render. Until you list logos, scene 2 shows neutral "LOGO" placeholder cards.
+| File | What it does |
+|---|---|
+| `index.html` | Stage, scene backgrounds and tile styles. Open it in a browser for a live preview with a scrubber. |
+| `motion.js` | All 7 scenes. `SEG` at the top holds the scene times; each scene's block holds its copy and motion. |
+| `icons.js` | Platform glyphs from Simple Icons v13 (CC0). |
+| `logos/isp/` | The official ISP logo: the original JPG, plus a traced SVG and transparent PNG in white and in black. |
+| `reference/` | The reel, frame grabs and contact sheets used to match the design. |
+| `render.cjs` | Renders stills (`--still 1,2.5`) or the full video to `out/isp_meet_screen_1920x1080.mp4`. |
+| `board.py` | Builds `out/stills_board.png`, with the reel next to the ISP stills for each scene. |
+| `audio.py` | A cue sheet of the client's library SFX. It still has the old design's cue times, so retime it once the stills are approved. |
 
 ## Rebuild
 
 ```bash
-python3 audio.py
+node render.cjs --still $(python3 board.py --times) && python3 board.py
 ```
 
 ```bash
 node render.cjs
 ```
-
-`audio.py` needs numpy and ffmpeg. It reads the client's library WAVs from `audio/src/sfx/`, which is not in git. The file names and Drive IDs are in `.claude/skills/premium-short-form/references/sound-design.md`. `render.cjs` uses Playwright's Chromium and ffmpeg, and takes about 2 minutes. For quick stills, run `node render.cjs --still 1,6.5,17.8`. For a live preview with a scrubber, open `index.html` in a browser.
-
-## Editing
-
-- **Timing:** `SC` at the top of `motion.js`. Keep `CUTS` in `audio.py` in sync so the whooshes still hit the cuts.
-- **Copy:** each scene's `build()` holds its text.
-- **Sound:** the cue sheet is in `audio.py`. Whoosh peaks land on the cut frames. For music, put the approved track at `audio/src/music.wav` (or `.mp3`/`.m4a`). It is placed so its ending lands on the last frame, and the mix is mastered to −14 LUFS. Then run `audio.py` and `render.cjs` again.
-- **Approval board:** `out/stills_board.png` has 3 stills per scene.
-- **Logo:** `logo()` in `motion.js` is the vector recreation of the ISP mark. Replace it with the official SVG if you have one.
-- **Platform icons:** `icons.js` holds the glyph paths from Simple Icons v13 (CC0).
