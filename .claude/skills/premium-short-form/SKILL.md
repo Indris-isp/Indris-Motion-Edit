@@ -57,6 +57,14 @@ Start on the first word of a sentence, at frame 0. End on the last word (+0.2 s 
 
    Add a **comment-keyword CTA** only when the clip promotes an episode or a vote.
 
+**Snap every cut to the waveform, not to Whisper.** Whisper word ends run long across pauses. Measure 10 ms RMS and cut at a dip of about −40 dB or lower. Compress pauses over 0.3 s down to 0.12 s. Then **re-transcribe the cut audio**: this catches clipped words and leftover "uh"s (see `edits/income-first`).
+
+**Working from a finished multi-cam episode** (not separate camera feeds): only the angle the episode's editor chose exists at each moment.
+- Pick a window where the episode itself cuts between cameras (check `shots_full.csv`).
+- Align every shot start to those camera cuts, so a reframe always matches the angle on screen.
+- Measure face centres on the window's own frames.
+- Add virtual angles: punch-ins at 1.25–1.55×, cards, and a **host reaction cutaway**. Take the host's half of an episode two-shot recorded while the guest was talking (so the host isn't speaking).
+
 **Cut:** greetings, host question tails, every pause inside a speaker's turn (podcast clips run at 3.5–4.6 words/s), anything after the punchline, and anything that can't be visualised.
 **Keep:** numbers, swearing (censored with \*, flagged red), one-word host reactions, connectors like "so / because / like" (they keep it sounding spoken), and a breath at speaker handoffs.
 
