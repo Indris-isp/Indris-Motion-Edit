@@ -1,0 +1,8 @@
+out/frames/
+out/still_*.png
+out/video_silent.mp4
+audio/src/
+reference/rect/
+reference/f15/
+reference/m/
+reference/ref_audio.wav

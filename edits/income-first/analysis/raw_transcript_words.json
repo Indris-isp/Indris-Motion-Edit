@@ -1,0 +1,702 @@
+[
+{
+"t": 0.06,
+"w": "And",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 0.18,
+"w": "what",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 0.58,
+"w": "message",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 0.86,
+"w": "would",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 1.08,
+"w": "you",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 1.18,
+"w": "give",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 1.36,
+"w": "people",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 1.76,
+"w": "who",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 2.22,
+"w": "are",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 2.48,
+"w": "watching",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 2.82,
+"w": "this",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 3.06,
+"w": "and",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 3.2,
+"w": "who",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 3.4,
+"w": "want",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 3.98,
+"w": "to",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 4.16,
+"w": "get",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 4.3,
+"w": "into",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 4.58,
+"w": "acting?",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 5.17,
+"w": "So",
+"speaker": "GUEST"
+},
+{
+"t": 5.34,
+"w": "my",
+"speaker": "GUEST"
+},
+{
+"t": 5.57,
+"w": "advice",
+"speaker": "GUEST"
+},
+{
+"t": 5.91,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 6.36,
+"w": "anybody",
+"speaker": "GUEST"
+},
+{
+"t": 6.95,
+"w": "who",
+"speaker": "GUEST"
+},
+{
+"t": 7.19,
+"w": "wants",
+"speaker": "GUEST"
+},
+{
+"t": 7.39,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 7.53,
+"w": "play",
+"speaker": "GUEST"
+},
+{
+"t": 7.71,
+"w": "this",
+"speaker": "GUEST"
+},
+{
+"t": 7.91,
+"w": "game",
+"speaker": "GUEST"
+},
+{
+"t": 8.19,
+"w": "is",
+"speaker": "GUEST"
+},
+{
+"t": 8.53,
+"w": "find",
+"speaker": "GUEST"
+},
+{
+"t": 9.15,
+"w": "something",
+"speaker": "GUEST"
+},
+{
+"t": 10.17,
+"w": "that",
+"speaker": "GUEST"
+},
+{
+"t": 10.79,
+"w": "brings",
+"speaker": "GUEST"
+},
+{
+"t": 11.25,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 11.53,
+"w": "income",
+"speaker": "GUEST"
+},
+{
+"t": 12.09,
+"w": "first.",
+"speaker": "GUEST"
+},
+{
+"t": 13.19,
+"w": "If",
+"speaker": "GUEST"
+},
+{
+"t": 13.37,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 13.53,
+"w": "can",
+"speaker": "GUEST"
+},
+{
+"t": 13.89,
+"w": "find",
+"speaker": "GUEST"
+},
+{
+"t": 14.69,
+"w": "a",
+"speaker": "GUEST"
+},
+{
+"t": 14.89,
+"w": "way",
+"speaker": "GUEST"
+},
+{
+"t": 15.21,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 15.71,
+"w": "have",
+"speaker": "GUEST"
+},
+{
+"t": 16.05,
+"w": "those",
+"speaker": "GUEST"
+},
+{
+"t": 16.27,
+"w": "checks",
+"speaker": "GUEST"
+},
+{
+"t": 16.63,
+"w": "rolling",
+"speaker": "GUEST"
+},
+{
+"t": 17.03,
+"w": "in",
+"speaker": "GUEST"
+},
+{
+"t": 17.33,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 17.41,
+"w": "get",
+"speaker": "GUEST"
+},
+{
+"t": 17.55,
+"w": "into",
+"speaker": "GUEST"
+},
+{
+"t": 17.73,
+"w": "real",
+"speaker": "GUEST"
+},
+{
+"t": 17.97,
+"w": "estate,",
+"speaker": "GUEST"
+},
+{
+"t": 18.57,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 18.63,
+"w": "get",
+"speaker": "GUEST"
+},
+{
+"t": 18.77,
+"w": "in",
+"speaker": "GUEST"
+},
+{
+"t": 18.95,
+"w": "the",
+"speaker": "GUEST"
+},
+{
+"t": 19.25,
+"w": "stock",
+"speaker": "GUEST"
+},
+{
+"t": 19.57,
+"w": "market,",
+"speaker": "GUEST"
+},
+{
+"t": 19.96,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 20.02,
+"w": "find",
+"speaker": "GUEST"
+},
+{
+"t": 20.46,
+"w": "a",
+"speaker": "GUEST"
+},
+{
+"t": 21.32,
+"w": "full-time",
+"speaker": "GUEST"
+},
+{
+"t": 21.72,
+"w": "job,",
+"speaker": "GUEST"
+},
+{
+"t": 22.38,
+"w": "that",
+"speaker": "GUEST"
+},
+{
+"t": 22.7,
+"w": "brings",
+"speaker": "GUEST"
+},
+{
+"t": 23.32,
+"w": "the",
+"speaker": "GUEST"
+},
+{
+"t": 23.78,
+"w": "money",
+"speaker": "GUEST"
+},
+{
+"t": 24.0,
+"w": "in,",
+"speaker": "GUEST"
+},
+{
+"t": 24.74,
+"w": "then",
+"speaker": "GUEST"
+},
+{
+"t": 25.56,
+"w": "pursue",
+"speaker": "GUEST"
+},
+{
+"t": 25.98,
+"w": "this.",
+"speaker": "GUEST"
+},
+{
+"t": 26.61,
+"w": "Because",
+"speaker": "GUEST"
+},
+{
+"t": 27.05,
+"w": "if",
+"speaker": "GUEST"
+},
+{
+"t": 27.51,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 27.81,
+"w": "are",
+"speaker": "GUEST"
+},
+{
+"t": 27.97,
+"w": "going",
+"speaker": "GUEST"
+},
+{
+"t": 28.11,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 28.23,
+"w": "be",
+"speaker": "GUEST"
+},
+{
+"t": 28.35,
+"w": "what",
+"speaker": "GUEST"
+},
+{
+"t": 28.53,
+"w": "I",
+"speaker": "GUEST"
+},
+{
+"t": 28.75,
+"w": "call",
+"speaker": "GUEST"
+},
+{
+"t": 29.03,
+"w": "one",
+"speaker": "GUEST"
+},
+{
+"t": 29.43,
+"w": "of",
+"speaker": "GUEST"
+},
+{
+"t": 29.53,
+"w": "those",
+"speaker": "GUEST"
+},
+{
+"t": 29.71,
+"w": "starving",
+"speaker": "GUEST"
+},
+{
+"t": 30.05,
+"w": "actors,",
+"speaker": "GUEST"
+},
+{
+"t": 31.61,
+"w": "I",
+"speaker": "GUEST"
+},
+{
+"t": 32.43,
+"w": "mean,",
+"speaker": "GUEST"
+},
+{
+"t": 32.83,
+"w": "you're",
+"speaker": "GUEST"
+},
+{
+"t": 33.01,
+"w": "better",
+"speaker": "GUEST"
+},
+{
+"t": 33.13,
+"w": "off",
+"speaker": "GUEST"
+},
+{
+"t": 33.33,
+"w": "buying",
+"speaker": "GUEST"
+},
+{
+"t": 33.51,
+"w": "a",
+"speaker": "GUEST"
+},
+{
+"t": 33.65,
+"w": "lottery",
+"speaker": "GUEST"
+},
+{
+"t": 33.85,
+"w": "ticket.",
+"speaker": "GUEST"
+},
+{
+"t": 34.39,
+"w": "Yeah.",
+"speaker": "INTERVIEWER"
+},
+{
+"t": 34.95,
+"w": "So",
+"speaker": "GUEST"
+},
+{
+"t": 35.39,
+"w": "don't",
+"speaker": "GUEST"
+},
+{
+"t": 35.83,
+"w": "do",
+"speaker": "GUEST"
+},
+{
+"t": 35.95,
+"w": "that",
+"speaker": "GUEST"
+},
+{
+"t": 36.11,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 36.25,
+"w": "yourselves.",
+"speaker": "GUEST"
+},
+{
+"t": 36.69,
+"w": "Don't",
+"speaker": "GUEST"
+},
+{
+"t": 36.87,
+"w": "do",
+"speaker": "GUEST"
+},
+{
+"t": 36.99,
+"w": "that",
+"speaker": "GUEST"
+},
+{
+"t": 37.15,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 37.27,
+"w": "your",
+"speaker": "GUEST"
+},
+{
+"t": 37.41,
+"w": "families,",
+"speaker": "GUEST"
+},
+{
+"t": 37.92,
+"w": "I've",
+"speaker": "GUEST"
+},
+{
+"t": 38.36,
+"w": "seen",
+"speaker": "GUEST"
+},
+{
+"t": 38.64,
+"w": "actors",
+"speaker": "GUEST"
+},
+{
+"t": 39.9,
+"w": "make",
+"speaker": "GUEST"
+},
+{
+"t": 40.58,
+"w": "their",
+"speaker": "GUEST"
+},
+{
+"t": 41.9,
+"w": "families",
+"speaker": "GUEST"
+},
+{
+"t": 42.18,
+"w": "suffer,",
+"speaker": "GUEST"
+},
+{
+"t": 43.3,
+"w": "pursuing",
+"speaker": "GUEST"
+},
+{
+"t": 43.62,
+"w": "their",
+"speaker": "GUEST"
+},
+{
+"t": 43.89,
+"w": "dream,",
+"speaker": "GUEST"
+},
+{
+"t": 44.41,
+"w": "we'll",
+"speaker": "GUEST"
+},
+{
+"t": 44.51,
+"w": "call",
+"speaker": "GUEST"
+},
+{
+"t": 44.64,
+"w": "it.",
+"speaker": "GUEST"
+},
+{
+"t": 45.01,
+"w": "No,",
+"speaker": "GUEST"
+},
+{
+"t": 45.36,
+"w": "don't",
+"speaker": "GUEST"
+},
+{
+"t": 45.53,
+"w": "do",
+"speaker": "GUEST"
+},
+{
+"t": 45.66,
+"w": "that.",
+"speaker": "GUEST"
+},
+{
+"t": 46.09,
+"w": "This",
+"speaker": "GUEST"
+},
+{
+"t": 46.61,
+"w": "industry",
+"speaker": "GUEST"
+},
+{
+"t": 47.13,
+"w": "is",
+"speaker": "GUEST"
+},
+{
+"t": 47.32,
+"w": "not",
+"speaker": "GUEST"
+},
+{
+"t": 47.55,
+"w": "going",
+"speaker": "GUEST"
+},
+{
+"t": 47.84,
+"w": "to",
+"speaker": "GUEST"
+},
+{
+"t": 48.36,
+"w": "take",
+"speaker": "GUEST"
+},
+{
+"t": 49.26,
+"w": "care",
+"speaker": "GUEST"
+},
+{
+"t": 49.47,
+"w": "of",
+"speaker": "GUEST"
+},
+{
+"t": 49.63,
+"w": "you",
+"speaker": "GUEST"
+},
+{
+"t": 49.8,
+"w": "in",
+"speaker": "GUEST"
+},
+{
+"t": 50.11,
+"w": "that",
+"speaker": "GUEST"
+},
+{
+"t": 50.32,
+"w": "way.",
+"speaker": "GUEST"
+}
+]

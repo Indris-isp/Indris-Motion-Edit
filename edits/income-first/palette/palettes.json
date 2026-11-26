@@ -1,0 +1,47 @@
+{
+ "measured": {
+  "cyan_backlight_core": "#62E4FE",
+  "cyan_backlight_kmeans": "#64D7F7",
+  "deep_blue_edge": "#4EA8E4",
+  "amber_plant_light": "#E19D6A",
+  "brick": "#C47057",
+  "shirt_shadow": "#0F100F",
+  "neutral_dark": "#232424"
+ },
+ "negative": "#FF5446",
+ "palettes": [
+  {
+   "id": "A",
+   "name": "Studio Cyan",
+   "why": "Recommended. The backlight's own cyan as the one accent, on near-black. Clean, modern, and matches the set exactly.",
+   "colors": {
+    "Accent": "#5FD8F5",
+    "Base": "#0F1113",
+    "Text": "#F2EEE8"
+   },
+   "accent_on_base_contrast": 11.4
+  },
+  {
+   "id": "B",
+   "name": "Cyan + Amber",
+   "why": "Teal/orange contrast from both of the set's lights: cyan for keywords, amber for numbers and highlights. Warmer, more energetic.",
+   "colors": {
+    "Accent": "#5FD8F5",
+    "Warm": "#E19D6A",
+    "Base": "#121416"
+   },
+   "accent_on_base_contrast": 11.1
+  },
+  {
+   "id": "C",
+   "name": "Deep Blue Editorial",
+   "why": "A calmer, deeper blue with soft cream. Premium editorial feel for serif keywords.",
+   "colors": {
+    "Accent": "#4EA8E4",
+    "Base": "#161B22",
+    "Cream": "#EDE4D3"
+   },
+   "accent_on_base_contrast": 6.6
+  }
+ ]
+}
