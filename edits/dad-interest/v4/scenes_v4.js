@@ -119,6 +119,11 @@ Object.assign(SCENES, {
     const k2 = giant(S, 'KNOCK', { top: 560, size: 300, word: 'door', delay: 0.15, tracking: 6, rise: 0, color: G.gold });
     return t => { r(t); k1(t); k2(t); };
   },
+  o_friends() {                                  // AI: friends at the lockers, "they came to me for MONEY"
+    const r = line(S, 1230, [R('they'), R('came'), R('to'), R('me'), R('for')]);
+    const k = serif(S, 'money', { top: 1300, size: 260, word: 'money' });
+    return t => { r(t); k(t); };
+  },
   o_stash() {
     const r = line(S, 1240, [R('I'), R('went'), R('in'), R('my')]);
     const k = serif(S, 'drawer', { top: 1310, size: 260, word: 'drawer' });
