@@ -4,7 +4,7 @@
 const { chromium } = require('playwright');
 const path = require('path'), fs = require('fs');
 const [framesDir, outDir, mode, list] = process.argv.slice(2);
-const FPS = 30000 / 1001, N = 316, WORKERS = 4;
+const FPS = 30000 / 1001, N = +(process.env.NFRAMES || 316), WORKERS = +(process.env.WORKERS || 4);
 fs.mkdirSync(outDir, { recursive: true });
 const PAGE = process.env.PAGE || 'scenes3d.html';
 const url = 'file://' + path.join(__dirname, PAGE) + '?frames=' + encodeURIComponent('file://' + path.resolve(framesDir));
