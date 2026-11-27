@@ -1,5 +1,17 @@
 # Livesites: VSL opening sample (10.6 s, 9:16)
 
+> **v2 (current): `scenes3d.html`.** The client rejected the v1 look ("don't use this kind of thing": the big title and flat cards over the talking head), and asked for premium motion like the Claude/Apple reference.
+>
+> In v2:
+> - The A-roll is **clean, with captions only**.
+> - Every graphic is a **full-screen, lit three.js world**: a Night background, Orchid used as rim light and glow, a perspective grid floor, 1-frame white flash cuts, and constant camera drift.
+>   - **Brochure world** (1.10–3.16): a 3D brochure glides in, then copies peel off, curl and fly out "to every inquiry".
+>   - **3D phone world** (3.16–6.46, split over the A-roll): the PDF lands in the chat and opens. The question floats out of the screen in 3D. No reply comes, and the purple light dies.
+>   - **Night → morning** (6.46–9.52): a planet horizon in the brand gradient rises while the time rolls from 11:48 PM to 10:30 AM. The sky turns to Paper, and a glass call card slides up.
+>
+> Board: `out/stills_board_v2.jpg`. v1 (`scenes.html`, `out/stills_board_v1.jpg`) is kept for reference only.
+
+
 - **Source:** Drive "V2 - cample 10 sec.mp4" (1080×1920, 29.97 fps, Kirti at the desk) → `src/v2_sample.mp4`.
 - **Word timings:** `words.json` (faster-whisper medium.en).
 - **Style:** `.claude/skills/livesites-motion-style` + `edits/livesites/brand/BRAND.md`.
