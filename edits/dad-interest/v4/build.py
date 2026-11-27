@@ -218,8 +218,8 @@ class Compositor:
     def __init__(self):
         self.ar = Reader(RAW); self.prev = None; self.matte = None; self.br = {}; self.ai = {}
         self.chunks = caption_chunks()
-        self.cap_shift = self.plan_caption_dodge()
         self.t_ent = wt('entrepreneurship') - 0.15
+        self.cap_shift = self.plan_caption_dodge()
 
     # per-image camera (fg = person layer; the background moves 45% as much and is softly defocused):
     # scale from -> to, pan x/y (px) from -> to, roll (deg) from -> to

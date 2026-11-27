@@ -74,7 +74,7 @@ Object.assign(SCENES, {
   rent() { const g = giant(S, 'ENTREPRENEURSHIP', { top: 150, size: 132, word: 'entrepreneurship', delay: 0.3, tracking: 1 }); return t => g(t); },
   // over the young-entrepreneur B-roll, behind her
   rfirst() {
-    const r = line(S, 250, [R('so'), R('that'), R('was'), R('my')]);
+    const r = line(S, 1390, [R('so'), R('that'), R('was'), R('my')]);
     const a = giant(S, 'FIRST', { top: 330, size: 420, word: 'first', tracking: 6 });
     const b = giant(S, 'BUSINESS', { top: 700, size: 250, word: 'business', tracking: 4, color: G.gold });
     const s1 = el('div', { position: 'absolute', left: '0', width: '1080px', top: '1500px', textAlign: 'center', font: 'italic 400 96px "Instrument Serif"', color: G.white, textShadow: '0 4px 20px rgba(0,0,0,.6)' }, S, 'entrepreneurial');
