@@ -169,7 +169,7 @@ function cur(list,t){let c=null;for(const x of list)if(t+1e-6>=x[0])c=x;return c
 function show(e,on){e.style.display=on?'block':'none';return on}
 function place(e,cx,cy,s=1,extra=''){const w=e.firstChild.offsetWidth,h=e.firstChild.offsetHeight;css(e,{transform:`translate(${cx-w/2}px,${cy-h/2}px) scale(${s}) ${extra}`})}
 
-const T2={dragIn:[0.50,.80],grow:[1.80,.60],back:[6.30,.62]};
+const T2={dragIn:[0.50,.80],grow:[1.80,.60],back:[5.80,.55]};
 // v10.2: "By the time your sales representative calls the next day" plays on Kirti; the timer runs above her head
 const GLD='background:rgba(22,20,28,.78);backdrop-filter:blur(24px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),0 24px 60px -18px rgba(0,0,0,.55)';
 const tOv=el('div','abs');css(tOv,{left:0,top:0,width:W+'px',display:'none',textAlign:'center'});
@@ -209,11 +209,11 @@ window.renderAt=async function(t){
        const w=capEl.offsetWidth,h=capEl.offsetHeight,y=split?(din*960+grow*960)-h/2:1500;css(capEl,{transform:`translate(${540-w/2}px,${y}px)`})}}
    else capEl.style.display='none'}
   // timer + call above Kirti's head (A-roll part)
-  {const on=sk(t,T2.back[0]+.3,.5)*(1-sk(t,9.42,.4));
-   if(on>0){const mins=Math.round(110*SM(k(t,5.9,.7))+(t>6.54?SM(k(t,6.54,2.4))*(638-110):0));
+  {const on=sk(t,T2.back[0]+.25,.45)*(1-sk(t,9.42,.4));
+   if(on>0){const mins=Math.round(110*SM(k(t,6.05,.6))+(t>6.65?SM(k(t,6.65,2.3))*(638-110):0));
      tOv.querySelector('.tm').textContent=`${Math.floor(mins/60)}h ${String(mins%60).padStart(2,'0')}m`;tOv.querySelector('.lab').textContent=t<8.78?'NO REPLY FOR':'NEXT DAY · 10:30 AM';
      css(tOv,{display:'block',opacity:on,transform:`translateY(${120+(1-on)*-20}px)`,filter:`blur(${(1-on)*8}px)`});
-     const pc=sk(t,8.36,.5)*(1-sk(t,9.42,.4));css(cOv,{display:pc>0?'block':'none',opacity:pc,transform:`translateY(${lerp(470,430,pc)}px) scale(${lerp(.95,1,pc)})`})}
+     const pc=sk(t,8.36,.5)*(1-sk(t,9.42,.4));css(cOv,{display:pc>0?'block':'none',opacity:pc,transform:`translateY(${lerp(1340,1310,pc)}px) scale(${lerp(.95,1,pc)})`})}
    else{tOv.style.display='none';cOv.style.display='none'}}
   if(din<=0||dout>=1)return;
   [bar,pdf,cursor,sendAll,dev,shadowEl,waitC,callC].forEach(e=>show(e,false));leads.forEach(c=>show(c,false));
@@ -246,18 +246,19 @@ window.renderAt=async function(t){
     const ps=sk(t,2.86,.3);if(ps>0&&t<TP.in+.1){show(sendAll,true);const press=1-.06*Math.sin(Math.PI*k(t,3.02,.14));place(sendAll,540,1440,lerp(.9,1,ps)*press);sendAll.style.opacity=ps*(1-sk(t,TP.in-.05,.2))}
   }
   // ---------- 5) the phone rises while rotating (3D) and settles; the sales-side chat
-  const ph=sk(t,TP.in,.85),away=sk(t,5.74,.55);
+  const ph=sk(t,TP.in,.95),away=0;
   if(ph>0&&away<1){show(dev,true);show(shadowEl,true);g.setTransform(SS,0,0,SS,0,0);phoneScreen(t);g.setTransform(1,0,0,1,0,0);
-    const DS=1.28*lerp(1,.92,away),cx=540,cy=lerp(1240,960,ph)-away*80;
+    const DS=1.28*lerp(1,.92,away),cx=540,cy=lerp(1920+DEVH*1.28/2+60,960,ph)-away*80;
+    const vel=Math.abs(SM(k(t+1/30,TP.in,.95))-SM(k(t-1/30,TP.in,.95)))*15;
     const ry=lerp(-160,-10,ph)+sk(t,TP.in+.85,2.0)*6,rx=lerp(30,4,ph),rz=lerp(-14,0,ph);
     {const front=Math.cos(ry*Math.PI/180)*Math.cos(rx*Math.PI/180)>=0;dev.querySelector('.face.front').style.display=front?'block':'none';dev.querySelector('.face.back').style.display=front?'none':'block'}
-    css(dev,{transform:`translate(${cx-DEVW*DS/2}px,${cy-DEVH*DS/2}px) scale(${DS}) perspective(1700px) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg)`,transformOrigin:'50% 50%',opacity:(cl(ph*8)*(1-away))>=.999?'':String(cl(ph*8)*(1-away)),filter:away>0?`blur(${away*6}px)`:'none'});
+    css(dev,{transform:`translate(${cx-DEVW*DS/2}px,${cy-DEVH*DS/2}px) scale(${DS}) perspective(1700px) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg)`,transformOrigin:'50% 50%',opacity:'',filter:vel>.04?`blur(${Math.min(14,vel*9)}px)`:'none'});
     css(shadowEl,{left:(cx-DEVW*DS*.4)+'px',width:(DEVW*DS*.8)+'px',top:(cy+DEVH*DS/2-10)+'px',height:'70px',opacity:ph*(1-away)*.7,background:'radial-gradient(closest-side,rgba(0,0,0,.7),rgba(0,0,0,0))'})}
   // ---------- 6) the time keeps going → next day
-  const pw=sk(t,5.86,.55);if(pw>0){show(waitC,true);const mins=Math.round(110*SM(k(t,5.9,.7))+(t>6.54?SM(k(t,6.54,2.4))*(638-110):0));
+  const pw=0;if(pw>0){show(waitC,true);const mins=Math.round(110*SM(k(t,5.9,.7))+(t>6.54?SM(k(t,6.54,2.4))*(638-110):0));
     Q('.tm',waitC).textContent=`${Math.floor(mins/60)}h ${String(mins%60).padStart(2,'0')}m`;Q('.lab',waitC).textContent=t<8.78?'NO REPLY FOR':'NEXT DAY · 10:30 AM';
     place(waitC,540,lerp(880,840,pw),1+sk(t,5.9,3)*.04);waitC.style.opacity=pw;waitC.style.filter=`blur(${(1-pw)*10}px)`}
-  const pc=sk(t,8.36,.55);if(pc>0){show(callC,true);place(callC,540,lerp(1340,1230,pc),lerp(.96,1,pc));callC.style.opacity=pc}
+  const pc=0;if(pc>0){show(callC,true);place(callC,540,lerp(1340,1230,pc),lerp(.96,1,pc));callC.style.opacity=pc}
   // labels + caption line
   const pc2=cur(PILLS,t);
   if(pc2&&t<T2.back[0]){const pp=SM(k(t,pc2[0],.4));pill.innerHTML=DOT+`<span>${pc2[1]}</span>`;css(pill,{display:'flex',opacity:pp,transform:`translateX(-50%) translateY(${(1-pp)*-16}px)`})}else pill.style.display='none';
