@@ -1,0 +1,265 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Scene 1 v8 (smooth split, glowing search bar, drag-to-attach, selector cards, 3D phone, chat, full 10.6 s). Based on v5 — "clean, premium, not AI-looking" (client, 2026-11-27). Editorial / Apple-style:
+     light Paper stage, a realistic vector iPhone (titanium frame, Dynamic Island, buttons) with a 3× screen,
+     iOS Mail-fidelity UI, real shadows, Iris accent only on Send + keywords. Same story/timing as v4. -->
+<style>
+@font-face{font-family:Geist;src:url(fonts/Geist-Variable.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:GeistMono;src:url(fonts/GeistMono-Variable.woff2) format('woff2');font-weight:100 900}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F4F2F7;font-family:Geist,sans-serif}
+.abs{position:absolute}
+#vid{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden}
+#vid img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+#top{position:absolute;left:0;top:0;width:1080px;height:960px;overflow:hidden}
+.pill{position:absolute;left:50%;white-space:nowrap;display:flex;align-items:center;gap:14px;border-radius:999px}
+.kar{position:absolute;left:0;width:1080px;text-align:center;font-weight:400;font-size:58px;letter-spacing:-.035em;white-space:nowrap;line-height:1}
+.kar span{display:inline-block;margin:0 .12em;color:#1D1D1F}
+.kar span.key{font-weight:700;letter-spacing:-.04em;color:#8B5CF6}
+.stack{position:absolute;left:0;width:1080px;text-align:center;color:#1D1D1F;line-height:.92}
+.stack div{white-space:nowrap}.stack span{display:inline-block}
+/* realistic iPhone (430×932 pt screen) */
+#dev{position:absolute;left:0;top:0;width:478px;height:980px;transform-origin:0 0}
+#dev .ti{position:absolute;inset:0;border-radius:78px;background:linear-gradient(135deg,#D9D7DC 0%,#9C9AA2 18%,#E9E8EC 34%,#8E8C94 52%,#CFCDD3 70%,#7F7D85 86%,#C9C7CD 100%);
+  box-shadow:0 2px 1px rgba(255,255,255,.7) inset,0 -2px 2px rgba(0,0,0,.25) inset}
+#dev .bz{position:absolute;inset:6px;border-radius:72px;background:#0B0B0D;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset}
+#dev canvas{position:absolute;left:24px;top:24px;width:430px;height:932px;border-radius:56px}
+#dev .di{position:absolute;left:50%;top:40px;width:126px;height:37px;margin-left:-63px;border-radius:20px;background:#000}
+#dev .btn{position:absolute;width:6px;border-radius:3px;background:linear-gradient(90deg,#77757D,#C9C7CD,#77757D)}
+#shadow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(40,30,60,.30),rgba(40,30,60,0));filter:blur(14px)}
+.card{position:absolute;left:0;top:0;transform-origin:0 0;display:none}
+</style></head><body>
+<div id="vid"><img id="vi"></div>
+<div id="top"></div>
+<script src="track.js"></script>
+<script>
+const W=1080,H=1920,FPS=30000/1001;
+const P=new URLSearchParams(location.search),FRAMES=P.get('frames')||'';
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),k=(t,t0,d)=>cl((t-t0)/d),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,eo4=x=>1-Math.pow(1-x,4),eio5=x=>x<.5?16*x**5:1-Math.pow(-2*x+2,5)/2;
+function el(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(parent||document.body).appendChild(e);return e}
+function css(e,o){Object.assign(e.style,o);return e}
+function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+let TRACK=window.TRACK||[];
+const T={zoomOut:[0.04,.50],drag:[0.52,.36],end:6.46};
+</script>
+<script>
+// ------------------------------------------------------------ A-roll: face-tracked camera (R8 rules)
+const vi=document.getElementById('vi'),vid=document.getElementById('vid');
+async function frame(t){const n=Math.min(316,Math.max(1,Math.round(t*FPS)+1));const s=`${FRAMES}/f${String(n).padStart(5,'0')}.jpg`;
+  if(vi.dataset.s!==s){vi.src=s;vi.dataset.s=s;await vi.decode()}return n-1}
+function aroll(t,fi){
+  const tr=TRACK[Math.min(fi,TRACK.length-1)]||{cx:.5,cy:.41};
+  const fx=tr.cx*W,fy=tr.cy*H;
+  // framing states: punch-in (fh≈.21, face at y .33) → wide (fh≈.17, y .41) → split bottom (face at y .65 of the full frame)
+  const z=eio(k(t,...T.zoomOut)), d=eio5(k(t,...T.drag));
+  const sIn=1.32,sWide=1.10,sSplit=1.06;
+  let s=lerp(lerp(sIn,sWide,z),sSplit,d);
+  const slide=d*960;                          // the video's top edge rides the top panel's bottom edge
+  let ty=lerp(lerp(.33,.41,z)*H,.65*H-960,d); // where the face sits inside the video layer (ends at .65 of the frame)
+  const tx=W/2;
+  let ox=tx-fx*s, oy=ty-fy*s;
+  ox=Math.min(0,Math.max(W-W*s,ox)); oy=Math.min(0,Math.max((H-slide)-H*s,oy)); // never show an edge
+  vi.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;
+  // the drag: the whole video layer slides down so the face lands at .65 of the frame (R8: 10 frames, ease in-out)
+  vid.style.transform=`translateY(${slide}px)`;
+  vid.style.filter=`blur(${Math.sin(Math.PI*d)*2.2}px)`;
+}
+// ============================================================ v8 (client voice note, 2026-11-27): buttery-smooth split; search bar with a purple
+// glow first → typing → the cursor drags the PDF into the bar → purple Send; on "every inquiry" the cursor sweeps four cards that react
+// like a selector; lilac→white gradient throughout; the phone turns in with a 3D rotation; notification → brochure → chat with a typed
+// question; the full 10.6 s (timer → next day call → back to Kirti for "the interest is gone").
+const SM=x=>x<=0?0:x>=1?1:x*x*x*(x*(x*6-15)+10);           // smootherstep: the "butter" ease used everywhere
+const sk=(t,t0,d)=>SM(k(t,t0,d));
+const topP=document.getElementById('top');
+const stage=el('div','abs',topP);css(stage,{inset:0,overflow:'hidden',background:'linear-gradient(170deg,#E6DAFF 0%,#F3EDFF 40%,#FBFAFF 72%,#FFFFFF 100%)'});
+const BLOBS=[[.18,.22,640,'154,107,240',.30],[.85,.50,700,'192,123,255',.26],[.40,.95,800,'240,139,224',.18]].map(([x,y,sz,c,a],i)=>{const b=el('div','abs',stage);
+  css(b,{width:sz+'px',height:sz+'px',marginLeft:-sz/2+'px',marginTop:-sz/2+'px',borderRadius:'50%',background:`radial-gradient(closest-side,rgba(${c},${a}),rgba(${c},0))`,filter:'blur(30px)'});return {b,x,y,i}});
+const seam=el('div','abs');css(seam,{left:0,width:W+'px',height:'1px',background:'rgba(29,29,31,.08)'});
+const LAYER=el('div','abs',topP);css(LAYER,{inset:0});
+function box(html,parent){const c=el('div','abs',parent||LAYER);c.innerHTML=html;css(c,{left:0,top:0,display:'none',transformOrigin:'50% 50%'});return c}
+const SHD='0 1px 2px rgba(40,20,80,.06),0 18px 40px -12px rgba(60,30,120,.22),0 50px 100px -30px rgba(60,30,120,.25)';
+const coverCSS="background:#ddd url(assets/brochure_cover.jpg) center/cover";
+// ---------- the search / compose bar with a living purple glow (Claude-ref rim light)
+const bar=box(`<div style="position:relative;width:920px">
+  <div class="glow abs" style="inset:-26px;border-radius:120px;filter:blur(26px)"></div>
+  <div class="ring abs" style="inset:-3px;border-radius:96px"></div>
+  <div class="body" style="position:relative;border-radius:94px;background:#fff;box-shadow:${SHD};padding:26px 26px 26px 44px;overflow:hidden">
+    <div class="slot" style="height:0;overflow:hidden"><div class="chip" style="display:inline-flex;align-items:center;gap:18px;padding:14px 22px 14px 14px;border-radius:24px;background:#F4F0FB;margin-bottom:18px;opacity:0">
+      <div style="width:58px;height:76px;border-radius:10px;${coverCSS}"></div><div><div style="font:600 30px Geist;letter-spacing:-.02em;color:#1D1D1F">Skyline_Brochure.pdf</div><div style="font:400 22px Geist;color:#8E8E93">PDF · 18 MB</div></div></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;height:108px">
+      <div style="font:400 42px Geist;letter-spacing:-.025em;color:#1D1D1F;white-space:nowrap"><span class="ph" style="color:#AEAEB2">Write a message…</span><span class="typed"></span><span class="caret" style="display:inline-block;width:3px;height:46px;background:#8B5CF6;vertical-align:-8px;margin-left:3px"></span></div>
+      <div class="send" style="position:relative;width:108px;height:108px;border-radius:54px;background:#E9E5F0;display:flex;align-items:center;justify-content:center;flex:none">
+        <div class="sfill abs" style="inset:0;border-radius:54px;background:linear-gradient(150deg,#A47BF5,#8B5CF6 60%,#7C4DEB);opacity:0"></div>
+        <div class="shalo abs" style="inset:-30px;border-radius:80px;background:radial-gradient(closest-side,rgba(139,92,246,.55),rgba(139,92,246,0));opacity:0"></div>
+        <svg class="sarr" style="position:relative" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></div></div></div></div>`);
+const Q=(s,c=bar)=>c.querySelector(s);
+const pdf=box(`<div style="display:flex;align-items:center;gap:26px;padding:24px 34px 24px 24px;border-radius:32px;background:#fff;box-shadow:${SHD}">
+  <div style="width:116px;height:152px;border-radius:14px;${coverCSS};box-shadow:0 0 0 1px rgba(0,0,0,.06)"></div>
+  <div><div style="font:600 40px Geist;letter-spacing:-.03em;color:#1D1D1F">Skyline_Brochure.pdf</div><div style="font:400 26px Geist;color:#8E8E93;margin-top:8px">PDF Document · 24 pages · 18 MB</div></div></div>`);
+const cursor=box(`<svg width="64" height="78" viewBox="0 0 22 27"><path d="M2 1v21l5.5-5.2 3.6 8.2 3.4-1.5-3.6-8H18z" fill="#1D1D1F" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>`);
+const arrowFly=box(`<svg width="90" height="90" viewBox="-45 -45 90 90"><path d="M0 -30 L22 22 L0 10 L-22 22 Z" fill="#8B5CF6" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>`);
+// ---------- four enquiry cards (selector reaction)
+const LEADS=[['Rahul Mehta','Meta ad enquiry','#5E5873'],['Priya Shah','Website enquiry','#7A738C'],['Daniel Okafor','WhatsApp enquiry','#3A3840'],['Sara Khan','Meta ad enquiry','#6B6280']];
+const leads=LEADS.map(([n,src,col])=>box(`<div class="lc" style="position:relative;width:840px;height:184px;border-radius:44px;background:rgba(255,255,255,.9);box-shadow:${SHD};display:flex;align-items:center;gap:28px;padding:0 36px">
+  <div class="hl abs" style="inset:-3px;border-radius:47px;opacity:0;background:linear-gradient(135deg,#9A6BF0,#C07BFF,#F08BE0);z-index:-1;filter:blur(1px)"></div>
+  <div style="width:100px;height:100px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font:600 36px Geist;flex:none">${n.split(' ').map(s=>s[0]).join('')}</div>
+  <div style="flex:1"><div style="font:600 42px Geist;letter-spacing:-.03em;color:#1D1D1F">${n}</div><div style="font:400 28px Geist;color:#8E8E93;margin-top:6px">${src}</div></div>
+  <div class="got" style="display:flex;align-items:center;gap:14px;opacity:0"><div style="width:58px;height:76px;border-radius:9px;${coverCSS}"></div>
+  <div style="display:flex;align-items:center;gap:8px;font:600 28px Geist;color:#8B5CF6"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Sent</div></div></div>`));
+// ---------- the phone (vector iPhone from v5; light mode screens)
+const shadowEl=el('div','',LAYER);shadowEl.id='shadow';
+const dev=el('div','',LAYER);dev.id='dev';
+dev.innerHTML=`<div class="ti"></div><div class="bz"></div><canvas></canvas><div class="di"></div>
+<div class="btn" style="left:-3px;top:178px;height:34px"></div><div class="btn" style="left:-3px;top:250px;height:64px"></div><div class="btn" style="left:-3px;top:330px;height:64px"></div><div class="btn" style="right:-3px;top:268px;height:100px"></div>`;
+const sc=dev.querySelector('canvas');const SW=430,SH=932,SS=3;sc.width=SW*SS;sc.height=SH*SS;const g=sc.getContext('2d');
+const DEVW=458,DEVH=960;
+const C={ink:'#1D1D1F',grey:'#8E8E93',line:'#E5E5EA',fill:'#F2F2F7',p:'#8B5CF6'};
+function txt(s,x,y,f,c){g.font=f;g.fillStyle=c;g.fillText(s,x,y)}
+const COVER=new Image();COVER.src='assets/brochure_cover.jpg';
+function cover(x,y,w,h,r){g.save();rr(g,x,y,w,h,r);g.clip();if(COVER.naturalWidth){const s=Math.max(w/COVER.naturalWidth,h/COVER.naturalHeight);g.drawImage(COVER,x+(w-COVER.naturalWidth*s)/2,y+(h-COVER.naturalHeight*s)/2,COVER.naturalWidth*s,COVER.naturalHeight*s)}g.restore()}
+function sbar(time,light){const c=light?'#fff':C.ink;txt(time,44,38,'600 17px Geist',c);g.fillStyle=c;for(let i=0;i<4;i++){rr(g,322+i*6,34-(i+1)*3,4,(i+1)*3,1);g.fill()}g.strokeStyle=c;g.lineWidth=1;rr(g,356,25,25,12,3.5);g.stroke();rr(g,358,27,18,8,2);g.fill()}
+const TP={in:3.22,notif:3.40,open:3.52,chat:4.26,type:[4.36,.56],sent:4.96,deliv:5.10,offline:5.50};
+function phoneScreen(t){
+  // home / lock with a notification
+  const wp=g.createLinearGradient(0,0,SW,SH);wp.addColorStop(0,'#CDB8F7');wp.addColorStop(.55,'#EADFFD');wp.addColorStop(1,'#FFFFFF');g.fillStyle=wp;g.fillRect(0,0,SW,SH);
+  sbar('11:51');txt('11:51',SW/2-112,190,'200 96px Geist',C.ink);txt('Thursday 27 November',SW/2-92,224,'400 17px Geist','#4A4950');
+  const pn=sk(t,TP.notif,.45);
+  if(pn>0){g.save();g.globalAlpha=pn;g.translate(0,(1-pn)*-40);g.fillStyle='rgba(255,255,255,.86)';g.shadowColor='rgba(60,30,120,.18)';g.shadowBlur=24;rr(g,14,262,402,96,24);g.fill();g.shadowBlur=0;
+    g.fillStyle=C.p;rr(g,28,280,40,40,10);g.fill();g.strokeStyle='#fff';g.lineWidth=2;rr(g,36,290,24,18,3);g.stroke();g.beginPath();g.moveTo(37,292);g.lineTo(48,301);g.lineTo(59,292);g.stroke();
+    txt('Skyline Sales',80,292,'600 15px Geist',C.ink);txt('now',372,292,'400 13px Geist',C.grey);txt('Sent you a brochure: Skyline Residences',80,314,'400 14px Geist','#4A4950');
+    txt('Skyline_Brochure.pdf · 18 MB',80,334,'400 13px Geist',C.grey);cover(352,302,48,46,8);g.restore()}
+  // the notification opens into the brochure
+  const po=sk(t,TP.open,.55)*(1-sk(t,TP.chat,.35));
+  if(po>0){const x=lerp(14,0,po),y=lerp(262,0,po),w=lerp(402,SW,po),h=lerp(96,SH,po),r=lerp(24,0,po);g.save();rr(g,x,y,w,h,r);g.clip();g.fillStyle='#fff';g.fillRect(x,y,w,h);
+    g.globalAlpha=cl(po*1.6);cover(x,y,w,h*.55,0);txt('BROCHURE 2026',x+24,y+h*.55+44,'500 13px GeistMono',C.grey);txt('Skyline Residences',x+22,y+h*.55+84,'700 34px Geist',C.ink);
+    txt('2 & 3 bed apartments · Birmingham',x+24,y+h*.55+114,'400 16px Geist','#4A4950');g.fillStyle=C.fill;[300,260,320].forEach((ww,i)=>{rr(g,x+24,y+h*.55+140+i*20,ww,9,4.5);g.fill()});
+    txt('Page 1 of 24',x+w-120,y+h-34,'400 13px Geist',C.grey);g.restore()}
+  // chat with Skyline Sales: the question is typed and sent
+  const pc=sk(t,TP.chat,.45);
+  if(pc>0){g.save();g.globalAlpha=pc;g.translate((1-pc)*40,0);g.fillStyle='#fff';g.fillRect(0,0,SW,SH);sbar('11:52');
+    g.fillStyle='#F7F5FB';g.fillRect(0,52,SW,82);g.fillStyle='#3A3842';g.beginPath();g.arc(SW/2,82,20,0,7);g.fill();txt('SS',SW/2-11,88,'600 13px Geist','#fff');
+    g.font='600 14px Geist';txt('Skyline Sales',SW/2-g.measureText('Skyline Sales').width/2,122,'600 14px Geist',C.ink);
+    // shared brochure (incoming)
+    g.fillStyle=C.fill;rr(g,16,160,250,236,20);g.fill();cover(16,160,250,168,20);g.fillStyle=C.fill;g.fillRect(16,312,250,16);txt('Skyline_Brochure.pdf',30,352,'600 14px Geist',C.ink);txt('PDF · 24 pages',30,374,'400 12px Geist',C.grey);
+    txt('11:48 PM',24,414,'400 11px Geist',C.grey);
+    // the question bubble (outgoing, purple)
+    const pb=sk(t,TP.sent,.42);
+    if(pb>0){g.save();g.globalAlpha=pb;g.translate(0,(1-pb)*30);const bg=g.createLinearGradient(170,460,414,560);bg.addColorStop(0,'#A47BF5');bg.addColorStop(1,'#8B5CF6');g.fillStyle=bg;rr(g,150,452,264,82,22);g.fill();
+      txt('Is parking included',166,488,'600 21px Geist','#fff');txt('with the 2-bed?',166,516,'600 21px Geist','#fff');
+      const pd=sk(t,TP.deliv,.3);g.globalAlpha=pb*pd;txt('Delivered',352,552,'400 12px Geist',C.grey);g.restore()}
+    const pf=sk(t,TP.offline,.4);if(pf>0){g.save();g.globalAlpha=pf;g.fillStyle='#AEAEB2';g.beginPath();g.arc(118,612,4,0,7);g.fill();txt('Skyline Sales is offline',128,617,'400 13px Geist',C.grey);g.restore()}
+    // input bar with typing
+    g.fillStyle='#fff';g.fillRect(0,850,SW,82);g.strokeStyle=C.line;g.lineWidth=1;rr(g,16,862,350,42,21);g.stroke();
+    const msg='Is parking included with the 2-bed?';const n=pb>0?0:Math.floor(msg.length*k(t,...TP.type));
+    if(n>0)txt(msg.slice(n>24?n-24:0,n),32,890,'500 19px Geist',C.ink);else txt('Message',32,890,'400 19px Geist','#AEAEB2');
+    if(pb<=0&&n>0&&Math.floor(t*5)%2===0){g.font='500 19px Geist';g.fillStyle=C.p;g.fillRect(33+g.measureText(msg.slice(n>24?n-24:0,n)).width,872,2,22)}
+    g.fillStyle=n>=msg.length&&pb<=0?C.p:'#E5E1EE';g.beginPath();g.arc(392,883,19,0,7);g.fill();g.strokeStyle='#fff';g.lineWidth=2.4;g.lineCap='round';g.beginPath();g.moveTo(392,892);g.lineTo(392,874);g.moveTo(385,881);g.lineTo(392,874);g.lineTo(399,881);g.stroke();
+    g.restore()}
+}
+// ---------- the wait → next day
+const waitC=box(`<div style="text-align:center;width:1080px"><div class="lab" style="font:500 26px GeistMono;letter-spacing:.3em;color:#8E8E93">WAITING FOR A REPLY</div>
+  <div class="tm" style="font:200 240px Geist;letter-spacing:-.06em;line-height:1;margin-top:20px;color:#1D1D1F;font-variant-numeric:tabular-nums"></div></div>`);
+const qMini=box(`<div style="display:flex;align-items:center;gap:22px;padding:28px 36px;border-radius:40px;background:#fff;box-shadow:${SHD};width:820px">
+  <div style="width:76px;height:76px;border-radius:50%;background:#5E5873;color:#fff;display:flex;align-items:center;justify-content:center;font:600 28px Geist;flex:none">RM</div>
+  <div style="flex:1"><div style="font:400 24px Geist;color:#8E8E93">Rahul Mehta · 11:52 PM</div><div style="font:600 42px Geist;letter-spacing:-.03em;color:#1D1D1F;margin-top:4px">Is parking included with the 2-bed?</div></div>
+  <div class="un" style="font:500 20px GeistMono;letter-spacing:.08em;color:#8B5CF6;padding:8px 14px;border-radius:999px;background:#F1EAFE;opacity:0">UNANSWERED</div></div>`);
+const callC=box(`<div style="display:flex;align-items:center;gap:26px;padding:30px 34px;border-radius:999px;background:#1D1D1F;box-shadow:0 30px 70px -20px rgba(29,29,31,.5);width:820px">
+  <div style="width:96px;height:96px;border-radius:50%;background:#3A3842;color:#fff;display:flex;align-items:center;justify-content:center;font:600 32px Geist;flex:none">SS</div>
+  <div style="flex:1"><div style="font:600 40px Geist;letter-spacing:-.03em;color:#fff">Skyline Sales calling…</div><div style="font:400 26px Geist;color:#AEAEB2;margin-top:4px">To Rahul Mehta · 10:30 AM</div></div>
+  <div style="width:84px;height:84px;border-radius:50%;background:#34C759;display:flex;align-items:center;justify-content:center;flex:none"><svg width="40" height="40" viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></div></div>`);
+// ---------- labels + captions (light)
+const pill=el('div','pill',topP);css(pill,{padding:'15px 32px 15px 24px',fontSize:'30px',letterSpacing:'.02em',fontWeight:'500',color:'#1D1D1F',background:'rgba(255,255,255,.82)',backdropFilter:'blur(18px)',boxShadow:'0 0 0 1px rgba(0,0,0,.05),0 10px 24px -10px rgba(60,30,120,.25)'});
+const DOT='<span style="width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#9A6BF0,#F08BE0);display:inline-block"></span>';
+const PILLS=[[0.95,'DEVELOPER SENDS THE BROCHURE'],[3.22,'THE BUYER OPENS IT'],[4.30,'THE BUYER HAS A QUESTION'],[5.54,'NO ONE ANSWERS'],[6.54,'THE NEXT DAY']];
+const kar=el('div','kar',topP);
+const LINES=[[['send',0.86],['PDF',1.14,1],['brochures',1.50,1]],[['to',2.04],['every',2.26,1],['inquiry.',2.58]],[['The',3.22],['buyer',3.26],['opens',3.48,1],['it,',3.98]],
+ [['has',4.32],['a',4.44],['question,',4.58,1]],[['and',4.96],["there's",5.22],['nobody',5.54,1]],[['to',5.86],['answer.',6.10]],
+ [['By',6.54],['the',6.70],['time',6.86,1]],[['your',7.08],['sales',7.36],['representative',7.62,1]],[['calls',8.36,1],['the',8.78],['next',8.98,1],['day,',9.24,1]]];
+const stack=el('div','stack');
+const STACK1=[['Most',0.00,'300 64px',-150],['developers',0.30,'700 132px',0]];
+const STACK2=[['the',9.56,'300 64px',-170],['interest',9.66,'700 132px',0],['is gone.',9.94,'300 72px',150]];
+function cur(list,t){let c=null;for(const x of list)if(t+1e-6>=x[0])c=x;return c}
+function show(e,on){e.style.display=on?'block':'none';return on}
+function place(e,cx,cy,s=1,extra=''){const w=e.firstChild.offsetWidth,h=e.firstChild.offsetHeight;css(e,{transform:`translate(${cx-w/2}px,${cy-h/2}px) scale(${s}) ${extra}`})}
+
+const T2={dragIn:[0.50,.80],back:[9.28,.62],flash:2.36};
+window.renderAt=async function(t){
+  const fi=await frame(t);
+  // the split: buttery slide in, buttery slide out for the last line
+  const din=sk(t,...T2.dragIn),dout=sk(t,...T2.back);
+  const FULL=t>=T2.flash&&dout<1,PH=FULL?1920:960;
+  // A-roll framing (face-tracked, R8 numbers)
+  {const tr=TRACK[Math.min(fi,TRACK.length-1)]||{cx:.5,cy:.41};const fx=tr.cx*W,fy=tr.cy*H;const z=SM(k(t,0.04,.5));
+   let s,ty,slide;
+   if(t<T2.back[0]){s=lerp(lerp(1.32,1.10,z),1.06,din);slide=din*960;ty=lerp(lerp(.33,.41,z)*H,.65*H-960,din)}
+   else{const pin=SM(k(t,9.5,1.06));s=lerp(1.12,1.30,pin);slide=0;ty=lerp(.41,.36,pin)*H}
+   let ox=W/2-fx*s,oy=ty-fy*s;ox=Math.min(0,Math.max(W-W*s,ox));oy=Math.min(0,Math.max((H-slide)-H*s,oy));
+   vi.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;css(vid,{transform:`translateY(${slide}px)`,display:(FULL&&dout<=0)?'none':'block',filter:'none'})}
+  const panelY=t<T2.back[0]?(din-1)*960:-dout*1920;
+  css(topP,{transform:`translateY(${panelY}px)`,display:(din>0&&dout<1)?'block':'none',height:PH+'px'});
+  css(seam,{top:(din*960)+'px',display:(!FULL&&din>0)?'block':'none'});
+  css(pill,{top:(FULL?150:40)+'px'});css(kar,{top:(FULL?1660:850)+'px'});
+  BLOBS.forEach(o=>css(o.b,{left:(o.x*W+Math.sin(t*.45+o.i)*70)+'px',top:(o.y*PH+Math.cos(t*.35+o.i*2)*60)+'px'}));
+  // caption lockups over Kirti (start + end)
+  const STK=t<3?STACK1:(t>=9.5?STACK2:null);
+  if(STK&&(t<T2.dragIn[0]+.2||t>=9.5)){const out=t<3?k(t,T2.dragIn[0]-.04,.2):0,top=t<3?lerp(90,170,SM(k(t,0.04,.5))):150;
+    stack.innerHTML=STK.map(([w,st,f,dx])=>{const p=SM(k(t,st,.3));return `<div style="font:${f} Geist;letter-spacing:-.045em;transform:translate(${dx}px,${(1-p)*26}px);opacity:${p*(1-out)};filter:blur(${(1-p)*8}px)"><span>${w}</span></div>`}).join('');
+    css(stack,{display:'block',top:top+'px'})}else stack.style.display='none';
+  if(din<=0||dout>=1)return;
+  // ---------------- split: search bar → typing → drag the PDF in → purple send
+  [bar,pdf,cursor,arrowFly].forEach(e=>show(e,false));
+  if(!FULL){
+    const pb=sk(t,0.92,.6);show(bar,pb>0);
+    const att=sk(t,1.96,.3);Q('.slot').style.height=(att*112)+'px';Q('.chip').style.opacity=att;
+    const msg='Hi Rahul, here is your brochure';const n=Math.floor(msg.length*k(t,1.24,.52));Q('.typed').textContent=msg.slice(0,n);Q('.ph').style.display=n>0?'none':'inline';
+    Q('.caret').style.opacity=(Math.floor(t*4)%2===0||(t>1.2&&t<1.8))?1:0;
+    const ang=t*140;Q('.glow').style.background=`conic-gradient(from ${ang}deg,#9A6BF0,#F08BE0,#C07BFF,#8B5CF6,#9A6BF0)`;Q('.glow').style.opacity=.55*pb+.25*Math.sin(t*3)*pb;
+    Q('.ring').style.background=`conic-gradient(from ${ang}deg,#9A6BF0,#F08BE0,#C07BFF,#8B5CF6,#9A6BF0)`;Q('.ring').style.opacity=pb;
+    const lit=sk(t,2.06,.18),press=1-.07*Math.sin(Math.PI*k(t,2.18,.14));Q('.sfill').style.opacity=lit;Q('.shalo').style.opacity=lit;Q('.send').style.transform=`scale(${press})`;Q('.sarr').style.opacity=t<2.24?1:0;
+    const barY=lerp(560,520,pb)-att*20;place(bar,540,barY,lerp(.94,1,pb));bar.style.opacity=pb;bar.style.filter=`blur(${(1-pb)*8}px)`;
+    // the PDF floats in above, the cursor grabs it and drops it into the bar
+    const pIn=sk(t,1.36,.36),drag=sk(t,1.66,.32);
+    if(pIn>0&&att<1){show(pdf,true);const x=lerp(560,300,drag),y=lerp(lerp(150,215,pIn),barY-40,drag),s=lerp(1,.5,drag);place(pdf,x,y,s*lerp(.94,1,pIn));pdf.style.opacity=pIn*(1-att)}
+    // cursor path: → PDF (1.50–1.66) → drag (1.66–1.98) → send (2.00–2.16) → click 2.18
+    if(t>1.44&&t<2.34){show(cursor,true);let cx,cy;
+      if(t<1.66){const u=sk(t,1.44,.22);cx=lerp(1000,600,u);cy=lerp(420,230,u)}
+      else if(t<1.98){cx=lerp(600,340,drag);cy=lerp(230,barY-10,drag)}
+      else{const u=sk(t,2.00,.16);cx=lerp(340,950,u);cy=lerp(barY-10,barY+att*56+20,u)}
+      const grab=(t>1.62&&t<1.98)?.9:1,click=1-.12*Math.sin(Math.PI*k(t,2.16,.12));
+      css(cursor,{transform:`translate(${cx}px,${cy}px) scale(${grab*click})`,transformOrigin:'0 0',opacity:1-k(t,2.26,.08)})}
+    if(t>=2.24&&t<T2.flash){show(arrowFly,true);const e=k(t,2.24,.12);css(arrowFly,{transform:`translate(${950-45}px,${barY+50-e*e*600}px)`})}
+  }
+  // ---------------- full screen
+  leads.forEach(c=>show(c,false));[dev,shadowEl,waitC,qMini,callC].forEach(e=>show(e,false));
+  if(FULL){const inLeads=t<TP.in+.12;
+    if(inLeads){ // four enquiries; the cursor sweeps down and each card reacts like a selector
+      const tops=[560,790,1020,1250];
+      const cy=lerp(380,1420,sk(t,2.50,.62)),cxp=lerp(820,760,sk(t,2.5,.62));
+      leads.forEach((c,i)=>{show(c,true);const p=sk(t,2.40+i*.07,.42),near=Math.max(0,1-Math.abs(cy-tops[i])/150),sent=sk(t,2.52+i*.12,.25);
+        place(c,540,tops[i]+(1-p)*50-near*10,lerp(.96,1,p)*(1+near*.03));c.style.opacity=p*(1-sk(t,TP.in-.02,.14));
+        Q('.hl',c).style.opacity=near;Q('.got',c).style.opacity=sent;Q('.lc',c).style.boxShadow=`${SHD},0 0 ${40*near}px rgba(139,92,246,${.45*near})`});
+      show(cursor,t<3.2);css(cursor,{transform:`translate(${cxp}px,${cy}px)`,transformOrigin:'0 0',opacity:1-k(t,3.1,.1)})}
+    // the phone turns in (3D) — notification → brochure → chat
+    const ph=sk(t,TP.in,.72),away=sk(t,5.74,.5);
+    if(ph>0&&away<1){show(dev,true);show(shadowEl,true);g.setTransform(SS,0,0,SS,0,0);phoneScreen(t);g.setTransform(1,0,0,1,0,0);
+      const DS=lerp(1.30,1.50,sk(t,TP.chat,.6))*lerp(1,.9,away),cx=540,cy=900+away*120;
+      const ry=lerp(-100,-12,ph)+sk(t,TP.in+.7,2.0)*8,rx=lerp(24,4,ph),rz=lerp(-10,0,ph);
+      css(dev,{transform:`translate(${cx-DEVW*DS/2}px,${cy-DEVH*DS/2+(1-ph)*160}px) scale(${DS}) perspective(1600px) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg)`,transformOrigin:'50% 50%',opacity:cl(ph*2)*(1-away)});
+      css(shadowEl,{left:(cx-DEVW*DS*.4)+'px',width:(DEVW*DS*.8)+'px',top:(cy+DEVH*DS/2-20)+'px',height:'70px',opacity:ph*(1-away)*.8})}
+    // the wait → next day
+    const pq=sk(t,5.80,.5);if(pq>0){show(qMini,true);place(qMini,540,lerp(560,520,pq),1);qMini.style.opacity=pq;Q('.un',qMini).style.opacity=sk(t,6.0,.3)}
+    const pw=sk(t,5.96,.5);if(pw>0){show(waitC,true);const mins=Math.round(110*SM(k(t,6.0,.6))+(t>6.54?SM(k(t,6.54,2.4))*(638-110):0));
+      Q('.tm',waitC).textContent=`${Math.floor(mins/60)}h ${String(mins%60).padStart(2,'0')}m`;
+      Q('.lab',waitC).textContent=t<8.78?'WAITING FOR A REPLY':'NEXT DAY · 10:30 AM';place(waitC,540,lerp(1000,960,pw),1+sk(t,6.0,3)*.03);waitC.style.opacity=pw}
+    const pc=sk(t,8.36,.55);if(pc>0){show(callC,true);place(callC,540,lerp(1420,1290,pc),lerp(.96,1,pc));callC.style.opacity=pc}
+  }
+  const fr=Math.round(t*FPS);
+  // labels + caption line
+  const pc2=cur(PILLS,t);
+  if(pc2&&t<T2.back[0]){const pp=SM(k(t,pc2[0],.4));pill.innerHTML=DOT+`<span>${pc2[1]}</span>`;css(pill,{display:'flex',opacity:pp,transform:`translateX(-50%) translateY(${(1-pp)*-16}px)`})}else pill.style.display='none';
+  let line=null;for(const L of LINES)if(t+1e-6>=L[0][1])line=L;
+  if(line&&t<T2.back[0]){kar.innerHTML=line.filter(([w,st])=>t+1e-6>=st).map(([w,st,key])=>{const p=SM(k(t,st,.28));return `<span class="${key?'key':''}" style="opacity:${p};transform:translateY(${(1-p)*14}px);filter:blur(${(1-p)*6}px)">${w}</span>`}).join('');kar.style.display='block'}else kar.style.display='none';
+};
+document.fonts.load('600 40px Geist').then(()=>document.fonts.load('400 20px GeistMono')).then(()=>new Promise(r=>{if(COVER.complete)r();else{COVER.onload=r;COVER.onerror=r}})).then(()=>{window.READY=true});
+</script></body></html>
