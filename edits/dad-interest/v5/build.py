@@ -13,7 +13,7 @@ import numpy as np, cv2
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 RAW = os.path.join(ROOT, 'out/dad_interest_RAW_1080x1920.mp4')
-OUT = os.path.join(ROOT, 'out/dad_interest_premium_1080x1920.mp4')
+OUT = os.path.join(ROOT, 'out/dad_interest_v5_1080x1920.mp4')
 W, H = 1080, 1920
 FPS_N, FPS_D = 24000, 1001; FPS = FPS_N / FPS_D
 _argv = sys.argv; sys.argv = ['edit.py']
