@@ -8,7 +8,7 @@ STILLS = [  # AI beats (layered: person and background move separately)
     (12.50, 'B8', 'AI: her with an armful of books', '"I would just buy BOOKS" (word behind her)'),
     (22.40, 'B12', 'AI: friends at the lockers', '"they came to me for…"'), (23.50, 'B12', 'AI: friends at the lockers', '"…MONEY"'),
     (31.00, 'B18', 'AI: dad at her bedroom door', 'KNOCK (behind him)'), (32.10, 'B18', 'AI: dad at her bedroom door', 'KNOCK KNOCK'),
-    (36.30, 'B20', 'AI: her drawer of saved cash', '"I went in my DRAWER"'),
+    (36.30, 'B20', 'real footage: dollar bills', '"I went in my DRAWER"'),
     (56.60, 'B28', 'AI: her as a young entrepreneur', 'FIRST behind her'), (58.70, 'B28', 'AI: her as a young entrepreneur', 'FIRST BUSINESS'),
 ]
 if '--compose' in sys.argv:

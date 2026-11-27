@@ -46,7 +46,7 @@ BASE = [
     (29.55, 30.50, 'aroll', [(29.55, 1.00), (30.50, 1.03)]),                               # I remember my dad
     (30.50, 32.27, 'ai', ('dad_door', 'o_knock', [(30.50, 1.00), (32.27, 1.07)], True)),     # he KNOCKED on my room DOOR (AI: dad at her door, KNOCK behind him)
     (32.27, 34.49, 'roto', ('r20b', [(32.27, 1.00), (34.49, 1.05)])),                      # he said Latoya, I need [$20 behind her]
-    (34.49, 36.78, 'ai', ('drawer', 'o_stash', [(34.49, 1.00), (36.78, 1.07)], False)),      # I went in my DRAWER (AI: her drawer of saved cash)
+    (34.49, 36.78, 'broll', ('stash', 'o_stash', [(34.49, 1.00), (36.78, 1.06)], 'warm')),   # I went in my DRAWER (real dollar bills: AI money looks fake)
     (36.78, 38.52, 'broll', ('count', 'o_count', [(36.78, 1.02), (38.52, 1.08)], 'warm')),   # and I started COUNTING all my money
     (38.52, 40.65, 'aroll', [(38.52, 1.45), (40.65, 1.50)]),                               # he said WAIT, you still have all those MONEY?
     (40.65, 41.81, 'aroll', [(40.65, 1.12), (41.81, 1.15)]),                               # so I gave him $20
@@ -218,8 +218,8 @@ class Compositor:
     def __init__(self):
         self.ar = Reader(RAW); self.prev = None; self.matte = None; self.br = {}; self.ai = {}
         self.chunks = caption_chunks()
-        self.cap_shift = self.plan_caption_dodge()
         self.t_ent = wt('entrepreneurship') - 0.15
+        self.cap_shift = self.plan_caption_dodge()
 
     # per-image camera (fg = person layer; the background moves 45% as much and is softly defocused):
     # scale from -> to, pan x/y (px) from -> to, roll (deg) from -> to
@@ -249,6 +249,25 @@ class Compositor:
         return self.ai[name]
 
     @staticmethod
+    def focus_blur(bg, mask, t_rel):
+        """Radial (zoom) motion blur in the background, streaking toward the subject so the eye lands on them. It is
+        strongest right after the whip (the camera 'arrives') and settles to a steady pull; the area around the subject
+        stays sharper (the blur ramps up with distance from them)."""
+        ys, xs = np.nonzero(mask > 0.5)
+        if len(xs) < 50: return bg
+        cx, cy = float(xs.mean()), float(np.percentile(ys, 25))               # aim at the upper body / face
+        amt = 0.045 + 0.10 * (1 - min(1.0, t_rel / 0.7)) ** 2
+        acc = bg.astype(np.float32); n = 10
+        for k in range(1, n + 1):
+            M = cv2.getRotationMatrix2D((cx, cy), 0, 1 + amt * k / n)
+            acc += cv2.warpAffine(bg, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT).astype(np.float32)
+        zb = acc / (n + 1)
+        yy, xx = np.mgrid[0:H:8, 0:W:8].astype(np.float32)
+        d = np.sqrt(((xx - cx) / W) ** 2 + ((yy - cy) / H) ** 2)
+        wgt = cv2.resize(np.clip((d - 0.06) / 0.30, 0, 1), (W, H))[..., None]
+        return (bg.astype(np.float32) * (1 - wgt) + zb * wgt).clip(0, 255).astype(np.uint8)
+
+    @staticmethod
     def warp(img, s, tx, ty, rot, interp=cv2.INTER_CUBIC):
         M = cv2.getRotationMatrix2D((W / 2, H / 2), rot, s); M[0, 2] += tx; M[1, 2] += ty
         return cv2.warpAffine(img, M, (W, H), flags=interp, borderMode=cv2.BORDER_REFLECT)
@@ -269,6 +288,7 @@ class Compositor:
         fg = self.warp(img, sf, tx, ty, rot)
         mf = self.warp(m, sf, tx, ty, rot, cv2.INTER_LINEAR)[..., None]
         bg = self.warp(bgimg, sb, tx * 0.45, ty * 0.45, rot * 0.5)
+        bg = self.focus_blur(bg, mf[..., 0], t - b0)
         bgf = bg.astype(np.float32) / 255 * TYPESCRIM
         fgf = fg.astype(np.float32) / 255 * TYPESCRIM
         if behind:

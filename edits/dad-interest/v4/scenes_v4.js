@@ -8,7 +8,9 @@ const G = { gold: '#F2C35B', goldDeep: '#B8862B', cream: '#FBF3E2', ink: '#1B171
 // ------------------------------------------------------------------ type
 function giant(parent, text, { top, size, word, tracking = 2, color = G.white, rise = 160, delay = 0.35, align = 'center', left = 0, width = 1080, lh = 0.9 }) {
   const e = el('div', { position: 'absolute', left: left + 'px', width: width + 'px', top: top + 'px', textAlign: align, font: `${size}px/${lh} Anton, "Bebas Neue", sans-serif`,
-    color, letterSpacing: tracking + 'px', textShadow: '0 18px 48px rgba(0,0,0,.35)', whiteSpace: 'pre' }, parent, text);
+    color, letterSpacing: tracking + 'px', whiteSpace: 'pre',
+    textShadow: color === G.white ? '0 18px 48px rgba(0,0,0,.35)'            // light glow on the coloured words only
+      : '0 0 18px rgba(242,195,91,.55), 0 0 46px rgba(242,195,91,.28), 0 18px 48px rgba(0,0,0,.35)' }, parent, text);
   e.dataset.layer = 'back';
   const t0 = typeof word === 'number' ? word : tw(word);
   return t => {
@@ -21,7 +23,8 @@ function giant(parent, text, { top, size, word, tracking = 2, color = G.white, r
 }
 function serif(parent, text, { top, size = 230, word, color = G.gold, glow = true }) {
   const e = el('div', { position: 'absolute', left: '0', width: '1080px', top: top + 'px', textAlign: 'center', font: `italic 400 ${size}px/0.95 "Instrument Serif", serif`, color,
-    textShadow: glow ? '0 0 30px rgba(242,195,91,.45), 0 6px 26px rgba(0,0,0,.45)' : 'none' }, parent, text);
+    textShadow: glow ? (color === G.white ? '0 0 24px rgba(255,240,210,.30), 0 6px 26px rgba(0,0,0,.45)'
+      : '0 0 16px rgba(242,195,91,.60), 0 0 44px rgba(242,195,91,.30), 0 6px 26px rgba(0,0,0,.45)') : 'none' }, parent, text);
   e.dataset.layer = 'front';
   const t0 = typeof word === 'number' ? word : tw(word);
   return t => { reveal(e, t, t0, 34, 0.3); return e; };
@@ -54,7 +57,7 @@ function pop(e, t, t0, d = 0.32) { const u = (t - t0) / d; e.style.opacity = cla
 function slideUp(e, t, t0, d = 0.5, dy = 120) { const u = (t - t0) / d; e.style.opacity = clamp(u * 2); e.style.transform = `translateY(${dy * (1 - eo(u))}px)`; }
 // dark-ink captions inside the light UI world (run-in Inter + serif keyword in deep gold)
 function uiCaption(parent, y, items) {
-  return line(parent, y, items.map(([w, t, kw]) => ({ w, t, css: kw ? { font: 'italic 400 150px/1 "Instrument Serif", serif', color: G.goldDeep, textShadow: 'none' } : { font: '600 60px Inter, sans-serif', color: G.ink, textShadow: 'none' } })));
+  return line(parent, y, items.map(([w, t, kw]) => ({ w, t, css: kw ? { font: 'italic 400 150px/1 "Instrument Serif", serif', color: G.goldDeep, textShadow: '0 0 14px rgba(242,195,91,.55), 0 0 34px rgba(255,214,140,.35)' } : { font: '600 60px Inter, sans-serif', color: G.ink, textShadow: 'none' } })));
 }
 
 Object.assign(SCENES, {
@@ -74,7 +77,7 @@ Object.assign(SCENES, {
   rent() { const g = giant(S, 'ENTREPRENEURSHIP', { top: 150, size: 132, word: 'entrepreneurship', delay: 0.3, tracking: 1 }); return t => g(t); },
   // over the young-entrepreneur B-roll, behind her
   rfirst() {
-    const r = line(S, 250, [R('so'), R('that'), R('was'), R('my')]);
+    const r = line(S, 1390, [R('so'), R('that'), R('was'), R('my')]);
     const a = giant(S, 'FIRST', { top: 330, size: 420, word: 'first', tracking: 6 });
     const b = giant(S, 'BUSINESS', { top: 700, size: 250, word: 'business', tracking: 4, color: G.gold });
     const s1 = el('div', { position: 'absolute', left: '0', width: '1080px', top: '1500px', textAlign: 'center', font: 'italic 400 96px "Instrument Serif"', color: G.white, textShadow: '0 4px 20px rgba(0,0,0,.6)' }, S, 'entrepreneurial');
