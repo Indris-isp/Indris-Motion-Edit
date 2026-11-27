@@ -5,6 +5,15 @@ description: Edit style for the Livesites client (AI brochure ads, VSL, vertical
 
 # Livesites motion style
 
+**Brand first:** read `edits/livesites/brand/BRAND.md`. Use Geist captions, Paper/Mist/Ink/Night colours and the Iris→Orchid→Bloom live gradient as the only accent (≈4 %). Motion is calm glass with no bounce, and the star sparkles once. Where the references conflict with the brand, the brand wins.
+
+**Client decisions (Nov 2026):**
+- 9:16 deliverables.
+- Brand colour in place of the reference colours.
+- The scan sweep stays, in the live gradient.
+- The CTA is an animation of a cursor going to the client's Instagram profile and tapping the link in the bio.
+- The user supplies the music.
+
 The full analysis is in `edits/livesites/style-study/` (read `01_caption_reference.md` for the caption log and shot list, `02_animation_reference.md` for the frame-by-frame animation breakdown, and `03_applying_to_livesites.md` for the script mapping).
 
 ## Structure (from the caption reel)
