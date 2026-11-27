@@ -12,7 +12,7 @@ const sio = u => 0.5 - 0.5 * Math.cos(Math.PI * clamp(u));                      
 
 // ------------------------------------------------------------------ world + camera
 // v5.1 (client notes): natural wallpapers (sun / water / flowers) instead of the lavender gradient; every white layer is liquid glass
-const NATURE = { v_request: 'sun', v_list: 'flower', v_calendar: 'water', v_msgs: 'leaves', v_loans: 'sun', v_drawer: 'flower', v_invoice: 'water', v_declined: 'water' };
+const NATURE = {};                                                                               // client pick: the golden sun-grass world for every UI scene
 function world(bg = NATURE[NAME] || 'sun') {
   const wall = el('img', { position: 'absolute', left: '-60px', top: '-107px', width: '1200px', height: '2134px', objectFit: 'cover', transformOrigin: '50% 45%' }); wall.src = `assets/nature/${bg}.jpg`;
   el('div', { position: 'absolute', inset: '0', background: 'radial-gradient(120% 70% at 50% 55%, rgba(255,255,255,.10), rgba(255,255,255,0) 70%), linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.06))' });

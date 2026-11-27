@@ -25,7 +25,7 @@ WORDS = [(round(a, 3), w) for a, b, w in E.WORDS]                 # output secon
 
 # ---------------------------------------------------------------- the plan (output seconds)
 # ('aroll', zoom keys) | ('roto', text scene, zoom keys) | ('scene', name)
-BASE = [   # v5: the Pinterest reference's motion language (lavender UI world, eased camera, push transitions)
+BASE = [   # v5: the Pinterest reference's motion language (sun-grass world + liquid-glass UI, eased camera, push transitions)
     (0.00, 1.85, 'neon', ('n20a', [(0.00, 1.06), (0.60, 1.00), (1.85, 1.03)])),   # I'm gonna give you [neon $20 counts up]
     (1.85, 4.45, 'ui', 'v_request'),                                              # pay me back with +$5 INTEREST (request card, pull-back reveals "interest")
     (4.45, 6.15, 'aroll', [(4.45, 1.00), (6.15, 1.05)]),                          # host: Wow, I like THAT
@@ -111,7 +111,14 @@ def sfx_cues():
          (54.48, '1462', Wk, -18), (wt('come'), '563', S, -16),
          (55.74, '2633', Wk, -16), (wt('first'), '2919', Wk, -13), (wt('business'), '3144', S, -16),
          (58.94, '1461', Wk, -20), (wt('entrepreneurship') - 0.2, '2919', Wk, -15)]
-    return sorted(c)
+    # v5: whooshes peak mid-push (cut + PUSH_D/2); plain A-roll to A-roll cuts are hard cuts now, so they lose their whoosh
+    HARD = (14.99, 25.61, 40.65, 41.81, 43.75)
+    out = []
+    for t, sid, k, g in c:
+        if k == Wk and any(abs(t - h) < 0.02 for h in HARD): continue
+        if k == Wk and any(abs(t - p) < 0.02 for p in PUSHES): t += PUSH_D / 2
+        out.append((t, sid, k, g))
+    return sorted(out)
 
 
 def plan():
