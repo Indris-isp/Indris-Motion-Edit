@@ -122,8 +122,10 @@ def plan():
     for a, b, kind, p in BASE:
         name = {'ui': p, 'roto': p[0] if kind == 'roto' else None, 'broll': p[1] if kind == 'broll' else None, 'broll_roto': p[1] if kind == 'broll_roto' else None, 'ai': p[1] if kind == 'ai' else None}.get(kind)
         if name:
-            sc.append(dict(name=name, kind='scene' if kind == 'ui' else 'overlay', f0=fi(a), f1=fi(b),
-                           cues=dict(words=[[round(t - a, 3), w] for t, w in WORDS if a - 0.35 <= t < b])))
+            cues = dict(words=[[round(t - a, 3), w] for t, w in WORDS if a - 0.35 <= t < b])
+            names = [name + '@back', name + '@front'] if kind == 'ai' and p[3] else [name]
+            for nm in names:
+                sc.append(dict(name=nm, kind='scene' if kind == 'ui' else 'overlay', f0=fi(a), f1=fi(b), cues=cues))
     sc.append(dict(name='caps', kind='overlay', f0=0, f1=N, cues=dict(chunks=caption_chunks())))
     json.dump(dict(fps=FPS, scenes=sc), open(os.path.join(HERE, 'out/plan.json'), 'w'), indent=1)
     json.dump(sfx_cues(), open(os.path.join(HERE, 'audio/cues.json'), 'w'))
@@ -240,10 +242,11 @@ class Compositor:
         mf = zoom((m * 255).astype(np.uint8)[..., None].repeat(3, 2), zf, dx, dy - 18 * u, face=False)[..., 0].astype(np.float32) / 255
         bgf = (bg.astype(np.float32) / 255 * TYPESCRIM)
         fgf = (fg.astype(np.float32) / 255 * TYPESCRIM)
+        if behind:                                     # giant word between the layers, captions on top
+            bgf = over((bgf.clip(0, 1) * 255).astype(np.uint8), scene_rgba(ov + '@back', lf)).astype(np.float32) / 255
+            out = bgf * (1 - mf[..., None]) + fgf * mf[..., None]
+            return over((out.clip(0, 1) * 255).astype(np.uint8), scene_rgba(ov + '@front', lf)).astype(np.float32) / 255
         txt = scene_rgba(ov, lf)
-        if behind:
-            bgf = over((bgf.clip(0, 1) * 255).astype(np.uint8), txt).astype(np.float32) / 255
-            return bgf * (1 - mf[..., None]) + fgf * mf[..., None]
         out = bgf * (1 - mf[..., None]) + fgf * mf[..., None]
         return over((out.clip(0, 1) * 255).astype(np.uint8), txt).astype(np.float32) / 255
 

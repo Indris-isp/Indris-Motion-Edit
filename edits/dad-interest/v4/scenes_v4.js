@@ -9,6 +9,7 @@ const G = { gold: '#F2C35B', goldDeep: '#B8862B', cream: '#FBF3E2', ink: '#1B171
 function giant(parent, text, { top, size, word, tracking = 2, color = G.white, rise = 160, delay = 0.35, align = 'center', left = 0, width = 1080, lh = 0.9 }) {
   const e = el('div', { position: 'absolute', left: left + 'px', width: width + 'px', top: top + 'px', textAlign: align, font: `${size}px/${lh} Anton, "Bebas Neue", sans-serif`,
     color, letterSpacing: tracking + 'px', textShadow: '0 18px 48px rgba(0,0,0,.35)', whiteSpace: 'pre' }, parent, text);
+  e.dataset.layer = 'back';
   const t0 = typeof word === 'number' ? word : tw(word);
   return t => {
     const u = (t - (t0 - delay)) / 0.42;
@@ -21,6 +22,7 @@ function giant(parent, text, { top, size, word, tracking = 2, color = G.white, r
 function serif(parent, text, { top, size = 230, word, color = G.gold, glow = true }) {
   const e = el('div', { position: 'absolute', left: '0', width: '1080px', top: top + 'px', textAlign: 'center', font: `italic 400 ${size}px/0.95 "Instrument Serif", serif`, color,
     textShadow: glow ? '0 0 30px rgba(242,195,91,.45), 0 6px 26px rgba(0,0,0,.45)' : 'none' }, parent, text);
+  e.dataset.layer = 'front';
   const t0 = typeof word === 'number' ? word : tw(word);
   return t => { reveal(e, t, t0, 34, 0.3); return e; };
 }
@@ -76,6 +78,7 @@ Object.assign(SCENES, {
     const a = giant(S, 'FIRST', { top: 330, size: 420, word: 'first', tracking: 6 });
     const b = giant(S, 'BUSINESS', { top: 700, size: 250, word: 'business', tracking: 4, color: G.gold });
     const s1 = el('div', { position: 'absolute', left: '0', width: '1080px', top: '1500px', textAlign: 'center', font: 'italic 400 96px "Instrument Serif"', color: G.white, textShadow: '0 4px 20px rgba(0,0,0,.6)' }, S, 'entrepreneurial');
+    s1.dataset.layer = 'front';
     const te = tw('entrepreneur');
     return t => { r(t); a(t); b(t); reveal(s1, t, te, 30); };
   },
