@@ -6,17 +6,17 @@ F = 'fonts/Geist-Variable.woff2'
 import os
 S = [  # t, beat, words, what happens
  (0.30,'A-roll','"Most developers…"','Close-up zooms out; caption lockup'),
- (1.05,'iPhone rises in','"…send PDF…"','iOS Mail: a new message builds in'),
- (1.60,'PDF card','"…PDF brochures"','The attachment comes forward; the phone steps back'),
- (2.05,'Send','"…brochures"','The send bar comes forward; Send turns purple'),
- (2.25,'Sent','"to every…"','The arrow leaves the button with a soft trail'),
- (2.70,'Full screen · delivered','"…every inquiry."','White flash; the brochure lands in 4 inboxes'),
- (3.30,'Full screen · buyer','"The buyer…"','The buyer\'s Mail: the brochure email'),
- (3.80,'Brochure opens','"…opens it,"','The brochure page comes forward, alone'),
- (4.80,'The question','"…has a question,"','Rahul\'s reply comes forward'),
+ (1.30,'Frosted UI','"…send PDF…"','Dark stage, soft purple light; the PDF card slides up'),
+ (1.70,'Typing','"…PDF brochures"','A giant frosted message bar; the text types in'),
+ (2.05,'Cursor clicks Send','"…brochures"','Cursor glides in and clicks; Send turns purple'),
+ (2.28,'Whip','"to every…"','The message whips up and away with motion blur'),
+ (2.70,'Full screen · delivered','"…every inquiry."','Flash to a light world; frosted pills get the PDF'),
+ (3.25,'Phone whips in','"The buyer…"','Dark-mode iPhone whips in from the side'),
+ (3.90,'Brochure + sticker','"…opens it,"','The page comes forward; STATIC PDF slaps on'),
+ (4.80,'The question','"…has a question,"','Rahul\'s reply in frosted glass'),
  (5.30,'Offline','"…and there\'s…"','"Sales team is offline" fades in'),
- (5.80,'No reply','"…nobody…"','"No reply · 1h 50m" settles in'),
- (6.40,'End','"…to answer."','Everything eases back; silence'),
+ (5.90,'NO REPLY sticker','"…nobody…"','A big purple NO REPLY sticker slaps on'),
+ (6.40,'End','"…to answer."','Hold; the light keeps drifting'),
 ]
 tw, th, pad, lab = 360, 640, 18, 140
 cols = 6; rows = 2 if len(S) > 6 else 1
@@ -26,7 +26,7 @@ def font(sz, w=500):
     try: f.set_variation_by_axes([w])
     except Exception: pass
     return f
-g.text((pad, 28), 'Livesites · Scene 1 v5 · clean editorial: real iPhone, iOS Mail, one element at a time', font=font(40, 600), fill='#1D1D1F')
+g.text((pad, 28), 'Livesites · Scene 1 v6 · in the R10 (ChatGPT promo) design language', font=font(40, 600), fill='#1D1D1F')
 for i, (t, b, w, what) in enumerate(S):
     x = pad + (i % cols)*(tw+pad); y = 110 + (i//cols)*(th+lab+pad)
     im = Image.open(f'{d}/still_{t:.2f}.png').convert('RGB').resize((tw, th), Image.LANCZOS); B.paste(im, (x, y))

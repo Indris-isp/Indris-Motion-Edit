@@ -129,3 +129,12 @@ The full timings are in `refs-round3/transcripts/*.json`. Clean text:
   - Type about 1.5× bigger.
   - Every camera glide at least 0.5 s, then held.
   - Nothing moving at the same time as something else that needs reading.
+
+## 8. R10 (added later): the ChatGPT promo (17.4 s, music only). Its design language
+Sheets: `refs-round3/sheets/R10_01.jpg` and `R10_02.jpg`.
+- **Stage:** near-black, with big, very soft brand-colour light blobs drifting in the background (out-of-focus light, not glow on objects).
+- **UI as the hero:** at 2.5–4.75 s there's no phone. A giant input bar runs past the frame edges, text types in, and a real cursor glides over and clicks Send. The message then whips up with motion blur.
+- **Mixed worlds:** a light opening (an app icon bouncing, the cursor clicks it) → the dark UI → a bright sky "Create anything" world. In that world, glossy icons fly in and become frosted dark pills ("Create Images · Analyzing…"), and a dark-mode iPhone slides up behind them.
+- **3D glass cards:** cards tilt in with light under their edge. Bold condensed labels ("FAST", "ACCURATE") slap on in brand-colour boxes like stickers.
+- **Whips:** phones whip in sideways with heavy motion blur. Then a tumbling-phones grid with huge vertical letter-spaced type ("MANAGE ANYTHING"), then a logo end card.
+- **Applied in `v2-sample/scene1e.html` (Scene 1 v6).**
