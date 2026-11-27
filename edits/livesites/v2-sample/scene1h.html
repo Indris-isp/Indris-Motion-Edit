@@ -192,10 +192,10 @@ window.renderAt=async function(t){
     css(stack,{display:'block',top:top+'px'})}else stack.style.display='none';
   // reference-reel captions: hard swap on the word, 1–3 words, lowercase
   {let c=null;for(const x of CH)if(t+1e-6>=x[1])c=x;
-   if(c){capEl.textContent=c[0];const aroll=din<=0||dout>=1;const split=!aroll&&grow<1;
-     if(aroll){css(capEl,{display:'block',color:'#1D1D1F',background:'none',padding:'0',borderRadius:'0',textShadow:'0 1px 16px rgba(251,251,250,.6)',backdropFilter:'none'});
-       const w=capEl.offsetWidth;css(capEl,{transform:`translate(${(t<3?880:860)-w/2}px,${(t<3?lerp(700,740,SM(k(t,0.04,.5))):560)}px)`})}
-     else{css(capEl,{display:'block',color:'#fff',background:'rgba(30,28,36,.72)',padding:'14px 26px 16px',borderRadius:'16px',textShadow:'none',backdropFilter:'blur(10px)'});
+   if(c){capEl.textContent=c[0];const aroll=din<=0||dout>=.35;const split=!aroll&&grow<1;
+     if(aroll){css(capEl,{display:'block',color:'#fff',fontWeight:'800',fontSize:'64px',background:'rgba(30,28,36,.72)',padding:'16px 30px 18px',borderRadius:'18px',textShadow:'none',backdropFilter:'blur(10px)'});
+       const w=capEl.offsetWidth;css(capEl,{transform:`translate(${540-w/2}px,1180px)`})}
+     else{css(capEl,{display:'block',color:'#fff',fontWeight:'600',fontSize:'54px',background:'rgba(30,28,36,.72)',padding:'14px 26px 16px',borderRadius:'16px',textShadow:'none',backdropFilter:'blur(10px)'});
        const w=capEl.offsetWidth,h=capEl.offsetHeight,y=split?(din*960+grow*960)-h/2:1500;css(capEl,{transform:`translate(${540-w/2}px,${y}px)`})}}
    else capEl.style.display='none'}
   if(din<=0||dout>=1)return;
