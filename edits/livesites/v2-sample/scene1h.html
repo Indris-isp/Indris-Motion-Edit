@@ -169,7 +169,17 @@ function cur(list,t){let c=null;for(const x of list)if(t+1e-6>=x[0])c=x;return c
 function show(e,on){e.style.display=on?'block':'none';return on}
 function place(e,cx,cy,s=1,extra=''){const w=e.firstChild.offsetWidth,h=e.firstChild.offsetHeight;css(e,{transform:`translate(${cx-w/2}px,${cy-h/2}px) scale(${s}) ${extra}`})}
 
-const T2={dragIn:[0.50,.80],grow:[1.80,.60],back:[9.28,.62]};
+const T2={dragIn:[0.50,.80],grow:[1.80,.60],back:[6.30,.62]};
+// v10.2: "By the time your sales representative calls the next day" plays on Kirti; the timer runs above her head
+const GLD='background:rgba(22,20,28,.78);backdrop-filter:blur(24px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),0 24px 60px -18px rgba(0,0,0,.55)';
+const tOv=el('div','abs');css(tOv,{left:0,top:0,width:W+'px',display:'none',textAlign:'center'});
+tOv.innerHTML=`<div style="display:inline-block;padding:26px 56px 30px;border-radius:44px;${GLD}"><div class="lab" style="font:500 24px GeistMono;letter-spacing:.3em;color:#AEAEB2">NO REPLY FOR</div>
+  <div class="tm" style="font:200 168px Geist;letter-spacing:-.06em;line-height:1;margin-top:10px;color:#fff;font-variant-numeric:tabular-nums"></div></div>`;
+const cOv=el('div','abs');css(cOv,{left:0,top:0,width:W+'px',display:'none',textAlign:'center'});
+cOv.innerHTML=`<div style="display:inline-flex;align-items:center;gap:20px;padding:20px 26px;border-radius:999px;${GLD}">
+  <div style="width:72px;height:72px;border-radius:50%;background:#3A3842;color:#fff;display:flex;align-items:center;justify-content:center;font:600 26px Geist">SS</div>
+  <div style="text-align:left"><div style="font:600 32px Geist;letter-spacing:-.03em;color:#fff">Calling Rahul Mehta…</div><div style="font:400 22px Geist;color:#AEAEB2;margin-top:2px">Skyline Sales · 10:30 AM</div></div>
+  <div style="width:64px;height:64px;border-radius:50%;background:#34C759;display:flex;align-items:center;justify-content:center;margin-left:10px"><svg width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></div></div>`;
 window.renderAt=async function(t){
   const fi=await frame(t);
   const din=sk(t,...T2.dragIn),grow=sk(t,...T2.grow),dout=sk(t,...T2.back);
@@ -178,7 +188,7 @@ window.renderAt=async function(t){
   {const tr=TRACK[Math.min(fi,TRACK.length-1)]||{cx:.5,cy:.41};const fx=tr.cx*W,fy=tr.cy*H;const z=SM(k(t,0.04,.5));
    let s,ty,slide;
    if(t<T2.back[0]){s=lerp(lerp(1.32,1.10,z),1.06,din);slide=din*960+grow*960;ty=lerp(lerp(.33,.41,z)*H,.65*H-960,din)}
-   else{const pin=SM(k(t,9.5,1.06));s=lerp(1.12,1.30,pin);slide=0;ty=lerp(.41,.36,pin)*H}
+   else{const pin=SM(k(t,9.5,1.06));s=lerp(1.06,1.30,pin);slide=0;ty=lerp(.47,.36,pin)*H}
    let ox=W/2-fx*s,oy=ty-fy*s;ox=Math.min(0,Math.max(W-W*s,ox));oy=Math.min(0,Math.max((H-Math.min(slide,960))-H*s,oy));
    vi.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;css(vid,{transform:`translateY(${slide}px)`,display:(FULL&&dout<=0)?'none':'block'})}
   const panelY=t<T2.back[0]?(din-1)*960:-dout*1920;
@@ -198,6 +208,13 @@ window.renderAt=async function(t){
      else{css(capEl,{display:'block',color:'#fff',fontWeight:'600',fontSize:'54px',background:'rgba(30,28,36,.72)',padding:'14px 26px 16px',borderRadius:'16px',textShadow:'none',backdropFilter:'blur(10px)'});
        const w=capEl.offsetWidth,h=capEl.offsetHeight,y=split?(din*960+grow*960)-h/2:1500;css(capEl,{transform:`translate(${540-w/2}px,${y}px)`})}}
    else capEl.style.display='none'}
+  // timer + call above Kirti's head (A-roll part)
+  {const on=sk(t,T2.back[0]+.3,.5)*(1-sk(t,9.42,.4));
+   if(on>0){const mins=Math.round(110*SM(k(t,5.9,.7))+(t>6.54?SM(k(t,6.54,2.4))*(638-110):0));
+     tOv.querySelector('.tm').textContent=`${Math.floor(mins/60)}h ${String(mins%60).padStart(2,'0')}m`;tOv.querySelector('.lab').textContent=t<8.78?'NO REPLY FOR':'NEXT DAY · 10:30 AM';
+     css(tOv,{display:'block',opacity:on,transform:`translateY(${120+(1-on)*-20}px)`,filter:`blur(${(1-on)*8}px)`});
+     const pc=sk(t,8.36,.5)*(1-sk(t,9.42,.4));css(cOv,{display:pc>0?'block':'none',opacity:pc,transform:`translateY(${lerp(470,430,pc)}px) scale(${lerp(.95,1,pc)})`})}
+   else{tOv.style.display='none';cOv.style.display='none'}}
   if(din<=0||dout>=1)return;
   [bar,pdf,cursor,sendAll,dev,shadowEl,waitC,callC].forEach(e=>show(e,false));leads.forEach(c=>show(c,false));
   // ---------- 1) search bar opens (glow) and types; 2) four clients pop up; 3) drag the brochure across all four; 4) send to all
