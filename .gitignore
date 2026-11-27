@@ -23,3 +23,5 @@ edits/*/v4/src/ai/gen_log.txt
 edits/*/v4/src/ai/*_xl*.png
 edits/*/v4/src/ai/genxl_log.txt
 edits/dad-interest/v5/out/
+edits/dad-interest/v5/assets/nature/*_[0-9]*.png
+edits/dad-interest/v5/assets/nature/gen_log.txt
