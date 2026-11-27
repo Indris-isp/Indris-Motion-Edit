@@ -46,7 +46,7 @@ BASE = [
     (29.55, 30.50, 'aroll', [(29.55, 1.00), (30.50, 1.03)]),                               # I remember my dad
     (30.50, 32.27, 'ai', ('dad_door', 'o_knock', [(30.50, 1.00), (32.27, 1.07)], True)),     # he KNOCKED on my room DOOR (AI: dad at her door, KNOCK behind him)
     (32.27, 34.49, 'roto', ('r20b', [(32.27, 1.00), (34.49, 1.05)])),                      # he said Latoya, I need [$20 behind her]
-    (34.49, 36.78, 'ai', ('drawer', 'o_stash', [(34.49, 1.00), (36.78, 1.07)], False)),      # I went in my DRAWER (AI: her drawer of saved cash)
+    (34.49, 36.78, 'broll', ('stash', 'o_stash', [(34.49, 1.00), (36.78, 1.06)], 'warm')),   # I went in my DRAWER (real dollar bills: AI money looks fake)
     (36.78, 38.52, 'broll', ('count', 'o_count', [(36.78, 1.02), (38.52, 1.08)], 'warm')),   # and I started COUNTING all my money
     (38.52, 40.65, 'aroll', [(38.52, 1.45), (40.65, 1.50)]),                               # he said WAIT, you still have all those MONEY?
     (40.65, 41.81, 'aroll', [(40.65, 1.12), (41.81, 1.15)]),                               # so I gave him $20
