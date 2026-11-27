@@ -7,16 +7,16 @@ import os
 S = [  # t, beat, words, what happens
  (0.10,'A-roll punch-in','"Most…"','Face-tracked close-up, caption in the headroom'),
  (0.60,'Zoom out','"…developers…"','Camera pulls back to the wide (0.85 s ease)'),
- (1.20,'Drag into split','"…send PDF…"','Video slides down; the stage is pulled in on top'),
- (1.60,'3D phone','"…PDF brochures"','Phone drops in: a new email + the PDF attached'),
- (1.90,'Camera tracks in','"…PDF brochures"','Push in on the attachment card'),
- (2.20,'Tap send','"…to every…"','Send lights up in the live gradient; sheet slides away'),
- (2.70,'Sent list','"…to every inquiry."','Camera pans down 12 sent rows'),
- (3.25,'Flip','"The buyer…"','Phone spins 360°: now it is the buyer\'s phone'),
- (3.80,'Buyer opens it','"…opens it,"','Unread mail → static PDF page opens'),
- (4.70,'The question','"…has a question,"','Reply sheet rises; question types in'),
- (5.70,'No reply','"…and there\'s nobody…"','Sent · seen · the clock runs · NO REPLY'),
- (6.35,'Screen locks','"…to answer."','Screen goes dark at 1:42 AM; purple light dies'),
+ (1.60,'Drag into split','"…PDF brochures"','Video slides down; phone rises in (no rotation)'),
+ (1.85,'Zoom to attachment','"…PDF brochures"','Brochure PDF pops in; camera zooms to it'),
+ (2.05,'Zoom to Send','"…to every…"','Camera zooms to Send; it lights up and taps'),
+ (2.60,'Sent list','"…to every inquiry."','12 sent emails pop in one by one; camera pans down'),
+ (3.75,'PDF opens','"The buyer opens it,"','Thread opens; the attachment grows into the page'),
+ (4.75,'Question pops','"…has a question,"','The buyer\'s reply pops in; camera zooms to it'),
+ (5.20,'Unread','"…and there\'s…"','"UNREAD" + "SALES TEAM · OFFLINE" pop in'),
+ (5.70,'No reply','"…nobody…"','"NO REPLY · 1H 50M" pops; the clock runs on'),
+ (6.00,'Pull back','"…to answer."','Camera pulls back; purple light fades'),
+ (6.35,'Screen locks','"…to answer."','Screen goes dark at 1:42 AM'),
 ]
 tw, th, pad, lab = 360, 640, 18, 140
 cols = 6; rows = 2
@@ -26,7 +26,7 @@ def font(sz, w=500):
     try: f.set_variation_by_axes([w])
     except Exception: pass
     return f
-g.text((pad, 28), 'Livesites · Scene 1 storyboard · zoom out → drag split → 3D phone, camera tracks through the mail app', font=font(40, 600), fill='#1D1D1F')
+g.text((pad, 28), 'Livesites · Scene 1 storyboard v2 · phone stays still, messages pop in, camera zooms to each one', font=font(40, 600), fill='#1D1D1F')
 for i, (t, b, w, what) in enumerate(S):
     x = pad + (i % cols)*(tw+pad); y = 110 + (i//cols)*(th+lab+pad)
     im = Image.open(f'{d}/still_{t:.2f}.png').convert('RGB').resize((tw, th), Image.LANCZOS); B.paste(im, (x, y))
