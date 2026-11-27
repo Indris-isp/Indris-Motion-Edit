@@ -150,7 +150,15 @@ const cQ=card(`<div style="padding:38px 44px 40px;border-radius:38px;background:
   <div style="flex:1"><div style="font:600 32px Geist;letter-spacing:-.02em;color:#fff">Rahul Mehta</div><div style="font:400 24px Geist;color:#8E8E93;margin-top:2px">Re: Skyline Residences brochure</div></div>
   <div style="font:400 24px Geist;color:#8E8E93">11:52 PM</div></div>
   <div style="font:600 58px Geist;letter-spacing:-.04em;line-height:1.1;color:#fff;margin-top:26px">Is parking included<br>with the 2-bed?</div></div>`,880);
-const cOff=card(`<div style="display:inline-flex;align-items:center;gap:14px;padding:16px 28px;border-radius:999px;background:rgba(32,30,38,.78);backdrop-filter:blur(30px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.18),0 30px 70px -20px rgba(0,0,0,.7);font:500 30px Geist;color:#AEAEB2"><span style="width:14px;height:14px;border-radius:50%;background:#AEAEB2;display:inline-block"></span>Sales team is offline</div>`,520);
+const GLS='background:rgba(32,30,38,.78);backdrop-filter:blur(30px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.18),0 30px 70px -20px rgba(0,0,0,.7)';
+const cOff=card(`<div style="display:flex;align-items:center;gap:24px;padding:24px 34px;border-radius:999px;${GLS}">
+  <div style="position:relative;width:72px;height:72px;border-radius:50%;background:#3A3842;color:#AEAEB2;display:flex;align-items:center;justify-content:center;font:600 26px Geist">SS
+  <span style="position:absolute;right:-2px;bottom:-2px;width:22px;height:22px;border-radius:50%;background:#6E6C74;box-shadow:0 0 0 4px #1E1C24"></span></div>
+  <div><div style="font:600 34px Geist;letter-spacing:-.02em;color:#E5E5EA">Skyline Sales</div><div style="font:400 26px Geist;color:#8E8E93;margin-top:4px">Offline · last seen 6:02 PM</div></div></div>`,640);
+const cTimer=card(`<div style="text-align:center"><div style="font:500 24px GeistMono;letter-spacing:.32em;color:#8E8E93">WAITING FOR A REPLY</div>
+  <div class="tm" style="font:200 230px Geist;letter-spacing:-.06em;line-height:1;margin-top:18px;color:#fff;font-variant-numeric:tabular-nums"></div></div>`,1080);
+const tmEl=cTimer.querySelector('.tm');
+const unans=card(`<div style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;background:rgba(154,107,240,.18);box-shadow:inset 0 0 0 1.5px rgba(192,123,255,.5);font:500 22px GeistMono;letter-spacing:.08em;color:#D9C2FF">UNANSWERED</div>`,260);
 const cNo=card(`<div style="display:inline-block;padding:14px 34px 10px;background:#9A6BF0;box-shadow:0 18px 40px -10px rgba(154,107,240,.6);font:800 92px Geist;letter-spacing:-.02em;color:#fff;text-transform:uppercase;transform:skewX(-6deg)">No reply</div>`,460);
 const stk=card(`<div style="display:inline-block;padding:10px 26px 6px;background:#9A6BF0;box-shadow:0 14px 30px -8px rgba(154,107,240,.6);font:800 64px Geist;letter-spacing:-.02em;color:#fff;transform:skewX(-6deg)">STATIC PDF</div>`,420);
 // delivery world (full screen): four real inbox notifications
@@ -209,7 +217,7 @@ window.renderAt=async function(t){
   g.setTransform(SS,0,0,SS,0,0);(t<TB.in?composeScreen:buyerScreen)(t);g.setTransform(1,0,0,1,0,0);
   dev.style.display=shadowEl.style.display=inWorld?'none':'block';
   let focus=0;
-  if(!FULL){[cPage,cQ,cOff,cNo,stk].forEach(c=>c.style.display='none');
+  if(!FULL){[cPage,cQ,cOff,cNo,stk,cTimer,unans].forEach(c=>c.style.display='none');
     dev.style.display=shadowEl.style.display='none';const whip=eio(k(t,2.20,.16));
     const pA=eo4(k(t,TA.attach,.5)),pS=eo4(k(t,1.40,.5));
     css(cAttach,{display:pA>0?'block':'none',opacity:pA,transform:`translate(${540-430*1.14}px,${lerp(400,230,pA)-whip*700}px) scale(${lerp(.92,1,pA)*1.14})`,filter:`blur(${(1-pA)*10+whip*14}px)`});
@@ -225,19 +233,25 @@ window.renderAt=async function(t){
   }else{cAttach.style.display=cSend.style.display=trail.style.display='none';
     if(!inWorld){flyer.style.display='none';
       const pp=lift(cPage,t,TB.liftP,TB.dropP,[20,346,390],[540,900],700);
-      const q=lift(cQ,t,TB.liftQ,null,[20,346,390],[540,800],860);focus=Math.max(pp,q);
+      const q=lift(cQ,t,TB.liftQ,null,[20,346,390],[540,lerp(800,600,eio(k(t,5.0,.5)))],860);focus=Math.max(pp,q);
       const back=eio(k(t,TB.back,.44))*-24;
-      cursor.style.display='none';cOff.style.display=cNo.style.display='block';
+      cursor.style.display='none';cOff.style.display='block';
       const ps=k(t,3.78,.22);css(stk,{display:ps>0&&pp>0?'block':'none',opacity:cl(ps*3)*pp,transform:`translate(640px,${560}px) rotate(-6deg) scale(${lerp(1.5,1,eo4(ps))})`});
-      const po=eo(k(t,TB.offline,.4));css(cOff,{display:po>0?'block':'none',opacity:po,transform:`translate(${540-cOff.firstChild.offsetWidth/2}px,${1030+(1-po)*16+back}px)`});
-      const pn=k(t,TB.noreply,.24);css(cNo,{display:pn>0?'block':'none',opacity:cl(pn*3),transform:`translate(${540-cNo.firstChild.offsetWidth/2}px,${1150+back}px) rotate(-4deg) scale(${lerp(1.6,1,eo4(pn))})`});
+      cNo.style.display='none';
+      const po=eo4(k(t,TB.offline,.45));css(cOff,{display:po>0?'block':'none',opacity:po,transform:`translate(${540-320}px,${800+(1-po)*30+back}px)`,filter:`blur(${(1-po)*8}px)`});
+      const pt=eo4(k(t,5.30,.45)),el2=cl((t-5.30)/0.80),mins=Math.round(110*eio(el2));
+      tmEl.textContent=`${Math.floor(mins/60)}h ${String(mins%60).padStart(2,'0')}m`;
+      const cold=eio(k(t,TB.noreply,.6));css(tmEl,{color:`rgb(${Math.round(lerp(255,142,cold))},${Math.round(lerp(255,142,cold))},${Math.round(lerp(255,147,cold))})`,textShadow:`0 0 ${lerp(40,0,cold)}px rgba(192,123,255,${lerp(.45,0,cold)})`});
+      css(cTimer,{display:pt>0?'block':'none',opacity:pt,transform:`translate(0px,${1020+(1-pt)*40+back}px) scale(${lerp(.96,1,pt)+eio(k(t,5.6,.86))*.04})`,transformOrigin:'540px 150px',filter:`blur(${(1-pt)*10}px)`});
+      const pu=k(t,TB.noreply,.26);const qr=cQ.getBoundingClientRect(),tr=topP.getBoundingClientRect();
+      css(unans,{display:pu>0?'block':'none',opacity:cl(pu*3),transform:`translate(${qr.right-tr.left-250}px,${qr.top-tr.top-24}px) scale(${lerp(1.3,1,eo4(pu))})`});
       if(back)cQ.style.transform+=` translateY(${back}px)`;
-    }else[cPage,cQ,cOff,cNo,stk].forEach(c=>c.style.display='none');
+    }else[cPage,cQ,cOff,cNo,stk,cTimer,unans].forEach(c=>c.style.display='none');
   }
   // focus pull: the phone recedes (softer + slightly smaller) while a card is in front
   const wx=FULL&&!inWorld?(1-eio(k(t,TB.in,.32)))*900:0,wb=FULL?Math.sin(Math.PI*k(t,TB.in,.32))*14:0;
   const sb=1-focus*.08;css(dev,{filter:`blur(${wb}px)`,transform:`translate(${DX+wx+DEVW*DS*(1-sb)/2}px,${DY+DEVH*DS*(1-sb)/2+focus*30}px) scale(${DS*sb})`,opacity:(1-focus)*cl(eo4(k(t,T.drag[0]+.12,.62)))});css(shadowEl,{opacity:(1-focus)*.9});
-  BLOBS.forEach(o=>css(o.b,{left:(o.x*W+Math.sin(t*.5+o.i)*60)+'px',top:(o.y*PH+Math.cos(t*.4+o.i*2)*50)+'px'}));
+  const drain=eio(k(t,TB.noreply,.9));BLOBS.forEach(o=>css(o.b,{left:(o.x*W+Math.sin(t*.5+o.i)*60)+'px',top:(o.y*PH+Math.cos(t*.4+o.i*2)*50)+'px',opacity:lerp(1,.22,drain),filter:`blur(40px) saturate(${lerp(1,.3,drain)})`}));
   world.style.display=inWorld?'block':'none';if(inWorld)cursor.style.display='none';
   if(inWorld){const u2=t-TA.flash,tops=[470,700,930,1160];
     wcards.forEach((c,i)=>{const p=eo(k(u2,.05+i*.07,.42));css(c,{top:tops[i]+'px',opacity:p,transform:`translateY(${(1-p)*36}px)`});

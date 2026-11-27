@@ -14,9 +14,9 @@ S = [  # t, beat, words, what happens
  (3.25,'Phone whips in','"The buyer…"','Dark-mode iPhone whips in from the side'),
  (3.90,'Brochure + sticker','"…opens it,"','The page comes forward; STATIC PDF slaps on'),
  (4.80,'The question','"…has a question,"','Rahul\'s reply in frosted glass'),
- (5.30,'Offline','"…and there\'s…"','"Sales team is offline" fades in'),
- (5.90,'NO REPLY sticker','"…nobody…"','A big purple NO REPLY sticker slaps on'),
- (6.40,'End','"…to answer."','Hold; the light keeps drifting'),
+ (5.30,'Offline','"…and there\'s…"','Question moves up; Skyline Sales: offline'),
+ (5.75,'The wait','"…nobody…"','A huge thin timer counts the wait; UNANSWERED tag'),
+ (6.40,'Cold','"…to answer."','Timer greys out at 1h 50m; the purple light drains'),
 ]
 tw, th, pad, lab = 360, 640, 18, 140
 cols = 6; rows = 2 if len(S) > 6 else 1
@@ -26,7 +26,7 @@ def font(sz, w=500):
     try: f.set_variation_by_axes([w])
     except Exception: pass
     return f
-g.text((pad, 28), 'Livesites · Scene 1 v6 · in the R10 (ChatGPT promo) design language', font=font(40, 600), fill='#1D1D1F')
+g.text((pad, 28), 'Livesites · Scene 1 v6.1 · R10 design language · new premium ending', font=font(40, 600), fill='#1D1D1F')
 for i, (t, b, w, what) in enumerate(S):
     x = pad + (i % cols)*(tw+pad); y = 110 + (i//cols)*(th+lab+pad)
     im = Image.open(f'{d}/still_{t:.2f}.png').convert('RGB').resize((tw, th), Image.LANCZOS); B.paste(im, (x, y))
