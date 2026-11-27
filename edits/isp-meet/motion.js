@@ -17,7 +17,9 @@
 'use strict';
 const W = 1920, H = 1080, CX = 960, CY = 540, FPS = 30, FRAMES = 310, DUR = FRAMES / FPS;
 const SEG = { s1: [0, 2.1], s2: [1.48, 2.9], s3: [2.3, 4.02], s4: [3.5, 5.1], s5: [4.52, 7.72], s6: [7.2, 8.62], s7: [8.12, DUR + 1] };
-window.TIMING = { FPS, DUR, W, H, frames: FRAMES };
+/* Output length: the animation is authored on the reel's 10.33 s timeline and played back slower to OUT_DUR. */
+const OUT_DUR = 12, SLOW = DUR / OUT_DUR;
+window.TIMING = { FPS, DUR: OUT_DUR, W, H, frames: Math.round(OUT_DUR * FPS) };
 const LOGO = 'logos/isp/isp_logo_black.svg';
 
 /* ---------- math ---------- */
@@ -440,7 +442,8 @@ function camera(t) {
   $('#cam').style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(5)})`;
 }
 function renderAt(t) { camera(t); S1.update(t); S2.update(t); S3.update(t); S4.update(t); S5.update(t); S6.update(t); S7.update(t); updateHero(t); }
-window.renderAt = renderAt;
+const drawAt = renderAt;
+window.renderAt = t => drawAt(t * SLOW);            // output time → authored time
 
 (async function init() {
   await document.fonts.ready;
@@ -450,7 +453,7 @@ window.renderAt = renderAt;
   ids.forEach(id => { $('#' + id).style.visibility = 'visible'; });
   S2.measure(); S4.measure(); S6.measure(); S7.measure();
   ids.forEach(id => { $('#' + id).style.visibility = 'hidden'; });
-  if (/render/.test(location.search)) { document.body.classList.add('render'); renderAt(0); window.READY = true; return; }
+  if (/render/.test(location.search)) { document.body.classList.add('render'); drawAt(0); window.READY = true; return; }
   const vp = $('#viewport'), aud = $('#aud'), scrub = $('#scrub'), tc = $('#tc'), btn = $('#play');
   scrub.max = TIMING.frames - 1;
   const fit = () => { const k = Math.min((innerHeight - 44) / H, innerWidth / W); vp.style.transform = `translateX(${-W * k / 2}px) scale(${k})`; };
@@ -460,8 +463,8 @@ window.renderAt = renderAt;
   btn.onclick = () => { playing = !playing; btn.textContent = playing ? 'Pause' : 'Play'; if (playing) { t0 = performance.now() - cur * 1000; startAudio(); } else aud.pause(); };
   scrub.oninput = () => { cur = scrub.value / FPS; t0 = performance.now() - cur * 1000; if (playing) startAudio(); };
   (function loop() {
-    if (playing) { cur = (performance.now() - t0) / 1000; if (cur >= DUR) { cur = 0; t0 = performance.now(); startAudio(); } }
-    renderAt(cur); scrub.value = Math.floor(cur * FPS); tc.textContent = cur.toFixed(2) + 's';
+    if (playing) { cur = (performance.now() - t0) / 1000; if (cur >= OUT_DUR) { cur = 0; t0 = performance.now(); startAudio(); } }
+    window.renderAt(cur); scrub.value = Math.floor(cur * FPS); tc.textContent = cur.toFixed(2) + 's';
     requestAnimationFrame(loop);
   })();
 })();

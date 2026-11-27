@@ -1,12 +1,13 @@
 # Meet ISP Agency (the reel's design, ISP content)
 
-This rebuilds the screen animation from the reference reel (`reference/reference.mp4`), frame-matched to it, and changes only the content to ISP's 7 scenes. The output is a 1920×1080 screen animation at 30 fps, 310 frames (10.33 s, the reel's exact length).
+This rebuilds the screen animation from the reference reel (`reference/reference.mp4`), frame-matched to it, and changes only the content to ISP's 7 scenes. The output is a 1920×1080 screen animation at 30 fps, 360 frames (12 s). It's authored on the reel's 10.33 s timeline and played about 16% slower so the text is easy to read (`OUT_DUR` in `motion.js`).
 
 - **Timing:** every event is placed on the reel's frame, measured from 15 fps contact sheets (`reference/f15_sheet*.png`) and gridded full-res frames (`reference/grid_*.png`). This covers letter pops, echo frames, cuts, orbit steps, words, colour switches and confetti.
 - **Sizes:** measured from the reel. The phone shows about 2.8 screen px per phone px in scenes 1–5 and 3.0 in scenes 6–7 (`reference/track_screen.py` finds the screen).
 - **Smoothness:** each output frame blends 3 sub-frames (180° shutter, `render.cjs --sub 3`), giving the same natural motion blur the reel's camera recorded. Moves in scene 1 hold, then glide over the last 2–3 frames, as the reel's letters and dots do.
 - **Transitions:** one ISP tile glides through the whole film with long eased moves (0.6–0.9 s of travel per transition, about 1.3 s into the logo). The logo's blocks stream into the centre and become the tile. The tile glides to the typed line's icon, then grows into the big lime tile as the colour floods out of it. Platforms slide through the slot like a carousel (0.44 s per slide). The tile then glides to the "ISP Agency ✓" icon and lands as the pink "ready" tile. A slow camera push keeps the screen gently moving.
-- **Sound:** the reel's own soundtrack (`out/audio.wav`, extracted from `reference/reference.mp4`). Because the timing matches frame for frame, every click and whoosh lands on its event.
+- **Sound:** the reel's own soundtrack, slowed to 12 s with its pitch kept (ffmpeg `atempo`), so it stays in step with the slowed picture.
+- **Sound (original note):** the reel's own soundtrack (`out/audio.wav`, extracted from `reference/reference.mp4`). Because the timing matches frame for frame, every click and whoosh lands on its event.
 
 | # | Reel segment | ISP version | Time |
 |---|---|---|---|
@@ -36,7 +37,7 @@ One green tile (the ISP app icon) travels through scenes 2–6, as the reel's ti
 ## Rebuild
 
 ```bash
-ffmpeg -y -i reference/reference.mp4 -vn -ac 2 -ar 48000 out/audio.wav
+ffmpeg -y -i reference/reference.mp4 -vn -af "atempo=0.86111,apad=whole_dur=12" -ac 2 -ar 48000 out/audio.wav
 ```
 
 ```bash
