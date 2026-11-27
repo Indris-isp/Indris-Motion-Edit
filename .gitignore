@@ -7,3 +7,16 @@ node_modules/
 edits/*/out/audio.wav
 edits/*/out/still_*.png
 __pycache__/
+edits/*/out/part_*.mp4
+edits/*/out/parts.txt
+edits/*/out/log_*.txt
+edits/*/models/
+edits/*/v3/out/scenes/
+edits/*/v3/audio/src/
+edits/*/out/*_RAW_*.mp4
+edits/*/v3/out/
+edits/*/v4/src/broll/raw_*.mp4
+edits/*/v4/out/
+edits/dad-interest/out/dad_interest_premium_1080x1920.mp4
+edits/*/v4/src/ai/*_s*.png
+edits/*/v4/src/ai/gen_log.txt

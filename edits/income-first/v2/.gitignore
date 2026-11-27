@@ -1,0 +1,13 @@
+out/scenes/
+out/*.npy
+out/still_*.png
+out/scene_*.png
+out/audio.wav
+out/*.mp4
+src/clapper.mp4
+src/red_carpet.mp4
+src/villa.mp4
+src/counter.mp4
+src/family.mp4
+models/
+audio/src/
