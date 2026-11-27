@@ -215,6 +215,17 @@ class Reader:
 class Compositor:
     def __init__(self):
         self.ar = Reader(RAW); self.prev = None; self.matte = None; self.br = {}
+        self.chunks = caption_chunks()
+        self.t_ent = wt('entrepreneurship') - 0.15
+
+    def caps_ok(self, t, beat_t0):
+        """No caption left over from a designed beat on the face after the cut, and no caption under the giant last word."""
+        if t >= self.t_ent: return False
+        prev = [b for b in BASE if b[1] <= beat_t0 + 1e-6]
+        if prev and prev[-1][2] not in ('aroll', 'roto'):
+            ch = next((c for c in self.chunks if c['t0'] - 0.13 <= t < c['t1']), None)
+            if ch and ch['t0'] < beat_t0 - 0.05: return False
+        return True
 
     def frame(self, i):
         t = i / FPS
@@ -231,7 +242,8 @@ class Compositor:
                 m = self.matte(img)
                 img = over(img, scene_rgba(p[0], lf), 1 - np.clip((m - 0.15) / 0.6, 0, 1))
             f = img.astype(np.float32) / 255 * SCRIM
-            f = over((f.clip(0, 1) * 255).astype(np.uint8), scene_rgba('caps', i)).astype(np.float32) / 255
+            if self.caps_ok(t, t0):
+                f = over((f.clip(0, 1) * 255).astype(np.uint8), scene_rgba('caps', i)).astype(np.float32) / 255
         elif kind in ('broll', 'broll_roto'):
             clip, ov, keys, look = p
             if clip not in self.br: self.br[clip] = Reader(os.path.join(HERE, f'src/broll/{clip}.mp4'))
