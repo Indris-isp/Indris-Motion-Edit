@@ -1,0 +1,233 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Scene 1 storyboard (client concept, 2026-11-27):
+     zoom out the A-roll → drag it down into a split (A-roll keeps playing below) → a 3D phone drops in on top,
+     mail app: the developer sends the PDF brochure to every enquiry → the buyer opens it, replies with a question →
+     nobody answers. The camera tracks through the mock-up. Layout + caption treatment follow the Ravan.ai "Agni" ad (R8);
+     face framing follows R8's measured tracking (face centred, cy .41 full / .65 in the split). Livesites palette + Geist. -->
+<style>
+@font-face{font-family:Geist;src:url(fonts/Geist-Variable.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:GeistMono;src:url(fonts/GeistMono-Variable.woff2) format('woff2');font-weight:100 900}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0E0C12;font-family:Geist,sans-serif}
+.abs{position:absolute}.mono{font-family:GeistMono,monospace}
+#vid{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;will-change:transform}
+#vid img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+#top{position:absolute;left:0;top:0;width:1080px;height:960px;overflow:hidden;background:#0E0C12}
+.pill{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;display:flex;align-items:center;gap:14px;border-radius:999px}
+.kar{position:absolute;left:0;width:1080px;text-align:center;font-weight:500;font-size:50px;letter-spacing:-.025em;white-space:nowrap}
+.kar span{transition:none}
+.capA{position:absolute;font-weight:600;font-size:54px;letter-spacing:-.02em;color:#1D1D1F;white-space:nowrap;transform:translate(-50%,-50%);text-shadow:0 1px 16px rgba(251,251,250,.6)}
+</style>
+<script src="vendor/three.min.js"></script>
+<script src="track.js"></script>
+</head><body>
+<div id="vid"><img id="vi"></div>
+<div id="top"></div>
+<script>
+const W=1080,H=1920,FPS=30000/1001;
+const P=new URLSearchParams(location.search),FRAMES=P.get('frames')||'';
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),k=(t,t0,d)=>cl((t-t0)/d),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,eo4=x=>1-Math.pow(1-x,4),eio5=x=>x<.5?16*x**5:1-Math.pow(-2*x+2,5)/2;
+function el(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(parent||document.body).appendChild(e);return e}
+function css(e,o){Object.assign(e.style,o);return e}
+function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+let TRACK=window.TRACK||[];
+// ------------------------------------------------------------ timeline (word timings from words.json)
+const T={zoomOut:[0.15,.85],drag:[1.06,.36],compose:1.42,attach:1.52,send:2.02,sent:2.10,flip:[3.06,.38],tapOpen:3.50,reply:4.30,typeEnd:4.88,replySent:4.96,wait:5.30,lock:6.12,end:6.46};
+
+// ------------------------------------------------------------ A-roll: face-tracked camera (R8 rules)
+const vi=document.getElementById('vi'),vid=document.getElementById('vid');
+async function frame(t){const n=Math.min(316,Math.max(1,Math.round(t*FPS)+1));const s=`${FRAMES}/f${String(n).padStart(5,'0')}.jpg`;
+  if(vi.dataset.s!==s){vi.src=s;vi.dataset.s=s;await vi.decode()}return n-1}
+function aroll(t,fi){
+  const tr=TRACK[Math.min(fi,TRACK.length-1)]||{cx:.5,cy:.41};
+  const fx=tr.cx*W,fy=tr.cy*H;
+  // framing states: punch-in (fh≈.21, face at y .33) → wide (fh≈.17, y .41) → split bottom (face at y .65 of the full frame)
+  const z=eio(k(t,...T.zoomOut)), d=eio5(k(t,...T.drag));
+  const sIn=1.32,sWide=1.10,sSplit=1.06;
+  let s=lerp(lerp(sIn,sWide,z),sSplit,d);
+  const slide=d*960;                          // the video's top edge rides the top panel's bottom edge
+  let ty=lerp(lerp(.33,.41,z)*H,.65*H-960,d); // where the face sits inside the video layer (ends at .65 of the frame)
+  const tx=W/2;
+  let ox=tx-fx*s, oy=ty-fy*s;
+  ox=Math.min(0,Math.max(W-W*s,ox)); oy=Math.min(0,Math.max((H-slide)-H*s,oy)); // never show an edge
+  vi.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;
+  // the drag: the whole video layer slides down so the face lands at .65 of the frame (R8: 10 frames, ease in-out)
+  vid.style.transform=`translateY(${slide}px)`;
+  vid.style.filter=`blur(${Math.sin(Math.PI*d)*2.2}px)`;
+}
+
+// ------------------------------------------------------------ TOP PANEL: Night stage + 3D phone
+const topP=document.getElementById('top');
+const glow=el('div','abs',topP);css(glow,{inset:0,background:'radial-gradient(620px 520px at 50% 44%,rgba(154,107,240,.26),rgba(14,12,18,0) 70%)'});
+const cv=el('canvas','abs',topP);cv.width=W;cv.height=960;css(cv,{left:0,top:0,width:W+'px',height:'960px'});
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,preserveDrawingBuffer:true});R.setPixelRatio(1);R.setSize(W,960,false);
+R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.setClearColor(0,0);
+const S=new THREE.Scene();
+{const pm=new THREE.PMREMGenerator(R),es=new THREE.Scene();es.background=new THREE.Color(0x0b0a0f);
+ for(const [x,y,z,w,h,c,s] of [[0,7,3,10,1,0xffffff,.9],[6,2,4,1,6,0xffffff,.6],[-7,1,-2,1,7,0xC07BFF,1.7],[0,-1,-8,12,3,0x9A6BF0,.6]]){
+   const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,2),new THREE.MeshBasicMaterial({color:new THREE.Color(c).multiplyScalar(s)}));m.position.set(x,y,z);es.add(m)}
+ S.environment=pm.fromScene(es,.03).texture}
+S.add(new THREE.AmbientLight(0xffffff,.3));
+const key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(4,5,6);S.add(key);
+const rim=new THREE.DirectionalLight(0xC07BFF,2.8);rim.position.set(-6,1,-3);S.add(rim);
+const cam=new THREE.PerspectiveCamera(28,W/960,.05,100);
+function rrShape(w,h,r){const s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s}
+const phone=new THREE.Group();S.add(phone);
+const metal=new THREE.MeshPhysicalMaterial({color:0x2E2C34,metalness:.92,roughness:.28,clearcoat:.6,clearcoatRoughness:.2,envMapIntensity:1.2});
+const body=new THREE.Mesh(new THREE.ExtrudeGeometry(rrShape(1.52,3.12,.30),{depth:.12,bevelEnabled:true,bevelThickness:.035,bevelSize:.035,bevelSegments:6,curveSegments:24}),metal);body.position.z=-.155;phone.add(body);
+const front=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(1.50,3.10,.29),24),new THREE.MeshPhysicalMaterial({color:0x050507,roughness:.05,clearcoat:1}));front.position.z=.003;phone.add(front);
+const back=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(1.50,3.10,.29),24),new THREE.MeshPhysicalMaterial({color:0x3A3842,metalness:.6,roughness:.45,clearcoat:.8,side:THREE.BackSide}));back.position.z=-.19;phone.add(back);
+const bump=new THREE.Mesh(new THREE.BoxGeometry(.52,.52,.05),metal);bump.position.set(.36,1.08,-.215);phone.add(bump);
+const SW=600,SH=1290;const sc=document.createElement('canvas');sc.width=SW;sc.height=SH;const g=sc.getContext('2d');
+const stex=new THREE.CanvasTexture(sc);stex.encoding=THREE.sRGBEncoding;stex.anisotropy=8;
+const scr=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(1.38,2.97,.24),24),new THREE.MeshBasicMaterial({map:stex,toneMapped:false}));scr.position.z=.006;
+{const uv=scr.geometry.attributes.uv,pos=scr.geometry.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,pos.getX(i)/1.38+.5,pos.getY(i)/2.97+.5)}
+phone.add(scr);
+const isl=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(.36,.1,.05),12),new THREE.MeshBasicMaterial({color:0}));isl.position.set(0,1.33,.008);phone.add(isl);
+const sp=(px,py)=>new THREE.Vector3((px/SW-.5)*1.38,(.5-py/SH)*2.97,0); // screen pixel → phone-local point
+
+// ------------------------------------------------------------ the mail app (drawn per frame)
+const C={ink:'#1D1D1F',mist:'#F2F0F5',paper:'#FBFBFA',grey:'#8A8890',line:'#ECEAF0',iris:'#9A6BF0',orchid:'#C07BFF',bloom:'#F08BE0'};
+function liveGrad(x0,y0,x1,y1){const q=g.createLinearGradient(x0,y0,x1,y1);q.addColorStop(0,C.iris);q.addColorStop(.55,C.orchid);q.addColorStop(1,C.bloom);return q}
+function txt(s,x,y,font,col){g.font=font;g.fillStyle=col;g.fillText(s,x,y)}
+function status(time){txt(time,58,62,'600 28px Geist',C.ink);g.fillStyle=C.ink;rr(g,486,42,46,22,6);g.fill();g.fillRect(534,48,4,10)}
+function pdfChip(x,y,w,a=1){g.save();g.globalAlpha*=a;g.fillStyle='#fff';g.shadowColor='rgba(14,12,18,.10)';g.shadowBlur=14;rr(g,x,y,w,96,20);g.fill();g.shadowBlur=0;
+  g.strokeStyle=C.line;g.lineWidth=2;rr(g,x,y,w,96,20);g.stroke();
+  g.fillStyle=C.ink;rr(g,x+16,y+16,64,64,12);g.fill();txt('PDF',x+28,y+56,'500 20px GeistMono','#fff');
+  txt('Skyline_Brochure.pdf',x+96,y+44,'600 24px Geist',C.ink);txt('24 PAGES · 18 MB',x+96,y+74,'400 19px GeistMono',C.grey);g.restore()}
+const LEADS=['Rahul Mehta','Priya Shah','Daniel Okafor','Sara Khan','Amit Verma','Emma Lewis','Arjun Nair','Hannah Cole','Vikram Rao','Olivia Grant','Karan Joshi','Mia Turner'];
+function avatar(x,y,name,col){g.fillStyle=col;g.beginPath();g.arc(x,y,28,0,7);g.fill();txt(name.split(' ').map(s=>s[0]).join(''),x-(name.length>10?17:15),y+9,'600 22px Geist','#fff')}
+function devScreen(t){ // developer's phone: compose → sent list
+  g.fillStyle=C.paper;g.fillRect(0,0,SW,SH);status('11:48');
+  const sent=eio(k(t,T.send,.32));
+  // sent list (behind the compose sheet)
+  txt('Sent',40,170,'600 52px Geist',C.ink);txt(`${LEADS.length} ENQUIRIES · TODAY`,42,212,'400 20px GeistMono',C.grey);
+  LEADS.forEach((n,i)=>{const p=eo(k(t,T.sent+.05+i*.075,.32));if(!p)return;const y=250+i*104;g.save();g.globalAlpha=p;g.translate((1-p)*60,0);
+    g.fillStyle='#fff';rr(g,24,y,552,92,20);g.fill();avatar(72,y+46,n,['#2B2A31','#4B4260','#6E6680'][i%3]);
+    txt(n,116,y+38,'600 25px Geist',C.ink);txt('Skyline Residences — Brochure',116,y+70,'400 21px Geist',C.grey);
+    g.fillStyle=C.mist;rr(g,470,y+24,86,40,10);g.fill();txt('PDF',490,y+51,'500 18px GeistMono',C.ink);g.restore()});
+  // compose sheet slides away on send
+  if(sent<1){g.save();g.translate(0,sent*SH);g.fillStyle='#fff';g.fillRect(0,90,SW,SH);
+    g.fillStyle=C.line;g.fillRect(0,182,SW,2);txt('New message',40,152,'600 34px Geist',C.ink);
+    // send button
+    const pr=k(t,T.send-.18,.18);g.fillStyle=pr>0?liveGrad(470,110,550,170):C.mist;g.beginPath();g.arc(516,140,36,0,7);g.fill();
+    g.save();g.translate(516,140);g.rotate(-.5);g.fillStyle=pr>0?'#fff':C.grey;g.beginPath();g.moveTo(-14,-14);g.lineTo(18,0);g.lineTo(-14,14);g.lineTo(-8,0);g.closePath();g.fill();g.restore();
+    if(pr>0){g.strokeStyle=`rgba(192,123,255,${1-pr})`;g.lineWidth=4;g.beginPath();g.arc(516,140,36+pr*40,0,7);g.stroke()}
+    const row=(y,l,v,mono)=>{txt(l,40,y,'400 24px Geist',C.grey);txt(v,130,y,mono?'400 22px GeistMono':'500 25px Geist',C.ink);g.fillStyle=C.line;g.fillRect(40,y+26,520,2)};
+    row(246,'From','sales@skyline-res.co.uk',true);
+    txt('To',40,326,'400 24px Geist',C.grey);g.fillStyle=C.mist;rr(g,124,292,262,48,24);g.fill();avatar(148,316,'Rahul Mehta','#4B4260');g.save();g.scale(1,1);txt('Rahul Mehta',186,326,'500 23px Geist',C.ink);g.restore();
+    txt('META AD',400,324,'400 18px GeistMono',C.grey);g.fillStyle=C.line;g.fillRect(40,352,520,2);
+    row(420,'Subject','Skyline Residences — Brochure');
+    ['Hi Rahul,','Thanks for your enquiry! Please find','our brochure attached.','','Regards, Skyline Sales'].forEach((s,i)=>txt(s,40,516+i*40,'400 25px Geist',C.ink));
+    const pa=eo4(k(t,T.attach,.35));if(pa>0){g.save();g.translate(0,(1-pa)*40);pdfChip(40,740,520,pa);g.restore()}
+    g.restore()}
+}
+function buyerScreen(t){ // buyer's phone: inbox → opened brochure → reply → waiting → lock
+  g.fillStyle=C.paper;g.fillRect(0,0,SW,SH);
+  const clock=t<T.wait?'11:52':(t<5.62?'12:40':(t<5.92?'1:15':'1:42'));status(clock);
+  const op=eio(k(t,T.tapOpen,.4));
+  // inbox
+  txt('Inbox',40,170,'600 52px Geist',C.ink);
+  const rows=[['Skyline Residences','Skyline Residences — Brochure',1],['Monzo','Your November statement',0],['LinkedIn','You appeared in 9 searches',0],['Rightmove','New homes near Birmingham',0],['Uber','Your Tuesday trip',0]];
+  rows.forEach((r,i)=>{const y=230+i*120;g.fillStyle=i===0?'#fff':C.paper;rr(g,24,y,552,104,22);g.fill();
+    if(i===0){g.fillStyle=liveGrad(0,0,20,20);g.beginPath();g.arc(48,y+52,8,0,7);g.fill()}
+    txt(r[0],72,y+44,(i===0?'700':'500')+' 26px Geist',i===0?C.ink:C.grey);txt(r[1],72,y+78,'400 22px Geist',C.grey);
+    if(i===0){g.fillStyle=C.mist;rr(g,470,y+30,86,40,10);g.fill();txt('PDF',490,y+57,'500 18px GeistMono',C.ink)}});
+  const tap=k(t,T.tapOpen-.16,.16)*(1-k(t,T.tapOpen,.1));if(tap>0){g.fillStyle=`rgba(29,29,31,${.10*tap})`;rr(g,24,230,552,104,22);g.fill()}
+  if(op>0){ // the opened email + static PDF
+    g.save();g.translate((1-op)*SW,0);g.fillStyle='#fff';g.fillRect(0,90,SW,SH);
+    txt('‹ Inbox',30,150,'500 26px Geist',C.grey);txt('Skyline Residences — Brochure',30,212,'600 30px Geist',C.ink);
+    txt('Skyline Sales · 11:48 PM',30,250,'400 20px GeistMono',C.grey);
+    const cy0=290;const sky=g.createLinearGradient(0,cy0,0,cy0+420);sky.addColorStop(0,'#1E1A28');sky.addColorStop(.55,'#4B4260');sky.addColorStop(.9,'#B9A6D6');sky.addColorStop(1,'#E9DDF2');
+    g.fillStyle=sky;rr(g,30,cy0,540,420,22);g.fill();
+    for(const [x,y,w] of [[.16,.55,.16],[.68,.5,.18],[.38,.14,.24]]){const X=30+540*x,Y=cy0+420*y,TW=540*w;g.fillStyle='#24222A';g.fillRect(X,Y,TW,cy0+420-Y);
+      for(let r=0;r<Math.floor((cy0+420-Y-10)/18);r++)for(let c=0;c<Math.floor(TW/20);c++){g.fillStyle=((r*13+c*7+Math.round(x*100))%8===0)?'rgba(255,220,180,.85)':'rgba(205,210,235,.10)';g.fillRect(X+4+c*20,Y+8+r*18,14,10)}}
+    txt('Skyline Residences',30,cy0+480,'600 40px Geist',C.ink);txt('2 & 3 BED APARTMENTS · BROCHURE',32,cy0+516,'400 18px GeistMono',C.grey);
+    g.fillStyle='#E9E7ED';[460,420,480,300].forEach((w,i)=>{rr(g,32,cy0+548+i*28,w,12,6);g.fill()});
+    txt('PAGE 1 / 24 · PDF',SW/2-90,SH-150,'400 19px GeistMono',C.grey);
+    // reply composer rises from the bottom
+    const rp=eo4(k(t,T.reply,.35)),sentR=eio(k(t,T.replySent,.4));
+    if(rp>0&&sentR<1){g.save();g.translate(0,(1-rp)*420+sentR*-0);g.globalAlpha=1-sentR;
+      g.fillStyle='#fff';g.shadowColor='rgba(14,12,18,.18)';g.shadowBlur=30;rr(g,16,SH-420,568,330,34);g.fill();g.shadowBlur=0;
+      txt('Reply to Skyline Sales',44,SH-362,'500 22px Geist',C.grey);
+      const msg='Is parking included with the 2-bed?';const n=Math.floor(msg.length*k(t,T.reply+.12,T.typeEnd-T.reply-.12));
+      const lines=n<=18?[msg.slice(0,n)]:[msg.slice(0,18),msg.slice(18,n)];
+      lines.forEach((s,i)=>txt(s,44,SH-300+i*48,'500 38px Geist',C.ink));
+      if(Math.floor(t*4)%2===0){const lw=(g.font='500 38px Geist',g.measureText(lines[lines.length-1]).width);g.fillStyle=C.ink;g.fillRect(46+lw,SH-334+(lines.length-1)*48,3,42)}
+      g.fillStyle=n>=msg.length?liveGrad(480,SH-180,560,SH-120):C.mist;g.beginPath();g.arc(520,SH-150,34,0,7);g.fill();
+      g.save();g.translate(520,SH-150);g.rotate(-.5);g.fillStyle=n>=msg.length?'#fff':C.grey;g.beginPath();g.moveTo(-13,-13);g.lineTo(17,0);g.lineTo(-13,13);g.lineTo(-7,0);g.closePath();g.fill();g.restore();
+      g.restore()}
+    if(sentR>0){ // the question sits in the thread… and nothing comes back
+      g.save();g.globalAlpha=sentR;g.translate(0,(1-sentR)*60);
+      g.fillStyle=C.ink;rr(g,96,SH-430,474,150,30);g.fill();txt('You · 11:52 PM',124,SH-390,'400 18px GeistMono','#A9A7AF');
+      txt('Is parking included',124,SH-346,'500 32px Geist','#fff');txt('with the 2-bed?',124,SH-306,'500 32px Geist','#fff');
+      const w=k(t,T.wait,.3);g.globalAlpha=sentR*w;txt('Delivered · Seen',350,SH-250,'400 18px GeistMono',C.grey);
+      const nr=eo(k(t,5.60,.35));if(nr>0){g.globalAlpha=nr;g.fillStyle=C.mist;rr(g,30,SH-200,300,56,28);g.fill();txt('NO REPLY · '+(t<5.92?'1H 23M':'1H 50M'),52,SH-163,'500 20px GeistMono',C.ink)}
+      g.restore()}
+    g.restore()}
+  const lk=eio(k(t,T.lock,.3));if(lk>0){g.fillStyle=`rgba(5,5,7,${.96*lk})`;g.fillRect(0,0,SW,SH);g.globalAlpha=lk;txt('1:42',SW/2-92,330,'300 120px Geist','#ECEAF0');g.globalAlpha=1}
+}
+
+// ------------------------------------------------------------ labels + captions (R8: top pill, status tag under the object, karaoke line)
+const scrimT=el('div','abs',topP);css(scrimT,{left:0,top:0,width:W+'px',height:'190px',background:'linear-gradient(180deg,rgba(14,12,18,.92),rgba(14,12,18,0))'});
+const scrimB=el('div','abs',topP);css(scrimB,{left:0,top:'690px',width:W+'px',height:'270px',background:'linear-gradient(180deg,rgba(14,12,18,0),rgba(14,12,18,.94) 55%)'});
+const pill=el('div','pill mono',topP);css(pill,{top:'40px',padding:'16px 34px 16px 24px',fontSize:'30px',letterSpacing:'.06em',fontWeight:'500',color:'#fff',
+  background:'linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0)',boxShadow:'0 10px 30px rgba(154,107,240,.35)'});
+const tag=el('div','pill mono',topP);css(tag,{top:'770px',padding:'10px 22px',fontSize:'21px',letterSpacing:'.05em',color:'#1D1D1F',background:'#F2F0F5'});
+const kar=el('div','kar',topP);css(kar,{top:'846px'});
+const LINES=[ // karaoke lines in the top panel (words: [text,start,keyword])
+ [[['PDF',1.14,1],['brochures',1.50,1]]],
+ [[['to',2.04],['every',2.26,1],['inquiry.',2.58]]],
+ [[['The',3.22],['buyer',3.26],['opens',3.48],['it,',3.98]]],
+ [[['has',4.32],['a',4.44],['question,',4.58,1]]],
+ [[['and',4.96],["there's",5.22],['nobody',5.54,1]]],
+ [[['to',5.86],['answer.',6.10]]]];
+const capA=el('div','capA');
+const CAPA=[['most',0.0],['developers',0.30],['send',0.72]];
+const ICON={mail:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>',doc:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>',q:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9a2 2 0 1 1 3 1.7c-.6.4-1 .8-1 1.3"/></svg>',none:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
+const PILLS=[[1.30,ICON.mail+'<span>BROCHURE SENT · 11:48 PM</span>'],[3.10,ICON.doc+'<span>THE BUYER OPENS IT</span>'],[4.30,ICON.q+'<span>THE BUYER HAS A QUESTION</span>'],[5.50,ICON.none+'<span>NO ONE ANSWERS</span>']];
+const TAGS=[[1.55,'PDF · 24 PAGES · STATIC'],[2.10,'SENT TO 12 ENQUIRIES'],[3.50,'OPENED · 11:51 PM'],[4.96,'REPLY SENT · 11:52 PM'],[5.60,'WAITING · 1H 50M']];
+function cur(list,t){let c=null;for(const x of list)if(t+1e-6>=x[0])c=x;return c}
+
+window.renderAt=async function(t){
+  const fi=await frame(t);aroll(t,fi);
+  const d=eio5(k(t,...T.drag));
+  // the top panel is dragged down together with the video (R8: orb arrives with the slide)
+  css(topP,{transform:`translateY(${(d-1)*960}px)`,display:d>0?'block':'none'});
+  // captions over the full-frame A-roll
+  const ca=cur(CAPA.map(x=>[x[1],x[0]]),t);
+  if(t<T.drag[0]&&ca){capA.textContent=ca[1];css(capA,{display:'block',left:'540px',top:(lerp(250,430,eio(k(t,...T.zoomOut))))+'px'})}else capA.style.display='none';
+  if(d<=0)return;
+  // phone choreography: drops in with the drag, then the camera tracks across the UI
+  const pin=eo4(k(t,T.drag[0]+.12,.55));
+  const flip=eio5(k(t,...T.flip));
+  phone.position.set(0,lerp(1.4,0,pin),0);
+  phone.rotation.set(lerp(-.35,.06,pin),lerp(.55,-.22,pin)+flip*Math.PI*2*.5+ (flip>=1?Math.PI:0)*0,lerp(-.08,.0,pin));
+  if(flip>.5){phone.rotation.y=-.22+Math.PI*(flip-1)*1+0}
+  // screen content
+  (t<T.flip[0]+T.flip[1]/2?devScreen:buyerScreen)(t);stex.needsUpdate=true;
+  // camera targets on the screen (px on the 600×1290 screen) + distance; keyframes, eased between
+  const KF=[[1.10,300,640,10],[1.50,300,640,9.2],[1.72,300,800,5.8],[2.02,520,160,5.6],[2.30,300,420,7.2],[2.95,300,900,7.6],[3.06,300,640,9.6],
+            [3.44,300,640,9.6],[3.62,300,320,6.0],[4.10,300,540,7.0],[4.36,300,960,6.0],[4.92,300,980,5.8],[5.20,300,880,7.0],[5.80,300,740,8.6],[6.46,300,640,10]];
+  let a=KF[0],b=KF[KF.length-1];for(let i=0;i<KF.length-1;i++)if(t>=KF[i][0]&&t<KF[i+1][0]){a=KF[i];b=KF[i+1];break}
+  const u=eio(cl((t-a[0])/(b[0]-a[0]||1)));
+  const tgt=phone.localToWorld(sp(lerp(a[1],b[1],u),lerp(a[2],b[2],u)));const dist=lerp(a[3],b[3],u);
+  phone.updateMatrixWorld();const n=new THREE.Vector3(0,0,1).applyQuaternion(phone.quaternion);
+  const side=new THREE.Vector3(.9,.35,0).multiplyScalar(dist*.12);
+  cam.position.copy(tgt).addScaledVector(n.lengthSq()?new THREE.Vector3(0,0,1):n,dist).add(side);
+  cam.lookAt(tgt.clone().add(new THREE.Vector3(0,-.12*dist/5,0)));
+  const dead=eio(k(t,5.60,.6));rim.intensity=lerp(2.8,.6,dead);glow.style.opacity=lerp(1,.25,dead);
+  R.render(S,cam);
+  // labels
+  const pc=cur(PILLS,t),tc=cur(TAGS,t);
+  if(pc){const pp=eo4(k(t,pc[0],.3));pill.innerHTML=pc[1];css(pill,{display:'flex',opacity:pp,transform:`translateX(-50%) translateY(${(1-pp)*-24}px)`,
+    background:pc[1].includes('NO ONE ANSWERS')?'#F2F0F5':'linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0)',color:pc[1].includes('NO ONE ANSWERS')?'#1D1D1F':'#fff'})}else pill.style.display='none';
+  if(tc){const tp=eo4(k(t,tc[0],.3));tag.textContent=tc[1];css(tag,{display:'flex',opacity:tp,transform:`translateX(-50%) scale(${lerp(.9,1,tp)})`})}else tag.style.display='none';
+  // karaoke line (R8): spoken words white, upcoming words grey, keywords in Orchid
+  let line=null;for(const L of LINES)if(t+1e-6>=L[0][0][1])line=L[0];
+  if(line){kar.innerHTML=line.map(([w,s,key])=>{const on=t+1e-6>=s;return `<span style="color:${on?(key?'#C07BFF':'#FFFFFF'):'rgba(255,255,255,.28)'}">${w}</span>`}).join(' ');kar.style.display='block'}else kar.style.display='none';
+};
+document.fonts.load('600 40px Geist').then(()=>document.fonts.load('400 20px GeistMono')).then(()=>{window.READY=true});
+</script></body></html>
