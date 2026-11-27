@@ -275,7 +275,7 @@ window.renderAt=async function(t){
     [cPage,cQ,cOff,cNo].forEach(c=>c.style.display='none');
   }else{
     cAttach.style.display=cSend.style.display='none';trail.style.display='none';
-    if(!inWorld){
+    if(!inWorld){flyer.style.display='none';
       const pp=lift(cPage,t,TB.liftP,TB.dropP,[40,372,520],[540,880],680);
       const q=lift(cQ,t,TB.liftQ,null,[24,880,552],[540,820],860);
       const po=eo(k(t,TB.offline,.4));css(cOff,{display:po>0?'block':'none',opacity:po,transform:`translate(${540-185}px,${1075+(1-po)*20}px)`});
