@@ -1,0 +1,254 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Scene 1 v3 (slower, readable; Claude-style send). Based on v2 (scene1.html):
+     zoom out the A-roll → drag it down into a split (A-roll keeps playing below) → a 3D phone drops in on top,
+     mail app: the developer sends the PDF brochure to every enquiry → the buyer opens it, replies with a question →
+     nobody answers. The camera tracks through the mock-up. Layout + caption treatment follow the Ravan.ai "Agni" ad (R8);
+     face framing follows R8's measured tracking (face centred, cy .41 full / .65 in the split). Livesites palette + Geist. -->
+<style>
+@font-face{font-family:Geist;src:url(fonts/Geist-Variable.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:GeistMono;src:url(fonts/GeistMono-Variable.woff2) format('woff2');font-weight:100 900}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0E0C12;font-family:Geist,sans-serif}
+.abs{position:absolute}.mono{font-family:GeistMono,monospace}
+#vid{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;will-change:transform}
+#vid img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+#top{position:absolute;left:0;top:0;width:1080px;height:960px;overflow:hidden;background:#0E0C12}
+.pill{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;display:flex;align-items:center;gap:14px;border-radius:999px}
+.kar{position:absolute;left:0;width:1080px;text-align:center;font-weight:400;font-size:58px;letter-spacing:-.035em;white-space:nowrap;line-height:1}
+.kar span{display:inline-block;margin:0 .12em;color:#fff;text-shadow:0 0 22px rgba(255,255,255,.28)}
+.kar span.key{font-weight:700;letter-spacing:-.04em;background:linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 14px rgba(192,123,255,.45))}
+.stack{position:absolute;left:0;width:1080px;text-align:center;color:#1D1D1F;line-height:.92}
+.stack div{white-space:nowrap}
+.stack span{display:inline-block}
+.kar span{transition:none}
+.capA{position:absolute;font-weight:600;font-size:54px;letter-spacing:-.02em;color:#1D1D1F;white-space:nowrap;transform:translate(-50%,-50%);text-shadow:0 1px 16px rgba(251,251,250,.6)}
+</style>
+<script src="vendor/three.min.js"></script>
+<script src="track.js"></script>
+</head><body>
+<div id="vid"><img id="vi"></div>
+<div id="top"></div>
+<script>
+const W=1080,H=1920,FPS=30000/1001;
+const P=new URLSearchParams(location.search),FRAMES=P.get('frames')||'';
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),k=(t,t0,d)=>cl((t-t0)/d),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,eo4=x=>1-Math.pow(1-x,4),eio5=x=>x<.5?16*x**5:1-Math.pow(-2*x+2,5)/2;
+function el(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(parent||document.body).appendChild(e);return e}
+function css(e,o){Object.assign(e.style,o);return e}
+function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+let TRACK=window.TRACK||[];
+// ------------------------------------------------------------ timeline (word timings from words.json)
+const T={zoomOut:[0.04,.50],drag:[0.52,.36],end:6.46};
+
+// ------------------------------------------------------------ A-roll: face-tracked camera (R8 rules)
+const vi=document.getElementById('vi'),vid=document.getElementById('vid');
+async function frame(t){const n=Math.min(316,Math.max(1,Math.round(t*FPS)+1));const s=`${FRAMES}/f${String(n).padStart(5,'0')}.jpg`;
+  if(vi.dataset.s!==s){vi.src=s;vi.dataset.s=s;await vi.decode()}return n-1}
+function aroll(t,fi){
+  const tr=TRACK[Math.min(fi,TRACK.length-1)]||{cx:.5,cy:.41};
+  const fx=tr.cx*W,fy=tr.cy*H;
+  // framing states: punch-in (fh≈.21, face at y .33) → wide (fh≈.17, y .41) → split bottom (face at y .65 of the full frame)
+  const z=eio(k(t,...T.zoomOut)), d=eio5(k(t,...T.drag));
+  const sIn=1.32,sWide=1.10,sSplit=1.06;
+  let s=lerp(lerp(sIn,sWide,z),sSplit,d);
+  const slide=d*960;                          // the video's top edge rides the top panel's bottom edge
+  let ty=lerp(lerp(.33,.41,z)*H,.65*H-960,d); // where the face sits inside the video layer (ends at .65 of the frame)
+  const tx=W/2;
+  let ox=tx-fx*s, oy=ty-fy*s;
+  ox=Math.min(0,Math.max(W-W*s,ox)); oy=Math.min(0,Math.max((H-slide)-H*s,oy)); // never show an edge
+  vi.style.transform=`translate(${ox}px,${oy}px) scale(${s})`;
+  // the drag: the whole video layer slides down so the face lands at .65 of the frame (R8: 10 frames, ease in-out)
+  vid.style.transform=`translateY(${slide}px)`;
+  vid.style.filter=`blur(${Math.sin(Math.PI*d)*2.2}px)`;
+}
+
+// ------------------------------------------------------------ TOP PANEL: Night stage + 3D phone
+const topP=document.getElementById('top');
+const glow=el('div','abs',topP);css(glow,{inset:0,background:'radial-gradient(620px 520px at 50% 44%,rgba(154,107,240,.26),rgba(14,12,18,0) 70%)'});
+const cv=el('canvas','abs',topP);cv.width=W;cv.height=960;css(cv,{left:0,top:0,width:W+'px',height:'960px'});
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,preserveDrawingBuffer:true});R.setPixelRatio(1);R.setSize(W,960,false);
+R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.setClearColor(0,0);
+const S=new THREE.Scene();
+{const pm=new THREE.PMREMGenerator(R),es=new THREE.Scene();es.background=new THREE.Color(0x0b0a0f);
+ for(const [x,y,z,w,h,c,s] of [[0,7,3,10,1,0xffffff,.9],[6,2,4,1,6,0xffffff,.6],[-7,1,-2,1,7,0xC07BFF,1.7],[0,-1,-8,12,3,0x9A6BF0,.6]]){
+   const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,2),new THREE.MeshBasicMaterial({color:new THREE.Color(c).multiplyScalar(s)}));m.position.set(x,y,z);es.add(m)}
+ S.environment=pm.fromScene(es,.03).texture}
+S.add(new THREE.AmbientLight(0xffffff,.3));
+const key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(4,5,6);S.add(key);
+const rim=new THREE.DirectionalLight(0xC07BFF,2.8);rim.position.set(-6,1,-3);S.add(rim);
+const cam=new THREE.PerspectiveCamera(28,W/960,.05,100);
+function rrShape(w,h,r){const s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s}
+const phone=new THREE.Group();S.add(phone);
+const metal=new THREE.MeshPhysicalMaterial({color:0x2E2C34,metalness:.92,roughness:.28,clearcoat:.6,clearcoatRoughness:.2,envMapIntensity:1.2});
+const body=new THREE.Mesh(new THREE.ExtrudeGeometry(rrShape(1.52,3.12,.30),{depth:.12,bevelEnabled:true,bevelThickness:.035,bevelSize:.035,bevelSegments:6,curveSegments:24}),metal);body.position.z=-.155;phone.add(body);
+const front=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(1.50,3.10,.29),24),new THREE.MeshPhysicalMaterial({color:0x050507,roughness:.05,clearcoat:1}));front.position.z=.003;phone.add(front);
+const back=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(1.50,3.10,.29),24),new THREE.MeshPhysicalMaterial({color:0x3A3842,metalness:.6,roughness:.45,clearcoat:.8,side:THREE.BackSide}));back.position.z=-.19;phone.add(back);
+const bump=new THREE.Mesh(new THREE.BoxGeometry(.52,.52,.05),metal);bump.position.set(.36,1.08,-.215);phone.add(bump);
+const SW=600,SH=1290;const sc=document.createElement('canvas');sc.width=SW;sc.height=SH;const g=sc.getContext('2d');
+const stex=new THREE.CanvasTexture(sc);stex.encoding=THREE.sRGBEncoding;stex.anisotropy=8;
+const scr=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(1.38,2.97,.24),24),new THREE.MeshBasicMaterial({map:stex,toneMapped:false}));scr.position.z=.006;
+{const uv=scr.geometry.attributes.uv,pos=scr.geometry.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,pos.getX(i)/1.38+.5,pos.getY(i)/2.97+.5)}
+phone.add(scr);
+const isl=new THREE.Mesh(new THREE.ShapeGeometry(rrShape(.36,.1,.05),12),new THREE.MeshBasicMaterial({color:0}));isl.position.set(0,1.33,.008);phone.add(isl);
+const sp=(px,py)=>new THREE.Vector3((px/SW-.5)*1.38,(.5-py/SH)*2.97,0); // screen pixel → phone-local point
+
+// ------------------------------------------------------------ the mail app (drawn per frame)
+const C={ink:'#1D1D1F',mist:'#F2F0F5',paper:'#FBFBFA',grey:'#8A8890',line:'#ECEAF0',iris:'#9A6BF0',orchid:'#C07BFF',bloom:'#F08BE0'};
+function liveGrad(x0,y0,x1,y1){const q=g.createLinearGradient(x0,y0,x1,y1);q.addColorStop(0,C.iris);q.addColorStop(.55,C.orchid);q.addColorStop(1,C.bloom);return q}
+function txt(s,x,y,font,col){g.font=font;g.fillStyle=col;g.fillText(s,x,y)}
+function status(time){txt(time,58,62,'600 28px Geist',C.ink);g.fillStyle=C.ink;rr(g,486,42,46,22,6);g.fill();g.fillRect(534,48,4,10)}
+// ============================================================ v3 (client note: "smooth it, slow it down, the audience must understand;
+// send the mail like the Claude video"). Rules taken from R9 (QuickBasket UI walkthrough) + the Claude animation:
+//  • the phone never rotates; the camera only pushes in / glides, slowly (every move ≥ 0.5 s, eased), then HOLDS so it can be read
+//  • one idea per screen, built in piece by piece; big type on the screen
+//  • send = Claude f172–f215: track along the bar to the send button → it glows → UI dims → the arrow leaves the button and flies up →
+//    1-frame white flash → bright world where the arrow delivers the brochure to every enquiry
+function popS(p){if(p<=0)return 0;if(p>=1)return 1;const c1=1.15,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2)}
+function build(p,cx,cy,draw,dy=26){if(p<=0)return;const e=eo(p);g.save();g.globalAlpha*=cl(p*2.2);g.translate(0,(1-e)*dy);draw();g.restore()}
+function avatar(x,y,r,name,col){g.fillStyle=col;g.beginPath();g.arc(x,y,r,0,7);g.fill();const ini=name.split(' ').map(s=>s[0]).join('');g.font=`600 ${Math.round(r*.8)}px Geist`;g.fillStyle='#fff';const w=g.measureText(ini).width;g.fillText(ini,x-w/2,y+r*.29)}
+function pdfIcon(x,y,s){g.fillStyle=C.ink;rr(g,x,y,s,s*1.1,s*.18);g.fill();g.font=`500 ${Math.round(s*.3)}px GeistMono`;g.fillStyle='#fff';const w=g.measureText('PDF').width;g.fillText('PDF',x+s/2-w/2,y+s*.66)}
+function sendBtn(x,y,s,lit,press){g.save();g.translate(x+s/2,y+s/2);g.scale(press,press);
+  if(lit>0){g.shadowColor=`rgba(192,123,255,${.9*lit})`;g.shadowBlur=60*lit}
+  g.fillStyle=lit>0?liveGrad(-s/2,-s/2,s/2,s/2):C.mist;rr(g,-s/2,-s/2,s,s,s*.28);g.fill();g.shadowBlur=0;
+  if(lit<=0){g.fillStyle=C.mist;rr(g,-s/2,-s/2,s,s,s*.28);g.fill()}g.restore()}
+function arrowGlyph(ctx,x,y,s,col){ctx.save();ctx.translate(x,y);ctx.strokeStyle=col;ctx.lineWidth=s*.14;ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.beginPath();ctx.moveTo(0,s*.34);ctx.lineTo(0,-s*.34);ctx.moveTo(-s*.28,-s*.06);ctx.lineTo(0,-s*.34);ctx.lineTo(s*.28,-s*.06);ctx.stroke();ctx.restore()}
+// ---------- screen A: the developer writes the email (big type, built piece by piece)
+const TA={in:0.92,attach:1.14,track:1.42,glow:1.90,press:2.06,detach:2.14,flash:2.36};
+function composeScreen(t){
+  g.fillStyle=C.paper;g.fillRect(0,0,SW,SH);status('11:48');
+  const dim=eio(k(t,TA.press+.04,.22));
+  build(k(t,TA.in,.4),0,0,()=>{txt('New email',40,170,'700 52px Geist',C.ink)});
+  build(k(t,TA.in+.08,.4),0,0,()=>{g.fillStyle='#fff';rr(g,24,214,552,140,28);g.fill();avatar(92,284,40,'Rahul Mehta','#4B4260');
+    txt('Rahul Mehta',150,276,'600 36px Geist',C.ink);txt('ENQUIRY · META AD',152,318,'500 21px GeistMono',C.grey)});
+  build(k(t,TA.in+.16,.4),0,0,()=>{txt('Skyline Residences —',40,430,'600 34px Geist',C.ink);txt('your brochure',40,474,'600 34px Geist',C.ink);
+    ['Hi Rahul, thanks for your','enquiry! Brochure attached.'].forEach((l,i)=>txt(l,40,544+i*44,'400 30px Geist','#55545A'))});
+  // the PDF attaches on "PDF"
+  build(k(t,TA.attach,.42),0,0,()=>{g.save();g.shadowColor='rgba(14,12,18,.12)';g.shadowBlur=24;g.fillStyle='#fff';rr(g,24,660,552,170,30);g.fill();g.restore();
+    pdfIcon(52,688,104);txt('Skyline_Brochure',176,738,'600 32px Geist',C.ink);txt('.pdf',176,778,'600 32px Geist',C.ink);txt('24 PAGES · 18 MB',178,812,'500 20px GeistMono',C.grey)},40);
+  // the send bar (like the Claude prompt box): a long rounded bar with the send button at the right end
+  build(k(t,TA.in+.24,.4),0,0,()=>{g.fillStyle='#fff';g.strokeStyle=C.line;g.lineWidth=3;rr(g,24,876,552,140,40);g.fill();g.stroke();
+    txt('Send to Rahul',62,960,'500 30px Geist',C.grey);
+    const lit=eio(k(t,TA.glow-.2,.32)),press=1-.08*Math.sin(Math.PI*k(t,TA.press-.06,.16));
+    sendBtn(432,894,104,lit,press);
+    if(t<TA.detach)arrowGlyph(g,484,946,62,lit>0?'#fff':C.grey)});
+  if(dim>0){g.fillStyle=`rgba(14,12,18,${.55*dim})`;g.fillRect(0,0,SW,SH)}
+}
+// ---------- screen B: the buyer's side — the brochure opens, the question, no reply
+const TB={in:3.10,open:3.48,q:4.40,offline:5.10,noreply:5.56,out:6.0};
+function buyerScreen(t){
+  g.fillStyle=C.paper;g.fillRect(0,0,SW,SH);status(t<TB.noreply?'11:52':'1:42');
+  build(k(t,TB.in,.35),0,0,()=>{txt('‹ Inbox',34,150,'500 28px Geist',C.grey);avatar(70,222,32,'Skyline Sales','#1D1D1F');
+    txt('Skyline Sales',118,214,'600 32px Geist',C.ink);txt('11:48 PM',120,248,'500 19px GeistMono',C.grey)});
+  // the brochure opens: the page wipes up into place, then the title
+  const po=k(t,TB.open,.55);
+  if(po>0){const e=eio(po),y0=290,h=560;g.save();rr(g,24,y0,552,h,28);g.clip();g.fillStyle='#fff';g.fillRect(24,y0,552,h);
+    const ih=330*e;const sky=g.createLinearGradient(0,y0,0,y0+330);sky.addColorStop(0,'#1E1A28');sky.addColorStop(.55,'#4B4260');sky.addColorStop(.9,'#B9A6D6');sky.addColorStop(1,'#E9DDF2');
+    g.fillStyle=sky;g.fillRect(24,y0+330-ih,552,ih);
+    for(const [fx,fy,fw] of [[.12,.5,.18],[.70,.44,.2],[.38,.12,.26]]){const X=24+552*fx,Y=y0+330*fy,TW=552*fw;if(Y<y0+330-ih)continue;g.fillStyle='#24222A';g.fillRect(X,Y,TW,y0+330-Y);
+      for(let r=0;r<Math.floor((y0+330-Y-10)/20);r++)for(let c=0;c<Math.floor(TW/22);c++){g.fillStyle=((r*13+c*7+Math.round(fx*100))%8===0)?'rgba(255,220,180,.85)':'rgba(205,210,235,.10)';g.fillRect(X+5+c*22,Y+8+r*20,15,11)}}
+    const pt=eo(k(t,TB.open+.3,.4));g.globalAlpha=pt;txt('Skyline Residences',48,y0+396,'700 42px Geist',C.ink);txt('BROCHURE · PAGE 1 OF 24',50,y0+436,'500 20px GeistMono',C.grey);
+    g.fillStyle='#E9E7ED';[440,400,460].forEach((w,i)=>{rr(g,50,y0+470+i*26,w,12,6);g.fill()});g.restore()}
+  // the buyer's question rises in, big
+  const pq=k(t,TB.q,.5);
+  if(pq>0){const e=popS(pq),s=lerp(.86,1,e);g.save();g.globalAlpha=cl(pq*2.5);g.translate(576,990);g.scale(s,s);g.translate(-576,-990);
+    g.shadowColor='rgba(14,12,18,.25)';g.shadowBlur=30;g.fillStyle=C.ink;rr(g,60,880,516,200,40);g.fill();g.shadowBlur=0;
+    txt('Is parking included',96,960,'600 40px Geist','#fff');txt('with the 2-bed?',96,1012,'600 40px Geist','#fff');txt('YOU · 11:52 PM',98,1056,'500 18px GeistMono','#A9A7AF');g.restore()}
+  // nobody answers
+  build(k(t,TB.offline,.4),0,0,()=>{g.fillStyle='#B9B7BF';g.beginPath();g.arc(52,1132,9,0,7);g.fill();txt('Sales team is offline',74,1142,'500 28px Geist',C.grey)},18);
+  const pn=k(t,TB.noreply,.45);
+  if(pn>0){const e=popS(pn),s=lerp(.86,1,e);g.save();g.globalAlpha=cl(pn*2.5);g.translate(300,1214);g.scale(s,s);g.translate(-300,-1214);
+    g.fillStyle=C.mist;g.strokeStyle='#DAD7E0';g.lineWidth=3;rr(g,24,1170,552,88,44);g.fill();g.stroke();
+    g.strokeStyle=C.ink;g.lineWidth=4;g.beginPath();g.arc(84,1214,18,0,7);g.stroke();g.beginPath();g.moveTo(84,1214);g.lineTo(84,1203);g.moveTo(84,1214);g.lineTo(93,1220);g.stroke();
+    txt('No reply',122,1226,'700 36px Geist',C.ink);txt('1H 50M',430,1224,'500 26px GeistMono',C.grey);g.restore()}
+}
+
+// ---------- labels + captions (approved R8 style)
+const scrimT=el('div','abs',topP);css(scrimT,{left:0,top:0,width:W+'px',height:'190px',background:'linear-gradient(180deg,rgba(14,12,18,.92),rgba(14,12,18,0))'});
+const scrimB=el('div','abs',topP);css(scrimB,{left:0,top:'700px',width:W+'px',height:'260px',background:'linear-gradient(180deg,rgba(14,12,18,0),rgba(14,12,18,.95) 52%)'});
+// ---------- the bright "delivery" world (Claude f209–f260: white world, the arrow flies and delivers)
+const world=el('div','abs',topP);css(world,{inset:0,display:'none',background:'radial-gradient(700px 520px at 50% 46%,#FFFFFF 0%,#FBFBFA 55%,#EFEAF6 100%)'});
+const curtains=el('div','abs',world);css(curtains,{inset:0,background:'repeating-linear-gradient(90deg,rgba(192,123,255,0) 0 70px,rgba(192,123,255,.07) 70px 140px)',filter:'blur(18px)'});
+const LEADS=[['Rahul Mehta','META AD','#4B4260',-300,-150],['Priya Shah','WEBSITE','#6E6680',300,-150],['Daniel Okafor','WHATSAPP','#2B2A31',-300,80],['Sara Khan','META AD','#4B4260',300,80]];
+const cards=LEADS.map(([n,src,col,dx,dy])=>{const c=el('div','abs',world);css(c,{left:(540+dx-230)+'px',top:(430+dy-80)+'px',width:'460px',height:'170px',borderRadius:'32px',
+  background:'rgba(255,255,255,.92)',boxShadow:'inset 0 0 0 1.5px rgba(255,255,255,1),0 24px 50px rgba(60,40,90,.14)',display:'flex',alignItems:'center',gap:'22px',padding:'0 26px'});
+  c.innerHTML=`<div style="width:84px;height:84px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font:600 32px Geist">${n.split(' ').map(s=>s[0]).join('')}</div>
+  <div style="flex:1"><div style="font:600 34px Geist;letter-spacing:-.03em;color:#1D1D1F">${n}</div><div style="font:500 19px GeistMono;color:#8A8890;margin-top:6px">ENQUIRY · ${src}</div></div>
+  <div class="got" style="width:70px;height:78px;border-radius:14px;background:#1D1D1F;color:#fff;display:flex;align-items:center;justify-content:center;font:500 20px GeistMono;opacity:0">PDF</div>`;return c});
+const flyer=el('div','abs',topP);css(flyer,{width:'120px',height:'120px',display:'none',marginLeft:'-60px',marginTop:'-60px'});
+flyer.innerHTML=`<svg width="120" height="120" viewBox="-60 -60 120 120"><defs><linearGradient id="lg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9A6BF0"/><stop offset=".55" stop-color="#C07BFF"/><stop offset="1" stop-color="#F08BE0"/></linearGradient>
+<filter id="gl"><feGaussianBlur stdDeviation="6"/></filter></defs><circle r="38" fill="#C07BFF" opacity=".35" filter="url(#gl)"/>
+<path d="M0 -40 L30 30 L0 14 L-30 30 Z" fill="url(#lg)" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>`;
+const flash=el('div','abs',topP);css(flash,{inset:0,background:'#fff',display:'none'});
+const pill=el('div','pill',topP);css(pill,{top:'40px',padding:'15px 36px 15px 26px',fontSize:'34px',letterSpacing:'-.01em',fontWeight:'400',color:'#fff',
+  background:'linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0)',boxShadow:'0 10px 30px rgba(154,107,240,.35)'});
+const kar=el('div','kar',topP);css(kar,{top:'842px'});
+const ICON={mail:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>',doc:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>',q:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9a2 2 0 1 1 3 1.7c-.6.4-1 .8-1 1.3"/></svg>',none:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
+const PILLS=[[0.95,ICON.mail+'<span>DEVELOPER SENDS THE BROCHURE</span>'],[3.10,ICON.doc+'<span>THE BUYER OPENS IT</span>'],[4.36,ICON.q+'<span>THE BUYER HAS A QUESTION</span>'],[5.50,ICON.none+'<span>NO ONE ANSWERS</span>']];
+const LINES=[[['send',0.86],['PDF',1.14,1],['brochures',1.50,1]],[['to',2.04],['every',2.26,1],['inquiry.',2.58]],[['The',3.22],['buyer',3.26],['opens',3.48,1],['it,',3.98]],
+ [['has',4.32],['a',4.44],['question,',4.58,1]],[['and',4.96],["there's",5.22],['nobody',5.54,1]],[['to',5.86],['answer.',6.10]]];
+const stack=el('div','stack');
+const STACK=[['Most',0.00,'300 64px',-150],['developers',0.30,'700 132px',0]];
+function cur(list,t){let c=null;for(const x of list)if(t+1e-6>=x[0])c=x;return c}
+const KF=[ // [t, screen px x, y, distance] — long eased glides, then holds
+ [0.86,300,600,9.8],[1.10,300,520,7.2],[1.40,300,700,6.0],[1.90,430,930,4.3],[2.14,430,930,4.1],[2.36,430,800,4.6],
+ [3.10,300,600,8.8],[3.40,300,600,8.2],[4.20,300,640,7.8],[4.70,320,940,6.6],[5.30,320,1020,6.8],[5.80,300,1100,7.0],[6.46,300,820,9.2]];
+
+window.renderAt=async function(t){
+  const fi=await frame(t);aroll(t,fi);
+  const d=eio5(k(t,...T.drag));
+  const FULL=t>=TA.flash, PH=FULL?1920:960;           // client note: after 2.36 s the animation uses the full screen
+  css(topP,{transform:`translateY(${(d-1)*960}px)`,display:d>0?'block':'none',height:PH+'px'});
+  vid.style.display=FULL?'none':'block';
+  if(cv.height!==PH){cv.height=PH;css(cv,{height:PH+'px'});R.setSize(W,PH,false);cam.aspect=W/PH;cam.updateProjectionMatrix()}
+  css(scrimT,{height:(FULL?360:190)+'px'});css(scrimB,{top:(FULL?1400:700)+'px',height:(FULL?520:260)+'px'});
+  css(pill,{top:(FULL?150:40)+'px'});css(kar,{top:(FULL?1640:842)+'px'});
+  glow.style.background=`radial-gradient(${FULL?820:620}px ${FULL?900:520}px at 50% ${FULL?46:44}%,rgba(154,107,240,.26),rgba(14,12,18,0) 70%)`;
+  if(t<T.drag[0]+.15){const z=eio(k(t,...T.zoomOut)),out=k(t,T.drag[0]-.04,.16);
+    stack.innerHTML=STACK.map(([w,st,f,dx])=>{const p=eo(k(t,st,.24));return `<div style="font:${f} Geist;letter-spacing:-.045em;transform:translate(${dx}px,${(1-p)*26}px);opacity:${p*(1-out)};filter:blur(${(1-p)*8}px)"><span>${w}</span></div>`}).join('');
+    css(stack,{display:'block',top:lerp(90,170,z)+'px'})}else stack.style.display='none';
+  if(d<=0)return;
+  const inWorld=t>=TA.flash&&t<TB.in;
+  // phone: rises in once, never rotates
+  const pin=eo4(k(t,T.drag[0]+.1,.6));phone.position.set(0,lerp(-1.6,0,pin),0);phone.rotation.set(.03,-.10,0);
+  (t<TB.in?composeScreen:buyerScreen)(t);stex.needsUpdate=true;
+  let a=KF[0],b=KF[KF.length-1];for(let i=0;i<KF.length-1;i++)if(t>=KF[i][0]&&t<KF[i+1][0]){a=KF[i];b=KF[i+1];break}
+  if(t<KF[0][0])b=a;
+  const u=eio(cl((t-a[0])/(b[0]-a[0]||1)));
+  phone.updateMatrixWorld();
+  const tgt=phone.localToWorld(sp(lerp(a[1],b[1],u),lerp(a[2],b[2],u))),dist=lerp(a[3],b[3],u);
+  cam.position.copy(tgt).add(new THREE.Vector3(dist*.06,dist*.03,dist));cam.lookAt(tgt.clone().add(new THREE.Vector3(0,-.02*dist,0)));
+  const dead=eio(k(t,TB.noreply,.7));rim.intensity=lerp(2.8,.5,dead);glow.style.opacity=lerp(1,.2,dead);
+  R.render(S,cam);
+  // the arrow leaves the send button and flies up (Claude f195–f208)
+  phone.updateMatrixWorld();const bp=phone.localToWorld(sp(484,946)).project(cam);const bx=(bp.x+1)/2*W,by=(1-bp.y)/2*PH;
+  const fl=k(t,TA.detach,TA.flash-TA.detach);
+  if(t>=TA.detach&&t<TA.flash){const e=fl*fl;css(flyer,{display:'block',left:bx+'px',top:(by-e*900)+'px',transform:`scale(${lerp(.55,1,e)})`,filter:`blur(${e*3}px)`})}
+  // bright world: the arrow flies an S-curve and drops the brochure on every enquiry
+  world.style.display=inWorld?'block':'none';scrimT.style.display=scrimB.style.display=inWorld?'none':'block';
+  if(inWorld){const u2=t-TA.flash;
+    cards.forEach((c,i)=>{const p=eo(k(u2,.06+i*.07,.4));css(c,{opacity:p,transform:`translateY(${(1-p)*40}px) scale(${lerp(.94,1,p)*(t>=TA.flash?1.22:1)})`});
+      const got=c.querySelector('.got'),gp=k(t,2.52+i*.14,.3);css(got,{opacity:cl(gp*2),transform:`scale(${lerp(.6,1,popS(gp))})`})});
+    // flight path visiting the four cards in order
+    const CY=FULL?900:430,GAP=FULL?[-250,180]:[-150,80],SC=FULL?1.22:1;
+    cards.forEach((c,i)=>{const [n,src,col,dx,dy]=LEADS[i];css(c,{left:(540+dx*(FULL?.0:1)-230)+'px',top:((FULL?CY+[-345,-115,115,345][i]:CY+(i<2?GAP[0]:GAP[1]))-85)+'px'})});
+    const P0=[540,FULL?1500:980],pts=[0,1,2,3].map(i=>[540+(FULL?0:(i%2?1:-1)*300)+150*SC,(FULL?CY+[-345,-115,115,345][i]:CY+(i<2?GAP[0]:GAP[1]))]);
+    const seg=[2.40,2.52,2.66,2.80,2.94],q=t<seg[0]?0:Math.min(3.999,(()=>{for(let i=0;i<4;i++)if(t<seg[i+1])return i+(t-seg[i])/(seg[i+1]-seg[i]);return 3.999})());
+    const i=Math.floor(q),f=eio(q-i),A=i===0?P0:pts[i-1],Bp=pts[i];let x=lerp(A[0],Bp[0],f),y=lerp(A[1],Bp[1],f)-Math.sin(Math.PI*f)*90;
+    if(t<seg[0]){x=P0[0];y=lerp(PH+100,P0[1],eo(k(t,TA.flash,seg[0]-TA.flash)))}
+    const fo=1-k(t,3.0,.1);css(flyer,{display:fo>0?'block':'none',left:x+'px',top:y+'px',opacity:fo,transform:`scale(.75) rotate(${(Bp[0]-A[0])>0?40:-40}deg)`,filter:'none'})}
+  else if(t>=TA.flash)flyer.style.display='none';
+  // 1-frame white flashes on the world changes (Claude f92 / f109)
+  const fr=Math.round(t*FPS);flash.style.display=(fr===Math.round(TA.flash*FPS)||fr===Math.round(TB.in*FPS))?'block':'none';
+  // labels
+  const pc=cur(PILLS,t);
+  if(pc){const pp=eo4(k(t,pc[0],.3));pill.innerHTML=pc[1];const dead2=pc[1].includes('NO ONE');css(pill,{display:'flex',opacity:pp,transform:`translateX(-50%) translateY(${(1-pp)*-24}px)`,
+    background:dead2?'#F2F0F5':'linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0)',color:dead2?'#1D1D1F':'#fff'})}else pill.style.display='none';
+  let line=null;for(const L of LINES)if(t+1e-6>=L[0][1])line=L;
+  if(line){kar.innerHTML=line.filter(([w,st])=>t+1e-6>=st).map(([w,st,key])=>{const p=eo(k(t,st,.22));
+      return `<span class="${key?'key':''}" style="opacity:${p};transform:translateY(${(1-p)*16}px);filter:blur(${(1-p)*6}px)${key?' drop-shadow(0 0 14px rgba(192,123,255,.45))':''};${inWorld&&!key?'color:#1D1D1F;text-shadow:none':''}">${w}</span>`}).join('');
+    css(kar,{display:'block'})}else kar.style.display='none';
+};
+document.fonts.load('600 40px Geist').then(()=>document.fonts.load('400 20px GeistMono')).then(()=>{window.READY=true});
+</script></body></html>

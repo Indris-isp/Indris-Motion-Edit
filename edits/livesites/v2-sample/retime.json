@@ -1,0 +1,32 @@
+{
+ "note": "out-time segments \u2192 source-time segments. Speech plays 1:1; the three pauses (after 'inquiry.', after 'it,', the ending) are stretched so the full-screen animation can breathe. Audio: the gap's own audio, then silence. v7.1: pauses shortened (client: 'the voice got stuck at 3 s') \u2014 after 'inquiry.' 0.32 s, after 'it,' 0.35 s.",
+ "segs": [
+  [
+   0,
+   3.04
+  ],
+  [
+   3.04,
+   3.22,
+   0.32
+  ],
+  [
+   3.22,
+   4.22
+  ],
+  [
+   4.22,
+   4.32,
+   0.35
+  ],
+  [
+   4.32,
+   6.38
+  ],
+  [
+   6.38,
+   6.46,
+   1.0
+  ]
+ ]
+}
