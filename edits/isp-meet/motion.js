@@ -8,7 +8,7 @@
  *
  *  1  0.00–1.50  "M e e t" letters drift in and glide together, "Meet" builds in the centre, the dots line up
  *  2  1.50–2.30  left dots glide into the ISP mark, "Meet" glides and becomes "Agency", lavender fades up
- *  3  2.28–3.82  the mark streams into the centre as the green tile, platforms slide out, two beats, flow back in
+ *  3  2.28–3.82  the mark streams into the centre as the orange tile, platforms slide out, two beats, flow back in
  *  4  3.60–4.50  glow; the tile glides to the line's icon; "Let's make your video better" eases in word by word
  *  5  4.50–7.20  the tile grows into the big lime tile, colour floods out of it, platforms slide through like a carousel
  *  6  7.20–8.20  the tile glides to the "ISP Agency ✓" icon; "All in one place, less pressure." eases in
