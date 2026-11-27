@@ -15,7 +15,12 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#0E0C12;font-fam
 #vid img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
 #top{position:absolute;left:0;top:0;width:1080px;height:960px;overflow:hidden;background:#0E0C12}
 .pill{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;display:flex;align-items:center;gap:14px;border-radius:999px}
-.kar{position:absolute;left:0;width:1080px;text-align:center;font-weight:500;font-size:50px;letter-spacing:-.025em;white-space:nowrap}
+.kar{position:absolute;left:0;width:1080px;text-align:center;font-weight:400;font-size:58px;letter-spacing:-.035em;white-space:nowrap;line-height:1}
+.kar span{display:inline-block;margin:0 .12em;color:#fff;text-shadow:0 0 22px rgba(255,255,255,.28)}
+.kar span.key{font-weight:700;letter-spacing:-.04em;background:linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 14px rgba(192,123,255,.45))}
+.stack{position:absolute;left:0;width:1080px;text-align:center;color:#1D1D1F;line-height:.92}
+.stack div{white-space:nowrap}
+.stack span{display:inline-block}
 .kar span{transition:none}
 .capA{position:absolute;font-weight:600;font-size:54px;letter-spacing:-.02em;color:#1D1D1F;white-space:nowrap;transform:translate(-50%,-50%);text-shadow:0 1px 16px rgba(251,251,250,.6)}
 </style>
@@ -169,22 +174,23 @@ function appScreen(t){ // one phone, one app: compose → sent list → (push) t
 // ------------------------------------------------------------ labels + captions (R8: top pill, status tag under the object, karaoke line)
 const scrimT=el('div','abs',topP);css(scrimT,{left:0,top:0,width:W+'px',height:'190px',background:'linear-gradient(180deg,rgba(14,12,18,.92),rgba(14,12,18,0))'});
 const scrimB=el('div','abs',topP);css(scrimB,{left:0,top:'690px',width:W+'px',height:'270px',background:'linear-gradient(180deg,rgba(14,12,18,0),rgba(14,12,18,.94) 55%)'});
-const pill=el('div','pill mono',topP);css(pill,{top:'40px',padding:'16px 34px 16px 24px',fontSize:'30px',letterSpacing:'.06em',fontWeight:'500',color:'#fff',
+const pill=el('div','pill',topP);css(pill,{top:'40px',padding:'15px 36px 15px 26px',fontSize:'34px',letterSpacing:'-.01em',fontWeight:'400',color:'#fff',
   background:'linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0)',boxShadow:'0 10px 30px rgba(154,107,240,.35)'});
-const tag=el('div','pill mono',topP);css(tag,{top:'770px',padding:'10px 22px',fontSize:'21px',letterSpacing:'.05em',color:'#1D1D1F',background:'#F2F0F5'});
-const kar=el('div','kar',topP);css(kar,{top:'846px'});
-const LINES=[ // karaoke lines in the top panel (words: [text,start,keyword])
- [[['PDF',1.14,1],['brochures',1.50,1]]],
- [[['to',2.04],['every',2.26,1],['inquiry.',2.58]]],
- [[['The',3.22],['buyer',3.26],['opens',3.48],['it,',3.98]]],
- [[['has',4.32],['a',4.44],['question,',4.58,1]]],
- [[['and',4.96],["there's",5.22],['nobody',5.54,1]]],
- [[['to',5.86],['answer.',6.10]]]];
-const capA=el('div','capA');
-const CAPA=[['most',0.0],['developers',0.30],['send',0.72]];
+const tag=el('div','pill',topP);css(tag,{top:'762px',padding:'11px 26px 12px',fontSize:'24px',fontWeight:'600',letterSpacing:'-.01em',color:'#1D1D1F',background:'#C07BFF',boxShadow:'0 6px 20px rgba(192,123,255,.35)'});
+const kar=el('div','kar',topP);css(kar,{top:'842px'});
+const LINES=[ // [word, start, keyword] — words reveal as spoken (R8: rise + blur + fade, then stay)
+ [['PDF',1.30,1],['brochures',1.50,1]],
+ [['to',2.04],['every',2.26,1],['inquiry.',2.58]],
+ [['The',3.22],['buyer',3.26],['opens',3.48,1],['it,',3.98]],
+ [['has',4.32],['a',4.44],['question,',4.58,1]],
+ [['and',4.96],["there's",5.22],['nobody',5.54,1]],
+ [['to',5.86],['answer.',6.10]]];
+const stack=el('div','stack');
+// R8 A-roll lockup: small light word / big bold keyword / small light word, offset left-right, each word rises in as spoken
+const STACK=[['Most',0.00,'300 64px',-150],['developers',0.30,'700 132px',0],['send',0.72,'300 64px',170]];
 const ICON={mail:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>',doc:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>',q:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9a2 2 0 1 1 3 1.7c-.6.4-1 .8-1 1.3"/></svg>',none:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
-const PILLS=[[1.30,ICON.mail+'<span>BROCHURE SENT · 11:48 PM</span>'],[3.10,ICON.doc+'<span>THE BUYER OPENS IT</span>'],[4.30,ICON.q+'<span>THE BUYER HAS A QUESTION</span>'],[5.50,ICON.none+'<span>NO ONE ANSWERS</span>']];
-const TAGS=[[1.55,'PDF · 24 PAGES · STATIC'],[2.10,'SENT TO 12 ENQUIRIES'],[3.50,'BROCHURE OPENED · 11:51 PM'],[4.58,'NEW QUESTION · 11:52 PM'],[5.62,'UNANSWERED · 1H 50M']];
+const PILLS=[[1.30,ICON.mail+'<span>DEVELOPER SENDS THE BROCHURE</span>'],[3.10,ICON.doc+'<span>THE BUYER OPENS IT</span>'],[4.30,ICON.q+'<span>THE BUYER HAS A QUESTION</span>'],[5.50,ICON.none+'<span>NO ONE ANSWERS</span>']];
+const TAGS=[[1.55,'Static PDF · 24 pages'],[2.10,'Sent to 12 enquiries'],[3.50,'Brochure opened'],[4.58,'New question · 11:52 PM'],[5.62,'Unanswered · 1h 50m']];
 function cur(list,t){let c=null;for(const x of list)if(t+1e-6>=x[0])c=x;return c}
 
 window.renderAt=async function(t){
@@ -193,8 +199,9 @@ window.renderAt=async function(t){
   // the top panel is dragged down together with the video (R8: orb arrives with the slide)
   css(topP,{transform:`translateY(${(d-1)*960}px)`,display:d>0?'block':'none'});
   // captions over the full-frame A-roll
-  const ca=cur(CAPA.map(x=>[x[1],x[0]]),t);
-  if(t<T.drag[0]&&ca){capA.textContent=ca[1];css(capA,{display:'block',left:'540px',top:(lerp(250,430,eio(k(t,...T.zoomOut))))+'px'})}else capA.style.display='none';
+  if(t<T.drag[0]+.12){const z=eio(k(t,...T.zoomOut)),out=k(t,T.drag[0]-.05,.17);
+    stack.innerHTML=STACK.map(([w,st,f,dx])=>{const p=eo(k(t,st,.22));return `<div style="font:${f} Geist;letter-spacing:-.045em;transform:translate(${dx}px,${(1-p)*26}px);opacity:${p*(1-out)};filter:blur(${(1-p)*8}px)"><span>${w}</span></div>`}).join('');
+    css(stack,{display:'block',top:lerp(90,200,z)+'px'})}else stack.style.display='none';
   if(d<=0)return;
   // phone choreography: drops in with the drag, then the camera tracks across the UI
   const pin=eo4(k(t,T.drag[0]+.12,.55));
@@ -220,8 +227,10 @@ window.renderAt=async function(t){
     background:pc[1].includes('NO ONE ANSWERS')?'#F2F0F5':'linear-gradient(135deg,#9A6BF0,#C07BFF 55%,#F08BE0)',color:pc[1].includes('NO ONE ANSWERS')?'#1D1D1F':'#fff'})}else pill.style.display='none';
   if(tc){const tp=eo4(k(t,tc[0],.3));tag.textContent=tc[1];css(tag,{display:'flex',opacity:tp,transform:`translateX(-50%) scale(${lerp(.9,1,tp)})`})}else tag.style.display='none';
   // karaoke line (R8): spoken words white, upcoming words grey, keywords in Orchid
-  let line=null;for(const L of LINES)if(t+1e-6>=L[0][0][1])line=L[0];
-  if(line){kar.innerHTML=line.map(([w,s,key])=>{const on=t+1e-6>=s;return `<span style="color:${on?(key?'#C07BFF':'#FFFFFF'):'rgba(255,255,255,.28)'}">${w}</span>`}).join(' ');kar.style.display='block'}else kar.style.display='none';
+  let line=null;for(const L of LINES)if(t+1e-6>=L[0][1])line=L;
+  if(line){kar.innerHTML=line.filter(([w,st])=>t+1e-6>=st).map(([w,st,key])=>{const p=eo(k(t,st,.2));
+      return `<span class="${key?'key':''}" style="opacity:${p};transform:translateY(${(1-p)*16}px);filter:blur(${(1-p)*6}px)${key?` drop-shadow(0 0 14px rgba(192,123,255,.45))`:''}">${w}</span>`}).join('');
+    css(kar,{display:'block',fontSize:(line.length===1?72:58)+'px'})}else kar.style.display='none';
 };
 document.fonts.load('600 40px Geist').then(()=>document.fonts.load('400 20px GeistMono')).then(()=>{window.READY=true});
 </script></body></html>

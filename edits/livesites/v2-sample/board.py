@@ -5,28 +5,25 @@ d, out = sys.argv[1], sys.argv[2]
 F = 'fonts/Geist-Variable.woff2'
 import os
 S = [  # t, beat, words, what happens
- (0.10,'A-roll punch-in','"Most…"','Face-tracked close-up, caption in the headroom'),
- (0.60,'Zoom out','"…developers…"','Camera pulls back to the wide (0.85 s ease)'),
- (1.60,'Drag into split','"…PDF brochures"','Video slides down; phone rises in (no rotation)'),
- (1.85,'Zoom to attachment','"…PDF brochures"','Brochure PDF pops in; camera zooms to it'),
- (2.05,'Zoom to Send','"…to every…"','Camera zooms to Send; it lights up and taps'),
- (2.60,'Sent list','"…to every inquiry."','12 sent emails pop in one by one; camera pans down'),
- (3.75,'PDF opens','"The buyer opens it,"','Thread opens; the attachment grows into the page'),
- (4.75,'Question pops','"…has a question,"','The buyer\'s reply pops in; camera zooms to it'),
- (5.20,'Unread','"…and there\'s…"','"UNREAD" + "SALES TEAM · OFFLINE" pop in'),
- (5.70,'No reply','"…nobody…"','"NO REPLY · 1H 50M" pops; the clock runs on'),
- (6.00,'Pull back','"…to answer."','Camera pulls back; purple light fades'),
- (6.35,'Screen locks','"…to answer."','Screen goes dark at 1:42 AM'),
+ (0.25,'A-roll · caption lockup','"Most…"','Small light word rises in, in the headroom'),
+ (0.60,'A-roll · caption lockup','"…developers…"','Keyword big + bold under it (R8 stack)'),
+ (0.95,'A-roll · caption lockup','"…send"','Last word offset right; camera zooming out'),
+ (1.85,'Split · karaoke line','"PDF brochures"','Keywords bold in the brand gradient'),
+ (2.75,'Split · karaoke line','"to every inquiry."','Words rise in one by one as spoken'),
+ (3.75,'Split · karaoke line','"The buyer opens…"','White words with a soft glow; keyword in purple'),
+ (4.75,'Split · karaoke line','"has a question,"','Pill title + purple status tag (R8 layout)'),
+ (5.70,'Split · karaoke line','"and there\'s nobody"','Pill turns grey: no one answers'),
+ (6.35,'Split · karaoke line','"to answer."','Screen locks; line ends the scene'),
 ]
 tw, th, pad, lab = 360, 640, 18, 140
-cols = 6; rows = 2
+cols = 6; rows = 2 if len(S) > 6 else 1
 B = Image.new('RGB', (cols*(tw+pad)+pad, 110+rows*(th+lab+pad)+pad), '#FBFBFA'); g = ImageDraw.Draw(B)
 def font(sz, w=500):
     f = ImageFont.truetype(F, sz)
     try: f.set_variation_by_axes([w])
     except Exception: pass
     return f
-g.text((pad, 28), 'Livesites · Scene 1 storyboard v2 · phone stays still, messages pop in, camera zooms to each one', font=font(40, 600), fill='#1D1D1F')
+g.text((pad, 28), 'Livesites · Scene 1 · captions in the Agni-reference style (A-roll lockup + karaoke line)', font=font(40, 600), fill='#1D1D1F')
 for i, (t, b, w, what) in enumerate(S):
     x = pad + (i % cols)*(tw+pad); y = 110 + (i//cols)*(th+lab+pad)
     im = Image.open(f'{d}/still_{t:.2f}.png').convert('RGB').resize((tw, th), Image.LANCZOS); B.paste(im, (x, y))
