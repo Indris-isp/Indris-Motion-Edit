@@ -90,12 +90,16 @@ Object.assign(SCENES, {
     const k = serif(S, 'interest', { top: 1300, size: 250, word: 'interest' });
     return t => { r1(t); n(t); k(t); };
   },
-  o_dad() {                                       // father and daughter, editorial (V06)
-    const l1 = el('div', { position: 'absolute', left: '0', width: '1080px', top: '1180px', textAlign: 'center', font: '600 40px Inter', letterSpacing: '14px', color: 'rgba(247,243,236,.85)' }, S, 'MY');
-    const k = serif(S, 'dad', { top: 1220, size: 300, word: 'dad', color: G.white });
-    const r = line(S, 1540, [R('he'), R('would'), R('give'), R('me')]);
-    const tm = tw('my');
-    return t => { reveal(l1, t, tm, 20); k(t); r(t); };
+  o_dad() {                                       // AI: dad hands her the allowance. Text in the open top-left, clear of both faces
+    const box = el('div', { position: 'absolute', left: '0', top: '0', width: '1080px', height: '1920px' });
+    const l1 = el('div', { position: 'absolute', left: '76px', top: '250px', font: '600 40px Inter', letterSpacing: '14px', color: 'rgba(247,243,236,.9)', textShadow: '0 3px 14px rgba(0,0,0,.55)' }, box, 'MY');
+    const k = el('div', { position: 'absolute', left: '64px', top: '290px', font: 'italic 400 280px/0.95 "Instrument Serif", serif', color: G.white,
+      textShadow: '0 0 30px rgba(242,195,91,.35), 0 6px 26px rgba(0,0,0,.55)' }, box, 'dad');
+    const r = el('div', { position: 'absolute', left: '76px', top: '590px', font: '600 62px Inter', color: G.white, textShadow: '0 3px 16px rgba(0,0,0,.6)' }, box);
+    const ws = ['he', 'would', 'give', 'me'].map((w, i) => [el('span', { display: 'inline-block', whiteSpace: 'pre' }, r, (i ? ' ' : '') + w), tw(w)]);
+    [l1, k, r].forEach(e => e.dataset.layer = 'front');
+    const tm = tw('my'), td = tw('dad');
+    return t => { reveal(l1, t, tm, 20); reveal(k, t, td, 34, 0.3); ws.forEach(([e, t0]) => reveal(e, t, t0)); };
   },
   o_allow() { const g = giant(S, 'ALLOWANCE', { top: 220, size: 232, word: 'allowance', delay: 0.2, tracking: 3 }); return t => g(t); },
   o_shop() {

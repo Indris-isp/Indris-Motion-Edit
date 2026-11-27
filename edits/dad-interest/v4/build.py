@@ -218,37 +218,103 @@ class Compositor:
     def __init__(self):
         self.ar = Reader(RAW); self.prev = None; self.matte = None; self.br = {}; self.ai = {}
         self.chunks = caption_chunks()
+        self.cap_shift = self.plan_caption_dodge()
         self.t_ent = wt('entrepreneurship') - 0.15
 
+    # per-image camera (fg = person layer; the background moves 45% as much and is softly defocused):
+    # scale from -> to, pan x/y (px) from -> to, roll (deg) from -> to
+    AI_CAM = {'dad_allowance': ((1.05, 1.15), (34, -30), (10, -24), (0, 0)),     # slow dolly-in toward the bill, drifting left
+              'books':         ((1.03, 1.13), (0, 0), (24, -34), (0, 0)),         # push in and rise to her face
+              'friends_ask':   ((1.10, 1.12), (-52, 52), (0, -10), (0, 0)),       # sideways truck along the lockers
+              'dad_door':      ((1.00, 1.12), (12, -12), (0, -30), (0, 0)),       # dolly toward dad at the door
+              'drawer':        ((1.07, 1.15), (0, 0), (0, -16), (-1.4, 0.9)),     # top-down push with a gentle roll
+              'teen_boss':     ((1.15, 1.02), (0, 0), (-26, 0), (0, 0))}          # pull-out reveal behind her
+
     def ai_layers(self, name):
-        """AI still (src/ai/<name>.png, 9:16 at 1080x1920) split into person and background with the MODNet matte."""
+        """AI still (src/ai/<name>.png, 1080x1920) -> person layer + matte and a clean, softly defocused background
+        (the person is inpainted out of the background so the parallax never shows a ghost)."""
         if name not in self.ai:
             img = cv2.cvtColor(cv2.imread(os.path.join(HERE, f'src/ai/{name}.png')), cv2.COLOR_BGR2RGB)
             img = gradek(img, 'warm')
             if self.matte is None: self.matte = Matte()
             m = cv2.GaussianBlur(np.clip((self.matte(img) - 0.1) / 0.7, 0, 1), (0, 0), 1.5)
-            self.ai[name] = (img, m)
+            md = cv2.dilate((m > 0.2).astype(np.uint8), np.ones((41, 41), np.uint8))
+            small = cv2.resize(img, (270, 480), interpolation=cv2.INTER_AREA)
+            inp = cv2.inpaint(small, cv2.resize(md, (270, 480), interpolation=cv2.INTER_NEAREST), 9, cv2.INPAINT_TELEA)
+            inp = cv2.resize(inp, (W, H), interpolation=cv2.INTER_CUBIC)
+            mb = cv2.GaussianBlur(md.astype(np.float32), (0, 0), 12)[..., None]
+            bg = (img.astype(np.float32) * (1 - mb) + inp.astype(np.float32) * mb)
+            bg = cv2.GaussianBlur(bg, (0, 0), 3.2).clip(0, 255).astype(np.uint8)
+            self.ai[name] = (img, m, bg)
         return self.ai[name]
 
+    @staticmethod
+    def warp(img, s, tx, ty, rot, interp=cv2.INTER_CUBIC):
+        M = cv2.getRotationMatrix2D((W / 2, H / 2), rot, s); M[0, 2] += tx; M[1, 2] += ty
+        return cv2.warpAffine(img, M, (W, H), flags=interp, borderMode=cv2.BORDER_REFLECT)
+
     def ai_frame(self, p, t, lf, dx, dy):
-        """2.5D: the background pushes in slowly, the person a little faster and drifts up (parallax); the big word sits
-        between the two layers when 'behind' is set, otherwise on top. Never one flat image."""
+        """2.5D camera on an AI still: the person layer moves along an eased path (ease-in-out sine over the beat, plus a
+        0.45 s settle after the whip), the clean background follows at 45% (parallax) and stays soft (depth of field).
+        The giant word sits between the layers when 'behind' is set; captions are always on top."""
         name, ov, keys, behind = p
-        img, m = self.ai_layers(name)
-        u = (keyz(keys, t) - keys[0][1]) / max(1e-6, keys[-1][1] - keys[0][1])
-        zb, zf = 1.0 + 0.035 * u, 1.0 + 0.09 * u
-        bg = zoom(img, zb, dx, dy, face=False)
-        fg = zoom(img, zf, dx, dy - 18 * u, face=False)
-        mf = zoom((m * 255).astype(np.uint8)[..., None].repeat(3, 2), zf, dx, dy - 18 * u, face=False)[..., 0].astype(np.float32) / 255
-        bgf = (bg.astype(np.float32) / 255 * TYPESCRIM)
-        fgf = (fg.astype(np.float32) / 255 * TYPESCRIM)
-        if behind:                                     # giant word between the layers, captions on top
+        img, m, bgimg = self.ai_layers(name)
+        b0, b1 = next((s[0], s[1]) for s in BASE if s[2] == 'ai' and s[3][0] == name)
+        u = min(1.0, max(0.0, (t - b0) / (b1 - b0)))
+        e = 0.5 - 0.5 * np.cos(np.pi * u)
+        settle = 1 + 0.045 * (1 - min(1.0, (t - b0) / 0.45)) ** 3                    # eases out of the whip
+        (s0, s1), (x0, x1), (y0, y1), (r0, r1) = self.AI_CAM[name]
+        sf = (s0 + (s1 - s0) * e) * settle; tx = x0 + (x1 - x0) * e + dx; ty = y0 + (y1 - y0) * e + dy; rot = r0 + (r1 - r0) * e
+        sb = 1 + (sf - 1) * 0.45 + 0.02
+        fg = self.warp(img, sf, tx, ty, rot)
+        mf = self.warp(m, sf, tx, ty, rot, cv2.INTER_LINEAR)[..., None]
+        bg = self.warp(bgimg, sb, tx * 0.45, ty * 0.45, rot * 0.5)
+        bgf = bg.astype(np.float32) / 255 * TYPESCRIM
+        fgf = fg.astype(np.float32) / 255 * TYPESCRIM
+        if behind:
             bgf = over((bgf.clip(0, 1) * 255).astype(np.uint8), scene_rgba(ov + '@back', lf)).astype(np.float32) / 255
-            out = bgf * (1 - mf[..., None]) + fgf * mf[..., None]
+            out = bgf * (1 - mf) + fgf * mf
             return over((out.clip(0, 1) * 255).astype(np.uint8), scene_rgba(ov + '@front', lf)).astype(np.float32) / 255
-        txt = scene_rgba(ov, lf)
-        out = bgf * (1 - mf[..., None]) + fgf * mf[..., None]
-        return over((out.clip(0, 1) * 255).astype(np.uint8), txt).astype(np.float32) / 255
+        out = bgf * (1 - mf) + fgf * mf
+        return over((out.clip(0, 1) * 255).astype(np.uint8), scene_rgba(ov, lf)).astype(np.float32) / 255
+
+    def plan_caption_dodge(self):
+        """Captions never sit on a face: for every caption chunk shown over the A-roll, find her face box (YuNet on the
+        zoomed frame, chin +15%) and the chunk's text box (caption layer alpha), then move the whole chunk down (or up if
+        there is no room) just enough to clear the face. One shift per chunk, so nothing jumps mid-phrase."""
+        det = cv2.FaceDetectorYN.create(os.path.join(ROOT, 'models/yunet.onnx'), '', (360, 640), 0.7, 0.3, 5)
+        rd = Reader(RAW); need = {}
+        for i in range(N):
+            t = i / FPS
+            t0, t1, kind, p = next(s for s in BASE if s[0] <= t < s[1] + 1e-9) if t < BASE[-1][1] else BASE[-1]
+            a = rd.frame(i)
+            if kind not in ('aroll', 'roto') or not self.caps_ok(t, t0): continue
+            k = next((n for n, c in enumerate(self.chunks) if c['t0'] - 0.13 <= t < c['t1']), None)
+            if k is None: continue
+            img = zoom(a, keyz(p if kind == 'aroll' else p[1], t))
+            _, faces = det.detect(cv2.resize(img[..., ::-1], (360, 640)))
+            if faces is None: continue
+            al = cv2.imread(os.path.join(HERE, f'out/scenes/caps/f{i:05d}.png'), cv2.IMREAD_UNCHANGED)[..., 3]
+            rows = np.where(al.max(1) > 40)[0]
+            if not len(rows): continue
+            top, bot = int(rows.min()), int(rows.max())
+            for fc in faces:
+                fy0, fy1 = int(fc[1] * 3), int((fc[1] + fc[3] * 1.15) * 3)
+                if top < fy1 + 20 and bot > fy0 - 20:
+                    d = need.setdefault(k, dict(down=0, up=0, top=top, bot=bot))
+                    d['down'] = max(d['down'], fy1 + 28 - top); d['up'] = max(d['up'], bot - (fy0 - 28))
+                    d['top'] = min(d['top'], top); d['bot'] = max(d['bot'], bot)
+        shift_chunk = {}
+        for k, d in need.items():
+            room_down, room_up = 1640 - d['bot'], d['top'] - 250
+            shift_chunk[k] = d['down'] if d['down'] <= room_down else (-d['up'] if d['up'] <= room_up else room_down)
+            print(f"caption dodge: '{' '.join(w for _, w, _ in self.chunks[k]['words'])}' {shift_chunk[k]:+d}px", flush=True)
+        out = {}
+        for i in range(N):
+            t = i / FPS
+            k = next((n for n, c in enumerate(self.chunks) if c['t0'] - 0.13 <= t < c['t1']), None)
+            if k in shift_chunk: out[i] = int(shift_chunk[k])
+        return out
 
     def caps_ok(self, t, beat_t0):
         """No caption left over from a designed beat on the face after the cut, and no caption under the giant last word."""
@@ -275,7 +341,10 @@ class Compositor:
                 img = over(img, scene_rgba(p[0], lf), 1 - np.clip((m - 0.15) / 0.6, 0, 1))
             f = img.astype(np.float32) / 255 * SCRIM
             if self.caps_ok(t, t0):
-                f = over((f.clip(0, 1) * 255).astype(np.uint8), scene_rgba('caps', i)).astype(np.float32) / 255
+                cap = scene_rgba('caps', i)
+                sh = self.cap_shift.get(i, 0)
+                if sh: cap = np.roll(cap, sh, axis=0); cap[:sh] = 0 if sh > 0 else cap[:sh]; cap[sh:] = 0 if sh < 0 else cap[sh:]
+                f = over((f.clip(0, 1) * 255).astype(np.uint8), cap).astype(np.float32) / 255
         elif kind in ('broll', 'broll_roto'):
             clip, ov, keys, look = p
             if clip not in self.br: self.br[clip] = Reader(os.path.join(HERE, f'src/broll/{clip}.mp4'))
