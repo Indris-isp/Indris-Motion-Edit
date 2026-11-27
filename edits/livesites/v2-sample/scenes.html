@@ -1,0 +1,186 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Geist;src:url(fonts/Geist-Variable.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:GeistMono;src:url(fonts/GeistMono-Variable.woff2) format('woff2');font-weight:100 900}
+:root{--paper:#FBFBFA;--mist:#F2F0F5;--ink:#1D1D1F;--night:#0E0C12;--iris:#9A6BF0;--orchid:#C07BFF;--bloom:#F08BE0;
+  --live:linear-gradient(135deg,#9A6BF0 0%,#C07BFF 55%,#F08BE0 100%)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper);font-family:Geist,sans-serif;color:var(--ink)}
+.abs{position:absolute}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--paper)}
+.win{position:absolute;overflow:hidden}
+.win img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+.mono{font-family:GeistMono,monospace;letter-spacing:.02em}
+/* captions */
+.cap{position:absolute;font-weight:600;font-size:54px;letter-spacing:-.02em;line-height:1;white-space:nowrap;transform:translate(-50%,-50%)}
+.cap.plain{color:var(--ink);text-shadow:0 1px 14px rgba(251,251,250,.55)}
+.cap.dark{background:rgba(29,29,31,.74);color:#fff;padding:14px 26px 16px;border-radius:16px;backdrop-filter:blur(10px)}
+.cap.light{background:#E7E5EB;color:var(--ink);padding:14px 26px 16px;border-radius:16px}
+/* lockup */
+.lock{position:absolute;left:0;width:1080px;text-align:center}
+.lock .big{font-weight:600;font-size:250px;letter-spacing:-.06em;line-height:.9;
+  background:linear-gradient(180deg,#2A2A2E 0%,#1D1D1F 45%,#6E6D74 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 10px 18px rgba(14,12,18,.18))}
+.lock .kick{font-weight:500;font-size:44px;letter-spacing:-.03em;color:#3A3A3F}
+.lock .sub{font-weight:500;font-size:44px;letter-spacing:-.03em;color:#3A3A3F}
+/* pdf card */
+.pdf{position:absolute;width:230px;height:300px;border-radius:18px;background:#fff;box-shadow:0 18px 40px rgba(14,12,18,.16),0 2px 6px rgba(14,12,18,.08);overflow:hidden}
+.pdf .img{position:absolute;left:14px;top:14px;right:14px;height:132px;border-radius:10px;background:linear-gradient(180deg,#E4E2E8,#CFCDD4)}
+.pdf .bar{position:absolute;left:16px;height:10px;border-radius:5px;background:#E4E2E8}
+.pdf .tag{position:absolute;left:14px;bottom:14px;background:var(--ink);color:#fff;font-size:17px;padding:6px 10px 5px;border-radius:7px}
+.pdf .lead{position:absolute;right:14px;bottom:18px;font-size:15px;color:#77757D}
+/* phone */
+.phone{position:absolute;width:380px;height:780px;border-radius:58px;background:#0E0C12;padding:12px;box-shadow:0 30px 60px rgba(14,12,18,.22)}
+.screen{position:absolute;inset:12px;border-radius:47px;background:#fff;overflow:hidden}
+.notch{position:absolute;left:50%;top:12px;width:104px;height:30px;border-radius:16px;background:#0E0C12;transform:translateX(-50%);z-index:5}
+.sb{position:absolute;top:18px;left:30px;font-size:17px;font-weight:600}
+.hdr{position:absolute;top:62px;left:0;right:0;height:72px;border-bottom:1px solid #EEECF1;display:flex;align-items:center;padding:0 18px;gap:12px}
+.av{width:44px;height:44px;border-radius:12px;background:var(--ink)}
+.bubble{position:absolute;border-radius:20px;font-size:21px;line-height:1.3;padding:14px 16px}
+</style></head>
+<body><div id="stage"></div>
+<script>
+const W=1080,H=1920,FPS=30000/1001,FACE={x:490,y:760};
+const P=new URLSearchParams(location.search);
+const FRAMES=P.get('frames')||'';
+const stage=document.getElementById('stage');
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const k=(t,t0,d)=>cl((t-t0)/d);
+const eo=x=>1-Math.pow(1-x,3), eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, eo5=x=>1-Math.pow(1-x,5);
+const lerp=(a,b,x)=>a+(b-a)*x;
+function el(tag,cls,parent,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(parent||stage).appendChild(e);return e}
+function css(e,o){for(const k in o)e.style[k]=o[k];return e}
+// glide in: from dy px below, blur, opacity. calm, no bounce (brand motion).
+function glide(e,t,t0,d=.34,dy=36,extra=''){const p=eo(k(t,t0,d));css(e,{opacity:p,filter:`blur(${(1-p)*10}px)`,transform:`${extra} translateY(${(1-p)*dy}px)`});return p}
+
+// ---------- A-roll windows ----------
+function win(x,y,w,h){const d=el('div','win');css(d,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});const i=el('img','',d);return {d,i}}
+function place(wn,scale,cx,cy,fx=FACE.x,fy=FACE.y){ // put source point (fx,fy) at window point (cx,cy)
+  const tx=cx-fx*scale, ty=cy-fy*scale;
+  wn.i.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;
+}
+const full=win(0,0,W,H), bot=win(0,960,W,960);
+const seam=el('div','abs');css(seam,{left:0,top:'959px',width:W+'px',height:'2px',background:'rgba(14,12,18,.08)'});
+
+// ---------- B1: lockup + pdf cards ----------
+const lock=el('div','lock');css(lock,{top:'150px'});
+lock.innerHTML=`<div class="kick" style="transform:translateX(-120px)">Most developers send</div><div class="big">PDF</div><div class="sub" style="transform:translateX(90px)">brochures to every inquiry</div>`;
+function pdfCard(n){const c=el('div','pdf');c.innerHTML=`<div class="img"></div><div class="bar" style="top:162px;width:150px"></div><div class="bar" style="top:182px;width:120px"></div><div class="bar" style="top:202px;width:160px"></div><div class="tag mono">PDF</div><div class="lead mono">${n?('INQUIRY 0'+n):'24 pages'}</div>`;return c}
+const cards=[pdfCard(3),pdfCard(2),pdfCard(1),pdfCard(0)];
+
+// ---------- B2: phone ----------
+const topH=el('div','abs');css(topH,{left:0,top:0,width:W+'px',height:'960px',overflow:'hidden'});const ph=el('div','phone',topH);const scr=el('div','screen',ph);el('div','notch',ph);
+scr.innerHTML=`<div class="sb mono">11:48</div>
+<div class="hdr"><div class="av"></div><div><div style="font-weight:600;font-size:21px">Skyline Residences</div><div class="mono" id="seen" style="font-size:14px;color:#8A8890">sales team</div></div></div>
+<div id="chat" class="abs" style="left:0;right:0;top:134px;bottom:0;background:var(--mist)"></div>
+<div id="view" class="abs" style="left:0;right:0;top:134px;bottom:0;background:#fff"></div>`;
+const chat=scr.querySelector('#chat'), view=scr.querySelector('#view'), seen=scr.querySelector('#seen');
+const att=el('div','bubble',chat);css(att,{left:'16px',top:'24px',width:'262px',background:'#fff',boxShadow:'0 2px 6px rgba(14,12,18,.06)'});
+att.innerHTML=`<div style="display:flex;gap:12px;align-items:center"><div class="mono" style="background:var(--ink);color:#fff;font-size:14px;padding:12px 8px;border-radius:8px">PDF</div><div><div style="font-weight:600;font-size:18px">Skyline_Brochure.pdf</div><div class="mono" style="font-size:13px;color:#8A8890">24 pages · 18 MB</div></div></div>`;
+view.innerHTML=`<div class="abs" style="left:22px;right:22px;top:22px;height:230px;border-radius:14px;background:linear-gradient(180deg,#E4E2E8,#C9C7CF)"></div>
+<div class="abs" style="left:22px;top:276px;font-weight:600;font-size:28px;letter-spacing:-.03em">Skyline Residences</div>
+${[322,344,366,388].map((y,i)=>`<div class="abs" style="left:22px;top:${y}px;height:10px;width:${[300,270,310,200][i]}px;border-radius:5px;background:#E9E7ED"></div>`).join('')}
+<div class="abs" style="left:22px;top:420px;width:146px;height:90px;border-radius:10px;background:#EEECF1"></div><div class="abs" style="left:184px;top:420px;width:146px;height:90px;border-radius:10px;background:#EEECF1"></div>
+<div class="abs mono" style="left:0;right:0;bottom:22px;text-align:center;font-size:14px;color:#8A8890">page 1 / 24</div>`;
+const q=el('div','bubble',scr);css(q,{right:'16px',top:'470px',width:'250px',background:'var(--ink)',color:'#fff',zIndex:4,boxShadow:'0 10px 24px rgba(14,12,18,.22)'});
+q.innerHTML=`Is parking included with the 2-bed?`;q.style.fontSize='22px';
+const dots=el('div','bubble',scr);css(dots,{left:'16px',top:'588px',background:'#fff',zIndex:4,padding:'14px 18px',boxShadow:'0 2px 6px rgba(14,12,18,.08)'});
+dots.innerHTML=`<span class="d">●</span> <span class="d">●</span> <span class="d">●</span>`;dots.style.fontSize='13px';dots.style.color='#9A98A0';
+const nr=el('div','mono abs',scr);css(nr,{right:'18px',top:'576px',fontSize:'14px',color:'#8A8890',zIndex:4});nr.textContent='Sent 11:48 PM · no reply';
+
+// ---------- B3: clock + call card ----------
+const b3=el('div','abs');css(b3,{inset:0,background:'radial-gradient(1200px 900px at 50% 42%,#FFFFFF 0%,#FBFBFA 55%,#F2F0F5 100%)'});
+const lab=el('div','mono abs',b3);css(lab,{left:0,width:W+'px',top:'560px',textAlign:'center',fontSize:'26px',color:'#77757D'});
+const clock=el('div','abs',b3);css(clock,{left:0,width:W+'px',top:'610px',height:'210px',overflow:'hidden'});
+const roll=el('div','abs',clock);css(roll,{left:0,width:W+'px',top:0});
+roll.innerHTML=['11:48 PM','2:15 AM','6:40 AM','10:30 AM'].map(s=>`<div style="height:210px;line-height:210px;text-align:center;font-weight:500;font-size:176px;letter-spacing:-.05em">${s}</div>`).join('');
+const track=el('div','abs',b3);css(track,{left:'240px',width:'600px',top:'860px',height:'4px',borderRadius:'2px',background:'#E4E2E8'});
+const fill=el('div','abs',track);css(fill,{left:0,top:0,height:'4px',borderRadius:'2px',background:'var(--ink)'});
+const tl=el('div','mono abs',b3);css(tl,{left:'240px',width:'600px',top:'880px',fontSize:'20px',color:'#8A8890',display:'flex',justifyContent:'space-between'});tl.innerHTML='<span>BUYER ASKS</span><span>REP CALLS</span>';
+const call=el('div','abs',b3);css(call,{left:'150px',width:'780px',top:'980px',height:'176px',borderRadius:'36px',background:'var(--ink)',boxShadow:'0 24px 50px rgba(14,12,18,.25)',display:'flex',alignItems:'center',padding:'0 34px',gap:'26px'});
+call.innerHTML=`<div style="position:relative;width:96px;height:96px"><div class="ring abs" style="inset:0;border-radius:50%;border:2px solid #F2F0F5"></div><div class="abs" style="inset:0;border-radius:50%;background:#F2F0F5;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:34px">SR</div></div>
+<div style="flex:1"><div style="color:#fff;font-weight:500;font-size:40px;letter-spacing:-.03em">Calling the buyer…</div><div class="mono" style="color:#A9A7AF;font-size:20px;margin-top:6px">SALES REP · NEXT DAY 10:30 AM</div></div>
+<div style="width:74px;height:74px;border-radius:50%;background:#F2F0F5;display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 24 24"><path fill="#1D1D1F" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></div>`;
+const ring=call.querySelector('.ring');
+
+// ---------- B4: interest meter ----------
+const meter=el('div','abs');css(meter,{left:'310px',top:'300px',width:'460px',padding:'22px 22px 24px',borderRadius:'22px',background:'rgba(251,251,250,.94)',boxShadow:'0 18px 40px rgba(14,12,18,.16)'});
+meter.innerHTML=`<div class="mono" style="font-size:24px;color:#77757D;display:flex;justify-content:space-between"><span>BUYER INTEREST</span><span id="pct">92%</span></div>
+<div style="margin-top:18px;height:22px;border-radius:11px;background:#E7E5EB;position:relative;overflow:hidden"><div id="mf" class="abs" style="left:0;top:0;bottom:0;border-radius:8px;background:var(--live)"></div><div id="mg" class="abs" style="left:0;top:0;bottom:0;border-radius:8px;background:#B9B7BF;opacity:0"></div></div>`;
+const mf=meter.querySelector('#mf'),mg=meter.querySelector('#mg'),pct=meter.querySelector('#pct');
+
+// ---------- captions ----------
+const CAPS=[ // text, start, style, x, y
+ ['most',0.00,'plain',880,760],['developers',0.30,'plain',880,760],['send',0.72,'plain',880,760],['PDF',1.14,'plain',880,760],['brochures',1.50,'plain',880,760],['to every',2.04,'plain',880,760],['inquiry',2.58,'plain',880,760],
+ ['the buyer',3.22,'dark',540,960],['opens it',3.48,'dark',540,960],['has a question',4.32,'dark',540,960],["and there's",4.96,'dark',540,960],['nobody',5.54,'dark',540,960],['to answer',5.86,'dark',540,960],
+ ['by the time',6.54,'light',540,1250],['your sales',7.08,'light',540,1250],['representative',7.62,'light',540,1250],['calls',8.36,'light',540,1250],['the next day',8.78,'light',540,1250],
+ ['the interest',9.56,'plain',540,580],['is gone.',9.94,'plain',540,580]];
+const cap=el('div','cap');
+const B=[0,3.16,6.46,9.52,10.56];
+
+const img=new Image();
+async function frame(t){const n=Math.min(316,Math.max(1,Math.round(t*FPS)+1));const src=`${FRAMES}/f${String(n).padStart(5,'0')}.jpg`;
+  if(img.dataset.src!==src){img.src=src;img.dataset.src=src;await img.decode();} return src}
+
+window.renderAt=async function(t){
+  const src=await frame(t);
+  const beat=t<B[1]?1:t<B[2]?2:t<B[3]?3:4;
+  // A-roll
+  full.d.style.display=(beat===1||beat===4)?'block':'none';
+  bot.d.style.display=beat===2?'block':'none'; seam.style.display=beat===2?'block':'none';
+  for(const w of [full,bot]) if(w.i.src!==src) w.i.src=src;
+  if(beat===1){const s=lerp(1,1.04,eio(k(t,0,3.16)));place(full,s,FACE.x,FACE.y)}
+  if(beat===4){const s=lerp(1.30,1.34,k(t,B[3],1.04));place(full,s,540,1000)}
+  if(beat===2){const s=lerp(1.40,1.45,k(t,B[1],3.3));place(bot,s,540,600)}
+  // B1
+  lock.style.display=beat===1?'block':'none';
+  for(const c of cards) c.style.display=beat===1?'block':'none';
+  if(beat===1){
+    const [k1,b1,s1]=lock.children; glide(k1,t,.10,.36,30,'translateX(-120px)'); glide(b1,t,.18,.42,40); glide(s1,t,.30,.36,30,'translateX(90px)');
+    // hero card at PDF, copies cascade at "every inquiry"
+    const hero=cards[3]; css(hero,{left:'62px',top:'560px'}); glide(hero,t,1.10,.34,40);
+    [cards[2],cards[1],cards[0]].forEach((c,i)=>{const p=eo(k(t,2.20+i*.12,.36));
+      css(c,{left:62+(i+1)*0*1+'px',top:'560px',opacity:p,transform:`translate(${p*(i+1)*34}px,${p*(i+1)*64}px)`,filter:`blur(${(1-p)*6}px)`,zIndex:10-i})});
+    hero.style.zIndex=20;
+    // cascade: hero moves up-left a touch, copies peek out below-right with their inquiry tags
+    const pc=eo(k(t,2.20,.5)); hero.style.transform=`translate(${-pc*0}px,${-pc*40}px)`;
+  }
+  // B2
+  topH.style.display=beat===2?'block':'none';
+  if(beat===2){
+    const pin=eo(k(t,3.16,.40)); css(ph,{left:'350px',top:(78+(1-pin)*60)+'px',opacity:pin,filter:`blur(${(1-pin)*8}px)`,transform:'scale(1.22)',transformOrigin:'50% 0'});
+    const pv=eio(k(t,3.50,.40)); css(view,{opacity:pv,transform:`scale(${lerp(.92,1,pv)})`,transformOrigin:'50% 0%'});
+    css(att,{transform:`scale(${1-.05*eo(k(t,3.42,.12))+.05*eo(k(t,3.54,.12))})`});
+    const pq=eo(k(t,4.56,.36)); css(q,{opacity:pq,transform:`translateY(${(1-pq)*40}px)`,filter:`blur(${(1-pq)*6}px)`});
+    const pd=k(t,5.10,.25)*(1-k(t,5.56,.25)); css(dots,{opacity:pd});
+    [...dots.querySelectorAll('.d')].forEach((d,i)=>d.style.opacity=.35+.65*Math.max(0,Math.sin((t*7-i*.9))));
+    const pn=eo(k(t,5.60,.36)); css(nr,{opacity:pn,transform:`translateY(${(1-pn)*12}px)`});
+    seen.textContent=t>5.56?'last seen 6:02 PM':'sales team';
+    css(view,{filter:`saturate(${1-.5*pn}) brightness(${1-.04*pn})`});
+  }
+  // B3
+  b3.style.display=beat===3?'block':'none';
+  if(beat===3){
+    const pi=eo(k(t,6.46,.36)); css(clock,{opacity:pi,filter:`blur(${(1-pi)*10}px)`,transform:`translateY(${(1-pi)*30}px)`});
+    lab.textContent=t<7.70?'THE BUYER ASKED AT':'NEXT DAY'; css(lab,{opacity:pi});
+    const pr=eio(k(t,6.90,1.25)); const vel=Math.sin(Math.PI*k(t,6.90,1.25));
+    css(roll,{transform:`translateY(${-pr*3*210}px)`,filter:`blur(${vel*7}px)`});
+    css(track,{opacity:pi}); css(tl,{opacity:pi}); fill.style.width=(pr*600)+'px';
+    const pc=eo(k(t,8.30,.40)); css(call,{opacity:pc,transform:`translateY(${(1-pc)*60}px)`,filter:`blur(${(1-pc)*8}px)`});
+    const rp=((t-8.6)%1.1+1.1)%1.1/1.1; css(ring,{transform:`scale(${1+rp*.55})`,opacity:t>8.6?(1-rp)*.7:0});
+  }
+  // B4
+  meter.style.display=beat===4?'block':'none';
+  if(beat===4){
+    glide(meter,t,9.56,.34,30);
+    const pg=eio(k(t,10.10,.40)); mf.style.width=lerp(92,6,pg)+'%'; mg.style.width=lerp(92,6,pg)+'%'; mg.style.opacity=pg;
+    pct.textContent=Math.round(lerp(92,6,pg))+'%';
+    full.i.style.filter=`saturate(${1-.25*pg})`;
+  } else full.i.style.filter='';
+  // captions: hard swap on the word
+  let c=null; for(const x of CAPS) if(t+1e-6>=x[1]) c=x;
+  if(c){cap.textContent=c[0];cap.className='cap '+c[2];css(cap,{left:c[3]+'px',top:c[4]+'px',display:'block'})} else cap.style.display='none';
+};
+document.fonts.ready.then(()=>{window.READY=true});
+</script></body></html>
