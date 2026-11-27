@@ -1,4 +1,28 @@
-# v3: rebuilt on the client-reviewed kit (current)
+# v4: premium redesign (current, approved and rendered)
+
+**Output:** `out/dad_interest_premium_1080x1920_share.mp4` (1080×1920, 23.976 fps, 61.6 s, −13.8 LUFS). The 120 MB master `out/dad_interest_premium_1080x1920.mp4` is not in git; rebuild it from `edits/dad-interest/v4`:
+
+```bash
+python3 build.py plan
+```
+
+```bash
+node scenes.cjs
+```
+
+```bash
+python3 build.py compose
+```
+
+`v3/raw_cut.py` must run first (the face-tracked A-roll), and `node scenes.cjs` renders every overlay plus the captions. The v4 look comes from the references:
+- Cinematic Mixkit B-roll (free licence; 9:16 crops in `v4/src/broll/`), with one giant condensed word on each shot.
+- Text behind the speaker ($20, AGE 15, ENTREPRENEURSHIP) and behind the B-roll subject (FIRST BUSINESS). The MODNet matte sits on top of the text.
+- Gold serif keywords.
+- Gold UI cards for the loan story: calendar, loan chips, the invoice that counts to $25, and the declined interest.
+- Whips into every designed beat.
+- Audio: the Succession bed and 67 cues from the client's SFX library (`v4/audio/cues.json`).
+
+# v3: rebuilt on the client-reviewed kit (superseded by v4)
 
 The first build (`edit.py` visuals: PIL-drawn paper cards, a drawn desk, pills) read as "a generic AI copy". The skill's
 *Start here* rule says to reuse the reviewed production kit instead of inventing visuals, so v3 rebuilds the look on
