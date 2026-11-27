@@ -30,23 +30,23 @@ BASE = [
     (1.85, 4.45, 'broll', ('cash_hand', 'o_interest', [(1.85, 1.00), (4.45, 1.08)], 'film')),  # pay me back with +$5 INTEREST (cash changes hands)
     (4.45, 6.15, 'aroll', [(4.45, 1.00), (6.15, 1.06)]),                                   # host: Wow, I like THAT
     (6.15, 7.64, 'roto', ('r15', [(6.15, 1.00), (7.64, 1.04)])),                           # when I was [AGE 15 behind her]
-    (7.64, 9.23, 'broll', ('dad', 'o_dad', [(7.64, 1.00), (9.23, 1.06)], 'warm')),           # my dad, he would give me (editorial serif)
+    (7.64, 9.23, 'ai', ('dad_allowance', 'o_dad', [(7.64, 1.00), (9.23, 1.07)], False)),     # my dad, he would give me (AI: dad hands her the allowance)
     (9.23, 10.01, 'broll', ('allow', 'o_allow', [(9.23, 1.05), (10.01, 1.10)], 'warm')),    # ALLOWANCE
     (10.01, 11.73, 'broll', ('shop', 'o_shop', [(10.01, 1.00), (11.73, 1.06)], 'bw')),       # I wasn't into SHOPPING (B&W, struck red)
-    (11.73, 12.77, 'broll', ('books', 'o_books', [(11.73, 1.00), (12.77, 1.06)], 'warm')),   # I would just buy BOOKS
+    (11.73, 12.77, 'ai', ('books', 'o_books', [(11.73, 1.00), (12.77, 1.07)], True)),        # I would just buy BOOKS (AI: her, arms full of books; word behind her)
     (12.77, 14.99, 'aroll', [(12.77, 1.00), (14.99, 1.05)]),                               # therefore I SAVED most of my money
     (14.99, 18.11, 'aroll', [(14.99, 1.30), (18.11, 1.36)]),                               # when my FRIENDS and my FAMILY
     (18.11, 20.41, 'broll', ('wallet0', 'o_broke', [(18.11, 1.00), (20.41, 1.07)], 'cold')), # they ran OUT OF MONEY (empty wallet)
     (20.41, 21.71, 'ui', 'ui_mid'),                                                       # in the middle of the month (calendar card, 15th circled)
-    (21.71, 23.89, 'aroll', [(21.71, 1.00), (23.89, 1.05)]),                               # they came to me for MONEY
+    (21.71, 23.89, 'ai', ('friends_ask', 'o_friends', [(21.71, 1.00), (23.89, 1.07)], False)), # they came to me for MONEY (AI: friends at the lockers)
     (23.89, 25.61, 'aroll', [(23.89, 1.45), (25.61, 1.50)]),                               # guess what I DID?
     (25.61, 26.79, 'aroll', [(25.61, 1.00), (26.79, 1.03)]),                               # yeah I gave it to them
     (26.79, 28.57, 'ui', 'ui_loan1'),                                                     # but they had to pay INTEREST (loan cards, +interest chips)
     (28.57, 29.55, 'aroll', [(28.57, 1.00), (29.55, 1.07)]),                               # host laughs
     (29.55, 30.50, 'aroll', [(29.55, 1.00), (30.50, 1.03)]),                               # I remember my dad
-    (30.50, 32.27, 'broll', ('door', 'o_knock', [(30.50, 1.00), (32.27, 1.06)], 'warm')),    # he KNOCKED on my room DOOR
+    (30.50, 32.27, 'ai', ('dad_door', 'o_knock', [(30.50, 1.00), (32.27, 1.07)], True)),     # he KNOCKED on my room DOOR (AI: dad at her door, KNOCK behind him)
     (32.27, 34.49, 'roto', ('r20b', [(32.27, 1.00), (34.49, 1.05)])),                      # he said Latoya, I need [$20 behind her]
-    (34.49, 36.78, 'broll', ('stash', 'o_stash', [(34.49, 1.00), (36.78, 1.06)], 'warm')),   # I went in my DRAWER
+    (34.49, 36.78, 'ai', ('drawer', 'o_stash', [(34.49, 1.00), (36.78, 1.07)], False)),      # I went in my DRAWER (AI: her drawer of saved cash)
     (36.78, 38.52, 'broll', ('count', 'o_count', [(36.78, 1.02), (38.52, 1.08)], 'warm')),   # and I started COUNTING all my money
     (38.52, 40.65, 'aroll', [(38.52, 1.45), (40.65, 1.50)]),                               # he said WAIT, you still have all those MONEY?
     (40.65, 41.81, 'aroll', [(40.65, 1.12), (41.81, 1.15)]),                               # so I gave him $20
@@ -56,11 +56,11 @@ BASE = [
     (49.66, 52.58, 'aroll', [(49.66, 1.00), (52.58, 1.05)]),                               # and he gave me my allowance and the $20
     (52.58, 54.48, 'ui', 'ui_loan3'),                                                     # but he DIDN'T give me back my INTEREST (declined, red glow)
     (54.48, 55.74, 'aroll', [(54.48, 1.42), (55.74, 1.48)]),                               # I'm like COME ON
-    (55.74, 58.94, 'broll_roto', ('boss', 'rfirst', [(55.74, 1.00), (58.94, 1.06)], 'film')),# so that was my FIRST BUSINESS (behind a young entrepreneur)
+    (55.74, 58.94, 'ai', ('teen_boss', 'rfirst', [(55.74, 1.00), (58.94, 1.07)], True)),     # so that was my FIRST BUSINESS (AI: her as a young entrepreneur, words behind)
     (58.94, 60.40, 'aroll', [(58.94, 1.00), (60.40, 1.03)]),                               # but I didn't know it was called
     (60.40, DUR, 'roto', ('rent', [(60.40, 1.10), (DUR, 1.16)])),                          # [ENTREPRENEURSHIP behind her]
 ]
-WHIPS = [(b[0], 'h' if k % 2 else 'v') for k, b in enumerate([b for b in BASE if b[2] in ('broll', 'ui', 'broll_roto')])]
+WHIPS = [(b[0], 'h' if k % 2 else 'v') for k, b in enumerate([b for b in BASE if b[2] in ('broll', 'ui', 'broll_roto', 'ai')])]
 SHAKES = [(E.src_to_out(772.99), 9), (E.src_to_out(773.82), 7)]                  # knock, knock
 FACE_X = 540
 
@@ -120,7 +120,7 @@ def plan():
     os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
     sc = []
     for a, b, kind, p in BASE:
-        name = {'ui': p, 'roto': p[0] if kind == 'roto' else None, 'broll': p[1] if kind == 'broll' else None, 'broll_roto': p[1] if kind == 'broll_roto' else None}.get(kind)
+        name = {'ui': p, 'roto': p[0] if kind == 'roto' else None, 'broll': p[1] if kind == 'broll' else None, 'broll_roto': p[1] if kind == 'broll_roto' else None, 'ai': p[1] if kind == 'ai' else None}.get(kind)
         if name:
             sc.append(dict(name=name, kind='scene' if kind == 'ui' else 'overlay', f0=fi(a), f1=fi(b),
                            cues=dict(words=[[round(t - a, 3), w] for t, w in WORDS if a - 0.35 <= t < b])))
@@ -214,9 +214,38 @@ class Reader:
 
 class Compositor:
     def __init__(self):
-        self.ar = Reader(RAW); self.prev = None; self.matte = None; self.br = {}
+        self.ar = Reader(RAW); self.prev = None; self.matte = None; self.br = {}; self.ai = {}
         self.chunks = caption_chunks()
         self.t_ent = wt('entrepreneurship') - 0.15
+
+    def ai_layers(self, name):
+        """AI still (src/ai/<name>.png, 9:16 at 1080x1920) split into person and background with the MODNet matte."""
+        if name not in self.ai:
+            img = cv2.cvtColor(cv2.imread(os.path.join(HERE, f'src/ai/{name}.png')), cv2.COLOR_BGR2RGB)
+            img = gradek(img, 'warm')
+            if self.matte is None: self.matte = Matte()
+            m = cv2.GaussianBlur(np.clip((self.matte(img) - 0.1) / 0.7, 0, 1), (0, 0), 1.5)
+            self.ai[name] = (img, m)
+        return self.ai[name]
+
+    def ai_frame(self, p, t, lf, dx, dy):
+        """2.5D: the background pushes in slowly, the person a little faster and drifts up (parallax); the big word sits
+        between the two layers when 'behind' is set, otherwise on top. Never one flat image."""
+        name, ov, keys, behind = p
+        img, m = self.ai_layers(name)
+        u = (keyz(keys, t) - keys[0][1]) / max(1e-6, keys[-1][1] - keys[0][1])
+        zb, zf = 1.0 + 0.035 * u, 1.0 + 0.09 * u
+        bg = zoom(img, zb, dx, dy, face=False)
+        fg = zoom(img, zf, dx, dy - 18 * u, face=False)
+        mf = zoom((m * 255).astype(np.uint8)[..., None].repeat(3, 2), zf, dx, dy - 18 * u, face=False)[..., 0].astype(np.float32) / 255
+        bgf = (bg.astype(np.float32) / 255 * TYPESCRIM)
+        fgf = (fg.astype(np.float32) / 255 * TYPESCRIM)
+        txt = scene_rgba(ov, lf)
+        if behind:
+            bgf = over((bgf.clip(0, 1) * 255).astype(np.uint8), txt).astype(np.float32) / 255
+            return bgf * (1 - mf[..., None]) + fgf * mf[..., None]
+        out = bgf * (1 - mf[..., None]) + fgf * mf[..., None]
+        return over((out.clip(0, 1) * 255).astype(np.uint8), txt).astype(np.float32) / 255
 
     def caps_ok(self, t, beat_t0):
         """No caption left over from a designed beat on the face after the cut, and no caption under the giant last word."""
@@ -257,6 +286,8 @@ class Compositor:
             else:
                 img = over(img, scene_rgba(ov, lf))
             f = img.astype(np.float32) / 255
+        elif kind == 'ai':
+            f = self.ai_frame(p, t, lf, dx, dy)
         else:
             f = scene_rgba(p, lf)[..., :3].astype(np.float32) / 255
         f = f * VIG
