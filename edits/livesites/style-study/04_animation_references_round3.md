@@ -117,3 +117,15 @@ The full timings are in `refs-round3/transcripts/*.json`. Clean text:
   - The camera tracks through the UI: the attachment, the send button, the sent list, the inbox, the reply field (R6, R1).
   - Typing with a caret, and the send button lighting up (R1, Claude ref).
 - **Light as meaning:** Orchid is "live". When nobody answers, the Orchid rim light and glow drain away and the screen locks. This is the brand rule "Orchid works like light" turned into a story beat.
+
+## 7. R9 (added later): the QuickBasket app UI walkthrough. Its rule is to slow down so it can be read
+- **File:** 720×1280, 8.5 s, music only. The sheet is `refs-round3/R9_01.jpg` (4 fps).
+- **The phone:** a hand holds it upright, and it **never rotates**.
+  - The camera does one slow push-in over 0–1 s until the phone fills about 85 % of the frame height. It holds there, then pulls back at the end (7.75–8.25 s) to the wide shot with the title.
+- **Screen builds:** each screen builds in piece by piece. The skeleton blocks come first, then the content, then the small elements (a toggle slides, list rows appear), one after another.
+- **Screen changes:** each screen is held for about 3–4 s. The change is a horizontal push at 4.25 s. On the second screen, "How can I help you today?" types in word by word, big.
+- **Lesson applied to Scene 1 v3 (`v2-sample/scene1b.html`):**
+  - One idea per screen.
+  - Type about 1.5× bigger.
+  - Every camera glide at least 0.5 s, then held.
+  - Nothing moving at the same time as something else that needs reading.
