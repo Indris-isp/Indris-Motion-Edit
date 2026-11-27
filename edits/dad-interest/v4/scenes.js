@@ -33,6 +33,7 @@ function reveal(e, t, t0, rise = 28, d = 0.24) {
 // a centred caption line: [{w, t, cls}] -> spans; returns update(t)
 function line(parent, y, items, css = {}) {
   const box = el('div', Object.assign({ position: 'absolute', left: '0', width: '1080px', top: y + 'px', textAlign: 'center' }, css), parent);
+  box.dataset.layer = 'front';
   const spans = items.map((it, i) => {
     const s = el('span', {}, box, (i ? ' ' : '') + it.w, 'w ' + (it.cls || 'run'));
     if (it.css) Object.assign(s.style, it.css);
@@ -430,7 +431,9 @@ const SCENES = {
 
 let update = null;
 window.addEventListener('load', () => document.fonts.ready.then(() => {
-  update = SCENES[NAME]();  // dad-interest scenes are in scenes_di.js
+  update = SCENES[NAME.split('@')[0]]();   // NAME@back / NAME@front render only that layer (text behind / in front of a person)
+  const LAYER = NAME.split('@')[1];
+  if (LAYER) document.querySelectorAll('[data-layer]').forEach(e => { if (e.dataset.layer !== LAYER) e.style.visibility = 'hidden'; });
   window.renderAt = t => update(t);
   update(0);
   window.READY = true;
