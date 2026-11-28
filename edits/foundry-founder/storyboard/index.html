@@ -1,0 +1,192 @@
+<title>Foundry Founder Video Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: production storyboard. Summary + runtime strip up top, then one row per shot (frame left, direction right), then the rules that apply to every shot. */
+:root{
+  --bg:#F3F8FA; --surface:#FFFFFF; --fg:#0E2233; --muted:#536A78; --line:#D9E6EC;
+  --teal:#13A493; --teal-soft:#DDF5F1;
+  --twin:#E07A3F; --app:#1FA6C9; --mg:#13A493; --end:#0E2233;
+  --display:"Space Grotesk","Inter",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1820; --surface:#13232E; --fg:#E6F0F4; --muted:#93AAB6; --line:#24394A;
+  --teal:#3FD3BF; --teal-soft:#123A38; --twin:#F09A63; --app:#4CC3E3; --mg:#3FD3BF; --end:#E6F0F4; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1820; --surface:#13232E; --fg:#E6F0F4; --muted:#93AAB6; --line:#24394A;
+  --teal:#3FD3BF; --teal-soft:#123A38; --twin:#F09A63; --app:#4CC3E3; --mg:#3FD3BF; --end:#E6F0F4; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-block:40px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(30px,4.4vw,46px);line-height:1.1}
+h2{font-size:26px;margin-bottom:14px}
+h3{font-size:18px}
+p{margin:0}
+.eyebrow{font:600 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.lede{color:var(--muted);max-width:68ch;margin-top:12px;font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font:600 24px var(--display);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:13px}
+.strip-wrap{margin-top:28px}
+.strip{display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.strip div{height:100%;border-right:1px solid var(--bg)}
+.ticks{display:flex;justify-content:space-between;font:500 11px var(--mono);color:var(--muted);margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+section{margin-top:56px}
+.notice{background:var(--teal-soft);border-radius:12px;padding:16px 18px;margin-top:22px;max-width:80ch}
+.notice b{color:var(--fg)}
+.shots{display:grid;gap:14px}
+.shot{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.shot.key{grid-template-columns:minmax(0,560px) minmax(0,1fr)}
+.shot figure{margin:0}
+.shot img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:var(--line)}
+.shot figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:6px}
+.tc{font:500 13px var(--mono);font-variant-numeric:tabular-nums;color:var(--muted)}
+.num{font:600 13px var(--mono);color:var(--fg)}
+.tag{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:5px;color:#fff}
+.tag.TWIN{background:var(--twin)}.tag.APP{background:var(--app)}.tag.MG{background:var(--mg)}.tag.END{background:var(--end);color:var(--bg)}
+.vo{font-family:var(--display);font-size:17px;line-height:1.45;margin:4px 0 10px;border-left:3px solid var(--line);padding-left:12px}
+.shot dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:0;font-size:14px}
+.shot dt{color:var(--muted);font-weight:500}
+.shot dd{margin:0}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.rule ul{margin:10px 0 0;padding-left:18px}
+.rule li{margin-bottom:6px}
+.needs{columns:2;column-gap:32px;padding-left:18px;margin:0}
+.needs li{break-inside:avoid;margin-bottom:8px}
+@media (max-width:820px){
+  .shot,.shot.key{grid-template-columns:minmax(0,1fr)}
+  .rules{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .needs{columns:1}
+}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Foundry · landing-page founder video · storyboard v1</div>
+  <h1>Eric on camera for the human moments. The app carries everything else.</h1>
+  <p class="lede">Every shot below is timed to the real voiceover after the edit. The AI twin is on screen for about 20 seconds, only where Eric speaks directly to the viewer. Every feature line gets matching app footage or a motion-graphic card built in the flyover's own visual language.</p>
+
+  <div class="stats">
+    <div class="stat"><b>2:29.5</b><span>final runtime (limit 2:30)</span></div>
+    <div class="stat"><b>23</b><span>shots</span></div>
+    <div class="stat"><b>≈ 20 s</b><span>full-frame AI twin</span></div>
+    <div class="stat"><b>1920×1080</b><span>H.264 MP4, captions burned in</span></div>
+  </div>
+
+  <div class="strip-wrap" aria-label="Runtime by shot type">
+    <div class="strip" id="strip"></div>
+    <div class="ticks"><span>0:00</span><span>0:30</span><span>1:00</span><span>1:30</span><span>2:00</span><span>2:29</span></div>
+    <div class="legend">
+      <span><i style="background:var(--twin)"></i>Eric (AI twin), full frame or glass card</span>
+      <span><i style="background:var(--app)"></i>App footage from the flyover, re-timed</span>
+      <span><i style="background:var(--mg)"></i>New motion-graphic card, flyover style</span>
+      <span><i style="background:var(--end)"></i>Logo end card</span>
+    </div>
+  </div>
+
+  <div class="notice">
+    <b>The voiceover is 2:53, so it can't fit as recorded.</b> Between 1:23 and 1:41 it contains a false start: Eric reads the pricing lines, says "restart this one", then reads them again. I keep the clean second take and tighten pauses longer than 0.6 s. No words are cut. The voiceover ends at 2:22.6, which leaves 7 seconds for the logo close.
+  </div>
+
+  <section>
+    <h2>Shot by shot</h2>
+    <div class="shots" id="shots"></div>
+  </section>
+
+  <section>
+    <h2>Rules for every shot</h2>
+    <div class="rules">
+      <div class="rule"><h3>Keeping the AI twin believable</h3><ul>
+        <li>No hard cuts between the twin and full-screen UI. The twin shrinks into a rounded glass card that lives in the same pale-cyan space as the app cards. The cut reads as a design move, so nobody compares his face against a crisp UI frame.</li>
+        <li>Cuts land only in the pauses between sentences, never mid-word, so lip-sync drift is never on screen at a cut point.</li>
+        <li>Each twin appearance runs 4 seconds or less, except the intro (6.8 s). He gets a slow 1.00 → 1.06 push so the frame never sits still.</li>
+        <li>Chest-up crop to keep hands out of frame. Light grain and a grade matched to the real test footage, which also softens the AI skin texture.</li>
+        <li>The real test recording is the reference for skin tone, framing and the white-door background. The twin is graded to match it.</li>
+      </ul></div>
+      <div class="rule"><h3>Clip on every app scene</h3><ul>
+        <li>150 px, bottom-right, 56 px from the edges, with a slow 2 px idle bob. It appears on every app and motion-graphic shot and hides on full-frame Eric shots.</li>
+        <li>Shot 12 is Clip's moment: it pops from the corner to centre stage, then goes back to its corner for the rest of the video.</li>
+        <li>It reacts on a few beats: a tap on "Clean Up", a nod when the payment lands. That's enough to feel alive without stealing attention.</li>
+      </ul></div>
+      <div class="rule"><h3>Captions, burned in</h3><ul>
+        <li>Inter SemiBold, 44 px, white on a 74% navy frosted pill, centred 64 px from the bottom. Readable on both the light and dark scenes.</li>
+        <li>One line, 42 characters max. The keyword in each line is highlighted in Foundry teal (prices, payment methods, "theirs", "paid").</li>
+        <li>Captions are capped at 1180 px wide, so they never touch Clip in the corner.</li>
+        <li>Caption text follows the approved script spelling, e.g. "foundryconnects.com" and "Clip".</li>
+      </ul></div>
+      <div class="rule"><h3>Music and mix</h3><ul>
+        <li>Licensed track (Artlist, Musicbed or Epidemic, license certificate included). Light, uplifting, 100–110 BPM, plucks and soft pads, no vocals.</li>
+        <li>Voice at −14 LUFS for web. Music sits around −28 LUFS under the voice with sidechain ducking, and rises to about −18 on the logo close.</li>
+        <li>Cuts and card pops land on the beat wherever the voiceover allows. Short UI ticks only on key beats: invoice sent, payment received.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What I still need from you</h2>
+    <ul class="needs">
+      <li><b>The AI-twin base video.</b> The stills use frames from the real test recording as a stand-in.</li>
+      <li><b>Clip PNGs</b> with transparent backgrounds, plus any poses you have (waving, pointing, thumbs-up).</li>
+      <li><b>The first rough cut</b>, so I can see what you didn't like.</li>
+      <li><b>The flyover in 1080p or 4K, or its project file.</b> The upload is 1280×720, and upscaling softens the small UI text.</li>
+      <li><b>Logo as SVG</b>, plus your brand hex codes and font.</li>
+      <li><b>Spanish versions of the app screens</b> for the mirror-translation shot. Without them I'll rebuild the cards myself.</li>
+      <li>Screen recordings of <b>client import, booking link and reviews</b>, if they exist. Otherwise those become motion-graphic cards.</li>
+      <li>Approval to show <b>Stripe, QuickBooks, Google and Facebook</b> logos under their brand rules.</li>
+      <li>Is the flyover's own music licensed for reuse? If not, I'll replace it.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const TOTAL=149.5;
+const shots=[
+ {n:1,s:0,e:6.8,m:"TWIN",img:"s01",key:1,vo:"Hi, I'm Eric, founder of Foundry. Give me two minutes and I'll show you what's inside.",vis:"AI twin full frame, medium close-up, slow push-in. Name lower third: Eric, Founder, Foundry.",src:"AI-twin base video",tr:"Opens cold on Eric. Music fades in under him."},
+ {n:2,s:6.2,e:7.4,m:"TWIN",img:"s02",key:1,vo:"(pause after \"inside\")",vis:"Card-morph: the frame shrinks into a rounded glass card and slides left. The flyover's Every Job / Note / Photo cards float in on the right.",src:"Twin + flyover 0:00–0:03",tr:"0.6 s ease-in-out, in the breath. This is the move that blends Eric into the app world every time."},
+ {n:3,s:7.4,e:19.0,m:"MG",img:"s03",key:1,vo:"Foundry is your app, in your language. Everything is mirror-translated… you only ever see your language, and your customer sees theirs. English or Spanish, 100%.",vis:"Split screen. English estimate on the left, the same estimate in Spanish on the right, a mirror line between them. The EN | ES toggle flips on \"mirror-translated\", and \"100%\" stamps in at the end.",src:"New build (the flyover has no translation footage)",tr:"Eric's card slides off left as the toggle drops in."},
+ {n:4,s:19.7,e:28.7,m:"APP",img:"fly_58.4",vo:"Switching is easy. Upload your client list, even a photo, a PDF, or a spreadsheet, and Foundry pulls in your contacts for you.",vis:"Three file chips (Photo, PDF, Spreadsheet) drop into an upload zone, each on its spoken word. They dissolve into the Clients table and the rows cascade in on \"pulls in your contacts\".",src:"Motion-graphic chips + flyover 0:58 (Clients)",tr:"Chips land on \"photo\", \"PDF\" and \"spreadsheet\"."},
+ {n:5,s:29.3,e:30.6,m:"APP",img:"fly_18.5",vo:"Log the job and the client.",vis:"\"Create a job\" click, then the job card for Forrest Custom Carpentry and Mike & Julie Smith.",src:"Flyover 0:16–0:20 at 1.3× speed",tr:"Click lands on \"Log\"."},
+ {n:6,s:31.3,e:34.4,m:"APP",img:"fly_43.2",vo:"Create the estimate, send the invoice, and you're done.",vis:"Three fast beats on the words: Estimate Created → Send via Message → One click turns it into an invoice. A teal check pops on \"done\".",src:"Flyover 0:33–0:35, 0:36–0:37, 0:42–0:44, speed-ramped",tr:"Whip-slide between beats, cut on the beat."},
+ {n:7,s:35.0,e:44.2,m:"APP",img:"s06",key:1,vo:"Get paid your way: card, bank transfer, Apple Pay, or Google Pay right from the invoice, or mark it paid when they hand you cash.",vis:"Payments table with a slow push into the Payment Type column. The highlight ring and the chip row follow each method as Eric says it. \"Cash\" ends on a \"Mark as paid\" chip.",src:"Flyover 0:49–0:51, slowed and held",tr:"Highlight moves exactly on each spoken word."},
+ {n:8,s:44.8,e:48.8,m:"APP",img:"fly_42.2",vo:"Take a deposit, set a payment schedule, pick your due dates.",vis:"Estimate-to-invoice dialog with a punch-in on the date fields. Chips: Deposit 30%, 3 payments, Due Feb 12.",src:"Flyover 0:41–0:42 + chips",tr:"Push-in continues from shot 7."},
+ {n:9,s:49.2,e:55.6,m:"MG",img:"fly_44.6",vo:"It all runs on Stripe, so your money is protected. It syncs with QuickBooks. No double entry.",vis:"Invoice with a \"Secured by Stripe\" lock badge. Then a two-way sync card, Foundry ⇄ QuickBooks, with a check on \"No double entry\".",src:"Flyover 0:44–0:45 invoice + new cards (partner logos from you)",tr:"Badge pops on \"Stripe\"; sync arrows turn on \"syncs\"."},
+ {n:10,s:56.2,e:62.1,m:"APP",img:"fly_59.6",vo:"And we're just getting started. Share your booking calendar so clients, and new ones, can book you directly.",vis:"Quick pull-out on \"just getting started\". Booking calendar with a day selected, then the digital business card with QR code and the Share button tapped.",src:"Flyover 0:59–1:00 calendar, 0:56–0:57 business card",tr:"Share tap lands on \"share\"."},
+ {n:11,s:62.7,e:67.5,m:"MG",img:"fly_37.0",vo:"Send happy customers straight to your Google and Facebook reviews from the invoice.",vis:"Paid invoice → \"Leave a review\" card. Google and Facebook five-star cards fly up from it.",src:"New build on the flyover's card style",tr:"Stars fill left to right on \"reviews\"."},
+ {n:12,s:68.1,e:69.4,m:"TWIN",img:"s11",key:1,vo:"Meet Clip, our mascot.",vis:"Eric's glass card on the left. Clip leaves the corner and scales up to centre stage under a soft spotlight, with \"Meet Clip\" as type.",src:"Twin card + Clip PNG",tr:"Clip's pop is the most playful beat in the video."},
+ {n:13,s:70.0,e:76.0,m:"APP",img:"fly_25.6",vo:"Clip's AI handles the busywork, but only if you want it. We never force technology on you.",vis:"Messy job-site notes, Clip taps \"Clean Up\", and they become a clean paragraph. On \"only if you want it\" an \"AI assist: On / Off\" switch flips off and back on.",src:"Flyover 0:24–0:31 + toggle chip",tr:"Clip shrinks back to the corner at the end."},
+ {n:14,s:76.6,e:80.3,m:"TWIN",img:"eric_3",vo:"We dropped our prices for our first 250 founding pros.",vis:"Eric full frame again for the personal offer: reverse card-morph in, held for 3.7 s.",src:"AI-twin base video",tr:"Card grows back to full frame in the breath before \"We\"."},
+ {n:15,s:80.9,e:91.6,m:"MG",img:"s13",key:1,vo:"Pro is seventy-nine dollars a month instead of ninety-nine. That's twenty percent off, locked for your first twelve months, and your two crew members ride free.",vis:"Dark glass pricing card: $99 struck through, $79 counts down, then one tick per phrase: 20%, 12 months, +2 crew avatars.",src:"New build on the flyover's dark scene",tr:"Counter lands on \"seventy-nine\"."},
+ {n:16,s:92.2,e:106.3,m:"MG",img:"fly_32.5",vo:"For QuickBooks and a crew, the big names charge you $140 to almost $200 a month. Foundry Pro is $79. No add-ons, no upsells. Pro means Pro.",vis:"Two bars grow: \"The big names $140–$200/mo\" vs a short teal \"Foundry Pro $79\". Then word-by-word type, as in the flyover's \"All on one timeline\": No add-ons. No upsells. Pro means Pro.",src:"New build, typography matched to the flyover",tr:"Bars grow in sync with the numbers spoken."},
+ {n:17,s:106.9,e:109.6,m:"TWIN",img:"eric_3",vo:"Now, the big one: Foundry Connections.",vis:"Eric's card for \"Now, the big one\" (1.3 s), then a \"Foundry Connections\" title card.",src:"Twin card + title",tr:"Card slides out as the title types on."},
+ {n:18,s:109.7,e:116.3,m:"MG",img:"fly_57.2",vo:"We pay you up to a hundred dollars cash for every pro you bring in. Homeowners earn too.",vis:"Business-card QR is shared, and pro avatars connect in a small network. A +$100 chip pops on each new pro, then a house icon for \"Homeowners earn too\".",src:"Flyover 0:56–0:57 business card + new build",tr:"One +$100 per beat."},
+ {n:19,s:116.9,e:127.0,m:"TWIN",img:"s17",key:1,vo:"Here's my ask. Take your first job all the way through, from estimate to invoice to paid. Want help? I'll give you ten minutes and do it with you.",vis:"Eric full frame on \"Here's my ask\", then his glass card with a checklist (Estimate ✓, Invoice ✓, Paid) ticking in sync. Back to full frame for \"Want help?\" with a \"10 minutes with Eric\" chip.",src:"Twin + checklist rebuilt from flyover 0:22",tr:"Ticks land on each spoken step."},
+ {n:20,s:127.0,e:132.5,m:"APP",img:"fly_61.6",vo:"Email me: eric at foundryconnects dot com. And send me your three biggest headaches.",vis:"Messages compose screen. The address types in large and holds 3 s, then three numbered blank note cards appear for \"headaches\".",src:"Flyover 1:01–1:03 + typed overlay",tr:"Email stays big enough to read on a phone."},
+ {n:21,s:133.1,e:136.0,m:"TWIN",img:"eric_3",vo:"We build Foundry with you, not for you.",vis:"Eric full frame, the warmest moment, held for 2.9 s.",src:"AI-twin base video",tr:"Clean card-morph in, no effects."},
+ {n:22,s:136.6,e:142.6,m:"APP",img:"fly_66.3",vo:"You do the work. Foundry gets you paid. Start your seven-day free trial. I'll see you inside.",vis:"Dark \"less paperwork\" scene, then the notification \"John Smith paid your invoice\" pops on \"gets you paid\". A \"Start your 7-day free trial\" button pulses.",src:"Flyover 1:04–1:06 + CTA button",tr:"Payment chime and music lift on \"paid\"."},
+ {n:23,s:142.6,e:149.5,m:"END",img:"s21",key:1,vo:"(music only)",vis:"Foundry logo build, then \"Build smarter. Get paid faster.\" Hold, then fade.",src:"Flyover 1:07–1:11 logo animation, new tagline",tr:"Music swell, button ending on the final frame."}
+];
+const fmt=t=>{const m=Math.floor(t/60),s=(t%60).toFixed(1).padStart(4,"0");return m+":"+s};
+const col={TWIN:"var(--twin)",APP:"var(--app)",MG:"var(--mg)",END:"var(--end)"};
+const label={TWIN:"Eric",APP:"App",MG:"Motion graphic",END:"End card"};
+const strip=document.getElementById("strip");
+shots.forEach((x,i)=>{const nxt=i<shots.length-1?shots[i+1].s:TOTAL;const d=document.createElement("div");
+  d.style.flex=String(Math.max(nxt-x.s,0.4));d.style.background=col[x.m];d.title=`${x.n}. ${label[x.m]} ${fmt(x.s)}`;strip.appendChild(d);});
+const wrap=document.getElementById("shots");
+shots.forEach(x=>{const a=document.createElement("article");a.className="shot"+(x.key?" key":"");
+  const stand=x.img.startsWith("eric")||["s01","s02","s11","s17"].includes(x.img);
+  const cap=x.key?(stand?"Mock-up. Real test footage stands in for the AI twin; the Clip box marks where the PNG goes.":"Mock-up still"):(stand?"Stand-in frame from the real test footage":"Source frame from the flyover");
+  a.innerHTML=`<figure><img src="img/${x.img}.jpg" alt="Shot ${x.n}" loading="lazy"><figcaption>${cap}</figcaption></figure>
+  <div><div class="meta"><span class="num">Shot ${String(x.n).padStart(2,"0")}</span><span class="tag ${x.m}">${label[x.m]}</span><span class="tc">${fmt(x.s)} → ${fmt(x.e)}</span></div>
+  <p class="vo">${x.vo}</p>
+  <dl><dt>Picture</dt><dd>${x.vis}</dd><dt>Source</dt><dd>${x.src}</dd><dt>Timing</dt><dd>${x.tr}</dd></dl></div>`;
+  wrap.appendChild(a);});
+</script>
