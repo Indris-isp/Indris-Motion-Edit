@@ -1,7 +1,7 @@
 # Foundry founder video (landing page, 1920x1080, max 2:30)
 
 - Storyboard v1: `storyboard/index.html`, published at https://claude.ai/artifact/WTDVQWNPPK3EzhwgWxYU7b
-- First-cut preview: `out/foundry_founder_preview_v1_1080p.mp4` (149.5 s, 30 fps)
+- First-cut preview: `out/foundry_founder_preview_v1_1080p.mp4` (149.5 s, 30 fps; too big for git, rebuild it with the steps below)
 
 ## Build
 

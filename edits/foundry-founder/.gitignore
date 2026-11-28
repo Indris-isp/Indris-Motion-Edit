@@ -5,3 +5,4 @@ out/*.wav
 out/stills/
 out/check*
 out/render.log
+out/*.mp4
