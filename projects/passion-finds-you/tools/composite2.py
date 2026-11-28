@@ -3,6 +3,7 @@ import sys, json, subprocess, numpy as np
 from PIL import Image
 V, B, OUT = sys.argv[1:4]; LIMIT = int(sys.argv[4]) if len(sys.argv) > 4 else 10**9
 W, H, FPS = 1080, 1920, 50
+LETTERBOX_MS = float(sys.argv[5]) if len(sys.argv) > 5 else 0
 els = json.load(open(f"{V}/elements.json"))["elements"]
 cache = {}
 def img(k):
@@ -23,6 +24,9 @@ while i < LIMIT:
     if len(buf) < W * H * 3: break
     t = i * 1000 / FPS
     bg = np.frombuffer(buf, np.uint8).reshape(H, W, 3).astype(np.float32) / 255
+    if t < LETTERBOX_MS:   # open frame (reference 1): picture opens from a thin centre strip, linear, captions on top
+        open_h = max(0.04, t / LETTERBOX_MS) * H; top = int(round((H - open_h) / 2)); bot = int(round((H + open_h) / 2))
+        bg = bg.copy(); bg[:top] = 0; bg[bot:] = 0
     out = bg.copy(); m = None
     for e in els:
         if not (e["t_in"] <= t < e["t_out"]): continue
