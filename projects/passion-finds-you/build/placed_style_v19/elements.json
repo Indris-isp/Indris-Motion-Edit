@@ -1,0 +1,1072 @@
+{
+ "elements": [
+  {
+   "words": [
+    [
+     0,
+     229
+    ],
+    [
+     440,
+     254
+    ],
+    [
+     640,
+     100000
+    ]
+   ],
+   "key": "L1_0_t",
+   "x": 304,
+   "y": 1020,
+   "t_in": 0,
+   "t_out": 1500,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 346,
+   "h": 49,
+   "group": "L1",
+   "text": "everything I was"
+  },
+  {
+   "words": [
+    [
+     841,
+     100000
+    ]
+   ],
+   "key": "L1_1_t",
+   "x": 304,
+   "y": 1060,
+   "t_in": 841,
+   "t_out": 1500,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 487,
+   "h": 118,
+   "group": "L1",
+   "text": "searching"
+  },
+  {
+   "words": [
+    [
+     1120,
+     100000
+    ]
+   ],
+   "key": "L1_2_t",
+   "x": 731,
+   "y": 1179,
+   "t_in": 1120,
+   "t_out": 1500,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 60,
+   "h": 38,
+   "group": "L1",
+   "text": "for"
+  },
+  {
+   "words": [
+    [
+     1500,
+     100
+    ],
+    [
+     1710,
+     100000
+    ]
+   ],
+   "key": "L2_0_t",
+   "x": 280,
+   "y": 1016,
+   "t_in": 1500,
+   "t_out": 2420,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 353,
+   "h": 57,
+   "group": "L2",
+   "text": "was searching"
+  },
+  {
+   "words": [
+    [
+     1980,
+     199
+    ],
+    [
+     2220,
+     100000
+    ]
+   ],
+   "key": "L2_1_t",
+   "x": 280,
+   "y": 1075,
+   "t_in": 1980,
+   "t_out": 2420,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 477,
+   "h": 140,
+   "group": "L2",
+   "text": "for me,"
+  },
+  {
+   "words": [
+    [
+     2420,
+     97
+    ],
+    [
+     2740,
+     126
+    ],
+    [
+     3000,
+     287
+    ],
+    [
+     3280,
+     100000
+    ]
+   ],
+   "key": "L3_0_t",
+   "x": 289,
+   "y": 864,
+   "t_in": 2420,
+   "t_out": 3907,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 375,
+   "h": 57,
+   "group": "L3",
+   "text": "and I found my"
+  },
+  {
+   "words": [
+    [
+     3460,
+     100000
+    ]
+   ],
+   "key": "L3_1_t",
+   "x": 289,
+   "y": 910,
+   "t_in": 3460,
+   "t_out": 3907,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 507,
+   "h": 146,
+   "group": "L3",
+   "text": "passion,"
+  },
+  {
+   "words": [
+    [
+     3907,
+     100000
+    ]
+   ],
+   "key": "L4_0_t",
+   "x": 490,
+   "y": 932,
+   "t_in": 3907,
+   "t_out": 4400,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 140,
+   "h": 55,
+   "group": "L4",
+   "text": "okay?"
+  },
+  {
+   "words": [
+    [
+     4400,
+     107
+    ],
+    [
+     5200,
+     188
+    ],
+    [
+     5340,
+     100000
+    ]
+   ],
+   "key": "L5a_0_t",
+   "x": 371,
+   "y": 880,
+   "t_in": 4400,
+   "t_out": 5680,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 287,
+   "h": 57,
+   "group": "L5a",
+   "text": "how do you"
+  },
+  {
+   "words": [
+    [
+     5512,
+     100000
+    ]
+   ],
+   "key": "L5a_1_t",
+   "x": 371,
+   "y": 928,
+   "t_in": 5512,
+   "t_out": 5680,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 316,
+   "h": 112,
+   "group": "L5a",
+   "text": "think"
+  },
+  {
+   "words": [
+    [
+     5680,
+     31
+    ],
+    [
+     5860,
+     397
+    ],
+    [
+     6140,
+     100000
+    ]
+   ],
+   "key": "L5b_0_t",
+   "x": 294,
+   "y": 908,
+   "t_in": 5680,
+   "t_out": 6366,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 559,
+   "h": 103,
+   "group": "L5b",
+   "text": "I found it?"
+  },
+  {
+   "words": [
+    [
+     6366,
+     81
+    ],
+    [
+     6480,
+     100000
+    ]
+   ],
+   "key": "L6a_0_t",
+   "x": 377,
+   "y": 879,
+   "t_in": 6366,
+   "t_out": 7080,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 103,
+   "h": 44,
+   "group": "L6a",
+   "text": "did I"
+  },
+  {
+   "words": [
+    [
+     6620,
+     249
+    ],
+    [
+     6880,
+     100000
+    ]
+   ],
+   "key": "L6a_1_t",
+   "x": 377,
+   "y": 927,
+   "t_in": 6620,
+   "t_out": 7080,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 354,
+   "h": 114,
+   "group": "L6a",
+   "text": "find it"
+  },
+  {
+   "words": [
+    [
+     7080,
+     100000
+    ]
+   ],
+   "key": "L6b_0_t",
+   "x": 284,
+   "y": 872,
+   "t_in": 7080,
+   "t_out": 8080,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 58,
+   "h": 57,
+   "group": "L6b",
+   "text": "by"
+  },
+  {
+   "words": [
+    [
+     7300,
+     357
+    ],
+    [
+     7700,
+     100000
+    ]
+   ],
+   "key": "L6b_1_t",
+   "x": 284,
+   "y": 911,
+   "t_in": 7300,
+   "t_out": 8080,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 561,
+   "h": 137,
+   "group": "L6b",
+   "text": "sitting still"
+  },
+  {
+   "words": [
+    [
+     8080,
+     100000
+    ]
+   ],
+   "key": "L6c_0_t",
+   "x": 287,
+   "y": 862,
+   "t_in": 8080,
+   "t_out": 8680,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 91,
+   "h": 44,
+   "group": "L6c",
+   "text": "and"
+  },
+  {
+   "words": [
+    [
+     8434,
+     100000
+    ]
+   ],
+   "key": "L6c_1_t",
+   "x": 287,
+   "y": 910,
+   "t_in": 8434,
+   "t_out": 8680,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 505,
+   "h": 149,
+   "group": "L6c",
+   "text": "thinking"
+  },
+  {
+   "words": [
+    [
+     8680,
+     126
+    ],
+    [
+     8920,
+     100000
+    ]
+   ],
+   "key": "L7_0_t",
+   "x": 302,
+   "y": 859,
+   "t_in": 8680,
+   "t_out": 9982,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 214,
+   "h": 57,
+   "group": "L7",
+   "text": "what my"
+  },
+  {
+   "words": [
+    [
+     9163,
+     100000
+    ]
+   ],
+   "key": "L7_1_t",
+   "x": 302,
+   "y": 901,
+   "t_in": 9163,
+   "t_out": 9982,
+   "blend": "difference",
+   "behind": false,
+   "fade": 160,
+   "w": 471,
+   "h": 146,
+   "group": "L7",
+   "text": "passion"
+  },
+  {
+   "words": [
+    [
+     9440,
+     141
+    ],
+    [
+     9680,
+     100000
+    ]
+   ],
+   "key": "L7_2_t",
+   "x": 528,
+   "y": 1017,
+   "t_in": 9440,
+   "t_out": 9982,
+   "blend": "difference",
+   "behind": false,
+   "fade": 80,
+   "w": 245,
+   "h": 44,
+   "group": "L7",
+   "text": "could be?"
+  },
+  {
+   "words": [
+    [
+     9982,
+     100000
+    ]
+   ],
+   "key": "L8_0_t",
+   "x": 389,
+   "y": 904,
+   "t_in": 9982,
+   "t_out": 10200,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 207,
+   "h": 112,
+   "group": "L8",
+   "text": "No."
+  },
+  {
+   "words": [
+    [
+     10200,
+     14
+    ],
+    [
+     10400,
+     174
+    ],
+    [
+     10720,
+     100000
+    ]
+   ],
+   "key": "L9_0_t",
+   "x": 316,
+   "y": 864,
+   "t_in": 10200,
+   "t_out": 10965,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 216,
+   "h": 44,
+   "group": "L9",
+   "text": "I found it"
+  },
+  {
+   "words": [
+    [
+     10965,
+     195
+    ],
+    [
+     11180,
+     222
+    ],
+    [
+     11340,
+     325
+    ],
+    [
+     11500,
+     100000
+    ]
+   ],
+   "key": "L9_1_t",
+   "x": 316,
+   "y": 864,
+   "t_in": 10965,
+   "t_out": 12040,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 452,
+   "h": 41,
+   "group": "L9",
+   "text": "because I had been"
+  },
+  {
+   "words": [
+    [
+     11680,
+     100000
+    ]
+   ],
+   "key": "L9_2_t",
+   "x": 316,
+   "y": 908,
+   "t_in": 11680,
+   "t_out": 12040,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 465,
+   "h": 148,
+   "group": "L9",
+   "text": "moving"
+  },
+  {
+   "words": [
+    [
+     12040,
+     140
+    ],
+    [
+     12280,
+     100000
+    ]
+   ],
+   "key": "L10_0_t",
+   "x": 254,
+   "y": 886,
+   "t_in": 12040,
+   "t_out": 12573,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 555,
+   "h": 149,
+   "group": "L10",
+   "text": "all along,"
+  },
+  {
+   "words": [
+    [
+     12573,
+     115
+    ],
+    [
+     12860,
+     100000
+    ]
+   ],
+   "key": "L11_0_t",
+   "x": 363,
+   "y": 871,
+   "t_in": 12573,
+   "t_out": 14647,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 342,
+   "h": 45,
+   "group": "L11",
+   "text": "doing something,"
+  },
+  {
+   "words": [
+    [
+     14040,
+     34
+    ],
+    [
+     14340,
+     100000
+    ]
+   ],
+   "key": "L11_1_t",
+   "x": 363,
+   "y": 919,
+   "t_in": 14040,
+   "t_out": 14647,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 345,
+   "h": 130,
+   "group": "L11",
+   "text": "I love,"
+  },
+  {
+   "words": [
+    [
+     14647,
+     100000
+    ]
+   ],
+   "key": "L12_0_t",
+   "x": 295,
+   "y": 893,
+   "t_in": 14647,
+   "t_out": 15220,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 565,
+   "h": 134,
+   "group": "L12",
+   "text": "watching,"
+  },
+  {
+   "words": [
+    [
+     15220,
+     100000
+    ]
+   ],
+   "key": "L13_0_t",
+   "x": 224,
+   "y": 898,
+   "t_in": 15220,
+   "t_out": 15840,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 566,
+   "h": 123,
+   "group": "L13",
+   "text": "observing,"
+  },
+  {
+   "words": [
+    [
+     15840,
+     100000
+    ]
+   ],
+   "key": "L14_0_t",
+   "x": 336,
+   "y": 860,
+   "t_in": 15840,
+   "t_out": 16551,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 91,
+   "h": 44,
+   "group": "L14",
+   "text": "and"
+  },
+  {
+   "words": [
+    [
+     16100,
+     100000
+    ]
+   ],
+   "key": "L14_1_t",
+   "x": 336,
+   "y": 908,
+   "t_in": 16100,
+   "t_out": 16551,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 481,
+   "h": 152,
+   "group": "L14",
+   "text": "feeling."
+  },
+  {
+   "words": [
+    [
+     16551,
+     108
+    ],
+    [
+     16980,
+     249
+    ],
+    [
+     17532,
+     100000
+    ]
+   ],
+   "key": "L15_0_t",
+   "x": 215,
+   "y": 904,
+   "t_in": 16551,
+   "t_out": 18682,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 358,
+   "h": 41,
+   "group": "L15",
+   "text": "clarity doesn't come"
+  },
+  {
+   "words": [
+    [
+     17720,
+     273
+    ],
+    [
+     18080,
+     100000
+    ]
+   ],
+   "key": "L15_1_t",
+   "x": 215,
+   "y": 940,
+   "t_in": 17720,
+   "t_out": 18682,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 569,
+   "h": 76,
+   "group": "L15",
+   "text": "before action."
+  },
+  {
+   "words": [
+    [
+     18682,
+     100000
+    ]
+   ],
+   "key": "L16_0_t",
+   "x": 379,
+   "y": 868,
+   "t_in": 18682,
+   "t_out": 20299,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 308,
+   "h": 59,
+   "group": "L16",
+   "text": "CLARITY"
+  },
+  {
+   "words": [
+    [
+     19180,
+     270
+    ],
+    [
+     19520,
+     100000
+    ]
+   ],
+   "key": "L16_1_t",
+   "x": 206,
+   "y": 930,
+   "t_in": 19180,
+   "t_out": 20299,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 655,
+   "h": 59,
+   "group": "L16",
+   "text": "COMES THROUGH"
+  },
+  {
+   "words": [
+    [
+     19780,
+     100000
+    ]
+   ],
+   "key": "L16_2_t",
+   "x": 385,
+   "y": 992,
+   "t_in": 19780,
+   "t_out": 20299,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 297,
+   "h": 59,
+   "group": "L16",
+   "text": "ACTION."
+  },
+  {
+   "words": [
+    [
+     20299,
+     205
+    ],
+    [
+     20560,
+     100000
+    ]
+   ],
+   "key": "L17a_0_t",
+   "x": 289,
+   "y": 887,
+   "t_in": 20299,
+   "t_out": 22720,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 332,
+   "h": 54,
+   "group": "L17a",
+   "text": "standing here,"
+  },
+  {
+   "words": [
+    [
+     21030,
+     30
+    ],
+    [
+     21180,
+     262
+    ],
+    [
+     21340,
+     100000
+    ]
+   ],
+   "key": "L17a_1_t",
+   "x": 289,
+   "y": 933,
+   "t_in": 21030,
+   "t_out": 22720,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 557,
+   "h": 100,
+   "group": "L17a",
+   "text": "I can learn"
+  },
+  {
+   "words": [
+    [
+     22720,
+     107
+    ],
+    [
+     23000,
+     100000
+    ]
+   ],
+   "key": "L17b_0_t",
+   "x": 360,
+   "y": 867,
+   "t_in": 22720,
+   "t_out": 23441,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 168,
+   "h": 44,
+   "group": "L17b",
+   "text": "how to"
+  },
+  {
+   "words": [
+    [
+     23180,
+     100000
+    ]
+   ],
+   "key": "L17b_1_t",
+   "x": 360,
+   "y": 924,
+   "t_in": 23180,
+   "t_out": 23441,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 361,
+   "h": 129,
+   "group": "L17b",
+   "text": "swim,"
+  },
+  {
+   "words": [
+    [
+     23441,
+     77
+    ],
+    [
+     23620,
+     104
+    ],
+    [
+     23720,
+     204
+    ],
+    [
+     23880,
+     100000
+    ]
+   ],
+   "key": "L18a_0_t",
+   "x": 375,
+   "y": 880,
+   "t_in": 23441,
+   "t_out": 24480,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 314,
+   "h": 54,
+   "group": "L18a",
+   "text": "but I can only"
+  },
+  {
+   "words": [
+    [
+     24160,
+     100000
+    ]
+   ],
+   "key": "L18a_1_t",
+   "x": 375,
+   "y": 926,
+   "t_in": 24160,
+   "t_out": 24480,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 325,
+   "h": 113,
+   "group": "L18a",
+   "text": "swim"
+  },
+  {
+   "words": [
+    [
+     24480,
+     29
+    ],
+    [
+     24760,
+     100000
+    ]
+   ],
+   "key": "L18b_0_t",
+   "x": 521,
+   "y": 939,
+   "t_in": 24480,
+   "t_out": 25000,
+   "blend": "normal",
+   "behind": false,
+   "fade": 80,
+   "w": 51,
+   "h": 42,
+   "group": "L18b",
+   "text": "if I"
+  },
+  {
+   "words": [
+    [
+     25000,
+     100000
+    ]
+   ],
+   "key": "L18_0_t",
+   "x": 378,
+   "y": 819,
+   "t_in": 25000,
+   "t_out": 26400,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 322,
+   "h": 90,
+   "group": "L18",
+   "text": "JUMP"
+  },
+  {
+   "words": [
+    [
+     25200,
+     271
+    ],
+    [
+     25560,
+     100000
+    ]
+   ],
+   "key": "L18_1_t",
+   "x": 284,
+   "y": 913,
+   "t_in": 25200,
+   "t_out": 26400,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 509,
+   "h": 92,
+   "group": "L18",
+   "text": "INTO THE"
+  },
+  {
+   "words": [
+    [
+     25760,
+     100000
+    ]
+   ],
+   "key": "L18_2_t",
+   "x": 330,
+   "y": 1011,
+   "t_in": 25760,
+   "t_out": 26400,
+   "blend": "normal",
+   "behind": false,
+   "fade": 160,
+   "w": 418,
+   "h": 90,
+   "group": "L18",
+   "text": "WATER."
+  }
+ ]
+}

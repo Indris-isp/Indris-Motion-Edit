@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v18",
+ "version": "v19",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -91,9 +91,21 @@
   {
    "id": "L6b",
    "in": 7080,
-   "out": 8680,
+   "out": 8080,
    "text": "by / sitting still",
    "beat": "L6b",
+   "beatName": "The question",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L6c",
+   "in": 8080,
+   "out": 8680,
+   "text": "and / thinking",
+   "beat": "L6c",
    "beatName": "The question",
    "tiers": [
     "small",
