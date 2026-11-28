@@ -61,8 +61,10 @@ BASE = [   # v5.2: movie-style B-roll (free-licence Mixkit, 9:16 crops) in place
     (58.94, 60.40, 'aroll', [(58.94, 1.00), (60.40, 1.03)]),                      # but I didn't know it was called
     (60.40, DUR, 'neon', ('nent', [(60.40, 1.06), (DUR, 1.12)])),                 # [neon ENTREPRENEURSHIP]
 ]
-PUSH_D = 0.34                                                                     # every scene change into or out of the UI world is a vertical push
-PUSHES = [BASE[k][0] for k in range(1, len(BASE)) if (BASE[k][2] == 'broll') != (BASE[k - 1][2] == 'broll')]   # push in/out of B-roll; hard cuts inside a B-roll run
+PUSH_D = 0.40                                                                     # transition length; each one is centred on the cut
+PUSHES = [BASE[k][0] for k in range(1, len(BASE)) if (BASE[k][2] == 'broll') != (BASE[k - 1][2] == 'broll')]   # transitions in/out of B-roll; hard cuts inside a B-roll run
+TRANS_CYCLE = ['zoom', 'dissolve', 'whip', 'flash', 'spin']                       # client: no single slide; a rotating set of smooth transitions
+TRANS = {tc: TRANS_CYCLE[k % len(TRANS_CYCLE)] for k, tc in enumerate(PUSHES)}
 WHIPS = []
 SHAKES = [(E.src_to_out(772.99), 9), (E.src_to_out(773.82), 7)]                  # knock, knock
 FACE_X = 540
@@ -70,6 +72,15 @@ FACE_X = 540
 
 def fi(t): return int(round(t * FPS))
 def smooth(u): u = min(1, max(0, u)); return u * u * (3 - 2 * u)
+def warp(img, sc, deg, dx, dy):
+    M = cv2.getRotationMatrix2D((W / 2, H / 2), deg, sc); M[0, 2] += dx; M[1, 2] += dy
+    return cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+def zoomblur(img, k, n=7):
+    """Radial zoom blur toward the centre: average of n slightly larger copies (k = extra scale of the largest)."""
+    if k < 0.005: return img
+    acc = np.zeros(img.shape, np.float32)
+    for j in range(n): acc += warp(img, 1 + k * j / (n - 1), 0, 0, 0)
+    return (acc / n).astype(np.uint8)
 
 
 def caption_chunks():
@@ -118,12 +129,13 @@ def sfx_cues():
          (54.48, '1462', Wk, -18), (wt('come'), '563', S, -16),
          (55.74, '2633', Wk, -16), (wt('first'), '2919', Wk, -13), (wt('business'), '3144', S, -16),
          (58.94, '1461', Wk, -20), (wt('entrepreneurship') - 0.2, '2919', Wk, -15)]
-    # v5: whooshes peak mid-push (cut + PUSH_D/2); plain A-roll to A-roll cuts are hard cuts now, so they lose their whoosh
+    # v5.3: transitions are centred on the cut, so their whooshes peak on the cut (dissolves get a softer one); A-roll to A-roll cuts stay dry
     HARD = (14.99, 25.61, 40.65, 41.81, 43.75)
     out = []
     for t, sid, k, g in c:
         if k == Wk and any(abs(t - h) < 0.02 for h in HARD): continue
-        if k == Wk and any(abs(t - p) < 0.02 for p in PUSHES): t += PUSH_D / 2
+        tr = next((TRANS[p] for p in PUSHES if abs(t - p) < 0.02), None)
+        if k == Wk and tr == 'dissolve': g -= 5
         out.append((t, sid, k, g))
     return sorted(out)
 
@@ -416,27 +428,44 @@ class Compositor:
                 else: ker[:, L // 2] = 1.0 / L
                 out = cv2.filter2D(out, -1, ker, borderType=cv2.BORDER_REFLECT)
                 if k == 0 and self.prev is not None: out = cv2.addWeighted(out, 0.55, cv2.filter2D(self.prev, -1, ker, borderType=cv2.BORDER_REFLECT), 0.45, 0)
-        out = self.push(i, out)
+        out = self.trans(i, out)
         self.prev = out
         return out
 
-    def push(self, i, out):
-        """Scene change as an eased vertical push (the reference's move): the outgoing frame slides up and out while the
-        incoming one slides up into place, with a vertical motion blur that follows the speed."""
+    def trans(self, i, out):
+        """Smooth transitions, one per scene change, cycling zoom / dissolve / whip / flash / spin. Each is eased (sine in-out)
+        and centred on the cut: the outgoing shot accelerates out, the incoming one decelerates in, with blur that follows the speed."""
         for tc in PUSHES:
-            k0 = fi(tc)
-            if i == k0 - 1: self.hold = out.copy()
-            n = max(1, fi(tc + PUSH_D) - k0)
-            if k0 <= i < k0 + n and getattr(self, 'hold', None) is not None:
-                u = (i - k0 + 1) / n
-                e = 0.5 - 0.5 * np.cos(np.pi * u)
-                sp = np.pi / 2 * np.sin(np.pi * u)                                         # speed of the eased move (0..pi/2)
-                dy = int(round(H * e))
-                fr = np.empty_like(out)
-                fr[:H - dy] = self.hold[dy:]; fr[H - dy:] = out[:dy]
-                L = int(6 + 120 * sp / (np.pi / 2))
-                ker = np.zeros((L, 1), np.float32); ker[:, 0] = 1.0 / L
+            k0, kind = fi(tc), TRANS[tc]
+            h = max(1, int(round(PUSH_D * FPS / 2)))
+            if kind == 'dissolve':                                       # soft-focus dissolve: needs the last outgoing frame
+                if i == k0 - 1: self.hold = out.copy()
+                n = 2 * h
+                if k0 <= i < k0 + n and getattr(self, 'hold', None) is not None:
+                    u = (i - k0 + 1) / n; e = 0.5 - 0.5 * np.cos(np.pi * u); b = np.sin(np.pi * u)
+                    a = cv2.GaussianBlur(self.hold, (0, 0), 1 + 22 * b); c = cv2.GaussianBlur(out, (0, 0), 1 + 22 * b)
+                    m = cv2.addWeighted(a, 1 - e, c, e, 0)
+                    sc = 1 + 0.04 * b; return warp(m, sc, 0, 0, 0)
+                continue
+            if not (k0 - h <= i < k0 + h): continue
+            side = -1 if i < k0 else 1                                   # -1: outgoing half, +1: incoming half
+            u = (k0 - i - 0.5) / h if side < 0 else (i - k0 + 0.5) / h
+            p = 0.5 + 0.5 * np.cos(np.pi * np.clip(u, 0, 1))            # 1 at the cut, 0 at the ends (eased)
+            if kind == 'zoom':
+                return zoomblur(warp(out, 1 + 0.45 * p * (1 if side < 0 else 0.8), 0, 0, 0), 0.18 * p)
+            if kind == 'spin':
+                return zoomblur(warp(out, 1 + 0.38 * p, -side * 22 * p ** 1.3, 0, 0), 0.14 * p)
+            if kind == 'whip':
+                dx = -side * 0.28 * W * p ** 1.6
+                fr = warp(out, 1.08 + 0.06 * p, 0, dx, 0); L = int(4 + 240 * p)
+                ker = np.zeros((1, L), np.float32); ker[0, :] = 1.0 / L
                 return cv2.filter2D(fr, -1, ker, borderType=cv2.BORDER_REFLECT)
+            if kind == 'flash':
+                f = out.astype(np.float32) / 255; w = p ** 1.3
+                glow = cv2.GaussianBlur(f, (0, 0), 30)
+                f = 1 - (1 - f) * (1 - glow * 0.8 * w)                        # screen bloom
+                f = f * (1 - w) + np.array([1.0, 0.95, 0.86], np.float32) * w  # warm white
+                return (f.clip(0, 1) * 255).astype(np.uint8)
         return out
 
 
