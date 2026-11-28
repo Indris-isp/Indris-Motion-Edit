@@ -398,7 +398,7 @@ document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { filte
 
 
 /* ---------- sound mix: voice + music stems through Web Audio, synced to the video ---------- */
-const MIX = { musicDb: 0, voiceDb: 0, muted: false };
+const MIX = { musicDb: 0, voiceDb: 0, muted: true };   // v13 is delivered voice-only; unmute to audition the music
 let actx = null, bufs = null, gV = null, gM = null, srcs = [], startCtx = 0, startOff = 0, loading = null;
 const dbToGain = d => Math.pow(10, d / 20);
 function applyGains() { if (!gV) return; const t = actx.currentTime; gV.gain.setTargetAtTime(dbToGain(MIX.voiceDb), t, 0.02); gM.gain.setTargetAtTime(MIX.muted ? 0 : dbToGain(MIX.musicDb), t, 0.02); }

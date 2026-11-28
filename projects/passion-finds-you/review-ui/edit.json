@@ -1,410 +1,233 @@
 {
  "title": "Passion Finds You",
- "version": "v10",
+ "version": "v13",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
  "captions": [
   {
-   "id": "c00",
+   "id": "L1",
    "in": 0,
-   "out": 440,
-   "text": "Everything",
-   "beat": "b1",
-   "beatName": "Hook",
-   "tiers": [
-    "hero"
-   ]
-  },
-  {
-   "id": "c01",
-   "in": 440,
    "out": 1500,
-   "text": "I was searching for",
-   "beat": "b1",
+   "text": "everything I was / searching / for",
+   "beat": "L1",
    "beatName": "Hook",
    "tiers": [
-    "standard"
+    "small",
+    "big",
+    "small"
    ]
   },
   {
-   "id": "c02",
+   "id": "L2",
    "in": 1500,
-   "out": 1980,
-   "text": "was searching",
-   "beat": "b1",
-   "beatName": "Hook",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c03",
-   "in": 1980,
    "out": 2420,
    "text": "was searching / for me,",
-   "beat": "b1",
+   "beat": "L2",
    "beatName": "Hook",
    "tiers": [
-    "standard",
-    "standard"
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c04",
+   "id": "L3",
    "in": 2420,
-   "out": 3460,
-   "text": "and I found my",
-   "beat": "b2",
-   "beatName": "Passion",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c05",
-   "in": 3460,
    "out": 3907,
    "text": "and I found my / passion,",
-   "beat": "b2",
+   "beat": "L3",
    "beatName": "Passion",
    "tiers": [
-    "standard",
-    "hero"
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c06",
+   "id": "L4",
    "in": 3907,
    "out": 4400,
    "text": "okay?",
-   "beat": "b2",
+   "beat": "L4",
    "beatName": "Passion",
    "tiers": [
-    "standard"
+    "small"
    ]
   },
   {
-   "id": "c07",
+   "id": "L5",
    "in": 4400,
-   "out": 5680,
-   "text": "How do you think",
-   "beat": "b3",
-   "beatName": "The question",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c08",
-   "in": 5680,
    "out": 6366,
-   "text": "How do you think / I found it?",
-   "beat": "b3",
+   "text": "how do you think / I found it?",
+   "beat": "L5",
    "beatName": "The question",
    "tiers": [
-    "standard",
-    "standard"
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c09",
+   "id": "L6",
    "in": 6366,
-   "out": 7080,
-   "text": "Did I find it",
-   "beat": "b3",
-   "beatName": "The question",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c10",
-   "in": 7080,
    "out": 8080,
-   "text": "by sitting still",
-   "beat": "b3",
+   "text": "did I find it by / sitting / still",
+   "beat": "L6",
    "beatName": "The question",
    "tiers": [
-    "italic"
+    "small",
+    "small",
+    "big",
+    "big"
    ]
   },
   {
-   "id": "c11",
+   "id": "L7",
    "in": 8080,
-   "out": 8680,
-   "text": "and thinking",
-   "beat": "b3",
-   "beatName": "The question",
-   "tiers": [
-    "italic"
-   ]
-  },
-  {
-   "id": "c12",
-   "in": 8680,
-   "out": 9440,
-   "text": "what my passion",
-   "beat": "b3",
-   "beatName": "The question",
-   "tiers": [
-    "italic"
-   ]
-  },
-  {
-   "id": "c13",
-   "in": 9440,
    "out": 9982,
-   "text": "could be?",
-   "beat": "b3",
+   "text": "and thinking what my / passion / could be?",
+   "beat": "L7",
    "beatName": "The question",
    "tiers": [
-    "italic"
+    "small",
+    "small",
+    "big",
+    "small"
    ]
   },
   {
-   "id": "c14",
+   "id": "L8",
    "in": 9982,
    "out": 10200,
    "text": "No.",
-   "beat": "b4",
+   "beat": "L8",
    "beatName": "No.",
    "tiers": [
-    "emphasis"
+    "big"
    ]
   },
   {
-   "id": "c15",
+   "id": "L9",
    "in": 10200,
-   "out": 10965,
-   "text": "I found it",
-   "beat": "b5",
-   "beatName": "Moving",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c16",
-   "in": 10965,
-   "out": 11680,
-   "text": "because I had been",
-   "beat": "b5",
-   "beatName": "Moving",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c17",
-   "in": 11680,
    "out": 12040,
-   "text": "because I had been / moving",
-   "beat": "b5",
+   "text": "I found it because / I had been / moving",
+   "beat": "L9",
    "beatName": "Moving",
    "tiers": [
-    "standard",
-    "hero"
+    "small",
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c18",
+   "id": "L10",
    "in": 12040,
    "out": 12573,
    "text": "all along,",
-   "beat": "b5",
+   "beat": "L10",
    "beatName": "Moving",
    "tiers": [
-    "standard"
+    "big"
    ]
   },
   {
-   "id": "c19",
+   "id": "L11",
    "in": 12573,
-   "out": 13380,
-   "text": "doing something,",
-   "beat": "b6",
-   "beatName": "Doing something",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c20",
-   "in": 13380,
    "out": 14647,
-   "text": "doing something I love,",
-   "beat": "b6",
+   "text": "doing something, / doing something / I love,",
+   "beat": "L11",
    "beatName": "Doing something",
    "tiers": [
-    "italic"
+    "small",
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c21",
+   "id": "L12",
    "in": 14647,
    "out": 15220,
    "text": "watching,",
-   "beat": "b7",
+   "beat": "L12",
    "beatName": "The list",
    "tiers": [
-    "italic"
+    "big"
    ]
   },
   {
-   "id": "c22",
+   "id": "L13",
    "in": 15220,
    "out": 15840,
    "text": "observing,",
-   "beat": "b7",
+   "beat": "L13",
    "beatName": "The list",
    "tiers": [
-    "italic"
+    "big"
    ]
   },
   {
-   "id": "c23",
+   "id": "L14",
    "in": 15840,
    "out": 16551,
-   "text": "and feeling.",
-   "beat": "b7",
+   "text": "and / feeling.",
+   "beat": "L14",
    "beatName": "The list",
    "tiers": [
-    "italic"
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c24",
+   "id": "L15",
    "in": 16551,
-   "out": 17720,
-   "text": "Clarity doesn't come",
-   "beat": "b9",
-   "beatName": "Thesis",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c25",
-   "in": 17720,
    "out": 18682,
-   "text": "Clarity doesn't come / before action.",
-   "beat": "b9",
+   "text": "clarity doesn't come / before action.",
+   "beat": "L15",
    "beatName": "Thesis",
    "tiers": [
-    "standard",
-    "standard"
+    "small",
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c26",
+   "id": "L16",
    "in": 18682,
-   "out": 19780,
-   "text": "Clarity comes through",
-   "beat": "b9",
-   "beatName": "Thesis",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c27",
-   "in": 19780,
    "out": 20299,
-   "text": "Clarity comes through / action.",
-   "beat": "b9",
+   "text": "CLARITY / COMES THROUGH / ACTION.",
+   "beat": "L16",
    "beatName": "Thesis",
    "tiers": [
-    "standard",
+    "hero",
+    "hero",
     "hero"
    ]
   },
   {
-   "id": "c28",
+   "id": "L17",
    "in": 20299,
-   "out": 21030,
-   "text": "Standing here,",
-   "beat": "b10",
-   "beatName": "Swim",
-   "tiers": [
-    "italic"
-   ]
-  },
-  {
-   "id": "c29",
-   "in": 21030,
-   "out": 21584,
-   "text": "I can learn",
-   "beat": "b10",
-   "beatName": "Swim",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c30",
-   "in": 21584,
-   "out": 22720,
-   "text": "how much ever times",
-   "beat": "b10",
-   "beatName": "Swim",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c31",
-   "in": 22720,
    "out": 23441,
-   "text": "how to swim,",
-   "beat": "b10",
+   "text": "standing here, I can learn / how much ever times / how to swim,",
+   "beat": "L17",
    "beatName": "Swim",
    "tiers": [
-    "standard"
+    "small",
+    "small",
+    "small",
+    "big"
    ]
   },
   {
-   "id": "c32",
+   "id": "L18",
    "in": 23441,
-   "out": 24160,
-   "text": "but I can only",
-   "beat": "b10",
-   "beatName": "Swim",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c33",
-   "in": 24160,
-   "out": 25200,
-   "text": "swim if I jump",
-   "beat": "b11",
-   "beatName": "Payoff",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c34",
-   "in": 25200,
-   "out": 25760,
-   "text": "into the",
-   "beat": "b11",
-   "beatName": "Payoff",
-   "tiers": [
-    "standard"
-   ]
-  },
-  {
-   "id": "c35",
-   "in": 25760,
    "out": 26400,
-   "text": "water.",
-   "beat": "b11",
+   "text": "but I can only swim if I / JUMP / INTO THE / WATER.",
+   "beat": "L18",
    "beatName": "Payoff",
    "tiers": [
-    "heromax"
+    "small",
+    "small",
+    "hero",
+    "hero",
+    "hero"
    ]
   }
  ]
