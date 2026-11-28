@@ -13,7 +13,7 @@ import numpy as np, cv2
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 RAW = os.path.join(ROOT, 'out/dad_interest_RAW_1080x1920.mp4')
-OUT = os.path.join(ROOT, 'out/dad_interest_v5_1080x1920.mp4')
+OUT = os.path.join(ROOT, 'out/dad_interest_v5_movie_1080x1920.mp4')
 W, H = 1080, 1920
 FPS_N, FPS_D = 24000, 1001; FPS = FPS_N / FPS_D
 _argv = sys.argv; sys.argv = ['edit.py']
@@ -25,39 +25,44 @@ WORDS = [(round(a, 3), w) for a, b, w in E.WORDS]                 # output secon
 
 # ---------------------------------------------------------------- the plan (output seconds)
 # ('aroll', zoom keys) | ('roto', text scene, zoom keys) | ('scene', name)
-BASE = [   # v5: the Pinterest reference's motion language (sun-grass world + liquid-glass UI, eased camera, push transitions)
+BASE = [   # v5.2: movie-style B-roll (free-licence Mixkit, 9:16 crops) in place of the UI scenes; speaker, camera and captions as v5
     (0.00, 1.85, 'neon', ('n20a', [(0.00, 1.06), (0.60, 1.00), (1.85, 1.03)])),   # I'm gonna give you [neon $20 counts up]
-    (1.85, 4.45, 'ui', 'v_request'),                                              # pay me back with +$5 INTEREST (request card, pull-back reveals "interest")
+    (1.85, 4.45, 'broll', ('cash_hand', None, [(1.85, 1.00), (4.45, 1.08)], 'film')),
     (4.45, 6.15, 'aroll', [(4.45, 1.00), (6.15, 1.05)]),                          # host: Wow, I like THAT
     (6.15, 7.64, 'neon', ('n15', [(6.15, 1.00), (7.64, 1.04)])),                  # when I was [neon 15]
-    (7.64, 9.23, 'ui', 'v_dad'),                                                  # my DAD (circled) he would give me (cut-out on the gradient)
-    (9.23, 12.77, 'ui', 'v_list'),                                                # allowance went on: shopping x, girly stuff x, BOOKS check
+    (7.64, 9.23, 'broll', ('dad', None, [(7.64, 1.00), (9.23, 1.06)], 'warm')),
+    (9.23, 10.01, 'broll', ('allow', None, [(9.23, 1.05), (10.01, 1.10)], 'warm')),
+    (10.01, 11.73, 'broll', ('shop', None, [(10.01, 1.00), (11.73, 1.06)], 'bw')),
+    (11.73, 12.77, 'broll', ('read', None, [(11.73, 1.00), (12.77, 1.05)], 'warm')),
     (12.77, 14.99, 'aroll', [(12.77, 1.00), (14.99, 1.05)]),                      # therefore I SAVED most of my money
     (14.99, 18.11, 'aroll', [(14.99, 1.22), (18.11, 1.28)]),                      # when my FRIENDS and my FAMILY
-    (18.11, 21.71, 'ui', 'v_calendar'),                                           # they ran OUT of money / in the MIDDLE (calendar, Nov 15)
-    (21.71, 23.89, 'ui', 'v_msgs'),                                               # they came to me for MONEY (friends' messages float in)
+    (18.11, 20.41, 'broll', ('wallet0', None, [(18.11, 1.00), (20.41, 1.07)], 'cold')),
+    (20.41, 21.71, 'broll', ('cal', None, [(20.41, 1.00), (21.71, 1.06)], 'cold')),
+    (21.71, 23.89, 'broll', ('ask', None, [(21.71, 1.00), (23.89, 1.06)], 'warm')),
     (23.89, 25.61, 'aroll', [(23.89, 1.35), (25.61, 1.40)]),                      # guess what I DID?
     (25.61, 26.79, 'aroll', [(25.61, 1.00), (26.79, 1.03)]),                      # yeah I gave it to them
-    (26.79, 28.57, 'ui', 'v_loans'),                                              # but they had to pay INTEREST (+interest chips)
+    (26.79, 28.57, 'broll', ('calc', None, [(26.79, 1.00), (28.57, 1.07)], 'film')),
     (28.57, 29.55, 'aroll', [(28.57, 1.00), (29.55, 1.06)]),                      # host laughs
     (29.55, 30.50, 'aroll', [(29.55, 1.00), (30.50, 1.03)]),                      # I remember my dad
-    (30.50, 32.27, 'ui', 'v_knock'),                                              # he KNOCKED on my room DOOR (dad cut-out, knock chips)
+    (30.50, 32.27, 'broll', ('door', None, [(30.50, 1.00), (32.27, 1.06)], 'warm')),
     (32.27, 34.49, 'neon', ('n20b', [(32.27, 1.00), (34.49, 1.05)])),             # he said Latoya, I need [neon $20]
-    (34.49, 38.52, 'ui', 'v_drawer'),                                             # I went in my DRAWER / started COUNTING (money photo cards, counter)
+    (34.49, 36.78, 'broll', ('stash', None, [(34.49, 1.00), (36.78, 1.06)], 'warm')),
+    (36.78, 38.52, 'broll', ('count', None, [(36.78, 1.02), (38.52, 1.08)], 'warm')),
     (38.52, 40.65, 'aroll', [(38.52, 1.35), (40.65, 1.40)]),                      # he said WAIT, you still have all those MONEY?
     (40.65, 41.81, 'aroll', [(40.65, 1.10), (41.81, 1.13)]),                      # so I gave him $20
     (41.81, 43.75, 'aroll', [(41.81, 1.00), (43.75, 1.04)]),                      # the next time he got PAID
     (43.75, 45.31, 'aroll', [(43.75, 1.25), (45.31, 1.28)]),                      # he's giving me allowance
-    (45.31, 49.66, 'ui', 'v_invoice'),                                            # daddy, you owe me $20 + $5 interest (invoice, total -> $25, reveals "$25")
+    (45.31, 47.41, 'broll', ('wallet20', None, [(45.31, 1.00), (47.41, 1.06)], 'film')),
+    (47.41, 49.66, 'broll', ('handover', None, [(47.41, 1.02), (49.66, 1.08)], 'film')),
     (49.66, 52.58, 'aroll', [(49.66, 1.00), (52.58, 1.05)]),                      # and he gave me my allowance and the $20
-    (52.58, 54.48, 'ui', 'v_declined'),                                           # but he DIDN'T give me back my INTEREST (declined)
+    (52.58, 54.48, 'broll', ('upset', None, [(52.58, 1.00), (54.48, 1.05)], 'cold')),
     (54.48, 55.74, 'aroll', [(54.48, 1.35), (55.74, 1.40)]),                      # I'm like COME ON
-    (55.74, 58.94, 'ui', 'v_first'),                                              # so that was my FIRST entrepreneurial business (her cut-out, chips)
+    (55.74, 58.94, 'broll', ('boss', None, [(55.74, 1.00), (58.94, 1.07)], 'warm')),
     (58.94, 60.40, 'aroll', [(58.94, 1.00), (60.40, 1.03)]),                      # but I didn't know it was called
     (60.40, DUR, 'neon', ('nent', [(60.40, 1.06), (DUR, 1.12)])),                 # [neon ENTREPRENEURSHIP]
 ]
 PUSH_D = 0.34                                                                     # every scene change into or out of the UI world is a vertical push
-PUSHES = [BASE[k][0] for k in range(1, len(BASE)) if 'ui' in (BASE[k][2], BASE[k - 1][2])]
+PUSHES = [BASE[k][0] for k in range(1, len(BASE)) if (BASE[k][2] == 'broll') != (BASE[k - 1][2] == 'broll')]   # push in/out of B-roll; hard cuts inside a B-roll run
 WHIPS = []
 SHAKES = [(E.src_to_out(772.99), 9), (E.src_to_out(773.82), 7)]                  # knock, knock
 FACE_X = 540
@@ -72,6 +77,8 @@ def caption_chunks():
     out = []
     for items in E.CHUNK_ITEMS:
         ws = [[round(E.WORDS[it['i']][0], 3), it['txt'], it['mark']] for it in items]
+        for w in ws:                                    # v5.2: words the old UI cards spelled out are captioned again over B-roll
+            if w[2] == '~' and any(b[2] == 'broll' and b[0] - 0.05 <= w[0] < b[1] for b in BASE): w[2] = '*'
         t1 = E.WORDS[items[-1]['i']][1]
         out.append(dict(t0=ws[0][0], t1=round(t1, 3), words=ws))
     for k in range(len(out) - 1): out[k]['t1'] = min(out[k]['t1'] + 0.3, out[k + 1]['t0'] - 0.02)
@@ -345,7 +352,7 @@ class Compositor:
         """No caption left over from a designed beat on the face after the cut, and no caption under the giant last word."""
         if t >= self.t_ent: return False
         prev = [b for b in BASE if b[1] <= beat_t0 + 1e-6]
-        if prev and prev[-1][2] not in ('aroll', 'roto', 'neon'):
+        if prev and prev[-1][2] not in ('aroll', 'roto', 'neon', 'broll'):
             ch = next((c for c in self.chunks if c['t0'] - 0.13 <= t < c['t1']), None)
             if ch and ch['t0'] < beat_t0 - 0.05: return False
         return True
@@ -378,15 +385,20 @@ class Compositor:
             clip, ov, keys, look = p
             if clip not in self.br: self.br[clip] = Reader(os.path.join(HERE, f'src/broll/{clip}.mp4'))
             img = gradek(zoom(self.br[clip].frame(lf), keyz(keys, t), dx, dy, face=False), look)
-            f = img.astype(np.float32) / 255 * TYPESCRIM                      # darker top and bottom so the big type reads
+            f = img.astype(np.float32) / 255
             img = (f.clip(0, 1) * 255).astype(np.uint8)
             if kind == 'broll_roto':
                 if self.matte is None: self.matte = Matte()
                 m = self.matte(img)
                 img = over(img, scene_rgba(ov, lf), 1 - np.clip((m - 0.15) / 0.6, 0, 1))
-            else:
+            elif ov:
                 img = over(img, scene_rgba(ov, lf))
-            f = img.astype(np.float32) / 255
+            f = img.astype(np.float32) / 255 * SCRIM
+            if self.caps_ok(t, t0):
+                cap = scene_rgba('caps', i)
+                al = cv2.dilate(cap[..., 3], np.ones((15, 15), np.uint8)).astype(np.float32) / 255
+                f = f * (1 - 0.5 * cv2.GaussianBlur(al, (0, 0), 26)[..., None])     # soft dark halo so white type reads on bright B-roll
+                f = over((f.clip(0, 1) * 255).astype(np.uint8), cap).astype(np.float32) / 255
         elif kind == 'ai':
             f = self.ai_frame(p, t, lf, dx, dy)
         else:

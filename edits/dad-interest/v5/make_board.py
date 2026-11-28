@@ -3,16 +3,17 @@ import os, subprocess, sys
 from PIL import Image, ImageDraw, ImageFont
 HERE = os.path.dirname(os.path.abspath(__file__))
 FONT = os.path.join(HERE, '../../../video/fonts')
-STILLS = [  # v5 storyboard (Pinterest reference: lavender UI world, eased camera, push transitions)
-    (0.85, 'B1', 'speaker + neon', "'I am gonna give you' · neon $20 counts up"), (2.90, 'B2', 'UI: request card', '"pay me back with +$5"'), (4.20, 'B2', 'UI: request card', 'pull-back reveals "interest", circled'),
-    (5.30, 'B3', 'host', 'Host: "Wow, I like THAT"'), (7.35, 'B4', 'speaker + neon', 'neon 15'), (8.90, 'B5', 'AI photo + roto text', '"my DAD" circled, Dad behind him'),
-    (10.70, 'B6', 'UI: checklist', 'shopping x, girly stuff x'), (12.60, 'B6', 'UI: checklist', 'BOOKS check, "books" circled'), (13.80, 'B7', 'speaker', '"therefore I SAVED"'),
-    (19.40, 'B9', 'UI: calendar', 'days cross out, wallet $0'), (21.50, 'B9', 'UI: calendar', '15th circled, "middle"'), (23.40, 'B10', 'UI: messages', 'friends ask to borrow'),
-    (24.90, 'B11', 'speaker CU', '"guess what I DID?"'), (28.30, 'B13', 'UI: loans', '+ interest chips, "interest" circled'), (29.10, 'B14', 'host', 'Host laughs'),
-    (31.90, 'B16', 'AI photo + roto text', 'knock knock behind dad, glass chips'), (34.10, 'B17', 'speaker + neon', '"I need" · neon $20'), (36.20, 'B18', 'UI: photo cards', 'real money photos fly in, "drawer"'),
-    (38.30, 'B18', 'UI: photo cards', '"started COUNTING"'), (40.00, 'B19', 'speaker CU', '"you still have all those MONEY?"'), (47.60, 'B21', 'UI: invoice', '"you owe me $20" (total counts)'),
-    (49.50, 'B21', 'UI: invoice', '+$5 = $25, pull-back reveals "$25"'), (54.30, 'B23', 'UI: declined', 'interest declined, red glow'), (55.40, 'B24', 'speaker CU', "'I am like COME ON'"),
-    (57.60, 'B25', 'AI photo + roto text', 'FIRST behind her, glass chips'), (61.30, 'B27', 'speaker + neon', 'neon ENTREPRENEURSHIP'), (1.95, 'T', 'push transition', 'vertical push + motion blur'),
+STILLS = [  # v5.2: movie-style B-roll in place of the UI scenes; speaker, camera, captions unchanged
+    (0.85, 'B1', 'speaker + neon', "'I am gonna give you' · neon $20"), (3.00, 'B2', 'B-roll: cash changes hands', '"pay me back with $5 interest"'),
+    (5.30, 'B3', 'host', 'Host: "Wow, I like THAT"'), (7.35, 'B4', 'speaker + neon', 'neon 15'), (8.60, 'B5', 'B-roll: kid gets allowance', '"my dad, he would give me"'),
+    (9.60, 'B6', 'B-roll: counting bills', '"allowance"'), (10.90, 'B6', 'B-roll: shopping (B&W)', '"I was not into shopping"'), (12.30, 'B6', 'B-roll: reading', '"I would just buy books"'),
+    (13.80, 'B7', 'speaker', '"therefore I SAVED"'), (19.40, 'B9', 'B-roll: empty wallet', '"they ran out of money"'), (21.20, 'B9', 'B-roll: calendar', '"in the middle of the month"'),
+    (22.80, 'B10', 'B-roll: hands out', '"they came to me for money"'), (24.90, 'B11', 'speaker CU', '"guess what I DID?"'), (27.70, 'B13', 'B-roll: wallet cash', '"they had to pay interest"'),
+    (29.10, 'B14', 'host', 'Host laughs'), (31.40, 'B16', 'B-roll: the door', '"he knocked on my room door"'), (34.10, 'B17', 'speaker + neon', '"I need" · neon $20'),
+    (35.60, 'B18', 'B-roll: the stash', '"I went in my drawer"'), (37.70, 'B18', 'B-roll: counting', '"started COUNTING"'), (40.00, 'B19', 'speaker CU', '"you still have all those MONEY?"'),
+    (46.60, 'B21', 'B-roll: wallet dollars', '"daddy, you owe me $20"'), (48.60, 'B21', 'B-roll: bill hand to hand', '"plus $5 for interest"'), (53.60, 'B23', 'B-roll: upset by the window', '"didn\'t give me back my interest"'),
+    (55.40, 'B24', 'speaker CU', "'I am like COME ON'"), (57.30, 'B25', 'B-roll: the boss', '"my first entrepreneurial business"'), (61.30, 'B27', 'speaker + neon', 'neon ENTREPRENEURSHIP'),
+    (1.95, 'T', 'push transition', 'speaker pushes up into B-roll'),
 ]
 if '--compose' in sys.argv:
     subprocess.run([sys.executable, os.path.join(HERE, 'build.py'), '--still', ','.join(f'{t:.2f}' for t, *_ in STILLS)], check=True)
@@ -23,7 +24,7 @@ pages = [STILLS[i:i + 12] for i in range(0, len(STILLS), 12)]
 for p, items in enumerate(pages, 1):
     rows = (len(items) + COLS - 1) // COLS
     im = Image.new('RGB', (COLS * (TW + 20) + 20, rows * (TH + LH + 20) + 100), (18, 16, 15)); d = ImageDraw.Draw(im)
-    d.text((20, 30), f'Dad interest v5 · liquid glass + natural worlds · stills {p}/{len(pages)}', font=f(700, 40), fill=(242, 195, 91))
+    d.text((20, 30), f'Dad interest v5 · movie B-roll · stills {p}/{len(pages)}', font=f(700, 40), fill=(242, 195, 91))
     for k, (t, beat, scene, label) in enumerate(items):
         x, y = 20 + (k % COLS) * (TW + 20), 100 + (k // COLS) * (TH + LH + 20)
         key = min(files, key=lambda v: abs(v - t))
