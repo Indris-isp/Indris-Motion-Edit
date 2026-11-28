@@ -189,3 +189,32 @@ Not carried over:
   - difference on the white slide (0:02–0:10);
   - anywhere else, letters crossing a near-white light switch to difference (the reference's "inspiration" over the lamp), so text over the bright wall bars stays readable.
 - **Audio:** voice only, no background music.
+
+## 9. v13: Satoshi, smaller, depth (your direction)
+
+**Type.** Satoshi (Fontshare, free licence; files in `projects/passion-finds-you/fonts/`):
+- small words in **Medium 500**, big words and capitals in **Bold 700**;
+- tracking tightened to −0.02 em (small), −0.045 em (big) and −0.03 em (capitals).
+
+**Size.** Big words are capped at 150 px (about 55% of the frame width at most); small words are 0.42× the big word (40–58 px). The tallest line in the video is now 149 px, down from about 210 px.
+
+**Leading.** The space between lines is cut to 6–10% of the type size, so small and big lines lock together the way they do in the reference.
+
+**Placement.**
+- Each lockup is centred horizontally at mid-frame.
+- If it would touch her face, it moves below her chin (or above her head in the wide shot).
+- A check over every frame confirms no caption sits in front of her face.
+
+**Depth (behind her), as in the reference:**
+- "sea▒▒hing" passes behind her head in the wide shot, like "cha▒▒ing.".
+- "moving" and "observing," sit just above her head with her hair overlapping the bottom of the letters, like "continuing".
+- Small words beside her head are layered behind her too, so if she leans into them her face stays on top.
+
+**Alignment inside each lockup:**
+- lead-in lines flush left with the big word;
+- trailing lines flush right;
+- capital stacks centred.
+
+**Blending:** difference on the white slide (0:02–0:10); elsewhere white, switching to difference only over near-white lights.
+
+**Audio:** voice only.
