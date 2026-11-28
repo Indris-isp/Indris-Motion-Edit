@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v19",
+ "version": "v20",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -161,11 +161,23 @@
    ]
   },
   {
-   "id": "L11",
+   "id": "L11a",
    "in": 12573,
+   "out": 13380,
+   "text": "doing / something,",
+   "beat": "L11a",
+   "beatName": "Doing something",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L11b",
+   "in": 13380,
    "out": 14647,
-   "text": "doing something, / I love,",
-   "beat": "L11",
+   "text": "doing something / I love,",
+   "beat": "L11b",
    "beatName": "Doing something",
    "tiers": [
     "small",
@@ -234,10 +246,22 @@
   {
    "id": "L17a",
    "in": 20299,
-   "out": 22720,
+   "out": 21584,
    "text": "standing here, / I can learn",
    "beat": "L17a",
    "beatName": "Swim",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L17c",
+   "in": 21584,
+   "out": 22720,
+   "text": "how much / ever times",
+   "beat": "L17c",
+   "beatName": "",
    "tiers": [
     "small",
     "big"
