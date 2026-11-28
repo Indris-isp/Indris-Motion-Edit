@@ -1,0 +1,468 @@
+<title>Passion Finds You v13 Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a screening-room review deck. Player left, threaded corrections right, a frame-accurate timeline under the player.
+   Deliberately dark-only, like a grading suite, so the footage is judged against neutral black. */
+:root{
+  --bg:#0c0e12; --deck:#13161c; --deck-2:#1a1e26; --line:#262b35; --line-2:#323845;
+  --ink:#e9edf2; --ink-2:#a9b2bf; --ink-3:#6f7987;
+  --accent:#6aa9ff; --accent-ink:#0b1626; --accent-soft:rgba(106,169,255,.14);
+  --open:#ffb547; --done:#47c98a; --danger:#ff6b6b;
+  --f-ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-tc:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-ui);font-variant-numeric:tabular-nums;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 20px}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tc{font-family:var(--f-tc);font-size:12.5px;letter-spacing:.02em}
+.app{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:14px;align-items:start}
+@media (max-width:980px){.app{grid-template-columns:1fr}}
+
+/* top bar */
+.bar{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.bar h1{margin:0;font-size:16px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.ver{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--deck-2);border:1px solid var(--line-2);color:var(--ink-2)}
+.meta{display:flex;gap:14px;color:var(--ink-3);font-size:12.5px;align-items:center;flex-wrap:wrap}
+.sync{font-size:12px;color:var(--ink-3)}
+
+/* player column */
+.stage{background:var(--deck);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.viewer{position:relative;margin:0 auto;height:min(68vh,780px);aspect-ratio:9/16;max-width:100%;background:#000;border-radius:8px;overflow:hidden;user-select:none}
+.viewer video,.viewer canvas{position:absolute;inset:0;width:100%;height:100%}
+.viewer canvas{touch-action:none}
+.viewer.drawing canvas{cursor:crosshair}
+.badge{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.62);border-radius:6px;padding:3px 8px;pointer-events:none}
+.oncap{color:var(--ink-2);font-size:12.5px;text-align:center;min-height:18px}
+.oncap b{color:var(--ink);font-weight:600}
+
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ibtn{border:1px solid var(--line-2);background:var(--deck-2);border-radius:8px;height:34px;min-width:34px;padding:0 10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.ibtn:hover{border-color:var(--ink-3)}
+.ibtn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ibtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.big{font-family:var(--f-tc);font-size:15px;padding:4px 10px;border-radius:8px;background:#000;border:1px solid var(--line)}
+.sp{flex:1}
+.swatch{width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
+.swatch.on{border-color:var(--ink)}
+
+/* timeline */
+.tl{position:relative;user-select:none;touch-action:none;cursor:pointer;padding-top:16px}
+.ruler{position:relative;height:16px;margin-top:-16px}
+.ruler span{position:absolute;top:0;transform:translateX(-50%);font:500 10.5px var(--f-tc);color:var(--ink-3)}
+.track{position:relative;height:26px;background:var(--deck-2);border-radius:6px;overflow:hidden}
+.caps{position:relative;height:30px;margin-top:6px}
+.cap{position:absolute;top:0;height:30px;border-radius:5px;background:#202634;border:1px solid var(--line-2);overflow:hidden;font-size:10.5px;line-height:28px;padding:0 5px;color:var(--ink-2);white-space:nowrap;text-overflow:ellipsis}
+.cap.hero{background:#20304a;border-color:#2e4a73;color:#cfe2ff}
+.cap.flag{box-shadow:inset 0 -3px 0 var(--open)}
+.mk{position:absolute;top:3px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--open);color:#1a1205;font:700 10.5px/20px var(--f-ui);text-align:center;cursor:pointer;z-index:2;border:0;padding:0}
+.mk.done{background:var(--done);color:#062014}
+.mk.sel{outline:2px solid #fff}
+.rng{position:absolute;top:0;bottom:0;background:rgba(255,181,71,.22)}
+.rng.done{background:rgba(71,201,138,.18)}
+.head{position:absolute;top:0;bottom:0;width:2px;background:#fff;margin-left:-1px;z-index:3;pointer-events:none}
+.head::before{content:"";position:absolute;top:-6px;left:-5px;border:6px solid transparent;border-top-color:#fff}
+.legend{display:flex;gap:14px;color:var(--ink-3);font-size:11.5px;flex-wrap:wrap}
+.mixer{border:1px solid var(--line-2);background:var(--deck-2);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.mixer h3{margin:0;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.mixer h3 small{font-weight:500;color:var(--ink-3);font-size:11.5px}
+.fader{display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:center;gap:12px}
+.fader label{font-size:12.5px;color:var(--ink-2)}
+.fader input[type=range]{width:100%;accent-color:var(--accent)}
+.fader output{font-family:var(--f-tc);font-size:12.5px;text-align:right}
+.mixrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mixrow .post{margin-left:0}
+.mixnote{font-size:11.5px;color:var(--ink-3)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+/* panel */
+.panel{background:var(--deck);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;min-width:0;max-height:calc(100vh - 80px);position:sticky;top:max(14px,env(safe-area-inset-top,0px))}
+@media (max-width:980px){.panel{position:static;max-height:none}}
+.ph{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ph h2{margin:0;font-size:14px;font-weight:600}
+.tabs{display:flex;gap:4px;background:var(--deck-2);padding:3px;border-radius:8px}
+.tabs button{border:0;background:none;padding:4px 10px;border-radius:6px;font-size:12.5px;cursor:pointer;color:var(--ink-2)}
+.tabs button.on{background:var(--line-2);color:var(--ink)}
+.list{overflow:auto;flex:1;padding:6px 0;min-height:120px}
+.empty{padding:28px 20px;color:var(--ink-3);text-align:center;font-size:13px;line-height:1.6}
+.c{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:7px;cursor:pointer}
+.c:hover{background:var(--deck-2)}
+.c.sel{background:var(--accent-soft)}
+.c.isdone .txt{color:var(--ink-3)}
+.chd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.num{width:22px;height:22px;border-radius:50%;background:var(--open);color:#1a1205;font-weight:700;font-size:11px;display:grid;place-items:center;flex:none}
+.isdone .num{background:var(--done);color:#062014}
+.who{font-weight:600;font-size:13px}
+.when{color:var(--ink-3);font-size:11.5px}
+.tcchip{border:1px solid var(--line-2);background:#000;border-radius:6px;padding:1px 7px;cursor:pointer;color:var(--accent)}
+.tag{font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2)}
+.quote{font-size:12px;color:var(--ink-3);border-left:2px solid var(--line-2);padding-left:8px}
+.txt{white-space:pre-wrap;word-wrap:break-word}
+.drew{font-size:11.5px;color:var(--accent)}
+.acts{display:flex;gap:12px;font-size:12px}
+.acts button{background:none;border:0;padding:0;color:var(--ink-3);cursor:pointer}
+.acts button:hover{color:var(--ink)}
+.acts .del:hover{color:var(--danger)}
+.reps{display:flex;flex-direction:column;gap:6px;margin-left:30px}
+.rep{font-size:13px}.rep b{font-weight:600;margin-right:6px}
+.repbox{display:flex;gap:6px;margin-left:30px}
+.repbox input{flex:1;min-width:0;background:var(--deck-2);border:1px solid var(--line-2);border-radius:8px;padding:6px 9px}
+
+/* composer */
+.comp{border-top:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.comp .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.comp textarea{width:100%;min-height:74px;resize:vertical;background:var(--deck-2);border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;line-height:1.45}
+.comp select{background:var(--deck-2);border:1px solid var(--line-2);border-radius:8px;padding:5px 8px}
+.post{margin-left:auto;background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:7px 16px;font-weight:700;cursor:pointer}
+.post:disabled{opacity:.45;cursor:default}
+.hint{font-size:11.5px;color:var(--ink-3)}
+.pill{font-size:11.5px;color:var(--ink-2);background:var(--deck-2);border:1px solid var(--line-2);border-radius:6px;padding:2px 7px}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font-size:12px;cursor:pointer}
+kbd{font:500 11px var(--f-tc);background:var(--deck-2);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:0 4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <div class="bar">
+    <h1>Passion Finds You <span class="ver" id="ver">v1</span></h1>
+    <div class="meta"><span>1080×1920 · 50 fps</span><span id="dur">26.4 s · 1,320 frames</span><span class="sync" id="sync" aria-live="polite">Connecting…</span></div>
+  </div>
+
+  <section class="stage" aria-label="Player">
+    <div class="viewer" id="viewer">
+      <video id="vid" src="review.mp4" playsinline preload="auto"></video>
+      <canvas id="ink" aria-label="Drawing layer"></canvas>
+      <div class="badge tc" id="badge">00:00:00:00 · f0</div>
+    </div>
+    <div class="oncap" id="oncap">&nbsp;</div>
+
+    <div class="controls">
+      <button class="ibtn" id="back1s" title="Back 1 second (Shift+←)" aria-label="Back 1 second"><svg viewBox="0 0 24 24"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg></button>
+      <button class="ibtn" id="prevf" title="Previous frame (←)" aria-label="Previous frame"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="ibtn" id="play" title="Play / pause (Space)" aria-label="Play"><svg viewBox="0 0 24 24" id="playicon"><path d="M7 5l12 7-12 7z" fill="currentColor"/></svg></button>
+      <button class="ibtn" id="nextf" title="Next frame (→)" aria-label="Next frame"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+      <button class="ibtn" id="fwd1s" title="Forward 1 second (Shift+→)" aria-label="Forward 1 second"><svg viewBox="0 0 24 24"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg></button>
+      <span class="big" id="tcbig">00:00:00:00</span>
+      <select id="rate" class="ibtn" aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option></select>
+      <span class="sp"></span>
+      <button class="ibtn" data-tool="pen" title="Draw (P)" aria-label="Pen"><svg viewBox="0 0 24 24"><path d="M3 21l3.8-1 11-11-2.8-2.8-11 11z"/></svg></button>
+      <button class="ibtn" data-tool="arrow" title="Arrow (A)" aria-label="Arrow"><svg viewBox="0 0 24 24"><path d="M5 19L19 5M10 5h9v9"/></svg></button>
+      <button class="ibtn" data-tool="rect" title="Box (R)" aria-label="Box"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="1"/></svg></button>
+      <span id="swatches" style="display:flex;gap:6px"></span>
+      <button class="ibtn" id="undo" title="Undo last mark" aria-label="Undo last mark"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg></button>
+    </div>
+
+    <div class="tl" id="tl" aria-label="Timeline">
+      <div class="ruler" id="ruler"></div>
+      <div class="track" id="track"></div>
+      <div class="caps" id="caps"></div>
+      <div class="head" id="head"></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--open)"></i>Open correction</span><span><i style="background:var(--done)"></i>Done</span><span><i style="background:#2e4a73"></i>Hero caption</span><span><kbd>Space</kbd> play · <kbd>←</kbd><kbd>→</kbd> frame · <kbd>Shift</kbd> 1 s · <kbd>C</kbd> comment</span></div>
+    <div class="mixer" id="mixer" aria-label="Sound mix">
+      <h3>Sound mix <small id="mixstate">Press play to hear the mix</small></h3>
+      <div class="fader"><label for="musicdb">Music</label><input type="range" id="musicdb" min="-24" max="12" step="0.5" value="0"><output id="musicout" for="musicdb">0.0 dB</output></div>
+      <div class="fader"><label for="voicedb">Voice</label><input type="range" id="voicedb" min="-12" max="6" step="0.5" value="0"><output id="voiceout" for="voicedb">0.0 dB</output></div>
+      <div class="mixrow"><button type="button" class="post" id="savemix">Save mix</button><button type="button" class="ibtn" id="resetmix">Reset</button><button type="button" class="ibtn" id="mutemusic" aria-pressed="false">Mute music</button><span class="mixnote" id="mixsaved">0 dB = the mix in the current render. Saved levels are used for the final render.</span></div>
+    </div>
+  </section>
+
+  <aside class="panel" aria-label="Corrections">
+    <div class="ph"><h2 id="count">Corrections</h2>
+      <div class="tabs" role="tablist"><button data-f="all" class="on">All</button><button data-f="open">Open</button><button data-f="done">Done</button></div></div>
+    <div class="list" id="list"></div>
+    <form class="comp" id="comp">
+      <div class="row"><span class="pill tc" id="stamp">00:00:00:00</span><button type="button" class="linkbtn" id="setout">Set out point</button><span class="pill tc" id="outstamp" hidden></span><button type="button" class="linkbtn" id="clearout" hidden>Clear</button>
+        <select id="tag" aria-label="Correction type"><option>Caption text</option><option>Caption timing</option><option>Caption design</option><option>Cut / pacing</option><option>Audio</option><option>Other</option></select></div>
+      <textarea id="text" placeholder="Pause on the frame, draw on it if it helps, and describe the correction."></textarea>
+      <div class="row"><span class="hint" id="drawhint">No drawing</span><button class="post" id="post" type="submit" disabled>Post</button></div>
+      <div class="hint">Comments stamp to the paused frame. <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Enter</kbd> posts.</div>
+    </form>
+  </aside>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+let EDIT = null, FPS = 50, FRAMES = 1320;
+const vid = $("#vid");
+const COLORS = ["#ff4d4d", "#ffd23f", "#3fd0ff", "#ffffff"];
+let tool = null, color = COLORS[0], pending = [], draft = null, selected = null, filter = "all";
+let comments = [], me = null, userApi = null, db = null, mode = "local", names = {};
+
+/* ---------- time ---------- */
+const frameNow = () => Math.min(FRAMES - 1, Math.max(0, Math.floor(vid.currentTime * FPS + 1e-3)));   // frame f spans [f/FPS, (f+1)/FPS)
+const tcOf = f => { const s = Math.floor(f / FPS), ff = f % FPS; const p = n => String(n).padStart(2, "0"); return `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}:${p(ff)}`; };
+const seekFrame = f => { f = Math.max(0, Math.min(FRAMES - 1, f)); vid.currentTime = (f + 0.5) / FPS; };
+const capAt = f => EDIT && EDIT.captions.find(c => f * 1000 / FPS >= c.in && f * 1000 / FPS < c.out);
+
+/* ---------- storage ---------- */
+const sync = t => $("#sync").textContent = t;
+function loadLocal() { try { comments = JSON.parse(localStorage.getItem("pfy-review-v13") || "[]"); } catch (e) { comments = []; } }
+function saveLocal() { try { localStorage.setItem("pfy-review-v13", JSON.stringify(comments)); } catch (e) {} }
+async function connect() {
+  try { userApi = await window.claude?.use?.("user"); } catch (e) {}
+  try { me = userApi ? await userApi.id() : null; } catch (e) { me = null; }
+  try { db = await window.claude?.use?.("db"); } catch (e) { db = null; }
+  if (!db) { mode = "local"; loadLocal(); sync("Saved in this browser only"); renderAll(); return; }
+  mode = "db"; sync("Loading corrections…");
+  const timer = setTimeout(() => sync("Still loading…"), 10000);
+  db.collection("comments").onSnapshot(snap => {
+    clearTimeout(timer);
+    comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    sync(`Synced · ${comments.length} correction${comments.length === 1 ? "" : "s"}`);
+    resolveNames(); renderAll();
+  }, () => { clearTimeout(timer); sync("Couldn't load corrections. Reload to try again."); });
+}
+async function resolveNames() {
+  if (!userApi || !userApi.profiles) return;
+  const ids = [...new Set(comments.flatMap(c => [c.authorId, ...(c.replies || []).map(r => r.authorId)]).filter(Boolean))];
+  if (!ids.length) return;
+  try { const ps = await userApi.profiles(ids); for (const id of ids) names[id] = (ps[id] && ps[id].name) || ""; renderList(); } catch (e) {}
+}
+const nameOf = id => (id && id === me ? "You" : names[id]) || "Reviewer";
+async function addComment(c) {
+  if (mode !== "db") { c.id = "l" + Date.now(); comments.push(c); saveLocal(); renderAll(); return; }
+  sync("Posting…");
+  try { await db.collection("comments").add(c); sync("Posted"); }
+  catch (e) { sync(e && e.code === "unauthenticated" ? "Sign in to comment" : "Couldn't post. You may have view-only access."); throw e; }
+}
+async function patchComment(id, data) {
+  const c = comments.find(x => x.id === id); if (!c) return;
+  Object.assign(c, data);
+  if (mode !== "db") { saveLocal(); renderAll(); return; }
+  try { await db.doc(`comments/${id}`).update(data); } catch (e) { sync("Couldn't save that change."); }
+}
+async function removeComment(id) {
+  if (mode !== "db") { comments = comments.filter(c => c.id !== id); saveLocal(); renderAll(); return; }
+  try { await db.doc(`comments/${id}`).delete(); } catch (e) { sync("Couldn't delete it."); }
+}
+
+/* ---------- drawing ---------- */
+const cv = $("#ink"), ctx = cv.getContext("2d");
+function fitCanvas() { const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1; cv.width = r.width * d; cv.height = r.height * d; drawOverlay(); }
+new ResizeObserver(fitCanvas).observe($("#viewer"));
+function drawShape(s) {
+  const W = cv.width, H = cv.height, lw = Math.max(2, W * 0.008);
+  ctx.strokeStyle = s.color; ctx.fillStyle = s.color; ctx.lineWidth = lw; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  const P = s.pts.map(([x, y]) => [x * W, y * H]); if (P.length < 2) return;
+  ctx.beginPath();
+  if (s.type === "pen") { ctx.moveTo(...P[0]); for (const p of P.slice(1)) ctx.lineTo(...p); ctx.stroke(); }
+  else if (s.type === "rect") { const [a, b] = [P[0], P[P.length - 1]]; ctx.strokeRect(Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1])); }
+  else if (s.type === "arrow") { const [a, b] = [P[0], P[P.length - 1]]; ctx.moveTo(...a); ctx.lineTo(...b); ctx.stroke();
+    const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), h = lw * 4.5; ctx.beginPath(); ctx.moveTo(...b);
+    ctx.lineTo(b[0] - h * Math.cos(ang - .45), b[1] - h * Math.sin(ang - .45)); ctx.lineTo(b[0] - h * Math.cos(ang + .45), b[1] - h * Math.sin(ang + .45)); ctx.closePath(); ctx.fill(); }
+}
+function drawOverlay() {
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  const f = frameNow();
+  // shapes of the selected comment, shown while paused on its frame (or inside its range)
+  const shown = comments.filter(c => c.shapes && c.shapes.length && vid.paused && (selected === c.id) && (f === c.frame || (c.endFrame != null && f >= c.frame && f <= c.endFrame)));
+  for (const c of shown) for (const s of c.shapes) drawShape(s);
+  for (const s of pending) drawShape(s);
+  if (draft) drawShape(draft);
+}
+const pt = e => { const r = cv.getBoundingClientRect(); return [Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))]; };
+cv.addEventListener("pointerdown", e => { if (!tool) return; vid.pause(); cv.setPointerCapture(e.pointerId); draft = { type: tool, color, pts: [pt(e)] }; drawOverlay(); });
+cv.addEventListener("pointermove", e => { if (!draft) return; const p = pt(e); if (draft.type === "pen") draft.pts.push(p); else draft.pts[1] = p; drawOverlay(); });
+cv.addEventListener("pointerup", () => { if (!draft) return; if (draft.pts.length > 1) { draft.pts = draft.pts.map(([x, y]) => [+x.toFixed(4), +y.toFixed(4)]); pending.push(draft); } draft = null; updateComposer(); drawOverlay(); });
+function setTool(t) { tool = tool === t ? null : t; document.querySelectorAll("[data-tool]").forEach(b => { b.classList.toggle("on", b.dataset.tool === tool); b.setAttribute("aria-pressed", b.dataset.tool === tool); }); $("#viewer").classList.toggle("drawing", !!tool); }
+document.querySelectorAll("[data-tool]").forEach(b => b.onclick = () => setTool(b.dataset.tool));
+$("#swatches").innerHTML = COLORS.map((c, i) => `<button type="button" class="swatch${i ? "" : " on"}" style="background:${c}" data-c="${c}" aria-label="Colour ${i + 1}"></button>`).join("");
+$("#swatches").onclick = e => { const b = e.target.closest(".swatch"); if (!b) return; color = b.dataset.c; document.querySelectorAll(".swatch").forEach(s => s.classList.toggle("on", s === b)); };
+$("#undo").onclick = () => { pending.pop(); updateComposer(); drawOverlay(); };
+
+/* ---------- player ---------- */
+function setPlayIcon() { $("#playicon").innerHTML = vid.paused ? '<path d="M7 5l12 7-12 7z" fill="currentColor"/>' : '<path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor"/>'; $("#play").setAttribute("aria-label", vid.paused ? "Play" : "Pause"); }
+$("#play").onclick = () => vid.paused ? vid.play().catch(() => {}) : vid.pause();
+$("#prevf").onclick = () => { vid.pause(); seekFrame(frameNow() - 1); };
+$("#nextf").onclick = () => { vid.pause(); seekFrame(frameNow() + 1); };
+$("#back1s").onclick = () => seekFrame(frameNow() - FPS);
+$("#fwd1s").onclick = () => seekFrame(frameNow() + FPS);
+$("#rate").onchange = e => vid.playbackRate = +e.target.value;
+vid.addEventListener("play", setPlayIcon); vid.addEventListener("pause", () => { setPlayIcon(); seekFrame(frameNow()); });
+let raf = 0;
+function tick() { updateTime(); raf = requestAnimationFrame(tick); }
+vid.addEventListener("play", () => { cancelAnimationFrame(raf); tick(); });
+vid.addEventListener("pause", () => cancelAnimationFrame(raf));
+vid.addEventListener("seeked", updateTime);
+vid.addEventListener("loadedmetadata", () => { updateTime(); });
+let lastF = -1;
+function updateTime() {
+  const f = frameNow(), tc = tcOf(f);
+  $("#tcbig").textContent = tc; $("#badge").textContent = `${tc} · f${f}`;
+  if (!$("#text").value && !outFrame) $("#stamp").textContent = tc;
+  $("#head").style.left = pct(f);
+  if (f !== lastF) { lastF = f; const c = capAt(f); $("#oncap").innerHTML = c ? `On screen: <b>${esc(c.text)}</b> <span style="color:var(--ink-3)">· ${esc(c.beatName)}</span>` : `<span style="color:var(--ink-3)">No caption on this frame</span>`; drawOverlay(); }
+}
+
+/* ---------- timeline ---------- */
+const pct = f => (f / (FRAMES - 1) * 100) + "%";
+function renderTimeline() {
+  if (!EDIT) return;
+  const r = []; for (let s = 0; s <= EDIT.duration / 1000; s += 2) r.push(`<span style="left:${s * FPS / (FRAMES - 1) * 100}%">${s}s</span>`);
+  $("#ruler").innerHTML = r.join("");
+  const flagged = new Set(comments.filter(c => c.status !== "done").map(c => c.capId));
+  $("#caps").innerHTML = EDIT.captions.filter(c => c.text).map(c => {
+    const hero = c.tiers.some(t => t === "hero" || t === "heromax");
+    return `<div class="cap${hero ? " hero" : ""}${flagged.has(c.id) ? " flag" : ""}" style="left:${c.in / EDIT.duration * 100}%;width:${(c.out - c.in) / EDIT.duration * 100}%" title="${esc(c.text)}">${esc(c.text)}</div>`;
+  }).join("");
+  const ordered = sorted();
+  $("#track").innerHTML = ordered.map((c, i) => `${c.endFrame != null ? `<div class="rng ${c.status === "done" ? "done" : ""}" style="left:${pct(c.frame)};width:calc(${pct(c.endFrame)} - ${pct(c.frame)})"></div>` : ""}<button class="mk ${c.status === "done" ? "done" : ""} ${selected === c.id ? "sel" : ""}" style="left:${pct(c.frame)}" data-sel="${esc(c.id)}" title="${esc(tcOf(c.frame))}">${i + 1}</button>`).join("");
+}
+let scrubbing = false;
+const tl = $("#tl");
+const frameAtX = x => { const r = $("#track").getBoundingClientRect(); return Math.round(Math.min(1, Math.max(0, (x - r.left) / r.width)) * (FRAMES - 1)); };
+tl.addEventListener("pointerdown", e => { if (e.target.closest(".mk")) return; scrubbing = true; tl.setPointerCapture(e.pointerId); vid.pause(); seekFrame(frameAtX(e.clientX)); });
+tl.addEventListener("pointermove", e => { if (scrubbing) seekFrame(frameAtX(e.clientX)); });
+tl.addEventListener("pointerup", () => scrubbing = false);
+
+/* ---------- list ---------- */
+const sorted = () => [...comments].sort((a, b) => a.frame - b.frame || (a.createdAt || 0) - (b.createdAt || 0));
+function ago(ms) { if (!ms) return ""; const s = (Date.now() - ms) / 1000; if (s < 60) return "just now"; if (s < 3600) return `${Math.floor(s / 60)} min ago`; if (s < 86400) return `${Math.floor(s / 3600)} h ago`; return new Date(ms).toLocaleDateString(); }
+let replyOpen = null;
+function renderList() {
+  const all = sorted(), open = all.filter(c => c.status !== "done").length;
+  $("#count").textContent = `Corrections · ${open} open`;
+  const vis = all.map((c, i) => [c, i]).filter(([c]) => filter === "all" || (filter === "done" ? c.status === "done" : c.status !== "done"));
+  if (!vis.length) { $("#list").innerHTML = `<div class="empty">${comments.length ? "Nothing in this filter." : "No corrections yet.<br>Pause on a frame, draw on it if it helps, and write what should change. Each note is pinned to its frame and to the caption on screen."}</div>`; return; }
+  $("#list").innerHTML = vis.map(([c, i]) => `
+    <div class="c ${c.status === "done" ? "isdone" : ""} ${selected === c.id ? "sel" : ""}" data-sel="${esc(c.id)}">
+      <div class="chd"><span class="num">${i + 1}</span><span class="who">${esc(nameOf(c.authorId))}</span><span class="when">${esc(ago(c.createdAt))}</span>
+        <span class="tcchip tc" data-seek="${c.frame}">${tcOf(c.frame)}${c.endFrame != null ? " → " + tcOf(c.endFrame) : ""}</span><span class="tag">${esc(c.tag || "Other")}</span></div>
+      ${c.capText ? `<div class="quote">On screen: ${esc(c.capText)}</div>` : ""}
+      <div class="txt">${esc(c.text)}</div>
+      ${c.shapes && c.shapes.length ? `<div class="drew">Has a drawing · ${c.shapes.length} mark${c.shapes.length > 1 ? "s" : ""}</div>` : ""}
+      ${(c.replies || []).length ? `<div class="reps">${c.replies.map(r => `<div class="rep"><b>${esc(nameOf(r.authorId))}</b>${esc(r.text)}</div>`).join("")}</div>` : ""}
+      <div class="acts"><button data-done="${esc(c.id)}">${c.status === "done" ? "Reopen" : "Mark done"}</button><button data-reply="${esc(c.id)}">Reply</button>${(mode !== "db" || c.authorId === me) ? `<button class="del" data-del="${esc(c.id)}">Delete</button>` : ""}</div>
+      ${replyOpen === c.id ? `<div class="repbox"><input id="rep-${esc(c.id)}" placeholder="Reply…" aria-label="Reply"><button class="ibtn" data-sendrep="${esc(c.id)}">Send</button></div>` : ""}
+    </div>`).join("");
+}
+function renderAll() { renderList(); renderTimeline(); drawOverlay(); }
+function select(id) { selected = id; const c = comments.find(x => x.id === id); if (c) { vid.pause(); seekFrame(c.frame); } renderAll(); }
+$("#list").addEventListener("click", e => {
+  const t = e.target;
+  if (t.closest("[data-done]")) { const id = t.closest("[data-done]").dataset.done; const c = comments.find(x => x.id === id); patchComment(id, { status: c.status === "done" ? "open" : "done" }); return; }
+  if (t.closest("[data-del]")) { const b = t.closest("[data-del]"); if (b.dataset.armed) removeComment(b.dataset.del); else { b.dataset.armed = 1; b.textContent = "Confirm delete"; } return; }
+  if (t.closest("[data-reply]")) { replyOpen = replyOpen === t.closest("[data-reply]").dataset.reply ? null : t.closest("[data-reply]").dataset.reply; renderList(); const i = document.getElementById("rep-" + replyOpen); if (i) i.focus(); return; }
+  if (t.closest("[data-sendrep]")) { sendReply(t.closest("[data-sendrep]").dataset.sendrep); return; }
+  if (t.closest("input")) return;
+  if (t.closest("[data-seek]")) { vid.pause(); seekFrame(+t.closest("[data-seek]").dataset.seek); }
+  const row = t.closest("[data-sel]"); if (row) select(row.dataset.sel);
+});
+$("#list").addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id && e.target.id.startsWith("rep-")) { e.preventDefault(); sendReply(e.target.id.slice(4)); } });
+function sendReply(id) {
+  const i = document.getElementById("rep-" + id); const text = i && i.value.trim(); if (!text) return;
+  const c = comments.find(x => x.id === id); const replies = [...(c.replies || []), { authorId: me || null, text: text.slice(0, 2000), createdAt: Date.now() }];
+  replyOpen = null; patchComment(id, { replies });
+}
+$("#track").addEventListener("click", e => { const m = e.target.closest(".mk"); if (m) select(m.dataset.sel); });
+
+/* ---------- composer ---------- */
+let outFrame = null, stampFrame = 0;
+function updateComposer() {
+  $("#post").disabled = !$("#text").value.trim();
+  $("#drawhint").textContent = pending.length ? `${pending.length} mark${pending.length > 1 ? "s" : ""} on this frame` : "No drawing";
+}
+$("#text").addEventListener("focus", () => { vid.pause(); stampFrame = frameNow(); $("#stamp").textContent = tcOf(stampFrame); });
+$("#text").addEventListener("input", updateComposer);
+$("#text").addEventListener("keydown", e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); $("#comp").requestSubmit(); } });
+$("#setout").onclick = () => { if (!$("#text").value) stampFrame = Math.min(stampFrame, frameNow()); outFrame = frameNow(); if (outFrame <= stampFrame) { outFrame = null; sync("Move the playhead after the in point, then set the out point."); return; } $("#outstamp").hidden = false; $("#outstamp").textContent = "→ " + tcOf(outFrame); $("#clearout").hidden = false; };
+$("#clearout").onclick = () => { outFrame = null; $("#outstamp").hidden = true; $("#clearout").hidden = true; };
+$("#comp").addEventListener("submit", async e => {
+  e.preventDefault(); const text = $("#text").value.trim(); if (!text) return;
+  const f = $("#text") === document.activeElement || stampFrame ? stampFrame : frameNow(); const cap = capAt(f);
+  const c = { frame: f, endFrame: outFrame, tc: tcOf(f), timeMs: Math.round(f * 1000 / FPS), text: text.slice(0, 4000), tag: $("#tag").value,
+              capId: cap ? cap.id : null, capText: cap ? cap.text : null, shapes: pending.slice(0, 40), status: "open", authorId: me || null, createdAt: Date.now(), replies: [] };
+  $("#post").disabled = true;
+  try { await addComment(c); $("#text").value = ""; pending = []; outFrame = null; $("#outstamp").hidden = true; $("#clearout").hidden = true; setTool(null); updateComposer(); drawOverlay(); }
+  catch (err) { $("#post").disabled = false; }
+});
+
+/* ---------- keys ---------- */
+document.addEventListener("keydown", e => {
+  if (e.target.closest("textarea,input,select")) { if (e.key === "Escape") e.target.blur(); return; }
+  if (e.key === " ") { e.preventDefault(); $("#play").click(); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); vid.pause(); seekFrame(frameNow() - (e.shiftKey ? FPS : 1)); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); vid.pause(); seekFrame(frameNow() + (e.shiftKey ? FPS : 1)); }
+  else if (e.key === "c" || e.key === "C") { e.preventDefault(); $("#text").focus(); }
+  else if (e.key === "p") setTool("pen"); else if (e.key === "a") setTool("arrow"); else if (e.key === "r") setTool("rect");
+  else if (e.key === "Escape") setTool(null);
+});
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { filter = b.dataset.f; document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b)); renderList(); });
+
+
+/* ---------- sound mix: voice + music stems through Web Audio, synced to the video ---------- */
+const MIX = { musicDb: 0, voiceDb: 0, muted: true };   // v13 is delivered voice-only; unmute to audition the music
+let actx = null, bufs = null, gV = null, gM = null, srcs = [], startCtx = 0, startOff = 0, loading = null;
+const dbToGain = d => Math.pow(10, d / 20);
+function applyGains() { if (!gV) return; const t = actx.currentTime; gV.gain.setTargetAtTime(dbToGain(MIX.voiceDb), t, 0.02); gM.gain.setTargetAtTime(MIX.muted ? 0 : dbToGain(MIX.musicDb), t, 0.02); }
+function showMix() {
+  $("#musicdb").value = MIX.musicDb; $("#voicedb").value = MIX.voiceDb;
+  $("#musicout").textContent = (MIX.musicDb > 0 ? "+" : "") + MIX.musicDb.toFixed(1) + " dB";
+  $("#voiceout").textContent = (MIX.voiceDb > 0 ? "+" : "") + MIX.voiceDb.toFixed(1) + " dB";
+  $("#mutemusic").classList.toggle("on", MIX.muted); $("#mutemusic").setAttribute("aria-pressed", MIX.muted);
+}
+async function ensureAudio() {
+  if (bufs) return true;
+  if (loading) return loading;
+  loading = (async () => {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) throw new Error("no webaudio");
+      actx = new AC(); $("#mixstate").textContent = "Loading stems…";
+      const dec = async u => actx.decodeAudioData(await (await fetch(u)).arrayBuffer());
+      const [v, m] = await Promise.all([dec("voice.wav"), dec("music.wav")]);
+      bufs = { v, m }; gV = actx.createGain(); gM = actx.createGain(); gV.connect(actx.destination); gM.connect(actx.destination); applyGains();
+      vid.muted = true; $("#mixstate").textContent = "Live mix";
+      return true;
+    } catch (e) { $("#mixstate").textContent = "Live mixing isn't available here, so the video plays its rendered mix."; vid.muted = false; ["musicdb","voicedb","mutemusic"].forEach(id => $("#" + id).disabled = true); return false; }
+  })();
+  return loading;
+}
+function stopStems() { for (const s of srcs) { try { s.stop(); } catch (e) {} } srcs = []; }
+function startStems() {
+  if (!bufs) return; stopStems(); if (actx.state === "suspended") actx.resume();
+  const off = vid.currentTime, when = actx.currentTime + 0.03;
+  for (const [b, g] of [[bufs.v, gV], [bufs.m, gM]]) { const s = actx.createBufferSource(); s.buffer = b; s.playbackRate.value = vid.playbackRate; s.connect(g); if (off < b.duration) s.start(when, off); srcs.push(s); }
+  startCtx = when; startOff = off;
+}
+vid.addEventListener("play", async () => { if (await ensureAudio()) startStems(); });
+vid.addEventListener("pause", stopStems);
+vid.addEventListener("seeking", () => { if (!vid.paused) startStems(); });
+vid.addEventListener("ratechange", () => { if (!vid.paused) startStems(); });
+vid.addEventListener("ended", stopStems);
+setInterval(() => {   // drift guard
+  if (!bufs || vid.paused || !srcs.length) return;
+  const audioPos = startOff + (actx.currentTime - startCtx) * vid.playbackRate;
+  if (Math.abs(audioPos - vid.currentTime) > 0.06) startStems();
+}, 1000);
+$("#musicdb").addEventListener("input", e => { MIX.musicDb = +e.target.value; showMix(); applyGains(); $("#mixsaved").textContent = "Unsaved changes"; });
+$("#voicedb").addEventListener("input", e => { MIX.voiceDb = +e.target.value; showMix(); applyGains(); $("#mixsaved").textContent = "Unsaved changes"; });
+$("#mutemusic").onclick = () => { MIX.muted = !MIX.muted; showMix(); applyGains(); };
+$("#resetmix").onclick = () => { MIX.musicDb = 0; MIX.voiceDb = 0; MIX.muted = false; showMix(); applyGains(); $("#mixsaved").textContent = "Reset to the current render. Save to keep it."; };
+$("#savemix").onclick = async () => {
+  const data = { musicDb: MIX.musicDb, voiceDb: MIX.voiceDb, version: (EDIT && EDIT.version) || "", savedAt: Date.now(), authorId: me || null };
+  if (mode !== "db") { try { localStorage.setItem("pfy-mix-v13", JSON.stringify(data)); } catch (e) {} $("#mixsaved").textContent = "Saved in this browser only"; return; }
+  $("#mixsaved").textContent = "Saving…";
+  try { await db.doc("settings/mix").set(data); $("#mixsaved").textContent = `Saved: music ${data.musicDb >= 0 ? "+" : ""}${data.musicDb} dB, voice ${data.voiceDb >= 0 ? "+" : ""}${data.voiceDb} dB. Ask Claude to render with it.`; }
+  catch (e) { $("#mixsaved").textContent = "Couldn't save. You may have view-only access."; }
+};
+async function loadMix() {
+  let d = null;
+  if (db) { try { const snap = await db.doc("settings/mix").get(); if (snap.exists) d = snap.data(); } catch (e) {} }
+  else { try { d = JSON.parse(localStorage.getItem("pfy-mix-v13") || "null"); } catch (e) {} }
+  if (d && typeof d.musicDb === "number") { MIX.musicDb = d.musicDb; MIX.voiceDb = +d.voiceDb || 0; $("#mixsaved").textContent = `Loaded your saved mix (music ${d.musicDb >= 0 ? "+" : ""}${d.musicDb} dB, voice ${MIX.voiceDb >= 0 ? "+" : ""}${MIX.voiceDb} dB).`; }
+  showMix(); applyGains();
+}
+showMix();
+fetch("edit.json").then(r => r.json()).then(d => {
+  EDIT = d; FPS = d.fps; FRAMES = d.frames;
+  $("#ver").textContent = d.version; $("#dur").textContent = `${(d.duration / 1000).toFixed(1)} s · ${d.frames.toLocaleString()} frames`;
+  renderAll(); updateTime(); connect().then(loadMix);
+}).catch(() => { sync("The edit data didn't load. Reload the page."); connect(); });
+</script>

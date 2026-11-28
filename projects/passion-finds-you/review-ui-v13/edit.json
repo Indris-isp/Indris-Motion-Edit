@@ -1,0 +1,234 @@
+{
+ "title": "Passion Finds You",
+ "version": "v13",
+ "fps": 50,
+ "frames": 1320,
+ "duration": 26400,
+ "captions": [
+  {
+   "id": "L1",
+   "in": 0,
+   "out": 1500,
+   "text": "everything I was / searching / for",
+   "beat": "L1",
+   "beatName": "Hook",
+   "tiers": [
+    "small",
+    "big",
+    "small"
+   ]
+  },
+  {
+   "id": "L2",
+   "in": 1500,
+   "out": 2420,
+   "text": "was searching / for me,",
+   "beat": "L2",
+   "beatName": "Hook",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L3",
+   "in": 2420,
+   "out": 3907,
+   "text": "and I found my / passion,",
+   "beat": "L3",
+   "beatName": "Passion",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L4",
+   "in": 3907,
+   "out": 4400,
+   "text": "okay?",
+   "beat": "L4",
+   "beatName": "Passion",
+   "tiers": [
+    "small"
+   ]
+  },
+  {
+   "id": "L5",
+   "in": 4400,
+   "out": 6366,
+   "text": "how do you think / I found it?",
+   "beat": "L5",
+   "beatName": "The question",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L6",
+   "in": 6366,
+   "out": 8080,
+   "text": "did I find it by / sitting / still",
+   "beat": "L6",
+   "beatName": "The question",
+   "tiers": [
+    "small",
+    "small",
+    "big",
+    "big"
+   ]
+  },
+  {
+   "id": "L7",
+   "in": 8080,
+   "out": 9982,
+   "text": "and thinking what my / passion / could be?",
+   "beat": "L7",
+   "beatName": "The question",
+   "tiers": [
+    "small",
+    "small",
+    "big",
+    "small"
+   ]
+  },
+  {
+   "id": "L8",
+   "in": 9982,
+   "out": 10200,
+   "text": "No.",
+   "beat": "L8",
+   "beatName": "No.",
+   "tiers": [
+    "big"
+   ]
+  },
+  {
+   "id": "L9",
+   "in": 10200,
+   "out": 12040,
+   "text": "I found it because / I had been / moving",
+   "beat": "L9",
+   "beatName": "Moving",
+   "tiers": [
+    "small",
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L10",
+   "in": 12040,
+   "out": 12573,
+   "text": "all along,",
+   "beat": "L10",
+   "beatName": "Moving",
+   "tiers": [
+    "big"
+   ]
+  },
+  {
+   "id": "L11",
+   "in": 12573,
+   "out": 14647,
+   "text": "doing something, / doing something / I love,",
+   "beat": "L11",
+   "beatName": "Doing something",
+   "tiers": [
+    "small",
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L12",
+   "in": 14647,
+   "out": 15220,
+   "text": "watching,",
+   "beat": "L12",
+   "beatName": "The list",
+   "tiers": [
+    "big"
+   ]
+  },
+  {
+   "id": "L13",
+   "in": 15220,
+   "out": 15840,
+   "text": "observing,",
+   "beat": "L13",
+   "beatName": "The list",
+   "tiers": [
+    "big"
+   ]
+  },
+  {
+   "id": "L14",
+   "in": 15840,
+   "out": 16551,
+   "text": "and / feeling.",
+   "beat": "L14",
+   "beatName": "The list",
+   "tiers": [
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L15",
+   "in": 16551,
+   "out": 18682,
+   "text": "clarity doesn't come / before action.",
+   "beat": "L15",
+   "beatName": "Thesis",
+   "tiers": [
+    "small",
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L16",
+   "in": 18682,
+   "out": 20299,
+   "text": "CLARITY / COMES THROUGH / ACTION.",
+   "beat": "L16",
+   "beatName": "Thesis",
+   "tiers": [
+    "hero",
+    "hero",
+    "hero"
+   ]
+  },
+  {
+   "id": "L17",
+   "in": 20299,
+   "out": 23441,
+   "text": "standing here, I can learn / how much ever times / how to swim,",
+   "beat": "L17",
+   "beatName": "Swim",
+   "tiers": [
+    "small",
+    "small",
+    "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L18",
+   "in": 23441,
+   "out": 26400,
+   "text": "but I can only swim if I / JUMP / INTO THE / WATER.",
+   "beat": "L18",
+   "beatName": "Payoff",
+   "tiers": [
+    "small",
+    "small",
+    "hero",
+    "hero",
+    "hero"
+   ]
+  }
+ ]
+}
