@@ -1,0 +1,18 @@
+{
+ "note": "v8: speech 1:1, one natural 0.30 s breath after 'inquiry.' (orig 0.18 s). Full 10.6 s.",
+ "segs": [
+  [
+   0,
+   3.04
+  ],
+  [
+   3.04,
+   3.22,
+   0.3
+  ],
+  [
+   3.22,
+   10.56
+  ]
+ ]
+}
