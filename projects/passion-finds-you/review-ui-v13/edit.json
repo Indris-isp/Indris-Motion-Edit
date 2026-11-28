@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v13",
+ "version": "v14",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -68,7 +68,7 @@
   {
    "id": "L6",
    "in": 6366,
-   "out": 8080,
+   "out": 8680,
    "text": "did I find it by / sitting / still",
    "beat": "L6",
    "beatName": "The question",
@@ -81,13 +81,12 @@
   },
   {
    "id": "L7",
-   "in": 8080,
+   "in": 8680,
    "out": 9982,
-   "text": "and thinking what my / passion / could be?",
+   "text": "what my / passion / could be?",
    "beat": "L7",
    "beatName": "The question",
    "tiers": [
-    "small",
     "small",
     "big",
     "small"
@@ -108,7 +107,7 @@
    "id": "L9",
    "in": 10200,
    "out": 12040,
-   "text": "I found it because / I had been / moving",
+   "text": "because I had been / moving",
    "beat": "L9",
    "beatName": "Moving",
    "tiers": [
@@ -132,11 +131,10 @@
    "id": "L11",
    "in": 12573,
    "out": 14647,
-   "text": "doing something, / doing something / I love,",
+   "text": "doing something, / I love,",
    "beat": "L11",
    "beatName": "Doing something",
    "tiers": [
-    "small",
     "small",
     "big"
    ]
@@ -205,26 +203,35 @@
    "id": "L17",
    "in": 20299,
    "out": 23441,
-   "text": "standing here, I can learn / how much ever times / how to swim,",
+   "text": "I can learn / how to swim,",
    "beat": "L17",
    "beatName": "Swim",
    "tiers": [
-    "small",
     "small",
     "small",
     "big"
    ]
   },
   {
-   "id": "L18",
+   "id": "L18a",
    "in": 23441,
-   "out": 26400,
-   "text": "but I can only swim if I / JUMP / INTO THE / WATER.",
-   "beat": "L18",
+   "out": 25000,
+   "text": "but I can only swim if I",
+   "beat": "L18a",
    "beatName": "Payoff",
    "tiers": [
     "small",
-    "small",
+    "small"
+   ]
+  },
+  {
+   "id": "L18",
+   "in": 25000,
+   "out": 26400,
+   "text": "JUMP / INTO THE / WATER.",
+   "beat": "L18",
+   "beatName": "Payoff",
+   "tiers": [
     "hero",
     "hero",
     "hero"

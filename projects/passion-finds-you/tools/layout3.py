@@ -13,14 +13,15 @@ for g in spec["groups"]:
     hs = hs_for(g["t0"], g["t1"]); wide = np.mean([h["top"] for h in hs]) > 600
     bigs = [l for l in g["lines"] if l["role"] == "big"]; caps = [l for l in g["lines"] if l["role"] == "caps"]
     # behind-the-head words must clear the head on both sides, so they are sized to the head
-    bw_target = {"front": BIG_W, "behind": 320 if wide else 640, "above": 560}[g["mode"]]
-    bigS = min([BIG_CAP] + [bw_target * 100 / meas[l["key"]]["w"] for l in bigs]) if bigs else None
+    bw_target = {"front": BIG_W, "behind": 320 if wide else 640, "above": 560, "subject": 560}[g["mode"]]
+    bigS = min([170 if g["mode"] == "subject" else BIG_CAP] + [bw_target * 100 / meas[l["key"]]["w"] for l in bigs]) if bigs else None
     capS = min([CAPS_CAP] + [CAPS_W * 100 / meas[l["key"]]["w"] for l in caps]) if caps else None
     ref = bigS or capS or 120
     smallS = float(np.clip(0.42 * ref, 40, 58)) if (bigs or caps) else 56
+    big_w = max([bigS * meas[l["key"]]["w"] / 100 for l in bigs]) if bigs else 860   # small lines never wider than the big word
     for l in g["lines"]:
-        w, ls = STY[l["role"]]
-        sz = {"small": min(smallS, 860 * 100 / meas[l["key"]]["w"]), "big": bigS, "caps": capS}[l["role"]]
+        w, ls = STY[l["role"]]; w = l.get("weight", w)
+        sz = {"small": max(34, min(smallS, big_w * 0.98 * 100 / meas[l["key"]]["w"])), "big": bigS, "caps": capS}[l["role"]]
         l["size"] = round(sz, 1); render.append({"key": l["key"], "text": l["text"], "size": l["size"], "weight": w, "ls": ls})
     plan.append(dict(g=g, hs=hs, wide=wide, ref=ref))
 json.dump(render, open(f"{V}/render.json", "w"))
@@ -30,8 +31,8 @@ for r in render:
     im = Image.open(f"{V}/lines/{r['key']}.png").convert("RGBA"); a = np.asarray(im)[..., 3]
     ys, xs = np.nonzero(a > 6); x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
     im.crop((x0, y0, x1, y1)).save(f"{V}/lines/{r['key']}_t.png"); box[r["key"]] = (int(x1 - x0), int(y1 - y0))
-GAP = {("small", "big"): 0.07, ("big", "small"): 0.06, ("small", "small"): 0.10, ("big", "big"): 0.03, ("caps", "caps"): 0.07,
-       ("small", "caps"): 0.08, ("caps", "small"): 0.06}
+GAP = {("small", "big"): 0.025, ("big", "small"): 0.03, ("small", "small"): 0.06, ("big", "big"): 0.0, ("caps", "caps"): 0.04,
+       ("small", "caps"): 0.04, ("caps", "small"): 0.03}
 els = []; report = []
 for p in plan:
     g = p["g"]; lines = g["lines"]; hs = p["hs"]
@@ -51,6 +52,9 @@ for p in plan:
         # big word sits just above her head; the hair crown overlaps the bottom of the letters (reference: "continuing")
         bi = next(i for i, s_ in enumerate(slots) if s_["role"] == "big")
         oy = (top + 55) - (slots[bi]["y"] + slots[bi]["h"]); cx = hcx
+    elif g["mode"] == "subject":
+        # on her body, centred on her, starting just under her chin (never over the face)
+        cx = hcx; oy = top + FH + 45
     elif g["mode"] == "behind":
         # big word centred on the head at eye level; small lines stack above/below it as usual
         bi = next(i for i, s in enumerate(slots) if s["role"] == "big")
