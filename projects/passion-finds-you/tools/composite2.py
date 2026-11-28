@@ -30,8 +30,16 @@ while i < LIMIT:
         h, w = a_img.shape[:2]; x0, y0, x1, y1 = max(0, x), max(0, y), min(W, x + w), min(H, y + h)
         if x1 <= x0 or y1 <= y0: continue
         sub = a_img[y0 - y:y1 - y, x0 - x:x1 - x]; col, a = sub[..., :3], sub[..., 3:4]
-        ramp = min(1.0, (t - e["t_in"]) / e["fade"]) if e.get("fade") else 1.0
-        a = a * ramp; reg = out[y0:y1, x0:x1]
+        if e.get("words"):   # word-by-word: words not yet spoken stay hidden; the newest word fades in
+            cols = np.arange(x0 - x, x1 - x)[None, :, None].astype(np.float32); mask = np.zeros_like(cols); prev = -1e9
+            for wt_, cut in e["words"]:
+                if t < wt_: break
+                r = min(1.0, (t - wt_) / e["fade"]) if e.get("fade") else 1.0
+                mask = np.where((cols > prev) & (cols <= cut), r, mask); prev = cut
+            a = a * mask
+        else:
+            ramp = min(1.0, (t - e["t_in"]) / e["fade"]) if e.get("fade") else 1.0; a = a * ramp
+        reg = out[y0:y1, x0:x1]
         if e["blend"] == "difference": comp = reg * (1 - a) + np.abs(reg - col) * a
         elif e["blend"] == "overlay":
             ovl = np.where(reg < 0.5, 2 * reg * col, 1 - 2 * (1 - reg) * (1 - col)); ovl = ovl * 0.7 + col * 0.3; comp = reg * (1 - a) + ovl * a   # overlay, lifted 30% toward white for legibility

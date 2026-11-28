@@ -26,11 +26,11 @@ for g in spec["groups"]:
     plan.append(dict(g=g, hs=hs, wide=wide, ref=ref))
 json.dump(render, open(f"{V}/render.json", "w"))
 subprocess.run(["node", f"{S}/scripts/lines.cjs", "render", f"{V}/render.json", f"{V}/rendered.json", V], check=True)
-box = {}
+box = {}; trim = {}; edges = json.load(open(f"{V}/rendered.json"))
 for r in render:
     im = Image.open(f"{V}/lines/{r['key']}.png").convert("RGBA"); a = np.asarray(im)[..., 3]
     ys, xs = np.nonzero(a > 6); x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
-    im.crop((x0, y0, x1, y1)).save(f"{V}/lines/{r['key']}_t.png"); box[r["key"]] = (int(x1 - x0), int(y1 - y0))
+    im.crop((x0, y0, x1, y1)).save(f"{V}/lines/{r['key']}_t.png"); box[r["key"]] = (int(x1 - x0), int(y1 - y0)); trim[r["key"]] = int(x0)
 GAP = {("small", "big"): 0.025, ("big", "small"): 0.03, ("small", "small"): 0.06, ("big", "big"): 0.0, ("caps", "caps"): 0.04,
        ("small", "caps"): 0.04, ("caps", "small"): 0.03}
 els = []; report = []
@@ -85,8 +85,13 @@ for p in plan:
                 x = float(np.clip(x, 30, 1050 - w))
             t_out = s["keys"][k + 1]["t"] if k + 1 < len(s["keys"]) else g["t1"]
             yy = y_override if (g["mode"] == "above" and s["role"] == "small") else oy + s["y"]
-            els.append(dict(key=l["key"] + "_t", x=round(x), y=round(yy), t_in=l["t"], t_out=t_out, blend=g["blend"],
-                            behind=(g["mode"] == "above" or (g["mode"] == "behind" and s["role"] == "big")), fade=0 if l["role"] == "small" else 200, w=w, h=h, group=g["id"], text=l["text"]))
+            # word-by-word reveal: each word uncovers up to its right edge at its spoken time (positions never move)
+            we = edges[l["key"]]["words"]; wt = l.get("word_t", [l["t"]]); words = []
+            for k2, (ws, wend) in enumerate(we):
+                cut = wend + 0.06 * l["size"] if k2 + 1 == len(we) else min(wend + 0.06 * l["size"], we[k2 + 1][0] - 1)
+                words.append([wt[min(k2, len(wt) - 1)], round(cut - trim[l["key"]]) if k2 + 1 < len(we) else 100000])
+            els.append(dict(words=words, key=l["key"] + "_t", x=round(x), y=round(yy), t_in=l["t"], t_out=t_out, blend=g["blend"],
+                            behind=(g["mode"] == "above" or (g["mode"] == "behind" and s["role"] == "big")), fade=80 if l["role"] == "small" else 160, w=w, h=h, group=g["id"], text=l["text"]))
     report.append(f'{g["id"]:4s} {g["mode"]:6s} big {p["ref"]:5.0f}px  block {int(bw)}x{int(bh)} at x {int(bx)} y {int(oy)}  face y {int(face[1])}-{int(face[3])}')
 json.dump({"elements": els}, open(f"{V}/elements.json", "w"), indent=1)
 print("\n".join(report))

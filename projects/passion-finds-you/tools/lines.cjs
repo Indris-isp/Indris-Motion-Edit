@@ -6,7 +6,7 @@ const [mode, inp, out, dir] = process.argv.slice(2); const items = JSON.parse(fs
   await pg.goto('file://' + dir + '/line.html'); const res = {};
   for (const it of items) {
     const r = await pg.evaluate(o => window.setLine(o), { ...it, size: mode === 'measure' ? 100 : it.size });
-    res[it.key] = r;
+    r.words = await pg.evaluate(() => window.wordEdges()); res[it.key] = r;
     if (mode === 'render') await pg.screenshot({ path: `${dir}/lines/${it.key}.png`, omitBackground: true, clip: { x: r.x, y: r.y, width: Math.ceil(r.w), height: Math.ceil(r.h) } });
   }
   fs.writeFileSync(out, JSON.stringify(res)); await b.close();
