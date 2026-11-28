@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v15",
+ "version": "v16",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -54,11 +54,11 @@
    ]
   },
   {
-   "id": "L5",
+   "id": "L5a",
    "in": 4400,
-   "out": 6366,
-   "text": "how do you think / I found it?",
-   "beat": "L5",
+   "out": 5680,
+   "text": "how do you / think",
+   "beat": "L5a",
    "beatName": "The question",
    "tiers": [
     "small",
@@ -66,16 +66,37 @@
    ]
   },
   {
-   "id": "L6",
+   "id": "L5b",
+   "in": 5680,
+   "out": 6366,
+   "text": "I found it?",
+   "beat": "L5b",
+   "beatName": "The question",
+   "tiers": [
+    "big"
+   ]
+  },
+  {
+   "id": "L6a",
    "in": 6366,
-   "out": 8680,
-   "text": "did I find it by / sitting / still",
-   "beat": "L6",
+   "out": 7080,
+   "text": "did I find / it",
+   "beat": "L6a",
    "beatName": "The question",
    "tiers": [
     "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L6b",
+   "in": 7080,
+   "out": 8680,
+   "text": "by / sitting still",
+   "beat": "L6b",
+   "beatName": "The question",
+   "tiers": [
     "small",
-    "big",
     "big"
    ]
   },
@@ -182,7 +203,6 @@
    "beatName": "Thesis",
    "tiers": [
     "small",
-    "small",
     "big"
    ]
   },
@@ -200,14 +220,25 @@
    ]
   },
   {
-   "id": "L17",
+   "id": "L17a",
    "in": 20299,
-   "out": 23441,
-   "text": "I can learn / how to swim,",
-   "beat": "L17",
+   "out": 22720,
+   "text": "standing here, / I can learn",
+   "beat": "L17a",
    "beatName": "Swim",
    "tiers": [
     "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L17b",
+   "in": 22720,
+   "out": 23441,
+   "text": "how to / swim,",
+   "beat": "L17b",
+   "beatName": "Swim",
+   "tiers": [
     "small",
     "big"
    ]
@@ -215,12 +246,23 @@
   {
    "id": "L18a",
    "in": 23441,
-   "out": 25000,
-   "text": "but I can only swim if I",
+   "out": 24480,
+   "text": "but I can only / swim",
    "beat": "L18a",
    "beatName": "Payoff",
    "tiers": [
     "small",
+    "big"
+   ]
+  },
+  {
+   "id": "L18b",
+   "in": 24480,
+   "out": 25000,
+   "text": "if I",
+   "beat": "L18b",
+   "beatName": "Payoff",
+   "tiers": [
     "small"
    ]
   },

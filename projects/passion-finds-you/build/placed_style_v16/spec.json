@@ -1,0 +1,740 @@
+{
+ "duration": 26400,
+ "fps": 50,
+ "groups": [
+  {
+   "id": "L1",
+   "zone": "center",
+   "blend": "normal",
+   "lines": [
+    {
+     "text": "everything I was",
+     "t": 0,
+     "role": "small",
+     "key": "L1_0",
+     "align": "left",
+     "word_t": [
+      0,
+      440,
+      640
+     ]
+    },
+    {
+     "text": "searching",
+     "t": 841,
+     "role": "big",
+     "key": "L1_1",
+     "align": "left",
+     "word_t": [
+      841
+     ]
+    },
+    {
+     "text": "for",
+     "t": 1120,
+     "role": "small",
+     "align": "right",
+     "key": "L1_2",
+     "word_t": [
+      1120
+     ]
+    }
+   ],
+   "t0": 0,
+   "t1": 1500,
+   "behind": false,
+   "mode": "subj"
+  },
+  {
+   "id": "L2",
+   "zone": "center",
+   "blend": "normal",
+   "lines": [
+    {
+     "text": "was searching",
+     "t": 1500,
+     "role": "small",
+     "key": "L2_0",
+     "align": "left",
+     "word_t": [
+      1500,
+      1710
+     ]
+    },
+    {
+     "text": "for me,",
+     "t": 1980,
+     "role": "big",
+     "key": "L2_1",
+     "align": "left",
+     "word_t": [
+      1980,
+      2220
+     ]
+    }
+   ],
+   "t0": 1500,
+   "t1": 2420,
+   "behind": false,
+   "mode": "subj"
+  },
+  {
+   "id": "L3",
+   "zone": "center",
+   "blend": "difference",
+   "behind": false,
+   "lines": [
+    {
+     "text": "and I found my",
+     "t": 2420,
+     "role": "small",
+     "key": "L3_0",
+     "align": "left",
+     "word_t": [
+      2420,
+      2740,
+      3000,
+      3280
+     ]
+    },
+    {
+     "text": "passion,",
+     "t": 3460,
+     "role": "big",
+     "key": "L3_1",
+     "align": "left",
+     "word_t": [
+      3460
+     ]
+    }
+   ],
+   "t0": 2420,
+   "t1": 3907,
+   "mode": "subj"
+  },
+  {
+   "id": "L4",
+   "zone": "center",
+   "blend": "difference",
+   "behind": false,
+   "lines": [
+    {
+     "text": "okay?",
+     "t": 3907,
+     "role": "small",
+     "key": "L4_0",
+     "align": "center",
+     "word_t": [
+      3907
+     ]
+    }
+   ],
+   "t0": 3907,
+   "t1": 4400,
+   "mode": "subj"
+  },
+  {
+   "id": "L5a",
+   "zone": "center",
+   "blend": "difference",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "how do you",
+     "t": 4400,
+     "role": "small",
+     "word_t": [
+      4400,
+      5200,
+      5340
+     ],
+     "key": "L5a_0",
+     "align": "left"
+    },
+    {
+     "text": "think",
+     "t": 5512,
+     "role": "big",
+     "word_t": [
+      5512
+     ],
+     "key": "L5a_1",
+     "align": "left"
+    }
+   ],
+   "t0": 4400,
+   "t1": 5680
+  },
+  {
+   "id": "L5b",
+   "zone": "center",
+   "blend": "difference",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "I found it?",
+     "t": 5680,
+     "role": "big",
+     "word_t": [
+      5680,
+      5860,
+      6140
+     ],
+     "key": "L5b_0",
+     "align": "left"
+    }
+   ],
+   "t0": 5680,
+   "t1": 6366
+  },
+  {
+   "id": "L6a",
+   "zone": "center",
+   "blend": "difference",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "did I find",
+     "t": 6366,
+     "role": "small",
+     "word_t": [
+      6366,
+      6480,
+      6620
+     ],
+     "key": "L6a_0",
+     "align": "left"
+    },
+    {
+     "text": "it",
+     "t": 6880,
+     "role": "big",
+     "word_t": [
+      6880
+     ],
+     "key": "L6a_1",
+     "align": "left"
+    }
+   ],
+   "t0": 6366,
+   "t1": 7080
+  },
+  {
+   "id": "L6b",
+   "zone": "center",
+   "blend": "difference",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "by",
+     "t": 7080,
+     "role": "small",
+     "word_t": [
+      7080
+     ],
+     "key": "L6b_0",
+     "align": "left"
+    },
+    {
+     "text": "sitting still",
+     "t": 7300,
+     "role": "big",
+     "word_t": [
+      7300,
+      7700
+     ],
+     "key": "L6b_1",
+     "align": "left"
+    }
+   ],
+   "t0": 7080,
+   "t1": 8680
+  },
+  {
+   "id": "L7",
+   "zone": "center",
+   "blend": "difference",
+   "behind": false,
+   "lines": [
+    {
+     "text": "what my",
+     "t": 8680,
+     "role": "small",
+     "key": "L7_0",
+     "align": "left",
+     "word_t": [
+      8680,
+      8920
+     ]
+    },
+    {
+     "text": "passion",
+     "t": 9163,
+     "role": "big",
+     "key": "L7_1",
+     "align": "left",
+     "word_t": [
+      9163
+     ]
+    },
+    {
+     "text": "could be?",
+     "t": 9440,
+     "role": "small",
+     "align": "right",
+     "key": "L7_2",
+     "word_t": [
+      9440,
+      9680
+     ]
+    }
+   ],
+   "t0": 8680,
+   "t1": 9982,
+   "mode": "subj"
+  },
+  {
+   "id": "L8",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "No.",
+     "t": 9982,
+     "role": "big",
+     "key": "L8_0",
+     "align": "left",
+     "word_t": [
+      9982
+     ]
+    }
+   ],
+   "t0": 9982,
+   "t1": 10200,
+   "mode": "subj"
+  },
+  {
+   "id": "L9",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "I found it",
+     "t": 10200,
+     "role": "small",
+     "key": "L9_0",
+     "align": "left",
+     "word_t": [
+      10200,
+      10400,
+      10720
+     ]
+    },
+    {
+     "text": "because I had been",
+     "t": 10965,
+     "role": "small",
+     "replace": true,
+     "key": "L9_1",
+     "align": "left",
+     "word_t": [
+      10965,
+      11180,
+      11340,
+      11500
+     ]
+    },
+    {
+     "text": "moving",
+     "t": 11680,
+     "role": "big",
+     "key": "L9_2",
+     "align": "left",
+     "word_t": [
+      11680
+     ]
+    }
+   ],
+   "t0": 10200,
+   "t1": 12040,
+   "mode": "subj"
+  },
+  {
+   "id": "L10",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "all along,",
+     "t": 12040,
+     "role": "big",
+     "key": "L10_0",
+     "align": "left",
+     "word_t": [
+      12040,
+      12280
+     ]
+    }
+   ],
+   "t0": 12040,
+   "t1": 12573,
+   "mode": "subj"
+  },
+  {
+   "id": "L11",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "doing something,",
+     "t": 12573,
+     "role": "small",
+     "key": "L11_0",
+     "align": "left",
+     "word_t": [
+      12573,
+      12860
+     ]
+    },
+    {
+     "text": "I love,",
+     "t": 14040,
+     "role": "big",
+     "key": "L11_1",
+     "align": "left",
+     "word_t": [
+      14040,
+      14340
+     ]
+    }
+   ],
+   "t0": 12573,
+   "t1": 14647,
+   "mode": "subj"
+  },
+  {
+   "id": "L12",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "watching,",
+     "t": 14647,
+     "role": "big",
+     "weight": 900,
+     "key": "L12_0",
+     "align": "left",
+     "word_t": [
+      14647
+     ]
+    }
+   ],
+   "t0": 14647,
+   "t1": 15220,
+   "mode": "subj"
+  },
+  {
+   "id": "L13",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "observing,",
+     "t": 15220,
+     "role": "big",
+     "weight": 900,
+     "key": "L13_0",
+     "align": "left",
+     "word_t": [
+      15220
+     ]
+    }
+   ],
+   "t0": 15220,
+   "t1": 15840,
+   "mode": "subj"
+  },
+  {
+   "id": "L14",
+   "zone": "center",
+   "blend": "normal",
+   "behind": false,
+   "lines": [
+    {
+     "text": "and",
+     "t": 15840,
+     "role": "small",
+     "key": "L14_0",
+     "align": "left",
+     "word_t": [
+      15840
+     ]
+    },
+    {
+     "text": "feeling.",
+     "t": 16100,
+     "role": "big",
+     "weight": 900,
+     "key": "L14_1",
+     "align": "left",
+     "word_t": [
+      16100
+     ]
+    }
+   ],
+   "t0": 15840,
+   "t1": 16551,
+   "mode": "subj"
+  },
+  {
+   "id": "L15",
+   "zone": "center",
+   "blend": "normal",
+   "lines": [
+    {
+     "text": "clarity doesn't come",
+     "t": 16551,
+     "role": "small",
+     "key": "L15_0",
+     "align": "left",
+     "word_t": [
+      16551,
+      16980,
+      17532
+     ]
+    },
+    {
+     "text": "before action.",
+     "t": 17720,
+     "role": "big",
+     "key": "L15_1",
+     "align": "left",
+     "word_t": [
+      17720,
+      18080
+     ]
+    }
+   ],
+   "t0": 16551,
+   "t1": 18682,
+   "behind": false,
+   "mode": "subj"
+  },
+  {
+   "id": "L16",
+   "zone": "center",
+   "blend": "normal",
+   "lines": [
+    {
+     "text": "CLARITY",
+     "t": 18682,
+     "role": "caps",
+     "key": "L16_0",
+     "align": "center",
+     "word_t": [
+      18682
+     ]
+    },
+    {
+     "text": "COMES THROUGH",
+     "t": 19180,
+     "role": "caps",
+     "key": "L16_1",
+     "align": "center",
+     "word_t": [
+      19180,
+      19520
+     ]
+    },
+    {
+     "text": "ACTION.",
+     "t": 19780,
+     "role": "caps",
+     "key": "L16_2",
+     "align": "center",
+     "word_t": [
+      19780
+     ]
+    }
+   ],
+   "t0": 18682,
+   "t1": 20299,
+   "behind": false,
+   "mode": "subj"
+  },
+  {
+   "id": "L17a",
+   "zone": "center",
+   "blend": "normal",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "standing here,",
+     "t": 20299,
+     "role": "small",
+     "word_t": [
+      20299,
+      20560
+     ],
+     "key": "L17a_0",
+     "align": "left"
+    },
+    {
+     "text": "I can learn",
+     "t": 21030,
+     "role": "big",
+     "word_t": [
+      21030,
+      21180,
+      21340
+     ],
+     "key": "L17a_1",
+     "align": "left"
+    }
+   ],
+   "t0": 20299,
+   "t1": 22720
+  },
+  {
+   "id": "L17b",
+   "zone": "center",
+   "blend": "normal",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "how to",
+     "t": 22720,
+     "role": "small",
+     "word_t": [
+      22720,
+      23000
+     ],
+     "key": "L17b_0",
+     "align": "left"
+    },
+    {
+     "text": "swim,",
+     "t": 23180,
+     "role": "big",
+     "word_t": [
+      23180
+     ],
+     "key": "L17b_1",
+     "align": "left"
+    }
+   ],
+   "t0": 22720,
+   "t1": 23441
+  },
+  {
+   "id": "L18a",
+   "zone": "center",
+   "blend": "normal",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "but I can only",
+     "t": 23441,
+     "role": "small",
+     "word_t": [
+      23441,
+      23620,
+      23720,
+      23880
+     ],
+     "key": "L18a_0",
+     "align": "left"
+    },
+    {
+     "text": "swim",
+     "t": 24160,
+     "role": "big",
+     "word_t": [
+      24160
+     ],
+     "key": "L18a_1",
+     "align": "left"
+    }
+   ],
+   "t0": 23441,
+   "t1": 24480
+  },
+  {
+   "id": "L18b",
+   "zone": "center",
+   "blend": "normal",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "if I",
+     "t": 24480,
+     "role": "small",
+     "word_t": [
+      24480,
+      24760
+     ],
+     "key": "L18b_0",
+     "align": "center"
+    }
+   ],
+   "t0": 24480,
+   "t1": 25000
+  },
+  {
+   "id": "L18",
+   "zone": "center",
+   "blend": "normal",
+   "mode": "subj",
+   "behind": false,
+   "lines": [
+    {
+     "text": "JUMP",
+     "t": 25000,
+     "role": "caps",
+     "key": "L18_0",
+     "align": "center",
+     "word_t": [
+      25000
+     ]
+    },
+    {
+     "text": "INTO THE",
+     "t": 25200,
+     "role": "caps",
+     "key": "L18_1",
+     "align": "center",
+     "word_t": [
+      25200,
+      25560
+     ]
+    },
+    {
+     "text": "WATER.",
+     "t": 25760,
+     "role": "caps",
+     "key": "L18_2",
+     "align": "center",
+     "word_t": [
+      25760
+     ]
+    }
+   ],
+   "t0": 25000,
+   "t1": 26400
+  }
+ ]
+}

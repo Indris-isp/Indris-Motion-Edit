@@ -13,8 +13,8 @@ for g in spec["groups"]:
     hs = hs_for(g["t0"], g["t1"]); wide = np.mean([h["top"] for h in hs]) > 600
     bigs = [l for l in g["lines"] if l["role"] == "big"]; caps = [l for l in g["lines"] if l["role"] == "caps"]
     # behind-the-head words must clear the head on both sides, so they are sized to the head
-    bw_target = {"front": BIG_W, "behind": 320 if wide else 640, "above": 560, "subject": 560}[g["mode"]]
-    bigS = min([170 if g["mode"] == "subject" else BIG_CAP] + [bw_target * 100 / meas[l["key"]]["w"] for l in bigs]) if bigs else None
+    bw_target = {"front": BIG_W, "behind": 320 if wide else 640, "above": 560, "subject": 560, "subj": 520 if wide else BIG_W}[g["mode"]]
+    bigS = min([170 if g["mode"] in ("subject",) or (g["mode"] == "subj" and wide) else BIG_CAP] + [bw_target * 100 / meas[l["key"]]["w"] for l in bigs]) if bigs else None
     capS = min([CAPS_CAP] + [CAPS_W * 100 / meas[l["key"]]["w"] for l in caps]) if caps else None
     ref = bigS or capS or 120
     smallS = float(np.clip(0.42 * ref, 40, 58)) if (bigs or caps) else 56
@@ -52,6 +52,21 @@ for p in plan:
         # big word sits just above her head; the hair crown overlaps the bottom of the letters (reference: "continuing")
         bi = next(i for i, s_ in enumerate(slots) if s_["role"] == "big")
         oy = (top + 55) - (slots[bi]["y"] + slots[bi]["h"]); cx = hcx
+    elif g["mode"] == "subj":
+        # centred on HER: horizontal middle of her body, vertical middle of her figure (mid-frame in medium shots)
+        xs_, ys_ = [], []
+        for f in range(int(g["t0"] / 20), max(int(g["t0"] / 20) + 1, int(g["t1"] / 20)), 5):
+            pth = f"{B}/matte/{min(f,1302):05d}.png" if f < 1303 else f"{B}/matte_tail/{min(f-1303,16):05d}.png"
+            mm = np.asarray(Image.open(pth)) > 128
+            band = mm[int(top + FH + 40): int(top + FH + 500)] if not p["wide"] else mm
+            cols = np.nonzero(band.any(0))[0]; rows = np.nonzero(mm.any(1))[0]
+            if len(cols): xs_.append((np.percentile(cols, 20) + np.percentile(cols, 80)) / 2)
+            if len(rows): ys_.append((rows.min() + rows.max()) / 2)
+        cx = float(np.clip(np.median(xs_) if xs_ else 540, 430, 650))
+        cy = float(np.median(ys_)) if (p["wide"] and ys_) else 960
+        oy = cy - bh / 2
+        fx0, fy0, fx1, fy1 = face
+        if (cx - bw / 2 < fx1 and cx + bw / 2 > fx0 and oy < fy1 + 40 and oy + bh > fy0 - 40): oy = fy1 + 60
     elif g["mode"] == "subject":
         # on her body, centred on her, starting just under her chin (never over the face)
         cx = hcx; oy = top + FH + 45
