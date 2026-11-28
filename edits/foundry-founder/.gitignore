@@ -1,0 +1,7 @@
+src/
+frames/
+out/frames/
+out/*.wav
+out/stills/
+out/check*
+out/render.log
