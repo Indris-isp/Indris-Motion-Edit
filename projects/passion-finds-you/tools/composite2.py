@@ -35,7 +35,11 @@ while i < LIMIT:
         if e["blend"] == "difference": comp = reg * (1 - a) + np.abs(reg - col) * a
         elif e["blend"] == "overlay":
             ovl = np.where(reg < 0.5, 2 * reg * col, 1 - 2 * (1 - reg) * (1 - col)); ovl = ovl * 0.7 + col * 0.3; comp = reg * (1 - a) + ovl * a   # overlay, lifted 30% toward white for legibility
-        else: comp = reg * (1 - a) + col * a
+        else:   # normal white, switching to difference only where the background is near-white (reference: "inspiration" over the lamp)
+            lum = (reg * np.array([0.2126, 0.7152, 0.0722], np.float32)).sum(2, keepdims=True)
+            k = np.clip((lum - 0.62) / 0.18, 0, 1); k = k * k * (3 - 2 * k)
+            tcol = col * (1 - k) + np.abs(reg - col) * k
+            comp = reg * (1 - a) + tcol * a
         if e.get("behind"):
             if m is None: m = matte(i)
             mm = m[y0:y1, x0:x1]; comp = comp * (1 - mm) + bg[y0:y1, x0:x1] * mm

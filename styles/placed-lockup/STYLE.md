@@ -176,3 +176,16 @@ Placement is computed from her matte: head position, the free side, and torso ce
 Not carried over:
 - **Letterbox reveal:** you asked earlier for it to be removed.
 - **Cutting to new footage per phrase:** there's only one camera subject, so there's nothing to cut to.
+
+## 8. v12: centred version (your direction)
+
+- **Position:** every lockup is centred on the frame (block centre at 540, 960 of 1080×1920), sized to its final state, so lines never move as words are added.
+- **Alignment inside each lockup**, as in the reference:
+  - small lead-in lines are flush **left** with the big word ("or a / ridiculous", "in so / much pain");
+  - trailing lines are flush **right** ("amount of", "that you're in", "could be?");
+  - capitals stacks are centred ("START / TODAY", "JUMP / INTO THE / WATER.").
+- **Blending:**
+  - plain white, in front of her (at the centre the text always crosses her body);
+  - difference on the white slide (0:02–0:10);
+  - anywhere else, letters crossing a near-white light switch to difference (the reference's "inspiration" over the lamp), so text over the bright wall bars stays readable.
+- **Audio:** voice only, no background music.

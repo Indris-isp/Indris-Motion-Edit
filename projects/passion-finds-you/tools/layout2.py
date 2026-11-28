@@ -36,6 +36,7 @@ for g in spec["groups"]:
             m = matte(min(f, 1319))[int(top + 380):int(top + 700)]; cols = np.nonzero(m.any(0))[0]
             if len(cols): cx.append((np.percentile(cols, 20) + np.percentile(cols, 80)) / 2)
         x_anchor = float(np.clip(np.mean(cx) if cx else 540, 470, 610)); maxW, align, y_top = 800, "torso", top + 430
+    elif z == "center": maxW, x_anchor, align, y_top = 900, 540, "centerblock", 0
     else: maxW, x_anchor, align, y_top = 0, 0, "arc", 0
     bigs = [l for l in g["lines"] if l["role"] == "big"]; caps = [l for l in g["lines"] if l["role"] == "caps"]
     bigS = min([CAP["big"]] + [maxW * 100 / meas[l["key"]]["w"] for l in bigs]) if bigs and z != "arc" else None
@@ -76,6 +77,9 @@ for p in plan:
     elif p["align"] == "right": bx = max(30, p["x_anchor"] - bw)
     elif p["align"] == "torso": bx = float(np.clip(p["x_anchor"] - bw / 2, 40, 1040 - bw))
     else: bx = 540 - bw / 2
+    if p["align"] == "centerblock":                      # whole lockup centred on the frame (final state), lines never move
+        y_end = slots[-1]["y"] + max(box[l["key"]][1] for l in slots[-1]["keys"]); shift = 960 - (y_end - slots[0]["y"]) / 2 - slots[0]["y"]
+        for s_ in slots: s_["y"] += shift
     t1 = g["t1"]
     for s in slots:
         for k, l in enumerate(s["keys"]):
@@ -83,7 +87,10 @@ for p in plan:
             la = l.get("align", "left" if p["align"] != "center" else "center")
             if p["align"] == "right" and "align" not in l: la = "right"
             if p["align"] == "torso" and "align" not in l: la = "center"
-            x = bx if la == "left" else (bx + bw - w if la == "right" else (bx + (bw - w) / 2 if p["align"] == "torso" else 540 - w / 2))
+            if p["align"] == "centerblock": la = l.get("align", "left")
+            if la == "center" and p["align"] == "centerblock": x = 540 - w / 2
+            if not (la == "center" and p["align"] == "centerblock"):
+                x = bx if la == "left" else (bx + bw - w if la == "right" else (bx + (bw - w) / 2 if p["align"] == "torso" else 540 - w / 2))
             t_out = s["keys"][k + 1]["t"] if k + 1 < len(s["keys"]) else t1
             els.append(dict(key=l["key"] + "_t", x=round(x), y=round(s["y"]), t_in=l["t"], t_out=t_out, blend=g["blend"], behind=bool(g.get("behind")),
                             fade=0 if l["role"] == "small" else 200, w=w, h=h, group=g["id"], text=l["text"]))
