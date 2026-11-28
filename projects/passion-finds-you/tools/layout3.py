@@ -18,10 +18,11 @@ for g in spec["groups"]:
     capS = min([CAPS_CAP] + [CAPS_W * 100 / meas[l["key"]]["w"] for l in caps]) if caps else None
     ref = bigS or capS or 120
     smallS = float(np.clip(0.42 * ref, 40, 58)) if (bigs or caps) else 56
-    big_w = max([bigS * meas[l["key"]]["w"] / 100 for l in bigs]) if bigs else 860   # small lines never wider than the big word
+    ink = lambda k: max(1.0, meas[k]["w"] - 24.0)          # measured span minus its 0.12em side padding at 100px = letter width
+    big_w = max([bigS * ink(l["key"]) / 100 for l in bigs]) if bigs else 860   # small lines never wider than the big word
     for l in g["lines"]:
         w, ls = STY[l["role"]]; w = l.get("weight", w)
-        sz = {"small": max(34, min(smallS, big_w * 0.98 * 100 / meas[l["key"]]["w"])), "big": bigS, "caps": capS}[l["role"]]
+        sz = {"small": max(34, min(smallS, big_w * 0.96 * 100 / ink(l["key"]))), "big": bigS, "caps": capS}[l["role"]]
         l["size"] = round(sz, 1); render.append({"key": l["key"], "text": l["text"], "size": l["size"], "weight": w, "ls": ls})
     plan.append(dict(g=g, hs=hs, wide=wide, ref=ref))
 json.dump(render, open(f"{V}/render.json", "w"))

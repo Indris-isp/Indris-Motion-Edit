@@ -1,6 +1,6 @@
 {
  "title": "Passion Finds You",
- "version": "v16",
+ "version": "v17",
  "fps": 50,
  "frames": 1320,
  "duration": 26400,
@@ -80,7 +80,7 @@
    "id": "L6a",
    "in": 6366,
    "out": 7080,
-   "text": "did I find / it",
+   "text": "did I / find it",
    "beat": "L6a",
    "beatName": "The question",
    "tiers": [
